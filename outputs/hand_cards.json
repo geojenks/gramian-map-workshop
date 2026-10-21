@@ -1,0 +1,283 @@
+[
+ {
+  "key": "allegro",
+  "name": "Allegro (Wonik)",
+  "model": "external/mujoco_menagerie/wonik_allegro/right_hand.xml",
+  "n_joints": 16,
+  "n_actuators": 16,
+  "shared_joints": [],
+  "couplings": 0,
+  "fingers": [
+   {
+    "finger": "index",
+    "joints": 4,
+    "inputs": 4,
+    "inputs_source": "model actuators",
+    "torque_limits": null,
+    "reach_mm": 154.39137777401868,
+    "workspace_extent_mm": [
+     216.3,
+     116.8,
+     174.0
+    ]
+   },
+   {
+    "finger": "middle",
+    "joints": 4,
+    "inputs": 4,
+    "inputs_source": "model actuators",
+    "torque_limits": null,
+    "reach_mm": 154.39137777401868,
+    "workspace_extent_mm": [
+     216.5,
+     117.6,
+     174.0
+    ]
+   },
+   {
+    "finger": "ring",
+    "joints": 4,
+    "inputs": 4,
+    "inputs_source": "model actuators",
+    "torque_limits": null,
+    "reach_mm": 154.39137777401874,
+    "workspace_extent_mm": [
+     216.3,
+     120.4,
+     174.0
+    ]
+   },
+   {
+    "finger": "thumb",
+    "joints": 4,
+    "inputs": 4,
+    "inputs_source": "model actuators",
+    "torque_limits": null,
+    "reach_mm": 152.4512694327791,
+    "workspace_extent_mm": [
+     154.8,
+     231.8,
+     170.7
+    ]
+   }
+  ]
+ },
+ {
+  "key": "shadow",
+  "name": "Shadow Dexterous Hand",
+  "model": "external/mujoco_menagerie/shadow_hand/right_hand.xml",
+  "n_joints": 24,
+  "n_actuators": 20,
+  "shared_joints": [
+   "rh_WRJ2",
+   "rh_WRJ1"
+  ],
+  "couplings": 0,
+  "fingers": [
+   {
+    "finger": "index",
+    "joints": 4,
+    "inputs": 3,
+    "inputs_source": "model actuators",
+    "torque_limits": "actuator forcerange",
+    "reach_mm": 118.41684804205785,
+    "workspace_extent_mm": [
+     157.9,
+     65.2,
+     127.6
+    ]
+   },
+   {
+    "finger": "middle",
+    "joints": 4,
+    "inputs": 3,
+    "inputs_source": "model actuators",
+    "torque_limits": "actuator forcerange",
+    "reach_mm": 118.41684804205782,
+    "workspace_extent_mm": [
+     157.9,
+     65.2,
+     127.6
+    ]
+   },
+   {
+    "finger": "ring",
+    "joints": 4,
+    "inputs": 3,
+    "inputs_source": "model actuators",
+    "torque_limits": "actuator forcerange",
+    "reach_mm": 118.41684804178657,
+    "workspace_extent_mm": [
+     157.9,
+     65.2,
+     127.6
+    ]
+   },
+   {
+    "finger": "little",
+    "joints": 5,
+    "inputs": 4,
+    "inputs_source": "model actuators",
+    "torque_limits": "actuator forcerange",
+    "reach_mm": 136.34488416907112,
+    "workspace_extent_mm": [
+     175.3,
+     103.5,
+     140.5
+    ]
+   },
+   {
+    "finger": "thumb",
+    "joints": 5,
+    "inputs": 5,
+    "inputs_source": "model actuators",
+    "torque_limits": "actuator forcerange",
+    "reach_mm": 111.89059736034766,
+    "workspace_extent_mm": [
+     144.4,
+     143.6,
+     142.5
+    ]
+   }
+  ]
+ },
+ {
+  "key": "leap",
+  "name": "LEAP Hand",
+  "model": "external/mujoco_menagerie/leap_hand/right_hand.xml",
+  "n_joints": 16,
+  "n_actuators": 16,
+  "shared_joints": [],
+  "couplings": 0,
+  "fingers": [
+   {
+    "finger": "index",
+    "joints": 4,
+    "inputs": 4,
+    "inputs_source": "model actuators",
+    "torque_limits": null,
+    "reach_mm": 173.1679752416601,
+    "workspace_extent_mm": [
+     254.7,
+     171.7,
+     200.9
+    ]
+   },
+   {
+    "finger": "middle",
+    "joints": 4,
+    "inputs": 4,
+    "inputs_source": "model actuators",
+    "torque_limits": null,
+    "reach_mm": 173.16797524166006,
+    "workspace_extent_mm": [
+     254.7,
+     171.7,
+     200.9
+    ]
+   },
+   {
+    "finger": "ring",
+    "joints": 4,
+    "inputs": 4,
+    "inputs_source": "model actuators",
+    "torque_limits": null,
+    "reach_mm": 173.15384173021562,
+    "workspace_extent_mm": [
+     254.7,
+     171.7,
+     200.8
+    ]
+   },
+   {
+    "finger": "thumb",
+    "joints": 4,
+    "inputs": 4,
+    "inputs_source": "model actuators",
+    "torque_limits": null,
+    "reach_mm": 166.35311358881572,
+    "workspace_extent_mm": [
+     188.7,
+     261.6,
+     229.9
+    ]
+   }
+  ]
+ },
+ {
+  "key": "l20",
+  "name": "Linker L20",
+  "model": "external/wave_manip_models/linker_l20_right/l20_right.xml",
+  "n_joints": 21,
+  "n_actuators": 0,
+  "shared_joints": [],
+  "couplings": 5,
+  "fingers": [
+   {
+    "finger": "thumb",
+    "joints": 5,
+    "inputs": 4,
+    "inputs_source": "uncoupled joints (model has no actuators)",
+    "torque_limits": "joint actuatorfrcrange",
+    "reach_mm": 163.83912516685697,
+    "workspace_extent_mm": [
+     161.8,
+     224.4,
+     150.0
+    ]
+   },
+   {
+    "finger": "index",
+    "joints": 4,
+    "inputs": 3,
+    "inputs_source": "uncoupled joints (model has no actuators)",
+    "torque_limits": "joint actuatorfrcrange",
+    "reach_mm": 103.02379820264109,
+    "workspace_extent_mm": [
+     116.0,
+     49.1,
+     142.0
+    ]
+   },
+   {
+    "finger": "middle",
+    "joints": 4,
+    "inputs": 3,
+    "inputs_source": "uncoupled joints (model has no actuators)",
+    "torque_limits": "joint actuatorfrcrange",
+    "reach_mm": 103.02379820264107,
+    "workspace_extent_mm": [
+     116.0,
+     49.1,
+     142.0
+    ]
+   },
+   {
+    "finger": "ring",
+    "joints": 4,
+    "inputs": 3,
+    "inputs_source": "uncoupled joints (model has no actuators)",
+    "torque_limits": "joint actuatorfrcrange",
+    "reach_mm": 103.0237982026411,
+    "workspace_extent_mm": [
+     116.0,
+     49.1,
+     142.0
+    ]
+   },
+   {
+    "finger": "little",
+    "joints": 4,
+    "inputs": 3,
+    "inputs_source": "uncoupled joints (model has no actuators)",
+    "torque_limits": "joint actuatorfrcrange",
+    "reach_mm": 103.02379820264103,
+    "workspace_extent_mm": [
+     116.0,
+     49.1,
+     142.0
+    ]
+   }
+  ]
+ }
+]

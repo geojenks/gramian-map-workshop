@@ -1,0 +1,22 @@
+== Allegro (Wonik)  (external/mujoco_menagerie/wonik_allegro/right_hand.xml): 16 joints, 16 actuators, 0 couplings, shared none
+   index   4 joints, 4 inputs (model actuators); torque limits: none in model; reach 154 mm
+   middle  4 joints, 4 inputs (model actuators); torque limits: none in model; reach 154 mm
+   ring    4 joints, 4 inputs (model actuators); torque limits: none in model; reach 154 mm
+   thumb   4 joints, 4 inputs (model actuators); torque limits: none in model; reach 152 mm
+== Shadow Dexterous Hand  (external/mujoco_menagerie/shadow_hand/right_hand.xml): 24 joints, 20 actuators, 0 couplings, shared ['rh_WRJ2', 'rh_WRJ1']
+   index   4 joints, 3 inputs (model actuators); torque limits: actuator forcerange; reach 118 mm
+   middle  4 joints, 3 inputs (model actuators); torque limits: actuator forcerange; reach 118 mm
+   ring    4 joints, 3 inputs (model actuators); torque limits: actuator forcerange; reach 118 mm
+   little  5 joints, 4 inputs (model actuators); torque limits: actuator forcerange; reach 136 mm
+   thumb   5 joints, 5 inputs (model actuators); torque limits: actuator forcerange; reach 112 mm
+== LEAP Hand  (external/mujoco_menagerie/leap_hand/right_hand.xml): 16 joints, 16 actuators, 0 couplings, shared none
+   index   4 joints, 4 inputs (model actuators); torque limits: none in model; reach 173 mm
+   middle  4 joints, 4 inputs (model actuators); torque limits: none in model; reach 173 mm
+   ring    4 joints, 4 inputs (model actuators); torque limits: none in model; reach 173 mm
+   thumb   4 joints, 4 inputs (model actuators); torque limits: none in model; reach 166 mm
+== Linker L20  (external/wave_manip_models/linker_l20_right/l20_right.xml): 21 joints, 0 actuators, 5 couplings, shared none
+   thumb   5 joints, 4 inputs (uncoupled joints (model has no actuators)); torque limits: joint actuatorfrcrange; reach 164 mm
+   index   4 joints, 3 inputs (uncoupled joints (model has no actuators)); torque limits: joint actuatorfrcrange; reach 103 mm
+   middle  4 joints, 3 inputs (uncoupled joints (model has no actuators)); torque limits: joint actuatorfrcrange; reach 103 mm
+   ring    4 joints, 3 inputs (uncoupled joints (model has no actuators)); torque limits: joint actuatorfrcrange; reach 103 mm
+   little  4 joints, 3 inputs (uncoupled joints (model has no actuators)); torque limits: joint actuatorfrcrange; reach 103 mm
