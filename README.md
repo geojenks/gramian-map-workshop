@@ -25,9 +25,11 @@ python demos/passive.py                              # Demo 3 (passive stiffness
 Then open `outputs/cup_hold.html` and `outputs/cup_turn.html` in a browser
 (hover any cell). The same tables are in `outputs/*.txt`.
 
-**Try your own actuator.** Copy `examples/template_actuator.json`, fill in your
-numbers (canonical frame: X = base to tip, +Y = the main sideways output),
-and run:
+**Try your own actuator.** Open `forms/record_form.html` in a browser, type
+datasheet numbers or paste a measured table in whatever units you have, and
+download the record. `docs/RECORDS.md` says what data is needed and how the
+tool reads it; `python tools/check_record.py my_actuator.json` checks a file.
+Then run:
 
 ```bash
 python demos/cup_hold.py --record my_actuator.json

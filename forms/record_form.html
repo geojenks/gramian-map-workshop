@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Actuator record form</title>
+<style>
+:root { color-scheme: light;
+  --surface:#fcfcfb; --page:#f9f9f7; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+  --line:#e1e0d9; --ring:rgba(11,11,11,0.10); --accent:#2a78d6; --accent-ink:#ffffff;
+  --good:#006300; --bad:#d03b3b; --warn:#8a5a00; --field:#ffffff; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark;
+  --surface:#1a1a19; --page:#0d0d0d; --ink:#f0efec; --ink2:#c3c2b7; --muted:#898781;
+  --line:#2c2c2a; --ring:rgba(255,255,255,0.10); --accent:#3987e5; --accent-ink:#0b0b0b;
+  --good:#0ca30c; --bad:#e66767; --warn:#fab219; --field:#111110; } }
+:root[data-theme="dark"] { color-scheme: dark;
+  --surface:#1a1a19; --page:#0d0d0d; --ink:#f0efec; --ink2:#c3c2b7; --muted:#898781;
+  --line:#2c2c2a; --ring:rgba(255,255,255,0.10); --accent:#3987e5; --accent-ink:#0b0b0b;
+  --good:#0ca30c; --bad:#e66767; --warn:#fab219; --field:#111110; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--page); color:var(--ink);
+  font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+main { max-width:980px; margin:0 auto; padding:24px 16px 64px; }
+h1 { font-size:24px; margin:0 0 4px; }
+h2 { font-size:17px; margin:0 0 8px; }
+p.lead { color:var(--ink2); margin:0 0 20px; max-width:720px; }
+.card { background:var(--surface); border:1px solid var(--ring); border-radius:10px;
+  padding:16px; margin:14px 0; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px 16px; }
+label { display:block; font-size:13px; color:var(--ink2); margin-bottom:3px; }
+input, select, textarea { width:100%; font:inherit; color:var(--ink); background:var(--field);
+  border:1px solid var(--line); border-radius:6px; padding:6px 8px; }
+textarea { font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace; min-height:110px; }
+.row { display:flex; gap:8px; align-items:end; flex-wrap:wrap; }
+.row > div { flex:1 1 120px; }
+.hint { font-size:13px; color:var(--muted); margin:4px 0 0; }
+.cols { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+.cols .col { border:1px solid var(--line); border-radius:6px; padding:6px; min-width:150px; flex:1 1 150px; }
+.cols .col b { display:block; font-size:12px; color:var(--ink2); margin-bottom:4px; overflow:hidden;
+  text-overflow:ellipsis; white-space:nowrap; }
+button { font:inherit; border:0; border-radius:6px; padding:8px 14px; cursor:pointer;
+  background:var(--accent); color:var(--accent-ink); }
+button.ghost { background:transparent; color:var(--ink); border:1px solid var(--line); }
+table { border-collapse:collapse; width:100%; font-size:14px; }
+td, th { text-align:left; padding:5px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+th { color:var(--ink2); font-weight:600; width:32%; }
+.msg { margin:4px 0; }
+.err { color:var(--bad); } .warn { color:var(--warn); } .ok { color:var(--good); }
+pre { font:12px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace; white-space:pre-wrap;
+  word-break:break-all; max-height:320px; overflow:auto; margin:0; color:var(--ink2); }
+details summary { cursor:pointer; color:var(--ink2); }
+svg text { fill:var(--ink2); font-size:12px; }
+.frame { display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+.frame svg { flex:0 0 auto; max-width:100%; }
+.frame p { flex:1 1 320px; margin:0; color:var(--ink2); }
+</style>
+</head>
+<body>
+<main>
+<h1>Actuator record form</h1>
+<p class="lead">Describe one actuator (one finger's worth) so the workshop tool can try it
+as a finger. Type datasheet numbers, paste measured tables in whatever units you have, or
+both. Nothing leaves your browser: the button at the bottom downloads a record file
+(JSON) that you load with <code>--record your_file.json</code>.</p>
+
+<div class="card frame">
+  <svg width="260" height="150" viewBox="0 0 260 150" role="img" aria-label="Canonical frame">
+    <rect x="14" y="58" width="22" height="34" rx="3" fill="var(--line)"/>
+    <text x="6" y="110">base (fixed)</text>
+    <path d="M36 75 C 90 75, 140 72, 190 60" stroke="var(--accent)" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <circle cx="192" cy="59" r="5" fill="var(--ink)"/>
+    <text x="198" y="54">tip</text>
+    <line x1="36" y1="130" x2="120" y2="130" stroke="var(--ink)" stroke-width="2"/>
+    <polygon points="120,125 130,130 120,135" fill="var(--ink)"/>
+    <text x="134" y="134">X: base to tip</text>
+    <line x1="36" y1="130" x2="36" y2="20" stroke="var(--ink)" stroke-width="2"/>
+    <polygon points="31,20 36,10 41,20" fill="var(--ink)"/>
+    <text x="44" y="22">+Y: its main sideways output</text>
+  </svg>
+  <p><b>The frame.</b> All directions are in the actuator's own frame: <b>X</b> runs from the
+  fixed base to the tip, <b>+Y</b> is the main way it moves sideways (the way a bender
+  bends). <b>Z</b> completes a right-handed frame. An extender moves along +X, a contractor
+  along &minus;X, a bender mostly along +Y.</p>
+</div>
+
+<div class="card">
+  <h2>1. The actuator</h2>
+  <div class="grid">
+    <div><label for="name">Name</label><input id="name" value="My actuator"></div>
+    <div><label for="rid">ID (file name; letters, digits, _ -)</label><input id="rid" value="my_actuator"></div>
+    <div><label for="physics">Actuation</label>
+      <select id="physics"><option>pneumatic</option><option>hydraulic</option><option>cable</option>
+      <option>electric</option><option>thermal</option><option>magnetic</option><option>other</option></select></div>
+    <div><label for="kind">Where the numbers come from</label>
+      <select id="kind"><option value="experiment">my measurements</option>
+      <option value="literature">a paper or datasheet</option><option value="simulation">a simulation</option></select></div>
+    <div><label for="detail">Rig, paper or model (one line)</label><input id="detail" placeholder="e.g. load cell + camera tracking, Bath rig"></div>
+    <div><label for="reference">Reference (DOI / URL, optional)</label><input id="reference"></div>
+    <div><label for="length">Length, base to tip</label>
+      <div class="row"><div><input id="length" type="number" step="any" value="80"></div>
+      <div style="flex:0 0 80px"><select id="length_u"><option>mm</option><option>m</option><option>cm</option></select></div></div></div>
+    <div><label for="unc">Uncertainty (fraction, e.g. 0.1 = ±10%)</label><input id="unc" type="number" step="any" value="0.2"></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>2. Its input</h2>
+  <div class="grid">
+    <div><label for="ch_name">What you drive it with</label><input id="ch_name" value="chamber pressure"></div>
+    <div><label for="ch_unit">Unit of your numbers</label>
+      <select id="ch_unit"><option>kPa</option><option>Pa</option><option>bar</option><option>psi</option>
+      <option>mm</option><option>m</option><option>N</option><option>V</option><option>A</option>
+      <option>other / none</option></select></div>
+    <div><label for="ch_lo">Lowest input</label><input id="ch_lo" type="number" step="any" value="0"></div>
+    <div><label for="ch_hi">Highest input</label><input id="ch_hi" type="number" step="any" value="50"></div>
+  </div>
+  <p class="hint">Pressures and lengths are converted to SI (Pa, m). Other units (V, A) are kept
+  in the channel's name, since the record schema stores only SI unit strings.</p>
+</div>
+
+<div class="card">
+  <h2>3. Headline numbers (enough on their own)</h2>
+  <div class="grid">
+    <div><label for="stroke">Free stroke (tip travel at full input, no load)</label>
+      <div class="row"><div><input id="stroke" type="number" step="any" value="10"></div>
+      <div style="flex:0 0 80px"><select id="stroke_u"><option>mm</option><option>m</option></select></div></div></div>
+    <div><label for="motion">Which way the tip moves</label>
+      <select id="motion"><option value="1,0,0">extends (+X)</option><option value="-1,0,0">contracts (&minus;X)</option>
+      <option value="0,1,0">bends (+Y)</option><option value="custom">other direction&hellip;</option></select></div>
+    <div id="motion_custom_wrap" hidden><label for="motion_custom">Motion direction x, y, z</label><input id="motion_custom" value="0.2, 1, 0"></div>
+    <div><label for="force">Blocked force (tip held still, full input)</label>
+      <div class="row"><div><input id="force" type="number" step="any" value="1"></div>
+      <div style="flex:0 0 80px"><select id="force_u"><option>N</option><option>mN</option><option>gf</option><option>kgf</option></select></div></div></div>
+    <div><label for="push">Which way it pushes when blocked</label>
+      <select id="push"><option value="1,0,0">pushes out (+X)</option><option value="-1,0,0">pulls in (&minus;X)</option>
+      <option value="0,1,0">pushes sideways (+Y)</option><option value="custom">other direction&hellip;</option></select></div>
+    <div id="push_custom_wrap" hidden><label for="push_custom">Push direction x, y, z</label><input id="push_custom" value="1, 0.1, 0"></div>
+  </div>
+  <div class="grid" style="margin-top:10px">
+    <div><label for="kx">Tip stiffness along X (optional)</label><input id="kx" type="number" step="any" placeholder="blank = unknown"></div>
+    <div><label for="ky">along Y</label><input id="ky" type="number" step="any" placeholder="blank = unknown"></div>
+    <div><label for="kz">along Z</label><input id="kz" type="number" step="any" placeholder="blank = unknown"></div>
+    <div><label for="k_u">Stiffness unit</label><select id="k_u"><option>N/mm</option><option>N/m</option></select></div>
+  </div>
+  <p class="hint">Measured tables below replace these headline numbers where both are given.</p>
+</div>
+
+<div class="card">
+  <h2>4. Measured tables (optional, better)</h2>
+  <p class="hint">Paste straight from a spreadsheet or CSV. Then tell the form what each column is
+  and its unit. One row per input level.</p>
+  <div class="tbl" data-block="free">
+    <h2 style="font-size:15px;margin-top:10px">Free motion: input vs tip displacement</h2>
+    <textarea placeholder="pressure_kPa, dx_mm, dy_mm&#10;0, 0, 0&#10;10, 0.4, 2.1&#10;20, 0.9, 4.6"></textarea>
+    <div class="cols"></div>
+  </div>
+  <div class="tbl" data-block="blocked">
+    <h2 style="font-size:15px;margin-top:14px">Blocked force: input vs tip force</h2>
+    <textarea placeholder="pressure_kPa, Fx_N, Fy_N&#10;10, 0.2, 0.01&#10;20, 0.45, 0.02"></textarea>
+    <div class="cols"></div>
+  </div>
+  <div class="tbl" data-block="stiffness">
+    <h2 style="font-size:15px;margin-top:14px">Tip stiffness: input vs stiffness</h2>
+    <textarea placeholder="pressure_kPa, ky_N_per_mm, kz_N_per_mm&#10;0, 0.01, 0.3&#10;20, 0.02, 0.5"></textarea>
+    <div class="cols"></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>5. What the tool will read</h2>
+  <div id="msgs"></div>
+  <table id="reads"></table>
+  <div class="row" style="margin-top:12px">
+    <div style="flex:0 0 auto"><button id="dl">Download record</button></div>
+    <div style="flex:0 0 auto"><button class="ghost" id="copy">Copy JSON</button></div>
+  </div>
+  <details style="margin-top:10px"><summary>Record JSON</summary><pre id="json"></pre></details>
+</div>
+</main>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const ROLES = {
+  free: [["ignore","ignore"],["u","input"],["dx","dx"],["dy","dy"],["dz","dz"]],
+  blocked: [["ignore","ignore"],["u","input"],["fx","Fx (along X)"],["fy","Fy"],["fz","Fz"],
+            ["fax","axial force"],["ftr","sideways force (size)"]],
+  stiffness: [["ignore","ignore"],["u","input"],["kx","kx"],["ky","ky"],["kz","kz"]],
+};
+const UNITS = {
+  len: {mm:1e-3, m:1, cm:1e-2, um:1e-6},
+  force: {N:1, mN:1e-3, gf:9.80665e-3, kgf:9.80665},
+  stiff: {"N/mm":1e3, "N/m":1},
+  input: {kPa:1e3, Pa:1, bar:1e5, psi:6894.757, mm:1e-3, m:1, N:1},
+};
+const SI_OF = {kPa:"Pa", Pa:"Pa", bar:"Pa", psi:"Pa", mm:"m", m:"m", N:"N"};
+const unitKind = {u:"input", dx:"len", dy:"len", dz:"len", fx:"force", fy:"force", fz:"force",
+  fax:"force", ftr:"force", kx:"stiff", ky:"stiff", kz:"stiff"};
+
+function num(id) { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : null; }
+function vec3(s) { const p = s.split(/[ ,;]+/).map(Number).filter(Number.isFinite);
+  return p.length === 3 ? p : null; }
+function unit(v) { const n = Math.hypot(...v); return n > 0 ? v.map(x => x / n) : null; }
+function inputFactor() { const u = $("ch_unit").value; return UNITS.input[u] ?? 1; }
+
+function parseTable(text) {
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length);
+  if (!lines.length) return null;
+  const split = (l) => l.split(/\t|,|;|\s{2,}|\s/).filter(x => x !== "");
+  let header = split(lines[0]);
+  let body = lines;
+  if (header.some(h => !Number.isFinite(Number(h)))) body = lines.slice(1);
+  else header = header.map((_, i) => `column ${i + 1}`);
+  const rows = body.map(split).map(r => r.map(Number)).filter(r => r.every(Number.isFinite));
+  return {header, rows};
+}
+
+function guessRole(h, block, i) {
+  const s = h.toLowerCase();
+  if (/press|input|^u\b|kpa|bar|psi|volt|^v\b|current|tension|disp_in|tendon/.test(s)) return "u";
+  if (block === "free") { for (const a of ["dx","dy","dz"]) if (s.startsWith(a) || s.includes(a)) return a; }
+  if (block === "blocked") { for (const [k,a] of [["fx","fx"],["fy","fy"],["fz","fz"]]) if (s.includes(k)) return a;
+    if (s.includes("axial")) return "fax"; if (s.includes("trans") || s.includes("side")) return "ftr"; }
+  if (block === "stiffness") { for (const a of ["kx","ky","kz"]) if (s.includes(a)) return a; }
+  return i === 0 ? "u" : "ignore";
+}
+function guessUnit(h, kind) {
+  const s = h.toLowerCase();
+  const opts = Object.keys(UNITS[kind]);
+  if (kind === "stiff") return s.includes("mm") ? "N/mm" : (s.includes("n/m") || s.includes("n_per_m") ? "N/m" : "N/mm");
+  for (const o of opts.sort((a, b) => b.length - a.length)) if (s.includes(o.toLowerCase())) return o;
+  return kind === "len" ? "mm" : kind === "force" ? "N" : $("ch_unit").value in UNITS.input ? $("ch_unit").value : "Pa";
+}
+
+function renderCols(div) {
+  const block = div.dataset.block;
+  const t = parseTable(div.querySelector("textarea").value);
+  const box = div.querySelector(".cols");
+  const prev = div._map || [];
+  box.innerHTML = "";
+  div._table = t;
+  if (!t) { div._map = []; return; }
+  div._map = t.header.map((h, i) => {
+    const old = prev[i] && prev[i].header === h ? prev[i] : null;
+    const role = old ? old.role : guessRole(h, block, i);
+    const kind = unitKind[role] || "len";
+    return {header: h, role, unit: old && old.unit ? old.unit : guessUnit(h, kind)};
+  });
+  div._map.forEach((m, i) => {
+    const c = document.createElement("div"); c.className = "col";
+    const roleSel = ROLES[block].map(([v, l]) => `<option value="${v}"${v === m.role ? " selected" : ""}>${l}</option>`).join("");
+    const kind = unitKind[m.role];
+    const unitSel = kind ? Object.keys(UNITS[kind]).map(u => `<option${u === m.unit ? " selected" : ""}>${u}</option>`).join("") : "";
+    c.innerHTML = `<b title="${m.header}">${m.header}</b>
+      <select data-i="${i}" class="role">${roleSel}</select>
+      ${kind ? `<select data-i="${i}" class="unit" style="margin-top:4px">${unitSel}</select>` : ""}
+      <p class="hint">${t.rows.length} rows</p>`;
+    box.appendChild(c);
+  });
+  box.querySelectorAll(".role").forEach(s => s.onchange = () => {
+    const m = div._map[+s.dataset.i]; m.role = s.value;
+    const kind = unitKind[m.role]; m.unit = kind ? guessUnit(m.header, kind) : null;
+    renderCols(div); update(); });
+  box.querySelectorAll(".unit").forEach(s => s.onchange = () => { div._map[+s.dataset.i].unit = s.value; update(); });
+}
+
+function column(div, role) {
+  const idx = (div._map || []).findIndex(m => m.role === role);
+  if (idx < 0 || !div._table) return null;
+  const m = div._map[idx];
+  const f = role === "u" ? (UNITS.input[m.unit] ?? 1) : UNITS[unitKind[role]][m.unit];
+  return div._table.rows.map(r => r[idx] * f);
+}
+
+function blockFromTables() {
+  const T = {}; document.querySelectorAll(".tbl").forEach(d => T[d.dataset.block] = d);
+  const out = {};
+  const fu = column(T.free, "u");
+  if (fu) {
+    const dx = column(T.free, "dx"), dy = column(T.free, "dy"), dz = column(T.free, "dz");
+    if (dx || dy || dz) {
+      let rows = fu.map((u, i) => [u, dx ? dx[i] : 0, dy ? dy[i] : 0, dz ? dz[i] : 0]).sort((a, b) => a[0] - b[0]);
+      if (rows[0][0] !== 0) rows = [[0, 0, 0, 0]].concat(rows);
+      out.free = {u: rows.map(r => [r[0]]), tip_displacement_m: rows.map(r => r.slice(1)), uncertainty: null};
+    }
+  }
+  const bu = column(T.blocked, "u");
+  if (bu) {
+    const fx = column(T.blocked, "fx"), fy = column(T.blocked, "fy"), fz = column(T.blocked, "fz");
+    const fax = column(T.blocked, "fax"), ftr = column(T.blocked, "ftr");
+    const ax = fx || fax;
+    if (ax) {
+      const order = bu.map((u, i) => i).sort((a, b) => bu[a] - bu[b]);
+      const b = {u: order.map(i => [bu[i]]), force_axial_N: order.map(i => ax[i]),
+        force_transverse_N: order.map(i => fy || fz ? Math.hypot(fy ? fy[i] : 0, fz ? fz[i] : 0) : (ftr ? Math.abs(ftr[i]) : 0)),
+        method: $("detail").value || "measured", uncertainty: null};
+      if (fx) b.force_N = order.map(i => [fx[i], fy ? fy[i] : 0, fz ? fz[i] : 0]);
+      out.blocked = b;
+    }
+  }
+  const su = column(T.stiffness, "u");
+  if (su) {
+    const kx = column(T.stiffness, "kx"), ky = column(T.stiffness, "ky"), kz = column(T.stiffness, "kz");
+    if (kx || ky || kz) {
+      const s = {u: su.map(u => [u]), direction: "transverse (+Y canonical)", method: $("detail").value || "measured", uncertainty: null};
+      if (ky) s.k_N_per_m = ky; if (kx) s.k_axial_N_per_m = kx; if (kz) s.k_out_of_plane_N_per_m = kz;
+      out.stiffness = s;
+    }
+  }
+  return out;
+}
+
+function pick(selId, customId) {
+  const v = $(selId).value;
+  return unit(v === "custom" ? (vec3($(customId).value) || [1, 0, 0]) : v.split(",").map(Number));
+}
+
+function build() {
+  const blocks = blockFromTables();
+  const lf = UNITS.len[$("length_u").value];
+  const chUnit = $("ch_unit").value;
+  const f = inputFactor();
+  let lo = num("ch_lo"), hi = num("ch_hi");
+  const allU = [].concat(...["free", "blocked", "stiffness"].filter(k => blocks[k]).map(k => blocks[k].u.map(r => r[0])));
+  if (allU.length) { lo = Math.min(lo ?? Infinity, ...allU.map(x => x / f)); hi = Math.max(hi ?? -Infinity, ...allU.map(x => x / f)); }
+  const si = SI_OF[chUnit] || null;
+  const chName = si ? $("ch_name").value : `${$("ch_name").value}${chUnit.startsWith("other") ? "" : ` (${chUnit})`}`;
+  // headline scalars, then the tables' own (same rules as gramian_map's record_from_experiment.py)
+  let stroke = num("stroke") == null ? null : num("stroke") * UNITS.len[$("stroke_u").value];
+  let dir = pick("motion", "motion_custom");
+  let polarity = dir && Math.abs(dir[0]) > 0.5 ? Math.sign(dir[0]) : 0;
+  let force = num("force") == null ? null : Math.abs(num("force")) * UNITS.force[$("force_u").value];
+  const pushDir = pick("push", "push_custom");
+  const notes = [];
+  if (blocks.free) {
+    const d = blocks.free.tip_displacement_m, mags = d.map(v => Math.hypot(...v));
+    stroke = Math.max(...mags); dir = null;
+    for (let i = 0; i < d.length; i++) if (mags[i] > 0.02 * stroke) { dir = d[i].map(x => x / mags[i]); break; }
+    polarity = dir && Math.abs(dir[0]) > 0.5 ? Math.sign(dir[0]) : 0;
+    notes.push("stroke and motion direction from the free-motion table");
+  }
+  if (blocks.blocked) { force = Math.max(...blocks.blocked.force_axial_N.map(Math.abs)); notes.push("force from the blocked-force table"); }
+  else if (force != null) {
+    // headline force with its stated direction, as a one-level blocked block
+    const v = pushDir.map(x => x * force);
+    blocks.blocked = {u: [[(hi ?? 1) * f]], force_axial_N: [v[0]], force_transverse_N: [Math.hypot(v[1], v[2])],
+      force_N: [v], method: "headline number: " + ($("detail").value || "stated"), uncertainty: null};
+  }
+  if (!blocks.stiffness) {
+    const k = ["kx", "ky", "kz"].map(num);
+    if (k.some(x => x != null)) {
+      const kf = UNITS.stiff[$("k_u").value];
+      const s = {u: [[(lo ?? 0) * f]], direction: "transverse (+Y canonical)", method: "headline number", uncertainty: null};
+      if (k[1] != null) s.k_N_per_m = [k[1] * kf]; if (k[0] != null) s.k_axial_N_per_m = [k[0] * kf];
+      if (k[2] != null) s.k_out_of_plane_N_per_m = [k[2] * kf];
+      blocks.stiffness = s;
+    }
+  }
+  const rec = {
+    schema_version: "0.1",
+    id: $("rid").value.trim(),
+    name: $("name").value.trim(),
+    source: {kind: $("kind").value, detail: $("detail").value || null,
+             date: new Date().toISOString().slice(0, 10), reference: $("reference").value || null},
+    metadata: {actuation_physics: $("physics").value, length_m: num("length") == null ? null : num("length") * lf,
+               mass_kg: null, material_volume_m3: null, materials: {}, notes: "made with forms/record_form.html"},
+    input: {channels: [{name: chName, unit: si, range: [(lo ?? 0) * f, (hi ?? 0) * f], rated: null}],
+            energy_convention: "mechanical work delivered at the input port (J)", work_J: null},
+    port: {name: "tip", description: "fingertip"},
+    free: blocks.free || null, blocked: blocks.blocked || null, stiffness: blocks.stiffness || null,
+    scalars: {free_stroke_m: stroke, free_direction: dir, polarity_axial: polarity,
+              blocked_force_N: force, stiffness_N_per_m: blocks.stiffness && blocks.stiffness.k_N_per_m ? Math.min(...blocks.stiffness.k_N_per_m) : null,
+              effective_dof: 1},
+    shape: null,
+    uncertainty: {default_fraction: num("unc")},
+  };
+  return {rec, notes};
+}
+
+// the tool's own reading rules (gramian_workshop/finger.py)
+function reads(rec) {
+  const b = rec.blocked || {}, s = rec.scalars || {};
+  let push = null, F = null, rule = "none: cannot push";
+  if (b.force_N && b.force_N.length) { const v = b.force_N[b.force_N.length - 1]; push = unit(v); F = Math.hypot(...v); rule = "blocked force vector, highest level"; }
+  else if (b.force_axial_N && b.force_axial_N.length) { const n = b.force_axial_N.length;
+    const v = [b.force_axial_N[n - 1], Math.abs((b.force_transverse_N || [])[n - 1] || 0), 0]; push = unit(v); F = Math.hypot(...v); rule = "axial + sideways force, highest level"; }
+  else if (s.blocked_force_N && s.polarity_axial) { push = [Math.sign(s.polarity_axial), 0, 0]; F = Math.abs(s.blocked_force_N); rule = "blocked force along ±X"; }
+  const st = rec.stiffness || {}; const k = [0, 0, 0]; const kn = [];
+  [["k_axial_N_per_m", 0], ["k_N_per_m", 1], ["k_out_of_plane_N_per_m", 2]].forEach(([key, ax]) => {
+    const v = st[key]; if (!v || !v.length) { if (rec.stiffness) kn.push(`k_${"xyz"[ax]} unknown → 0`); return; }
+    const m = Math.min(...v); if (m < 0) kn.push(`k_${"xyz"[ax]} minimum < 0 → 0`); k[ax] = Math.max(0, m); });
+  return {push, F, rule, motion: s.free_direction ? unit(s.free_direction) : null, stroke: s.free_stroke_m, k, kn};
+}
+
+// the schema's own checks that a form can get wrong (gramian_map actuator_record.validate)
+function validate(rec) {
+  const err = [], warn = [];
+  if (!/^[A-Za-z0-9_\-]+$/.test(rec.id)) err.push("ID must be letters, digits, _ or -");
+  if (!rec.name) err.push("give the actuator a name");
+  const n = rec.input.channels.length;
+  for (const k of ["free", "blocked", "stiffness"]) { const bl = rec[k]; if (!bl) continue;
+    for (const c of ["tip_displacement_m", "force_axial_N", "force_transverse_N", "force_N"]) if (bl[c] && bl[c].length !== bl.u.length) err.push(`${k}: column lengths differ`);
+    const [lo, hi] = rec.input.channels[0].range;
+    if (bl.u.some(r => r[0] < lo - 1e-9 || r[0] > hi + 1e-9)) warn.push(`${k}: some inputs lie outside the stated input range`); }
+  if (rec.scalars.free_stroke_m == null && !rec.free) warn.push("no stroke: the tool cannot judge reach or motion");
+  if (!rec.blocked && rec.scalars.blocked_force_N == null) warn.push("no blocked force: the tool cannot use this actuator to push");
+  if (rec.uncertainty.default_fraction == null) warn.push("no uncertainty given");
+  return {err, warn, n};
+}
+
+const fmtv = (v) => v ? "[" + v.map(x => (x >= 0 ? "+" : "") + x.toFixed(3)).join(", ") + "]" : "–";
+function update() {
+  $("motion_custom_wrap").hidden = $("motion").value !== "custom";
+  $("push_custom_wrap").hidden = $("push").value !== "custom";
+  const {rec, notes} = build();
+  const v = validate(rec), r = reads(rec);
+  const tier = rec.free || rec.blocked || rec.stiffness ? (rec.free && rec.free.u.length > 1 || rec.blocked && rec.blocked.u.length > 1 ? 1 : 0) : 0;
+  $("msgs").innerHTML = v.err.map(e => `<p class="msg err">✕ ${e}</p>`).join("") + v.warn.map(w => `<p class="msg warn">! ${w}</p>`).join("")
+    + (v.err.length ? "" : `<p class="msg ok">✓ ready (tier ${tier}${notes.length ? "; " + notes.join("; ") : ""})</p>`);
+  const ang = r.push && r.motion ? Math.round(Math.acos(Math.max(-1, Math.min(1, r.push.reduce((a, x, i) => a + x * r.motion[i], 0)))) * 180 / Math.PI) : null;
+  $("reads").innerHTML = `
+    <tr><th>Push direction</th><td>${fmtv(r.push)}<br><span class="hint">${r.rule}</span></td></tr>
+    <tr><th>Push force</th><td>${r.F == null ? "–" : r.F.toPrecision(3) + " N"}</td></tr>
+    <tr><th>Motion direction</th><td>${fmtv(r.motion)}${ang == null ? "" : `<br><span class="hint">${ang}° from the push direction</span>`}</td></tr>
+    <tr><th>Stroke</th><td>${r.stroke == null ? "–" : (r.stroke * 1e3).toPrecision(3) + " mm"}</td></tr>
+    <tr><th>Tip stiffness (x, y, z)</th><td>${r.k.map(x => x.toPrecision(3)).join(", ")} N/m${r.kn.length ? `<br><span class="hint">${r.kn.join("; ")}</span>` : ""}</td></tr>`;
+  $("json").textContent = JSON.stringify(rec, null, 1);
+  $("dl").disabled = v.err.length > 0;
+  window._rec = rec;
+}
+
+document.querySelectorAll(".tbl").forEach(d => { d.querySelector("textarea").addEventListener("input", () => { renderCols(d); update(); }); });
+document.querySelectorAll("input:not(.tbl *), select").forEach(e => e.addEventListener("input", update));
+$("name").addEventListener("input", () => { if (!$("rid")._touched) $("rid").value = $("name").value.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, ""); update(); });
+$("rid").addEventListener("input", () => { $("rid")._touched = true; });
+$("dl").onclick = () => { const b = new Blob([JSON.stringify(window._rec, null, 1)], {type: "application/json"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = (window._rec.id || "actuator") + ".json"; a.click(); URL.revokeObjectURL(a.href); };
+$("copy").onclick = () => { try { navigator.clipboard.writeText(JSON.stringify(window._rec, null, 1)); } catch (e) {} };
+update();
+</script>
+</body>
+</html>

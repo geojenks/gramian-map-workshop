@@ -1,5 +1,6 @@
 """Gates V0-V5 as tests (python -m unittest). V0 and V5's export check need
 a Wave_manip checkout: set WAVE_MANIP=/path/to/wave_manip, else skipped."""
+import json
 import os
 import sys
 import unittest
@@ -63,6 +64,25 @@ class Smoke(unittest.TestCase):
     def test_schedule_counts(self):
         made = schedule(4, 0.82)
         self.assertEqual(sorted(set(made.sum(1))), [3, 4])
+
+    def test_vendored_schema_unchanged(self):
+        import hashlib
+        import json
+        with open(os.path.join(ROOT, "gramian_workshop", "vendor",
+                               "SCHEMA_MANIFEST.json")) as f:
+            man = json.load(f)
+        for path, e in man.items():
+            with open(os.path.join(ROOT, path), "rb") as f:
+                self.assertEqual(hashlib.sha256(f.read()).hexdigest(),
+                                 e["sha256"], path)
+
+    def test_every_record_validates(self):
+        from gramian_workshop.vendor import actuator_record as ar
+        man = json.load(open(os.path.join(ROOT, "data", "records",
+                                          "MANIFEST.json")))
+        for e in man["records"].values():
+            rec = ar.load(os.path.join(ROOT, "data", "records", e["file"]))
+            self.assertEqual(ar.validate(rec)[0], [], e["file"])
 
     def test_every_record_loads(self):
         self.assertEqual(len(all_fingers()), 22)

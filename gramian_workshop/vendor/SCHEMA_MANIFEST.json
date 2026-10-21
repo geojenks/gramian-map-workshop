@@ -1,0 +1,16 @@
+{
+ "gramian_workshop/vendor/actuator_record.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+  "path": "gramian_map/actuator_record.py",
+  "sha256": "795c6924423c73db8b42ddeb50d444c9329596ff4681de175f8b51699217888c",
+  "dirty": false
+ },
+ "docs/RECORD_SCHEMA.md": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+  "path": "gramian_map/docs/RECORD_SCHEMA.md",
+  "sha256": "225b2ecc695d82c38082f06640985f9e641e556fbeb31d9742c42f9732b3edd3",
+  "dirty": false
+ }
+}
