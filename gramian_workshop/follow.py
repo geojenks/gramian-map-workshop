@@ -45,6 +45,10 @@ FACE_AMBER_DEG = 60.0      # proposed
 PAD_CONE_DEG = 60.0        # vertices within this of the palm-side direction
 N_PAD_POINTS = 8           # candidate contact points per phalanx
 IK_ITERS = 60
+IK_STARTS = 3              # starting poses per pad point (see FingerIK.best)
+RESID_TOL = 0.05           # proposed: amber may leave this share of the
+                           # leader's object wrench unbalanced (a slight
+                           # acceleration of the object), as a fraction of its norm
 IK_DAMP = 1e-4
 FACE_WEIGHT_M = 0.02       # metres of position error per radian of facing error
 
@@ -195,14 +199,20 @@ class FingerIK:
         face = math.degrees(math.acos(max(-1.0, min(1.0, float(-n @ n_target)))))
         return q[self.qadr].copy(), float(np.linalg.norm(target - p)), face, p, n
 
-    def best(self, cands, target, n_target):
-        """Best pad point for this target: smallest residual, then facing."""
+    def best(self, cands, target, n_target, starts=None):
+        """Best pad point for this target: smallest residual, then facing,
+        over IK_STARTS starting poses (mid-range, and fixed spreads toward
+        each end of the joint ranges) against local minima."""
+        if starts is None:
+            lo, hi = self.rng[:, 0], self.rng[:, 1]
+            starts = [None, lo + 0.25 * (hi - lo), lo + 0.75 * (hi - lo)][:IK_STARTS]
         best = None
         for b, pl, nl in cands:
-            r = self.solve(b, pl, nl, target, n_target)
-            key = (r[1] > REACH_GREEN_M, r[1], r[2])
-            if best is None or key < best[0]:
-                best = (key, (b, pl, nl), r)
+            for q0 in starts:
+                r = self.solve(b, pl, nl, target, n_target, q0)
+                key = (r[1] > REACH_GREEN_M or r[2] > FACE_GREEN_DEG, r[1], r[2])
+                if best is None or key < best[0]:
+                    best = (key, (b, pl, nl), r)
         return best[1], best[2]
 
 
@@ -279,7 +289,7 @@ def placement_search(hand, leader, cands, iks, n_frames=6, n_samples=60, seed=0,
                         if i not in leader.made(k):
                             continue
                         p, nrm, _ = leader.station(k, i, Rw, t)
-                        _, r = ik.best(cands[a][::3], p, nrm)
+                        _, r = ik.best(cands[a][::3], p, nrm, starts=[None])
                         res.append(r[1] + 0.001 * r[2] / 10.0)
                     C[a, i] = np.mean(res) if res else 1.0
             assign, cost = best_assignment(C)
@@ -334,7 +344,8 @@ def torque_limits(hand, finger):
     return M, lim
 
 
-def follow(hand_key, leader_json, middle=False, n_eval=None, seed=0):
+def follow(hand_key, leader_json, middle=False, n_eval=None, seed=0,
+           resid_tol=None):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
@@ -406,7 +417,7 @@ def follow(hand_key, leader_json, middle=False, n_eval=None, seed=0):
             # a red finger's station load must also be carried by the others
             need_redistribute = True
         if need_redistribute:
-            ok, reason = _redistribute(pts, nrms, Js, c, W, mu, L)
+            ok, reason = _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol)
             verdict = "amber" if ok else "red"
             for x in per:
                 if x.get("state") == "amber?":
@@ -415,6 +426,7 @@ def follow(hand_key, leader_json, middle=False, n_eval=None, seed=0):
                        "unserved": unserved, "fingers": per})
     return {"hand": hand_key, "hand_name": hand.spec["name"],
             "leader": leader_json["id"], "placement_cost_mm": cost * 1e3,
+            "resid_tol": RESID_TOL if resid_tol is None else resid_tol,
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
             "placement": {"rotation_matrix": Rw.tolist(), "translation_m": t.tolist()},
@@ -427,40 +439,47 @@ def _q_full(m, ik, qfree):
     return q
 
 
-def _redistribute(pts, nrms, Js, c, W, mu, L):
+def _feasible(A, b, tol):
+    x, res = cap.solve(A, b)
+    if res > tol:
+        x, res = cap.solve(A, b, cap.NNLS_RECHECK_MULT)
+    return res <= tol, res
+
+
+def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     """Can the made, reachable contacts produce the leader's object wrench
     with forces of their own choosing (inside the cone, within torque
-    limits)? The W20 tests, vendored."""
+    limits), to within resid_tol (default RESID_TOL) of its norm? The W20
+    construction (vendored generators, solver and stacking), with that
+    tolerance in place of W20's exact bar."""
+    tol_frac = RESID_TOL if resid_tol is None else resid_tol
     if not pts:
         return False, "no_contact"
     pts, nrms = np.array(pts), np.array(nrms)
     ws = cap.scale_wrench(W, L)
+    tol = max(tol_frac * float(np.linalg.norm(ws)), cap.FEAS_REL)
     D = cap.direction_basis(pts, nrms, c, L)
-    if not cap.direction_test(D, ws)[0]:
+    x, *_ = np.linalg.lstsq(D, ws, rcond=None)
+    if np.linalg.norm(D @ x - ws) > tol:
         return False, "direction"
     Gs, cidx, Fc = cap.generators(pts, nrms, c, mu, L)
-    ok = cap.friction_test(Gs, ws, recheck=cap.NNLS_RECHECK_MULT)[0]
-    if not ok:
+    if not _feasible(Gs, ws, tol)[0]:
         return False, "friction"
-    rows = []
-    for (Jf, M, lim) in Js:
-        rows.append((Jf, M, lim))
-    if all(M is None for _, M, _ in rows):
+    if all(M is None for _, M, _ in Js):
         return True, None
-    # stack the torque-limited fingers' input rows: u = pinv(M^T) J^T f
-    A, U = [], []
-    for ci, (Jf, M, lim) in enumerate(rows):
+    A = []
+    for ci, (Jf, M, lim) in enumerate(Js):
         if M is None:
             continue
         P = np.linalg.pinv(M.T) @ Jf.T                   # inputs per unit force
-        for e in np.where(cidx == ci)[0]:
-            pass
         Ab = np.zeros((P.shape[0], Gs.shape[1]))
         for e in np.where(cidx == ci)[0]:
             Ab[:, e] = P @ Fc[:, e]
         A.append(Ab / lim[:, None])
-        U.append(np.zeros(P.shape[0]))
     A = np.vstack(A)
-    U = np.concatenate(U)
-    ok = cap.torque_test(Gs, A, U, ws, recheck=cap.NNLS_RECHECK_MULT)[0]
+    na = A.shape[0]
+    I, Z = np.eye(na), np.zeros((na, na))
+    Mx = np.block([[Gs, np.zeros((6, 2 * na))], [A, I, Z], [-A, Z, I]])
+    rhs = np.concatenate([ws, np.ones(na), np.ones(na)])
+    ok = _feasible(Mx, rhs, tol)[0]
     return (True, None) if ok else (False, "torque")

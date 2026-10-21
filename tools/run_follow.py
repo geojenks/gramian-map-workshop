@@ -1,0 +1,51 @@
+"""Run the follow-the-leader check for each rigid hand on the leader that
+matches its finger count, and save outputs/follow_<hand>__<leader>.json.
+
+    python tools/run_follow.py [--hands allegro shadow leap l20] [--frames 40]
+
+Needs mujoco and the hand models (tools/fetch_hands.py).
+"""
+import argparse
+import collections
+import json
+import os
+import sys
+import time
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+from gramian_workshop.follow import follow  # noqa: E402
+from gramian_workshop.hands import HANDS  # noqa: E402
+
+LEADER = "w10_cup_physical_x0.3_a0.15_sl0.3t_n{n}"
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--hands", nargs="*", default=list(HANDS))
+    ap.add_argument("--frames", type=int, default=40,
+                    help="leader frames evaluated, spread over the recording")
+    a = ap.parse_args()
+    for hk in a.hands:
+        n = len(HANDS[hk]["fingers"])
+        lid = LEADER.format(n=n)
+        with open(os.path.join(ROOT, "data", "leaders", lid + ".json")) as f:
+            L = json.load(f)
+        t0 = time.time()
+        r = follow(hk, L, n_eval=a.frames)
+        r["elapsed_s"] = round(time.time() - t0, 1)
+        out = os.path.join(ROOT, "outputs", f"follow_{hk}__{lid}.json")
+        with open(out, "w") as f:
+            json.dump(r, f, indent=1, default=float)
+        v = collections.Counter(fr["verdict"] for fr in r["frames"])
+        why = collections.Counter(fr["reason"] for fr in r["frames"] if fr["reason"])
+        fin = collections.Counter((x["finger"], x["state"]) for fr in r["frames"]
+                                  for x in fr["fingers"])
+        print(f"{hk} on {lid}: {dict(v)}; red because {dict(why)}; "
+              f"assignment {r['assignment']}; placement cost "
+              f"{r['placement_cost_mm']:.2f} mm; {r['elapsed_s']} s", flush=True)
+        print("   per finger:", dict(sorted(fin.items())), flush=True)
+
+
+if __name__ == "__main__":
+    main()
