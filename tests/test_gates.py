@@ -38,6 +38,16 @@ class Gates(unittest.TestCase):
         self.assertTrue(gates.v5(wm)["pass"])
 
 
+class Q1Gates(unittest.TestCase):
+    def test_q1_g1_reduction(self):
+        self.assertTrue(gates.q1_g1(load_task("cup_hold"))["pass"])
+
+    def test_q1_g2_g3_rigid_limit_and_closure(self):
+        g2, g3 = gates.q1_g2_g3(load_task("cup_hold"))
+        self.assertTrue(g2["pass"])
+        self.assertTrue(g3["pass"])
+
+
 class Smoke(unittest.TestCase):
     def test_template_record_loads_and_reads(self):
         f = Finger(load_record(os.path.join(ROOT, "examples",

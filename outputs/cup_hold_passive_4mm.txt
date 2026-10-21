@@ -1,0 +1,105 @@
+Demo 3 - cup_hold with passive stiffness, budget 4 mm (addendum section 13)
+SIMULATION AND RECORDS ONLY: comparative, not predictive. Forces and stiffnesses are uncalibrated; the deflection and strength levels are shown, never scored.
+
+letters: ✓ met, k deflection, s strength, e cone_edge, f friction, d direction, – no_contact
+
+mount aimed_yaw0
+                                  1  2  3  4  5  6  7  8
+bellows1                          d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg3                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+bellows_seg5                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+bellows_seg7                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+bellows_seg9                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+bellows_tendon1                   d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+cable_finger                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+example_rigid_pneumatic_cylinder  d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+mckibben_v2_20deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_30deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_40deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_55deg                 d  s  s  s  s  s  s  s  [no stiffness; blocked_force:floor_noise; free_expansion:floor_noise]
+mckibben_v2_60deg                 d  s  s  s  s  s  ✓  ✓  [no stiffness]
+mckibben_v2_70deg                 d  s  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+ossa_axial_extend                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+ossa_differential_bend            –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+ossa_vacuum_contract              –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+shadow_hand_finger                –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+wall_0.0005m                      d  s  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0010m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0015m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0020m                      d  s  s  ✓  ✓  ✓  ✓  ✓
+
+mount aimed_yaw90
+                                  1  2  3  4  5  6  7  8
+bellows1                          d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg3                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+bellows_seg5                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+bellows_seg7                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+bellows_seg9                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+bellows_tendon1                   d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+cable_finger                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+example_rigid_pneumatic_cylinder  d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+mckibben_v2_20deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_30deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_40deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_55deg                 d  s  s  s  s  s  s  s  [no stiffness; blocked_force:floor_noise; free_expansion:floor_noise]
+mckibben_v2_60deg                 d  s  s  s  s  s  ✓  ✓  [no stiffness]
+mckibben_v2_70deg                 d  s  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+ossa_axial_extend                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓  [no stiffness]
+ossa_differential_bend            –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+ossa_vacuum_contract              –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+shadow_hand_finger                –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+wall_0.0005m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0010m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0015m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0020m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+
+mount palm_yaw0
+                                  1  2  3  4  5  6  7  8
+bellows1                          d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg3                      d  e  f  e  e  e  f  e  [no stiffness]
+bellows_seg5                      d  e  f  e  e  e  f  e  [no stiffness]
+bellows_seg7                      d  e  f  e  e  e  f  e  [no stiffness]
+bellows_seg9                      d  e  f  e  e  e  f  e  [no stiffness]
+bellows_tendon1                   d  e  f  e  e  e  f  e  [no stiffness]
+cable_finger                      d  d  d  d  d  d  d  d
+example_rigid_pneumatic_cylinder  d  e  f  e  e  e  f  e  [no stiffness]
+mckibben_v2_20deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_30deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_40deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_55deg                 d  s  s  s  s  s  s  s  [no stiffness; blocked_force:floor_noise; free_expansion:floor_noise]
+mckibben_v2_60deg                 d  s  e  s  s  s  e  s  [no stiffness]
+mckibben_v2_70deg                 d  e  f  e  e  e  e  e  [no stiffness]
+ossa_axial_extend                 d  e  f  e  e  e  f  e  [no stiffness]
+ossa_differential_bend            –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+ossa_vacuum_contract              –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+shadow_hand_finger                –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+wall_0.0005m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0010m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0015m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0020m                      d  s  ✓  ✓  ✓  ✓  ✓  ✓
+
+mount palm_yaw90
+                                  1  2  3  4  5  6  7  8
+bellows1                          d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg3                      d  d  d  d  d  d  d  d  [no stiffness]
+bellows_seg5                      d  d  d  d  d  d  d  d  [no stiffness]
+bellows_seg7                      d  d  d  d  d  d  d  d  [no stiffness]
+bellows_seg9                      d  d  d  d  d  d  d  d  [no stiffness]
+bellows_tendon1                   d  d  d  d  d  d  d  d  [no stiffness]
+cable_finger                      d  f  f  f  f  f  f  f
+example_rigid_pneumatic_cylinder  d  e  f  e  e  e  f  e  [no stiffness]
+mckibben_v2_20deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_30deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_40deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_55deg                 d  d  d  d  d  d  d  d  [no stiffness; blocked_force:floor_noise; free_expansion:floor_noise]
+mckibben_v2_60deg                 d  d  d  d  d  d  d  d  [no stiffness]
+mckibben_v2_70deg                 d  d  d  d  d  d  d  d  [no stiffness]
+ossa_axial_extend                 d  e  f  e  e  e  f  e  [no stiffness]
+ossa_differential_bend            –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+ossa_vacuum_contract              –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+shadow_hand_finger                –  –  –  –  –  –  –  –  [no stiffness; no_force_data]
+wall_0.0005m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0010m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0015m                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0020m                      d  s  ✓  ✓  ✓  ✓  ✓  ✓
+

@@ -10,6 +10,7 @@ import html
 # role is the same name with "-ink"
 REASON_STYLE = {
     "met": ("✓", "--st-good", "met"),
+    "deflection": ("k", "--st-warn", "held; short on comparative passive deflection budget (not scored)"),
     "strength": ("s", "--st-warn", "held; short on comparative strength (not scored)"),
     "cone_edge": ("e", "--st-serious", "at the friction-cone edge"),
     "friction": ("f", "--st-critical", "friction (push slips or pulls)"),

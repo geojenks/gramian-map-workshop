@@ -21,7 +21,7 @@ import numpy as np
 
 from .arrange import Arrangement
 from .finger import DATA, all_fingers, load_manifest
-from .readout import ideal_hold, soft_hold
+from .readout import ideal_hold, soft_hold, soft_hold_passive
 from .task import load_task
 from .vendor import capability_core as cap
 
@@ -175,6 +175,63 @@ def v3_v4(task):
              "pass": not diff})
 
 
+def _b_angle(arr, i):
+    b, n = arr.B[i], arr.cup.normals[i]
+    return math.degrees(math.acos(max(-1.0, min(1.0, float(np.dot(b, n))))))
+
+
+def q1_g1(task):
+    """delta_max = 0 reproduces the active-only verdicts, except in the band
+    where the exact circle and the 8-edge pyramids disagree."""
+    half = math.degrees(math.atan(load_task("cup_hold")["mu"]))
+    diff, band = [], 0
+    for f in all_fingers():
+        for style, yaw in MOUNTS:
+            for n in range(1, 9):
+                a = Arrangement(f, task, n, style, yaw)
+                c = a.cup
+                w = c.weight_demand()
+                r0 = soft_hold(c.points, c.normals, c.com, w, c.mu, c.L,
+                               a.B, a.F)["reason"]
+                r1 = soft_hold_passive(c.points, c.normals, c.com, w, c.mu,
+                                       c.L, a.B, a.passive(0.0), a.F)["reason"]
+                if r0 != r1:
+                    ang = None if f.b is None else _b_angle(a, 0)
+                    in_band = ang is not None and abs(ang - half) <= 2.3
+                    band += int(in_band)
+                    diff.append({"id": f.id, "mount": f"{style}_{int(yaw)}",
+                                 "n": n, "active": r0, "passive0": r1,
+                                 "b_to_normal_deg": ang, "in_band": in_band})
+    return {"differences": len(diff), "in_band": band, "list": diff[:40],
+            "pass": all(d["in_band"] for d in diff)}
+
+
+def q1_g2_g3(task):
+    """Rigid limit equals the ideal contacts; closure of every met verdict."""
+    bad, worst = [], 0.0
+    for f in all_fingers():
+        for style, yaw in MOUNTS:
+            for n in range(1, 9):
+                a = Arrangement(f, task, n, style, yaw)
+                c = a.cup
+                w = c.weight_demand()
+                Q = [np.eye(3) * 1e6 for _ in range(n)]
+                r = soft_hold_passive(c.points, c.normals, c.com, w, c.mu,
+                                      c.L, a.B, Q, [1e6] * n)
+                ri = ideal_hold(c.points, c.normals, c.com, w, c.mu, c.L)
+                if r["reason"] != ri["reason"]:
+                    bad.append((f.id, style, yaw, n, r["reason"],
+                                ri["reason"]))
+                for dm in (0.001, 0.002, 0.004):
+                    rp = soft_hold_passive(c.points, c.normals, c.com, w,
+                                           c.mu, c.L, a.B, a.passive(dm), a.F)
+                    if rp["closure"] is not None:
+                        worst = max(worst, rp["closure"])
+    return ({"mismatches": len(bad), "first": bad[:10], "pass": not bad},
+            {"worst_rel": worst, "bar": cap.FEAS_REL,
+             "pass": worst <= cap.FEAS_REL})
+
+
 def v5(wm):
     man = load_manifest()
     bad = []
@@ -217,6 +274,8 @@ def main():
     g = {"V0": v0(wm), "V1": v1(), "V2": v2(task)}
     g["V3"], g["V4"] = v3_v4(task)
     g["V5"] = v5(wm)
+    g["Q1-G1"] = q1_g1(task)
+    g["Q1-G2"], g["Q1-G3"] = q1_g2_g3(task)
     g["all_pass"] = all(v.get("pass", False) for v in g.values()
                         if isinstance(v, dict))
     os.makedirs(os.path.dirname(a.out), exist_ok=True)

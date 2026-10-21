@@ -1,0 +1,30 @@
+Demo 3 - cup_turn with passive stiffness, budget 2 mm, mount aimed_yaw90: fraction of ticks held
+SIMULATION AND RECORDS ONLY: comparative, not predictive. Forces and stiffnesses are uncalibrated; the deflection and strength levels are shown, never scored.
+
+                                  duty      1      2      3      4      5      6      7      8
+bellows1                          0.82   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+bellows1                          0.50   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+cable_finger                      0.82   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+cable_finger                      0.50   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+mckibben_v2_20deg                 0.82   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+mckibben_v2_20deg                 0.50   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+mckibben_v2_30deg                 0.82   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+mckibben_v2_30deg                 0.50   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+mckibben_v2_40deg                 0.82   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+mckibben_v2_40deg                 0.50   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+wall_0.0005m                      0.82   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+wall_0.0005m                      0.50   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+wall_0.0010m                      0.82   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+wall_0.0010m                      0.50   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+wall_0.0015m                      0.82   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+wall_0.0015m                      0.50   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+wall_0.0020m                      0.82   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+wall_0.0020m                      0.50   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+
+predictions (addendum section 13.5; 2 mm):
+  Q1-P1: HIT
+  Q1-P2: HIT
+  Q1-P3: HIT
+  Q1-P4: MISS  [('cable_finger', 2, 'direction'), ('cable_finger', 3, 'direction'), ('cable_finger', 4, 'direction'), ('cable_finger', 5, 'direction'), ('cable_finger', 6, 'direction'), ('cable_finger', 7, 'direction'), ('cable_finger', 8, 'direction')]
+  Q1-P5: HIT
+  Q1-P6: HIT

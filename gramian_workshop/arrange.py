@@ -24,6 +24,15 @@ class Arrangement:
         self.D = [None if finger.d is None else R @ finger.d for R in self.R]
         self.F = [finger.F] * c.n
 
+    def passive(self, delta_max_m):
+        """Per contact, the world passive force at full deflection: one
+        column R e_j k_j delta_max per canonical axis with k_j > 0
+        (addendum section 13.1)."""
+        k = self.finger.k
+        axes = [j for j in range(3) if k[j] > 0] if delta_max_m > 0 else []
+        return [np.column_stack([R[:, j] * k[j] * delta_max_m for j in axes])
+                if axes else np.zeros((3, 0)) for R in self.R]
+
     def drive(self, i):
         """(azimuthal share, off-axis fraction) of finger i's tangent-plane
         motion, assuming it complies freely along the contact normal."""
@@ -45,8 +54,12 @@ class Arrangement:
         return math.degrees(self.finger.S * abs(along)
                             / (self.cup.R * math.cos(self.cup.alt)))
 
-    def subset(self, mask):
+    def subset(self, mask, delta_max_m=None):
         idx = np.where(mask)[0]
         c = self.cup
-        return (c.points[idx], c.normals[idx], [self.B[i] for i in idx],
-                [self.F[i] for i in idx], [self.D[i] for i in idx])
+        out = (c.points[idx], c.normals[idx], [self.B[i] for i in idx],
+               [self.F[i] for i in idx], [self.D[i] for i in idx])
+        if delta_max_m is None:
+            return out
+        Q = self.passive(delta_max_m)
+        return out + ([Q[i] for i in idx],)

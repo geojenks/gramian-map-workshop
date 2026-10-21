@@ -46,5 +46,256 @@
   },
   "pass": true
  },
+ "Q1-G1": {
+  "differences": 26,
+  "in_band": 26,
+  "list": [
+   {
+    "id": "bellows1",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.32759300612462,
+    "in_band": true
+   },
+   {
+    "id": "bellows1",
+    "mount": "palm_0",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.32759300612462,
+    "in_band": true
+   },
+   {
+    "id": "bellows_seg3",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.206872460040195,
+    "in_band": true
+   },
+   {
+    "id": "bellows_seg3",
+    "mount": "palm_0",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.206872460040195,
+    "in_band": true
+   },
+   {
+    "id": "bellows_seg5",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.33683736652156,
+    "in_band": true
+   },
+   {
+    "id": "bellows_seg5",
+    "mount": "palm_0",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.33683736652156,
+    "in_band": true
+   },
+   {
+    "id": "bellows_seg7",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.31882983821614,
+    "in_band": true
+   },
+   {
+    "id": "bellows_seg7",
+    "mount": "palm_0",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.31882983821614,
+    "in_band": true
+   },
+   {
+    "id": "bellows_seg9",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.34346005838763,
+    "in_band": true
+   },
+   {
+    "id": "bellows_seg9",
+    "mount": "palm_0",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.34346005838763,
+    "in_band": true
+   },
+   {
+    "id": "bellows_tendon1",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.34849844057147,
+    "in_band": true
+   },
+   {
+    "id": "bellows_tendon1",
+    "mount": "palm_0",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.34849844057147,
+    "in_band": true
+   },
+   {
+    "id": "example_rigid_pneumatic_cylinder",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.372197423446764,
+    "in_band": true
+   },
+   {
+    "id": "example_rigid_pneumatic_cylinder",
+    "mount": "palm_0",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.372197423446764,
+    "in_band": true
+   },
+   {
+    "id": "example_rigid_pneumatic_cylinder",
+    "mount": "palm_90",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.372197423446764,
+    "in_band": true
+   },
+   {
+    "id": "example_rigid_pneumatic_cylinder",
+    "mount": "palm_90",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.372197423446764,
+    "in_band": true
+   },
+   {
+    "id": "mckibben_v2_60deg",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "strength",
+    "passive0": "cone_edge",
+    "b_to_normal_deg": 44.282038269736084,
+    "in_band": true
+   },
+   {
+    "id": "mckibben_v2_60deg",
+    "mount": "palm_0",
+    "n": 5,
+    "active": "met",
+    "passive0": "strength",
+    "b_to_normal_deg": 44.282038269736084,
+    "in_band": true
+   },
+   {
+    "id": "mckibben_v2_60deg",
+    "mount": "palm_0",
+    "n": 6,
+    "active": "met",
+    "passive0": "strength",
+    "b_to_normal_deg": 44.282038269736084,
+    "in_band": true
+   },
+   {
+    "id": "mckibben_v2_60deg",
+    "mount": "palm_0",
+    "n": 7,
+    "active": "met",
+    "passive0": "cone_edge",
+    "b_to_normal_deg": 44.282038269736084,
+    "in_band": true
+   },
+   {
+    "id": "mckibben_v2_60deg",
+    "mount": "palm_0",
+    "n": 8,
+    "active": "met",
+    "passive0": "strength",
+    "b_to_normal_deg": 44.282038269736084,
+    "in_band": true
+   },
+   {
+    "id": "mckibben_v2_70deg",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 45.666620044489186,
+    "in_band": true
+   },
+   {
+    "id": "ossa_axial_extend",
+    "mount": "palm_0",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.372197423446764,
+    "in_band": true
+   },
+   {
+    "id": "ossa_axial_extend",
+    "mount": "palm_0",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.372197423446764,
+    "in_band": true
+   },
+   {
+    "id": "ossa_axial_extend",
+    "mount": "palm_90",
+    "n": 3,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.372197423446764,
+    "in_band": true
+   },
+   {
+    "id": "ossa_axial_extend",
+    "mount": "palm_90",
+    "n": 7,
+    "active": "cone_edge",
+    "passive0": "friction",
+    "b_to_normal_deg": 46.372197423446764,
+    "in_band": true
+   }
+  ],
+  "pass": true
+ },
+ "Q1-G2": {
+  "mismatches": 0,
+  "first": [],
+  "pass": true
+ },
+ "Q1-G3": {
+  "worst_rel": 5.2832254169116107e-14,
+  "bar": 1e-09,
+  "pass": true
+ },
  "all_pass": true
 }

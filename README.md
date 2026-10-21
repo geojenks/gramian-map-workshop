@@ -19,6 +19,7 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 pip install -e .                                     # numpy is the only dependency
 python demos/cup_hold.py                             # Demo 1
 python demos/cup_turn.py                             # Demo 2
+python demos/passive.py                              # Demo 3 (passive stiffness)
 ```
 
 Then open `outputs/cup_hold.html` and `outputs/cup_turn.html` in a browser
@@ -50,6 +51,11 @@ make/break wave (duty 0.82 from the banked ring; 0.5 as a sensitivity).
 On every tick the fingers in contact alone must carry the weight. A finger
 can drive the turn only if its tip moves along the azimuth.
 
+**Demo 3, passive.** Demos 1 and 2 again, but each finger can also resist as a
+spring (its record's tip stiffness) within a deflection budget of 2 mm, the
+depth the Allegro's pads pressed into the ball (1 and 4 mm as sensitivity).
+Only 9 of the 22 records carry stiffness data; the rest are unchanged.
+
 ## How to read a result: the reason ladder
 
 Each arrangement is tested against nested sets, and the **first one it fails
@@ -61,6 +67,7 @@ names the reason**:
 | d | direction | the fingers cannot push the object that way at all, at any force |
 | f | friction | they could, but only by slipping (or by pulling) |
 | e | cone edge | only at the very edge of the friction cone |
+| k | deflection | held, but short on *comparative* passive spring force (Demo 3; not scored) |
 | s | strength | held, but short on *comparative* force (not scored) |
 | ✓ | met | can be done |
 
@@ -94,6 +101,12 @@ awaiting sign-off.
 - **Turners and holders.** Only the pneu-nets and the cable finger can drive
   the turn (azimuthal share 0.96 to 0.99). The bellows and McKibbens can hold
   but not turn.
+- **Counting passive stiffness removes the push-only model's brittleness.**
+  Palm-mounted pneu-nets, which failed on a tiny out-of-plane part of their
+  push, now hold from N = 2. Contracting McKibbens on a palm hold too: their
+  stiff axial spring props the ball up while the active part pulls. The cable
+  finger still fails, because its record has no out-of-plane stiffness. The
+  turn results are unchanged: four fingers at duty 0.82, nothing at 0.5.
 
 ## Where every number comes from
 
@@ -119,9 +132,10 @@ The model and its predictions are registered in Wave_manip:
 ## Limits, stated
 
 - One input per finger. The finger pushes only along its blocked-force
-  direction and moves only along its free direction. **Passive stiffness is
-  not modelled**, which makes the model brittle to small out-of-plane
-  components in a record.
+  direction and moves only along its free direction. Demos 1 and 2 count no
+  **passive stiffness**, which makes them brittle to small out-of-plane
+  components in a record; Demo 3 counts it, as the minimum over the record's
+  probed inputs, with negative or missing axes as zero.
 - Placement is assumed (every tip touches its ring point); reach is not
   checked yet.
 - Forces are comparative only, until a record is calibrated against a

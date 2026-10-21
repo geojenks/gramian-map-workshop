@@ -12,7 +12,8 @@ demand, tick by tick.
 """
 import numpy as np
 
-from .readout import HELD, ideal_hold, soft_hold
+from .readout import (HELD, PASSIVE_HELD, ideal_hold, soft_hold,
+                      soft_hold_passive)
 
 TICKS_PER_CYCLE = 360
 
@@ -24,8 +25,11 @@ def schedule(n, duty, ticks=TICKS_PER_CYCLE):
     return np.mod(k - i, 1.0) < duty
 
 
-def run(arr, duty, ticks=TICKS_PER_CYCLE):
+def run(arr, duty, ticks=TICKS_PER_CYCLE, delta_max_m=None):
+    """delta_max_m None: the active-only finger (section 5); a number: the
+    passive-stiffness finger with that deflection budget (addendum 13)."""
     c = arr.cup
+    held = HELD if delta_max_m is None else PASSIVE_HELD
     made = schedule(c.n, duty, ticks)
     w = c.weight_demand()
     soft, ideal, ic = [], [], []
@@ -33,8 +37,12 @@ def run(arr, duty, ticks=TICKS_PER_CYCLE):
     for k in range(ticks):
         key = made[k].tobytes()
         if key not in cache:
-            P, Nn, B, F, D = arr.subset(made[k])
-            s = soft_hold(P, Nn, c.com, w, c.mu, c.L, B, F, D)
+            if delta_max_m is None:
+                P, Nn, B, F, D = arr.subset(made[k])
+                s = soft_hold(P, Nn, c.com, w, c.mu, c.L, B, F, D)
+            else:
+                P, Nn, B, F, D, Q = arr.subset(made[k], delta_max_m)
+                s = soft_hold_passive(P, Nn, c.com, w, c.mu, c.L, B, Q, F, D)
             i = ideal_hold(P, Nn, c.com, w, c.mu, c.L)
             cache[key] = (s["reason"], i["reason"], s["input_count"])
         s, i, n_in = cache[key]
@@ -49,9 +57,9 @@ def run(arr, duty, ticks=TICKS_PER_CYCLE):
         "soft_reason": soft,
         "ideal_reason": ideal,
         "input_count": ic,
-        "soft_held_frac": float(np.isin(soft, HELD).mean()),
+        "soft_held_frac": float(np.isin(soft, held).mean()),
         "ideal_held_frac": float((ideal == "met").mean()),
-        "soft_held_all": bool(np.isin(soft, HELD).all()),
+        "soft_held_all": bool(np.isin(soft, held).all()),
         "ideal_held_all": bool((ideal == "met").all()),
         "made_count": sorted({int(x) for x in made.sum(1)}),
         "drive_azimuth": drive[0][0] if drive else None,

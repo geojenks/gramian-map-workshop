@@ -67,6 +67,36 @@ def push_direction(rec):
     return None, None, "none"
 
 
+STIFF_AXES = (("k_axial_N_per_m", 0), ("k_N_per_m", 1),
+              ("k_out_of_plane_N_per_m", 2))
+
+
+def passive_stiffness(rec):
+    """(k (3,) canonical [x, y, z] N/m, notes). Registration addendum
+    (section 13): per axis, the MINIMUM over the record's probed input
+    levels (a passive force available at every probed level); a negative
+    minimum (unstable or probe artefact) counts as 0, a missing axis as 0.
+    `k_N_per_m` is the transverse axis, which the records state as +Y."""
+    st = rec.get("stiffness") or {}
+    k = np.zeros(3)
+    notes = []
+    if not st:
+        return k, ["no_stiffness_data"]
+    if "+Y" not in str(st.get("direction", "+Y")):
+        notes.append(f"transverse direction {st.get('direction')!r} read as +Y")
+    for key, ax in STIFF_AXES:
+        v = st.get(key)
+        if not v:
+            notes.append(f"k_{'xyz'[ax]} missing -> 0")
+            continue
+        m = float(min(v))
+        if m < 0:
+            notes.append(f"k_{'xyz'[ax]} min {m:.4g} < 0 -> 0")
+            m = 0.0
+        k[ax] = m
+    return k, notes
+
+
 class Finger:
     def __init__(self, rec, quality=None):
         s = rec.get("scalars") or {}
@@ -77,6 +107,7 @@ class Finger:
         fd = s.get("free_direction")
         self.d = None if fd is None else _unit(fd)
         self.S = s.get("free_stroke_m")
+        self.k, self.k_notes = passive_stiffness(rec)
         self.quality = dict(quality or {})
 
     @classmethod
