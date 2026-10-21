@@ -259,7 +259,7 @@ class Leader:
 
 
 def placement_search(hand, leader, cands, iks, n_frames=6, n_samples=60, seed=0,
-                     iters=3):
+                     iters=3, pad_step=3):
     """Cross-entropy search over the leader's placement (rotation vector,
     translation); cost = the best finger-to-station assignment's mean
     reach residual over sample frames where that station touches."""
@@ -289,7 +289,7 @@ def placement_search(hand, leader, cands, iks, n_frames=6, n_samples=60, seed=0,
                         if i not in leader.made(k):
                             continue
                         p, nrm, _ = leader.station(k, i, Rw, t)
-                        _, r = ik.best(cands[a][::3], p, nrm, starts=[None])
+                        _, r = ik.best(cands[a][::pad_step], p, nrm, starts=[None])
                         # reach error plus facing, weighted as in the IK
                         # (FACE_WEIGHT_M metres per radian), so a finger
                         # touching with its nail is not a good placement
@@ -348,12 +348,27 @@ def torque_limits(hand, finger):
 
 
 def follow(hand_key, leader_json, middle=False, n_eval=None, seed=0,
-           resid_tol=None):
+           resid_tol=None, place=None, ik_iters=None):
+    """place: placement_search settings (n_frames, n_samples, iters,
+    pad_step); ik_iters: IK iterations (default IK_ITERS)."""
+    global IK_ITERS
+    old_iters = IK_ITERS
+    if ik_iters is not None:
+        IK_ITERS = int(ik_iters)
+    try:
+        return _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol,
+                       place or {})
+    finally:
+        IK_ITERS = old_iters
+
+
+def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
     iks = [FingerIK(hand, f) for f in hand.fingers]
-    cost, Rw, t, assign, _ = placement_search(hand, leader, cands, iks, seed=seed)
+    cost, Rw, t, assign, _ = placement_search(hand, leader, cands, iks, seed=seed,
+                                              **place)
     mu = float(leader_json.get("mu", 1.0))
     L = leader.R_obj
     lims = [torque_limits(hand, f) for f in hand.fingers]
@@ -430,6 +445,7 @@ def follow(hand_key, leader_json, middle=False, n_eval=None, seed=0,
     return {"hand": hand_key, "hand_name": hand.spec["name"],
             "leader": leader_json["id"], "placement_cost_mm": cost * 1e3,
             "resid_tol": RESID_TOL if resid_tol is None else resid_tol,
+            "settings": {"middle": middle, "ik_iters": IK_ITERS, "place": place},
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
             "placement": {"rotation_matrix": Rw.tolist(), "translation_m": t.tolist()},
@@ -486,3 +502,59 @@ def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     rhs = np.concatenate([ws, np.ones(na), np.ones(na)])
     ok = _feasible(Mx, rhs, tol)[0]
     return (True, None) if ok else (False, "torque")
+
+
+def reach_bound(hand_key, leader_json, result, middle=False, n=6000, seed=0,
+                refine=3, iters=200):
+    """Geometry only: with the placement and assignment of `result`, how
+    close can any palm-side pad point of each finger get to its station's
+    contact path? Ignores facing, force and collisions, so it is a floor on
+    how short the hand falls. Joints are sampled within their ranges
+    (couplings applied); the `refine` nearest samples to each target then
+    seed a position-only solve of `iters` iterations.
+    Returns {finger: {median_mm, p90_mm, max_mm}}."""
+    global FACE_WEIGHT_M, IK_ITERS
+    hand = Hand(hand_key)
+    leader = Leader(leader_json)
+    Rw = np.array(result["placement"]["rotation_matrix"])
+    t = np.array(result["placement"]["translation_m"])
+    m = hand.model
+    rng = np.random.default_rng(seed)
+    out = {}
+    saved = FACE_WEIGHT_M, IK_ITERS
+    FACE_WEIGHT_M, IK_ITERS = 0.0, iters
+    try:
+        for f in hand.fingers:
+            ik = FingerIK(hand, f)
+            cands = pad_candidates(hand, f, middle)
+            pts, idx = [], []
+            for _ in range(max(n // max(len(cands), 1), 1)):
+                qf = rng.uniform(ik.rng[:, 0], ik.rng[:, 1])
+                q = np.array(m.qpos0)
+                q[ik.qadr] = qf
+                ik.d.qpos[:] = hand.apply_coupling(q)
+                ik.mj.mj_kinematics(m, ik.d)
+                for c, (b, pl, _nl) in enumerate(cands):
+                    pts.append(ik.d.xpos[b] + ik.d.xmat[b].reshape(3, 3) @ pl)
+                    idx.append((c, qf))
+            pts = np.array(pts)
+            i = result["assignment"][f.label]
+            dist = []
+            for k in range(len(leader.frames)):
+                if i not in leader.made(k):
+                    continue
+                p, nrm, _ = leader.station(k, i, Rw, t)
+                dd = np.linalg.norm(pts - p, axis=1)
+                best = float(dd.min())
+                for j in np.argsort(dd)[:refine]:
+                    c, qf = idx[j]
+                    b, pl, nl = cands[c]
+                    best = min(best, ik.solve(b, pl, nl, p, nrm, qf)[1])
+                dist.append(best)
+            dist = np.array(dist) * 1e3
+            out[f.label] = ({"median_mm": float(np.median(dist)),
+                             "p90_mm": float(np.percentile(dist, 90)),
+                             "max_mm": float(dist.max())} if len(dist) else None)
+    finally:
+        FACE_WEIGHT_M, IK_ITERS = saved
+    return out
