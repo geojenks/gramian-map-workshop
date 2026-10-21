@@ -45,6 +45,9 @@ def main():
     ap.add_argument("--speed-scale", type=float, default=1.0,
                     help="scale every primitive's wave speed (wave.c) and "
                          "flow rate (flows[].omega) together: same gait, slower")
+    ap.add_argument("--stations", type=int, default=None,
+                    help="number of contact stations (scene n_contacts and "
+                         "each wave's nWave), e.g. the hand's finger count")
     ap.add_argument("--settle", type=float, default=0.5,
                     help="seconds dropped from the start")
     a = ap.parse_args()
@@ -66,7 +69,13 @@ def main():
             for fl in prim.get("flows") or []:
                 if "omega" in fl:
                     fl["omega"] = fl["omega"] * a.speed_scale
-    lid = a.preset + ("" if a.speed_scale == 1.0 else f"_x{a.speed_scale:g}")
+    if a.stations:
+        preset.setdefault("scene", {})["n_contacts"] = a.stations
+        for prim in preset["control"]["primitives"]:
+            if "wave" in prim and "nWave" in prim["wave"]:
+                prim["wave"]["nWave"] = a.stations
+    lid = (a.preset + ("" if a.speed_scale == 1.0 else f"_x{a.speed_scale:g}")
+           + ("" if not a.stations else f"_n{a.stations}"))
     buf = io.StringIO()
     with redirect_stdout(buf):
         srv = rr.fresh_bridge()
@@ -165,6 +174,7 @@ def main():
                    "preset": os.path.relpath(ppath, wm), "preset_sha256": psha,
                    "recorder": "tools/record_leader.py",
                    "speed_scale": a.speed_scale,
+                   "stations_override": a.stations,
                    "duration_s": a.duration, "settle_dropped_s": a.settle,
                    "every_nth_tick": EVERY,
                    "force_source": meta.get("force_source")},
