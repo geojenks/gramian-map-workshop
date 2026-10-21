@@ -42,6 +42,9 @@ def main():
     ap.add_argument("--wave-manip", required=True)
     ap.add_argument("--preset", required=True)
     ap.add_argument("--duration", type=float, default=7.0)
+    ap.add_argument("--speed-scale", type=float, default=1.0,
+                    help="scale every primitive's wave speed (wave.c) and "
+                         "flow rate (flows[].omega) together: same gait, slower")
     ap.add_argument("--settle", type=float, default=0.5,
                     help="seconds dropped from the start")
     a = ap.parse_args()
@@ -55,6 +58,15 @@ def main():
                          a.preset + ".json")
     with open(ppath) as f:
         preset = json.load(f)
+    if a.speed_scale != 1.0:
+        for prim in preset["control"]["primitives"]:
+            w = prim.get("wave") or {}
+            if "c" in w:
+                w["c"] = w["c"] * a.speed_scale
+            for fl in prim.get("flows") or []:
+                if "omega" in fl:
+                    fl["omega"] = fl["omega"] * a.speed_scale
+    lid = a.preset + ("" if a.speed_scale == 1.0 else f"_x{a.speed_scale:g}")
     buf = io.StringIO()
     with redirect_stdout(buf):
         srv = rr.fresh_bridge()
@@ -145,12 +157,14 @@ def main():
         psha = hashlib.sha256(f.read()).hexdigest()
     leader = {
         "schema": "gramian-workshop/leader@1",
-        "id": a.preset,
-        "name": preset.get("title", a.preset),
+        "id": lid,
+        "name": preset.get("title", a.preset) + (
+            "" if a.speed_scale == 1.0 else f" -- slowed x{a.speed_scale:g}"),
         "kind": "authored wave (Wave_manip unified_v6 preset)",
         "source": {"repo": "geojenks/Wave_manip", "commit": head,
                    "preset": os.path.relpath(ppath, wm), "preset_sha256": psha,
                    "recorder": "tools/record_leader.py",
+                   "speed_scale": a.speed_scale,
                    "duration_s": a.duration, "settle_dropped_s": a.settle,
                    "every_nth_tick": EVERY,
                    "force_source": meta.get("force_source")},
@@ -162,7 +176,7 @@ def main():
         "caveat": "SIMULATION ONLY -- comparative, not predictive",
     }
     os.makedirs(OUT, exist_ok=True)
-    p = os.path.join(OUT, a.preset + ".json")
+    p = os.path.join(OUT, lid + ".json")
     with open(p, "w") as f:
         json.dump(leader, f, separators=(",", ":"))
     n_con = [sum(r["contact"]) for r in rows]
