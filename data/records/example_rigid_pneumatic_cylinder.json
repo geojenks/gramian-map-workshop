@@ -1,0 +1,40 @@
+{
+ "schema_version": "0.1",
+ "id": "example_rigid_pneumatic_cylinder",
+ "name": "Rigid pneumatic cylinder (Tier-0 template, illustrative values)",
+ "source": {
+  "kind": "literature",
+  "detail": "hand-typed Tier-0 template; values representative of a small double-acting cylinder (12 mm bore, 25 mm stroke), NOT a specific product",
+  "date": "2026-07-03",
+  "reference": null
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": 0.11,
+  "mass_kg": 0.08,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "traditional-actuator reference point for the soft-assumes-rigid comparison"
+ },
+ "input": {
+  "channels": [
+   {"name": "supply pressure", "unit": "Pa", "range": [0.0, 600000.0], "rated": 600000.0}
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {"name": "tip", "description": "rod end"},
+ "free": null,
+ "blocked": null,
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.025,
+  "free_direction": [1.0, 0.0, 0.0],
+  "polarity_axial": 1,
+  "blocked_force_N": 67.9,
+  "stiffness_N_per_m": null,
+  "effective_dof": 1
+ },
+ "shape": null,
+ "uncertainty": {"default_fraction": 0.2}
+}

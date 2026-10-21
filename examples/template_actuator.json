@@ -1,0 +1,38 @@
+{
+ "schema_version": "0.1",
+ "id": "template_actuator",
+ "name": "TEMPLATE -- replace every value with your actuator's (not real data)",
+ "source": {
+  "kind": "literature",
+  "detail": "TEMPLATE: say where each number comes from (datasheet, paper, bench test, simulation)",
+  "date": null,
+  "reference": null
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": 0.08,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "Canonical frame: X = base to tip, +Y = the main sideways (bending) output. A Tier-0 record needs only the scalars block."
+ },
+ "input": {
+  "channels": [{"name": "chamber pressure", "unit": "Pa", "range": [0.0, 50000.0], "rated": null}],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {"name": "tip", "description": "fingertip"},
+ "free": null,
+ "blocked": null,
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.01,
+  "free_direction": [1.0, 0.0, 0.0],
+  "polarity_axial": 1,
+  "blocked_force_N": 1.0,
+  "stiffness_N_per_m": null,
+  "effective_dof": 1
+ },
+ "shape": null,
+ "uncertainty": {"default_fraction": 0.3}
+}

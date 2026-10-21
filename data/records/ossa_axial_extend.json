@@ -1,0 +1,60 @@
+{
+ "schema_version": "0.1",
+ "id": "ossa_axial_extend",
+ "name": "OSSA all-chambers axial extend (60 N / 81 mm)",
+ "source": {
+  "kind": "literature",
+  "detail": "lit: OSSA, Nat.Sci.Rep. s41598-026-40604-5 (digitized; fractions estimated)",
+  "date": "2026-07-09",
+  "reference": "doi:10.1038/s41598-026-40604-5"
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": 0.12,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {
+   "type": "TPU, Shore A85/95",
+   "wall_mm": "0.96-1.6"
+  },
+  "notes": "Omnidirectional Soft Sleeve Actuator (4-chamber bellows). Full device has 4 independent pressure channels (~3 independent DOF). This record describes one actuation mode; see also ossa_* siblings. Rest length 120 mm from the source paper (added 9 Jul 2026). Mode: all 4 chambers pressurized equally (0-130 kPa)."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "chamber pressure (all 4 equal)",
+    "unit": "Pa",
+    "range": [
+     0.0,
+     130000.0
+    ],
+    "rated": 130000.0
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "free-end centroid"
+ },
+ "free": null,
+ "blocked": null,
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.081,
+  "free_direction": [
+   1.0,
+   0.0,
+   0.0
+  ],
+  "polarity_axial": 1,
+  "blocked_force_N": 60.0,
+  "stiffness_N_per_m": null,
+  "effective_dof": 1
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.3
+ }
+}

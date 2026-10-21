@@ -1,0 +1,27 @@
+W20 step 6 pre-check (records and task geometry only; nothing solved)
+cup: R 32.90 mm, altitude -43.628 deg, mu 1.0, cone half-angle 45.000 deg, normal 46.372 deg from vertical, weight 0.4905 N
+per-finger push for the weight, aimed mount (normals): N=1: 0.7109, N=2: 0.3554, N=3: 0.2370, N=4: 0.1777, N=5: 0.1422, N=6: 0.1185, N=7: 0.1016, N=8: 0.0889
+
+record                         rule                F(cmp)    S mm palm0 b-n  palm90 aim90 az aim90 off turn/str N(cmp) flags
+bellows1                       axial_transverse     4.111    9.70     46.33   46.37   -0.024    0.8495      0.6      1 
+bellows_seg3                   axial_transverse     1.906    2.55     46.21   46.37   -0.043    0.7687      0.3      1 
+bellows_seg5                   axial_transverse     2.755    4.32     46.34   46.37   -0.013    0.9656      0.1      1 
+bellows_seg7                   axial_transverse     3.543    6.87     46.32   46.37    0.128    0.0000      2.1      1 
+bellows_seg9                   axial_transverse     4.386   10.89     46.34   46.37    0.114    0.0000      3.0      1 
+bellows_tendon1                axial_transverse      4.11   10.33     46.35   46.37    0.043    0.6545      1.1      1 
+cable_finger                   force_N               1433   10.47    133.63  133.63    0.988    0.0000     24.9      1 
+example_rigid_pneumatic_cylind polarity              67.9   25.00     46.37   46.37    0.000    1.0000      0.0      1 
+mckibben_v2_20deg              axial_transverse     1.785    1.57    133.35  133.63    0.085    0.2070      0.3      1 
+mckibben_v2_30deg              axial_transverse      1.19    3.46    133.55  133.63    0.150    0.0000      1.2      1 
+mckibben_v2_40deg              axial_transverse    0.6674    4.74    133.35  133.63    0.004    0.9664      0.1      2 
+mckibben_v2_55deg              axial_transverse  0.006888    0.08     18.69   52.34   -0.069    0.0000      0.0    104 blocked_force:floor_noise free_expansion:floor_noise
+mckibben_v2_60deg              axial_transverse    0.1097    1.59     44.28   46.41   -0.015    0.0382      0.1      7 
+mckibben_v2_70deg              axial_transverse    0.2436    4.48     45.67   46.38    0.003    0.2806      0.0      3 
+ossa_axial_extend              polarity                60   81.00     46.37   46.37    0.000    1.0000      0.0      1 
+ossa_differential_bend         none             -    0.00 - -    1.000    0.0000 - - no_force_data
+ossa_vacuum_contract           none             -   25.00 - -    0.000    1.0000      0.0 - no_force_data
+shadow_hand_finger             none             -  123.69 - -    0.997    0.0000    296.6 - no_force_data
+wall_0.0005m                   force_N             0.2334   68.77     43.21   47.29    0.963    0.0033    159.3      4 
+wall_0.0010m                   force_N             0.2424   85.24     44.87   46.23    0.970    0.0006    199.0      3 
+wall_0.0015m                   force_N             0.2065   69.68     45.20   46.29    0.975    0.0003    163.4      4 
+wall_0.0020m                   force_N             0.1834   41.40     45.72   46.51    0.977    0.0005     97.3      4 

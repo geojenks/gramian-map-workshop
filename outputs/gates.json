@@ -1,0 +1,50 @@
+{
+ "V0": {
+  "text": {
+   "stability_core.py": true,
+   "capability_core.py": true
+  },
+  "behaviour": {
+   "sets": 200,
+   "mismatches": 0
+  },
+  "pass": true
+ },
+ "V1": {
+  "sets": 200,
+  "agree": 200,
+  "pass": true
+ },
+ "V2": {
+  "worst": {
+   "orth": 1.1102230246251565e-15,
+   "det": 8.881784197001252e-16,
+   "aimed_b": 2.220446049250313e-16,
+   "palm_x": 0.0
+  },
+  "bar": 1e-12,
+  "pass": true
+ },
+ "V3": {
+  "worst_rel": 9.567270239071744e-16,
+  "bar": 1e-09,
+  "pass": true
+ },
+ "V4": {
+  "phase0_rad": 0.37,
+  "verdicts": 712,
+  "changed": 0,
+  "first_changed": [],
+  "pass": true
+ },
+ "V5": {
+  "records": 22,
+  "sha_mismatch": [],
+  "export_identical": {
+   "cup_hold": true,
+   "cup_turn": true
+  },
+  "pass": true
+ },
+ "all_pass": true
+}

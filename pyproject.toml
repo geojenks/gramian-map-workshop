@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gramian-map-workshop"
+version = "0.1.0"
+description = "Pair soft-actuator records with manipulation tasks: can N copies of your actuator hold, and turn, a ball in a cup?"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.21"]
+
+[tool.setuptools]
+packages = ["gramian_workshop", "gramian_workshop.vendor"]

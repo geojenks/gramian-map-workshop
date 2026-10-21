@@ -1,0 +1,135 @@
+Demo 2 - cup_turn (W20 step 6; registration sections 4, 5)
+SIMULATION AND RECORDS ONLY: comparative, not predictive. A kinematic make/break schedule read for capability; nothing is stepped.
+
+duties: [0.82, 0.5] (first from the banked ring's --duty); [3, 4] fingers made at N=4, duty 0.82
+
+mount aimed_yaw90, duty 0.82: fraction of ticks held (soft fingers | ideal contacts)
+                                      1      2      3      4      5      6      7      8   az    off  turn/stroke
+ideal contacts                     0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+bellows1                           0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00 -0.024 0.8495      0.6 deg
+bellows_seg3                       0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00 -0.043 0.7687      0.3 deg
+bellows_seg5                       0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00 -0.013 0.9656      0.1 deg
+bellows_seg7                       0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.128 0.0000      2.1 deg
+bellows_seg9                       0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.114 0.0000      3.0 deg
+bellows_tendon1                    0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.043 0.6545      1.1 deg
+cable_finger                       0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.988 0.0000     24.9 deg
+example_rigid_pneumatic_cylinder   0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.000 1.0000      0.0 deg
+mckibben_v2_20deg                  0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.085 0.2070      0.3 deg
+mckibben_v2_30deg                  0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.150 0.0000      1.2 deg
+mckibben_v2_40deg                  0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.004 0.9664      0.0 deg
+mckibben_v2_55deg                  0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00 -0.069 0.0000      0.0 deg [blocked_force:floor_noise free_expansion:floor_noise]
+mckibben_v2_60deg                  0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00 -0.015 0.0382      0.1 deg
+mckibben_v2_70deg                  0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.003 0.2806      0.0 deg
+ossa_axial_extend                  0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.000 1.0000      0.0 deg
+ossa_differential_bend             0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  1.000 0.0000 [no_force_data]
+ossa_vacuum_contract               0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg [no_force_data]
+shadow_hand_finger                 0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.997 0.0000    296.6 deg [no_force_data]
+wall_0.0005m                       0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.963 0.0033    159.3 deg
+wall_0.0010m                       0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.970 0.0006    199.0 deg
+wall_0.0015m                       0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.975 0.0003    163.4 deg
+wall_0.0020m                       0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00  0.977 0.0005     97.3 deg
+
+mount aimed_yaw90, duty 0.5: fraction of ticks held (soft fingers | ideal contacts)
+                                      1      2      3      4      5      6      7      8   az    off  turn/stroke
+ideal contacts                     0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+bellows1                           0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.024 0.8495      0.6 deg
+bellows_seg3                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.043 0.7687      0.3 deg
+bellows_seg5                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.013 0.9656      0.1 deg
+bellows_seg7                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.128 0.0000      2.1 deg
+bellows_seg9                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.114 0.0000      3.0 deg
+bellows_tendon1                    0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.043 0.6545      1.1 deg
+cable_finger                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.988 0.0000     24.9 deg
+example_rigid_pneumatic_cylinder   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg
+mckibben_v2_20deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.085 0.2070      0.3 deg
+mckibben_v2_30deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.150 0.0000      1.2 deg
+mckibben_v2_40deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.004 0.9664      0.0 deg
+mckibben_v2_55deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.069 0.0000      0.0 deg [blocked_force:floor_noise free_expansion:floor_noise]
+mckibben_v2_60deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.015 0.0382      0.1 deg
+mckibben_v2_70deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.003 0.2806      0.0 deg
+ossa_axial_extend                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg
+ossa_differential_bend             0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  1.000 0.0000 [no_force_data]
+ossa_vacuum_contract               0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg [no_force_data]
+shadow_hand_finger                 0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.997 0.0000    296.6 deg [no_force_data]
+wall_0.0005m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.963 0.0033    159.3 deg
+wall_0.0010m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.970 0.0006    199.0 deg
+wall_0.0015m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.975 0.0003    163.4 deg
+wall_0.0020m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.977 0.0005     97.3 deg
+
+mount palm_yaw90, duty 0.82: fraction of ticks held (soft fingers | ideal contacts)
+                                      1      2      3      4      5      6      7      8   az    off  turn/stroke
+ideal contacts                     0.00   0.64   0.47   1.00   1.00   1.00   1.00   1.00
+bellows1                           0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.024 0.9994      0.5 deg
+bellows_seg3                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.041 0.9986      0.2 deg
+bellows_seg5                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.013 0.9999      0.1 deg
+bellows_seg7                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.129 0.9843      2.1 deg
+bellows_seg9                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.115 0.9875      3.0 deg
+bellows_tendon1                    0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.043 0.9981      1.1 deg
+cable_finger                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.988 0.1134     24.9 deg
+example_rigid_pneumatic_cylinder   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg
+mckibben_v2_20deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.080 0.9941      0.3 deg
+mckibben_v2_30deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.151 0.9784      1.3 deg
+mckibben_v2_40deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.009 0.9999      0.1 deg
+mckibben_v2_55deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.402 0.8550      0.1 deg [blocked_force:floor_noise free_expansion:floor_noise]
+mckibben_v2_60deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.022 0.9995      0.1 deg
+mckibben_v2_70deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.016 0.9998      0.2 deg
+ossa_axial_extend                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg
+ossa_differential_bend             0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  1.000 0.0000 [no_force_data]
+ossa_vacuum_contract               0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg [no_force_data]
+shadow_hand_finger                 0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.997 0.0589    296.6 deg [no_force_data]
+wall_0.0005m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.976 0.1582    161.5 deg
+wall_0.0010m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.976 0.1588    200.2 deg
+wall_0.0015m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.979 0.1479    164.2 deg
+wall_0.0020m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.979 0.1482     97.5 deg
+
+mount palm_yaw90, duty 0.5: fraction of ticks held (soft fingers | ideal contacts)
+                                      1      2      3      4      5      6      7      8   az    off  turn/stroke
+ideal contacts                     0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00
+bellows1                           0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.024 0.9994      0.5 deg
+bellows_seg3                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.041 0.9986      0.2 deg
+bellows_seg5                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00 -0.013 0.9999      0.1 deg
+bellows_seg7                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.129 0.9843      2.1 deg
+bellows_seg9                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.115 0.9875      3.0 deg
+bellows_tendon1                    0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.043 0.9981      1.1 deg
+cable_finger                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.988 0.1134     24.9 deg
+example_rigid_pneumatic_cylinder   0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg
+mckibben_v2_20deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.080 0.9941      0.3 deg
+mckibben_v2_30deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.151 0.9784      1.3 deg
+mckibben_v2_40deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.009 0.9999      0.1 deg
+mckibben_v2_55deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.402 0.8550      0.1 deg [blocked_force:floor_noise free_expansion:floor_noise]
+mckibben_v2_60deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.022 0.9995      0.1 deg
+mckibben_v2_70deg                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.016 0.9998      0.2 deg
+ossa_axial_extend                  0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg
+ossa_differential_bend             0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  1.000 0.0000 [no_force_data]
+ossa_vacuum_contract               0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.000 1.0000      0.0 deg [no_force_data]
+shadow_hand_finger                 0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.997 0.0589    296.6 deg [no_force_data]
+wall_0.0005m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.976 0.1582    161.5 deg
+wall_0.0010m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.976 0.1588    200.2 deg
+wall_0.0015m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.979 0.1479    164.2 deg
+wall_0.0020m                       0.00   0.00   0.00   0.00   0.00   0.00   0.00   0.00  0.979 0.1482     97.5 deg
+
+input count with the made fingers sticking, aimed yaw 90, duty 0.82:
+  bellows1: [0, 1]
+  bellows_seg3: [0, 1]
+  bellows_seg5: [0, 1]
+  bellows_seg7: [0, 1]
+  bellows_seg9: [0, 1]
+  bellows_tendon1: [0, 1]
+  cable_finger: [0, 1]
+  example_rigid_pneumatic_cylinder: [0, 1]
+  mckibben_v2_20deg: [0, 1]
+  mckibben_v2_30deg: [0, 1]
+  mckibben_v2_40deg: [0, 1]
+  mckibben_v2_60deg: [0, 1]
+  mckibben_v2_70deg: [0, 1]
+  ossa_axial_extend: [0, 1]
+  wall_0.0005m: [0, 1]
+  wall_0.0010m: [0, 1]
+  wall_0.0015m: [0, 1]
+  wall_0.0020m: [0, 1]
+
+turners at aimed yaw 90 (azimuthal share > 0.9, off-axis < 0.01): ['cable_finger', 'wall_0.0005m', 'wall_0.0010m', 'wall_0.0015m', 'wall_0.0020m']
+
+predictions (registration section 10):
+  P5: HIT  {'soft': [], 'ideal': []}
+  P6: MISS  {'soft_held_all': [], 'ideal_held_all': {1: False, 2: False, 3: False, 4: False, 5: False, 6: False, 7: False, 8: False}}
+  P7: HIT  {'turners': ['cable_finger', 'wall_0.0005m', 'wall_0.0010m', 'wall_0.0015m', 'wall_0.0020m'], 'expected': ['cable_finger', 'wall_0.0005m', 'wall_0.0010m', 'wall_0.0015m', 'wall_0.0020m']}

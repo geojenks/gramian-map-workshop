@@ -1,0 +1,191 @@
+{
+ "source": "geojenks/Gramain_extraction gramian_map/records",
+ "source_head": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+ "sim_status": {
+  "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+  "path": "gramian_map/sim_status.json",
+  "sha256": "dec0c087e349d0dfb3d93f25c72c41386c2afb799fd5bf5ec600165e0388e8fe",
+  "dirty": false
+ },
+ "records": {
+  "bellows1": {
+   "file": "bellows1.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/bellows1.json",
+   "sha256": "ce39c08be7ca26dd532dc00fa14f23c0632761d8613e4175cc8555aec3ab63fd",
+   "dirty": false,
+   "quality": {}
+  },
+  "bellows_seg3": {
+   "file": "bellows_seg3.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/bellows_seg3.json",
+   "sha256": "cd7a01be55e0bb03dd09c50a6ef3b1fecf3d26c8ae375b469d7f7798f23b2b10",
+   "dirty": false,
+   "quality": {}
+  },
+  "bellows_seg5": {
+   "file": "bellows_seg5.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/bellows_seg5.json",
+   "sha256": "55dde4a739cd3c0fad74b0d2ae9ed300f192c663ce6dfa6511b939d3710ce586",
+   "dirty": false,
+   "quality": {}
+  },
+  "bellows_seg7": {
+   "file": "bellows_seg7.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/bellows_seg7.json",
+   "sha256": "894290e78ab151d327aec7802a17f5ea0e5bf7ef2bbf7fe75b1614993e40a31e",
+   "dirty": false,
+   "quality": {}
+  },
+  "bellows_seg9": {
+   "file": "bellows_seg9.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/bellows_seg9.json",
+   "sha256": "5fa8c7216f30c5f1599bce58d5f57081abaf7601f6c5fa0aaccc7e97cbaf23d7",
+   "dirty": false,
+   "quality": {}
+  },
+  "bellows_tendon1": {
+   "file": "bellows_tendon1.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/bellows_tendon1.json",
+   "sha256": "8957c82402f0b7b9554539390f21998dca18c49eee4ff0776c3f2e54151f6002",
+   "dirty": false,
+   "quality": {}
+  },
+  "cable_finger": {
+   "file": "cable_finger.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/cable_finger.json",
+   "sha256": "cd810c8b6d9ea16239acd77a37de6eef026abb89daaddde57b17cae4e7c67702",
+   "dirty": false,
+   "quality": {}
+  },
+  "example_rigid_pneumatic_cylinder": {
+   "file": "example_rigid_pneumatic_cylinder.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/example_rigid_pneumatic_cylinder.json",
+   "sha256": "debe1adb9d609afe2b6d1c7f4644021b2262e93c7430ef92b9907e0f73e557a0",
+   "dirty": false,
+   "quality": {}
+  },
+  "mckibben_v2_20deg": {
+   "file": "mckibben_v2_20deg.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/mckibben_v2_20deg.json",
+   "sha256": "7046693285e4bca1a1c5d7a2aa37fba6b71f252aa3c519ce6cc0ebb114916786",
+   "dirty": false,
+   "quality": {}
+  },
+  "mckibben_v2_30deg": {
+   "file": "mckibben_v2_30deg.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/mckibben_v2_30deg.json",
+   "sha256": "66641b0b4bd48fe82fa7c52e05ed30fe9c49f1ed4a421c6d1f465fe53569c191",
+   "dirty": false,
+   "quality": {}
+  },
+  "mckibben_v2_40deg": {
+   "file": "mckibben_v2_40deg.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/mckibben_v2_40deg.json",
+   "sha256": "444ed6e8c5ac3aaf982f8c1a1d091fd217adbb403c9ef5f15d0e588d2c269784",
+   "dirty": false,
+   "quality": {}
+  },
+  "mckibben_v2_55deg": {
+   "file": "mckibben_v2_55deg.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/mckibben_v2_55deg.json",
+   "sha256": "2369a85cde01f9a80c59e3d40f1db4ea7e159080e605d779cf1ca1f06d04696f",
+   "dirty": false,
+   "quality": {
+    "free_expansion": "floor_noise",
+    "blocked_force": "floor_noise"
+   }
+  },
+  "mckibben_v2_60deg": {
+   "file": "mckibben_v2_60deg.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/mckibben_v2_60deg.json",
+   "sha256": "4a7ac1ed01502980f1662b158cce0f65c2ff1f7b6b9b31fce21c4ba27278b686",
+   "dirty": false,
+   "quality": {}
+  },
+  "mckibben_v2_70deg": {
+   "file": "mckibben_v2_70deg.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/mckibben_v2_70deg.json",
+   "sha256": "2bc4767d6ba260bbb00d173a966f20766ffff633121637d2fd64bfd5cfa932e3",
+   "dirty": false,
+   "quality": {}
+  },
+  "ossa_axial_extend": {
+   "file": "ossa_axial_extend.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/ossa_axial_extend.json",
+   "sha256": "254e5d7225aca3865e4249f807b3ca611d90bdf87c52d76c98aaad830dd43fd9",
+   "dirty": false,
+   "quality": {}
+  },
+  "ossa_differential_bend": {
+   "file": "ossa_differential_bend.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/ossa_differential_bend.json",
+   "sha256": "f4601f920a3e1b0ca4cc5f924eb266cdf713c6a6e5c1516cef3dba7fa88e1941",
+   "dirty": false,
+   "quality": {}
+  },
+  "ossa_vacuum_contract": {
+   "file": "ossa_vacuum_contract.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/ossa_vacuum_contract.json",
+   "sha256": "efe7f248bbda72e744dd0024fa6d379e28902d33171f3cc57a93b0a572a1cce6",
+   "dirty": false,
+   "quality": {}
+  },
+  "shadow_hand_finger": {
+   "file": "shadow_hand_finger.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/shadow_hand_finger.json",
+   "sha256": "736584481e25d05067ed7d9b8dea509fd126bab61df2a626c4dc164aa90f906c",
+   "dirty": false,
+   "quality": {}
+  },
+  "wall_0.0005m": {
+   "file": "wall_0.0005m.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/wall_0.0005m.json",
+   "sha256": "c67806d9bfc04f2db16dc6e8b8da4d2bbab253ad23f4e7c60e32d3b5744e66cb",
+   "dirty": false,
+   "quality": {}
+  },
+  "wall_0.0010m": {
+   "file": "wall_0.0010m.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/wall_0.0010m.json",
+   "sha256": "6ae4b34ee32e9571c10d8deaa8936dc743f7f48d8b2960f0e5d6aae733d7879f",
+   "dirty": false,
+   "quality": {}
+  },
+  "wall_0.0015m": {
+   "file": "wall_0.0015m.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/wall_0.0015m.json",
+   "sha256": "597f8d117964734b0814ee29f94b5c42610632fe92078b96ec92f0a36d2bcb76",
+   "dirty": false,
+   "quality": {}
+  },
+  "wall_0.0020m": {
+   "file": "wall_0.0020m.json",
+   "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+   "path": "gramian_map/records/wall_0.0020m.json",
+   "sha256": "ef88e4c9727a7cb114eac135c38dd5b0ee996651b6815e91e73828b147b37890",
+   "dirty": false,
+   "quality": {}
+  }
+ }
+}

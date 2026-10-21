@@ -1,0 +1,118 @@
+Demo 1 - cup_hold (W20 step 6 readout; registration section 5)
+SIMULATION AND RECORDS ONLY: comparative, not predictive. Forces are uncalibrated; strength is shown, never scored.
+
+task: ball R 0.0329 m, mass 0.05 kg, mu 1.0, ring altitude -43.628 deg
+letters: ✓ met, s strength, e cone_edge, f friction, d direction, – no_contact
+
+ideal contacts (any hand at these points)
+                                  1  2  3  4  5  6  7  8
+ideal                             d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+
+mount aimed_yaw0
+                                  1  2  3  4  5  6  7  8
+bellows1                          d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg3                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg5                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg7                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg9                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_tendon1                   d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+cable_finger                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+example_rigid_pneumatic_cylinder  d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_20deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_30deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_40deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_55deg                 d  s  s  s  s  s  s  s [blocked_force:floor_noise free_expansion:floor_noise]
+mckibben_v2_60deg                 d  s  s  s  s  s  ✓  ✓
+mckibben_v2_70deg                 d  s  ✓  ✓  ✓  ✓  ✓  ✓
+ossa_axial_extend                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+ossa_differential_bend            –  –  –  –  –  –  –  – [no_force_data]
+ossa_vacuum_contract              –  –  –  –  –  –  –  – [no_force_data]
+shadow_hand_finger                –  –  –  –  –  –  –  – [no_force_data]
+wall_0.0005m                      d  s  s  ✓  ✓  ✓  ✓  ✓
+wall_0.0010m                      d  s  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0015m                      d  s  s  ✓  ✓  ✓  ✓  ✓
+wall_0.0020m                      d  s  s  ✓  ✓  ✓  ✓  ✓
+
+mount aimed_yaw90
+                                  1  2  3  4  5  6  7  8
+bellows1                          d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg3                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg5                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg7                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_seg9                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+bellows_tendon1                   d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+cable_finger                      d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+example_rigid_pneumatic_cylinder  d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_20deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_30deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_40deg                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+mckibben_v2_55deg                 d  s  s  s  s  s  s  s [blocked_force:floor_noise free_expansion:floor_noise]
+mckibben_v2_60deg                 d  s  s  s  s  s  ✓  ✓
+mckibben_v2_70deg                 d  s  ✓  ✓  ✓  ✓  ✓  ✓
+ossa_axial_extend                 d  ✓  ✓  ✓  ✓  ✓  ✓  ✓
+ossa_differential_bend            –  –  –  –  –  –  –  – [no_force_data]
+ossa_vacuum_contract              –  –  –  –  –  –  –  – [no_force_data]
+shadow_hand_finger                –  –  –  –  –  –  –  – [no_force_data]
+wall_0.0005m                      d  s  s  ✓  ✓  ✓  ✓  ✓
+wall_0.0010m                      d  s  ✓  ✓  ✓  ✓  ✓  ✓
+wall_0.0015m                      d  s  s  ✓  ✓  ✓  ✓  ✓
+wall_0.0020m                      d  s  s  ✓  ✓  ✓  ✓  ✓
+
+mount palm_yaw0
+                                  1  2  3  4  5  6  7  8
+bellows1                          d  e  e  e  e  e  e  e
+bellows_seg3                      d  e  e  e  e  e  e  e
+bellows_seg5                      d  e  e  e  e  e  e  e
+bellows_seg7                      d  e  e  e  e  e  e  e
+bellows_seg9                      d  e  e  e  e  e  e  e
+bellows_tendon1                   d  e  e  e  e  e  e  e
+cable_finger                      d  d  d  d  d  d  d  d
+example_rigid_pneumatic_cylinder  d  e  e  e  e  e  e  e
+mckibben_v2_20deg                 d  f  f  f  f  f  f  f
+mckibben_v2_30deg                 d  f  f  f  f  f  f  f
+mckibben_v2_40deg                 d  f  f  f  f  f  f  f
+mckibben_v2_55deg                 d  s  s  s  s  s  s  s [blocked_force:floor_noise free_expansion:floor_noise]
+mckibben_v2_60deg                 d  s  s  s  ✓  ✓  ✓  ✓
+mckibben_v2_70deg                 d  e  e  e  e  e  e  e
+ossa_axial_extend                 d  e  e  e  e  e  e  e
+ossa_differential_bend            –  –  –  –  –  –  –  – [no_force_data]
+ossa_vacuum_contract              –  –  –  –  –  –  –  – [no_force_data]
+shadow_hand_finger                –  –  –  –  –  –  –  – [no_force_data]
+wall_0.0005m                      d  d  d  d  d  d  d  d
+wall_0.0010m                      d  d  d  d  d  d  d  d
+wall_0.0015m                      d  d  d  d  d  d  d  d
+wall_0.0020m                      d  d  d  d  d  d  d  d
+
+mount palm_yaw90
+                                  1  2  3  4  5  6  7  8
+bellows1                          d  d  d  d  d  d  d  d
+bellows_seg3                      d  d  d  d  d  d  d  d
+bellows_seg5                      d  d  d  d  d  d  d  d
+bellows_seg7                      d  d  d  d  d  d  d  d
+bellows_seg9                      d  d  d  d  d  d  d  d
+bellows_tendon1                   d  d  d  d  d  d  d  d
+cable_finger                      d  d  d  d  d  d  d  d
+example_rigid_pneumatic_cylinder  d  e  e  e  e  e  e  e
+mckibben_v2_20deg                 d  d  d  d  d  d  d  d
+mckibben_v2_30deg                 d  d  d  d  d  d  d  d
+mckibben_v2_40deg                 d  d  d  d  d  d  d  d
+mckibben_v2_55deg                 d  d  d  d  d  d  d  d [blocked_force:floor_noise free_expansion:floor_noise]
+mckibben_v2_60deg                 d  d  d  d  d  d  d  d
+mckibben_v2_70deg                 d  d  d  d  d  d  d  d
+ossa_axial_extend                 d  e  e  e  e  e  e  e
+ossa_differential_bend            –  –  –  –  –  –  –  – [no_force_data]
+ossa_vacuum_contract              –  –  –  –  –  –  –  – [no_force_data]
+shadow_hand_finger                –  –  –  –  –  –  –  – [no_force_data]
+wall_0.0005m                      d  d  d  d  d  d  d  d
+wall_0.0010m                      d  d  d  d  d  d  d  d
+wall_0.0015m                      d  d  d  d  d  d  d  d
+wall_0.0020m                      d  d  d  d  d  d  d  d
+
+smallest N met with comparative strength (aimed, yaw 0):
+  bellows1 2, bellows_seg3 2, bellows_seg5 2, bellows_seg7 2, bellows_seg9 2, bellows_tendon1 2, cable_finger 2, example_rigid_pneumatic_cylinder 2, mckibben_v2_20deg 2, mckibben_v2_30deg 2, mckibben_v2_40deg 2, mckibben_v2_60deg 7, mckibben_v2_70deg 3, ossa_axial_extend 2, wall_0.0005m 4, wall_0.0010m 3, wall_0.0015m 4, wall_0.0020m 4
+
+predictions (registration section 10):
+  P1: HIT
+  P2: HIT
+  P3: HIT
+  P4: MISS  [('bellows_seg7', 'palm_yaw90', 2, 2), ('bellows_seg7', 'palm_yaw90', 3, 1), ('bellows_seg7', 'palm_yaw90', 4, 1), ('bellows_seg7', 'palm_yaw90', 5, 1), ('bellows_seg7', 'palm_yaw90', 6, 1), ('bellows_seg7', 'palm_yaw90', 7, 1), ('bellows_seg7', 'palm_yaw90', 8, 1), ('bellows_seg9', 'palm_yaw90', 2, 2), ('bellows_seg9', 'palm_yaw90', 3, 1), ('bellows_seg9', 'palm_yaw90', 4, 1), ('bellows_seg9', 'palm_yaw90', 5, 1), ('bellows_seg9', 'palm_yaw90', 6, 1)]

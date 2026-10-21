@@ -1,0 +1,88 @@
+{
+ "id": "cup_turn",
+ "name": "Turn a ball in a cup (make/break wave)",
+ "demand": {
+  "kind": "static_weight",
+  "twist": {
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  }
+ },
+ "wave": {
+  "duty": 0.82,
+  "source": {
+   "commit": "217746b6812c9bd14409a7bb6dfea1ec3eeabf01",
+   "path": "w20_logs/w20s4_cup_runs.json",
+   "sha256": "abab470baaff14f35104af2c6bdcd9aab72e37c9471ade11a3ebecf0d9268eea",
+   "dirty": false,
+   "key": "runs/3/command",
+   "flag": "--duty"
+  },
+  "duty_sensitivity": [
+   0.5
+  ]
+ },
+ "object": {
+  "shape": "sphere",
+  "radius_m": 0.0329,
+  "mass_kg": 0.05
+ },
+ "mu": 1.0,
+ "gravity_m_s2": 9.81,
+ "torque_scale_L_m": 0.0329,
+ "contact_ring": {
+  "altitude_deg": -43.627802576553236,
+  "note": "fingertips in one stationary ring below the centre (George, 6 Oct)"
+ },
+ "source": {
+  "registration": "experiment_log/2026-10-04_hand_capability_readout_design.md section 15",
+  "keys": {
+   "mass_kg": {
+    "commit": "217746b6812c9bd14409a7bb6dfea1ec3eeabf01",
+    "path": "w20_logs/w20s4_cup_runs.json",
+    "sha256": "abab470baaff14f35104af2c6bdcd9aab72e37c9471ade11a3ebecf0d9268eea",
+    "dirty": false,
+    "key": "gates/G0/ball_run4/obj_mass_kg"
+   },
+   "radius_m": {
+    "commit": "217746b6812c9bd14409a7bb6dfea1ec3eeabf01",
+    "path": "w20_logs/w20s4_cup_runs.json",
+    "sha256": "abab470baaff14f35104af2c6bdcd9aab72e37c9471ade11a3ebecf0d9268eea",
+    "dirty": false,
+    "key": "gates/G0/ball_run4/radius_m"
+   },
+   "contact_altitude_deg": {
+    "commit": "217746b6812c9bd14409a7bb6dfea1ec3eeabf01",
+    "path": "w20_logs/w20s4_cup_runs.json",
+    "sha256": "abab470baaff14f35104af2c6bdcd9aab72e37c9471ade11a3ebecf0d9268eea",
+    "dirty": false,
+    "key": "cup/ball/pad_rows_contact_point_altitude_deg/median"
+   },
+   "mu": {
+    "commit": "217746b6812c9bd14409a7bb6dfea1ec3eeabf01",
+    "path": "w20_logs/w20s4_cup_readout.json",
+    "sha256": "deba00eed50772e54f9cc2044481368afc7b1e3052191b8c73eb00e1434dec5a",
+    "dirty": false,
+    "key": "contacts/ball/mu"
+   },
+   "gravity_m_s2": {
+    "commit": "217746b6812c9bd14409a7bb6dfea1ec3eeabf01",
+    "path": "w20_logs/w20s1_gates.json",
+    "sha256": "e098e253b27a6f48554e6bcabe25c815298ebc6f6bc723319224664cf4fdc9bc",
+    "dirty": false,
+    "key": "G0/per_run/ring/gravity"
+   },
+   "L_m": {
+    "commit": "217746b6812c9bd14409a7bb6dfea1ec3eeabf01",
+    "path": "w20_logs/w20s4_cup_readout.json",
+    "sha256": "deba00eed50772e54f9cc2044481368afc7b1e3052191b8c73eb00e1434dec5a",
+    "dirty": false,
+    "key": "L_m"
+   }
+  }
+ },
+ "caveat": "SIMULATION ONLY -- comparative, not predictive"
+}

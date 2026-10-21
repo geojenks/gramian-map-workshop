@@ -1,0 +1,59 @@
+{
+ "schema_version": "0.1",
+ "id": "shadow_hand_finger",
+ "name": "Shadow Hand finger (rigid, tendon-driven -- kinematic reference)",
+ "source": {
+  "kind": "literature",
+  "detail": "kinematic reference -- forward kinematics from published nominal Shadow Dexterous Hand dimensions (45/25/26 mm phalanges); not FEM",
+  "date": "2026-07-09",
+  "reference": null
+ },
+ "metadata": {
+  "actuation_physics": "cable",
+  "length_m": 0.096,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {
+   "type": "rigid (aluminium/Delrin, nominal)"
+  },
+  "notes": "Rigid articulated finger: 3 revolute joints (MCP 80 deg, PIP 100 deg, DIP 70 deg max flex; J1/J2 tendon-coupled gives ~3 independent DOF). Placed from forward kinematics as a reference point for the soft-actuator map -- the rigid limit a continuum design would converge toward if coarsened. Qualitative force: high (rigid tendon), no numeric value."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "joint flexion (uniform fraction)",
+    "unit": null,
+    "range": [
+     0.0,
+     1.0
+    ],
+    "rated": 1.0
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "fingertip (distal phalanx end)"
+ },
+ "free": null,
+ "blocked": null,
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.123687,
+  "free_direction": [
+   -0.081271,
+   0.996692,
+   0.0
+  ],
+  "polarity_axial": 0,
+  "blocked_force_N": null,
+  "stiffness_N_per_m": null,
+  "effective_dof": 3
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.15
+ }
+}
