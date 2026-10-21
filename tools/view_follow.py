@@ -50,7 +50,18 @@ def card(r):
     fr = r["frames"]
     v = collections.Counter(f["verdict"] for f in fr)
     n = len(fr)
-    why = collections.Counter(f["reason"] for f in fr if f["reason"])
+    # red moments, by their root cause: a finger that cannot get there or
+    # cannot face its pad to the ball, else what the redistribution lacked
+    why = collections.Counter()
+    for f in fr:
+        if f["verdict"] != "red":
+            continue
+        bad = [x for x in f["fingers"] if x.get("reason")]
+        if bad:
+            for x in bad:
+                why[f"{x['finger']}: {REASON.get(x['reason'], x['reason'])}"] += 1
+        elif f["reason"]:
+            why[REASON.get(f["reason"], f["reason"])] += 1
     fingers = [x["finger"] for x in fr[0]["fingers"]]
     states = []
     for f in fr:
@@ -70,7 +81,7 @@ def card(r):
                   f'background:{COL[s]}" title="{s} {v.get(s, 0)}/{n}"></span>'
                   for s in ("green", "amber", "red"))
     summary = ", ".join(f"{s} {v.get(s, 0)}/{n}" for s in ("green", "amber", "red"))
-    reasons = "; ".join(f"{REASON.get(k, k)} ({c})" for k, c in why.most_common()) or "none"
+    reasons = "; ".join(f"{k} ({c} moments)" for k, c in why.most_common()) or "none"
     return (f'<div class="card"><h2>{esc(r["hand_name"])}</h2>'
             f'<div style="width:100%;max-width:760px;border-radius:4px;overflow:hidden;display:flex">{bar}</div>'
             f'<p class="note">{esc(summary)} of the sampled moments. Red because: {esc(reasons)}.<br>'
