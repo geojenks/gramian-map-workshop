@@ -153,9 +153,9 @@ def main():
 
     def icell(i, j):
         r = ideal[NS[j]]
-        fill, letter = report.reason_cell(r["reason"])
+        fill, letter, ink = report.reason_cell(r["reason"])
         return fill, letter, (f"ideal contacts, N={NS[j]}: {r['reason']}"
-                              f"{'; met with normals alone' if r['met_mu0'] else ''}")
+                              f"{'; met with normals alone' if r['met_mu0'] else ''}"), ink
     body.append('<div class="card">' + report.grid_svg(
         ["ideal contacts"], [f"N={n}" for n in NS], icell) + "</div>")
     for style, yaw in MOUNTS:
@@ -165,14 +165,14 @@ def main():
         def cell(i, j, m=m):
             f = fingers[i]
             r = soft[(f.id, m, NS[j])]
-            fill, letter = report.reason_cell(r["reason"])
+            fill, letter, ink = report.reason_cell(r["reason"])
             tip = (f"{f.id}, {m}, N={NS[j]}: {r['reason']}; input count "
                    f"{r['input_count']}")
             if r.get("margin") is not None:
                 tip += f"; comparative scale margin {r['margin']:.3g}"
             if f.flags():
                 tip += "; flags: " + ", ".join(f.flags())
-            return fill, letter, tip
+            return fill, letter, tip, ink
         labels = [f.id + (" ⚑" if f.quality else "") for f in fingers]
         body.append('<div class="card">' + report.grid_svg(
             labels, [f"N={n}" for n in NS], cell) + "</div>")

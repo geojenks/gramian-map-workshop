@@ -134,7 +134,7 @@ def main():
 
     body = ['<p class="note">Each cell is the fraction of the wave cycle on '
             "which the fingers in contact can carry the ball's weight "
-            "(blue, darker = more). 1.00 means held on every tick. Hover for "
+            "(stronger blue = more). 1.00 means held on every tick. Hover for "
             "the drive numbers.</p>"]
     for style, yaw in MOUNTS:
         mk = f"{style}_yaw{int(yaw)}"
@@ -147,9 +147,10 @@ def main():
                 n = NS[j]
                 if i == 0:
                     v = res[(scored[0].id, mk, duty, n)]["ideal_held_frac"]
-                    return (report.seq_fill(v), f"{v:.2f}",
+                    fill, ink = report.seq_fill(v)
+                    return (fill, f"{v:.2f}",
                             f"ideal contacts, N={n}, duty {duty}: held "
-                            f"{v:.2f} of ticks")
+                            f"{v:.2f} of ticks", ink)
                 f = fingers[i - 1]
                 r = res[(f.id, mk, duty, n)]
                 v = r["soft_held_frac"]
@@ -158,7 +159,8 @@ def main():
                        f"off-axis {r['drive_offaxis']:.4f}")
                 if r["turn_per_stroke_deg"] is not None:
                     tip += f"; turn per stroke {r['turn_per_stroke_deg']:.1f} deg"
-                return report.seq_fill(v), f"{v:.2f}", tip
+                fill, ink = report.seq_fill(v)
+                return fill, f"{v:.2f}", tip, ink
             body.append('<div class="card">' + report.grid_svg(
                 rows, [f"N={n}" for n in NS], cell, cw=44) + "</div>")
     body.append(f"<h2>The wave, tick by tick: {EXAMPLE}, aimed yaw 90, "
