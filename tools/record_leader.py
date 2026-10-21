@@ -48,6 +48,12 @@ def main():
     ap.add_argument("--amp", type=float, default=None,
                     help="override each wave's stroke amplitude (wave.amp, "
                          "manifold units; 0.15 is the standard 15 mm)")
+    ap.add_argument("--soft-landing", type=float, default=None,
+                    help="Wave_manip's softLanding fraction for every cup wave "
+                         "(the share of the break given to a velocity-matched "
+                         "touchdown; needs Wave_manip with soft landing)")
+    ap.add_argument("--takeoff", action="store_true",
+                    help="with --soft-landing: smooth the lift-off as well")
     ap.add_argument("--stations", type=int, default=None,
                     help="number of contact stations (scene n_contacts and "
                          "each wave's nWave), e.g. the hand's finger count")
@@ -76,6 +82,11 @@ def main():
         for prim in preset["control"]["primitives"]:
             if "wave" in prim:
                 prim["wave"]["amp"] = a.amp
+    if a.soft_landing is not None:
+        for prim in preset["control"]["primitives"]:
+            if "wave" in prim:
+                prim["wave"]["softLanding"] = {"fraction": a.soft_landing,
+                                               "takeoff": bool(a.takeoff)}
     if a.stations:
         preset.setdefault("scene", {})["n_contacts"] = a.stations
         for prim in preset["control"]["primitives"]:
@@ -83,6 +94,8 @@ def main():
                 prim["wave"]["nWave"] = a.stations
     lid = (a.preset + ("" if a.speed_scale == 1.0 else f"_x{a.speed_scale:g}")
            + ("" if a.amp is None else f"_a{a.amp:g}")
+           + ("" if a.soft_landing is None else
+              f"_sl{a.soft_landing:g}" + ("t" if a.takeoff else ""))
            + ("" if not a.stations else f"_n{a.stations}"))
     buf = io.StringIO()
     with redirect_stdout(buf):
@@ -184,6 +197,9 @@ def main():
                    "speed_scale": a.speed_scale,
                    "stations_override": a.stations,
                    "amp_override": a.amp,
+                   "soft_landing": (None if a.soft_landing is None else
+                                    {"fraction": a.soft_landing,
+                                     "takeoff": bool(a.takeoff)}),
                    "duration_s": a.duration, "settle_dropped_s": a.settle,
                    "every_nth_tick": EVERY,
                    "force_source": meta.get("force_source")},
