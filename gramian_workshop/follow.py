@@ -290,7 +290,10 @@ def placement_search(hand, leader, cands, iks, n_frames=6, n_samples=60, seed=0,
                             continue
                         p, nrm, _ = leader.station(k, i, Rw, t)
                         _, r = ik.best(cands[a][::3], p, nrm, starts=[None])
-                        res.append(r[1] + 0.001 * r[2] / 10.0)
+                        # reach error plus facing, weighted as in the IK
+                        # (FACE_WEIGHT_M metres per radian), so a finger
+                        # touching with its nail is not a good placement
+                        res.append(r[1] + FACE_WEIGHT_M * math.radians(r[2]))
                     C[a, i] = np.mean(res) if res else 1.0
             assign, cost = best_assignment(C)
             scores.append(cost)
