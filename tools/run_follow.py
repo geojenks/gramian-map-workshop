@@ -17,18 +17,20 @@ sys.path.insert(0, ROOT)
 from gramian_workshop.follow import follow  # noqa: E402
 from gramian_workshop.hands import HANDS  # noqa: E402
 
-LEADER = "w10_cup_physical_x0.3_a0.15_sl0.3t_n{n}"
+LEADERS = {"big": "w10_cup_physical_x0.3_a0.15_sl0.3t_n{n}",
+           "tennis": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n{n}"}
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--hands", nargs="*", default=list(HANDS))
+    ap.add_argument("--leader", choices=list(LEADERS), default="tennis")
     ap.add_argument("--frames", type=int, default=40,
                     help="leader frames evaluated, spread over the recording")
     a = ap.parse_args()
     for hk in a.hands:
         n = len(HANDS[hk]["fingers"])
-        lid = LEADER.format(n=n)
+        lid = LEADERS[a.leader].format(n=n)
         with open(os.path.join(ROOT, "data", "leaders", lid + ".json")) as f:
             L = json.load(f)
         t0 = time.time()

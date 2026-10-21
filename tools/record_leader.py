@@ -54,6 +54,13 @@ def main():
                          "touchdown; needs Wave_manip with soft landing)")
     ap.add_argument("--takeoff", action="store_true",
                     help="with --soft-landing: smooth the lift-off as well")
+    ap.add_argument("--ball-radius", type=float, default=None,
+                    help="override the sim's ball radius (m); sim/run_wave_"
+                         "unified.py's module constant, not a bridge option")
+    ap.add_argument("--ball-mass", type=float, default=None,
+                    help="override the sim's ball mass (kg), likewise")
+    ap.add_argument("--station-r", type=float, default=None,
+                    help="scene station_r (m), the station ring's radius")
     ap.add_argument("--stations", type=int, default=None,
                     help="number of contact stations (scene n_contacts and "
                          "each wave's nWave), e.g. the hand's finger count")
@@ -87,6 +94,18 @@ def main():
             if "wave" in prim:
                 prim["wave"]["softLanding"] = {"fraction": a.soft_landing,
                                                "takeoff": bool(a.takeoff)}
+    if a.station_r is not None:
+        preset.setdefault("scene", {})["station_r"] = a.station_r
+    if a.ball_radius is not None or a.ball_mass is not None:
+        # the bridge imports run_wave_unified inside run_session, so the
+        # same module object (from sys.modules) carries these values
+        import sys as _sys
+        _sys.path.insert(0, os.path.join(wm, "sim"))
+        import run_wave_unified as _rwu
+        if a.ball_radius is not None:
+            _rwu.ball_radius = a.ball_radius
+        if a.ball_mass is not None:
+            _rwu.ball_mass = a.ball_mass
     if a.stations:
         preset.setdefault("scene", {})["n_contacts"] = a.stations
         for prim in preset["control"]["primitives"]:
@@ -96,6 +115,7 @@ def main():
            + ("" if a.amp is None else f"_a{a.amp:g}")
            + ("" if a.soft_landing is None else
               f"_sl{a.soft_landing:g}" + ("t" if a.takeoff else ""))
+           + ("" if a.ball_radius is None else f"_R{a.ball_radius * 1e3:g}")
            + ("" if not a.stations else f"_n{a.stations}"))
     buf = io.StringIO()
     with redirect_stdout(buf):
@@ -197,6 +217,9 @@ def main():
                    "speed_scale": a.speed_scale,
                    "stations_override": a.stations,
                    "amp_override": a.amp,
+                   "ball_radius_override_m": a.ball_radius,
+                   "ball_mass_override_kg": a.ball_mass,
+                   "station_r_override_m": a.station_r,
                    "soft_landing": (None if a.soft_landing is None else
                                     {"fraction": a.soft_landing,
                                      "takeoff": bool(a.takeoff)}),
