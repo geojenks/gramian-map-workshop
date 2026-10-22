@@ -166,6 +166,9 @@ class Hand:
             f.joints = [f.joints[i] for i in keep]
             f.dof, f.qadr, f.ranges = f.dof[keep], f.qadr[keep], f.ranges[keep]
         self._coupling()
+        # the pose of everything not being solved for (wrist joints at rest,
+        # unless follow(wrist=True) moves them)
+        self.base_q = np.array(self.model.qpos0)
 
     def _coupling(self):
         """Joint couplings: equality constraints (joint-joint polynomials)."""

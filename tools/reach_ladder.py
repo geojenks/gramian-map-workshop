@@ -28,13 +28,13 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
-from gramian_workshop.follow import follow, reach_bound  # noqa: E402
+from gramian_workshop.follow import PLACE_COARSE, follow, reach_bound  # noqa: E402
 from gramian_workshop.hands import HANDS  # noqa: E402
 
 LEADER = "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n{n}"
 FINE = {"n_frames": 10, "n_samples": 80, "iters": 4, "pad_step": 2}
-STEPS = [("S0", "baseline", {}),
-         ("S1", "+ middle phalanx", {"middle": True}),
+STEPS = [("S0", "baseline", {"middle": False, "place": PLACE_COARSE}),
+         ("S1", "+ middle phalanx", {"middle": True, "place": PLACE_COARSE}),
          ("S2", "+ finer placement search", {"middle": True, "place": FINE}),
          ("S3", "+ 200 IK iterations", {"middle": True, "place": FINE, "ik_iters": 200})]
 

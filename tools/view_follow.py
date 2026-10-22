@@ -101,7 +101,8 @@ def main():
     body = (legend + '<p class="note">Each hand follows a leader with one station per finger: the '
             "slowed w10 cup (contacts 52° below the equator, about 40°/s, soft landing and "
             "takeoff). The leader is placed where the hand reaches it best, each finger takes "
-            "one station, and contact can be anywhere on the palm side of the last phalanx. "
+            "one station, and contact can be anywhere on the palm side of the last or middle "
+            "phalanx. The wrist (Shadow) is held still. "
             "Hover a cell for the details.</p>" + "".join(card(r) for r in rs))
     out = os.path.join(ROOT, "outputs", "follow.html")
     with open(out, "w") as f:
