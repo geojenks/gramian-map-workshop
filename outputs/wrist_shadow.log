@@ -1,0 +1,6 @@
+shadow moving wrist: {'amber': 35, 'green': 2, 'red': 3}; red {'friction': 2, 'direction': 1}; placement 8.6 mm; 3405.1 s
+   middle  reach med   3.2 max  16.5 mm; {'amber': 11, 'facing': 3, 'green': 12, 'reach': 2, 'red': 2}
+   ring    reach med   1.8 max   2.4 mm; {'green': 20, 'amber': 10}
+   little  reach med   0.0 max   5.1 mm; {'amber': 6, 'green': 24}
+   thumb   reach med   5.1 max   6.8 mm; {'amber': 27, 'red': 2}
+   index   reach med   1.2 max   3.6 mm; {'amber': 19, 'green': 11}
