@@ -1,0 +1,12 @@
+l20 reach-only placement: mean reach 2.0 mm; {'thumb': 4, 'index': 3, 'middle': 2, 'ring': 1, 'little': 0}; 4056.1 s
+   thumb   floor med   1.7 p90   5.7 max  12.6 mm
+   index   floor med   0.0 p90   0.0 max   0.4 mm
+   middle  floor med   0.0 p90   0.0 max   0.0 mm
+   ring    floor med   0.0 p90   0.0 max   0.0 mm
+   little  floor med   4.3 p90   9.6 max  10.6 mm
+shadow reach-only placement: mean reach 0.0 mm; {'index': 1, 'middle': 4, 'ring': 3, 'little': 2, 'thumb': 0}; 3173.5 s
+   index   floor med   0.0 p90   0.0 max   0.0 mm
+   middle  floor med   0.0 p90   0.0 max   0.7 mm
+   ring    floor med   0.0 p90   0.0 max   0.0 mm
+   little  floor med   0.0 p90   0.0 max   0.0 mm
+   thumb   floor med   0.0 p90   0.0 max   0.0 mm
