@@ -1,0 +1,76 @@
+allegro S0 baseline: {'green': 27, 'amber': 1, 'red': 12} red {'direction': 12}; placement 6.1 mm; 257.3 s
+   index   reach med   1.1 max   8.5 mm, facing med    8 deg, middle 0%, floor med   0.0 max   0.0 mm; {'facing': 4, 'red': 6, 'green': 19, 'amber': 1}
+   middle  reach med   0.6 max   2.0 mm, facing med    6 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 31}
+   ring    reach med   1.7 max   2.0 mm, facing med   24 deg, middle 0%, floor med   0.0 max   0.0 mm; {'facing': 12, 'green': 18}
+   thumb   reach med   0.9 max   1.5 mm, facing med   12 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 29}
+leap S0 baseline: {'green': 31, 'amber': 9, 'red': 0} red {}; placement 3.1 mm; 268.4 s
+   index   reach med   1.1 max   4.5 mm, facing med    2 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 29, 'amber': 1}
+   middle  reach med   1.0 max   2.9 mm, facing med    3 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 23, 'amber': 8}
+   ring    reach med   0.4 max   1.0 mm, facing med    2 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 30}
+   thumb   reach med   0.4 max   0.7 mm, facing med    3 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 29}
+shadow S0 baseline: {'green': 0, 'amber': 31, 'red': 9} red {'friction': 6, 'direction': 3}; placement 9.6 mm; 389.4 s
+   index   reach med   7.4 max   9.8 mm, facing med    2 deg, middle 0%, floor med   3.8 max   7.3 mm; {'amber': 25, 'red': 5}
+   middle  reach med   8.1 max  11.0 mm, facing med   21 deg, middle 0%, floor med   0.0 max   0.9 mm; {'amber': 21, 'red': 7, 'reach': 2}
+   ring    reach med   1.7 max   4.7 mm, facing med   36 deg, middle 0%, floor med   0.0 max   0.0 mm; {'amber': 16, 'green': 4, 'facing': 10}
+   thumb   reach med   1.7 max   2.4 mm, facing med    7 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 24, 'amber': 5}
+   little  reach med   0.0 max   0.3 mm, facing med    0 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 30}
+l20 S0 baseline: {'green': 0, 'amber': 10, 'red': 30} red {'direction': 30}; placement 23.5 mm; 488.7 s
+   thumb   reach med  10.0 max  13.0 mm, facing med   71 deg, middle 0%, floor med   0.0 max   1.7 mm; {'reach': 16, 'facing': 14}
+   index   reach med  21.2 max  27.7 mm, facing med   46 deg, middle 0%, floor med  22.3 max  29.1 mm; {'reach': 30}
+   middle  reach med   2.4 max  10.0 mm, facing med   14 deg, middle 0%, floor med   0.1 max   5.5 mm; {'amber': 4, 'red': 14, 'green': 11}
+   little  reach med  13.8 max  22.0 mm, facing med   49 deg, middle 0%, floor med  13.8 max  22.0 mm; {'amber': 3, 'reach': 27}
+   ring    reach med   0.4 max   4.7 mm, facing med    9 deg, middle 0%, floor med   0.0 max   4.7 mm; {'green': 28, 'red': 2}
+allegro S1 + middle phalanx: {'green': 13, 'amber': 22, 'red': 5} red {'direction': 5}; placement 3.3 mm; 405.2 s
+   index   reach med   2.3 max  12.6 mm, facing med    8 deg, middle 0%, floor med   2.3 max  13.9 mm; {'green': 14, 'amber': 16, 'reach': 1}
+   middle  reach med   0.2 max   3.4 mm, facing med    2 deg, middle 100%, floor med   0.0 max   0.0 mm; {'green': 29, 'amber': 1}
+   ring    reach med   0.9 max   3.5 mm, facing med    3 deg, middle 13%, floor med   0.0 max   0.0 mm; {'green': 20, 'facing': 5, 'amber': 5}
+   thumb   reach med   0.6 max   0.9 mm, facing med    6 deg, middle 76%, floor med   0.0 max   0.0 mm; {'green': 29}
+leap S1 + middle phalanx: {'green': 39, 'amber': 1, 'red': 0} red {}; placement 4.3 mm; 398.7 s
+   index   reach med   0.2 max   2.6 mm, facing med    1 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 29, 'amber': 1}
+   middle  reach med   0.5 max   1.8 mm, facing med    2 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 31}
+   ring    reach med   1.1 max   1.3 mm, facing med    5 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 30}
+   thumb   reach med   0.6 max   0.8 mm, facing med    7 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 29}
+shadow S1 + middle phalanx: {'green': 0, 'amber': 27, 'red': 13} red {'friction': 10, 'direction': 3}; placement 11.0 mm; 575.8 s
+   index   reach med   2.6 max   4.6 mm, facing med   22 deg, middle 0%, floor med   0.0 max   0.0 mm; {'amber': 18, 'red': 11, 'green': 1}
+   middle  reach med   1.3 max   5.9 mm, facing med   14 deg, middle 93%, floor med   0.0 max   8.2 mm; {'green': 25, 'amber': 3, 'red': 2}
+   ring    reach med   2.3 max   6.1 mm, facing med   81 deg, middle 0%, floor med   0.7 max   5.8 mm; {'facing': 26, 'amber': 3}
+   little  reach med   0.4 max   1.6 mm, facing med    2 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 30}
+   thumb   reach med   2.0 max   3.8 mm, facing med   11 deg, middle 0%, floor med   0.0 max   0.1 mm; {'amber': 7, 'red': 8, 'green': 15}
+l20 S1 + middle phalanx: {'green': 0, 'amber': 14, 'red': 26} red {'direction': 23, 'friction': 3}; placement 21.1 mm; 739.4 s
+   index   reach med  25.4 max  28.9 mm, facing med   75 deg, middle 0%, floor med  24.4 max  33.3 mm; {'reach': 29}
+   middle  reach med   3.1 max   4.8 mm, facing med   41 deg, middle 100%, floor med   0.0 max   2.2 mm; {'red': 16, 'amber': 14}
+   ring    reach med   0.9 max   3.7 mm, facing med    5 deg, middle 0%, floor med   0.0 max   3.1 mm; {'green': 26, 'red': 4}
+   little  reach med   8.8 max  10.6 mm, facing med   18 deg, middle 0%, floor med   6.5 max   7.6 mm; {'facing': 13, 'reach': 12, 'amber': 3, 'red': 2}
+   thumb   reach med   2.5 max   6.4 mm, facing med   33 deg, middle 0%, floor med   0.0 max   4.7 mm; {'red': 15, 'amber': 12, 'green': 3}
+allegro S2 + finer placement search: {'green': 26, 'amber': 14, 'red': 0} red {}; placement 2.6 mm; 1376.7 s
+   index   reach med   0.3 max   0.9 mm, facing med    2 deg, middle 100%, floor med   0.0 max   0.0 mm; {'green': 31}
+   middle  reach med   1.8 max   2.4 mm, facing med   14 deg, middle 37%, floor med   0.0 max   0.0 mm; {'green': 16, 'amber': 14}
+   thumb   reach med   0.2 max   0.5 mm, facing med    2 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 30}
+   ring    reach med   0.6 max   1.7 mm, facing med    4 deg, middle 100%, floor med   0.0 max   0.0 mm; {'green': 29}
+leap S2 + finer placement search: {'green': 33, 'amber': 7, 'red': 0} red {}; placement 3.1 mm; 1386.8 s
+   middle  reach med   0.5 max   2.3 mm, facing med    3 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 30, 'amber': 1}
+   ring    reach med   0.6 max   3.2 mm, facing med    2 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 29, 'amber': 1}
+   thumb   reach med   1.1 max   2.4 mm, facing med   11 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 26, 'amber': 4}
+   index   reach med   0.9 max   2.4 mm, facing med    5 deg, middle 0%, floor med   0.0 max   3.4 mm; {'green': 28, 'amber': 1}
+shadow S2 + finer placement search: {'green': 3, 'amber': 33, 'red': 4} red {'friction': 2, 'direction': 2}; placement 8.6 mm; 2322.7 s
+   middle  reach med   3.0 max   5.4 mm, facing med   11 deg, middle 27%, floor med   3.3 max   4.8 mm; {'facing': 4, 'amber': 18, 'green': 8}
+   ring    reach med   0.6 max   2.5 mm, facing med    3 deg, middle 0%, floor med   0.0 max   0.0 mm; {'red': 4, 'green': 22, 'amber': 4}
+   little  reach med   0.0 max   4.7 mm, facing med    0 deg, middle 0%, floor med   0.0 max   0.0 mm; {'red': 2, 'green': 25, 'amber': 3}
+   thumb   reach med   5.0 max   9.5 mm, facing med   11 deg, middle 0%, floor med   0.7 max   8.7 mm; {'red': 4, 'amber': 25}
+   index   reach med   1.7 max   3.4 mm, facing med   31 deg, middle 0%, floor med   0.7 max   2.1 mm; {'green': 12, 'amber': 18}
+l20 S2 + finer placement search: {'green': 0, 'amber': 27, 'red': 13} red {'direction': 11, 'friction': 2}; placement 18.6 mm; 3062.0 s
+   thumb   reach med   6.4 max   9.8 mm, facing med   46 deg, middle 0%, floor med   1.4 max   6.1 mm; {'amber': 18, 'red': 12}
+   middle  reach med   4.8 max   9.9 mm, facing med   15 deg, middle 93%, floor med   3.2 max   9.1 mm; {'amber': 27, 'red': 3}
+   ring    reach med   1.8 max   2.6 mm, facing med   20 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 18, 'amber': 8, 'red': 3}
+   little  reach med   3.4 max   4.2 mm, facing med   25 deg, middle 0%, floor med   0.0 max   0.1 mm; {'facing': 13, 'amber': 14, 'red': 3}
+   index   reach med  24.1 max  31.7 mm, facing med   15 deg, middle 93%, floor med  24.3 max  31.5 mm; {'reach': 30}
+allegro S3 + 200 IK iterations: {'green': 26, 'amber': 14, 'red': 0} red {}; placement 2.6 mm; 4627.5 s
+   index   reach med   0.3 max   0.9 mm, facing med    2 deg, middle 100%, floor med   0.0 max   0.0 mm; {'green': 31}
+   middle  reach med   1.8 max   2.4 mm, facing med   14 deg, middle 37%, floor med   0.0 max   0.0 mm; {'green': 16, 'amber': 14}
+   thumb   reach med   0.2 max   0.5 mm, facing med    2 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 30}
+   ring    reach med   0.6 max   1.7 mm, facing med    4 deg, middle 100%, floor med   0.0 max   0.0 mm; {'green': 29}
+leap S3 + 200 IK iterations: {'green': 38, 'amber': 2, 'red': 0} red {}; placement 3.5 mm; 4643.3 s
+   middle  reach med   0.9 max   1.8 mm, facing med    2 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 31}
+   ring    reach med   0.6 max   1.8 mm, facing med    2 deg, middle 0%, floor med   0.0 max   0.0 mm; {'green': 30}
+   thumb   reach med   1.5 max   2.9 mm, facing med   11 deg, middle 20%, floor med   0.0 max   0.0 mm; {'green': 29, 'amber': 1}
+   index   reach med   1.0 max   3.9 mm, facing med    5 deg, middle 0%, floor med   0.0 max   2.3 mm; {'green': 28, 'amber': 1}

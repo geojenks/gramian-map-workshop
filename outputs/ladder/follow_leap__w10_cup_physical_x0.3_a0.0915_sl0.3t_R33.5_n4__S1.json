@@ -1,0 +1,1645 @@
+{
+ "hand": "leap",
+ "hand_name": "LEAP Hand",
+ "leader": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4",
+ "placement_cost_mm": 4.324411860888265,
+ "resid_tol": 0.05,
+ "settings": {
+  "middle": true,
+  "ik_iters": 60,
+  "place": {}
+ },
+ "assignment": {
+  "index": 2,
+  "middle": 3,
+  "ring": 0,
+  "thumb": 1
+ },
+ "placement": {
+  "rotation_matrix": [
+   [
+    0.9958349602194209,
+    0.07089663021354141,
+    0.057327129957366364
+   ],
+   [
+    -0.061395071573820556,
+    0.9862805061037081,
+    -0.15323644627261085
+   ],
+   [
+    -0.06740457841445087,
+    0.14907860713119664,
+    0.9865253122472796
+   ]
+  ],
+  "translation_m": [
+   -0.049731219603409045,
+   0.030777634088380055,
+   0.20919062297238222
+  ]
+ },
+ "frames": [
+  {
+   "k": 0,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.2085763844471537,
+     "facing_deg": 0.7367156952083191,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.23055663512144114,
+     "facing_deg": 0.9330867874108681,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.3451603417417712,
+     "facing_deg": 5.800117349700969,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 7,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.07445656176525899,
+     "facing_deg": 0.25332359770897966,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.20187236921070015,
+     "facing_deg": 0.7849556070622881,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.2664460057351101,
+     "facing_deg": 5.521085697563079,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 15,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.14636955804677523,
+     "facing_deg": 0.5163053261838216,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.8584461942144075,
+     "facing_deg": 3.401143051728982,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.07015762527462406,
+     "facing_deg": 0.7607569003272534,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 22,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.33074230527891385,
+     "facing_deg": 1.2706234909267011,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "state": "off"
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.5857453593783695,
+     "facing_deg": 2.176013650835802,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.4432350128568083,
+     "facing_deg": 4.70651716827742,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 30,
+   "verdict": "amber",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 2.6259208188664265,
+     "facing_deg": 9.700103658674175,
+     "phalanx": "distal",
+     "state": "amber",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "state": "off"
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.8389301125937974,
+     "facing_deg": 3.6974061243830616,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.7441596668150483,
+     "facing_deg": 9.952467787654085,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 37,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.29856747078762524,
+     "facing_deg": 1.2675453013303342,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.1135314717234404,
+     "facing_deg": 4.832021786335011,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.5847917382661707,
+     "facing_deg": 6.85783363181271,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 45,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.20793266172716396,
+     "facing_deg": 0.7146125183331351,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.7703564516761059,
+     "facing_deg": 3.04171395167212,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.2461527986198015,
+     "facing_deg": 5.399339235457744,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 53,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.06826492579183095,
+     "facing_deg": 0.23534013102671542,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 1.83431771312043,
+     "facing_deg": 7.054770744368745,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.27176615272545,
+     "facing_deg": 2.949287707589374,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 60,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.21819072195628936,
+     "facing_deg": 0.806279472095678,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.3960256887861568,
+     "facing_deg": 1.6578101876331948,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.23558501648124544,
+     "facing_deg": 2.5296501704330163,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 68,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.3478986159371651,
+     "facing_deg": 1.443283333639776,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "state": "off"
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.7103085507176669,
+     "facing_deg": 3.1246546406529814,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.7342795466375059,
+     "facing_deg": 10.474410296407621,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 75,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.5487702292387243,
+     "facing_deg": 2.413668667163881,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.0281855970731142,
+     "facing_deg": 4.49532962497112,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.664421835649941,
+     "facing_deg": 8.204887635608166,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 83,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.32300429916968426,
+     "facing_deg": 1.1368298247410515,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.039083595674769954,
+     "facing_deg": 0.15480424408860655,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.206815348530685,
+     "facing_deg": 5.216107628179546,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 91,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.011944772345573253,
+     "facing_deg": 0.0407670378557279,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.9377908067289141,
+     "facing_deg": 3.655969888952409,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.2847721486582002,
+     "facing_deg": 5.637420558034264,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 98,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.1585604215450668,
+     "facing_deg": 0.5663246919787768,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.4710420338803344,
+     "facing_deg": 1.8993766300281019,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.01663547574280811,
+     "facing_deg": 0.18005807245432504,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 106,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.3286740236463788,
+     "facing_deg": 1.3028530106258709,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "state": "off"
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.6084828523985666,
+     "facing_deg": 2.5662420132843757,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.6348305920152214,
+     "facing_deg": 6.670861264590909,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 113,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 1.3105778832779076,
+     "facing_deg": 5.891434999418498,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.8166476965881884,
+     "facing_deg": 5.253805444331028,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.7470983495050487,
+     "facing_deg": 9.845467098774243,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 121,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.9444973999525056,
+     "facing_deg": 3.8115557135095584,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.1788256940966515,
+     "facing_deg": 5.099135423701829,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.5007619872332432,
+     "facing_deg": 5.668435220119084,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 129,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.12521915671105185,
+     "facing_deg": 0.4268690944826396,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.041591311055846764,
+     "facing_deg": 0.16279990841967235,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.2742334526274461,
+     "facing_deg": 5.550137641725828,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 136,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.0834312148588442,
+     "facing_deg": 0.2900693303413772,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 1.4379633208448281,
+     "facing_deg": 5.612486342534961,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.18818317117525,
+     "facing_deg": 2.043067958573848,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 144,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.2605919786876735,
+     "facing_deg": 0.9822924330650246,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "state": "off"
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.5460797556071163,
+     "facing_deg": 1.9007418917756445,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.38982568020168107,
+     "facing_deg": 4.152167692492686,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 151,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.3515372551735742,
+     "facing_deg": 1.4868767985965854,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "state": "off"
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.7596780233965408,
+     "facing_deg": 3.353160189790126,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.7360869586300478,
+     "facing_deg": 10.218416020869656,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 159,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.08477353132219123,
+     "facing_deg": 0.3635541718245516,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.0993215561351355,
+     "facing_deg": 4.779948800684301,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.6077822543032889,
+     "facing_deg": 7.218700181177414,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 166,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.2931217461342829,
+     "facing_deg": 1.0203700941009282,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.33248943659917685,
+     "facing_deg": 1.2957980343100413,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.2160594659650608,
+     "facing_deg": 5.2599274787644665,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 174,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.22689954851026004,
+     "facing_deg": 0.7711786045578568,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 1.0617553247662876,
+     "facing_deg": 4.268511629270949,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.3320962520475997,
+     "facing_deg": 3.6076416729049,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 182,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.20143452819949847,
+     "facing_deg": 0.7377574616718583,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.2158713947462154,
+     "facing_deg": 0.8967388829889033,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.18042855575890082,
+     "facing_deg": 1.9421438015783226,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 189,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.3357694145905805,
+     "facing_deg": 1.3555570020495917,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "state": "off"
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.6484300200980648,
+     "facing_deg": 2.8065004350437066,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.724122960128542,
+     "facing_deg": 10.77044255745908,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 197,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.7529727709394407,
+     "facing_deg": 3.3426389448543077,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.9989308575128191,
+     "facing_deg": 4.376785300881711,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.6770224720921293,
+     "facing_deg": 8.471130894988786,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 204,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.501929888728061,
+     "facing_deg": 2.017895761439773,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.277196266315542,
+     "facing_deg": 5.517560560833669,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.8292395054597524,
+     "facing_deg": 8.161233544565084,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 212,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.07689473799976006,
+     "facing_deg": 0.26182449345221115,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.3585289035797907,
+     "facing_deg": 1.399316673717439,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.2832495473226426,
+     "facing_deg": 5.609688810172443,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 220,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.1406583391815795,
+     "facing_deg": 0.4986307993425756,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.7066666785223077,
+     "facing_deg": 2.8246990552359876,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.034578172890184916,
+     "facing_deg": 0.37472361209168326,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 227,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.32092592150421406,
+     "facing_deg": 1.2419652742492495,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "state": "off"
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.5982317485846259,
+     "facing_deg": 2.30281314339917,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.48533892856449856,
+     "facing_deg": 5.144104100046946,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 235,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 1.3597448912966743,
+     "facing_deg": 6.069191222307961,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.8467365044073853,
+     "facing_deg": 5.459919724081537,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.7811072104562582,
+     "facing_deg": 10.461720282577279,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 242,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.4424894457450054,
+     "facing_deg": 1.8707024293444943,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.1332382990987824,
+     "facing_deg": 4.915049864558929,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.5685656670311273,
+     "facing_deg": 6.61821322350508,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 250,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.1957832459338941,
+     "facing_deg": 0.6713751881914299,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.6165218114220481,
+     "facing_deg": 2.431252101813529,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.256098051198506,
+     "facing_deg": 5.449093523042689,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 258,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.07293695282139394,
+     "facing_deg": 0.252277944461064,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 1.6738430336364243,
+     "facing_deg": 6.479849510551032,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.23940580547639675,
+     "facing_deg": 2.598814041049022,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 265,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.21921581607997354,
+     "facing_deg": 0.8144538893423887,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 1.8005198855172833,
+     "facing_deg": 5.651001990181101,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "state": "off"
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.2732170633831888,
+     "facing_deg": 2.9288562013979274,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 273,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.34798578876439107,
+     "facing_deg": 1.4546303629918709,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "state": "off"
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.7310357458867888,
+     "facing_deg": 3.2215251017909563,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.7355636645893147,
+     "facing_deg": 10.380023155988493,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 280,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "state": "off"
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.4156087288716113,
+     "facing_deg": 1.8188215533934904,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.0461470283324064,
+     "facing_deg": 4.568460592337607,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "reach_mm": 0.6540495690616666,
+     "facing_deg": 8.009128793893462,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    }
+   ]
+  },
+  {
+   "k": 288,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.32496805504900095,
+     "facing_deg": 1.1389984297321114,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 0.08507960935682055,
+     "facing_deg": 0.3339188244743605,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 1.1946867605381253,
+     "facing_deg": 5.165482135126258,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  },
+  {
+   "k": 296,
+   "verdict": "green",
+   "reason": null,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 2,
+     "reach_mm": 0.06690415231508226,
+     "facing_deg": 0.22843772938841733,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "middle",
+     "station": 3,
+     "reach_mm": 1.033764932643618,
+     "facing_deg": 4.07420426176136,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "ring",
+     "station": 0,
+     "reach_mm": 0.6112175344853088,
+     "facing_deg": 2.205586309610567,
+     "phalanx": "distal",
+     "state": "green",
+     "torque_checked": false
+    },
+    {
+     "finger": "thumb",
+     "station": 1,
+     "state": "off"
+    }
+   ]
+  }
+ ],
+ "elapsed_s": 398.7
+}
