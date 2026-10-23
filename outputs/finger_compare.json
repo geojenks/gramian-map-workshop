@@ -1,0 +1,130 @@
+{
+ "posture_deg": {
+  "abd": 0.0,
+  "mcp": 45.0,
+  "pip": 45.0,
+  "dip": 10.0
+ },
+ "rows": {
+  "human_vc1998_adjusted": {
+   "pushes_N": {
+    "palmar": 28.085960533517955,
+    "dorsal": 7.9981996160578905,
+    "distal": 45.55947552888162,
+    "lateral": 33.433096534938294,
+    "medial": 20.232280396609486
+   },
+   "limit_source": "Valero-Cuevas 1998 adjusted model",
+   "inputs": 7,
+   "one_sided_inputs": true
+  },
+  "human_vc1998_nominal": {
+   "pushes_N": {
+    "palmar": 19.714682276289672,
+    "dorsal": 4.643435548555912,
+    "distal": 20.408426774375016,
+    "lateral": 31.379922183297623,
+    "medial": 8.059359661038542
+   },
+   "limit_source": "Valero-Cuevas 1998 nominal model",
+   "inputs": 7,
+   "one_sided_inputs": true
+  },
+  "human_vc": {
+   "pushes_N": {
+    "palmar": 20.331745124371626,
+    "dorsal": 8.492747794167398,
+    "distal": 39.75464688907083,
+    "lateral": 28.254158526483483,
+    "medial": 14.720097672532322
+   },
+   "limit_source": "model",
+   "inputs": 7,
+   "one_sided_inputs": true,
+   "finger_mass_kg": 0.022,
+   "mcp_to_tip_m": 0.0982464371933703,
+   "joint_stiffness": 0.0,
+   "n_input_senses": 7
+  },
+  "allegro": {
+   "pushes_N": {
+    "palmar": 5.680659249864537,
+    "dorsal": 5.680659249864537,
+    "distal": 24.622245776814395,
+    "lateral": 5.976451254483427,
+    "medial": 5.976451254483427
+   },
+   "limit_source": "datasheet (reseller): Allegro V4 max joint torque",
+   "inputs": 4,
+   "one_sided_inputs": false,
+   "finger_mass_kg": 0.06732871806734528,
+   "mcp_to_tip_m": 0.13352892330434338,
+   "joint_stiffness": 0.0,
+   "n_input_senses": 4
+  },
+  "shadow": {
+   "pushes_N": {
+    "palmar": -0.0,
+    "dorsal": -0.0,
+    "distal": -0.0,
+    "lateral": 31.164038386549233,
+    "medial": 31.164038386549233
+   },
+   "limit_source": "model",
+   "inputs": 3,
+   "one_sided_inputs": false,
+   "finger_mass_kg": 0.068,
+   "mcp_to_tip_m": 0.09467016030086343,
+   "joint_stiffness": 0.0,
+   "n_input_senses": 3
+  },
+  "leap": {
+   "pushes_N": {
+    "palmar": 8.583025126432341,
+    "dorsal": 8.583025126432341,
+    "distal": 16.701979726477525,
+    "lateral": 16.386787920174147,
+    "medial": 16.386787920174147
+   },
+   "limit_source": "datasheet: Dynamixel XC330-M288-T stall, 5 V",
+   "inputs": 4,
+   "one_sided_inputs": false,
+   "finger_mass_kg": 0.129,
+   "mcp_to_tip_m": 0.12387497092793347,
+   "joint_stiffness": 0.0,
+   "n_input_senses": 4
+  },
+  "l20": {
+   "pushes_N": {
+    "palmar": 11.057730638712203,
+    "dorsal": 11.057730638712203,
+    "distal": 42.884540700434414,
+    "lateral": 28.736323041401878,
+    "medial": 28.736323041401878
+   },
+   "limit_source": "model",
+   "inputs": 3,
+   "one_sided_inputs": false,
+   "finger_mass_kg": 0.011125274000000001,
+   "mcp_to_tip_m": 0.09376473732750638,
+   "joint_stiffness": 0.0,
+   "n_input_senses": 3
+  },
+  "shadow_kq0.2": {
+   "pushes_N": {
+    "palmar": 0.7756803350795295,
+    "dorsal": 0.7756803350795295,
+    "distal": 32.037122496370806,
+    "lateral": 31.29571256260433,
+    "medial": 31.29571256260433
+   },
+   "limit_source": "model",
+   "inputs": 3,
+   "one_sided_inputs": false,
+   "finger_mass_kg": 0.068,
+   "mcp_to_tip_m": 0.09467016030086343,
+   "joint_stiffness": 0.2,
+   "n_input_senses": 3
+  }
+ }
+}

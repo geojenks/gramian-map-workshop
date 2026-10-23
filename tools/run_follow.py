@@ -30,6 +30,7 @@ def main():
     ap.add_argument("--leader", choices=list(LEADERS), default="tennis")
     ap.add_argument("--frames", type=int, default=40,
                     help="leader frames evaluated, spread over the recording")
+    ap.add_argument("--tag", default="", help="suffix for the output file names")
     ap.add_argument("--respace", action="store_true",
                     help="move stations round the ring to suit the hand")
     a = ap.parse_args()
@@ -41,7 +42,7 @@ def main():
         t0 = time.time()
         r = follow(hk, L, n_eval=a.frames, respace=a.respace)
         r["elapsed_s"] = round(time.time() - t0, 1)
-        out = os.path.join(ROOT, "outputs", f"follow_{hk}__{lid}" + ("__respaced" if a.respace else "") + ".json")
+        out = os.path.join(ROOT, "outputs", f"follow_{hk}__{lid}" + ("__respaced" if a.respace else "") + (f"__{a.tag}" if a.tag else "") + ".json")
         with open(out, "w") as f:
             json.dump(r, f, indent=1, default=float)
         v = collections.Counter(fr["verdict"] for fr in r["frames"])

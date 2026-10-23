@@ -30,7 +30,10 @@ HANDS = {
         "name": "Allegro (Wonik)", "base": "menagerie",
         "file": "wonik_allegro/right_hand.xml",
         "fingers": {"index": "ff_tip", "middle": "mf_tip", "ring": "rf_tip",
-                    "thumb": "th_tip"}},
+                    "thumb": "th_tip"},
+        # the model has no torque limits; a reseller's V4 "max joint torque"
+        # (Wonik publishes none): DATASHEET, used only where the model is silent
+        "datasheet_torque_Nm": (0.70, "Allegro V4 max joint torque (reseller page)")},
     "shadow": {
         "name": "Shadow Dexterous Hand", "base": "menagerie",
         "file": "shadow_hand/right_hand.xml",
@@ -41,18 +44,27 @@ HANDS = {
         "name": "LEAP Hand", "base": "menagerie",
         "file": "leap_hand/right_hand.xml",
         "fingers": {"index": "if_ds", "middle": "mf_ds", "ring": "rf_ds",
-                    "thumb": "th_ds"}},
+                    "thumb": "th_ds"},
+        "datasheet_torque_Nm": (0.93, "Dynamixel XC330-M288-T stall at 5 V (ROBOTIS e-manual)")},
     "l20": {
         "name": "Linker L20", "base": "wave_manip",
         "file": "linker_l20_right/l20_right.xml",
         "fingers": {"thumb": "thumb_distal", "index": "index_distal",
                     "middle": "middle_distal", "ring": "ring_distal",
                     "little": "pinky_distal"}},
+    "human_vc": {
+        "name": "Human-finger hand (Valero-Cuevas 1998 index finger x5)", "base": "local",
+        "file": "human_vc1998/hand.xml",       # tools/build_human_hand.py
+        "fingers": {"index": "index_distal", "middle": "middle_distal",
+                    "ring": "ring_distal", "little": "little_distal",
+                    "thumb": "thumb_distal"}},
 }
 
 
 def model_path(key):
     spec = HANDS[key]
+    if spec["base"] == "local":
+        return os.path.join(ROOT, "data", "hands", spec["file"])
     if spec["base"] == "menagerie":
         base = os.environ.get("GMW_MENAGERIE", DEFAULT_MENAGERIE)
     else:
