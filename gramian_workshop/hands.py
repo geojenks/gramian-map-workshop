@@ -58,6 +58,12 @@ HANDS = {
         "fingers": {"index": "index_distal", "middle": "middle_distal",
                     "ring": "ring_distal", "little": "little_distal",
                     "thumb": "thumb_distal"}},
+    "human_vc_arch": {
+        "name": "Human-finger hand with a palmar arch (assumed)", "base": "local",
+        "file": "human_vc1998_arch/hand.xml",  # tools/build_human_hand.py --arch
+        "fingers": {"index": "index_distal", "middle": "middle_distal",
+                    "ring": "ring_distal", "little": "little_distal",
+                    "thumb": "thumb_distal"}},
 }
 
 

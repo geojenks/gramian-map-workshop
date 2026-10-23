@@ -222,13 +222,14 @@ class FingerIK:
                 Je[:, self.free.index(master)] += dd * J[:, m.jnt_dofadr[dep]]
         return Je
 
-    def solve(self, body, p_local, n_local, target, n_target, q0=None):
+    def solve(self, body, p_local, n_local, target, n_target, q0=None, fw=None):
         """Damped least squares on pad position and facing. Returns
         (q_free, residual_m, facing_deg, world point, world normal)."""
         mj, m, d = self.mj, self.hand.model, self.d
         q = np.array(self.hand.base_q)
         q[self.qadr] = self.rng.mean(1) if q0 is None else q0
         jacp, jacr = np.zeros((3, m.nv)), np.zeros((3, m.nv))
+        fw = FACE_WEIGHT_M if fw is None else fw
         for _ in range(IK_ITERS):
             d.qpos[:] = self.hand.apply_coupling(q.copy())
             mj.mj_kinematics(m, d)
@@ -236,10 +237,10 @@ class FingerIK:
             R = d.xmat[body].reshape(3, 3)
             p = d.xpos[body] + R @ p_local
             n = R @ n_local
-            e = np.concatenate([target - p, FACE_WEIGHT_M * np.cross(n, -n_target)])
+            e = np.concatenate([target - p, fw * np.cross(n, -n_target)])
             mj.mj_jac(m, d, jacp, jacr, p, body)
             Jp, Jr = self._eff_jac(jacp), self._eff_jac(jacr)
-            J = np.vstack([Jp, FACE_WEIGHT_M * Jr])
+            J = np.vstack([Jp, fw * Jr])
             dq = J.T @ np.linalg.solve(J @ J.T + IK_DAMP * np.eye(6), e)
             q[self.qadr] = np.clip(q[self.qadr] + dq, self.rng[:, 0], self.rng[:, 1])
         d.qpos[:] = self.hand.apply_coupling(q.copy())
@@ -250,18 +251,24 @@ class FingerIK:
         face = math.degrees(math.acos(max(-1.0, min(1.0, float(-n @ n_target)))))
         return q[self.qadr].copy(), float(np.linalg.norm(target - p)), face, p, n
 
-    def best(self, cands, target, n_target, starts=None):
+    def best(self, cands, target, n_target, starts=None, weights=None):
         """Best pad point for this target: smallest residual, then facing,
         over IK_STARTS starting poses (mid-range, and fixed spreads toward
-        each end of the joint ranges) against local minima."""
+        each end of the joint ranges) against local minima, and over facing
+        weights (default FACE_WEIGHT_M only; the final check adds a
+        position-first weight, since the weighted solve can settle for a
+        few mm off with good facing when a green pose exists)."""
         if starts is None:
             lo, hi = self.rng[:, 0], self.rng[:, 1]
             starts = [None, lo + 0.25 * (hi - lo), lo + 0.75 * (hi - lo)][:IK_STARTS]
         best = None
         for b, pl, nl in cands:
-            for q0 in starts:
-                r = self.solve(b, pl, nl, target, n_target, q0)
-                key = (r[1] > REACH_GREEN_M or r[2] > FACE_GREEN_DEG, r[1], r[2])
+            for q0, fw in itertools.product(starts, weights or (FACE_WEIGHT_M,)):
+                r = self.solve(b, pl, nl, target, n_target, q0, fw)
+                # green before amber before red, then reach, then facing
+                rank = (0 if r[1] <= REACH_GREEN_M and r[2] <= FACE_GREEN_DEG else
+                        1 if r[1] <= REACH_AMBER_M and r[2] <= FACE_AMBER_DEG else 2)
+                key = (rank, r[1], r[2])
                 if best is None or key < best[0]:
                     best = (key, (b, pl, nl), r)
         return best[1], best[2]
@@ -514,7 +521,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 per.append({"finger": f.label, "station": i, "state": "off"})
                 continue
             p, nrm, _ = leader.station(k, i, Rw, t)
-            (b, pl, nl), (q, res, face, pw, nw) = iks[a].best(cands[a], p, nrm)
+            (b, pl, nl), (q, res, face, pw, nw) = iks[a].best(
+                cands[a], p, nrm, weights=(FACE_WEIGHT_M, FACE_WEIGHT_M / 10))
             near = res <= REACH_AMBER_M and face <= FACE_AMBER_DEG
             exact = res <= REACH_GREEN_M and face <= FACE_GREEN_DEG
             item = {"finger": f.label, "station": i, "reach_mm": res * 1e3,
@@ -706,6 +714,8 @@ def reach_bound(hand_key, leader_json, result, middle=False, n=6000, seed=0,
     leader = Leader(leader_json)
     Rw = np.array(result["placement"]["rotation_matrix"])
     t = np.array(result["placement"]["translation_m"])
+    if result.get("respace_deg"):
+        leader.phi = np.radians(result["respace_deg"])
     m = hand.model
     rng = np.random.default_rng(seed)
     out = {}
