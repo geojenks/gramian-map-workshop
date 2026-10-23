@@ -13,7 +13,10 @@
    "iters": 4,
    "pad_step": 2
   },
-  "wrist": false
+  "wrist": false,
+  "respace": false,
+  "reused_placement": true,
+  "strength": "reduced coordinates, unactuated balance (23 Oct)"
  },
  "assignment": {
   "index": 1,
@@ -21,6 +24,12 @@
   "ring": 0,
   "thumb": 2
  },
+ "respace_deg": [
+  0.0,
+  0.0,
+  0.0,
+  0.0
+ ],
  "placement": {
   "rotation_matrix": [
    [
@@ -464,8 +473,8 @@
     {
      "finger": "middle",
      "station": 3,
-     "reach_mm": 0.14220876758993703,
-     "facing_deg": 1.5219026519201853,
+     "reach_mm": 0.1422087675899241,
+     "facing_deg": 1.5219026519204248,
      "phalanx": "distal",
      "state": "green",
      "torque_checked": false
@@ -855,8 +864,8 @@
     {
      "finger": "index",
      "station": 1,
-     "reach_mm": 1.009535015906877,
-     "facing_deg": 5.860830617303621,
+     "reach_mm": 1.0095350159068552,
+     "facing_deg": 5.860830617304181,
      "phalanx": "distal",
      "state": "green",
      "torque_checked": false
@@ -1055,7 +1064,7 @@
     {
      "finger": "index",
      "station": 1,
-     "reach_mm": 0.5511280431461869,
+     "reach_mm": 0.5511280431461817,
      "facing_deg": 4.64688298373517,
      "phalanx": "distal",
      "state": "green",
@@ -1095,8 +1104,8 @@
     {
      "finger": "index",
      "station": 1,
-     "reach_mm": 1.372475454340323,
-     "facing_deg": 8.12180960295763,
+     "reach_mm": 1.372475454340321,
+     "facing_deg": 8.121809602957585,
      "phalanx": "distal",
      "state": "green",
      "torque_checked": false
@@ -1144,8 +1153,8 @@
     {
      "finger": "middle",
      "station": 3,
-     "reach_mm": 0.6842957761487508,
-     "facing_deg": 3.5944388088119554,
+     "reach_mm": 0.6842957761487507,
+     "facing_deg": 3.594438808812057,
      "phalanx": "distal",
      "state": "green",
      "torque_checked": false
@@ -1380,8 +1389,8 @@
     {
      "finger": "middle",
      "station": 3,
-     "reach_mm": 0.6986850669842282,
-     "facing_deg": 2.8391949375021,
+     "reach_mm": 0.6986850669842135,
+     "facing_deg": 2.8391949375013295,
      "phalanx": "distal",
      "state": "green",
      "torque_checked": false
@@ -1620,7 +1629,7 @@
     {
      "finger": "middle",
      "station": 3,
-     "reach_mm": 0.3626939243508098,
+     "reach_mm": 0.36269392435080977,
      "facing_deg": 1.547818470417857,
      "phalanx": "distal",
      "state": "green",
@@ -1647,6 +1656,5 @@
    ]
   }
  ],
- "elapsed_s": 1386.8,
- "note": "run as reach ladder step S2 (22 Oct), identical to follow()'s defaults since"
+ "rescored_from": "published"
 }

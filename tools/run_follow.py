@@ -1,7 +1,10 @@
 """Run the follow-the-leader check for each rigid hand on the leader that
 matches its finger count, and save outputs/follow_<hand>__<leader>.json.
 
-    python tools/run_follow.py [--hands allegro shadow leap l20] [--frames 40]
+    python tools/run_follow.py [--hands allegro shadow leap l20] [--frames 40] [--respace]
+
+--respace lets the stations move round the ring to suit each hand (outputs
+get a __respaced suffix).
 
 Needs mujoco and the hand models (tools/fetch_hands.py).
 """
@@ -27,6 +30,8 @@ def main():
     ap.add_argument("--leader", choices=list(LEADERS), default="tennis")
     ap.add_argument("--frames", type=int, default=40,
                     help="leader frames evaluated, spread over the recording")
+    ap.add_argument("--respace", action="store_true",
+                    help="move stations round the ring to suit the hand")
     a = ap.parse_args()
     for hk in a.hands:
         n = len(HANDS[hk]["fingers"])
@@ -34,9 +39,9 @@ def main():
         with open(os.path.join(ROOT, "data", "leaders", lid + ".json")) as f:
             L = json.load(f)
         t0 = time.time()
-        r = follow(hk, L, n_eval=a.frames)
+        r = follow(hk, L, n_eval=a.frames, respace=a.respace)
         r["elapsed_s"] = round(time.time() - t0, 1)
-        out = os.path.join(ROOT, "outputs", f"follow_{hk}__{lid}.json")
+        out = os.path.join(ROOT, "outputs", f"follow_{hk}__{lid}" + ("__respaced" if a.respace else "") + ".json")
         with open(out, "w") as f:
             json.dump(r, f, indent=1, default=float)
         v = collections.Counter(fr["verdict"] for fr in r["frames"])
@@ -45,7 +50,8 @@ def main():
                                   for x in fr["fingers"])
         print(f"{hk} on {lid}: {dict(v)}; red because {dict(why)}; "
               f"assignment {r['assignment']}; placement cost "
-              f"{r['placement_cost_mm']:.2f} mm; {r['elapsed_s']} s", flush=True)
+              f"{r['placement_cost_mm']:.2f} mm; respaced by {[round(x) for x in r['respace_deg']]} deg; "
+              f"{r['elapsed_s']} s", flush=True)
         print("   per finger:", dict(sorted(fin.items())), flush=True)
 
 

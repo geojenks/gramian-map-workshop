@@ -22,6 +22,20 @@ Choices, stated up front (George, 21 Oct: "yes that's good"):
               their ranges, refined once); the wrist's own torque and rate
               are not checked
   object      the leader's own, not rescaled
+  spacing     the stations keep the leader's angles round the ring, unless
+              respace=True (George 23 Oct, "be kind to the robot hands"):
+              then each station's whole path is turned about the vertical
+              through the object by up to RESPACE_DEG, chosen with the
+              placement. The respaced gait is not simulated: the object's
+              wrench stays the leader's, and the hand must produce it from
+              the moved contacts (so a respaced frame always goes through
+              the redistribution)
+  strength    a finger's joints must be balanced by its inputs: joint
+              torque the inputs cannot make (Shadow's J1/J2 share one
+              tendon motor) must be zero, joints slaved by an equality
+              (L20) pass their torque to the joint that drives them, and
+              each input stays within its limit. Joint-limit reactions are
+              not credited (conservative).
 
 Verdict per finger per frame (and per frame: the worst finger):
   green   reaches the leader's contact within REACH_GREEN_M with the pad
@@ -58,6 +72,8 @@ RESID_TOL = 0.05           # proposed: amber may leave this share of the
                            # leader's object wrench unbalanced (a slight
                            # acceleration of the object), as a fraction of its norm
 IK_DAMP = 1e-4
+RESPACE_DEG = 20.0         # proposed: how far a station may be moved round the ring
+UNACT_TOL = 0.05           # unbalanced joint torque allowed, share of |J^T f|
 FACE_WEIGHT_M = 0.02       # metres of position error per radian of facing error
 
 
@@ -245,29 +261,40 @@ class Leader:
         self.R_obj = float(L["object"]["radius_m"])
         self.mass = float(L["object"]["mass_kg"])
         self.frames = F
+        self.phi = np.zeros(self.n)          # station offsets round the ring (rad)
 
-    def station(self, k, i, Rw, t):
+    @property
+    def respaced(self):
+        return bool(np.any(self.phi != 0))
+
+    def _turn(self, i, raw):
+        a = 0.0 if raw else float(self.phi[i])
+        c, s_ = math.cos(a), math.sin(a)
+        return np.array([[c, -s_, 0.0], [s_, c, 0.0], [0.0, 0.0, 1.0]])
+
+    def station(self, k, i, Rw, t, raw=False):
         """World (hand-frame) contact point and inward normal of station i at
         frame k, after placing the leader by rotation Rw and translation t
         (applied about the leader's starting object centre)."""
         f = self.frames[k]
         cp = f["contact_point"][i] or f["station_pos"][i]
         oc = np.array(f["obj_pos"])
+        cp = oc + self._turn(i, raw) @ (np.array(cp) - oc)   # vertical: the sim's z
         p = Rw @ (np.array(cp) - self.c0) + t
         c = Rw @ (oc - self.c0) + t
         nrm = (c - p)
         nrm /= np.linalg.norm(nrm)
         return p, nrm, c
 
-    def force(self, k, i, Rw):
-        return Rw @ np.array(self.frames[k]["force_on_object_N"][i])
+    def force(self, k, i, Rw, raw=False):
+        return Rw @ self._turn(i, raw) @ np.array(self.frames[k]["force_on_object_N"][i])
 
     def made(self, k):
         return [i for i, x in enumerate(self.frames[k]["contact"]) if x]
 
 
 def placement_search(hand, leader, cands, iks, n_frames=10, n_samples=80, seed=0,
-                     iters=4, pad_step=2, face_weight=None):
+                     iters=4, pad_step=2, face_weight=None, respace=False):
     """Cross-entropy search over the leader's placement (rotation vector,
     translation); cost = the best finger-to-station assignment's mean
     reach residual over sample frames where that station touches."""
@@ -280,15 +307,20 @@ def placement_search(hand, leader, cands, iks, n_frames=10, n_samples=80, seed=0
         pts = hand.workspace(f, 300, seed)
         tips.append(pts.mean(0))
     t_mu = np.mean(tips, 0)
-    mu = np.concatenate([np.zeros(3), t_mu])
-    sd = np.concatenate([np.full(3, 1.2), np.full(3, 0.04)])
+    nr = leader.n if respace else 0
+    lim = math.radians(RESPACE_DEG)
+    mu = np.concatenate([np.zeros(3), t_mu, np.zeros(nr)])
+    sd = np.concatenate([np.full(3, 1.2), np.full(3, 0.04), np.full(nr, lim / 2)])
     best = None
     for it in range(iters):
-        X = mu + sd * rng.standard_normal((n_samples, 6))
+        X = mu + sd * rng.standard_normal((n_samples, 6 + nr))
         X[0] = mu
+        X[:, 6:] = np.clip(X[:, 6:], -lim, lim)
         scores = []
         for x in X:
-            Rw, t = _rot(x[:3]), x[3:]
+            Rw, t = _rot(x[:3]), x[3:6]
+            if nr:
+                leader.phi = x[6:].copy()
             C = np.zeros((len(hand.fingers), leader.n))
             for a, ik in enumerate(iks):
                 for i in range(leader.n):
@@ -310,6 +342,7 @@ def placement_search(hand, leader, cands, iks, n_frames=10, n_samples=80, seed=0
                 best = (cost, Rw, t, assign, x)
         elite = X[np.argsort(scores)[:max(4, n_samples // 6)]]
         mu, sd = elite.mean(0), elite.std(0) + 1e-3
+    leader.phi = best[4][6:].copy() if nr else np.zeros(leader.n)
     return best
 
 
@@ -357,17 +390,21 @@ def torque_limits(hand, finger):
 
 
 def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
-           resid_tol=None, place=None, ik_iters=None, wrist=False):
+           resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
+           placement=None):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
-    IK_ITERS); wrist: move the shared (wrist) joints at every moment."""
+    IK_ITERS); wrist: move the shared (wrist) joints at every moment;
+    respace: move stations round the ring to suit the hand; placement: a
+    previous result's "placement" and "assignment" (and "respace_deg"), to
+    re-evaluate without searching again."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
         IK_ITERS = int(ik_iters)
     try:
         return _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol,
-                       place or {}, wrist)
+                       place or {}, wrist, respace, placement)
     finally:
         IK_ITERS = old_iters
 
@@ -405,13 +442,21 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
     return [float(x) for x in best[1]]
 
 
-def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist):
+def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
+            respace, placement):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
     iks = [FingerIK(hand, f) for f in hand.fingers]
-    cost, Rw, t, assign, _ = placement_search(hand, leader, cands, iks, seed=seed,
-                                              **place)
+    if placement is None:
+        cost, Rw, t, assign, _ = placement_search(hand, leader, cands, iks, seed=seed,
+                                                  respace=respace, **place)
+    else:
+        Rw = np.array(placement["placement"]["rotation_matrix"])
+        t = np.array(placement["placement"]["translation_m"])
+        assign = [int(placement["assignment"][f.label]) for f in hand.fingers]
+        leader.phi = np.radians(placement.get("respace_deg") or np.zeros(leader.n))
+        cost = placement["placement_cost_mm"] / 1e3
     wrist = wrist and bool(hand.shared_joints)
     mu = float(leader_json.get("mu", 1.0))
     L = leader.R_obj
@@ -427,8 +472,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         _, _, c = leader.station(k, 0, Rw, t)
         W = np.zeros(6)
         for i in made:
-            p, _, _ = leader.station(k, i, Rw, t)
-            fv = leader.force(k, i, Rw)
+            p, _, _ = leader.station(k, i, Rw, t, raw=True)
+            fv = leader.force(k, i, Rw, raw=True)
             W += np.concatenate([fv, np.cross(p - c, fv)])
         per, pts, nrms, Js, fingers_on = [], [], [], [], []
         for a, f in enumerate(hand.fingers):
@@ -461,19 +506,24 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             in_cone = fv @ n_in >= math.cos(math.atan(mu)) * np.linalg.norm(fv) - 1e-12
             M, lim = lims[a]
             torque_ok = True
+            Pu = Nu = None
             if M is not None:
-                tau = Jf.T @ fv
-                u = np.linalg.lstsq(M.T, tau, rcond=None)[0]
-                torque_ok = bool(np.all(np.abs(u) <= lim))
+                Pu, Nu = _transmission(hand, f, iks[a], M, Jf)
+                u, un = Pu @ fv, Nu @ fv
+                torque_ok = bool(np.all(np.abs(u) <= lim)) and \
+                    float(np.linalg.norm(un)) <= UNACT_TOL * float(np.linalg.norm(Jf.T @ fv)) + 1e-12
+                item["unbalanced_Nm"] = float(np.linalg.norm(un))
             item["state"] = "green" if (exact and in_cone and torque_ok) else "amber?"
             item["torque_checked"] = M is not None
             per.append(item)
             pts.append(cp)
             nrms.append(n_in)
-            Js.append((Jf, M, lim))
+            Js.append((Pu, Nu, lim))
             fingers_on.append(a)
         unserved = [i for i in made if i not in assign]
-        need_redistribute = unserved or any(x.get("state") == "amber?" for x in per)
+        need_redistribute = unserved or leader.respaced or \
+            any(x.get("state") == "amber?" for x in per)
+        all_green = not unserved and all(x["state"] in ("green", "off") for x in per)
         verdict = "green"
         reason = None
         if any(x.get("state") == "red" for x in per):
@@ -481,7 +531,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             need_redistribute = True
         if need_redistribute:
             ok, reason = _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol)
-            verdict = "amber" if ok else "red"
+            verdict = ("green" if all_green else "amber") if ok else "red"
             for x in per:
                 if x.get("state") == "amber?":
                     x["state"] = "amber" if ok else "red"
@@ -492,11 +542,38 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             "leader": leader_json["id"], "placement_cost_mm": cost * 1e3,
             "resid_tol": RESID_TOL if resid_tol is None else resid_tol,
             "settings": {"middle": middle, "ik_iters": IK_ITERS,
-                         "place": {**PLACE_FINE, **place}, "wrist": wrist},
+                         "place": {**PLACE_FINE, **place}, "wrist": wrist,
+                         "respace": respace, "reused_placement": placement is not None,
+                         "strength": "reduced coordinates, unactuated balance (23 Oct)"},
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
+            "respace_deg": np.degrees(leader.phi).tolist(),
             "placement": {"rotation_matrix": Rw.tolist(), "translation_m": t.tolist()},
             "frames": frames}
+
+
+def _transmission(hand, finger, ik, M, Jf):
+    """For a contact force f on this finger (Jacobian Jf over finger.joints,
+    at the pose in ik.d): Pu @ f = the inputs it needs, Nu @ f = the joint
+    torque no input can make (must be zero to hold). Slaved joints (equality
+    couplings) are folded into the joints that drive them (E); inputs act
+    through M (inputs x finger.joints), so in reduced coordinates B = M E."""
+    m = hand.model
+    nj = len(finger.joints)
+    E = np.zeros((nj, len(ik.free)))
+    for c_, j in enumerate(ik.free):
+        E[finger.joints.index(j), c_] = 1.0
+    for dep, (master, cf) in ik.dep.items():
+        if master in ik.free:
+            x = ik.d.qpos[m.jnt_qposadr[master]]
+            E[finger.joints.index(dep), ik.free.index(master)] = \
+                cf[1] + 2 * cf[2] * x + 3 * cf[3] * x ** 2 + 4 * cf[4] * x ** 3
+    B = M @ E
+    Tr = E.T @ Jf.T                       # reduced joint torque per unit force
+    Bp = np.linalg.pinv(B.T)
+    Pu = Bp @ Tr
+    Nu = (np.eye(B.shape[1]) - B.T @ Bp) @ Tr
+    return Pu, Nu
 
 
 def _q_full(m, ik, qfree):
@@ -531,22 +608,25 @@ def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     Gs, cidx, Fc = cap.generators(pts, nrms, c, mu, L)
     if not _feasible(Gs, ws, tol)[0]:
         return False, "friction"
-    if all(M is None for _, M, _ in Js):
+    if all(P is None for P, _, _ in Js):
         return True, None
-    A = []
-    for ci, (Jf, M, lim) in enumerate(Js):
-        if M is None:
+    A, Q = [], []
+    for ci, (P, N, lim) in enumerate(Js):
+        if P is None:
             continue
-        P = np.linalg.pinv(M.T) @ Jf.T                   # inputs per unit force
         Ab = np.zeros((P.shape[0], Gs.shape[1]))
+        Nb = np.zeros((N.shape[0], Gs.shape[1]))
         for e in np.where(cidx == ci)[0]:
             Ab[:, e] = P @ Fc[:, e]
+            Nb[:, e] = N @ Fc[:, e]
         A.append(Ab / lim[:, None])
-    A = np.vstack(A)
-    na = A.shape[0]
+        Q.append(Nb / L)        # unactuated joint torque must balance (N.m / L)
+    A, Q = np.vstack(A), np.vstack(Q)
+    na, nq = A.shape[0], Q.shape[0]
     I, Z = np.eye(na), np.zeros((na, na))
-    Mx = np.block([[Gs, np.zeros((6, 2 * na))], [A, I, Z], [-A, Z, I]])
-    rhs = np.concatenate([ws, np.ones(na), np.ones(na)])
+    Mx = np.block([[Gs, np.zeros((6, 2 * na))], [Q, np.zeros((nq, 2 * na))],
+                   [A, I, Z], [-A, Z, I]])
+    rhs = np.concatenate([ws, np.zeros(nq), np.ones(na), np.ones(na)])
     ok = _feasible(Mx, rhs, tol)[0]
     return (True, None) if ok else (False, "torque")
 
