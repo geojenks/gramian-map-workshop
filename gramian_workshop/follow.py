@@ -12,10 +12,15 @@ Choices, stated up front (George, 21 Oct: "yes that's good"):
   assignment  each finger serves at most one station, the pairing that best
               suits the hand (all pairings tried); stations left without a
               finger must have their load carried by the others
-  contact     anywhere on the palm side of the last or middle phalanx (22 Oct:
-              middle on by default, after the reach ladder), never the back;
-              "palm side" is the side the fingertip moves toward when the
-              finger curls
+  contact     anywhere on the last or middle phalanx except the nail (back)
+              half: the pad and both sides (George 23 Oct: "a lot of human
+              grasping is done with the side of the finger"; middle phalanx
+              on by default since 22 Oct). "Palm side" is the side the
+              fingertip moves toward when the finger curls; points up to
+              CONTACT_CONE_DEG from it count, spread along the phalanx and
+              round it. Facing is then a contact check, not a pad
+              preference: the surface at the chosen point must face the
+              ball (a surface turned away cannot touch it there)
   wrist       joints every finger passes through (Shadow's WRJ1/WRJ2) are held
               at the model's rest pose, unless wrist=True: then they are
               re-chosen at every moment to suit the fingers (a 5x5 grid over
@@ -62,10 +67,13 @@ REACH_GREEN_M = 0.002      # W20 readout (b)'s IK residual bar
 REACH_AMBER_M = 0.010      # proposed: "close"
 FACE_GREEN_DEG = 30.0      # proposed: pad facing the object
 FACE_AMBER_DEG = 60.0      # proposed
-PAD_CONE_DEG = 60.0        # vertices within this of the palm-side direction
-N_PAD_POINTS = 8           # candidate contact points per phalanx
+CONTACT_CONE_DEG = 85.0    # surface points within this of the palm-side direction
+                           # (90 = the whole non-nail half; 60 until 23 Oct)
+N_PAD_POINTS = 6           # candidate points along each phalanx ...
+PAD_AROUND_DEG = (-70.0, -35.0, 0.0, 35.0, 70.0)   # ... at these angles round it
 IK_ITERS = 60              # 200 changed nothing (reach ladder, 22 Oct)
-PLACE_FINE = {"n_frames": 10, "n_samples": 80, "iters": 4, "pad_step": 2}
+PLACE_FINE = {"n_frames": 10, "n_samples": 80, "iters": 4, "pad_step": 6}   # pad_step 2 until
+                           # 23 Oct, when side contact tripled the candidates
 PLACE_COARSE = {"n_frames": 6, "n_samples": 60, "iters": 3, "pad_step": 3}
 IK_STARTS = 3              # starting poses per pad point (see FingerIK.best)
 RESID_TOL = 0.05           # proposed: amber may leave this share of the
@@ -153,19 +161,31 @@ def pad_candidates(hand, finger, middle=False):
         c = V.mean(0)
         r = V - c
         nr = np.linalg.norm(r, axis=1)
-        ok = (r @ side) > math.cos(math.radians(PAD_CONE_DEG)) * nr
+        ok = (r @ side) > math.cos(math.radians(CONTACT_CONE_DEG)) * nr
         P = V[ok]
         if len(P) == 0:
             continue
-        # spread along the link's long axis
+        # spread along the link's long axis and round it
         axis = V[np.argmax(np.linalg.norm(V - c, axis=1))] - c
         axis /= np.linalg.norm(axis)
         s = (P - c) @ axis
+        rad = (P - c) - np.outer(s, axis)
+        side_p = side - (side @ axis) * axis
+        side_p /= np.linalg.norm(side_p)
+        lat = np.cross(axis, side_p)
+        ang = np.degrees(np.arctan2(rad @ lat, rad @ side_p))
+        span = max(float(np.ptp(s)), 1e-9)
+        seen = set()
         for qn in np.linspace(0.1, 0.9, N_PAD_POINTS):
-            i = int(np.argmin(np.abs(s - np.quantile(s, qn))))
-            nrm = P[i] - c - ((P[i] - c) @ axis) * axis   # outward, across the axis
-            nrm = nrm / np.linalg.norm(nrm) if np.linalg.norm(nrm) > 0 else side
-            out.append((b, P[i].copy(), nrm))
+            sq = np.quantile(s, qn)
+            for a in PAD_AROUND_DEG:
+                i = int(np.argmin(np.abs(s - sq) / span + np.abs(ang - a) / 90.0))
+                if i in seen:
+                    continue
+                seen.add(i)
+                nrm = rad[i]                    # outward, across the axis
+                nrm = nrm / np.linalg.norm(nrm) if np.linalg.norm(nrm) > 0 else side
+                out.append((b, P[i].copy(), nrm))
     return out
 
 
@@ -294,7 +314,7 @@ class Leader:
 
 
 def placement_search(hand, leader, cands, iks, n_frames=10, n_samples=80, seed=0,
-                     iters=4, pad_step=2, face_weight=None, respace=False):
+                     iters=4, pad_step=6, face_weight=None, respace=False):
     """Cross-entropy search over the leader's placement (rotation vector,
     translation); cost = the best finger-to-station assignment's mean
     reach residual over sample frames where that station touches."""
