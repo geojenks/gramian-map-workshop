@@ -1,7 +1,9 @@
 # Literature review: where the Gramian Map sits
 
-Written 23 October 2026 for the ARIA workshop. This is a reading and writing
-task: no code was changed.
+Written 23 October 2026 for the ARIA workshop. This was a reading and
+writing task: no code was changed. Updated the same day after reading
+Bicchi and Prattichizzo 2000 and 1998, and after the scale margin was added
+to `follow.py`.
 
 ## The result in brief
 
@@ -9,11 +11,13 @@ task: no code was changed.
   analysis. The grasp matrix, the hand Jacobian, the pyramid friction cone
   and the linear-programme feasibility test are all in the Springer Handbook
   chapter by Prattichizzo and Trinkle. Our rule that "unactuated torque must
-  be zero" has its closest published match in the handbook's force-closure
-  definition, which adds a condition on the hand's null space. We should cite
-  these, not present them as ours.
-- **What we can borrow.** SynGrasp (Siena) holds the compliance model we lack:
-  joint, contact and synergy springs. Our zero-torque rule and our rigid
+  be zero" is the statics of Bicchi and Prattichizzo 2000 (eq. 15), which we
+  have now read; the handbook's force-closure definition states a related
+  condition on the hand's null space. We should cite these, not present
+  them as ours.
+- **What we can borrow.** SynGrasp (Siena) holds the full compliance model:
+  joint, contact and synergy springs. We have only joint stiffness, as a
+  bound on held torque. Our zero-torque rule and our rigid
   coupling of slaved joints are, by our reading of its equations, the two
   limits of that model. The Valero-Cuevas
   index-finger model gives a human-finger force set from published numbers,
@@ -53,48 +57,82 @@ Effort estimates use one coarse scale: **hours** (under a day), **days**
 ## 1. Our tool, in the terms the literature uses
 
 This summary is from the code on `main`, so the reader can match each
-source to a line.
+source to a line. It was first written against the strength model before
+commit fbf16fd. It was updated on 23 October, after that commit and after
+the scale margin was added, and the line numbers below are for that
+version.
 
 - **Contact model.** Hard finger, point contact with friction. The contact
   Jacobian is `Jf = jacp[:, f.dof]` from MuJoCo's `mj_jac` at the pad point
-  ([follow.py:524](../gramian_workshop/follow.py)).
+  ([follow.py:545](../gramian_workshop/follow.py)).
 - **Friction cone.** Per finger, the leader's force must lie inside the cone:
-  `fv @ n_in >= cos(atan(mu))*|fv|` (follow.py:526). For redistribution, the
+  `fv @ n_in >= cos(atan(mu))*|fv|` (follow.py:547). For redistribution, the
   cone is an inscribed pyramid of `CONE_EDGES = 8` edges
   ([capability_core.py:17](../gramian_workshop/vendor/capability_core.py),
   `generators` at line 89). `OUTER_FACTOR = 1/cos(π/8)` (line 20) gives the
   circumscribed pyramid as an outer bracket
   ([readout.py:53, 96, 234](../gramian_workshop/readout.py)).
-- **Transmission.** `_transmission` (follow.py:575–597) folds slaved joints
-  into their masters (the matrix E, with each slaved entry the derivative of
-  the polynomial coupling). Inputs act through B = M E. For a contact force
-  f, `Pu @ f` is the input it needs, and `Nu @ f` is the joint torque no
-  input can make, which lies in the null space of B^T.
-- **Torque check.** Per finger, all inputs must be within limits, and the
-  unbalanced torque must be at most `UNACT_TOL` (0.05) of |J^T f|
-  (follow.py:530–534).
-- **Redistribution.** `_redistribute` (follow.py:612–652) asks whether the
+- **Transmission and strength.** `_finger_columns` (follow.py:599–630)
+  folds slaved joints into their masters (the matrix E, with each slaved
+  entry the derivative of the polynomial coupling). A contact force f needs
+  the reduced joint torque Tr f, with Tr = E^T Jf^T. The finger can supply
+  C x with every x between 0 and 1. C has one column per input sense: one
+  for a muscle, which only pulls, and two for a motor with a two-sided
+  range. With a joint stiffness kq above zero, each free joint adds two
+  passive columns, sized so the contact moves at most `DEFLECT_MAX_M`. The
+  default kq is 0, so by default torque that no input can make must be
+  zero.
+- **Torque check.** `_columns_hold` (follow.py:633–642) solves for x by
+  non-negative least squares. The unbalanced torque must be at most
+  `UNACT_TOL` (0.05) of |Tr f|.
+- **Redistribution.** `_redistribute` (follow.py:658–682) asks whether the
   contacts we made can produce the leader's object wrench with forces of
   their own choosing. It runs three tests in turn: span (least squares, line
-  625), friction (non-negative least squares on the pyramid), then torque.
-  The torque test stacks the wrench balance, a row block forcing the
-  unactuated torque to zero (line 643), and the input limits as slack rows
-  (lines 647–649). The wrench may be missed by `RESID_TOL` (0.05) of its
-  norm.
+  671), friction (non-negative least squares on the pyramid, line 675), then
+  torque. The torque system is built by `_torque_stack` (follow.py:685–712).
+  It stacks the wrench balance, each finger's joint balance Tr F λ = C x,
+  and x plus a slack equal to 1. The wrench may be missed by `RESID_TOL`
+  (0.05) of its norm.
+- **Scale margin.** `_scale_margin` (follow.py:715–792) gives each frame the
+  largest factor s by which the leader's object wrench could grow and still
+  pass the torque test of `_redistribute`. It uses the same system, with
+  s times the wrench on the right-hand side, and a tolerance that grows
+  with s. Above s = 1 the joint-balance and input-bound rows keep the
+  slack they have at s = 1: every row is divided by s and the contact
+  forces are taken per unit s, which is the same as weighting those rows
+  by s but better conditioned. Without this, a 5 % slack on a large wrench
+  let the inputs run several times past their limits, and every passing
+  frame read as capped (our check on the stored outputs, 23 October). The
+  search starts as the vendored W20 one: every point of `cap.SCALE_GRID`
+  (0 to 16 in steps of 0.25), then bisection to `cap.BISECT_TOL` (1e-4).
+  W20's bar is exact, so it needs neither change. Where 16 still holds, we
+  double the scale up to `MARGIN_MAX` (1024), because the cup leaders
+  clear 16, and bisect only to `MARGIN_REL` (1 %) of the margin, because
+  each failed solve there is slow. Even so the margin makes a run several
+  times slower, so `follow` leaves it off unless asked (`margin=True`), as
+  `readout.soft_hold` does (`want_margin=False`). It reports
+  `capped` when `MARGIN_MAX` still holds, and `contiguous` when the grid
+  points that hold form one run. The margin is 0 when the span or friction
+  test fails, since neither depends on scale. With the default kq = 0, a
+  frame whose unactuated joints cannot reach zero torque fails at every
+  scale, so it also reads 0: the margin grades only frames that pass that
+  rule. It is absent when no finger has its torque checked.
 - **Task.** One exact wrench per frame, given by the leader motion. There is
-  no task set, no worst case over a set, and no scalar quality index. Each
-  frame is green, amber or red.
-- **Search.** Cross-entropy placement (`placement_search`, line 316) and a
+  no task set and no worst case over a set. Each frame is green, amber or
+  red, and, when asked (`margin=True`), carries its scale margin.
+- **Search.** Cross-entropy placement (`placement_search`, line 330) and a
   permutation assignment of fingers to stations (`best_assignment`, line
-  369).
-- **Constants.** follow.py:66–85. They include `REACH_GREEN_M` 2 mm,
+  383).
+- **Constants.** follow.py:74–99. They include `REACH_GREEN_M` 2 mm,
   `REACH_AMBER_M` 10 mm, `FACE_GREEN_DEG` 30, `FACE_AMBER_DEG` 60,
-  `CONTACT_CONE_DEG` 85 (line 70), `IK_ITERS` 60 (line 74), `RESID_TOL`
-  (line 79), `RESPACE_DEG` 20 (line 83), `UNACT_TOL` (line 84) and
-  `FACE_WEIGHT_M` 0.02 m per radian (line 85).
-- **Compliance.** None in `follow.py`. Passive tip stiffness enters only in
-  `readout.soft_hold_passive` (readout.py:197), used by `demos/passive.py`,
-  as a spring force within a deflection budget.
+  `CONTACT_CONE_DEG` 85 (line 78), `IK_ITERS` 60 (line 82), `RESID_TOL`
+  (line 87), `RESPACE_DEG` 20 (line 91), `UNACT_TOL` (line 92),
+  `DEFLECT_MAX_M` 2 mm (line 93), `JOINT_STIFFNESS` 0 (line 94) and
+  `FACE_WEIGHT_M` 0.02 m per radian (line 95).
+- **Compliance.** Passive joint stiffness is in `_finger_columns`, as
+  above. Passive tip stiffness also enters `readout.soft_hold_passive`
+  (readout.py:197), used by `demos/passive.py`, as a spring force within a
+  deflection budget.
 - **Gramians** (in the Gramain_extraction repo, `gramian_map/jacobian.py`,
   not this one): W_c = Σ_k |dp_k| J_k J_k^T and
   W_o = Σ_k |dp_k| (y_k − y0)(y_k − y0)^T, over the input steps dp_k of one
@@ -154,12 +192,12 @@ GitHub. We did not download the official 2.6 zip, so the 2.6 source is
 |---|---|---|---|
 | `SGgraspMatrix` (G from contact points and object centre) | Maps contact forces to object wrench, w = −Gλ (T-RO eq 2) | `capability_core.direction_basis` (line 76) and `generators` (line 89); torques divided by a length L | Same object. We scale torque by L. |
 | `SGselectionMatrix`, `SGhMatrix` (contact type: hard finger, soft finger, full constraint) | Selects which wrench components a contact carries | Hard finger only, implicit in using the 3-row `jacp` | Same as their hard-finger type. We have no soft-finger type. |
-| `SGjacobianMatrix`, then J = H J̃ | Hand Jacobian at the contacts | `Jf = jacp[:, f.dof]` from `mj_jac` (follow.py:524) | Same. MuJoCo gives it; they build it from Denavit–Hartenberg chains. |
-| `SGdefineSynergies` (S, with qr = S z) | Inputs set a reference posture through S | `_transmission` E and B = M E (follow.py:575–597) | Different. Our E is a rigid coupling: q is exactly E z. Theirs is a reference that springs pull towards. |
-| `SGjointStiffness` (Kq), `SGcontactStiffness` (Ks), `SGsynergyStiffness` (Kz) | Springs at joints, contacts and inputs | None in `follow.py`. Tip stiffness only in `readout.soft_hold_passive` | We lack this. It is the main thing to borrow. |
+| `SGjacobianMatrix`, then J = H J̃ | Hand Jacobian at the contacts | `Jf = jacp[:, f.dof]` from `mj_jac` (follow.py:545) | Same. MuJoCo gives it; they build it from Denavit–Hartenberg chains. |
+| `SGdefineSynergies` (S, with qr = S z) | Inputs set a reference posture through S | E and the input columns C in `_finger_columns` (follow.py:599–630) | Different. Our E is a rigid coupling: q is exactly E z. Theirs is a reference that springs pull towards. |
+| `SGjointStiffness` (Kq), `SGcontactStiffness` (Ks), `SGsynergyStiffness` (Kz) | Springs at joints, contacts and inputs | Joint stiffness kq as passive columns in `_finger_columns`, within a deflection budget (default kq 0). Tip stiffness in `readout.soft_hold_passive` | Partly. Our kq bounds the torque a joint can hold; it does not solve for the deflection. We have no Ks or Kz. |
 | `SGquasistatic` (X = inv(Uq+Kq) Kq, and so on) | Solves the linearised system for a change in input | None. We test one static load per frame | Different question: they ask "what happens", we ask "can it hold". |
-| `SGgraspAnalysis`: E = orth(A B1), V = null(J), N = null(J') | Active internal forces, internal motions, structural forces | Our null(B^T) block in `_redistribute` (follow.py:643) | Related. Their N = null(J^T) is the handbook's "defective" class; ours is the null space of the input map. |
-| `SGcheckFriction`, `SGVcost` (barrier cost on the cone) | Checks friction, hard finger only | Per-finger cone test (follow.py:526) and the pyramid NNLS in `_redistribute` | Same test. We use an 8-edge pyramid with an outer bracket; they use the circular cone. |
+| `SGgraspAnalysis`: E = orth(A B1), V = null(J), N = null(J') | Active internal forces, internal motions, structural forces | The joint balance Tr F λ = C x in `_torque_stack` (follow.py:685–712) | Related. Their N = null(J^T) is the handbook's "defective" class; ours is the torque that the input columns cannot reach. |
+| `SGcheckFriction`, `SGVcost` (barrier cost on the cone) | Checks friction, hard finger only | Per-finger cone test (follow.py:547) and the pyramid NNLS in `_redistribute` | Same test. We use an 8-edge pyramid with an outer bracket; they use the circular cone. |
 | `SGminSVG`, `SGgraspIsotropyIndex`, `SGdistSingularConfiguration`, `SGmanipEllipsoidVolume`, `SGunifTransf` | Scalar quality indices from G and from H_O = (G^+)^T J | None. We give no scalar index | We could report these as extras, but they score a grasp, not a task. |
 | `SGkinManipulability`, `SGforceManipulability` | Ellipsoids under compliant synergies (RAS 2012 section 4) | None | Different: they describe a set; we test one wrench. |
 
@@ -198,20 +236,28 @@ Our two rules are the two ends of that model:
 
 - **Rigid limit.** With joint compliance Cq = 0, T-RO Remark 1 gives
   q = S z (eq 27). That is our E folding of slaved joints in
-  `_transmission`: the coupling is exact, and torques across it are reaction
-  loads.
-- **Zero-stiffness limit.** Our requirement that the torque in null(B^T) be
-  zero (follow.py:534 and 643) is what holds when those directions have no
-  stiffness at all. In SynGrasp terms, our S plays the role of B^T, since
-  τ = B^T u.
-- **Between the two.** A finite Kq in the null(B^T) directions lets the
-  finger hold some unactuated torque by deflecting. The deflection must then
-  stay within a budget. This is what `readout.soft_hold_passive` already does
-  for tip stiffness, and what we would need for real soft fingers.
+  `_finger_columns`: the coupling is exact, and torques across it are
+  reaction loads.
+- **Zero-stiffness limit.** Our requirement that torque no input column
+  covers be zero (the joint balance in `_columns_hold` and `_torque_stack`,
+  with kq = 0) is what holds when those directions have no stiffness at
+  all. In SynGrasp terms, our input columns play the role of S.
+- **Between the two.** A finite Kq lets the finger hold some unactuated
+  torque by deflecting. The deflection must then stay within a budget. This
+  is what `readout.soft_hold_passive` does for tip stiffness, and what we
+  would need for real soft fingers.
 
 This is our inference from the equations, not a statement in any source.
 The zero-torque passive-joint model is attributed to Bicchi and Prattichizzo
-2000 by the RAS and T-RO papers; we read only that paper's metadata.
+2000 by the RAS and T-RO papers. We have now read that paper: its eq. 15
+sets J_p^T f = 0 at passive joints (section 5).
+
+Since commit fbf16fd, `follow.py` has the middle case in a simple form.
+With a joint stiffness kq above zero, `_finger_columns` lets each free joint
+hold a passive torque up to kq times the joint angle that moves the contact
+by `DEFLECT_MAX_M`. This bounds the deflection rather than solving for it,
+as SynGrasp's quasi-static model would. The default kq is 0, the
+zero-stiffness limit.
 
 A practical note: `SGgraspStiffness` inverts Kq, so it cannot take a Kq that
 is zero in some directions. `SGquasistatic` uses X = inv(Uq+Kq) Kq, which can.
@@ -266,16 +312,20 @@ check reduced to one point. Our per-frame check is therefore their
 feasibility condition applied to a task set of one wrench, with the hand's
 torques added.
 
-**A margin we could add.** With one wrench, their β becomes a scale margin:
-the largest factor by which the leader's wrench could grow and still be held.
-No source we read names this per-frame quantity; it is our suggestion. The
-nearest published scalar is the margin d of the handbook's LP2 (section 5,
-Prattichizzo and Trinkle). It would turn our amber band into a number
-without changing the test.
+**The scale margin, now built.** With one wrench, their β becomes a scale
+margin: the largest factor by which the leader's wrench could grow and still
+be held. No source we read names this per-frame quantity; it is our
+suggestion. The nearest published scalar is the margin d of the handbook's
+LP2 (section 5, Prattichizzo and Trinkle). The nearest in Bicchi and
+Prattichizzo 2000 is passive force manipulability (section 5). `follow.py`
+reports it for every frame when asked, as `scale_margin` (section 1). It is a
+search over scale on the existing torque test, not the handbook's LP2, and
+it does not change any verdict. Unlike β it is not a worst case over a
+task set, and with kq = 0 it reads 0 for every frame that fails the
+zero-torque rule, so it grades only the frames that pass it.
 
-**Verdict.** **Cite** as the origin of task-oriented grasp quality. **Borrow**
-the scale margin. Effort: **hours** to compute it as one more linear
-programme per frame.
+**Verdict.** **Cite** as the origin of task-oriented grasp quality. The
+scale margin is done.
 
 Related work, citation only:
 - Li Z, Hsu P, Sastry S. "Grasping and coordinated manipulation by a
@@ -506,7 +556,8 @@ Related work, citation only:
   - Our equivalent: nearly all of section 1. Our generators and outer bracket
     are eq 38.59. Definition 38.10 (force closure) adds the condition
     N(G) ∩ N(J^T) = 0 to frictional form closure; this is the closest
-    published match to our zero-unactuated-torque block.
+    published match in the handbook to our zero-unactuated-torque block;
+    Bicchi and Prattichizzo 2000 eq. 15 is the direct one.
   - Notation clash: the handbook's H is the contact selection matrix; Roa and
     Suárez use H for the hand-object Jacobian.
   - Verdict: **cite** as the reference for what we reinvent. Effort: none.
@@ -585,10 +636,43 @@ Related work, citation only:
   unactuated joints and closed-chain mechanisms".** *IEEE T-RA* 16(4):336–345,
   2000. DOI 10.1109/70.864226. Precursor: "Manipulability of cooperating
   robots with passive joints", *Proc. 1998 IEEE ICRA*, vol. 2, pp. 1038–1044,
-  DOI 10.1109/robot.1998.677226. **[metadata only]** Cited by the SynGrasp
-  papers as the passive-joint model, which is our zero-torque rule. Verdict:
-  **read and cite**: it is the most direct precedent for our rule. Effort:
-  **hours**.
+  DOI 10.1109/robot.1998.677226. **[read: the 2000 paper in full; the 1998
+  paper from an archived copy]** The 2000 paper's reference [4] confirms
+  the 1998 pages.
+  - What it does: kinematic and force manipulability for cooperating arms
+    and closed chains whose joints are split into active (J_a) and passive
+    (J_p). The statics are eq. 15: the object wrench is w = G f, the active
+    torques are τ_a = −J_a^T f, and J_p^T f = 0, since "no torque is applied
+    at passive joints". The Remark after eq. 15 gives eq. 16: with
+    unrestricted active torques, w can be balanced if and only if it lies in
+    the range of G restricted to the null space of J_p^T. Balancing every w
+    needs eqs. 17–18: N(G^T) = 0 and R(G^T) ∩ R(J_p) = 0. Structural forces
+    lie in N(J_a^T) ∩ N(J_p^T). A mechanism is statically indeterminate when
+    N(G) ∩ N(J_a^T) ≠ 0. The forces decompose as eq. 19. Active force
+    manipulability (eq. 20) is a worst case over structural forces. Passive
+    force manipulability (eq. 21) takes, for each external wrench, the
+    least-cost torque that opposes it. Section IV.D shows that force
+    manipulability does not follow from kinematic manipulability by duality;
+    duality holds only between the optimised and worst-case pair (eqs. 13
+    and 24). Section IV.C notes that friction and unilateral contact bound
+    the internal forces nonlinearly, and points to Bicchi 1995 (IJRR) for
+    that. The case studies are a five-bar linkage and a Stewart platform.
+    The 1998 paper has the same statics (its eq. 12, read from a scan) and
+    the same active/passive split.
+  - What it does not do: no torque limits, no friction cones and no linear
+    programmes. Its indices are quadratic forms, read as ellipsoids.
+  - Our equivalent: eq. 15 is our default strength rule (joint stiffness 0):
+    torque that no input column covers must be zero. Eq. 16 is our span
+    test with the torque limits removed. We add one-sided inputs, torque
+    limits and friction pyramids, which turn their linear-algebra condition
+    into a non-negative least-squares feasibility test. So we inherit their
+    constraint, not their index. Our scale margin is, by our reading, the
+    single-wrench analogue of their passive force manipulability (eq. 21),
+    with a polytope of torques in place of their quadratic cost. That
+    mapping is our inference; neither paper states it.
+  - Verdict: **cite** as the direct precedent for our zero-torque rule. The
+    SynGrasp papers' attribution of the passive-joint model to them is
+    correct. Effort: none further.
 - **Bicchi A, Melchiorri C, Balluchi D. "On the mobility and manipulability of
   general multiple limb robots".** *IEEE T-RA* 11(2):215–228, 1995. DOI
   10.1109/70.370503. **[metadata only]** Verdict: **cite**.
@@ -831,10 +915,11 @@ approximate the friction cone by an inscribed pyramid, and test by linear
 programme whether the contacts can balance a given object wrench, as set out
 in the Springer Handbook chapter on grasping (Prattichizzo and Trinkle 2008,
 2016). For our requirement that torque the actuators cannot produce must
-vanish, the closest published match we have read is the handbook's
-force-closure definition, which adds a condition on the hand's null space.
-The passive-joint model of Bicchi and Prattichizzo (2000) is likely the
-direct precedent, but we have not yet read it. Task-oriented
+vanish, the direct precedent is the passive-joint model of Bicchi and
+Prattichizzo (2000), whose statics require zero torque at unactuated
+joints; we add torque limits and friction cones to it. The handbook's
+force-closure definition states a related condition on the hand's null
+space. Task-oriented
 grasp quality goes back to Li and Sastry (1988), and Pollard (1994) already
 noted that the ideal measure would map joint torques rather than contact
 forces. For compliance we follow the soft-synergy model of Prattichizzo and
@@ -868,20 +953,20 @@ predictive.
 
 ## 7. What to port first, ranked
 
-1. **Read Bicchi and Prattichizzo 2000.** It is the most direct precedent
-   for our zero-torque rule, and we have only its metadata. Effort:
-   **hours**.
-2. **A per-frame scale margin.** The largest factor by which the leader's
-   wrench could grow and still be held: one linear programme per frame on
-   the existing `_redistribute` system (Li and Sastry's β for a single
-   wrench; the handbook's LP2 margin is the nearest published form). It turns
-   the amber band into a number. Effort: **hours**.
-3. **Joint compliance from SynGrasp.** A finite Kq in the null(B^T)
-   directions of `_transmission`, so that unactuated torque is held by
-   deflection within a budget, in place of the hard zero at follow.py:534 and
-   643. This generalises what `readout.soft_hold_passive` does for tip
-   stiffness. Effort: **days**, including a check against a SynGrasp example
-   run in MATLAB or Octave.
+1. **Read Bicchi and Prattichizzo 2000.** Done on 23 October (section 5).
+   It is the direct precedent for our zero-torque rule.
+2. **A per-frame scale margin.** Done on 23 October and corrected on 24
+   October (input-bound slack, cost; now off by default): `_scale_margin` in
+   `follow.py` (section 1). It is the largest factor by which the leader's
+   wrench could grow and still be held, on the existing `_redistribute`
+   system (Li and Sastry's β for a single wrench; the handbook's LP2 margin
+   is the nearest published form).
+3. **Joint compliance from SynGrasp.** Partly done in commit fbf16fd: a
+   finite kq lets each free joint hold torque within a deflection budget
+   (section 2). Still to do: solve for the deflection, as SynGrasp's
+   quasi-static model does, rather than bound it; add contact stiffness;
+   and check against a SynGrasp example run in MATLAB or Octave. Effort:
+   **days**.
 4. **The two other routes to the human finger.** The 2000 cadaver tendon
    actions and the 2018 numeric matrix, as checks on our rebuild, and Synek
    and Pahr 2016 before trusting the hood split. Effort: **hours** each; the
@@ -908,8 +993,6 @@ Do not cite these as fact until someone checks them.
   downloaded).
 - The SynGrasp v2.2 sign question in the Kz row of `SGquasistaticHsolution`.
 - The content of the SynGrasp video (title, channel and date only).
-- The content of Bicchi and Prattichizzo 2000 and 1998, including the
-  passive-joint zero-torque model attributed to them.
 - That Borst, Fischer and Hirzinger 2004 fit an ellipsoid to the object
   wrench space; the content of Haschke et al. 2005.
 - Where the force manipulability ellipsoid was first defined.
