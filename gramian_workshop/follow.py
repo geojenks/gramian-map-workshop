@@ -56,6 +56,11 @@ Verdict per finger per frame (and per frame: the worst finger):
           produced with different forces at the contacts the hand does make
           (the W20 readout, vendored: direction, friction cone, torque)
   red     neither; the reason is the first test failed
+With follow(margin=True), each frame also carries a scale_margin: the
+largest factor by which the leader's object wrench could grow and the
+contacts made still produce it (see _scale_margin). It does not change the
+verdict. It is off by default, as in readout.soft_hold(want_margin=False), because it
+makes a run several times slower.
 
 Simulation only; comparative, not predictive. The hand's own weight is not
 counted, and only position-level reach is checked (no collisions).
@@ -90,6 +95,10 @@ UNACT_TOL = 0.05           # unbalanced joint torque allowed, share of |J^T f|
 DEFLECT_MAX_M = 0.002      # passive joint stiffness may deflect the contact this far
 JOINT_STIFFNESS = 0.0      # N.m/rad, passive, every free joint (follow(joint_stiffness=))
 FACE_WEIGHT_M = 0.02       # metres of position error per radian of facing error
+MARGIN_MAX = 1024.0        # proposed: scale margin search stops here (W20's grid
+                           # ends at cap.SCALE_MAX = 16; the cup leaders clear that)
+MARGIN_REL = 0.01          # proposed: above that grid, bisect to this share of the
+                           # margin (a failed solve there costs ~0.7 s)
 
 
 # ----------------------------------------------------------------------
@@ -429,13 +438,14 @@ def torque_limits(hand, finger):
 
 def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
-           placement=None, joint_stiffness=None):
+           placement=None, joint_stiffness=None, margin=False):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
     respace: move stations round the ring to suit the hand; placement: a
     previous result's "placement" and "assignment" (and "respace_deg"), to
-    re-evaluate without searching again."""
+    re-evaluate without searching again; margin: give each frame a
+    scale_margin (see _scale_margin)."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -443,7 +453,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     try:
         return _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol,
                        place or {}, wrist, respace, placement,
-                       JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness))
+                       JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness),
+                       margin)
     finally:
         IK_ITERS = old_iters
 
@@ -482,7 +493,7 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 
 
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
-            respace, placement, kq):
+            respace, placement, kq, margin=True):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
@@ -573,8 +584,11 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             for x in per:
                 if x.get("state") == "amber?":
                     x["state"] = "amber" if ok else "red"
+        if margin:
+            sm = _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol)
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
                        "unserved": unserved, "fingers": per,
+                       **({"scale_margin": sm} if margin else {}),
                        **({"wrist_rad": wq} if wq is not None else {})})
     return {"hand": hand_key, "hand_name": hand.spec["name"],
             "leader": leader_json["id"], "placement_cost_mm": cost * 1e3,
@@ -583,7 +597,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "place": {**PLACE_FINE, **place}, "wrist": wrist,
                          "respace": respace, "reused_placement": placement is not None,
                          "strength": "input columns, one-sided where the model says (23 Oct)",
-                         "joint_stiffness_Nm_per_rad": kq, "deflect_max_m": DEFLECT_MAX_M},
+                         "joint_stiffness_Nm_per_rad": kq, "deflect_max_m": DEFLECT_MAX_M,
+                         "scale_margin": margin},
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
             "respace_deg": np.degrees(leader.phi).tolist(),
@@ -671,6 +686,15 @@ def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None):
         return False, "friction"
     if all(c_ is None for c_ in Js):
         return True, None
+    Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
+    rhs = np.concatenate([ws, np.zeros(nt), np.ones(nx)])
+    ok = _feasible(Mx, rhs, tol)[0]
+    return (True, None) if ok else (False, "torque")
+
+
+def _torque_stack(Gs, cidx, Fc, Js, L):
+    """(Mx, nt, nx): the stacked system for the torque test, with the object
+    wrench as the first 6 rows of its right-hand side."""
     # unknowns: cone weights (Gs columns), each finger's input use x in
     # [0, 1] (its C columns), slacks; rows: the object wrench, each finger's
     # joint balance Tr F lambda = C x (N.m / L), and x + slack = 1
@@ -695,9 +719,87 @@ def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     Mx = np.block([[Gs, np.zeros((6, 2 * nx))],
                    [np.vstack(T_rows), -Cb, np.zeros((nt, nx))],
                    [np.zeros((nx, ng)), np.eye(nx), np.eye(nx)]])
-    rhs = np.concatenate([ws, np.zeros(nt), np.ones(nx)])
-    ok = _feasible(Mx, rhs, tol)[0]
-    return (True, None) if ok else (False, "torque")
+    return Mx, nt, nx
+
+
+def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
+    """Largest factor s by which the leader's object wrench could grow and
+    the made contacts still produce it: the system and tolerance of
+    _redistribute, the tolerance growing with the wrench; above s = 1 the
+    joint-balance and input-bound rows are held to their s = 1 slack (see
+    held). The search of the vendored W20 cap.scale_margin, whose bar is
+    exact and so needs no such weighting: every point of cap.SCALE_GRID, then
+    bisection to cap.BISECT_TOL above the largest feasible one; if the top of
+    the grid holds, doubling up to MARGIN_MAX first and bisecting only to
+    MARGIN_REL of the margin. 1.0 is a grid
+    point, so when the feasible points form one run, margin >= 1 exactly when
+    _redistribute says ok. Returns {margin, capped, contiguous}; margin 0 if
+    the direction or friction test fails (neither depends on scale); None
+    with no contact or no torque checked (the cones alone set no scale).
+    With kq = 0 a failed zero-torque row on an unactuated joint fails at
+    every scale, so such frames read 0: the margin grades only frames that
+    pass that rule."""
+    tol_frac = RESID_TOL if resid_tol is None else resid_tol
+    if not pts or all(c_ is None for c_ in Js):
+        return None
+    pts, nrms = np.array(pts), np.array(nrms)
+    ws = cap.scale_wrench(W, L)
+    wn = float(np.linalg.norm(ws))
+    none = {"margin": 0.0, "capped": False, "contiguous": True}
+    tol = max(tol_frac * wn, cap.FEAS_REL)
+    D = cap.direction_basis(pts, nrms, c, L)
+    x, *_ = np.linalg.lstsq(D, ws, rcond=None)
+    if np.linalg.norm(D @ x - ws) > tol:
+        return none
+    Gs, cidx, Fc = cap.generators(pts, nrms, c, mu, L)
+    if not _feasible(Gs, ws, tol)[0]:
+        return none
+    Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
+
+    ng = Gs.shape[1]
+
+    def held(s):
+        # above s = 1, every row divided by s and the cone weights taken per
+        # unit s: the wrench rows keep their s = 1 form, the contact torque
+        # grows by s, and the joint-balance and input-bound rows keep the
+        # slack they have at s = 1. With one shared slack of 5 % of s times
+        # the wrench, a large wrench would let the inputs run far past their
+        # limits.
+        if s <= 1.0:
+            rhs = np.concatenate([s * ws, np.zeros(nt), np.ones(nx)])
+            return _feasible(Mx, rhs, max(tol_frac * s * wn, cap.FEAS_REL))[0]
+        Ms = Mx.copy()
+        Ms[6:6 + nt, :ng] *= s
+        rhs = np.concatenate([ws, np.zeros(nt), np.ones(nx)])
+        return _feasible(Ms, rhs, max(tol_frac * wn, cap.FEAS_REL))[0]
+
+    grid = np.array([held(s) for s in cap.SCALE_GRID])
+    idx = np.where(grid)[0]
+    if len(idx) == 0:
+        return none
+    out = {"margin": 0.0, "capped": False,
+           "contiguous": bool(idx[-1] - idx[0] + 1 == len(idx))}
+    top = idx[-1]
+    if top == len(cap.SCALE_GRID) - 1:
+        # past the W20 grid: double until it fails or MARGIN_MAX holds
+        a = float(cap.SCALE_GRID[top])
+        while a < MARGIN_MAX and held(2 * a):
+            a *= 2
+        if a >= MARGIN_MAX:
+            out.update(margin=a, capped=True)
+            return out
+        b, step = 2 * a, MARGIN_REL * a
+    else:
+        a, b = float(cap.SCALE_GRID[top]), float(cap.SCALE_GRID[top + 1])
+        step = cap.BISECT_TOL
+    while b - a > step:
+        m = 0.5 * (a + b)
+        if held(m):
+            a = m
+        else:
+            b = m
+    out["margin"] = a
+    return out
 
 
 def reach_bound(hand_key, leader_json, result, middle=False, n=6000, seed=0,
