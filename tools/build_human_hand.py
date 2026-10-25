@@ -4,8 +4,18 @@ opposed base (George, 23 Oct: "the 4 fingers can be offset copies ... can we
 get away with just increasing [the thumb's] abduction and offsetting its
 starting position?").
 
-    python tools/build_human_hand.py [--column adjusted] [--arch]
-        ->  data/hands/human_vc1998/hand.xml (or human_vc1998_arch/ with --arch)
+    python tools/build_human_hand.py [--column adjusted] [--arch] [--proportions]
+        ->  data/hands/human_vc1998[_arch][_prop]/hand.xml
+
+--proportions gives each digit measured human proportions instead of copies
+of the index: Buryanov & Kotiuk 2010 (Int. J. Morphol. 28(3):755-758, Table
+I, X-ray bone lengths, 66 adults). Bone lengths are not the joint-to-joint
+lengths of Valero-Cuevas's index (50/31/16 mm, An et al. 1979), so each
+segment is the index's scaled by that segment's ratio to the index's in
+Table I (the index is unchanged); the thumb's metacarpal, proximal and
+distal phalanx map onto the chain's three segments. Knuckle positions along
+the hand follow the metacarpal lengths with the metacarpal bases level
+(ASSUMED). Moment arms and muscle forces stay the index's in every digit.
 
 --arch adds a transverse palmar arch (ASSUMED values, not measured): the
 ring and little MCPs sit ARCH_PALMAR_M palmar of the index and middle, and
@@ -47,6 +57,29 @@ THUMB_CURL = np.array([-0.8, 0.2, 0.6])           # its z (palmar) axis, before 
 THUMB_ABD_DEG = 60.0
 ARCH_PALMAR_M = {"index": 0.0, "middle": 0.0, "ring": 0.004, "little": 0.008}
 ARCH_ROLL_DEG = {"index": 0.0, "middle": 0.0, "ring": 8.0, "little": 16.0}
+# Buryanov & Kotiuk 2010, Table I (mm): distal, medial, proximal phalanx, metacarpal
+BK2010 = {"thumb": (21.67, None, 31.57, 46.22), "index": (15.82, 22.38, 39.78, 68.12),
+          "middle": (17.40, 26.33, 44.63, 64.60), "ring": (17.30, 25.65, 41.37, 58.00),
+          "little": (15.96, 18.11, 32.74, 53.69)}
+
+
+def segment_lengths(name, proportions):
+    """(proximal, middle, distal) chain segment lengths (m)."""
+    if not proportions:
+        return vc.L_PROX, vc.L_MID, vc.L_DIST
+    ix = BK2010["index"]
+    k = (vc.L_PROX / ix[2], vc.L_MID / ix[1], vc.L_DIST / ix[0])
+    d, mm, pp, mc = BK2010[name]
+    bones = (mc, pp, d) if name == "thumb" else (pp, mm, d)
+    return tuple(b * f for b, f in zip(bones, k))
+
+
+def mcp_y(name, proportions):
+    """Knuckle position along the hand: the index's at MCP_Y, the others
+    shifted by their metacarpal's length difference (bases level)."""
+    if not proportions:
+        return MCP_Y
+    return MCP_Y + (BK2010[name][3] - BK2010["index"][3]) / 1e3
 
 
 def _quat(R):
@@ -66,7 +99,8 @@ def thumb_frame():
     return np.column_stack([x, y, z])
 
 
-def finger_xml(name, pos, quat, abd_deg):
+def finger_xml(name, pos, quat, abd_deg, lengths=None):
+    Lp, Lm, Ld = lengths or (vc.L_PROX, vc.L_MID, vc.L_DIST)
     lo = {k: math.radians(v[0]) for k, v in fm.RANGE_DEG.items()}
     hi = {k: math.radians(v[1]) for k, v in fm.RANGE_DEG.items()}
     lo["mcp_add"], hi["mcp_add"] = -math.radians(abd_deg), math.radians(abd_deg)
@@ -76,11 +110,11 @@ def finger_xml(name, pos, quat, abd_deg):
   <body name="{name}_prox" pos="{pos[0]} {pos[1]} {pos[2]}" quat="{quat}">
     <joint name="{name}_mcp_add" axis="0 0 1" {rng('mcp_add')}/>
     <joint name="{name}_mcp_flex" axis="1 0 0" {rng('mcp_flex')}/>
-    {seg(vc.L_PROX, fm.RADIUS[0], fm.MASS[0])}
-    <body name="{name}_mid" pos="0 {vc.L_PROX} 0"><joint name="{name}_pip" axis="1 0 0" {rng('pip')}/>
-      {seg(vc.L_MID, fm.RADIUS[1], fm.MASS[1])}
-      <body name="{name}_distal" pos="0 {vc.L_MID} 0"><joint name="{name}_dip" axis="1 0 0" {rng('dip')}/>
-        {seg(vc.L_DIST, fm.RADIUS[2], fm.MASS[2])}
+    {seg(Lp, fm.RADIUS[0], fm.MASS[0])}
+    <body name="{name}_mid" pos="0 {Lp:.5f} 0"><joint name="{name}_pip" axis="1 0 0" {rng('pip')}/>
+      {seg(Lm, fm.RADIUS[1], fm.MASS[1])}
+      <body name="{name}_distal" pos="0 {Lm:.5f} 0"><joint name="{name}_dip" axis="1 0 0" {rng('dip')}/>
+        {seg(Ld, fm.RADIUS[2], fm.MASS[2])}
       </body></body></body>"""
 
 
@@ -90,17 +124,18 @@ def _roll(deg):
     return np.array([[math.cos(a), 0, math.sin(a)], [0, 1, 0], [-math.sin(a), 0, math.cos(a)]])
 
 
-def build(column, arch=False):
+def build(column, arch=False, proportions=False):
     R_mm, F0, _ = vc.build(column)
     R_m = R_mm / 1e3
     joints = ["mcp_add", "mcp_flex", "pip", "dip"]
     names = list(FINGERS) + ["thumb"]
-    if arch:
-        bodies = "".join(finger_xml(n, (x, MCP_Y, ARCH_PALMAR_M[n]), _quat(_roll(ARCH_ROLL_DEG[n])), 30.0)
-                         for n, x in FINGERS.items())
-    else:
-        bodies = "".join(finger_xml(n, (x, MCP_Y, 0.0), "1 0 0 0", 30.0) for n, x in FINGERS.items())
-    bodies += finger_xml("thumb", THUMB_BASE, _quat(thumb_frame()), THUMB_ABD_DEG)
+    bodies = ""
+    for n, x in FINGERS.items():
+        pos = (x, mcp_y(n, proportions), ARCH_PALMAR_M[n] if arch else 0.0)
+        quat = _quat(_roll(ARCH_ROLL_DEG[n])) if arch else "1 0 0 0"
+        bodies += finger_xml(n, pos, quat, 30.0, segment_lengths(n, proportions))
+    bodies += finger_xml("thumb", THUMB_BASE, _quat(thumb_frame()), THUMB_ABD_DEG,
+                         segment_lengths("thumb", proportions))
     tendons, acts = [], []
     for n in names:
         for k, mu in enumerate(vc.MUSCLES):
@@ -109,7 +144,8 @@ def build(column, arch=False):
                 if R_m[i, k] != 0) + "</fixed>")
             acts.append(f'<motor name="{n}_{mu}" tendon="{n}_{mu}" gear="1" ctrlrange="0 {F0[k]:.4g}" '
                         f'ctrllimited="true" forcerange="0 {F0[k]:.4g}" forcelimited="true"/>')
-    xml = f"""<mujoco model="human_vc1998_{column}{'_arch' if arch else ''}">
+    tag = ("_arch" if arch else "") + ("_prop" if proportions else "")
+    xml = f"""<mujoco model="human_vc1998_{column}{tag}">
 <!-- generated by tools/build_human_hand.py ({column} column of Valero-Cuevas et al. 1998, Tables 1-2) -->
 <compiler angle="radian"/>
 <option gravity="0 0 0"/>
@@ -124,7 +160,7 @@ def build(column, arch=False):
 <actuator>{''.join(acts)}</actuator>
 </mujoco>
 """
-    out = OUT.replace("human_vc1998", "human_vc1998_arch") if arch else OUT
+    out = OUT.replace("human_vc1998", "human_vc1998" + tag)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w") as f:
         f.write(xml)
@@ -135,5 +171,10 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--column", default="adjusted", choices=["nominal", "adjusted"])
     ap.add_argument("--arch", action="store_true")
+    ap.add_argument("--proportions", action="store_true")
     a = ap.parse_args()
-    print("wrote", build(a.column, a.arch))
+    print("wrote", build(a.column, a.arch, a.proportions))
+    for n in list(FINGERS) + ["thumb"]:
+        print(f"   {n:7s} segments {[round(x * 1e3, 1) for x in segment_lengths(n, a.proportions)]} mm, "
+              f"knuckle y {mcp_y(n, a.proportions) * 1e3:.1f} mm" if n != "thumb" else
+              f"   {n:7s} segments {[round(x * 1e3, 1) for x in segment_lengths(n, a.proportions)]} mm")

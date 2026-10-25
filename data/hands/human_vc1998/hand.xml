@@ -11,45 +11,45 @@
     <joint name="index_mcp_add" axis="0 0 1" range="-0.523599 0.523599" limited="true"/>
     <joint name="index_mcp_flex" axis="1 0 0" range="-0.523599 1.570796" limited="true"/>
     <geom type="capsule" fromto="0 0 0 0 0.05 0" size="0.009" mass="0.012"/>
-    <body name="index_mid" pos="0 0.05 0"><joint name="index_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
+    <body name="index_mid" pos="0 0.05000 0"><joint name="index_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
       <geom type="capsule" fromto="0 0 0 0 0.031 0" size="0.008" mass="0.006"/>
-      <body name="index_distal" pos="0 0.031 0"><joint name="index_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
+      <body name="index_distal" pos="0 0.03100 0"><joint name="index_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
         <geom type="capsule" fromto="0 0 0 0 0.016 0" size="0.007" mass="0.004"/>
       </body></body></body>
   <body name="middle_prox" pos="0.01 0.08 0.0" quat="1 0 0 0">
     <joint name="middle_mcp_add" axis="0 0 1" range="-0.523599 0.523599" limited="true"/>
     <joint name="middle_mcp_flex" axis="1 0 0" range="-0.523599 1.570796" limited="true"/>
     <geom type="capsule" fromto="0 0 0 0 0.05 0" size="0.009" mass="0.012"/>
-    <body name="middle_mid" pos="0 0.05 0"><joint name="middle_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
+    <body name="middle_mid" pos="0 0.05000 0"><joint name="middle_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
       <geom type="capsule" fromto="0 0 0 0 0.031 0" size="0.008" mass="0.006"/>
-      <body name="middle_distal" pos="0 0.031 0"><joint name="middle_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
+      <body name="middle_distal" pos="0 0.03100 0"><joint name="middle_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
         <geom type="capsule" fromto="0 0 0 0 0.016 0" size="0.007" mass="0.004"/>
       </body></body></body>
   <body name="ring_prox" pos="-0.01 0.08 0.0" quat="1 0 0 0">
     <joint name="ring_mcp_add" axis="0 0 1" range="-0.523599 0.523599" limited="true"/>
     <joint name="ring_mcp_flex" axis="1 0 0" range="-0.523599 1.570796" limited="true"/>
     <geom type="capsule" fromto="0 0 0 0 0.05 0" size="0.009" mass="0.012"/>
-    <body name="ring_mid" pos="0 0.05 0"><joint name="ring_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
+    <body name="ring_mid" pos="0 0.05000 0"><joint name="ring_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
       <geom type="capsule" fromto="0 0 0 0 0.031 0" size="0.008" mass="0.006"/>
-      <body name="ring_distal" pos="0 0.031 0"><joint name="ring_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
+      <body name="ring_distal" pos="0 0.03100 0"><joint name="ring_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
         <geom type="capsule" fromto="0 0 0 0 0.016 0" size="0.007" mass="0.004"/>
       </body></body></body>
   <body name="little_prox" pos="-0.03 0.08 0.0" quat="1 0 0 0">
     <joint name="little_mcp_add" axis="0 0 1" range="-0.523599 0.523599" limited="true"/>
     <joint name="little_mcp_flex" axis="1 0 0" range="-0.523599 1.570796" limited="true"/>
     <geom type="capsule" fromto="0 0 0 0 0.05 0" size="0.009" mass="0.012"/>
-    <body name="little_mid" pos="0 0.05 0"><joint name="little_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
+    <body name="little_mid" pos="0 0.05000 0"><joint name="little_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
       <geom type="capsule" fromto="0 0 0 0 0.031 0" size="0.008" mass="0.006"/>
-      <body name="little_distal" pos="0 0.031 0"><joint name="little_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
+      <body name="little_distal" pos="0 0.03100 0"><joint name="little_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
         <geom type="capsule" fromto="0 0 0 0 0.016 0" size="0.007" mass="0.004"/>
       </body></body></body>
   <body name="thumb_prox" pos="0.04 0.02 0.008" quat="0.788720 0.087087 -0.427229 -0.433373">
     <joint name="thumb_mcp_add" axis="0 0 1" range="-1.047198 1.047198" limited="true"/>
     <joint name="thumb_mcp_flex" axis="1 0 0" range="-0.523599 1.570796" limited="true"/>
     <geom type="capsule" fromto="0 0 0 0 0.05 0" size="0.009" mass="0.012"/>
-    <body name="thumb_mid" pos="0 0.05 0"><joint name="thumb_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
+    <body name="thumb_mid" pos="0 0.05000 0"><joint name="thumb_pip" axis="1 0 0" range="0.000000 1.919862" limited="true"/>
       <geom type="capsule" fromto="0 0 0 0 0.031 0" size="0.008" mass="0.006"/>
-      <body name="thumb_distal" pos="0 0.031 0"><joint name="thumb_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
+      <body name="thumb_distal" pos="0 0.03100 0"><joint name="thumb_dip" axis="1 0 0" range="-0.174533 1.570796" limited="true"/>
         <geom type="capsule" fromto="0 0 0 0 0.016 0" size="0.007" mass="0.004"/>
       </body></body></body>
  </body>

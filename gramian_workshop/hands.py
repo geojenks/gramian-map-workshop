@@ -58,6 +58,18 @@ HANDS = {
         "fingers": {"index": "index_distal", "middle": "middle_distal",
                     "ring": "ring_distal", "little": "little_distal",
                     "thumb": "thumb_distal"}},
+    "human_vc_prop": {
+        "name": "Human-finger hand, measured proportions (flat palm)", "base": "local",
+        "file": "human_vc1998_prop/hand.xml",  # tools/build_human_hand.py --proportions
+        "fingers": {"index": "index_distal", "middle": "middle_distal",
+                    "ring": "ring_distal", "little": "little_distal",
+                    "thumb": "thumb_distal"}},
+    "human_vc_arch_prop": {
+        "name": "Human-finger hand, measured proportions and palmar arch", "base": "local",
+        "file": "human_vc1998_arch_prop/hand.xml",  # tools/build_human_hand.py --arch --proportions
+        "fingers": {"index": "index_distal", "middle": "middle_distal",
+                    "ring": "ring_distal", "little": "little_distal",
+                    "thumb": "thumb_distal"}},
     "human_vc_arch": {
         "name": "Human-finger hand with a palmar arch (assumed)", "base": "local",
         "file": "human_vc1998_arch/hand.xml",  # tools/build_human_hand.py --arch
