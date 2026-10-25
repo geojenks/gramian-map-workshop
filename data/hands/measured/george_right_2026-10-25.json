@@ -1,0 +1,229 @@
+{
+ "source": [
+  "human_demo/derived/takes_2026-10-23/juggling_cup/take3_juggling_ball_hand_three_view.npz",
+  "human_demo/derived/takes_2026-10-23/tennis_new_cup/take3_tennis_ball_hand_three_view.npz",
+  "human_demo/derived/takes_2026-10-23/tennis_new_pinch/take3_tennis_ball_hand_three_view.npz",
+  "human_demo/derived/takes_2026-10-23/yellow_cup/take3_yellow_ball_hand_three_view.npz",
+  "human_demo/derived/takes_2026-10-23/yellow_pinch/take3_yellow_ball_hand_three_view.npz"
+ ],
+ "frames": "held frames, three-camera triangulation",
+ "keypoints": "MANO 21: 0 wrist; thumb 1 CMC 2 MCP 3 IP 4 tip; index 5 MCP 6 PIP 7 DIP 8 tip; middle 9-12; ring 13-16; little 17-20",
+ "segments": {
+  "thumb wrist-CMC": {
+   "median_mm": 46.8,
+   "clip_range_mm": [
+    42.1,
+    49.0
+   ]
+  },
+  "thumb CMC-MCP": {
+   "median_mm": 37.7,
+   "clip_range_mm": [
+    37.2,
+    38.2
+   ]
+  },
+  "thumb MCP-IP": {
+   "median_mm": 32.6,
+   "clip_range_mm": [
+    31.6,
+    39.4
+   ]
+  },
+  "thumb IP-tip": {
+   "median_mm": 36.0,
+   "clip_range_mm": [
+    27.0,
+    39.1
+   ]
+  },
+  "index wrist-MCP": {
+   "median_mm": 110.9,
+   "clip_range_mm": [
+    104.6,
+    113.0
+   ]
+  },
+  "index MCP-PIP": {
+   "median_mm": 38.1,
+   "clip_range_mm": [
+    37.2,
+    40.0
+   ]
+  },
+  "index PIP-DIP": {
+   "median_mm": 24.7,
+   "clip_range_mm": [
+    24.4,
+    25.4
+   ]
+  },
+  "index DIP-tip": {
+   "median_mm": 26.7,
+   "clip_range_mm": [
+    26.2,
+    27.6
+   ]
+  },
+  "middle wrist-MCP": {
+   "median_mm": 118.0,
+   "clip_range_mm": [
+    109.9,
+    120.2
+   ]
+  },
+  "middle MCP-PIP": {
+   "median_mm": 36.5,
+   "clip_range_mm": [
+    34.7,
+    37.0
+   ]
+  },
+  "middle PIP-DIP": {
+   "median_mm": 25.8,
+   "clip_range_mm": [
+    25.3,
+    27.0
+   ]
+  },
+  "middle DIP-tip": {
+   "median_mm": 27.6,
+   "clip_range_mm": [
+    26.8,
+    29.3
+   ]
+  },
+  "ring wrist-MCP": {
+   "median_mm": 108.2,
+   "clip_range_mm": [
+    101.3,
+    110.1
+   ]
+  },
+  "ring MCP-PIP": {
+   "median_mm": 34.4,
+   "clip_range_mm": [
+    31.9,
+    34.7
+   ]
+  },
+  "ring PIP-DIP": {
+   "median_mm": 28.8,
+   "clip_range_mm": [
+    28.0,
+    29.9
+   ]
+  },
+  "ring DIP-tip": {
+   "median_mm": 28.4,
+   "clip_range_mm": [
+    26.8,
+    30.1
+   ]
+  },
+  "little wrist-MCP": {
+   "median_mm": 100.6,
+   "clip_range_mm": [
+    99.6,
+    103.6
+   ]
+  },
+  "little MCP-PIP": {
+   "median_mm": 26.5,
+   "clip_range_mm": [
+    23.4,
+    26.8
+   ]
+  },
+  "little PIP-DIP": {
+   "median_mm": 22.8,
+   "clip_range_mm": [
+    21.6,
+    31.8
+   ]
+  },
+  "little DIP-tip": {
+   "median_mm": 24.8,
+   "clip_range_mm": [
+    21.9,
+    26.7
+   ]
+  },
+  "palm width index MCP-little MCP": {
+   "median_mm": 70.7,
+   "clip_range_mm": [
+    64.0,
+    75.1
+   ]
+  },
+  "palm index MCP-middle MCP": {
+   "median_mm": 26.5,
+   "clip_range_mm": [
+    25.7,
+    30.8
+   ]
+  },
+  "palm middle MCP-ring MCP": {
+   "median_mm": 26.2,
+   "clip_range_mm": [
+    26.2,
+    30.2
+   ]
+  },
+  "palm ring MCP-little MCP": {
+   "median_mm": 22.2,
+   "clip_range_mm": [
+    20.9,
+    26.7
+   ]
+  }
+ },
+ "finger_length_mm_knuckle_to_tip_thumb_from_CMC": {
+  "thumb": 106.3,
+  "index": 89.5,
+  "middle": 89.9,
+  "ring": 91.6,
+  "little": 74.1
+ },
+ "ratio_to_wrist_middle_MCP": {
+  "thumb wrist-CMC": 0.397,
+  "thumb CMC-MCP": 0.319,
+  "thumb MCP-IP": 0.276,
+  "thumb IP-tip": 0.305,
+  "index wrist-MCP": 0.94,
+  "index MCP-PIP": 0.323,
+  "index PIP-DIP": 0.209,
+  "index DIP-tip": 0.226,
+  "middle wrist-MCP": 1.0,
+  "middle MCP-PIP": 0.309,
+  "middle PIP-DIP": 0.219,
+  "middle DIP-tip": 0.234,
+  "ring wrist-MCP": 0.917,
+  "ring MCP-PIP": 0.292,
+  "ring PIP-DIP": 0.244,
+  "ring DIP-tip": 0.241,
+  "little wrist-MCP": 0.853,
+  "little MCP-PIP": 0.225,
+  "little PIP-DIP": 0.193,
+  "little DIP-tip": 0.21,
+  "palm width index MCP-little MCP": 0.599,
+  "palm index MCP-middle MCP": 0.225,
+  "palm middle MCP-ring MCP": 0.222,
+  "palm ring MCP-little MCP": 0.188
+ },
+ "pad_offset_used_mm": {
+  "thumb": 8.1,
+  "index": 8.9,
+  "middle": 8.7,
+  "ring": 9.2,
+  "little": 4.9
+ },
+ "pad_depth_compressed_mm_stated_25_Oct": {
+  "thumb": 13,
+  "index": 12,
+  "middle": 12,
+  "ring": 12,
+  "little": 11
+ },
+ "photo": "human_demo/calib/hand/hand_flat_rM2_2026-10-25.jpg (right hand flat beside the reMarkable ChArUco board: square 24.276 mm, 6 squares = 145.7 mm; oblique view, hand about 2 cm above the board plane)"
+}

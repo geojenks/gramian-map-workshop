@@ -7,6 +7,18 @@ starting position?").
     python tools/build_human_hand.py [--column adjusted] [--arch] [--proportions]
         ->  data/hands/human_vc1998[_arch][_prop]/hand.xml
 
+--measured PATH builds a person's hand from measured joint-centre lengths
+(a hand_dimensions JSON from three-camera keypoints, e.g. data/hands/measured/
+george_right_2026-10-25.json): each segment its measured length (the last
+ends at the nail end, so the tip capsule stops there); knuckle positions a
+least-squares fit to the wrist-to-knuckle distances, the knuckle gaps and
+the palm width; the thumb base at its measured distance from the wrist, in a
+direction ASSUMED (THUMB_CMC_DEG radial of the middle finger's axis, since
+the file gives distance only); each finger's radius the contact model's pad
+offset for its last segment (+0.5 mm middle, +1 mm proximal). Muscles as
+the index's. Writes data/hands/measured_<name>/hand.xml (with --arch, the
+assumed arch below).
+
 --proportions gives each digit measured human proportions instead of copies
 of the index: Buryanov & Kotiuk 2010 (Int. J. Morphol. 28(3):755-758, Table
 I, X-ray bone lengths, 66 adults). Bone lengths are not the joint-to-joint
@@ -63,6 +75,40 @@ BK2010 = {"thumb": (21.67, None, 31.57, 46.22), "index": (15.82, 22.38, 39.78, 6
           "little": (15.96, 18.11, 32.74, 53.69)}
 
 
+THUMB_CMC_DEG = 32.0          # ASSUMED: direction of the thumb's base from the wrist
+
+
+def measured_geometry(path):
+    """From a hand_dimensions JSON: {finger: (knuckle xyz m, (Lp, Lm, Ld) m,
+    radius m)} in the hand frame (wrist at the origin)."""
+    import json
+    from scipy.optimize import least_squares
+    J = json.load(open(path))
+    g = lambda k: J["segments"][k]["median_mm"] / 1e3
+    four = ["index", "middle", "ring", "little"]
+
+    def res(v):
+        P = {"index": v[0:2], "middle": np.array([0.0, v[2]]), "ring": v[3:5], "little": v[5:7]}
+        r = [np.linalg.norm(P[f]) - g(f"{f} wrist-MCP") for f in four]
+        r += [np.linalg.norm(P["index"] - P["middle"]) - g("palm index MCP-middle MCP"),
+              np.linalg.norm(P["middle"] - P["ring"]) - g("palm middle MCP-ring MCP"),
+              np.linalg.norm(P["ring"] - P["little"]) - g("palm ring MCP-little MCP"),
+              np.linalg.norm(P["index"] - P["little"]) - g("palm width index MCP-little MCP")]
+        return r
+    v = least_squares(res, [0.026, 0.108, 0.118, -0.026, 0.105, -0.048, 0.088]).x
+    xy = {"index": v[0:2], "middle": np.array([0.0, v[2]]), "ring": v[3:5], "little": v[5:7]}
+    a = math.radians(THUMB_CMC_DEG)
+    xy["thumb"] = g("thumb wrist-CMC") * np.array([math.sin(a), math.cos(a)])
+    pads = {f: x / 1e3 for f, x in J["pad_offset_used_mm"].items()}
+    out = {}
+    for f in four + ["thumb"]:
+        names = ("CMC-MCP", "MCP-IP", "IP-tip") if f == "thumb" else ("MCP-PIP", "PIP-DIP", "DIP-tip")
+        L = tuple(g(f"{f} {n}") for n in names)
+        z = THUMB_BASE[2] if f == "thumb" else 0.0
+        out[f] = (np.array([xy[f][0], xy[f][1], z]), L, pads[f])
+    return out
+
+
 def segment_lengths(name, proportions):
     """(proximal, middle, distal) chain segment lengths (m)."""
     if not proportions:
@@ -99,8 +145,10 @@ def thumb_frame():
     return np.column_stack([x, y, z])
 
 
-def finger_xml(name, pos, quat, abd_deg, lengths=None):
+def finger_xml(name, pos, quat, abd_deg, lengths=None, radius=None, tip_at_end=False):
     Lp, Lm, Ld = lengths or (vc.L_PROX, vc.L_MID, vc.L_DIST)
+    rad = (radius + 0.001, radius + 0.0005, radius) if radius else fm.RADIUS
+    Ldg = Ld - rad[2] if tip_at_end else Ld       # capsule surface ends at the tip
     lo = {k: math.radians(v[0]) for k, v in fm.RANGE_DEG.items()}
     hi = {k: math.radians(v[1]) for k, v in fm.RANGE_DEG.items()}
     lo["mcp_add"], hi["mcp_add"] = -math.radians(abd_deg), math.radians(abd_deg)
@@ -110,11 +158,11 @@ def finger_xml(name, pos, quat, abd_deg, lengths=None):
   <body name="{name}_prox" pos="{pos[0]} {pos[1]} {pos[2]}" quat="{quat}">
     <joint name="{name}_mcp_add" axis="0 0 1" {rng('mcp_add')}/>
     <joint name="{name}_mcp_flex" axis="1 0 0" {rng('mcp_flex')}/>
-    {seg(Lp, fm.RADIUS[0], fm.MASS[0])}
+    {seg(Lp, rad[0], fm.MASS[0])}
     <body name="{name}_mid" pos="0 {Lp:.5f} 0"><joint name="{name}_pip" axis="1 0 0" {rng('pip')}/>
-      {seg(Lm, fm.RADIUS[1], fm.MASS[1])}
+      {seg(Lm, rad[1], fm.MASS[1])}
       <body name="{name}_distal" pos="0 {Lm:.5f} 0"><joint name="{name}_dip" axis="1 0 0" {rng('dip')}/>
-        {seg(Ld, fm.RADIUS[2], fm.MASS[2])}
+        {seg(Ldg, rad[2], fm.MASS[2])}
       </body></body></body>"""
 
 
@@ -124,18 +172,30 @@ def _roll(deg):
     return np.array([[math.cos(a), 0, math.sin(a)], [0, 1, 0], [-math.sin(a), 0, math.cos(a)]])
 
 
-def build(column, arch=False, proportions=False):
+def build(column, arch=False, proportions=False, measured=None):
     R_mm, F0, _ = vc.build(column)
     R_m = R_mm / 1e3
     joints = ["mcp_add", "mcp_flex", "pip", "dip"]
     names = list(FINGERS) + ["thumb"]
     bodies = ""
-    for n, x in FINGERS.items():
-        pos = (x, mcp_y(n, proportions), ARCH_PALMAR_M[n] if arch else 0.0)
-        quat = _quat(_roll(ARCH_ROLL_DEG[n])) if arch else "1 0 0 0"
-        bodies += finger_xml(n, pos, quat, 30.0, segment_lengths(n, proportions))
-    bodies += finger_xml("thumb", THUMB_BASE, _quat(thumb_frame()), THUMB_ABD_DEG,
-                         segment_lengths("thumb", proportions))
+    if measured:
+        geo = measured_geometry(measured)
+        for n in FINGERS:
+            p0, L, r = geo[n]
+            pos = (p0[0], p0[1], ARCH_PALMAR_M[n] if arch else 0.0)
+            quat = _quat(_roll(ARCH_ROLL_DEG[n])) if arch else "1 0 0 0"
+            bodies += finger_xml(n, pos, quat, 30.0, L, r, tip_at_end=True)
+        p0, L, r = geo["thumb"]
+        bodies += finger_xml("thumb", p0, _quat(thumb_frame()), THUMB_ABD_DEG, L, r, tip_at_end=True)
+        palm = (f'<geom type="box" pos="{-0.008} {0.055} -0.010" size="0.045 0.055 0.010" mass="0.3"/>')
+    else:
+        for n, x in FINGERS.items():
+            pos = (x, mcp_y(n, proportions), ARCH_PALMAR_M[n] if arch else 0.0)
+            quat = _quat(_roll(ARCH_ROLL_DEG[n])) if arch else "1 0 0 0"
+            bodies += finger_xml(n, pos, quat, 30.0, segment_lengths(n, proportions))
+        bodies += finger_xml("thumb", THUMB_BASE, _quat(thumb_frame()), THUMB_ABD_DEG,
+                             segment_lengths("thumb", proportions))
+        palm = '<geom type="box" pos="0 0.040 -0.010" size="0.045 0.040 0.010" mass="0.3"/>'
     tendons, acts = [], []
     for n in names:
         for k, mu in enumerate(vc.MUSCLES):
@@ -145,6 +205,8 @@ def build(column, arch=False, proportions=False):
             acts.append(f'<motor name="{n}_{mu}" tendon="{n}_{mu}" gear="1" ctrlrange="0 {F0[k]:.4g}" '
                         f'ctrllimited="true" forcerange="0 {F0[k]:.4g}" forcelimited="true"/>')
     tag = ("_arch" if arch else "") + ("_prop" if proportions else "")
+    if measured:
+        tag = "_measured_" + os.path.basename(measured).split("_20")[0] + ("_arch" if arch else "")
     xml = f"""<mujoco model="human_vc1998_{column}{tag}">
 <!-- generated by tools/build_human_hand.py ({column} column of Valero-Cuevas et al. 1998, Tables 1-2) -->
 <compiler angle="radian"/>
@@ -152,7 +214,7 @@ def build(column, arch=False, proportions=False):
 <default><joint damping="{fm.DAMPING}" armature="1e-5"/></default>
 <worldbody>
  <body name="palm">
-  <geom type="box" pos="0 0.040 -0.010" size="0.045 0.040 0.010" mass="0.3"/>
+  {palm}
   {bodies}
  </body>
 </worldbody>
@@ -172,8 +234,14 @@ if __name__ == "__main__":
     ap.add_argument("--column", default="adjusted", choices=["nominal", "adjusted"])
     ap.add_argument("--arch", action="store_true")
     ap.add_argument("--proportions", action="store_true")
+    ap.add_argument("--measured", default=None, help="hand_dimensions JSON")
     a = ap.parse_args()
-    print("wrote", build(a.column, a.arch, a.proportions))
+    print("wrote", build(a.column, a.arch, a.proportions, a.measured))
+    if a.measured:
+        for n, (p0, L, r) in measured_geometry(a.measured).items():
+            print(f"   {n:7s} base {np.round(p0 * 1e3, 1)} mm, segments {[round(x * 1e3, 1) for x in L]} mm, "
+                  f"pad radius {r * 1e3:.1f} mm")
+        raise SystemExit
     for n in list(FINGERS) + ["thumb"]:
         print(f"   {n:7s} segments {[round(x * 1e3, 1) for x in segment_lengths(n, a.proportions)]} mm, "
               f"knuckle y {mcp_y(n, a.proportions) * 1e3:.1f} mm" if n != "thumb" else
