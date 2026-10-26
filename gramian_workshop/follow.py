@@ -12,7 +12,8 @@ Choices, stated up front (George, 21 Oct: "yes that's good"):
   assignment  each finger serves at most one station, the pairing that best
               suits the hand (all pairings tried); stations left without a
               finger must have their load carried by the others
-  contact     anywhere on the last or middle phalanx except the nail (back)
+  contact     (the thumb: its last phalanx only, 26 Oct)
+              anywhere on the last or middle phalanx except the nail (back)
               half: the pad and both sides (George 23 Oct: "a lot of human
               grasping is done with the side of the finger"; middle phalanx
               on by default since 22 Oct). "Palm side" is the side the
@@ -373,6 +374,11 @@ class FingerIK:
         if hasattr(self, "_proxy") and self._proxy[0] == middle:
             return self._proxy[1]
         m = self.hand.model
+        # the thumb touches with its distal pad only (George 26 Oct: "a HUGE
+        # amount of the force in a real hand comes from the mobility of the
+        # thumb which should be in contact with its pad"); its middle link is
+        # the segment behind the knuckle
+        middle = middle and self.f.label != "thumb"
         bodies = [self.f.tip_body] + ([int(m.body_parentid[self.f.tip_body])] if middle else [])
         out = {}
         for b in bodies:

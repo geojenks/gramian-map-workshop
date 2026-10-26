@@ -20,7 +20,7 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
-from gramian_workshop.follow import FingerIK, follow  # noqa: E402
+from gramian_workshop.follow import FingerIK, Leader, follow  # noqa: E402
 from gramian_workshop.hands import Hand, _mj  # noqa: E402
 
 JS = {"three.min.js": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
@@ -72,7 +72,8 @@ def scene(hand, fr):
     marks = []
     for x in fr["fingers"]:
         if "target" in x:
-            marks.append({"finger": x["finger"], "state": x["state"], "target": np.round(x["target"], 5).tolist(),
+            marks.append({"finger": x["finger"], "station": x["station"], "state": x["state"],
+                          "target": np.round(x["target"], 5).tolist(),
                           "pad": np.round(x["pad_world"], 5).tolist(), "normal": np.round(x["pad_normal"], 4).tolist()})
     return {"k": fr["k"], "verdict": fr["verdict"], "reason": fr["reason"],
             "ball": np.round(fr["ball_center"], 5).tolist(), "caps": caps, "boxes": boxes, "marks": marks,
@@ -98,6 +99,7 @@ table{border-collapse:collapse;width:100%}td,th{padding:3px 4px;border-bottom:1p
 .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 button,input[type=range]{margin:2px 4px 2px 0} .legend span{margin-right:10px;white-space:nowrap}
 #hint{position:absolute;left:10px;bottom:8px;font-size:12px;color:var(--muted);pointer-events:none}
+.vlab{position:absolute;top:8px;left:10px;font-size:12px;font-weight:600;color:var(--muted);pointer-events:none;max-width:45%}
 </style></head><body>
 <header><h1 id="title"></h1><p>Each moment of the leader, with the hand in the pose the check solved for. Fingers are coloured
 by their verdict. Each touching finger meets the ball tangentially: small black ball = where it touches, arrow = the
@@ -105,7 +107,8 @@ finger's outward normal there; coloured ball = the leader's contact. Green needs
 contact, on the pad or side of the finger (not the nail half), with the finger sunk into the ball by at most 1 mm.
 "side" in the table is the angle from the middle of the pad (90&deg; = the side). Fingers are not checked against each
 other. Lifted-off fingers are faded, in the model's rest pose. Simulation only.</p></header>
-<div id="wrap"><div id="view"><div id="hint">drag to orbit &middot; scroll to zoom &middot; right-drag to pan</div></div>
+<div id="wrap"><div id="view"><div id="lab_l" class="vlab"></div><div id="lab_r" class="vlab" style="left:50%">the model hand, solved</div>
+<div id="hint">drag to orbit (both views turn together) &middot; scroll to zoom &middot; right-drag to pan</div></div>
 <div id="side"><div><button id="prev">&#9664;</button><button id="play">play</button><button id="next">&#9654;</button>
 <label><input type="checkbox" id="ghost" checked> lifted fingers</label></div>
 <input type="range" id="slider" min="0" value="0" style="width:100%">
@@ -126,13 +129,25 @@ const cam=new THREE.PerspectiveCamera(35,1,0.005,5);
 S.add(new THREE.HemisphereLight(0xffffff,0x667788,0.9));const dl=new THREE.DirectionalLight(0xffffff,0.6);dl.position.set(0.3,0.5,0.8);S.add(dl);
 const ctl=new THREE.OrbitControls(cam,R.domElement);
 const G=new THREE.Group();S.add(G);
+const SL=new THREE.Scene();SL.background=S.background;SL.add(new THREE.HemisphereLight(0xffffff,0x667788,0.9));
+const dl2=new THREE.DirectionalLight(0xffffff,0.6);dl2.position.set(0.3,0.5,0.8);SL.add(dl2);
+const GL=new THREE.Group();SL.add(GL);
+document.getElementById('lab_l').textContent='what the hand copies: '+D.leader_info.label;
 function capsule(a,b,r,color,op){const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),L=A.distanceTo(B);
  const m=new THREE.MeshStandardMaterial({color,roughness:0.6,transparent:op<1,opacity:op});const g=new THREE.Group();
  const cy=new THREE.Mesh(new THREE.CylinderGeometry(r,r,L,20),m);const s1=new THREE.Mesh(new THREE.SphereGeometry(r,20,14),m),s2=s1.clone();
  s1.position.y=L/2;s2.position.y=-L/2;g.add(cy,s1,s2);g.position.copy(A.clone().add(B).multiplyScalar(0.5));
  g.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return g;}
 let fi=0,timer=null;const ghost=document.getElementById('ghost');
-function draw(i){fi=i;while(G.children.length)G.remove(G.children[0]);const f=D.frames[i];
+function drawLeader(f){while(GL.children.length)GL.remove(GL.children[0]);
+ const ball=new THREE.Mesh(new THREE.SphereGeometry(D.radius,40,28),new THREE.MeshStandardMaterial({color:0xcfe37a,roughness:0.9,transparent:true,opacity:0.55}));
+ ball.position.set(...f.ball);GL.add(ball);
+ const st={};for(const k of f.marks)st[k.station]=k.state;
+ for(const s of f.leader){const col=s.touch?(COL[st[s.i]]??0x6b7c93):0x9aa3ad;
+  const m=new THREE.Mesh(new THREE.SphereGeometry(D.leader_info.station_r,20,14),new THREE.MeshStandardMaterial({color:col,roughness:0.6,transparent:!s.touch,opacity:s.touch?1:0.3}));
+  m.position.set(...s.pos);GL.add(m);}
+ for(const k of f.marks){const t=new THREE.Mesh(new THREE.SphereGeometry(0.0022,14,10),new THREE.MeshBasicMaterial({color:COL[k.state]??COL.off}));t.position.set(...k.target);GL.add(t);}}
+function draw(i){fi=i;while(G.children.length)G.remove(G.children[0]);const f=D.frames[i];drawLeader(f);
  for(const c of f.caps){if(c.state==='off'&&!ghost.checked)continue;G.add(capsule(c.a,c.b,c.r,COL[c.state]??COL.palm,c.state==='off'?0.25:1));}
  for(const b of f.boxes){const m=new THREE.Mesh(new THREE.BoxGeometry(2*b.size[0],2*b.size[1],2*b.size[2]),new THREE.MeshStandardMaterial({color:COL.palm,roughness:0.8}));
   const M=new THREE.Matrix4().set(b.R[0][0],b.R[0][1],b.R[0][2],b.c[0],b.R[1][0],b.R[1][1],b.R[1][2],b.c[1],b.R[2][0],b.R[2][1],b.R[2][2],b.c[2],0,0,0,1);m.applyMatrix4(M);G.add(m);}
@@ -158,9 +173,11 @@ ghost.onchange=()=>draw(fi);
 // camera: from the palm side, a little toward the thumb, looking at the ball
 const c0=new THREE.Vector3(...D.frames[0].ball);ctl.target.copy(c0);cam.up.set(0,1,0);
 cam.position.copy(c0.clone().add(new THREE.Vector3(0.07,-0.035,0.17)));ctl.update();
-function size(){const w=el.clientWidth,h=el.clientHeight;R.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();}
+function size(){const w=el.clientWidth,h=el.clientHeight;R.setSize(w,h);cam.aspect=(w/2)/h;cam.updateProjectionMatrix();}
 window.addEventListener('resize',size);size();draw(D.start??0);
-(function loop(){requestAnimationFrame(loop);ctl.update();R.render(S,cam);})();
+(function loop(){requestAnimationFrame(loop);ctl.update();const w=el.clientWidth,h=el.clientHeight;R.setScissorTest(true);
+ R.setViewport(0,0,w/2,h);R.setScissor(0,0,w/2,h);R.render(SL,cam);
+ R.setViewport(w/2,0,w/2,h);R.setScissor(w/2,0,w/2,h);R.render(S,cam);R.setScissorTest(false);})();
 </script></body></html>"""
 
 
@@ -172,9 +189,31 @@ def main():
     r = follow(src["hand"], L, n_eval=len(src["frames"]), placement=src, joint_stiffness=kq)
     hand = Hand(src["hand"])
     frames = [scene(hand, fr) for fr in r["frames"]]
+    # what the hand copies: the leader's own stations, placed as the hand sees them
+    leader = Leader(L)
+    leader.phi = np.radians(src.get("respace_deg") or np.zeros(leader.n))
+    Rw = np.array(src["placement"]["rotation_matrix"])
+    t = np.array(src["placement"]["translation_m"])
+    sim = "Wave_manip unified_v6" in str(L.get("kind", ""))
+    names = L.get("stations") or [f"station {i}" for i in range(leader.n)]
+    for fs in frames:
+        lf = L["frames"][fs["k"]]
+        oc = np.array(lf["obj_pos"])
+        sts = []
+        for i in range(leader.n):
+            sp = lf["station_pos"][i]
+            if sp is None:
+                continue
+            q = oc + leader._turn(i, False) @ (np.array(sp) - oc)
+            sts.append({"i": i, "name": names[i], "pos": np.round(Rw @ (q - leader.c0) + t, 5).tolist(),
+                        "touch": bool(lf["contact"][i])})
+        fs["leader"] = sts
+    data_leader = {"station_r": 0.008 if sim else 0.004,
+                   "label": ("the robot cup's contact spheres (simulated leader)" if sim
+                             else "the demonstrator's fingertip pads (recorded)")}
     start = next((i for i, f in enumerate(frames) if f["verdict"] != "green"), 0)
     data = {"hand": r["hand_name"], "leader": r["leader"], "radius": float(L["object"]["radius_m"]),
-            "frames": frames, "start": start}
+            "frames": frames, "start": start, "leader_info": data_leader}
     page = (PAGE.replace("__THREE__", js("three.min.js")).replace("__ORBIT__", js("OrbitControls.js"))
             .replace("__DATA__", json.dumps(data, separators=(",", ":"))))
     out = os.path.join(ROOT, "outputs", f"render3d_{src['hand']}.html")
