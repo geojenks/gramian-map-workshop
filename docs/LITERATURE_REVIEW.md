@@ -4,7 +4,10 @@ Written 23 October 2026 for the ARIA workshop. This was a reading and
 writing task: no code was changed. Updated the same day after reading
 Bicchi and Prattichizzo 2000 and 1998, and after the scale margin was added
 to `follow.py`. Updated on 25 October when the disturbance margin was added, and on
-26 October when the apply limit was added.
+26 October when the apply limit was added. Updated again on 26 October
+after a search of the fields beyond static grasps (section 8), which
+corrected the precedent we gave for the apply limit and narrowed what we
+claim is new.
 
 ## The result in brief
 
@@ -24,20 +27,29 @@ to `follow.py`. Updated on 25 October when the disturbance margin was added, and
   index-finger model gives a human-finger force set from published numbers,
   but at one posture only.
 - **What is new.** We found no work that does any of these three things:
-  - scores a hand frame by frame against one exact wrench per frame, set by a
-    leader motion;
+  - scores a hand frame by frame against the one exact wrench a recorded
+    leader motion needs, with muscles, motors and passive joints in one
+    test, keeping graded margins for every frame. Each part has a
+    precedent: Orsolino et al. 2018 score a given wrench step by step for
+    legged robots, and Fakhari et al. 2021 score a grasp along a path but
+    keep only the minimum (section 8). The combination has none that we
+    found;
   - builds an empirical controllability Gramian of tip motion from
     finite-element simulation to characterise soft actuators;
   - keeps shared per-actuator records of stroke, force and stiffness against
     input.
   The nearest records work is Wang et al. 2026, which we must cite.
-- **What not to claim.** That we invented grasp feasibility or the friction
-  pyramid. That our human-finger numbers are measurements. That the 1998
+- **What not to claim.** That we invented grasp feasibility, the friction
+  pyramid or the torque-limited wrench set (Inouye et al. 2012 built one).
+  That the check is dynamic: it tests the wrench the leader needs, and
+  models no finger inertia, velocity terms or contact transitions. That our human-finger numbers are measurements. That the 1998
   finger model is reproduced (our rebuild is off in one of five directions,
   by half).
 
-The ranked list of what to port first is in section 7. References we could
-not verify are in section 8.
+The ranked list of what to port first is in section 7. Section 8 covers
+the fields beyond static grasps: finger gaiting, dynamics through contact,
+torque-limited wrench sets, dynamic manipulability and learning-based
+dexterity. References we could not verify are in section 9.
 
 ## How each claim is marked
 
@@ -148,9 +160,12 @@ added; the line numbers below are for that version.
   largest push and twist the made contacts could put on the object by
   actuation alone, with no leader load, along each of the 12 signed axes of
   `DISTURB_DIRS`. In plain terms: how hard the hand could drive the object
-  itself, rather than hold it against the leader. It is the torque-limited
-  wrench set (Jeong and Cheong 2012; Zheng and Yamane 2013; both known to
-  us only through Roa and Suárez 2015, section 8), read along those axes.
+  itself, rather than hold it against the leader. It is a torque-limited
+  wrench set, read along those axes. The closest precedent is Inouye,
+  Kutch and Valero-Cuevas 2012 (section 8): one-sided tendons with
+  activations from 0 to 1, an 8-edge pyramid, and the largest ball, at one
+  posture. Ours keeps the set implicit, adds two-sided motors, and reads
+  signed axes.
   It uses the `_torque_stack` system with right-hand side [e d, 0, 1] and
   the input columns only: a passive spring (kq above zero) resists a load
   but cannot push. As in `_scale_margin` above s = 1, every row is divided
@@ -633,7 +648,11 @@ Related work, citation only:
     value (eq 8), ellipsoid volume (eq 9), the largest-ball measure (eq 24),
     the hull volume (eq 25), the task-oriented measure (eq 31) and the force
     ellipsoid ω^T (HH^T) ω ≤ 1 (eq 40). Joint torques enter only through a
-    torque-limited wrench set (Jeong and Cheong 2012; Zheng and Yamane 2013).
+    torque-limited wrench set, which they credit to Jeong and Cheong 2012
+    and Zheng and Yamane 2013. On our reading (section 8), Zheng and Yamane
+    remove the forces the joints cannot make but bound unit contact forces,
+    not torques, and the abstract of Jeong and Cheong does not mention
+    torque limits.
   - Our equivalent: none directly; we give no scalar measure. The
     torque-limited wrench set is the nearest to our torque test.
   - Verdict: **cite** as the map of measures we chose not to use, and say why
@@ -996,7 +1015,12 @@ is the index-finger model of Valero-Cuevas, Zajac and Burgar (1998), whose
 **What is new.** Three things, as far as our search found. First, the task:
 we score a hand frame by frame against one exact wrench per frame, set by a
 leader motion, rather than against a worst case over a wrench set or a goal
-state (compare Li and Sastry 1988; Cruciani et al. 2020). Second, the
+state (compare Li and Sastry 1988; Cruciani et al. 2020). Scoring a given
+wrench step by step has been done for legged robots (Orsolino et al.
+2018), and grasps have been scored along a path, keeping the minimum
+(Fakhari et al. 2021). What we found no precedent for is doing it for a
+hand, against a recorded manipulation, with muscles, motors and passive
+joints in one test and a graded margin for every frame. Second, the
 actuator fingerprint: we build a quasi-static analogue of an empirical
 controllability Gramian (Lall et al. 2002) from finite-element sweeps of
 soft actuators. We found Gramians used for soft-robot sensor placement
@@ -1008,8 +1032,10 @@ is Wang et al. (2026), which characterises contractile actuators by
 force–displacement operating ranges.
 
 **What not to claim.** We should not claim to have invented grasp
-feasibility, the friction pyramid, the zero-unactuated-torque condition or
-synergy-based hands. We should not present the human-finger numbers as
+feasibility, the friction pyramid, the zero-unactuated-torque condition,
+synergy-based hands or the torque-limited wrench set (Inouye et al. 2012).
+We should not call the check dynamic: it tests the wrench the leader needs,
+and models no finger inertia, velocity terms or contact transitions. We should not present the human-finger numbers as
 measurements: they come from a 1998 model at one posture, our rebuild of it
 matches the paper's torque directions but not all its maximal forces, and
 one internal split is our reconstruction. We should not compare the finger's
@@ -1053,13 +1079,423 @@ predictive.
 We would not port SynGrasp whole (weeks, for features we do not need), nor
 the anthropomorphism indices (they answer a different question).
 
-## 8. References and claims we could not verify
+## 8. Beyond static grasps: what the fields share, and where the gap is
+
+Written 26 October 2026. Sections 2 to 5 cover static grasp analysis. This
+section covers five neighbouring fields that also ask what a hand can do
+through a manipulation:
+
+- finger gaiting and regrasp planning;
+- dynamic and quasi-dynamic manipulation through contact;
+- the torque-limited wrench set, which is what our apply limit reads;
+- dynamic manipulability, after Yoshikawa, and its extensions;
+- learning-based dexterity, and what it reports about the hand.
+
+Every source below was resolved on Crossref, or its arXiv page was
+fetched, and carries a read mark as in "How each claim is marked".
+
+### The result
+
+- **Closest precedents.** For the apply limit, the closest is Inouye,
+  Kutch and Valero-Cuevas 2012: a wrench set from one-sided, bounded
+  tendons through an 8-edge pyramid, at one posture. For scoring a given
+  wrench step by step, the closest is Orsolino et al. 2018, but for legged
+  robots: a torque-limited, friction-limited wrench set, with the needed
+  body wrench checked at each knot of a trajectory. Fakhari et al. 2021
+  score a grasp at poses along a path, but keep only the minimum. Saut et
+  al. 2007 check force closure at every configuration of a planned gait,
+  with no torque limits.
+- **The gap is narrower than we first wrote.** We found no work that
+  checks a *hand*, frame by frame, against the object wrench of a
+  *recorded* manipulation, with one-sided and two-sided inputs and passive
+  joints in one test, and keeps graded margins for every frame. Each part
+  of that has a precedent; the combination does not, as far as our search
+  found.
+- **Nothing in `follow.py` is dynamic.** It checks the wrench the leader
+  needs, which already includes the object's inertia. It does not model
+  the fingers' inertia, velocity terms or contact transitions. The
+  planned acceleration step (section 1, apply limit) has close
+  precedents: Byun and Lee 2006, and Zheng, Tomochika and Yoshikawa 1993.
+
+### Comparison
+
+How each source treats six things. "Given wrench" means the source scores
+a wrench or motion it is handed, rather than a worst case over all
+directions. A cell from an abstract-only source rests on that abstract.
+
+| Source | Mark | Torque or input limits | Friction | Inertia | Contact changes | Scored against | Readout per step |
+|---|---|---|---|---|---|---|---|
+| `follow.py` (ours) | code | box on each input; one-sided muscles, two-sided motors; zero torque at unactuated joints | 8-edge pyramid | in the leader's wrench only | each frame on its own; transitions not modelled | the leader's exact wrench per frame | yes: verdict, and three margins when asked |
+| Inouye et al. 2012 | read | one-sided tendons, activation 0 to 1 | 8-edge pyramid | none | none | worst case: largest ball | no: one posture |
+| Zheng and Yamane 2013 | read | drops forces the joints cannot make; no torque magnitudes | exact cone | none | none | worst case over a shape, or one direction | no: one grasp |
+| Fakhari et al. 2021 | read | joint-torque box set out, not used in the examples | exact cone | can be added to the task wrench | none | one task screw; minimum along a path | at poses, reduced to the minimum |
+| Saut et al. 2007 | read | none | force closure | quasi-static | yes: planned gaits | force closure | yes/no along a path |
+| Orsolino et al. 2018 | read | torque box (legs) | linearised cone | the body's, through the needed wrench | stance changes; set rebuilt per stance | the needed wrench at each knot | yes: a feasibility factor (legs) |
+| Byun and Lee 2006 | abstract | torque limits | pyramid | yes | fixed | object acceleration bounds | no: one configuration |
+| Yokokohji et al. 2009 | abstract | bounded joint torques | not stated in the abstract | hand and object | fixed | volume and offset over all directions | no: one configuration |
+| Zheng, Tomochika and Yoshikawa 1993 | abstract | joint torque limits | static friction | yes | fixed | volume of a polytope | no: one configuration |
+| Pang et al. 2023 | read | none explicit | second-order cone | quasi-dynamic: momentum dropped each step | yes: planned | plans its own motion | no: a forward model |
+| OpenAI 2020 | read | randomised in training | randomised in training | full simulation | yes: learned | policy success | no |
+
+### What the fields share
+
+- **Friction cones are the main limit on contact**, in every field. Most
+  linearise them as pyramids; Pang et al. argue for exact cones (below).
+- **Actuator limits reshape the wrench set** through the transpose of the
+  hand Jacobian and the actuation map: Kerr and Roth 1986, Zheng and
+  Yamane 2013, Inouye et al. 2012, Fakhari et al. 2021, Orsolino et al.
+  2018.
+- **One number per grasp or posture.** Nearly all reduce the capability set
+  to a worst case or a volume: the largest ball, the scale of a shape, an
+  ellipsoid volume, or the minimum along a path. The dynamic-manipulability
+  line (Yoshikawa 1985; Chiacchio et al. 1991; Yokokohji et al. 2009) does
+  the same with accelerations.
+- **Statics or quasi-statics dominate.** The gait planners assume quasi-statics
+  (Saut et al. state it). The capability measures that include inertia
+  drop the velocity terms.
+- **Gravity shifts the set rather than shrinking it** (Chiacchio et al.
+  1991; Yokokohji et al. 2009, both from the abstracts). So reachable
+  accelerations are lopsided, and any per-axis bound should keep its sign.
+- **Planners and learners do not report capability.** Lynch and Mason,
+  Hogan and Rodriguez, Posa et al., Mordatch et al. and Pang et al. produce
+  plans, controllers or forward models. Learning work reports success
+  counts, and treats friction, gains and force ranges as randomisation
+  ranges rather than as things to report. Hardware failure appears as
+  anecdote: OpenAI 2020 report that one wrist joint broke most often.
+
+### Where they differ
+
+- **Linearised or exact cones.** Inouye et al., Byun and Lee, Orsolino et
+  al. and we use pyramids. Zheng and Yamane, Fakhari et al. and Pang et al.
+  use exact cones.
+- **How limits are written.** A box on each actuator (Orsolino; Byun and
+  Lee; us), a norm ball on torques (Yokokohji), unit contact forces (Zheng
+  and Yamane) or a sum over contacts. Krug, Bekiroglu and Roa 2017 show,
+  by their abstract, that sum bounds badly underestimate fully actuated
+  hands, which supports bounding each actuator as we do.
+- **Squeeze held fixed or free.** Yokokohji et al. hold the internal force
+  fixed, by their abstract; our test lets the contact forces vary freely.
+- **What decides a stance.** Force closure (Saut et al.), kinematics only,
+  staying near a known stable grasp (Sundaralingam and Hermans 2018), or a
+  simulator rollout (Khandate et al. 2022). Morgan et al. 2022 rely on
+  compliance to tolerate the error.
+- **Who chooses the motion.** Planners and learners choose it. Capability
+  measures take every direction. Only Orsolino et al. and Fakhari et al.
+  score a motion they are handed, as we do.
+
+### Where the gap is
+
+- **A recorded manipulation, scored frame by frame, for a hand.** Orsolino
+  et al. do this for legs; Fakhari et al. compute along a path but keep the
+  minimum. We found no hand paper that keeps a readout for every frame of a
+  given motion.
+- **Mixed inputs in one test.** Inouye et al. treat one-sided tendons;
+  Zheng and Yamane remove forces the joints cannot make, without torque
+  magnitudes; Bicchi and Prattichizzo 2000 give the passive-joint statics
+  (section 5). None of the sources here combines one-sided muscles,
+  two-sided motors and zero torque at unactuated joints in one test.
+- **Margins about a loaded wrench.** The largest-ball measures start from
+  zero load. Our disturbance margin is taken about the leader's wrench,
+  along 12 signed axes. We found no source that does this.
+- **A named reason for each failure.** Learning work infers failure causes
+  from video or argues them. A per-frame check names the test that failed:
+  reach, friction or torque.
+- **Hand design against a fixed gait.** The gait planners plan for a fixed
+  hand. Ma and Dollar 2014 build a hand for gaits, and Fay et al. (House of
+  Dextra) sweep hardware against a learned policy's reward. None asks
+  whether a given design can carry out a given gait.
+
+### What a static check cannot see
+
+These are limits of our tool that the literature makes plain.
+
+- **Polyhedral cones add direction-dependent artefacts**, by the reading
+  of Pang et al. 2023. Our 8-edge pyramid has them. The circumscribed
+  pyramid used as an outer bracket (section 1) bounds their size.
+- **More friction is not always better.** In DeXtreme (Handa et al. 2023),
+  grip tape gave too much friction for the task. A Coulomb feasibility check
+  can only score extra friction as help.
+- **How hard a hand is to control.** Learned-policy comparisons mix up the
+  hand with how trainable its policy is. A static check isolates the hand,
+  but says nothing about control. Chen et al. 2023 (Visual Dexterity)
+  needed four fingers to reorient objects in the air, a finding about
+  control we cannot reproduce.
+- **Velocity terms.** Every capability measure here drops them, except
+  Bowling and Khatib 2005 (by their abstract). A fast recorded motion may
+  need them.
+- **Contact transitions.** Orsolino et al. rebuild their set at each
+  stance change; none of these sources models the transition itself.
+
+### For the planned acceleration step
+
+Dividing the apply limit by the object's mass and inertia (section 1)
+would put our tool alongside Byun and Lee 2006 and Zheng, Tomochika and
+Yoshikawa 1993: object accelerations reachable under torque limits and
+friction. Testing the leader's one acceleration per frame, rather than
+building the whole set, is cheaper and fits a given task. The sources
+warn of three things this simple division leaves out:
+
+- **The gravity offset.** Gravity shifts the set (Chiacchio et al. 1991;
+  Yokokohji et al. 2009, from the abstracts), so each axis should keep its
+  sign, as our 12 signed axes already do.
+- **Finger inertia**, which uses up torque. Yokokohji et al. include the
+  hand's inertia, by their abstract; how they do it is unverified
+  (section 9).
+- **Coupling between axes** through the object's full spatial inertia,
+  which a per-axis division ignores.
+
+### Sources for this section
+
+Torque-limited wrench sets:
+
+- Inouye JM, Kutch JJ, Valero-Cuevas FJ. "A Novel Synthesis of
+  Computational Approaches Enables Optimization of Grasp Quality of
+  Tendon-Driven Hands". *IEEE T-RO* 28(4):958–966, 2012. DOI
+  10.1109/TRO.2012.2196189. **[read: PMC3546350, methods]** Activations
+  run from 0 to 1, the cone is the hull of eight edge vectors, the set is
+  a Minkowski sum, and the quality is the largest ball.
+- Zheng Y, Yamane K. "Evaluation of grasp force efficiency considering hand
+  configuration and using novel generalized penetration distance
+  algorithm". *Proc. 2013 IEEE ICRA*, pp. 1580–1587. DOI
+  10.1109/ICRA.2013.6630781. Roa and Suárez list pp. 1572–1579.
+  **[read: methods]** Its segment case is a ray-shooting search, like our
+  scale margin.
+- Jeong H, Cheong J. "Evaluation of 3D grasps with physical
+  interpretations using object wrench space". *Robotica* 30(3):405–417,
+  2012. DOI 10.1017/S0263574711000713. **[abstract]** The smallest single
+  disturbance the grasp cannot resist. The abstract does not mention torque
+  limits; Roa and Suárez's link to them is unconfirmed (section 9).
+- Fakhari A, Patankar A, Xie J, Chakraborty N. "Computing a Task-Dependent
+  Grasp Metric Using Second-Order Cone Programs". *2021 IEEE/RSJ IROS*,
+  pp. 4009–4016. DOI 10.1109/IROS51168.2021.9636197. **[read: arXiv
+  2104.12158]** They write that "we do not consider the manipulators joint
+  torque constraint" in their examples.
+- Kerr J, Roth B. "Analysis of Multifingered Hands". *IJRR* 4(4):3–17,
+  1986. DOI 10.1177/027836498600400401. **[abstract]** A linear programme
+  for squeeze under friction and joint-torque limits, for a given load.
+- Buss M, Hashimoto H, Moore JB. "Dextrous hand grasping force
+  optimization". *IEEE T-RA* 12(3):406–418, 1996. DOI 10.1109/70.499823.
+  **[abstract]**
+- Boyd SP, Wegbreit B. "Fast Computation of Optimal Contact Forces". *IEEE
+  T-RO* 23(6):1117–1132, 2007. DOI 10.1109/TRO.2007.910774.
+  **[abstract]** Its dual certifies when no solution exists, a cleaner fail
+  signal than our least-squares residual.
+- Krug R, Bekiroglu Y, Roa MA. "Grasp quality evaluation done right: How
+  assumed contact force bounds affect Wrench-based quality metrics". *2017
+  IEEE ICRA*, pp. 1595–1600. DOI 10.1109/ICRA.2017.7989189. **[abstract]**
+- Watanabe T. "Manipulability measures taking necessary joint torques for
+  grasping into consideration". *2010 IEEE/RSJ IROS*, pp. 598–603. DOI
+  10.1109/IROS.2010.5651352. **[abstract]**
+- Birglen L, Gosselin CM. "Kinetostatic Analysis of Underactuated
+  Fingers". *IEEE T-RA* 20(2):211–221, 2004. DOI 10.1109/TRA.2004.824641.
+  **[abstract]**
+- Haschke et al. 2005 (section 5) is, by its abstract, the largest wrench
+  in a task direction, with no torque limits.
+
+Finger gaiting and regrasp:
+
+- Fearing R. "Implementing a force strategy for object re-orientation".
+  *Proc. 1986 IEEE ICRA*, pp. 96–102. DOI 10.1109/robot.1986.1087655.
+  **[abstract]**
+- Hong J, Lafferriere G, Mishra B, Tan X. "Fine manipulation with
+  multifinger hands". *Proc. IEEE ICRA*, pp. 1568–1573 (Crossref gives no
+  year; 1990 from the proceedings). DOI 10.1109/robot.1990.126232.
+  **[abstract]** Proofs that such grasps exist.
+- Rus D. "In-Hand Dexterous Manipulation of Piecewise-Smooth 3-D Objects".
+  *IJRR* 18(4):355–381, 1999. DOI 10.1177/02783649922066268.
+  **[abstract]**
+- Han L, Trinkle JC. "Dextrous manipulation by rolling and finger gaiting".
+  *Proc. 1998 IEEE ICRA*, vol. 1, pp. 730–735. DOI
+  10.1109/robot.1998.677060. **[abstract]**
+- Saut J-P, Sahbani A, El-Khoury S, Perdereau V. "Dexterous manipulation
+  planning using probabilistic roadmaps in continuous grasp subspaces".
+  *2007 IEEE/RSJ IROS*, pp. 2907–2912. DOI 10.1109/iros.2007.4399090.
+  **[read: constraints and algorithm]**
+- Sundaralingam B, Hermans T. "Geometric In-Hand Regrasp Planning:
+  Alternating Optimization of Finger Gaits and In-Grasp Manipulation".
+  *2018 IEEE ICRA*, pp. 231–238. DOI 10.1109/icra.2018.8460496.
+  **[read: arXiv 1804.04292]** Kinematic only.
+- Sundaralingam B, Hermans T. "Relaxed-rigidity constraints: kinematic
+  trajectory optimization and collision avoidance for in-grasp
+  manipulation". *Autonomous Robots* 43(2):469–483, 2019. DOI
+  10.1007/s10514-018-9772-z. **[abstract]**
+- Khandate G, Haas-Heger M, Ciocarlie M. "On the Feasibility of Learning
+  Finger-gaiting In-hand Manipulation with Intrinsic Sensing". *2022 IEEE
+  ICRA*, pp. 2752–2758. DOI 10.1109/icra46639.2022.9812212. **[read: arXiv
+  2109.12720]** Stable grasps judged in simulation.
+- Morgan AS, Hang K, Wen B, Bekris K, Dollar AM. "Complex In-Hand
+  Manipulation Via Compliance-Enabled Finger Gaiting and Multi-Modal
+  Planning". *RA-L* 7(2):4821–4828, 2022. DOI 10.1109/lra.2022.3145961.
+  **[read: arXiv 2201.07928]**
+- Ma RR, Dollar AM. "An underactuated hand for efficient
+  finger-gaiting-based dexterous manipulation". *ROBIO 2014*, pp.
+  2214–2219. DOI 10.1109/robio.2014.7090666. **[abstract]**
+
+Dynamics through contact:
+
+- Mason MT. "Mechanics and Planning of Manipulator Pushing Operations".
+  *IJRR* 5(3):53–71, 1986. DOI 10.1177/027836498600500303. **[abstract]**
+- Lynch KM, Mason MT. "Stable Pushing: Mechanics, Controllability, and
+  Planning". *IJRR* 15(6):533–556, 1996. DOI 10.1177/027836499601500602.
+  **[abstract]**
+- Lynch KM, Mason MT. "Dynamic Nonprehensile Manipulation:
+  Controllability, Planning, and Experiments". *IJRR* 18(1):64–92, 1999.
+  DOI 10.1177/027836499901800105. **[abstract]**
+- Hogan FR, Rodriguez A. "Feedback Control of the Pusher-Slider System: A
+  Story of Hybrid and Underactuated Contact Dynamics". *Springer
+  Proceedings in Advanced Robotics* (Algorithmic Foundations of Robotics
+  XII), pp. 800–815, 2020. DOI
+  10.1007/978-3-030-43089-4_51. **[read: arXiv 1611.08268]** And
+  "Reactive planar non-prehensile manipulation with hybrid model
+  predictive control", *IJRR* 39(7):755–773, 2020, DOI
+  10.1177/0278364920913938. **[abstract]**
+- Posa M, Cantu C, Tedrake R. "A direct method for trajectory optimization
+  of rigid bodies through contact". *IJRR* 33(1):69–81, 2014. DOI
+  10.1177/0278364913506757. **[abstract]**
+- Mordatch I, Popović Z, Todorov E. "Contact-Invariant Optimization for
+  Hand Manipulation". *Eurographics/ACM SIGGRAPH Symposium on Computer
+  Animation*, 2012. DOI 10.2312/SCA/SCA12/137-144 (registered with
+  DataCite, not Crossref). **[abstract]**
+- Pang T, Suh HJT, Yang L, Tedrake R. "Global Planning for Contact-Rich
+  Manipulation via Local Smoothing of Quasi-Dynamic Contact Models". *IEEE
+  T-RO* 39(6):4691–4711, 2023. DOI 10.1109/tro.2023.3300230. **[read:
+  arXiv 2206.10787, model and discussion]** They report that plans can
+  fail under full dynamics at high speed and low damping.
+
+Dynamic manipulability and acceleration capability:
+
+- Yoshikawa T. "Dynamic Manipulability of Robot Manipulators". *Trans.
+  SICE* 21(9):970–975, 1985. DOI 10.9746/sicetr1965.21.970. **[read: the
+  defining sections, in Japanese]** The ICRA 1985 version is in section 5.
+- Chiacchio P, Chiaverini S, Sciavicco L, Siciliano B. "Reformulation of
+  dynamic manipulability ellipsoid for robotic manipulators". *Proc. 1991
+  IEEE ICRA*, pp. 2192–2197 (Crossref gives no year). DOI
+  10.1109/robot.1991.131955. **[abstract]** Gravity shifts the ellipsoid.
+- Chiacchio P, Bouffard-Vercelli Y, Pierrot F. "Force polytope and force
+  ellipsoid for redundant manipulators". *J. Robotic Systems*
+  14(8):613–620, 1997. DOI
+  10.1002/(sici)1097-4563(199708)14:8<613::aid-rob3>3.0.co;2-p.
+  **[abstract]**
+- Bowling A, Khatib O. "The dynamic capability equations: a new tool for
+  analyzing robotic manipulator performance". *IEEE T-RO* 21(1):115–123,
+  2005. DOI 10.1109/tro.2004.837243. **[abstract]**
+- Kurazume R, Hasegawa T. "A new index of serial-link manipulator
+  performance combining dynamic manipulability and manipulating force
+  ellipsoids". *IEEE T-RO* 22(5):1022–1028, 2006. DOI
+  10.1109/tro.2006.878949. **[abstract]**
+- Skuric A, Padois V, Daney D. "On-line force capability evaluation based
+  on efficient polytope vertex search". *2021 IEEE ICRA*, pp. 1700–1706.
+  DOI 10.1109/icra48506.2021.9562050. **[read: arXiv text]** And
+  "Pycapacity: a real-time task-space capacity calculation package for
+  robotics and biomechanics", *JOSS* 8(89):5670, 2023, DOI
+  10.21105/joss.05670. **[read]** Pycapacity computes torque-limited force
+  and acceleration polytopes; a possible port for the planned step.
+- Yoshikawa T, Nagai K. "Manipulating and grasping forces in manipulation
+  by multifingered robot hands". *IEEE T-RA* 7(1):67–77, 1991. DOI
+  10.1109/70.68071. **[abstract]**
+- Zheng X-Z, Tomochika N, Yoshikawa T. "Dynamic Manipulability of Multiple
+  Robotic Mechanisms in Coordinated Manipulation". *J. Robotics Society of
+  Japan* 11(6):892–900, 1993. DOI 10.7210/jrsj.11.892. **[abstract:
+  English abstract on J-STAGE]** The polytope of object accelerations under
+  joint-torque limits and static friction.
+- Byun J, Lee J. "Dynamic Manipulability for Cooperating Multiple Robot
+  Systems with Frictional Contacts". *2006 SICE-ICASE Int. Joint Conf.*,
+  pp. 5899–5904. DOI 10.1109/sice.2006.315526. **[abstract]** Object
+  acceleration bounds by linear programming, with pyramids and torque
+  limits.
+- Yokokohji Y, San Martin J, Fujiwara M. "Dynamic Manipulability of
+  Multifingered Grasping". *IEEE T-RO* 25(4):947–954, 2009. DOI
+  10.1109/tro.2009.2022433. **[abstract]** The hand version: bounded joint
+  torques to object accelerations, an ellipsoid with the internal force
+  held fixed, shifted by gravity, with a penalty for that offset.
+- Orsolino R, Focchi M, Mastalli C, Dai H, Caldwell DG, Semini C.
+  "Application of Wrench-Based Feasibility Analysis to the Online
+  Trajectory Optimization of Legged Robots". *RA-L* 3(4):3363–3370, 2018.
+  DOI 10.1109/lra.2018.2836441. **[read: arXiv 1712.06833]**
+- Soft and continuum arms: Gravagne IA, Walker ID, "Manipulability, force,
+  and compliance analysis for planar continuum manipulators", *IEEE T-RA*
+  18(3):263–273, 2002, DOI 10.1109/tra.2002.1019457; Bamdad M, Bahri MM,
+  "Kinematics and Manipulability Analysis of a Highly Articulated Soft
+  Robotic Manipulator", *Robotica* 37(5):868–882, 2019, DOI
+  10.1017/s0263574718001376. **[abstract, both]** Kinematic and static
+  only; we found no dynamic capability measure for soft robots.
+
+Learning-based dexterity:
+
+- OpenAI (Andrychowicz M et al.). "Learning dexterous in-hand
+  manipulation". *IJRR* 39(1):3–20, 2020. DOI 10.1177/0278364919887447.
+  **[read]**
+- OpenAI (Akkaya I et al.). "Solving Rubik's Cube with a Robot Hand".
+  arXiv 1910.07113, 2019. **[read: hardware and failure sections]**
+- Handa A et al. "DeXtreme: Transfer of Agile In-hand Manipulation from
+  Simulation to Reality". *2023 IEEE ICRA*, pp. 5977–5984. DOI
+  10.1109/icra48891.2023.10160216. **[read]**
+- Chen T, Tippur M, Wu S, Kumar V, Adelson E, Agrawal P. "Visual dexterity:
+  In-hand reorientation of novel and complex object shapes". *Science
+  Robotics* 8(84):eadc9244, 2023. DOI 10.1126/scirobotics.adc9244.
+  **[read: results and limitations]**
+- Chen T, Xu J, Agrawal P. "A System for General In-Hand Object
+  Re-Orientation". arXiv 2111.03043 (CoRL 2021). **[read: appendices]**
+  Reports a histogram of peak joint torques, the nearest thing to a
+  torque readout in this field.
+- Qi H, Kumar A, Calandra R, Ma Y, Malik J. "In-Hand Object Rotation via
+  Rapid Motor Adaptation". arXiv 2210.04887 (CoRL 2022). **[read]**
+- Shaw K, Agarwal A, Pathak D. "LEAP Hand: Low-Cost, Efficient, and
+  Anthropomorphic Hand for Robot Learning". *Robotics: Science and Systems
+  XIX*, 2023. DOI 10.15607/rss.2023.xix.089. **[read]** Bench measures of
+  the hand itself, including pull-out force and manipulability.
+- Fay K et al. "House of Dextra: Cross-embodied Co-design for Dexterous
+  Hands". arXiv 2512.03743 (ICLR 2026). **[read: method and parameter
+  analysis]** Sweeps hardware parameters, including effort limits and
+  friction, against task reward.
+- Chen T, He Z, Ciocarlie M. "Hardware as Policy: Mechanical and
+  Computational Co-Optimization using Deep Reinforcement Learning". arXiv
+  2008.04460 (CoRL 2020). **[read: hand-design section]** And
+  "Co-designing hardware and control for robot hands", *Science Robotics*
+  6(54):eabg2133, 2021, DOI 10.1126/scirobotics.abg2133. **[read]**
+- Rajeswaran A et al. "Learning Complex Dexterous Manipulation with Deep
+  Reinforcement Learning and Demonstrations". *Robotics: Science and
+  Systems XIV*, 2018. DOI 10.15607/rss.2018.xiv.049. **[abstract]**
+
+## 9. References and claims we could not verify
 
 Do not cite these as fact until someone checks them.
 
-- Jeong and Cheong 2012 and Zheng and Yamane 2013, the torque-limited
-  wrench set behind our disturbance margin and apply limit. We know them only through Roa
-  and Suárez 2015 and have not checked either.
+- That Jeong and Cheong 2012 uses torque limits, as Roa and Suárez 2015
+  say. Its abstract does not mention them (section 8). Zheng and Yamane
+  2013 is now read, and moved to section 8.
+- How Yokokohji, San Martin and Fujiwara 2009 treat friction and finger
+  inertia. One reading of a full text from the Kyoto repository reported
+  friction cones, finger inertia and a polyhedral-cone check; a second
+  attempt found only a scanned image, and our own download was refused.
+  We cite the abstract only.
+- The content of Jeong, Park and Choeng 2009, "A new grasp quality measure
+  considering the physical limits of robot hands", *Artificial Life and
+  Robotics* 14(4):524–527, DOI 10.1007/s10015-009-0723-9 (metadata only).
+  It may add joint-torque bounds.
+- The IJRR paper by Inouye and colleagues, DOI 10.1177/0278364913504247,
+  found by title search only.
+- A paper by Hong et al. on grasp force with torque limits: none found.
+- Bicchi 1994, "On the problem of decomposing grasp and manipulation forces
+  in multiple whole-limb manipulation", *Robotics and Autonomous Systems*
+  13(2):127–147, DOI 10.1016/0921-8890(94)90055-8 (metadata only).
+- Leveroni and Salisbury 1996 (DOI 10.1007/978-1-4471-1021-7_5) and
+  Leveroni, Shah and Salisbury 1998 (DOI 10.1007/bfb0112951), on grasp
+  gaits and hand design for gaits (metadata only).
+- The content of Mason and Lynch 1993, "Dynamic manipulation", IROS 1993,
+  DOI 10.1109/iros.1993.583093 (record checked, text not).
+- That Stewart and Trinkle 1996 is the source of the quasi-dynamic model.
+  Pang et al. 2023 credit it to Mason's book.
+- Bicchi, Prattichizzo and Melchiorri 1997, "Force and dynamic
+  manipulability for cooperating robot systems", DOI
+  10.1109/iros.1997.656554 (metadata only).
+- A 1985 journal version of Yoshikawa's dynamic manipulability in *J.
+  Robotic Systems*: only an erratum (17(8):449, 2000) has a Crossref
+  record.
+- The full texts of Byun and Lee 2006 and Bowling and Khatib 2005.
+- Chiacchio, Chiaverini, Sciavicco and Siciliano 1991, *IJRR*
+  10(6):708–715, DOI 10.1177/027836499101000608 (metadata only).
+- The PMLR records of Chen, Xu and Agrawal 2021 and Qi et al. 2022.
 - The full texts of Li and Sastry 1987 and 1988. All Li and Sastry content
   here is from the 1986 memo.
 - The full texts of the SynGrasp ICRA 2013 and RAM 2015 papers.
