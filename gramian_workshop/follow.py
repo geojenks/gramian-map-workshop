@@ -64,7 +64,10 @@ makes a run several times slower. With follow(disturbance=True), each frame
 also carries a disturbance_margin: the smallest extra push or twist on the
 object, on top of the leader's load, that the contacts made could no longer
 resist (see _disturbance_margin; also off by default, and also no change to
-the verdict).
+the verdict). With follow(apply=True), each frame also carries an
+apply_limit: the largest push and twist the made contacts could put on the
+object by actuation alone, with no leader load, along each of the 12 signed
+axes (see _apply_limit; off by default, no change to the verdict).
 
 Simulation only; comparative, not predictive. The hand's own weight is not
 counted, and only position-level reach is checked (no collisions).
@@ -109,6 +112,9 @@ DISTURB_DIRS = [(i, sg) for i in range(6) for sg in (1.0, -1.0)]
                            # twist about x, y, z); their minimum is an upper
                            # bound on the true smallest disturbance
 DISTURB_LABELS = ["fx", "fy", "fz", "tx", "ty", "tz"]
+APPLY_FIRST_N = 1.0        # proposed: the apply limit's search tries this push
+                           # (N; a twist of this times L) first, then doubles up
+                           # to MARGIN_MAX or bisects below it
 
 
 # ----------------------------------------------------------------------
@@ -448,7 +454,8 @@ def torque_limits(hand, finger):
 
 def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
-           placement=None, joint_stiffness=None, margin=False, disturbance=False):
+           placement=None, joint_stiffness=None, margin=False, disturbance=False,
+           apply=False):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -456,7 +463,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     previous result's "placement" and "assignment" (and "respace_deg"), to
     re-evaluate without searching again; margin: give each frame a
     scale_margin (see _scale_margin); disturbance: give each frame a
-    disturbance_margin (see _disturbance_margin)."""
+    disturbance_margin (see _disturbance_margin); apply: give each frame an
+    apply_limit (see _apply_limit)."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -465,7 +473,7 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
         return _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol,
                        place or {}, wrist, respace, placement,
                        JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness),
-                       margin, disturbance)
+                       margin, disturbance, apply)
     finally:
         IK_ITERS = old_iters
 
@@ -504,7 +512,7 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 
 
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
-            respace, placement, kq, margin=True, disturbance=False):
+            respace, placement, kq, margin=True, disturbance=False, apply=False):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
@@ -536,7 +544,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             p, _, _ = leader.station(k, i, Rw, t, raw=True)
             fv = leader.force(k, i, Rw, raw=True)
             W += np.concatenate([fv, np.cross(p - c, fv)])
-        per, pts, nrms, Js, fingers_on = [], [], [], [], []
+        per, pts, nrms, Js, Js_act, fingers_on = [], [], [], [], [], []
         for a, f in enumerate(hand.fingers):
             i = assign[a]
             if i not in made:
@@ -582,6 +590,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             pts.append(cp)
             nrms.append(n_in)
             Js.append(cols)
+            # the apply limit counts inputs only: a spring resists but cannot push
+            Js_act.append(_finger_columns(hand, f, iks[a], M, lim, Jf, pw, 0.0)
+                          if apply and kq > 0 and M is not None else cols)
             fingers_on.append(a)
         unserved = [i for i in made if i not in assign]
         need_redistribute = unserved or leader.respaced or \
@@ -602,11 +613,14 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             sm = _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol)
         if disturbance:
             dm = _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol)
+        if apply:
+            al = _apply_limit(pts, nrms, Js_act, c, mu, L, resid_tol)
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
                        "ball_center": c.tolist(),
                        "unserved": unserved, "fingers": per,
                        **({"scale_margin": sm} if margin else {}),
                        **({"disturbance_margin": dm} if disturbance else {}),
+                       **({"apply_limit": al} if apply else {}),
                        **({"wrist_rad": wq} if wq is not None else {})})
     return {"hand": hand_key, "hand_name": hand.spec["name"],
             "leader": leader_json["id"], "placement_cost_mm": cost * 1e3,
@@ -616,7 +630,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "respace": respace, "reused_placement": placement is not None,
                          "strength": "input columns, one-sided where the model says (23 Oct)",
                          "joint_stiffness_Nm_per_rad": kq, "deflect_max_m": DEFLECT_MAX_M,
-                         "scale_margin": margin, "disturbance_margin": disturbance},
+                         "scale_margin": margin, "disturbance_margin": disturbance,
+                         "apply_limit": apply},
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
             "respace_deg": np.degrees(leader.phi).tolist(),
@@ -894,6 +909,90 @@ def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
                 b = m
         best, worst = a, ("+" if sg > 0 else "-") + DISTURB_LABELS[i]
     out.update(margin=best, direction=worst, capped=worst is None)
+    return out
+
+
+def _apply_limit(pts, nrms, Js, c, mu, L, resid_tol=None):
+    """Largest push and twist the made contacts can put on the object, with
+    no leader load, along each of DISTURB_DIRS: the torque-limited wrench set
+    of the grasp-quality literature (Jeong and Cheong 2012; Zheng and Yamane
+    2013; both known to us only through Roa and Suarez 2015), read along the
+    12 signed axes. Js must hold the input columns only (kq = 0): a passive
+    spring resists a load but cannot push on its own. Set against the
+    disturbance margin (what the grip can resist), this separates holding
+    by stiffness from driving by actuation.
+
+    The system of _torque_stack with right-hand side [e*d, 0, 1], every row
+    divided by e and the cone weights taken per unit e, as _scale_margin
+    does above s = 1: the wrench rows read Gs lambda = d, the contact part
+    of the joint-balance rows grows by e, and the input-bound rows keep their
+    form. The tolerance is tol_frac (RESID_TOL, proposed) on that system: the
+    wrench may be missed by tol_frac of e, and the joint-balance and
+    input-bound rows keep a fixed slack of tol_frac (as the other margins
+    have for a 1 N leader wrench), so the inputs cannot run past their
+    limits as e grows. A tolerance on the leader's wrench norm would tie a
+    leader-free quantity to the leader. At e = 0 the test is the friction
+    span alone: a direction the cones cannot push at all reads 0. Feasible
+    e form one run from 0 (a solution at e, with the inputs scaled down,
+    serves any smaller e), so each direction is searched as in
+    _disturbance_margin: APPLY_FIRST_N, then doubling up to MARGIN_MAX, or
+    bisection below it, to MARGIN_REL of the value (floor cap.BISECT_TOL).
+
+    Returns {push_N, twist_Nm, capped, L_m}: push_N and twist_Nm map "+x",
+    "-x", ... to the largest push (N) along, and twist (N.m) about, that
+    axis (twist = e * L, as the scaled wrench divides torque by L); capped
+    lists the directions ("+fx", "-tz", ...) that still hold at MARGIN_MAX.
+    None with no contact or no torque checked. A finger with no torque check
+    is unbounded, so the directions it can push read capped. Unlike the
+    leader-load test, a finger whose unactuated joints would carry torque
+    does not fail here: it supplies only forces that load no such joint, or
+    none. Dividing these by the object's mass and inertia gives the largest
+    acceleration the hand can give it, to compare with the leader's motion
+    (not built)."""
+    tol_frac = RESID_TOL if resid_tol is None else resid_tol
+    if not pts or all(c_ is None for c_ in Js):
+        return None
+    pts, nrms = np.array(pts), np.array(nrms)
+    Gs, cidx, Fc = cap.generators(pts, nrms, c, mu, L)
+    Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
+    ng = Gs.shape[1]
+    tol = max(tol_frac, cap.FEAS_REL)
+    tail = np.concatenate([np.zeros(nt), np.ones(nx)])
+
+    def held(i, sg, e):
+        d = np.zeros(6)
+        d[i] = sg
+        if e == 0.0:
+            # the joint rows hold with no input use, so only the cones remain
+            return _feasible(Gs, d, tol)[0]
+        Ms = Mx.copy()
+        Ms[6:6 + nt, :ng] *= e
+        return _feasible(Ms, np.concatenate([d, tail]), tol)[0]
+
+    out = {"push_N": {}, "twist_Nm": {}, "capped": [], "L_m": float(L)}
+    for i, sg in DISTURB_DIRS:
+        lab = ("+" if sg > 0 else "-") + DISTURB_LABELS[i]
+        a = 0.0
+        if held(i, sg, 0.0):
+            b = APPLY_FIRST_N
+            if held(i, sg, b):
+                a = b
+                while a < MARGIN_MAX and held(i, sg, 2 * a):
+                    a *= 2
+                b = 2 * a
+            if a >= MARGIN_MAX:
+                out["capped"].append(lab)
+            else:
+                while b - a > max(MARGIN_REL * a, cap.BISECT_TOL):
+                    m = 0.5 * (a + b)
+                    if held(i, sg, m):
+                        a = m
+                    else:
+                        b = m
+        if i < 3:
+            out["push_N"][lab[0] + "xyz"[i]] = a
+        else:
+            out["twist_Nm"][lab[0] + "xyz"[i - 3]] = a * L
     return out
 
 
