@@ -108,8 +108,7 @@ button,input[type=range]{margin:2px 4px 2px 0} .legend span{margin-right:10px;wh
 </style></head><body>
 <header><h1 id="title"></h1><p>Each moment of the leader, with the hand in the pose the check solved for. Fingers are coloured
 by their verdict. Each touching finger meets the ball tangentially: small black ball = where it touches, arrow = the
-finger's outward normal there; coloured ball = the leader's contact. Green needs the touch within 2 mm of the leader's
-contact, on the pad or side of the finger (not the nail half), with the finger sunk into the ball by at most 3 mm (amber 6 mm).
+finger's outward normal there; coloured ball = the leader's contact. Green needs the touch within 2 mm of the leader's contact plus the soft pad's contact patch (about 6 mm across), on the pad or side of the finger (not the nail half), with the finger sunk into the ball by at most 3 mm (amber 6 mm).
 "side" in the table is the angle from the middle of the pad (90&deg; = the side). Fingers are not checked against each
 other. Lifted-off fingers are faded, in the model's rest pose. Simulation only.</p></header>
 <div id="wrap"><div id="still" style="display:none"><div class="vlab" style="position:static;max-width:none;margin-bottom:4px">the video
