@@ -69,6 +69,18 @@ apply_limit: the largest push and twist the made contacts could put on the
 object by actuation alone, with no leader load, along each of the 12 signed
 axes (see _apply_limit; off by default, no change to the verdict).
 
+Contact (26 Oct): a TANGENT contact. A finger touches with its last or
+middle phalanx, each as a capsule (the model's own for capsule links; one
+fitted to the link's vertices for meshes): the IK puts the capsule axis at
+R + r from the object's centre, along the direction to the leader's contact,
+so the surfaces touch there, at whatever point along the link that falls.
+Reach is how far that touch is from the leader's contact; "facing" is then
+the side angle: between the link's palm-side direction and the direction to
+the object (0 = middle of the pad, 90 = the side; green up to
+SIDE_GREEN_DEG, i.e. anywhere but the nail half, amber to SIDE_AMBER_DEG).
+This replaces the pre-chosen pad points, which made a tilted finger cut into
+the object.
+
 Penetration (26 Oct, George: "the fingers go inside the ball ... that is of
 course non-physical"): no part of a touching finger, nor the palm, may sit
 inside the object. The IK pushes any link point that sinks in back out; a
@@ -109,6 +121,9 @@ RESPACE_DEG = 20.0         # proposed: how far a station may be moved round the 
 PEN_GREEN_M = 0.001        # proposed: a pad may compress this far into the object
 PEN_AMBER_M = 0.003        # proposed: "close"
 PEN_WEIGHT = 1.0           # IK weight of the push-out row (as position)
+SIDE_GREEN_DEG = 90.0      # tangent contact: anywhere but the nail half (George 23 Oct)
+SIDE_AMBER_DEG = 120.0     # proposed: onto the edge of the nail half
+SIDE_WEIGHT_M = 0.005      # soft IK preference for the pad over the side (m per rad)
 UNACT_TOL = 0.05           # unbalanced joint torque allowed, share of |J^T f|
 DEFLECT_MAX_M = 0.002      # passive joint stiffness may deflect the contact this far
 JOINT_STIFFNESS = 0.0      # N.m/rad, passive, every free joint (follow(joint_stiffness=))
@@ -352,6 +367,105 @@ class FingerIK:
                 break
             b = int(m.body_parentid[b])
 
+    def proxies(self, middle=True):
+        """{body: (a_local, b_local, r)}: the contact capsule of the last
+        (and, with middle, the middle) phalanx, and the palm-side direction."""
+        if hasattr(self, "_proxy") and self._proxy[0] == middle:
+            return self._proxy[1]
+        m = self.hand.model
+        bodies = [self.f.tip_body] + ([int(m.body_parentid[self.f.tip_body])] if middle else [])
+        out = {}
+        for b in bodies:
+            caps = [s_ for s_ in _body_shapes(m, b) if s_[0] == "seg"]
+            if caps:
+                a, e, r = max(caps, key=lambda s_: s_[3] + np.linalg.norm(s_[2] - s_[1]))[1:]
+            else:
+                V = _link_vertices(m, b)
+                if V is None:
+                    continue
+                c0 = V.mean(0)
+                w, U = np.linalg.eigh(np.cov((V - c0).T))
+                ax = U[:, -1]
+                sproj = (V - c0) @ ax
+                rad = np.linalg.norm((V - c0) - np.outer(sproj, ax), axis=1)
+                r = float(np.percentile(rad, 75))
+                lo, hi = sproj.min() + r, sproj.max() - r
+                if hi < lo:
+                    lo = hi = 0.5 * (sproj.min() + sproj.max())
+                a, e = c0 + lo * ax, c0 + hi * ax
+            side, _ = _palm_side(self.hand, self.f, b)
+            out[b] = (np.array(a), np.array(e), float(r), side)
+        self._proxy = (middle, out)
+        return out
+
+    def solve_tangent(self, body, target, c, R, q0=None, ball_pen=True):
+        """Touch the object (centre c, radius R) with this link's contact
+        capsule at the leader's contact `target`. Returns (q_free, reach_m,
+        side_deg, contact point, link outward normal there, penetration_m)."""
+        mj, m, d = self.mj, self.hand.model, self.d
+        a_l, b_l, r, side_l = self.proxies()[body]
+        n_t = (target - c) / np.linalg.norm(target - c)
+        P = c + (R + r) * n_t                  # where the capsule axis must pass
+        q = np.array(self.hand.base_q)
+        q[self.qadr] = self.rng.mean(1) if q0 is None else q0
+        jacp, jacr = np.zeros((3, m.nv)), np.zeros((3, m.nv))
+
+        def axis_point():
+            Rb, pb = d.xmat[body].reshape(3, 3), d.xpos[body]
+            A, B = pb + Rb @ a_l, pb + Rb @ b_l
+            ab = B - A
+            L2 = float(ab @ ab)
+            tt = 0.0 if L2 < 1e-16 else min(1.0, max(0.0, float((P - A) @ ab) / L2))
+            return A + tt * ab, Rb @ side_l
+
+        for _ in range(IK_ITERS):
+            d.qpos[:] = self.hand.apply_coupling(q.copy())
+            mj.mj_kinematics(m, d)
+            mj.mj_comPos(m, d)
+            x, s_w = axis_point()
+            e = P - x
+            mj.mj_jac(m, d, jacp, jacr, x, body)
+            Jp, Jr = self._eff_jac(jacp), self._eff_jac(jacr)
+            # soft preference for the pad: turn the palm side toward the object
+            e = np.concatenate([e, SIDE_WEIGHT_M * np.cross(s_w, -n_t)])
+            J = np.vstack([Jp, SIDE_WEIGHT_M * Jr])
+            if ball_pen:
+                pen, bb, xp, u = self.penetration((c, R))
+                if pen > 0.2 * PEN_GREEN_M:
+                    jx = np.zeros((3, m.nv))
+                    mj.mj_jac(m, d, jx, None, xp, bb)
+                    J = np.vstack([J, PEN_WEIGHT * (u @ self._eff_jac(jx))[None, :]])
+                    e = np.concatenate([e, [PEN_WEIGHT * pen]])
+            dq = J.T @ np.linalg.solve(J @ J.T + IK_DAMP * np.eye(J.shape[0]), e)
+            q[self.qadr] = np.clip(q[self.qadr] + dq, self.rng[:, 0], self.rng[:, 1])
+        d.qpos[:] = self.hand.apply_coupling(q.copy())
+        mj.mj_kinematics(m, d)
+        x, s_w = axis_point()
+        v = x - c
+        n_out = v / np.linalg.norm(v)          # from the centre through the touch
+        cp = c + R * n_out                     # the touch, on the object's surface
+        side = math.degrees(math.acos(max(-1.0, min(1.0, float(s_w @ -n_out)))))
+        pen = float(self.penetration((c, R))[0])
+        return q[self.qadr].copy(), float(np.linalg.norm(cp - target)), side, cp, -n_out, pen
+
+    def best_tangent(self, target, c, R, starts=None, middle=True):
+        """Best link and pose for a tangent touch at target: green before
+        amber before red, then reach, then side."""
+        if starts is None:
+            lo, hi = self.rng[:, 0], self.rng[:, 1]
+            starts = [None, lo + 0.25 * (hi - lo), lo + 0.75 * (hi - lo)][:IK_STARTS]
+        best = None
+        for b in self.proxies(middle):
+            for q0 in starts:
+                r = self.solve_tangent(b, target, c, R, q0)
+                rank = (0 if r[1] <= REACH_GREEN_M and r[2] <= SIDE_GREEN_DEG and r[5] <= PEN_GREEN_M else
+                        1 if r[1] <= REACH_AMBER_M and r[2] <= SIDE_AMBER_DEG and r[5] <= PEN_AMBER_M
+                        else 2)
+                key = (rank, r[1], r[2])
+                if best is None or key < best[0]:
+                    best = (key, (b, None, None), r)
+        return best[1], best[2]
+
     def penetration(self, ball):
         """(depth m, body, point, outward) of the finger's deepest point
         inside ball = (centre, radius), at the pose in self.d."""
@@ -462,6 +576,10 @@ class Leader:
         c, s_ = math.cos(a), math.sin(a)
         return np.array([[c, -s_, 0.0], [s_, c, 0.0], [0.0, 0.0, 1.0]])
 
+    def center(self, k, Rw, t):
+        """The object's centre at frame k, placed."""
+        return Rw @ (np.array(self.frames[k]["obj_pos"]) - self.c0) + t
+
     def station(self, k, i, Rw, t, raw=False):
         """World (hand-frame) contact point and inward normal of station i at
         frame k, after placing the leader by rotation Rw and translation t
@@ -519,18 +637,16 @@ def placement_search(hand, leader, cands, iks, n_frames=10, n_samples=80, seed=0
                         if i not in leader.made(k):
                             continue
                         p, nrm, cc = leader.station(k, i, Rw, t)
-                        _, r = ik.best(cands[a][::pad_step], p, nrm, starts=[None],
-                                       ball=(cc, leader.R_obj))
-                        # reach error plus facing, weighted as in the IK
-                        # (FACE_WEIGHT_M metres per radian), so a finger
-                        # touching with its nail is not a good placement,
-                        # plus any sinking into the object beyond a pad's give
+                        _, r = ik.best_tangent(p, cc, leader.R_obj, starts=[None])
+                        # reach error, plus touching beyond the pad's side
+                        # (toward the nail), plus sinking into the object
                         fw = FACE_WEIGHT_M if face_weight is None else face_weight
-                        res.append(r[1] + fw * math.radians(r[2]) + max(0.0, r[5] - PEN_GREEN_M))
+                        res.append(r[1] + fw * math.radians(max(0.0, r[2] - SIDE_GREEN_DEG))
+                                   + max(0.0, r[5] - PEN_GREEN_M))
                     C[a, i] = np.mean(res) if res else 1.0
             assign, cost = best_assignment(C)
             # the palm must not sit inside the object either
-            cost += float(np.mean([max(0.0, palm_penetration(hand, leader.station(k, 0, Rw, t)[2],
+            cost += float(np.mean([max(0.0, palm_penetration(hand, leader.center(k, Rw, t),
                                                              leader.R_obj) - PEN_GREEN_M) for k in ks]))
             scores.append(cost)
             if best is None or cost < best[0]:
@@ -632,8 +748,8 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
             if i not in made:
                 continue
             p, nrm, cc = leader.station(k, i, Rw, t)
-            _, r = ik.best(cands[a][::2], p, nrm, starts=[None], ball=(cc, leader.R_obj))
-            c += r[1] + FACE_WEIGHT_M * math.radians(r[2]) + max(0.0, r[5] - PEN_GREEN_M)
+            _, r = ik.best_tangent(p, cc, leader.R_obj, starts=[None])
+            c += r[1] + FACE_WEIGHT_M * math.radians(max(0.0, r[2] - SIDE_GREEN_DEG)) + max(0.0, r[5] - PEN_GREEN_M)
         return c
 
     axes = [np.linspace(lo, hi, grid) for lo, hi in rng]
@@ -674,7 +790,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
     for k in ks:
         made = leader.made(k)
         wq = _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made) if wrist else None
-        _, _, c = leader.station(k, 0, Rw, t)
+        c = leader.center(k, Rw, t)
         W = np.zeros(6)
         for i in made:
             p, _, _ = leader.station(k, i, Rw, t, raw=True)
@@ -687,20 +803,19 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 per.append({"finger": f.label, "station": i, "state": "off"})
                 continue
             p, nrm, _ = leader.station(k, i, Rw, t)
-            (b, pl, nl), (q, res, face, pw, nw, pen) = iks[a].best(
-                cands[a], p, nrm, weights=(FACE_WEIGHT_M, FACE_WEIGHT_M / 10),
-                ball=(c, leader.R_obj))
-            near = res <= REACH_AMBER_M and face <= FACE_AMBER_DEG and pen <= PEN_AMBER_M
-            exact = res <= REACH_GREEN_M and face <= FACE_GREEN_DEG and pen <= PEN_GREEN_M
+            (b, pl, nl), (q, res, face, pw, nw, pen) = iks[a].best_tangent(p, c, leader.R_obj, middle=middle)
+            near = res <= REACH_AMBER_M and face <= SIDE_AMBER_DEG and pen <= PEN_AMBER_M
+            exact = res <= REACH_GREEN_M and face <= SIDE_GREEN_DEG and pen <= PEN_GREEN_M
             item = {"finger": f.label, "station": i, "reach_mm": res * 1e3,
                     "facing_deg": face, "phalanx": "distal" if b == f.tip_body else "middle",
                     # the solved pose, for rendering (tools/render_follow.py)
                     "q": [float(x) for x in q], "target": p.tolist(), "pad_world": pw.tolist(),
-                    "pad_normal": nw.tolist(), "penetration_mm": max(0.0, pen) * 1e3}
+                    "pad_normal": nw.tolist(), "penetration_mm": max(0.0, pen) * 1e3,
+                    "side_deg": face}
             if not near:
                 item["state"] = "red"
                 item["reason"] = ("reach" if res > REACH_AMBER_M else
-                                  "facing" if face > FACE_AMBER_DEG else "penetrates")
+                                  "nail side" if face > SIDE_AMBER_DEG else "penetrates")
                 per.append(item)
                 continue
             # actual contact: the pad point projected onto the object
