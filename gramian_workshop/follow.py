@@ -69,8 +69,16 @@ apply_limit: the largest push and twist the made contacts could put on the
 object by actuation alone, with no leader load, along each of the 12 signed
 axes (see _apply_limit; off by default, no change to the verdict).
 
+Penetration (26 Oct, George: "the fingers go inside the ball ... that is of
+course non-physical"): no part of a touching finger, nor the palm, may sit
+inside the object. The IK pushes any link point that sinks in back out; a
+finger is green only if it sinks in at most PEN_GREEN_M (pad compression),
+amber up to PEN_AMBER_M, red ("penetrates") beyond; the palm likewise, per
+frame ("palm penetrates"), and the placement search pays for both. Fingers
+are not checked against each other, and lifted fingers are not posed.
+
 Simulation only; comparative, not predictive. The hand's own weight is not
-counted, and only position-level reach is checked (no collisions).
+counted.
 """
 import itertools
 import math
@@ -98,6 +106,9 @@ RESID_TOL = 0.05           # proposed: amber may leave this share of the
                            # acceleration of the object), as a fraction of its norm
 IK_DAMP = 1e-4
 RESPACE_DEG = 20.0         # proposed: how far a station may be moved round the ring
+PEN_GREEN_M = 0.001        # proposed: a pad may compress this far into the object
+PEN_AMBER_M = 0.003        # proposed: "close"
+PEN_WEIGHT = 1.0           # IK weight of the push-out row (as position)
 UNACT_TOL = 0.05           # unbalanced joint torque allowed, share of |J^T f|
 DEFLECT_MAX_M = 0.002      # passive joint stiffness may deflect the contact this far
 JOINT_STIFFNESS = 0.0      # N.m/rad, passive, every free joint (follow(joint_stiffness=))
@@ -140,8 +151,13 @@ def _link_vertices(m, body):
             if t == mj.mjtGeom.mjGEOM_SPHERE:
                 v = s[0] * u
             elif t == mj.mjtGeom.mjGEOM_CAPSULE:
-                z = np.linspace(-s[1], s[1], 600)
-                v = s[0] * u + np.column_stack([0 * z, 0 * z, z]) * (np.abs(u[:, 2:3]) < 2)
+                # on the surface: the cylinder side, then the two caps (until
+                # 26 Oct this mixed in points inside the capsule)
+                ang = np.random.default_rng(1).uniform(0, 2 * np.pi, 300)
+                z = np.random.default_rng(2).uniform(-s[1], s[1], 300)
+                side = np.column_stack([s[0] * np.cos(ang), s[0] * np.sin(ang), z])
+                cap_ = s[0] * u[:300] + np.outer(np.sign(u[:300, 2]), [0, 0, s[1]])
+                v = np.vstack([side, cap_])
             elif t == mj.mjtGeom.mjGEOM_CYLINDER:
                 ang = np.linspace(0, 2 * np.pi, 600)
                 z = np.random.default_rng(1).uniform(-s[1], s[1], 600)
@@ -152,6 +168,95 @@ def _link_vertices(m, body):
                 continue
         pts.append(v @ Rm.reshape(3, 3).T + m.geom_pos[g])
     return np.vstack(pts) if pts else None
+
+
+def _body_shapes(m, body, max_pts=300):
+    """Collision shapes of a body for penetration tests, in its frame:
+    ("seg", a, b, r) for capsules and spheres (exact), ("pts", V) for
+    meshes, boxes and cylinders (surface points)."""
+    mj = _mj()
+    out = []
+    for g in range(m.ngeom):
+        if m.geom_bodyid[g] != body or (m.geom_contype[g] == 0 and m.geom_conaffinity[g] == 0):
+            continue
+        Rm = np.zeros(9)
+        mj.mju_quat2Mat(Rm, m.geom_quat[g])
+        Rm = Rm.reshape(3, 3)
+        t, sz, pos = m.geom_type[g], m.geom_size[g], np.array(m.geom_pos[g])
+        if t == mj.mjtGeom.mjGEOM_CAPSULE:
+            ax = Rm[:, 2] * sz[1]
+            out.append(("seg", pos - ax, pos + ax, float(sz[0])))
+        elif t == mj.mjtGeom.mjGEOM_SPHERE:
+            out.append(("seg", pos, pos, float(sz[0])))
+    V = None
+    others = [g for g in range(m.ngeom) if m.geom_bodyid[g] == body
+              and m.geom_type[g] not in (mj.mjtGeom.mjGEOM_CAPSULE, mj.mjtGeom.mjGEOM_SPHERE)
+              and not (m.geom_contype[g] == 0 and m.geom_conaffinity[g] == 0)]
+    if others:
+        V = _link_vertices(m, body)
+        if V is not None:
+            if len(V) > max_pts:
+                V = V[np.random.default_rng(0).choice(len(V), max_pts, replace=False)]
+            out.append(("pts", V))
+    return out
+
+
+def _deepest(d, shapes, c, R):
+    """(penetration m, body, world point, outward unit) of the deepest point
+    of these bodies inside the sphere (c, R); penetration <= 0 if outside."""
+    best = (-np.inf, None, None, None)
+    for b, shp in shapes.items():
+        Rb, pb = d.xmat[b].reshape(3, 3), d.xpos[b]
+        for s_ in shp:
+            if s_[0] == "seg":
+                a, e, r = pb + Rb @ s_[1], pb + Rb @ s_[2], s_[3]
+                ab = e - a
+                L2 = float(ab @ ab)
+                tt = 0.0 if L2 < 1e-16 else min(1.0, max(0.0, float((c - a) @ ab) / L2))
+                q = a + tt * ab
+                v = c - q                # from the segment toward the centre
+                dist = float(np.linalg.norm(v))
+                x = q + r * (v / dist if dist > 1e-12 else np.array([0.0, 0.0, 1.0]))
+                pen = R - (dist - r)     # the surface point nearest c is dist - r from it
+                if pen > best[0]:
+                    best = (pen, b, x, (x - c) / max(np.linalg.norm(x - c), 1e-12))
+            else:
+                X = pb + s_[1] @ Rb.T
+                dd = np.linalg.norm(X - c, axis=1)
+                i = int(np.argmin(dd))
+                pen = R - float(dd[i])
+                if pen > best[0]:
+                    best = (pen, b, X[i], (X[i] - c) / max(float(dd[i]), 1e-12))
+    return best
+
+
+def palm_shapes(hand):
+    """Shapes of every body with geometry that belongs to no finger."""
+    m = hand.model
+    fb = set()
+    for f in hand.fingers:
+        first = m.jnt_bodyid[f.joints[0]] if f.joints else f.tip_body
+        b = f.tip_body
+        while b > 0:
+            fb.add(b)
+            if b == first:
+                break
+            b = int(m.body_parentid[b])
+    return {b: sh for b in range(1, m.nbody) if b not in fb and (sh := _body_shapes(m, b))}
+
+
+def palm_penetration(hand, c, R, _cache={}):
+    """Deepest penetration (m) of the palm (at the hand's base pose) into the
+    sphere (c, R)."""
+    mj = _mj()
+    key = id(hand)
+    if key not in _cache:
+        d = mj.MjData(hand.model)
+        d.qpos[:] = hand.apply_coupling(np.array(hand.base_q))
+        mj.mj_kinematics(hand.model, d)
+        _cache[key] = (d, palm_shapes(hand))
+    d, sh = _cache[key]
+    return float(_deepest(d, sh, np.asarray(c, float), R)[0]) if sh else -np.inf
 
 
 def _palm_side(hand, finger, body):
@@ -236,6 +341,21 @@ class FingerIK:
         self.qadr = np.array([m.jnt_qposadr[j] for j in self.free])
         self.dofs = np.array([m.jnt_dofadr[j] for j in self.free])
         self.rng = np.array([m.jnt_range[j] for j in self.free])
+        # the finger's links (tip to the first joint's body), for penetration
+        first = m.jnt_bodyid[finger.joints[0]] if finger.joints else finger.tip_body
+        self.shapes, b = {}, finger.tip_body
+        while b > 0:
+            sh = _body_shapes(m, b)
+            if sh:
+                self.shapes[b] = sh
+            if b == first:
+                break
+            b = int(m.body_parentid[b])
+
+    def penetration(self, ball):
+        """(depth m, body, point, outward) of the finger's deepest point
+        inside ball = (centre, radius), at the pose in self.d."""
+        return _deepest(self.d, self.shapes, np.asarray(ball[0], float), float(ball[1]))
 
     def _eff_jac(self, J):
         m = self.hand.model
@@ -247,9 +367,11 @@ class FingerIK:
                 Je[:, self.free.index(master)] += dd * J[:, m.jnt_dofadr[dep]]
         return Je
 
-    def solve(self, body, p_local, n_local, target, n_target, q0=None, fw=None):
-        """Damped least squares on pad position and facing. Returns
-        (q_free, residual_m, facing_deg, world point, world normal)."""
+    def solve(self, body, p_local, n_local, target, n_target, q0=None, fw=None, ball=None):
+        """Damped least squares on pad position and facing, and, with ball =
+        (centre, radius), on pushing the deepest link point out of the
+        object. Returns (q_free, residual_m, facing_deg, world point, world
+        normal, penetration_m) (penetration -inf without a ball)."""
         mj, m, d = self.mj, self.hand.model, self.d
         q = np.array(self.hand.base_q)
         q[self.qadr] = self.rng.mean(1) if q0 is None else q0
@@ -266,7 +388,14 @@ class FingerIK:
             mj.mj_jac(m, d, jacp, jacr, p, body)
             Jp, Jr = self._eff_jac(jacp), self._eff_jac(jacr)
             J = np.vstack([Jp, fw * Jr])
-            dq = J.T @ np.linalg.solve(J @ J.T + IK_DAMP * np.eye(6), e)
+            if ball is not None:
+                pen, bb, x, u = self.penetration(ball)
+                if pen > 0.2 * PEN_GREEN_M:
+                    jx = np.zeros((3, m.nv))
+                    mj.mj_jac(m, d, jx, None, x, bb)
+                    J = np.vstack([J, PEN_WEIGHT * (u @ self._eff_jac(jx))[None, :]])
+                    e = np.concatenate([e, [PEN_WEIGHT * pen]])
+            dq = J.T @ np.linalg.solve(J @ J.T + IK_DAMP * np.eye(J.shape[0]), e)
             q[self.qadr] = np.clip(q[self.qadr] + dq, self.rng[:, 0], self.rng[:, 1])
         d.qpos[:] = self.hand.apply_coupling(q.copy())
         mj.mj_kinematics(m, d)
@@ -274,9 +403,10 @@ class FingerIK:
         p = d.xpos[body] + R @ p_local
         n = R @ n_local
         face = math.degrees(math.acos(max(-1.0, min(1.0, float(-n @ n_target)))))
-        return q[self.qadr].copy(), float(np.linalg.norm(target - p)), face, p, n
+        pen = float(self.penetration(ball)[0]) if ball is not None else -np.inf
+        return q[self.qadr].copy(), float(np.linalg.norm(target - p)), face, p, n, pen
 
-    def best(self, cands, target, n_target, starts=None, weights=None):
+    def best(self, cands, target, n_target, starts=None, weights=None, ball=None):
         """Best pad point for this target: smallest residual, then facing,
         over IK_STARTS starting poses (mid-range, and fixed spreads toward
         each end of the joint ranges) against local minima, and over facing
@@ -289,10 +419,11 @@ class FingerIK:
         best = None
         for b, pl, nl in cands:
             for q0, fw in itertools.product(starts, weights or (FACE_WEIGHT_M,)):
-                r = self.solve(b, pl, nl, target, n_target, q0, fw)
+                r = self.solve(b, pl, nl, target, n_target, q0, fw, ball)
                 # green before amber before red, then reach, then facing
-                rank = (0 if r[1] <= REACH_GREEN_M and r[2] <= FACE_GREEN_DEG else
-                        1 if r[1] <= REACH_AMBER_M and r[2] <= FACE_AMBER_DEG else 2)
+                rank = (0 if r[1] <= REACH_GREEN_M and r[2] <= FACE_GREEN_DEG and r[5] <= PEN_GREEN_M else
+                        1 if r[1] <= REACH_AMBER_M and r[2] <= FACE_AMBER_DEG and r[5] <= PEN_AMBER_M
+                        else 2)
                 key = (rank, r[1], r[2])
                 if best is None or key < best[0]:
                     best = (key, (b, pl, nl), r)
@@ -387,15 +518,20 @@ def placement_search(hand, leader, cands, iks, n_frames=10, n_samples=80, seed=0
                     for k in ks:
                         if i not in leader.made(k):
                             continue
-                        p, nrm, _ = leader.station(k, i, Rw, t)
-                        _, r = ik.best(cands[a][::pad_step], p, nrm, starts=[None])
+                        p, nrm, cc = leader.station(k, i, Rw, t)
+                        _, r = ik.best(cands[a][::pad_step], p, nrm, starts=[None],
+                                       ball=(cc, leader.R_obj))
                         # reach error plus facing, weighted as in the IK
                         # (FACE_WEIGHT_M metres per radian), so a finger
-                        # touching with its nail is not a good placement
+                        # touching with its nail is not a good placement,
+                        # plus any sinking into the object beyond a pad's give
                         fw = FACE_WEIGHT_M if face_weight is None else face_weight
-                        res.append(r[1] + fw * math.radians(r[2]))
+                        res.append(r[1] + fw * math.radians(r[2]) + max(0.0, r[5] - PEN_GREEN_M))
                     C[a, i] = np.mean(res) if res else 1.0
             assign, cost = best_assignment(C)
+            # the palm must not sit inside the object either
+            cost += float(np.mean([max(0.0, palm_penetration(hand, leader.station(k, 0, Rw, t)[2],
+                                                             leader.R_obj) - PEN_GREEN_M) for k in ks]))
             scores.append(cost)
             if best is None or cost < best[0]:
                 best = (cost, Rw, t, assign, x)
@@ -495,9 +631,9 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
             i = assign[a]
             if i not in made:
                 continue
-            p, nrm, _ = leader.station(k, i, Rw, t)
-            _, r = ik.best(cands[a][::2], p, nrm, starts=[None])
-            c += r[1] + FACE_WEIGHT_M * math.radians(r[2])
+            p, nrm, cc = leader.station(k, i, Rw, t)
+            _, r = ik.best(cands[a][::2], p, nrm, starts=[None], ball=(cc, leader.R_obj))
+            c += r[1] + FACE_WEIGHT_M * math.radians(r[2]) + max(0.0, r[5] - PEN_GREEN_M)
         return c
 
     axes = [np.linspace(lo, hi, grid) for lo, hi in rng]
@@ -551,18 +687,20 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 per.append({"finger": f.label, "station": i, "state": "off"})
                 continue
             p, nrm, _ = leader.station(k, i, Rw, t)
-            (b, pl, nl), (q, res, face, pw, nw) = iks[a].best(
-                cands[a], p, nrm, weights=(FACE_WEIGHT_M, FACE_WEIGHT_M / 10))
-            near = res <= REACH_AMBER_M and face <= FACE_AMBER_DEG
-            exact = res <= REACH_GREEN_M and face <= FACE_GREEN_DEG
+            (b, pl, nl), (q, res, face, pw, nw, pen) = iks[a].best(
+                cands[a], p, nrm, weights=(FACE_WEIGHT_M, FACE_WEIGHT_M / 10),
+                ball=(c, leader.R_obj))
+            near = res <= REACH_AMBER_M and face <= FACE_AMBER_DEG and pen <= PEN_AMBER_M
+            exact = res <= REACH_GREEN_M and face <= FACE_GREEN_DEG and pen <= PEN_GREEN_M
             item = {"finger": f.label, "station": i, "reach_mm": res * 1e3,
                     "facing_deg": face, "phalanx": "distal" if b == f.tip_body else "middle",
                     # the solved pose, for rendering (tools/render_follow.py)
                     "q": [float(x) for x in q], "target": p.tolist(), "pad_world": pw.tolist(),
-                    "pad_normal": nw.tolist()}
+                    "pad_normal": nw.tolist(), "penetration_mm": max(0.0, pen) * 1e3}
             if not near:
                 item["state"] = "red"
-                item["reason"] = "reach" if res > REACH_AMBER_M else "facing"
+                item["reason"] = ("reach" if res > REACH_AMBER_M else
+                                  "facing" if face > FACE_AMBER_DEG else "penetrates")
                 per.append(item)
                 continue
             # actual contact: the pad point projected onto the object
@@ -609,6 +747,11 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             for x in per:
                 if x.get("state") == "amber?":
                     x["state"] = "amber" if ok else "red"
+        palm_pen = max(0.0, palm_penetration(hand, c, leader.R_obj))
+        if palm_pen > PEN_AMBER_M:
+            verdict, reason = "red", "palm penetrates"
+        elif palm_pen > PEN_GREEN_M and verdict == "green":
+            verdict = "amber"
         if margin:
             sm = _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol)
         if disturbance:
@@ -616,7 +759,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         if apply:
             al = _apply_limit(pts, nrms, Js_act, c, mu, L, resid_tol)
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
-                       "ball_center": c.tolist(),
+                       "ball_center": c.tolist(), "palm_penetration_mm": palm_pen * 1e3,
                        "unserved": unserved, "fingers": per,
                        **({"scale_margin": sm} if margin else {}),
                        **({"disturbance_margin": dm} if disturbance else {}),
