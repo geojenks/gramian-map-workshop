@@ -7,7 +7,8 @@ to `follow.py`. Updated on 25 October when the disturbance margin was added, and
 26 October when the apply limit was added. Updated again on 26 October
 after a search of the fields beyond static grasps (section 8), which
 corrected the precedent we gave for the apply limit and narrowed what we
-claim is new.
+claim is new. Updated again on 26 October when the apply limit gained a
+second reading, with the other components free.
 
 ## The result in brief
 
@@ -78,15 +79,15 @@ added; the line numbers below are for that version.
 
 - **Contact model.** Hard finger, point contact with friction. The contact
   Jacobian is `Jf = jacp[:, f.dof]` from MuJoCo's `mj_jac` at the pad point
-  ([follow.py:577](../gramian_workshop/follow.py)).
+  ([follow.py:840](../gramian_workshop/follow.py)).
 - **Friction cone.** Per finger, the leader's force must lie inside the cone:
-  `fv @ n_in >= cos(atan(mu))*|fv|` (follow.py:579). For redistribution, the
+  `fv @ n_in >= cos(atan(mu))*|fv|` (follow.py:842). For redistribution, the
   cone is an inscribed pyramid of `CONE_EDGES = 8` edges
   ([capability_core.py:17](../gramian_workshop/vendor/capability_core.py),
   `generators` at line 89). `OUTER_FACTOR = 1/cos(π/8)` (line 20) gives the
   circumscribed pyramid as an outer bracket
   ([readout.py:53, 96, 234](../gramian_workshop/readout.py)).
-- **Transmission and strength.** `_finger_columns` (follow.py:642–673)
+- **Transmission and strength.** `_finger_columns` (follow.py:910–941)
   folds slaved joints into their masters (the matrix E, with each slaved
   entry the derivative of the polynomial coupling). A contact force f needs
   the reduced joint torque Tr f, with Tr = E^T Jf^T. The finger can supply
@@ -96,18 +97,18 @@ added; the line numbers below are for that version.
   passive columns, sized so the contact moves at most `DEFLECT_MAX_M`. The
   default kq is 0, so by default torque that no input can make must be
   zero.
-- **Torque check.** `_columns_hold` (follow.py:676–685) solves for x by
+- **Torque check.** `_columns_hold` (follow.py:944–953) solves for x by
   non-negative least squares. The unbalanced torque must be at most
   `UNACT_TOL` (0.05) of |Tr f|.
-- **Redistribution.** `_redistribute` (follow.py:701–725) asks whether the
+- **Redistribution.** `_redistribute` (follow.py:986–1010) asks whether the
   contacts we made can produce the leader's object wrench with forces of
   their own choosing. It runs three tests in turn: span (least squares, line
-  714), friction (non-negative least squares on the pyramid, line 718), then
-  torque. The torque system is built by `_torque_stack` (follow.py:728–755).
+  999), friction (non-negative least squares on the pyramid, line 1003), then
+  torque. The torque system is built by `_torque_stack` (follow.py:1013–1040).
   It stacks the wrench balance, each finger's joint balance Tr F λ = C x,
   and x plus a slack equal to 1. The wrench may be missed by `RESID_TOL`
   (0.05) of its norm.
-- **Scale margin.** `_scale_margin` (follow.py:758–835) gives each frame the
+- **Scale margin.** `_scale_margin` (follow.py:1043–1120) gives each frame the
   largest factor s by which the leader's object wrench could grow and still
   pass the torque test of `_redistribute`. It uses the same system, with
   s times the wrench on the right-hand side, and a tolerance that grows
@@ -131,7 +132,7 @@ added; the line numbers below are for that version.
   frame whose unactuated joints cannot reach zero torque fails at every
   scale, so it also reads 0: the margin grades only frames that pass that
   rule. It is absent when no finger has its torque checked.
-- **Disturbance margin.** `_disturbance_margin` (follow.py:838–912) gives
+- **Disturbance margin.** `_disturbance_margin` (follow.py:1123–1197) gives
   each frame the smallest extra wrench, added on top of the leader's, that
   the made contacts could no longer produce along with it. In plain terms:
   how hard a push or twist from outside the grip, in the worst direction,
@@ -156,7 +157,7 @@ added; the line numbers below are for that version.
   passes at the leader's load, with close to `RESID_TOL` of it unbalanced,
   reads near 0. It is off unless asked (`disturbance=True`) and changes no
   verdict.
-- **Apply limit.** `_apply_limit` (follow.py:915–996) gives each frame the
+- **Apply limit.** `_apply_limit` (follow.py:1200–1304) gives each frame the
   largest push and twist the made contacts could put on the object by
   actuation alone, with no leader load, along each of the 12 signed axes of
   `DISTURB_DIRS`. In plain terms: how hard the hand could drive the object
@@ -190,21 +191,40 @@ added; the line numbers below are for that version.
   every made contact sits on the lower half of the cup, so with no
   leader load the cones alone cannot push or twist along most axes: these
   grips hold the cup against the leader's load but cannot drive it.
+  A second reading, `other_components_free` (proposed; `apply_free=True`,
+  recorded as `apply_limit_free` in the settings), drops the five other
+  wrench rows: how hard the hand can push or twist along an axis when the
+  other five components may take any value. It is the projection of the
+  torque-limited wrench set onto the axis, not the largest motion along
+  it, since the extra components act on the object too. With fewer rows
+  it is never below the first reading. On the 13 stored cup runs, run
+  again on the current code (our check, 26 October; 378 frames carry the
+  measure), no frame reads it below the first reading and nothing reads
+  capped. Every frame opens all six twists and the pushes along +x and +z;
+  the other four pushes open in 312 to 345 frames, the smallest at about a
+  thousandth of a newton. So these grips can push hard along an axis only
+  by pushing along others too. It is slow: per file, tens to hundreds of
+  times the first reading, and about 50 times over all 13. Its solves can
+  break down (numpy's least squares can fail to converge on a finite
+  system, and the vendored NNLS can return NaN), so the apply limit then
+  solves again with the rows reversed, which has the same solutions. In
+  the run above that was needed once, in the second reading. The first
+  reading and every verdict are the same with the second reading on.
 - **Task.** One exact wrench per frame, given by the leader motion. There is
   no task set and no worst case over a set. Each frame is green, amber or
   red, and, when asked (`margin=True`, `disturbance=True`, `apply=True`),
   carries its scale margin, its disturbance margin and its apply limit.
-- **Search.** Cross-entropy placement (`placement_search`, line 355) and a
+- **Search.** Cross-entropy placement (`placement_search`, line 612) and a
   permutation assignment of fingers to stations (`best_assignment`, line
-  408).
-- **Constants.** follow.py:83–117. They include `REACH_GREEN_M` 2 mm,
+  668).
+- **Constants.** follow.py:106–146. They include `REACH_GREEN_M` 2 mm,
   `REACH_AMBER_M` 10 mm, `FACE_GREEN_DEG` 30, `FACE_AMBER_DEG` 60,
-  `CONTACT_CONE_DEG` 85 (line 87), `IK_ITERS` 60 (line 91), `RESID_TOL`
-  (line 96), `RESPACE_DEG` 20 (line 100), `UNACT_TOL` (line 101),
-  `DEFLECT_MAX_M` 2 mm (line 102), `JOINT_STIFFNESS` 0 (line 103),
-  `FACE_WEIGHT_M` 0.02 m per radian (line 104), the disturbance
-  directions `DISTURB_DIRS` (line 109) and the apply limit's first try
-  `APPLY_FIRST_N` (line 115).
+  `CONTACT_CONE_DEG` 85 (line 110), `IK_ITERS` 60 (line 114), `RESID_TOL`
+  (line 119), `RESPACE_DEG` 20 (line 123), `UNACT_TOL` (line 130),
+  `DEFLECT_MAX_M` 2 mm (line 131), `JOINT_STIFFNESS` 0 (line 132),
+  `FACE_WEIGHT_M` 0.02 m per radian (line 133), the disturbance
+  directions `DISTURB_DIRS` (line 138) and the apply limit's first try
+  `APPLY_FIRST_N` (line 144).
 - **Compliance.** Passive joint stiffness is in `_finger_columns`, as
   above. Passive tip stiffness also enters `readout.soft_hold_passive`
   (readout.py:197), used by `demos/passive.py`, as a spring force within a
@@ -268,12 +288,12 @@ GitHub. We did not download the official 2.6 zip, so the 2.6 source is
 |---|---|---|---|
 | `SGgraspMatrix` (G from contact points and object centre) | Maps contact forces to object wrench, w = −Gλ (T-RO eq 2) | `capability_core.direction_basis` (line 76) and `generators` (line 89); torques divided by a length L | Same object. We scale torque by L. |
 | `SGselectionMatrix`, `SGhMatrix` (contact type: hard finger, soft finger, full constraint) | Selects which wrench components a contact carries | Hard finger only, implicit in using the 3-row `jacp` | Same as their hard-finger type. We have no soft-finger type. |
-| `SGjacobianMatrix`, then J = H J̃ | Hand Jacobian at the contacts | `Jf = jacp[:, f.dof]` from `mj_jac` (follow.py:577) | Same. MuJoCo gives it; they build it from Denavit–Hartenberg chains. |
-| `SGdefineSynergies` (S, with qr = S z) | Inputs set a reference posture through S | E and the input columns C in `_finger_columns` (follow.py:642–673) | Different. Our E is a rigid coupling: q is exactly E z. Theirs is a reference that springs pull towards. |
+| `SGjacobianMatrix`, then J = H J̃ | Hand Jacobian at the contacts | `Jf = jacp[:, f.dof]` from `mj_jac` (follow.py:840) | Same. MuJoCo gives it; they build it from Denavit–Hartenberg chains. |
+| `SGdefineSynergies` (S, with qr = S z) | Inputs set a reference posture through S | E and the input columns C in `_finger_columns` (follow.py:910–941) | Different. Our E is a rigid coupling: q is exactly E z. Theirs is a reference that springs pull towards. |
 | `SGjointStiffness` (Kq), `SGcontactStiffness` (Ks), `SGsynergyStiffness` (Kz) | Springs at joints, contacts and inputs | Joint stiffness kq as passive columns in `_finger_columns`, within a deflection budget (default kq 0). Tip stiffness in `readout.soft_hold_passive` | Partly. Our kq bounds the torque a joint can hold; it does not solve for the deflection. We have no Ks or Kz. |
 | `SGquasistatic` (X = inv(Uq+Kq) Kq, and so on) | Solves the linearised system for a change in input | None. We test one static load per frame | Different question: they ask "what happens", we ask "can it hold". |
-| `SGgraspAnalysis`: E = orth(A B1), V = null(J), N = null(J') | Active internal forces, internal motions, structural forces | The joint balance Tr F λ = C x in `_torque_stack` (follow.py:728–755) | Related. Their N = null(J^T) is the handbook's "defective" class; ours is the torque that the input columns cannot reach. |
-| `SGcheckFriction`, `SGVcost` (barrier cost on the cone) | Checks friction, hard finger only | Per-finger cone test (follow.py:579) and the pyramid NNLS in `_redistribute` | Same test. We use an 8-edge pyramid with an outer bracket; they use the circular cone. |
+| `SGgraspAnalysis`: E = orth(A B1), V = null(J), N = null(J') | Active internal forces, internal motions, structural forces | The joint balance Tr F λ = C x in `_torque_stack` (follow.py:1013–1040) | Related. Their N = null(J^T) is the handbook's "defective" class; ours is the torque that the input columns cannot reach. |
+| `SGcheckFriction`, `SGVcost` (barrier cost on the cone) | Checks friction, hard finger only | Per-finger cone test (follow.py:842) and the pyramid NNLS in `_redistribute` | Same test. We use an 8-edge pyramid with an outer bracket; they use the circular cone. |
 | `SGminSVG`, `SGgraspIsotropyIndex`, `SGdistSingularConfiguration`, `SGmanipEllipsoidVolume`, `SGunifTransf` | Scalar quality indices from G and from H_O = (G^+)^T J | None. We give no scalar index | We could report these as extras, but they score a grasp, not a task. |
 | `SGkinManipulability`, `SGforceManipulability` | Ellipsoids under compliant synergies (RAS 2012 section 4) | None | Different: they describe a set; we test one wrench. |
 
@@ -1059,6 +1079,8 @@ predictive.
    torque, about the leader's wrench. Off by default. The apply limit
    followed on 26 October: `_apply_limit` (section 1), the torque-limited
    wrench set with no leader load, by actuation alone. Off by default.
+   Its second reading, with the other components free (`apply_free=True`),
+   followed the same day.
 3. **Joint compliance from SynGrasp.** Partly done in commit fbf16fd: a
    finite kq lets each free joint hold torque within a deflection budget
    (section 2). Still to do: solve for the deflection, as SynGrasp's
