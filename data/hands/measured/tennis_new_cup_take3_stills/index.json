@@ -1,0 +1,654 @@
+{
+ "clip": "tennis_new_cup",
+ "leader_file": "human_demo/derived/leaders/tennis_new_cup_take3_leader.json",
+ "script": "experiment_log/scripts/human_demo3_leader_stills.py",
+ "videos": {
+  "phone": "human_demo/data_ext/takes_2026-10-23/phone_tennis_new_cup_20261023_150117.mp4 (not in git)",
+  "laptop": "human_demo/data_ext/takes_2026-10-23/laptop_tennis_new_cup_rgb.avi (not in git)",
+  "lenovo": "human_demo/data_ext/takes_2026-10-23/lenovo_tennis_new_cup_rgb.avi (not in git)"
+ },
+ "camera_rule": "most hand keypoints seen (outside the SAM 2 ball mask) at that row; ties to phone, laptop",
+ "overlay": "three-camera keypoints (keypoints file) and the ball fit's outline, projected into the camera; colours thumb orange, index red, middle green, ring blue, little magenta; ball outline pink",
+ "stills": [
+  {
+   "t": 0.06662,
+   "file": "t_0.06662.jpg",
+   "overlay": "t_0.06662_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 0,
+   "keypoints_seen_by_camera": 17,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    782,
+    294,
+    1335,
+    680
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 1.83217,
+   "file": "t_1.83217.jpg",
+   "overlay": "t_1.83217_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 56,
+   "keypoints_seen_by_camera": 18,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    790,
+    278,
+    1359,
+    671
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 4.23064,
+   "file": "t_4.23064.jpg",
+   "overlay": "t_4.23064_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 128,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    767,
+    236,
+    1346,
+    655
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 5.29663,
+   "file": "t_5.29663.jpg",
+   "overlay": "t_5.29663_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 160,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 21,
+   "crop_px": [
+    766,
+    254,
+    1347,
+    654
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 5.94622,
+   "file": "t_5.94622.jpg",
+   "overlay": "t_5.94622_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 179,
+   "keypoints_seen_by_camera": 18,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    763,
+    248,
+    1337,
+    645
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 6.59581,
+   "file": "t_6.59581.jpg",
+   "overlay": "t_6.59581_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 199,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    768,
+    236,
+    1320,
+    645
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 7.37864,
+   "file": "t_7.37864.jpg",
+   "overlay": "t_7.37864_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 223,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    766,
+    226,
+    1320,
+    642
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 7.97827,
+   "file": "t_7.97827.jpg",
+   "overlay": "t_7.97827_overlay.jpg",
+   "camera": "lenovo",
+   "source_frame": 264,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    872,
+    198,
+    1312,
+    597
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 8.62786,
+   "file": "t_8.62786.jpg",
+   "overlay": "t_8.62786_overlay.jpg",
+   "camera": "lenovo",
+   "source_frame": 284,
+   "keypoints_seen_by_camera": 20,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    880,
+    200,
+    1310,
+    596
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 9.31074,
+   "file": "t_9.31074.jpg",
+   "overlay": "t_9.31074_overlay.jpg",
+   "camera": "lenovo",
+   "source_frame": 304,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 21,
+   "crop_px": [
+    848,
+    186,
+    1309,
+    608
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 10.04362,
+   "file": "t_10.04362.jpg",
+   "overlay": "t_10.04362_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 302,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 21,
+   "crop_px": [
+    748,
+    246,
+    1339,
+    674
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 10.85977,
+   "file": "t_10.85977.jpg",
+   "overlay": "t_10.85977_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 327,
+   "keypoints_seen_by_camera": 18,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    767,
+    231,
+    1311,
+    644
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 11.44273,
+   "file": "t_11.44273.jpg",
+   "overlay": "t_11.44273_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 344,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    770,
+    227,
+    1317,
+    645
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 12.10898,
+   "file": "t_12.10898.jpg",
+   "overlay": "t_12.10898_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 364,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 17,
+   "crop_px": [
+    760,
+    212,
+    1305,
+    649
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 12.82519,
+   "file": "t_12.82519.jpg",
+   "overlay": "t_12.82519_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 386,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    751,
+    224,
+    1308,
+    650
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 13.99111,
+   "file": "t_13.99111.jpg",
+   "overlay": "t_13.99111_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 421,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 21,
+   "crop_px": [
+    741,
+    240,
+    1328,
+    653
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 15.50681,
+   "file": "t_15.50681.jpg",
+   "overlay": "t_15.50681_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 467,
+   "keypoints_seen_by_camera": 18,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    755,
+    233,
+    1308,
+    653
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 16.67274,
+   "file": "t_16.67274.jpg",
+   "overlay": "t_16.67274_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 501,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    752,
+    238,
+    1323,
+    654
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 17.60549,
+   "file": "t_17.60549.jpg",
+   "overlay": "t_17.60549_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 529,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 18,
+   "crop_px": [
+    759,
+    223,
+    1345,
+    656
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 18.90466,
+   "file": "t_18.90466.jpg",
+   "overlay": "t_18.90466_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 568,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    747,
+    236,
+    1337,
+    650
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 19.62088,
+   "file": "t_19.62088.jpg",
+   "overlay": "t_19.62088_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 590,
+   "keypoints_seen_by_camera": 20,
+   "keypoints_drawn": 21,
+   "crop_px": [
+    753,
+    225,
+    1309,
+    653
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 20.38706,
+   "file": "t_20.38706.jpg",
+   "overlay": "t_20.38706_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 613,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    757,
+    237,
+    1340,
+    650
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 21.8861,
+   "file": "t_21.88610.jpg",
+   "overlay": "t_21.88610_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 657,
+   "keypoints_seen_by_camera": 20,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    758,
+    239,
+    1305,
+    641
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 22.61897,
+   "file": "t_22.61897.jpg",
+   "overlay": "t_22.61897_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 679,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    753,
+    230,
+    1326,
+    645
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 23.33519,
+   "file": "t_23.33519.jpg",
+   "overlay": "t_23.33519_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 701,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    752,
+    251,
+    1345,
+    645
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 23.96811,
+   "file": "t_23.96811.jpg",
+   "overlay": "t_23.96811_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 720,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    754,
+    231,
+    1333,
+    641
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 24.8842,
+   "file": "t_24.88420.jpg",
+   "overlay": "t_24.88420_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 747,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    761,
+    251,
+    1344,
+    654
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 25.4172,
+   "file": "t_25.41720.jpg",
+   "overlay": "t_25.41720_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 763,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    773,
+    251,
+    1333,
+    646
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 26.10009,
+   "file": "t_26.10009.jpg",
+   "overlay": "t_26.10009_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 783,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 21,
+   "crop_px": [
+    747,
+    250,
+    1333,
+    647
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 26.68307,
+   "file": "t_26.68307.jpg",
+   "overlay": "t_26.68307_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 801,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    746,
+    261,
+    1330,
+    651
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 27.29933,
+   "file": "t_27.29933.jpg",
+   "overlay": "t_27.29933_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 820,
+   "keypoints_seen_by_camera": 20,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    749,
+    253,
+    1316,
+    661
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 27.94892,
+   "file": "t_27.94892.jpg",
+   "overlay": "t_27.94892_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 839,
+   "keypoints_seen_by_camera": 20,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    745,
+    251,
+    1321,
+    669
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 28.59851,
+   "file": "t_28.59851.jpg",
+   "overlay": "t_28.59851_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 859,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 19,
+   "crop_px": [
+    734,
+    239,
+    1330,
+    655
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 29.21479,
+   "file": "t_29.21479.jpg",
+   "overlay": "t_29.21479_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 877,
+   "keypoints_seen_by_camera": 18,
+   "keypoints_drawn": 21,
+   "crop_px": [
+    740,
+    242,
+    1326,
+    647
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 29.76443,
+   "file": "t_29.76443.jpg",
+   "overlay": "t_29.76443_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 894,
+   "keypoints_seen_by_camera": 19,
+   "keypoints_drawn": 21,
+   "crop_px": [
+    744,
+    242,
+    1317,
+    645
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 30.44733,
+   "file": "t_30.44733.jpg",
+   "overlay": "t_30.44733_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 914,
+   "keypoints_seen_by_camera": 20,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    746,
+    243,
+    1314,
+    644
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 31.28013,
+   "file": "t_31.28013.jpg",
+   "overlay": "t_31.28013_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 939,
+   "keypoints_seen_by_camera": 18,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    743,
+    240,
+    1319,
+    649
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 31.84644,
+   "file": "t_31.84644.jpg",
+   "overlay": "t_31.84644_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 956,
+   "keypoints_seen_by_camera": 20,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    741,
+    240,
+    1322,
+    645
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 32.74588,
+   "file": "t_32.74588.jpg",
+   "overlay": "t_32.74588_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 983,
+   "keypoints_seen_by_camera": 21,
+   "keypoints_drawn": 18,
+   "crop_px": [
+    736,
+    239,
+    1332,
+    658
+   ],
+   "crop_note": ""
+  },
+  {
+   "t": 33.67834,
+   "file": "t_33.67834.jpg",
+   "overlay": "t_33.67834_overlay.jpg",
+   "camera": "laptop",
+   "source_frame": 1011,
+   "keypoints_seen_by_camera": 21,
+   "keypoints_drawn": 20,
+   "crop_px": [
+    700,
+    162,
+    1279,
+    600
+   ],
+   "crop_note": ""
+  }
+ ]
+}

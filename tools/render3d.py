@@ -3,7 +3,11 @@ the hand in its solved pose, the ball, each finger coloured by its verdict,
 the contact point each finger uses (with its surface normal) and the leader's
 contact on the ball. Drag to orbit, scroll to zoom, a timeline to step or play.
 
-    python tools/render3d.py outputs/follow_<hand>__<leader>__....json  ->  outputs/render3d_<hand>.html
+    python tools/render3d.py outputs/follow_<hand>__<leader>__....json [STILLS_DIR]  ->  outputs/render3d_<hand>.html
+
+STILLS_DIR (a folder with index.json and the JPEGs, e.g.
+data/hands/measured/tennis_new_cup_take3_stills) adds the video still of each
+moment, plain or with the keypoints drawn, as a panel on the left.
 
 Re-evaluates the stored placement (follow(placement=...), same stiffness) to
 recover the poses; no new search. three.js r128 and its OrbitControls are
@@ -91,6 +95,7 @@ PAGE = r"""<!doctype html><html><head><meta charset="utf-8"><meta name="viewport
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--ink)}
 header{padding:12px 16px}h1{font-size:17px;margin:0 0 4px}p{margin:0;color:var(--muted);font-size:13px;max-width:900px}
 #wrap{display:flex;flex-wrap:wrap;gap:12px;padding:0 16px 16px}
+#still{flex:0 1 300px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px}
 #view{flex:1 1 560px;min-height:460px;height:62vh;background:var(--panel);border:1px solid var(--line);border-radius:8px;position:relative}
 #side{flex:0 1 330px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px}
 #strip{display:flex;height:18px;border-radius:4px;overflow:hidden;margin:6px 0 10px;cursor:pointer}
@@ -107,7 +112,9 @@ finger's outward normal there; coloured ball = the leader's contact. Green needs
 contact, on the pad or side of the finger (not the nail half), with the finger sunk into the ball by at most 3 mm (amber 6 mm).
 "side" in the table is the angle from the middle of the pad (90&deg; = the side). Fingers are not checked against each
 other. Lifted-off fingers are faded, in the model's rest pose. Simulation only.</p></header>
-<div id="wrap"><div id="view"><div id="lab_l" class="vlab"></div><div id="lab_r" class="vlab" style="left:50%">the model hand, solved</div>
+<div id="wrap"><div id="still" style="display:none"><div class="vlab" style="position:static;max-width:none;margin-bottom:4px">the video
+ <label style="font-weight:400"><input type="checkbox" id="ovl" checked> keypoints drawn</label> <span id="cam"></span></div>
+ <img id="img" alt="video still of the demonstration at this moment" style="width:100%;border-radius:6px"></div><div id="view"><div id="lab_l" class="vlab"></div><div id="lab_r" class="vlab" style="left:50%">the model hand, solved</div>
 <div id="hint">drag to orbit (both views turn together) &middot; scroll to zoom &middot; right-drag to pan</div></div>
 <div id="side"><div><button id="prev">&#9664;</button><button id="play">play</button><button id="next">&#9654;</button>
 <label><input type="checkbox" id="ghost" checked> lifted fingers</label></div>
@@ -169,6 +176,9 @@ function draw(i){fi=i;while(G.children.length)G.remove(G.children[0]);const f=D.
   const gap=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...k.pad),new THREE.Vector3(...k.target)]);
   G.add(new THREE.Line(gap,new THREE.LineBasicMaterial({color:COL[k.state]??COL.off})));}
  document.getElementById('slider').value=i;
+ if(D.stills){const st=D.stills[String(f.k)];document.getElementById('still').style.display=st?'block':'none';
+  if(st){document.getElementById('img').src=document.getElementById('ovl').checked?st.overlay:st.plain;
+   document.getElementById('cam').textContent='('+st.camera+' camera, t = '+st.t+' s)';}}
  document.getElementById('frame').innerHTML=`moment ${f.k} (${i+1} of ${D.frames.length}): <span style="color:${CSS[f.verdict]}">${f.verdict}</span>${f.reason?' ('+f.reason+')':''}`;
  document.getElementById('tab').innerHTML='<tr><th>finger</th><th>state</th><th>off</th><th>side</th><th>sunk</th><th>phalanx</th></tr>'+f.fingers.map(x=>
   `<tr><td><span class="sw" style="background:${CSS[x.state]??CSS.off}"></span>${x.finger}</td><td>${x.state==='off'?'lifted':x.state}${x.reason?' ('+x.reason+')':''}</td>`+
@@ -179,7 +189,7 @@ const sl=document.getElementById('slider');sl.max=D.frames.length-1;sl.oninput=(
 document.getElementById('prev').onclick=()=>draw((fi-1+D.frames.length)%D.frames.length);
 document.getElementById('next').onclick=()=>draw((fi+1)%D.frames.length);
 document.getElementById('play').onclick=e=>{if(timer){clearInterval(timer);timer=null;e.target.textContent='play';}else{timer=setInterval(()=>draw((fi+1)%D.frames.length),400);e.target.textContent='pause';}};
-ghost.onchange=()=>draw(fi);
+ghost.onchange=()=>draw(fi);document.getElementById('ovl').onchange=()=>draw(fi);
 // camera: from the palm side, a little toward the thumb, looking at the ball
 const c0=new THREE.Vector3(...D.frames[0].ball);ctl.target.copy(c0);cam.up.set(0,1,0);
 cam.position.copy(c0.clone().add(new THREE.Vector3(0.07,-0.035,0.17)));ctl.update();
@@ -191,8 +201,26 @@ window.addEventListener('resize',size);size();draw(D.start??0);
 </script></body></html>"""
 
 
+def stills_for(frames, L, stills_dir):
+    """{k: {plain, overlay (data URIs), camera, t}} for frames with a still
+    within 5 ms of their time."""
+    import base64
+    I = json.load(open(os.path.join(stills_dir, "index.json")))
+    by_t = {round(s_["t"], 3): s_ for s_ in I["stills"]}
+    uri = lambda f: "data:image/jpeg;base64," + base64.b64encode(open(os.path.join(stills_dir, f), "rb").read()).decode()
+    out = {}
+    for fs in frames:
+        t = L["frames"][fs["k"]]["t"]
+        s_ = by_t.get(round(t, 3))
+        if s_:
+            out[str(fs["k"])] = {"plain": uri(s_["file"]), "overlay": uri(s_["overlay"]), "camera": s_["camera"],
+                                 "t": round(t, 3)}
+    return out
+
+
 def main():
     src_p = sys.argv[1]
+    stills_dir = sys.argv[2] if len(sys.argv) > 2 else None
     src = json.load(open(src_p))
     L = json.load(open(os.path.join(ROOT, "data", "leaders", src["leader"] + ".json")))
     kq = src.get("settings", {}).get("joint_stiffness_Nm_per_rad", 0.0)
@@ -228,7 +256,8 @@ def main():
                              else "the demonstrator's real hand: keypoint skeleton and contacts (recorded)")}
     start = next((i for i, f in enumerate(frames) if f["verdict"] != "green"), 0)
     data = {"hand": r["hand_name"], "leader": r["leader"], "radius": float(L["object"]["radius_m"]),
-            "frames": frames, "start": start, "leader_info": data_leader}
+            "frames": frames, "start": start, "leader_info": data_leader,
+            "stills": stills_for(frames, L, stills_dir) if stills_dir else None}
     page = (PAGE.replace("__THREE__", js("three.min.js")).replace("__ORBIT__", js("OrbitControls.js"))
             .replace("__DATA__", json.dumps(data, separators=(",", ":"))))
     out = os.path.join(ROOT, "outputs", f"render3d_{src['hand']}.html")
