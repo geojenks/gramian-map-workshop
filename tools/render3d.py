@@ -79,6 +79,7 @@ def scene(hand, fr):
             "fingers": [{"finger": x["finger"], "state": x["state"],
                          "reach_mm": round(x["reach_mm"], 1) if "reach_mm" in x else None,
                          "facing_deg": round(x["facing_deg"]) if "facing_deg" in x else None,
+                         "pen_mm": round(x["penetration_mm"], 1) if "penetration_mm" in x else None,
                          "phalanx": x.get("phalanx"), "reason": x.get("reason")} for x in fr["fingers"]]}
 
 
@@ -99,9 +100,11 @@ button,input[type=range]{margin:2px 4px 2px 0} .legend span{margin-right:10px;wh
 #hint{position:absolute;left:10px;bottom:8px;font-size:12px;color:var(--muted);pointer-events:none}
 </style></head><body>
 <header><h1 id="title"></h1><p>Each moment of the leader, with the hand in the pose the check solved for. Fingers are coloured
-by their verdict. Small black ball and arrow: the contact point the finger uses and its surface normal. Coloured ball:
-the leader's contact on the ball. Green needs them within 2 mm and the normal within 30&deg; of pointing into the ball.
-Lifted-off fingers are faded, in the model's rest pose (collisions are not checked). Simulation only.</p></header>
+by their verdict. Each touching finger meets the ball tangentially: small black ball = where it touches, arrow = the
+finger's outward normal there; coloured ball = the leader's contact. Green needs the touch within 2 mm of the leader's
+contact, on the pad or side of the finger (not the nail half), with the finger sunk into the ball by at most 1 mm.
+"side" in the table is the angle from the middle of the pad (90&deg; = the side). Fingers are not checked against each
+other. Lifted-off fingers are faded, in the model's rest pose. Simulation only.</p></header>
 <div id="wrap"><div id="view"><div id="hint">drag to orbit &middot; scroll to zoom &middot; right-drag to pan</div></div>
 <div id="side"><div><button id="prev">&#9664;</button><button id="play">play</button><button id="next">&#9654;</button>
 <label><input type="checkbox" id="ghost" checked> lifted fingers</label></div>
@@ -142,9 +145,9 @@ function draw(i){fi=i;while(G.children.length)G.remove(G.children[0]);const f=D.
   G.add(new THREE.Line(gap,new THREE.LineBasicMaterial({color:COL[k.state]??COL.off})));}
  document.getElementById('slider').value=i;
  document.getElementById('frame').innerHTML=`moment ${f.k} (${i+1} of ${D.frames.length}): <span style="color:${CSS[f.verdict]}">${f.verdict}</span>${f.reason?' ('+f.reason+')':''}`;
- document.getElementById('tab').innerHTML='<tr><th>finger</th><th>state</th><th>off</th><th>facing</th><th>phalanx</th></tr>'+f.fingers.map(x=>
+ document.getElementById('tab').innerHTML='<tr><th>finger</th><th>state</th><th>off</th><th>side</th><th>sunk</th><th>phalanx</th></tr>'+f.fingers.map(x=>
   `<tr><td><span class="sw" style="background:${CSS[x.state]??CSS.off}"></span>${x.finger}</td><td>${x.state==='off'?'lifted':x.state}${x.reason?' ('+x.reason+')':''}</td>`+
-  (x.reach_mm===null?'<td colspan="3"></td>':`<td>${x.reach_mm} mm</td><td>${x.facing_deg}&deg;</td><td>${x.phalanx}</td>`)+'</tr>').join('');
+  (x.reach_mm===null?'<td colspan="4"></td>':`<td>${x.reach_mm} mm</td><td>${x.facing_deg}&deg;</td><td>${x.pen_mm} mm</td><td>${x.phalanx}</td>`)+'</tr>').join('');
  [...document.querySelectorAll('#strip div')].forEach((d,j)=>d.classList.toggle('cur',j===i));}
 const strip=document.getElementById('strip');D.frames.forEach((f,j)=>{const d=document.createElement('div');d.style.background=CSS[f.verdict];d.title=`moment ${f.k}: ${f.verdict}`;d.onclick=()=>draw(j);strip.appendChild(d);});
 const sl=document.getElementById('slider');sl.max=D.frames.length-1;sl.oninput=()=>draw(+sl.value);
