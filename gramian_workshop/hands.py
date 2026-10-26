@@ -70,6 +70,21 @@ HANDS = {
         "fingers": {"index": "index_distal", "middle": "middle_distal",
                     "ring": "ring_distal", "little": "little_distal",
                     "thumb": "thumb_distal"}},
+    "george_kp_wide": {
+        "name": "George's right hand (measured; thumb from keypoints; ranges from his demo; VC 1998 muscles)",
+        "base": "local", "file": "human_vc1998_measured_george_right_arch_thumbkp_wide/hand.xml",
+        # tools/build_human_hand.py --measured ... --arch --thumb-keypoints ... --wide-ranges
+        "fingers": {"index": "index_distal", "middle": "middle_distal",
+                    "ring": "ring_distal", "little": "little_distal",
+                    "thumb": "thumb_distal"}},
+    "george_kp": {
+        "name": "George's right hand (measured; thumb from keypoints; VC 1998 muscles; arch assumed)",
+        "base": "local", "file": "human_vc1998_measured_george_right_arch_thumbkp/hand.xml",
+        # tools/build_human_hand.py --measured data/hands/measured/george_right_2026-10-25.json --arch
+        #   --thumb-keypoints data/hands/measured/george_thumb_from_keypoints.json
+        "fingers": {"index": "index_distal", "middle": "middle_distal",
+                    "ring": "ring_distal", "little": "little_distal",
+                    "thumb": "thumb_distal"}},
     "george_measured_thumb": {
         "name": "George's right hand, measured thumb base (26 Oct; VC 1998 muscles; arch assumed)",
         "base": "local", "file": "human_vc1998_measured_george_right_arch_thumb/hand.xml",

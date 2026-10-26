@@ -26,6 +26,11 @@ tennis_new_cup, the clip nearest the tennis-ball cup leader): the base offset
 from the index knuckle and the metacarpal direction of the held (gripping)
 frames. The thumb's curl direction stays ASSUMED (THUMB_CURL).
 
+--thumb-keypoints PATH (with --measured) takes the thumb's base, metacarpal
+and curl direction from the demonstrator's keypoints in the model frame
+(tools/demo_handframe.py writes data/hands/measured/george_thumb_from_keypoints.json):
+nothing about the thumb is then assumed but its joint ranges.
+
 --proportions gives each digit measured human proportions instead of copies
 of the index: Buryanov & Kotiuk 2010 (Int. J. Morphol. 28(3):755-758, Table
 I, X-ray bone lengths, 66 adults). Bone lengths are not the joint-to-joint
@@ -82,6 +87,12 @@ BK2010 = {"thumb": (21.67, None, 31.57, 46.22), "index": (15.82, 22.38, 39.78, 6
           "little": (15.96, 18.11, 32.74, 53.69)}
 
 
+# joint ranges for a measured hand (deg), widened 26 Oct to what George's
+# tennis-ball cup uses (tools/skeleton_fit.py with the limits removed: thumb
+# MCP to -10, index PIP to -5, ring DIP to -7) plus a margin: hyperextension
+# allowed. None = the index model's (tools/vc_finger_mujoco.RANGE_DEG).
+RANGE_MEASURED_DEG = {"finger": {"mcp_add": (-30, 30), "mcp_flex": (-30, 90), "pip": (-10, 110), "dip": (-30, 90)},
+                      "thumb": {"mcp_add": (-60, 60), "mcp_flex": (-30, 90), "pip": (-20, 90), "dip": (-30, 90)}}
 THUMB_CMC_DEG = 32.0          # ASSUMED: direction of the thumb's base from the wrist
 
 
@@ -122,8 +133,9 @@ def measured_geometry(path, thumb=None):
     xy["thumb"] = g("thumb wrist-CMC") * np.array([math.sin(a), math.cos(a)])
     thumb_base = None
     if thumb is not None:
-        off, _ = thumb
-        thumb_base = np.array([xy["index"][0], xy["index"][1], 0.0]) + off
+        off = thumb[0]
+        thumb_base = (np.array(off) if (len(thumb) > 2 and thumb[2].get("absolute"))
+                      else np.array([xy["index"][0], xy["index"][1], 0.0]) + off)
     pads = {f: x / 1e3 for f, x in J["pad_offset_used_mm"].items()}
     out = {}
     for f in four + ["thumb"]:
@@ -163,22 +175,26 @@ def _quat(R):
     return f"{w:.6f} {x:.6f} {y:.6f} {z:.6f}"
 
 
-def thumb_frame(distal=None):
+def thumb_frame(distal=None, curl=None):
     y = THUMB_DISTAL if distal is None else np.asarray(distal, float)
     y = y / np.linalg.norm(y)
-    z = THUMB_CURL - (THUMB_CURL @ y) * y
+    cu = THUMB_CURL if curl is None else np.asarray(curl, float)
+    z = cu - (cu @ y) * y
     z /= np.linalg.norm(z)
     x = np.cross(y, z)
     return np.column_stack([x, y, z])
 
 
-def finger_xml(name, pos, quat, abd_deg, lengths=None, radius=None, tip_at_end=False):
+def finger_xml(name, pos, quat, abd_deg, lengths=None, radius=None, tip_at_end=False, ranges=None):
     Lp, Lm, Ld = lengths or (vc.L_PROX, vc.L_MID, vc.L_DIST)
     rad = (radius + 0.001, radius + 0.0005, radius) if radius else fm.RADIUS
     Ldg = Ld - rad[2] if tip_at_end else Ld       # capsule surface ends at the tip
     lo = {k: math.radians(v[0]) for k, v in fm.RANGE_DEG.items()}
     hi = {k: math.radians(v[1]) for k, v in fm.RANGE_DEG.items()}
     lo["mcp_add"], hi["mcp_add"] = -math.radians(abd_deg), math.radians(abd_deg)
+    if ranges:
+        for k_, (l_, h_) in ranges.items():
+            lo[k_], hi[k_] = math.radians(l_), math.radians(h_)
     rng = lambda j: f'range="{lo[j]:.6f} {hi[j]:.6f}" limited="true"'
     seg = lambda L, r, m: f'<geom type="capsule" fromto="0 0 0 0 {L} 0" size="{r}" mass="{m}"/>'
     return f"""
@@ -199,7 +215,7 @@ def _roll(deg):
     return np.array([[math.cos(a), 0, math.sin(a)], [0, 1, 0], [-math.sin(a), 0, math.cos(a)]])
 
 
-def build(column, arch=False, proportions=False, measured=None, thumb=None):
+def build(column, arch=False, proportions=False, measured=None, thumb=None, wide=False):
     R_mm, F0, _ = vc.build(column)
     R_m = R_mm / 1e3
     joints = ["mcp_add", "mcp_flex", "pip", "dip"]
@@ -211,10 +227,13 @@ def build(column, arch=False, proportions=False, measured=None, thumb=None):
             p0, L, r = geo[n]
             pos = (p0[0], p0[1], ARCH_PALMAR_M[n] if arch else 0.0)
             quat = _quat(_roll(ARCH_ROLL_DEG[n])) if arch else "1 0 0 0"
-            bodies += finger_xml(n, pos, quat, 30.0, L, r, tip_at_end=True)
+            bodies += finger_xml(n, pos, quat, 30.0, L, r, tip_at_end=True,
+                                 ranges=RANGE_MEASURED_DEG["finger"] if wide else None)
         p0, L, r = geo["thumb"]
-        bodies += finger_xml("thumb", p0, _quat(thumb_frame(thumb[1] if thumb else None)),
-                             THUMB_ABD_DEG, L, r, tip_at_end=True)
+        bodies += finger_xml("thumb", p0, _quat(thumb_frame(thumb[1] if thumb else None,
+                                                            thumb[2].get("curl") if thumb and len(thumb) > 2 else None)),
+                             THUMB_ABD_DEG, L, r, tip_at_end=True,
+                             ranges=RANGE_MEASURED_DEG["thumb"] if wide else None)
         palm = (f'<geom type="box" pos="{-0.008} {0.055} -0.010" size="0.045 0.055 0.010" mass="0.3"/>')
     else:
         for n, x in FINGERS.items():
@@ -235,7 +254,7 @@ def build(column, arch=False, proportions=False, measured=None, thumb=None):
     tag = ("_arch" if arch else "") + ("_prop" if proportions else "")
     if measured:
         tag = ("_measured_" + os.path.basename(measured).split("_20")[0] + ("_arch" if arch else "")
-               + ("_thumb" if thumb else ""))
+               + (("_thumbkp" if len(thumb) > 2 else "_thumb") if thumb else "") + ("_wide" if wide else ""))
     xml = f"""<mujoco model="human_vc1998_{column}{tag}">
 <!-- generated by tools/build_human_hand.py ({column} column of Valero-Cuevas et al. 1998, Tables 1-2) -->
 <compiler angle="radian"/>
@@ -266,9 +285,17 @@ if __name__ == "__main__":
     ap.add_argument("--measured", default=None, help="hand_dimensions JSON")
     ap.add_argument("--thumb", default=None, help="thumb_base JSON (with --measured)")
     ap.add_argument("--thumb-clip", default="tennis_new_cup")
+    ap.add_argument("--wide-ranges", action="store_true",
+                    help="RANGE_MEASURED_DEG (hyperextension allowed) instead of the index model's ranges")
+    ap.add_argument("--thumb-keypoints", default=None,
+                    help="thumb base, metacarpal and curl from tools/demo_handframe.py (model frame)")
     a = ap.parse_args()
     th = measured_thumb(a.thumb, a.thumb_clip) if a.thumb else None
-    print("wrote", build(a.column, a.arch, a.proportions, a.measured, th))
+    if a.thumb_keypoints:
+        import json as _j
+        T = _j.load(open(a.thumb_keypoints))
+        th = (np.array(T["cmc_m"]), np.array(T["metacarpal_dir"]), {"absolute": True, "curl": T["curl_dir"]})
+    print("wrote", build(a.column, a.arch, a.proportions, a.measured, th, a.wide_ranges))
     if th is not None:
         print(f"   thumb base from the index knuckle {np.round(th[0] * 1e3, 1)} mm, metacarpal {np.round(th[1], 3)}")
     if a.measured:

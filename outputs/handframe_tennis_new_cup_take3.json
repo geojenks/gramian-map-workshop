@@ -1,0 +1,42 @@
+{
+ "placement": {
+  "rotation_matrix": [
+   [
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "translation_m": [
+   0.003851,
+   0.140731,
+   0.07007
+  ]
+ },
+ "assignment": {
+  "thumb": 0,
+  "index": 1,
+  "middle": 2,
+  "ring": 3,
+  "little": 4
+ },
+ "respace_deg": [
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0
+ ],
+ "placement_cost_mm": 0.0,
+ "note": "the demonstrator's own palm frame: no placement search"
+}

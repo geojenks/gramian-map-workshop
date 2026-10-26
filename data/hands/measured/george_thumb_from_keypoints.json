@@ -1,0 +1,20 @@
+{
+ "source": "data/hands/measured/george_tennis_new_cup_take3_keypoints.json",
+ "frames": 1195,
+ "frame": "model hand frame",
+ "cmc_m": [
+  0.02814,
+  0.03381,
+  0.01813
+ ],
+ "metacarpal_dir": [
+  -0.0145,
+  0.7662,
+  0.6424
+ ],
+ "curl_dir": [
+  0.0292,
+  -0.6418,
+  0.7663
+ ]
+}

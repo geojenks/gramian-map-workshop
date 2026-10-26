@@ -139,11 +139,19 @@ function capsule(a,b,r,color,op){const A=new THREE.Vector3(...a),B=new THREE.Vec
  s1.position.y=L/2;s2.position.y=-L/2;g.add(cy,s1,s2);g.position.copy(A.clone().add(B).multiplyScalar(0.5));
  g.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return g;}
 let fi=0,timer=null;const ghost=document.getElementById('ghost');
+const BONES=[[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[10,11],[11,12],[0,13],[13,14],[14,15],[15,16],[0,17],[17,18],[18,19],[19,20],[5,9],[9,13],[13,17]];
+const DIG=[null,'thumb','thumb','thumb','thumb','index','index','index','index','middle','middle','middle','middle','ring','ring','ring','ring','little','little','little','little'];
 function drawLeader(f){while(GL.children.length)GL.remove(GL.children[0]);
+ if(f.skeleton){const S=f.skeleton;const st={};for(const k of f.fingers)st[k.finger]=k.state;
+  for(const [a,b] of BONES){if(!S[a]||!S[b])continue;const d=DIG[b]&&DIG[a]===DIG[b]?DIG[b]:(DIG[b]&&a===0?null:null);
+   const col=DIG[b]&&(DIG[a]===DIG[b]||a===0)?(COL[st[DIG[b]]]??COL.off):0xb8a898;
+   GL.add(capsule(S[a],S[b],0.0045,col,0.95));}
+  for(const p of S){if(!p)continue;const m=new THREE.Mesh(new THREE.SphereGeometry(0.0055,14,10),new THREE.MeshStandardMaterial({color:0x444c56,roughness:0.6}));m.position.set(...p);GL.add(m);}}
  const ball=new THREE.Mesh(new THREE.SphereGeometry(D.radius,40,28),new THREE.MeshStandardMaterial({color:0xcfe37a,roughness:0.9,transparent:true,opacity:0.55}));
  ball.position.set(...f.ball);GL.add(ball);
  const st={};for(const k of f.marks)st[k.station]=k.state;
  for(const s of f.leader){const col=s.touch?(COL[st[s.i]]??0x6b7c93):0x9aa3ad;
+  if(f.skeleton&&!s.touch)continue;
   const m=new THREE.Mesh(new THREE.SphereGeometry(D.leader_info.station_r,20,14),new THREE.MeshStandardMaterial({color:col,roughness:0.6,transparent:!s.touch,opacity:s.touch?1:0.3}));
   m.position.set(...s.pos);GL.add(m);}
  for(const k of f.marks){const t=new THREE.Mesh(new THREE.SphereGeometry(0.0022,14,10),new THREE.MeshBasicMaterial({color:COL[k.state]??COL.off}));t.position.set(...k.target);GL.add(t);}}
@@ -208,9 +216,12 @@ def main():
             sts.append({"i": i, "name": names[i], "pos": np.round(Rw @ (q - leader.c0) + t, 5).tolist(),
                         "touch": bool(lf["contact"][i])})
         fs["leader"] = sts
+        if lf.get("skeleton"):
+            fs["skeleton"] = [None if v is None else np.round(Rw @ (np.array(v) - leader.c0) + t, 5).tolist()
+                              for v in lf["skeleton"]]
     data_leader = {"station_r": 0.008 if sim else 0.004,
                    "label": ("the robot cup's contact spheres (simulated leader)" if sim
-                             else "the demonstrator's fingertip pads (recorded)")}
+                             else "the demonstrator's real hand: keypoint skeleton and contacts (recorded)")}
     start = next((i for i, f in enumerate(frames) if f["verdict"] != "green"), 0)
     data = {"hand": r["hand_name"], "leader": r["leader"], "radius": float(L["object"]["radius_m"]),
             "frames": frames, "start": start, "leader_info": data_leader}
