@@ -3,6 +3,15 @@
 Written 26 October 2026 against `main` at b1207b7. This file arranges the
 workshop's story and says, step by step, what the repo already has, what is
 missing and what to do next. It is kept current as work is reported in.
+
+**Task state lives in the repo's GitHub Issues, not here** (agreed 26
+October). The Issues list is this repo's status board: open or closed, and
+who holds a task. This file keeps the story, the claims and the overclaim
+flags, and links each task to its issue. Labels: one per story step
+(`step: ...`), plus `blocked`, `needs ruling` and `session`. Each running
+session has a `session` issue. A worker puts `Closes #n` in the commit that
+finishes a task and comments a short summary on the issue. The M-11 board
+(`PLAN_M11_NEXT_QUARTER.md` in Gramain_extraction) stays separate.
 Every "exists" below names a file we opened; nothing here is taken from a
 summary. No numbers are quoted: where a result matters, the plan names the
 output file that holds it.
@@ -38,12 +47,13 @@ Steps 1 to 4 are being worked on now. Steps 5 and 6 are future.
 
 ## Who is on what now
 
-| Session | Working on | Where it lands |
-|---|---|---|
-| [Review literature to situate the Gramian Map](#local_448ca5b2-491c-42bc-b6f1-138783366f27) | gaps and commonalities with the literature | `docs/LITERATURE_REVIEW.md` |
-| [Apply-side wrench measure in follow.py](#local_6d742daf-932e-4b0a-8c14-58e933454c24) | per frame, the largest force and twist the hand can apply to the object along each axis | `gramian_workshop/follow.py` (not on `main` yet) |
-| hand-models session (reported, not linked) | measured human hands | `data/hands/`, `tools/build_human_hand.py` |
-| Allegro-results session (reported, not linked) | Allegro follow results | `outputs/follow_allegro__*.json` |
+| Session | Working on | Where it lands | Issue |
+|---|---|---|---|
+| workshop orchestrator | this plan and the issues | `docs/WORKSHOP_PLAN.md` | #16 |
+| [Review literature to situate the Gramian Map](#local_448ca5b2-491c-42bc-b6f1-138783366f27) | gaps and commonalities with the literature | `docs/LITERATURE_REVIEW.md` | #17 |
+| [Apply-side wrench measure in follow.py](#local_6d742daf-932e-4b0a-8c14-58e933454c24) | per frame, the largest force and twist the hand can apply to the object along each axis | `gramian_workshop/follow.py` (not on `main` yet) | #18 |
+| hand-models session (reported, not linked) | measured human hands | `data/hands/`, `tools/build_human_hand.py` | #19 |
+| Allegro-results session (reported, not linked) | Allegro follow results | `outputs/follow_allegro__*.json` | #20 |
 
 The session links open in the Claude app only. The workshop plan does not
 hand these sessions new work; tasks below that touch their files wait for
@@ -91,17 +101,17 @@ review found no other work that does this for soft actuators
 
 **Next tasks.**
 
-1. Decide what the workshop says a Gramian is for. Either the tool reads the
+1. (#1) Decide what the workshop says a Gramian is for. Either the tool reads the
    Gramian (for example, the reachable tip-motion ellipse from W_c as the
    finger's motion set, in place of the single free direction), or the talk
    says plainly that the Gramian characterises the actuator and the grasp
    check uses its Tier 0 and 1 summaries. Needs George's ruling.
-2. One figure that shows the range: the records' Gramians side by side, made
+2. (#2) One figure that shows the range: the records' Gramians side by side, made
    by a script from `data/records/`. Belongs with the M-11 capability map
    work, so check there first.
-3. One measured or datasheet record in real units, so at least one strength
+3. (#3) One measured or datasheet record in real units, so at least one strength
    result can be stated in real terms.
-4. Check the human-finger rebuild against the other two published routes
+4. (#4) Check the human-finger rebuild against the other two published routes
    (literature review, ranked list, item 4). Wait for the literature session.
 
 **Where the narrative overclaims.** "Making gramians for a range of
@@ -166,13 +176,13 @@ hand follow a recorded manipulation, frame by frame?
 
 **Next tasks.**
 
-1. Bridge the two halves: a record-built finger as a `follow.py` finger
+1. (#5) Bridge the two halves: a record-built finger as a `follow.py` finger
    (tip motion from the record's free displacement per input level, force
    set from its blocked force). Design first, with George, since it decides
    what a soft hand is in this tool.
-2. Get the W20 step 6 registration signed off, or say in the talk that the
+2. (#6) Get the W20 step 6 registration signed off, or say in the talk that the
    demo results are draft.
-3. Fold the hand-models session's measured hands into `outputs/follow.html`
+3. (#7) Fold the hand-models session's measured hands into `outputs/follow.html`
    once it reports.
 
 **Where the narrative overclaims.** "Using these [gramians] to find feasible
@@ -225,14 +235,14 @@ Not on `main` yet.
 
 **Next tasks.**
 
-1. Re-run the published follow results with both margins on and show them
+1. (#8) Re-run the published follow results with both margins on and show them
    on `outputs/follow.html`. New output names; do not overwrite. Wait for
    the Allegro-results session so the runs are not duplicated.
-2. Merge the apply-side measure when its session reports, and add it to the
+2. (#9) Merge the apply-side measure when its session reports, and add it to the
    page.
-3. One worked check: our margins on a textbook grasp whose answer is
+3. (#10) One worked check: our margins on a textbook grasp whose answer is
    published.
-4. Scalar indices as extra report columns (hours).
+4. (#11) Scalar indices as extra report columns (hours).
 
 **Where the narrative overclaims.** "Classic, established methods" is fair
 for the tests, and the talk must say so and cite them (literature review,
@@ -281,11 +291,11 @@ itself has to move and be checked as moving:
 
 **Next tasks.**
 
-1. Continuity and joint speed first (items 1 and 2): cheap, uses data we
+1. (#12) Continuity and joint speed first (items 1 and 2): cheap, uses data we
    have, and shows whether the static green frames are reachable in time.
-2. Then hand inertia and weight (item 3), from the MuJoCo models.
-3. The replay in MuJoCo (item 6) as the step 4 demonstration.
-4. Rename the step in the talk until then: "along a manipulation,
+2. (#13) Then hand inertia and weight (item 3), from the MuJoCo models.
+3. (#14) The replay in MuJoCo (item 6) as the step 4 demonstration.
+4. (#15) Rename the step in the talk until then: "along a manipulation,
    quasi-statically".
 
 **Where the narrative overclaims.** Step 4 as written. Until item 1 and at
