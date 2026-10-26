@@ -691,8 +691,9 @@ Related work, citation only:
   **cite** only after reading.
 - **Haschke R, Steil JJ, Steuwer I, Ritter H. "Task-Oriented Quality Measures
   for Dextrous Grasping".** *2005 IEEE CIRA*, pp. 689–694. DOI
-  10.1109/cira.2005.1554357. Crossref gives no year. **[metadata only;
-  content UNVERIFIED]** Verdict: read before citing.
+  10.1109/cira.2005.1554357. Crossref gives no year. **[abstract]** The
+  abstract is summarised in section 8. Verdict: read the full text before
+  leaning on it.
 
 ### Manipulability and force manipulability
 
@@ -1111,8 +1112,12 @@ fetched, and carries a read mark as in "How each claim is marked".
   joints in one test, and keeps graded margins for every frame. Each part
   of that has a precedent; the combination does not, as far as our search
   found.
-- **Nothing in `follow.py` is dynamic.** It checks the wrench the leader
-  needs, which already includes the object's inertia. It does not model
+- **Nothing in `follow.py` is dynamic.** It checks the wrench the leader's
+  contact forces sum to. Those come from MuJoCo contacts in a dynamic
+  simulation, or are derived from the object's measured motion as mass
+  times acceleration less gravity, plus inertia times angular
+  acceleration. So the object's inertia is in the leader's forces;
+  `follow.py` adds no inertia term of its own. It does not model
   the fingers' inertia, velocity terms or contact transitions. The
   planned acceleration step (section 1, apply limit) has close
   precedents: Byun and Lee 2006, and Zheng, Tomochika and Yoshikawa 1993.
@@ -1125,7 +1130,7 @@ directions. A cell from an abstract-only source rests on that abstract.
 
 | Source | Mark | Torque or input limits | Friction | Inertia | Contact changes | Scored against | Readout per step |
 |---|---|---|---|---|---|---|---|
-| `follow.py` (ours) | code | box on each input; one-sided muscles, two-sided motors; zero torque at unactuated joints | 8-edge pyramid | in the leader's wrench only | each frame on its own; transitions not modelled | the leader's exact wrench per frame | yes: verdict, and three margins when asked |
+| `follow.py` (ours) | code | box on each input; one-sided muscles, two-sided motors; zero torque at unactuated joints | 8-edge pyramid | in the leader's contact forces only; none added | contacts set per frame from the leader; transitions not modelled | the leader's exact wrench per frame | yes: verdict, and three margins when asked |
 | Inouye et al. 2012 | read | one-sided tendons, activation 0 to 1 | 8-edge pyramid | none | none | worst case: largest ball | no: one posture |
 | Zheng and Yamane 2013 | read | drops forces the joints cannot make; no torque magnitudes | exact cone | none | none | worst case over a shape, or one direction | no: one grasp |
 | Fakhari et al. 2021 | read | joint-torque box set out, not used in the examples | exact cone | can be added to the task wrench | none | one task screw; minimum along a path | at poses, reduced to the minimum |
@@ -1504,7 +1509,7 @@ Do not cite these as fact until someone checks them.
 - The SynGrasp v2.2 sign question in the Kz row of `SGquasistaticHsolution`.
 - The content of the SynGrasp video (title, channel and date only).
 - That Borst, Fischer and Hirzinger 2004 fit an ellipsoid to the object
-  wrench space; the content of Haschke et al. 2005.
+  wrench space; the full text of Haschke et al. 2005.
 - Where the force manipulability ellipsoid was first defined.
 - The 84% and 90% synergy figures in Santello et al. 1998 (we have them
   second-hand).
