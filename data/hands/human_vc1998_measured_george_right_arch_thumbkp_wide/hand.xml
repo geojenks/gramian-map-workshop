@@ -5,7 +5,7 @@
 <default><joint damping="0.02" armature="1e-5"/></default>
 <worldbody>
  <body name="palm">
-  <geom type="box" pos="-0.008 0.055 -0.010" size="0.045 0.055 0.010" mass="0.3"/>
+  <geom type="capsule" fromto="0.00000 0.00000 0.00000 0.02558 0.10833 0.00000" size="0.009" mass="0.04"/><geom type="capsule" fromto="0.00000 0.00000 0.00000 0.00000 0.11747 0.00000" size="0.009" mass="0.04"/><geom type="capsule" fromto="0.00000 0.00000 0.00000 -0.02402 0.10536 0.00400" size="0.009" mass="0.04"/><geom type="capsule" fromto="0.00000 0.00000 0.00000 -0.04235 0.09158 0.00800" size="0.009" mass="0.04"/><geom type="capsule" fromto="0.02558 0.10833 0.00000 0.00000 0.11747 0.00000" size="0.009" mass="0.04"/><geom type="capsule" fromto="0.00000 0.11747 0.00000 -0.02402 0.10536 0.00400" size="0.009" mass="0.04"/><geom type="capsule" fromto="-0.02402 0.10536 0.00400 -0.04235 0.09158 0.00800" size="0.009" mass="0.04"/>
   
   <body name="index_prox" pos="0.025576588721377896 0.1083305013296869 0.0" quat="1.000000 0.000000 0.000000 0.000000">
     <joint name="index_mcp_add" axis="0 0 1" range="-0.523599 0.523599" limited="true"/>
@@ -43,7 +43,7 @@
       <body name="little_distal" pos="0 0.02280 0"><joint name="little_dip" axis="1 0 0" range="-0.523599 1.570796" limited="true"/>
         <geom type="capsule" fromto="0 0 0 0 0.019899999999999998 0" size="0.004900000000000001" mass="0.004"/>
       </body></body></body>
-  <body name="thumb_prox" pos="0.02814 0.03381 0.01813" quat="0.939672 0.341689 0.011246 0.011805">
+  <body name="thumb_prox" pos="0.02814 0.03381 0.01813" quat="0.011246 0.011805 -0.939672 -0.341689">
     <joint name="thumb_mcp_add" axis="0 0 1" range="-1.047198 1.047198" limited="true"/>
     <joint name="thumb_mcp_flex" axis="1 0 0" range="-0.523599 1.570796" limited="true"/>
     <geom type="capsule" fromto="0 0 0 0 0.037700000000000004 0" size="0.0091" mass="0.012"/>

@@ -27,9 +27,9 @@ segments (MCP-PIP, PIP-DIP, DIP-tip as capsules of its pad radius; the
 thumb's MCP-IP and IP-tip), and the segment says which phalanx touches. The
 per-contact forces are then re-derived at those points from the frame's
 net wrench (the source's derived_wrench, carried into the palm frame), as in
-tools/import_demo_leader.py. Thumb curl: the bend at its end (IP) joint, the
-tip's offset from the line of its proximal phalanx (the earlier estimate,
-from the metacarpal's line, was flipped by a slightly hyperextended MCP).
+tools/import_demo_leader.py. Thumb curl (its pad side): opposite to the bend
+at its end (IP) joint, since pressing with the pad bends that joint
+backwards (hyperextension under load).
 """
 import argparse
 import json
@@ -51,8 +51,14 @@ SEGS = {"thumb": ((2, 3, "middle"), (3, 4, "distal")),
         "little": ((17, 18, "proximal"), (18, 19, "middle"), (19, 20, "distal"))}
 
 
-def skeleton_contact(S, digit, c, R, pad):
-    """(point on the ball nearest the digit's segments, gap m, phalanx) or None."""
+def skeleton_contact(S, digit, c, R, pad, pad_point=None):
+    """(point on the ball where the digit touches, gap m, phalanx) or None.
+    Candidates: each segment whose two ends are both tracked (a capsule of
+    the pad radius), and the tracked pad point itself (a point contact, the
+    distal phalanx); the one whose surface comes nearest the ball's wins.
+    (Until 26 Oct a lone proximal segment could win when the joints beyond
+    it were untracked, putting the contact on a radial line toward the
+    knuckle; George, moment 430.)"""
     best = None
     for a_, b_, ph in SEGS[digit]:
         if S[a_] is None or S[b_] is None:
@@ -61,13 +67,18 @@ def skeleton_contact(S, digit, c, R, pad):
         ab = B - A
         t_ = min(1.0, max(0.0, float((c - A) @ ab) / max(float(ab @ ab), 1e-16)))
         x = A + t_ * ab
-        dist = float(np.linalg.norm(x - c))
-        if best is None or dist < best[0]:
-            best = (dist, x, ph)
+        gap = float(np.linalg.norm(x - c)) - pad - R
+        if best is None or abs(gap) < abs(best[0]):
+            best = (gap, x, ph)
+    if pad_point is not None:
+        pp = np.array(pad_point)
+        gap = float(np.linalg.norm(pp - c)) - R
+        if best is None or abs(gap) < abs(best[0]):
+            best = (gap, pp, "distal")
     if best is None:
         return None
-    dist, x, ph = best
-    return c + R * (x - c) / dist, dist - pad - R, ph
+    gap, x, ph = best
+    return c + R * (x - c) / np.linalg.norm(x - c), gap, ph
 
 
 def cone_split(points, c, W, mu=1.0):
@@ -144,14 +155,18 @@ def main():
             u = (ip - mcp) / np.linalg.norm(ip - mcp)
             w = (tip - ip) - ((tip - ip) @ u) * u       # the bend at the IP joint
             if np.linalg.norm(w) > 1e-6:
-                thumb.append((cmc, y, w / np.linalg.norm(w)))
+                # pressing with the pad bends the thumb's IP (and MCP) joint
+                # backwards, so the measured bend points to the back of the
+                # thumb: the pad faces the other way (George 26 Oct: "it's the
+                # pad that touches for the thumb")
+                thumb.append((cmc, y, -w / np.linalg.norm(w)))
         # contacts from the skeleton, and forces re-derived at them
         c_h = R @ np.array(f["obj_pos"]) + t
         cps, phal, ok_frame = [None] * len(digits), [None] * len(digits), True
         for i, dg in enumerate(digits):
             if not f["contact"][i]:
                 continue
-            sc_ = skeleton_contact(skel, dg, c_h, R_ball, pads[dg])
+            sc_ = skeleton_contact(skel, dg, c_h, R_ball, pads[dg], X(f["station_pos"][i]))
             if sc_ is None:
                 ok_frame = False
                 break

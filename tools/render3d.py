@@ -138,15 +138,17 @@ function capsule(a,b,r,color,op){const A=new THREE.Vector3(...a),B=new THREE.Vec
  const cy=new THREE.Mesh(new THREE.CylinderGeometry(r,r,L,20),m);const s1=new THREE.Mesh(new THREE.SphereGeometry(r,20,14),m),s2=s1.clone();
  s1.position.y=L/2;s2.position.y=-L/2;g.add(cy,s1,s2);g.position.copy(A.clone().add(B).multiplyScalar(0.5));
  g.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return g;}
+function limb(grp,a,b,r,color,op){grp.add(capsule(a,b,r,color,op*0.35));grp.add(capsule(a,b,0.0022,color,1));
+ for(const p of [a,b]){const m=new THREE.Mesh(new THREE.SphereGeometry(0.0038,12,8),new THREE.MeshStandardMaterial({color:0x39424d,roughness:0.6,transparent:op<1,opacity:op}));m.position.set(...p);grp.add(m);}}
 let fi=0,timer=null;const ghost=document.getElementById('ghost');
 const BONES=[[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[10,11],[11,12],[0,13],[13,14],[14,15],[15,16],[0,17],[17,18],[18,19],[19,20],[5,9],[9,13],[13,17]];
 const DIG=[null,'thumb','thumb','thumb','thumb','index','index','index','index','middle','middle','middle','middle','ring','ring','ring','ring','little','little','little','little'];
 function drawLeader(f){while(GL.children.length)GL.remove(GL.children[0]);
  if(f.skeleton){const S=f.skeleton;const st={};for(const k of f.fingers)st[k.finger]=k.state;
   for(const [a,b] of BONES){if(!S[a]||!S[b])continue;const d=DIG[b]&&DIG[a]===DIG[b]?DIG[b]:(DIG[b]&&a===0?null:null);
-   const col=DIG[b]&&(DIG[a]===DIG[b]||a===0)?(COL[st[DIG[b]]]??COL.off):0xb8a898;
-   GL.add(capsule(S[a],S[b],0.0045,col,0.95));}
-  for(const p of S){if(!p)continue;const m=new THREE.Mesh(new THREE.SphereGeometry(0.0055,14,10),new THREE.MeshStandardMaterial({color:0x444c56,roughness:0.6}));m.position.set(...p);GL.add(m);}}
+   const dg=(DIG[a]===DIG[b]&&DIG[b])?DIG[b]:null;
+   const col=dg?(COL[st[dg]]??COL.off):COL.palm;
+   limb(GL,S[a],S[b],dg?(D.leader_info.pad_r[dg]??0.008):0.009,col,1);}}
  const ball=new THREE.Mesh(new THREE.SphereGeometry(D.radius,40,28),new THREE.MeshStandardMaterial({color:0xcfe37a,roughness:0.9,transparent:true,opacity:0.55}));
  ball.position.set(...f.ball);GL.add(ball);
  const st={};for(const k of f.marks)st[k.station]=k.state;
@@ -156,7 +158,7 @@ function drawLeader(f){while(GL.children.length)GL.remove(GL.children[0]);
   m.position.set(...s.pos);GL.add(m);}
  for(const k of f.marks){const t=new THREE.Mesh(new THREE.SphereGeometry(0.0022,14,10),new THREE.MeshBasicMaterial({color:COL[k.state]??COL.off}));t.position.set(...k.target);GL.add(t);}}
 function draw(i){fi=i;while(G.children.length)G.remove(G.children[0]);const f=D.frames[i];drawLeader(f);
- for(const c of f.caps){if(c.state==='off'&&!ghost.checked)continue;G.add(capsule(c.a,c.b,c.r,COL[c.state]??COL.palm,c.state==='off'?0.25:1));}
+ for(const c of f.caps){if(c.state==='off'&&!ghost.checked)continue;limb(G,c.a,c.b,c.r,COL[c.state]??COL.palm,c.state==='off'?0.4:1);}
  for(const b of f.boxes){const m=new THREE.Mesh(new THREE.BoxGeometry(2*b.size[0],2*b.size[1],2*b.size[2]),new THREE.MeshStandardMaterial({color:COL.palm,roughness:0.8}));
   const M=new THREE.Matrix4().set(b.R[0][0],b.R[0][1],b.R[0][2],b.c[0],b.R[1][0],b.R[1][1],b.R[1][2],b.c[1],b.R[2][0],b.R[2][1],b.R[2][2],b.c[2],0,0,0,1);m.applyMatrix4(M);G.add(m);}
  const ball=new THREE.Mesh(new THREE.SphereGeometry(D.radius,40,28),new THREE.MeshStandardMaterial({color:0xcfe37a,roughness:0.9,transparent:true,opacity:0.55}));
@@ -220,6 +222,8 @@ def main():
             fs["skeleton"] = [None if v is None else np.round(Rw @ (np.array(v) - leader.c0) + t, 5).tolist()
                               for v in lf["skeleton"]]
     data_leader = {"station_r": 0.008 if sim else 0.004,
+                   "pad_r": dict(zip(L.get("stations") or [], (L.get("pad_offset_m") or
+                                                            [0.0081, 0.0089, 0.0087, 0.0092, 0.0049]))),
                    "label": ("the robot cup's contact spheres (simulated leader)" if sim
                              else "the demonstrator's real hand: keypoint skeleton and contacts (recorded)")}
     start = next((i for i, f in enumerate(frames) if f["verdict"] != "green"), 0)
