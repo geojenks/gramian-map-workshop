@@ -103,6 +103,7 @@
      ],
      "penetration_mm": 0.8844265646894833,
      "side_deg": 26.927319452090693,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 9.377421533954853e-16,
      "state": "green",
      "torque_checked": true
@@ -136,6 +137,7 @@
      ],
      "penetration_mm": 0.3564416056516598,
      "side_deg": 16.729207285795194,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 3.6924405194006586e-16,
      "state": "green",
      "torque_checked": true
@@ -174,6 +176,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 93.7889506526562,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 5.327621758170615e-16,
      "state": "amber",
      "torque_checked": true
@@ -183,7 +186,8 @@
      "station": 0,
      "state": "off"
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 31,
@@ -226,6 +230,7 @@
      ],
      "penetration_mm": 0.8497755772681748,
      "side_deg": 30.54540527455899,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 1.6163902148957483e-15,
      "state": "green",
      "torque_checked": true
@@ -259,6 +264,7 @@
      ],
      "penetration_mm": 0.06420059538143202,
      "side_deg": 18.431463209600793,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 6.938598452525209e-16,
      "state": "green",
      "torque_checked": true
@@ -297,6 +303,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 109.69440852412913,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 8.319383034041275e-16,
      "state": "amber",
      "torque_checked": true
@@ -306,6 +313,9 @@
      "station": 0,
      "state": "off"
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
@@ -349,8 +359,9 @@
      ],
      "penetration_mm": 1.0879121500273412,
      "side_deg": 32.087720210551595,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 8.325466704783044e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -382,6 +393,7 @@
      ],
      "penetration_mm": 0.4794194827874229,
      "side_deg": 17.978315546218404,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 8.153939637181693e-16,
      "state": "green",
      "torque_checked": true
@@ -415,6 +427,7 @@
      ],
      "penetration_mm": 0.4998438886767084,
      "side_deg": 47.15540851830476,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 1.1697211786022724e-15,
      "state": "green",
      "torque_checked": true
@@ -448,6 +461,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 111.0785870639736,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 5.432678308300329e-16,
      "state": "amber",
      "torque_checked": true
@@ -481,15 +495,19 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 37.20596185780085,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 1.1316676251543842e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
    "k": 95,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.006775,
@@ -528,6 +546,7 @@
      ],
      "penetration_mm": 0.5179858404627049,
      "side_deg": 33.60320958712135,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 1.2052147404786524e-15,
      "state": "green",
      "torque_checked": true
@@ -561,6 +580,7 @@
      ],
      "penetration_mm": 0.8865388545995917,
      "side_deg": 12.791816627760577,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 6.515014067239427e-16,
      "state": "green",
      "torque_checked": true
@@ -604,11 +624,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 30.584500759907115,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 4.949588947146345e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 127,
@@ -651,6 +673,7 @@
      ],
      "penetration_mm": 0.5523775235581827,
      "side_deg": 31.137077246322118,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 5.714613979110982e-16,
      "state": "green",
      "torque_checked": true
@@ -684,6 +707,7 @@
      ],
      "penetration_mm": 0.8622135352418514,
      "side_deg": 18.559259640348294,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 8.770716315470195e-16,
      "state": "green",
      "torque_checked": true
@@ -722,6 +746,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 109.91236198707935,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 8.803444977749746e-16,
      "state": "amber",
      "torque_checked": true
@@ -731,7 +756,8 @@
      "station": 0,
      "state": "off"
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 158,
@@ -774,6 +800,7 @@
      ],
      "penetration_mm": 0.8040350336203996,
      "side_deg": 32.9512504592911,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 1.2312591355452103e-15,
      "state": "green",
      "torque_checked": true
@@ -807,6 +834,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 15.110445959639938,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 8.285733045592016e-16,
      "state": "green",
      "torque_checked": true
@@ -845,6 +873,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 98.87392984375252,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 9.893736138915162e-16,
      "state": "amber",
      "torque_checked": true
@@ -854,11 +883,14 @@
      "station": 0,
      "state": "off"
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
    "k": 190,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.010949,
@@ -902,6 +934,7 @@
      ],
      "penetration_mm": 0.8141055217117734,
      "side_deg": 15.811317885063813,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 5.621154880418361e-16,
      "state": "green",
      "torque_checked": true
@@ -935,6 +968,7 @@
      ],
      "penetration_mm": 0.6078336211465183,
      "side_deg": 43.982003815631145,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 7.913267756270358e-16,
      "state": "green",
      "torque_checked": true
@@ -968,8 +1002,9 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 58.25107857410826,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 9.279603232495322e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -1001,15 +1036,19 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 41.323700386506424,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 9.77528992555343e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
    "k": 222,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.004649,
@@ -1058,6 +1097,7 @@
      ],
      "penetration_mm": 0.5693580493408013,
      "side_deg": 34.683206895127306,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 1.638831746323814e-16,
      "state": "green",
      "torque_checked": true
@@ -1091,6 +1131,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 50.736936184287366,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 7.958505974102173e-16,
      "state": "green",
      "torque_checked": true
@@ -1124,15 +1165,19 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 11.308727847574918,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 7.032030647569557e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
    "k": 254,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.015117,
@@ -1171,6 +1216,7 @@
      ],
      "penetration_mm": 0.3943635638714929,
      "side_deg": 11.713462122325168,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 9.022966872006824e-16,
      "state": "green",
      "torque_checked": true
@@ -1204,6 +1250,7 @@
      ],
      "penetration_mm": 0.17852510969412066,
      "side_deg": 25.85313039375173,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.277532934604061e-15,
      "state": "green",
      "torque_checked": true
@@ -1247,15 +1294,17 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 22.36806362517584,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 1.090907502692451e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 285,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.022337000000000003,
@@ -1294,6 +1343,7 @@
      ],
      "penetration_mm": 0.5639832678353065,
      "side_deg": 12.475510648992724,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 9.714780592697038e-16,
      "state": "green",
      "torque_checked": true
@@ -1327,8 +1377,9 @@
      ],
      "penetration_mm": 1.958182124815154,
      "side_deg": 40.80974493240191,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.0533751215880922e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -1370,11 +1421,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 32.493799538568936,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 1.1738541911590599e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 317,
@@ -1417,6 +1470,7 @@
      ],
      "penetration_mm": 0.5855893345227126,
      "side_deg": 32.44384261566789,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 6.91770504102967e-16,
      "state": "green",
      "torque_checked": true
@@ -1450,6 +1504,7 @@
      ],
      "penetration_mm": 0.3891551666579743,
      "side_deg": 19.296026331143757,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 6.060495799293229e-16,
      "state": "green",
      "torque_checked": true
@@ -1488,6 +1543,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 109.61069448824234,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 1.0150069639678258e-15,
      "state": "amber",
      "torque_checked": true
@@ -1521,15 +1577,17 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 4.479735986340237,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 5.711860230911453e-16,
      "state": "amber",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 349,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.005722,
@@ -1573,8 +1631,9 @@
      ],
      "penetration_mm": 1.1751895756310775,
      "side_deg": 28.655128210601518,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 7.498265722110552e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -1606,6 +1665,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 37.63024697536886,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 1.004890138420227e-15,
      "state": "green",
      "torque_checked": true
@@ -1639,6 +1699,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 73.5868896569553,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 8.085618102834241e-16,
      "state": "green",
      "torque_checked": true
@@ -1672,15 +1733,19 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 31.4867473754631,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 1.2016979948995606e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
    "k": 381,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.007441,
@@ -1729,8 +1794,9 @@
      ],
      "penetration_mm": 0.8530856983268026,
      "side_deg": 43.747648534130455,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 7.987888330723142e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -1762,6 +1828,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 59.72793656583467,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 9.113785662716636e-16,
      "state": "green",
      "torque_checked": true
@@ -1795,10 +1862,14 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 14.755596694544046,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 7.139498884178951e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
@@ -1842,8 +1913,9 @@
      ],
      "penetration_mm": 7.221017214409993,
      "side_deg": 39.716181957369514,
+     "patch_mm": 6.5597725185699405,
      "state": "red",
-     "reason": "reach"
+     "reason": "penetrates"
     },
     {
      "finger": "middle",
@@ -1874,6 +1946,7 @@
      ],
      "penetration_mm": 0.2952872275068866,
      "side_deg": 23.835682290366407,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.053926336742012e-15,
      "state": "green",
      "torque_checked": true
@@ -1917,15 +1990,19 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 24.982097695010207,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 4.163896475786734e-16,
-     "state": "red",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "index"
    ]
   },
   {
    "k": 444,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.01148,
@@ -1964,8 +2041,9 @@
      ],
      "penetration_mm": 2.2971515142436867,
      "side_deg": 40.833563748654306,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 4.3667103591206107e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -1997,8 +2075,9 @@
      ],
      "penetration_mm": 1.2942870603000824,
      "side_deg": 31.229203747901963,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 7.694451970298644e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -2040,11 +2119,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 16.415777444979177,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 9.389570402008354e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 476,
@@ -2087,6 +2168,7 @@
      ],
      "penetration_mm": 0.5221725594231688,
      "side_deg": 36.202650218952385,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 6.165770724542654e-16,
      "state": "green",
      "torque_checked": true
@@ -2120,6 +2202,7 @@
      ],
      "penetration_mm": 0.4369937567587287,
      "side_deg": 13.274571267806328,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 7.608254773619938e-16,
      "state": "green",
      "torque_checked": true
@@ -2153,8 +2236,9 @@
      ],
      "penetration_mm": 0.877825034195312,
      "side_deg": 51.53336371424676,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 1.0080230641289305e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -2186,6 +2270,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 95.15632972015851,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 8.196268942023799e-16,
      "state": "amber",
      "torque_checked": true
@@ -2195,7 +2280,8 @@
      "station": 0,
      "state": "off"
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 508,
@@ -2238,6 +2324,7 @@
      ],
      "penetration_mm": 5.142588171857372,
      "side_deg": 38.54544766661058,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 9.60120570362054e-16,
      "state": "amber",
      "torque_checked": true
@@ -2271,6 +2358,7 @@
      ],
      "penetration_mm": 0.5557218782487189,
      "side_deg": 24.727703376692293,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 7.494733201782931e-16,
      "state": "green",
      "torque_checked": true
@@ -2314,11 +2402,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 24.27705594337752,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 7.021629437306135e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 540,
@@ -2361,8 +2451,9 @@
      ],
      "penetration_mm": 8.4427762498804,
      "side_deg": 43.84257135393666,
+     "patch_mm": 6.5597725185699405,
      "state": "red",
-     "reason": "reach"
+     "reason": "penetrates"
     },
     {
      "finger": "middle",
@@ -2393,6 +2484,7 @@
      ],
      "penetration_mm": 0.49360223265286496,
      "side_deg": 25.445883852441167,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 8.845631249047365e-16,
      "state": "green",
      "torque_checked": true
@@ -2426,6 +2518,7 @@
      ],
      "penetration_mm": 0.5878439964532023,
      "side_deg": 44.13123690953565,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 8.732616933816182e-16,
      "state": "green",
      "torque_checked": true
@@ -2464,15 +2557,17 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 8.281823639146694,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 1.1577173953064487e-15,
      "state": "amber",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 571,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     -0.0035980000000000005,
@@ -2521,6 +2616,7 @@
      ],
      "penetration_mm": 0.7413027444765768,
      "side_deg": 23.898896256686847,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 9.81642466724217e-16,
      "state": "green",
      "torque_checked": true
@@ -2554,6 +2650,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 43.74986040751689,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 4.724725673329312e-16,
      "state": "green",
      "torque_checked": true
@@ -2587,10 +2684,14 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 17.9444967021308,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 7.17271972631115e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
@@ -2634,8 +2735,9 @@
      ],
      "penetration_mm": 7.076258403090216,
      "side_deg": 51.19949133138415,
+     "patch_mm": 6.5597725185699405,
      "state": "red",
-     "reason": "reach"
+     "reason": "penetrates"
     },
     {
      "finger": "middle",
@@ -2666,6 +2768,7 @@
      ],
      "penetration_mm": 0.9046399074318854,
      "side_deg": 20.454970342856875,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 7.869107997975564e-16,
      "state": "green",
      "torque_checked": true
@@ -2709,11 +2812,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 6.183222653823577,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 1.0882559287316343e-15,
      "state": "red",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 635,
@@ -2756,8 +2861,9 @@
      ],
      "penetration_mm": 1.9368521441476134,
      "side_deg": 55.1228334292991,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 1.0176249279743812e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -2789,6 +2895,7 @@
      ],
      "penetration_mm": 2.1555388612910646,
      "side_deg": 28.520205860384028,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.0351849985608056e-15,
      "state": "amber",
      "torque_checked": true
@@ -2822,8 +2929,9 @@
      ],
      "penetration_mm": 2.1350368384363967,
      "side_deg": 51.09165555790732,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 1.0686382434871027e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -2855,6 +2963,7 @@
      ],
      "penetration_mm": 0.07948028747106067,
      "side_deg": 81.0978530233499,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 7.123263390752535e-16,
      "state": "green",
      "torque_checked": true
@@ -2864,7 +2973,8 @@
      "station": 0,
      "state": "off"
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 667,
@@ -2907,6 +3017,7 @@
      ],
      "penetration_mm": 4.672444700070034,
      "side_deg": 26.68982415612773,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 1.306348282435031e-15,
      "state": "amber",
      "torque_checked": true
@@ -2945,6 +3056,7 @@
      ],
      "penetration_mm": 0.6493924943883136,
      "side_deg": 32.592975798539655,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 1.1226336932826476e-15,
      "state": "green",
      "torque_checked": true
@@ -2978,6 +3090,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 54.65088638147371,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 9.154858309114138e-16,
      "state": "green",
      "torque_checked": true
@@ -3011,15 +3124,19 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 30.579617893788388,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 7.330496067477139e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
    "k": 698,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     -0.0004349999999999996,
@@ -3063,6 +3180,7 @@
      ],
      "penetration_mm": 0.6945369941121147,
      "side_deg": 23.115954156250965,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 7.381294255330604e-16,
      "state": "green",
      "torque_checked": true
@@ -3096,8 +3214,9 @@
      ],
      "penetration_mm": 2.157570572761898,
      "side_deg": 42.428691085562214,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 7.429702632416704e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -3129,6 +3248,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 82.58323634684967,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 3.9971286066040375e-16,
      "state": "green",
      "torque_checked": true
@@ -3162,15 +3282,19 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 47.66429821331287,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 7.407108006853606e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
    "k": 730,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.00042000000000000023,
@@ -3209,6 +3333,7 @@
      ],
      "penetration_mm": 0.5468104925542283,
      "side_deg": 25.60090905364048,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 9.888349876321123e-16,
      "state": "green",
      "torque_checked": true
@@ -3257,15 +3382,17 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 28.919207159477818,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 8.564194697304712e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 762,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.013743,
@@ -3304,6 +3431,7 @@
      ],
      "penetration_mm": 0.5625380016536854,
      "side_deg": 27.572666437911106,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 5.445096466987675e-16,
      "state": "green",
      "torque_checked": true
@@ -3337,6 +3465,7 @@
      ],
      "penetration_mm": 0.5824703098658222,
      "side_deg": 24.854177201449424,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.411018413077669e-15,
      "state": "green",
      "torque_checked": true
@@ -3380,11 +3509,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 7.262356075251917,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 8.577361233427215e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 794,
@@ -3427,8 +3558,9 @@
      ],
      "penetration_mm": 1.4913668760917556,
      "side_deg": 51.5850540570362,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 7.945360194261814e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -3460,6 +3592,7 @@
      ],
      "penetration_mm": 0.04400312620879421,
      "side_deg": 7.964164763963516,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.6470064921034721e-15,
      "state": "green",
      "torque_checked": true
@@ -3493,6 +3626,7 @@
      ],
      "penetration_mm": 0.5764976697330073,
      "side_deg": 38.83354400471606,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 5.495200392933793e-16,
      "state": "green",
      "torque_checked": true
@@ -3526,6 +3660,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 96.52589908681895,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 8.92205507965874e-16,
      "state": "amber",
      "torque_checked": true
@@ -3535,6 +3670,9 @@
      "station": 0,
      "state": "off"
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
@@ -3578,6 +3716,7 @@
      ],
      "penetration_mm": 4.529445677343598,
      "side_deg": 27.842640728582367,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 1.2978809362083165e-15,
      "state": "amber",
      "torque_checked": true
@@ -3611,6 +3750,7 @@
      ],
      "penetration_mm": 0.30717638466060126,
      "side_deg": 20.10443515770143,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.2308620986960526e-15,
      "state": "green",
      "torque_checked": true
@@ -3654,11 +3794,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 25.027948831384006,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 7.395267993450877e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 857,
@@ -3701,6 +3843,7 @@
      ],
      "penetration_mm": 8.545455630497772,
      "side_deg": 48.930595344734215,
+     "patch_mm": 6.5597725185699405,
      "state": "red",
      "reason": "penetrates"
     },
@@ -3733,6 +3876,7 @@
      ],
      "penetration_mm": 0.30247553600237786,
      "side_deg": 18.635841418765235,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 9.093132714804259e-16,
      "state": "green",
      "torque_checked": true
@@ -3776,11 +3920,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 18.367951847643013,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 1.0884553856000808e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 889,
@@ -3823,6 +3969,7 @@
      ],
      "penetration_mm": 0.5364960862984449,
      "side_deg": 33.83786822513277,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 1.1528836819666425e-15,
      "state": "green",
      "torque_checked": true
@@ -3856,6 +4003,7 @@
      ],
      "penetration_mm": 0.8250364658423104,
      "side_deg": 16.634981179323585,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.3248393351961005e-15,
      "state": "amber",
      "torque_checked": true
@@ -3889,6 +4037,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 49.02803281241986,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 1.569706033168796e-15,
      "state": "green",
      "torque_checked": true
@@ -3903,7 +4052,8 @@
      "station": 0,
      "state": "off"
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 921,
@@ -3946,6 +4096,7 @@
      ],
      "penetration_mm": 0.44770323362225417,
      "side_deg": 36.66522462198849,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 4.527088735335705e-16,
      "state": "green",
      "torque_checked": true
@@ -3979,6 +4130,7 @@
      ],
      "penetration_mm": 3.3150686176620785,
      "side_deg": 32.517411848062956,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 6.109984765177619e-16,
      "state": "amber",
      "torque_checked": true
@@ -4017,6 +4169,7 @@
      ],
      "penetration_mm": 0.8002780481334084,
      "side_deg": 93.25147598161094,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 8.874993690903179e-16,
      "state": "amber",
      "torque_checked": true
@@ -4026,11 +4179,14 @@
      "station": 0,
      "state": "off"
     }
+   ],
+   "untracked": [
+    "little"
    ]
   },
   {
    "k": 953,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.011698,
@@ -4074,8 +4230,9 @@
      ],
      "penetration_mm": 1.8408292251005793,
      "side_deg": 32.02865139516141,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 9.118100821544536e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -4107,8 +4264,9 @@
      ],
      "penetration_mm": 1.4151719095991249,
      "side_deg": 52.20088915834547,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 9.386056370347899e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     },
     {
@@ -4140,6 +4298,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 87.70062248600917,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 9.146987530341834e-16,
      "state": "green",
      "torque_checked": true
@@ -4173,11 +4332,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 59.0643700956431,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 6.782003948683866e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 984,
@@ -4220,6 +4381,7 @@
      ],
      "penetration_mm": 5.5668847806087385,
      "side_deg": 38.523996335658026,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 7.290839136983707e-16,
      "state": "amber",
      "torque_checked": true
@@ -4253,6 +4415,7 @@
      ],
      "penetration_mm": 0.3718723302912341,
      "side_deg": 19.23498738087018,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 5.894066051107936e-16,
      "state": "green",
      "torque_checked": true
@@ -4286,6 +4449,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 37.285138423613006,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 8.166308933824273e-16,
      "state": "green",
      "torque_checked": true
@@ -4319,6 +4483,7 @@
      ],
      "penetration_mm": 0.05838501261574286,
      "side_deg": 60.370795752127314,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 4.2813000866729677e-16,
      "state": "green",
      "torque_checked": true
@@ -4352,16 +4517,18 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 15.829190544663245,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 5.833547748811269e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 1016,
-   "verdict": "red",
-   "reason": "direction",
+   "verdict": "amber",
+   "reason": null,
    "ball_center": [
     0.010796,
     0.151678,
@@ -4399,8 +4566,9 @@
      ],
      "penetration_mm": 9.313671894486744,
      "side_deg": 48.792429167022476,
+     "patch_mm": 6.5597725185699405,
      "state": "red",
-     "reason": "reach"
+     "reason": "penetrates"
     },
     {
      "finger": "middle",
@@ -4431,6 +4599,7 @@
      ],
      "penetration_mm": 0.5394677339938883,
      "side_deg": 18.064031875372212,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 9.344316293905546e-16,
      "state": "green",
      "torque_checked": true
@@ -4474,10 +4643,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 2.760005404939092,
-     "state": "red",
-     "reason": "reach"
+     "patch_mm": 6.31335176423486,
+     "unbalanced_Nm": 9.664017438924481e-16,
+     "state": "amber",
+     "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 1048,
@@ -4520,6 +4692,7 @@
      ],
      "penetration_mm": 0.5271502719261384,
      "side_deg": 35.65433763103586,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 1.2387807075038718e-15,
      "state": "green",
      "torque_checked": true
@@ -4553,6 +4726,7 @@
      ],
      "penetration_mm": 0.900366939177992,
      "side_deg": 14.00103933990597,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.0589901637405181e-15,
      "state": "green",
      "torque_checked": true
@@ -4586,6 +4760,7 @@
      ],
      "penetration_mm": 0.4965701064027772,
      "side_deg": 46.95496002554177,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 1.31838620841183e-15,
      "state": "green",
      "torque_checked": true
@@ -4624,10 +4799,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 5.069429908151597,
-     "state": "red",
-     "reason": "reach"
+     "patch_mm": 6.31335176423486,
+     "unbalanced_Nm": 1.3956195364016507e-15,
+     "state": "amber",
+     "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 1080,
@@ -4670,6 +4848,7 @@
      ],
      "penetration_mm": 4.28859273143354,
      "side_deg": 48.890789635563245,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 4.290266221670017e-16,
      "state": "amber",
      "torque_checked": true
@@ -4703,6 +4882,7 @@
      ],
      "penetration_mm": 0.5755333512772048,
      "side_deg": 17.10181557915216,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.3968534280399962e-15,
      "state": "green",
      "torque_checked": true
@@ -4746,11 +4926,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 9.395793466663873,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 8.217193943323567e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 1111,
@@ -4798,6 +4980,7 @@
      ],
      "penetration_mm": 0.9546105472791194,
      "side_deg": 5.420196334162856,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 1.202844048853443e-15,
      "state": "green",
      "torque_checked": true
@@ -4831,6 +5014,7 @@
      ],
      "penetration_mm": 3.315914544787045,
      "side_deg": 51.5013308179372,
+     "patch_mm": 6.647693432735573,
      "unbalanced_Nm": 4.3572303450592094e-16,
      "state": "amber",
      "torque_checked": true
@@ -4864,6 +5048,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 96.194224572315,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 9.12299635792399e-16,
      "state": "amber",
      "torque_checked": true
@@ -4873,12 +5058,13 @@
      "station": 0,
      "state": "off"
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 1143,
-   "verdict": "red",
-   "reason": "direction",
+   "verdict": "amber",
+   "reason": null,
    "ball_center": [
     0.007893,
     0.15126,
@@ -4916,6 +5102,7 @@
      ],
      "penetration_mm": 0.5798032214172701,
      "side_deg": 32.03096002517508,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 9.431474199910328e-16,
      "state": "green",
      "torque_checked": true
@@ -4949,6 +5136,7 @@
      ],
      "penetration_mm": 0.9104805785353914,
      "side_deg": 16.998146911168085,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 5.734127072243492e-16,
      "state": "green",
      "torque_checked": true
@@ -4992,14 +5180,17 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 8.786366975872728,
-     "state": "red",
-     "reason": "reach"
+     "patch_mm": 6.31335176423486,
+     "unbalanced_Nm": 3.8537810277972313e-16,
+     "state": "amber",
+     "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 1175,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.01084,
@@ -5038,6 +5229,7 @@
      ],
      "penetration_mm": 0.5215211822471311,
      "side_deg": 32.04157835362011,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 1.2118557203400353e-15,
      "state": "green",
      "torque_checked": true
@@ -5071,6 +5263,7 @@
      ],
      "penetration_mm": 0.8377354278075871,
      "side_deg": 18.567457919831288,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 4.707898972895626e-16,
      "state": "green",
      "torque_checked": true
@@ -5114,11 +5307,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 8.040479834606709,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 9.272307934649352e-16,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   },
   {
    "k": 1207,
@@ -5161,8 +5356,9 @@
      ],
      "penetration_mm": 10.217756557992383,
      "side_deg": 46.61118122218636,
+     "patch_mm": 6.5597725185699405,
      "state": "red",
-     "reason": "reach"
+     "reason": "penetrates"
     },
     {
      "finger": "middle",
@@ -5203,6 +5399,7 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 69.11940238338082,
+     "patch_mm": 5.094733282672557,
      "unbalanced_Nm": 5.739634819127079e-16,
      "state": "green",
      "torque_checked": true
@@ -5236,15 +5433,19 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 1.6948374412463532,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 6.832588069926534e-16,
-     "state": "red",
+     "state": "green",
      "torque_checked": true
     }
+   ],
+   "untracked": [
+    "index"
    ]
   },
   {
    "k": 1239,
-   "verdict": "amber",
+   "verdict": "green",
    "reason": null,
    "ball_center": [
     0.017143,
@@ -5283,6 +5484,7 @@
      ],
      "penetration_mm": 0.22333836052229605,
      "side_deg": 18.29638898487531,
+     "patch_mm": 6.5597725185699405,
      "unbalanced_Nm": 7.590169774599676e-16,
      "state": "green",
      "torque_checked": true
@@ -5316,6 +5518,7 @@
      ],
      "penetration_mm": 0.8894492985463063,
      "side_deg": 23.88883007140967,
+     "patch_mm": 6.499845504705258,
      "unbalanced_Nm": 5.616261021528672e-16,
      "state": "green",
      "torque_checked": true
@@ -5359,11 +5562,13 @@
      ],
      "penetration_mm": 0.0,
      "side_deg": 20.489167613513274,
+     "patch_mm": 6.31335176423486,
      "unbalanced_Nm": 1.1512579620015293e-15,
-     "state": "amber",
+     "state": "green",
      "torque_checked": true
     }
-   ]
+   ],
+   "untracked": []
   }
  ]
 }

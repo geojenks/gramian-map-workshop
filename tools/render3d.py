@@ -79,7 +79,7 @@ def scene(hand, fr):
             marks.append({"finger": x["finger"], "station": x["station"], "state": x["state"],
                           "target": np.round(x["target"], 5).tolist(),
                           "pad": np.round(x["pad_world"], 5).tolist(), "normal": np.round(x["pad_normal"], 4).tolist()})
-    return {"k": fr["k"], "verdict": fr["verdict"], "reason": fr["reason"],
+    return {"k": fr["k"], "verdict": fr["verdict"], "reason": fr["reason"], "untracked": fr.get("untracked", []),
             "ball": np.round(fr["ball_center"], 5).tolist(), "caps": caps, "boxes": boxes, "marks": marks,
             "fingers": [{"finger": x["finger"], "state": x["state"],
                          "reach_mm": round(x["reach_mm"], 1) if "reach_mm" in x else None,
@@ -116,7 +116,8 @@ other. Lifted-off fingers are faded, in the model's rest pose. Simulation only.<
  <label style="font-weight:400"><input type="checkbox" id="ovl" checked> keypoints drawn</label> <span id="cam"></span></div>
  <img id="img" alt="video still of the demonstration at this moment" style="width:100%;border-radius:6px"></div><div id="view"><div id="lab_l" class="vlab"></div><div id="lab_r" class="vlab" style="left:50%">the model hand, solved</div>
 <div id="hint">drag to orbit (both views turn together) &middot; scroll to zoom &middot; right-drag to pan</div></div>
-<div id="side"><div><button id="prev">&#9664;</button><button id="play">play</button><button id="next">&#9654;</button>
+<div id="side"><div style="margin-bottom:6px">view: <button data-v="palm">palm</button><button data-v="thumb">thumb side</button><button data-v="little">little side</button><button data-v="tips">fingertips</button><button data-v="video" id="vidbtn" disabled title="needs the camera calibration">video camera</button></div>
+<div><button id="prev">&#9664;</button><button id="play">play</button><button id="next">&#9654;</button>
 <label><input type="checkbox" id="ghost" checked> lifted fingers</label></div>
 <input type="range" id="slider" min="0" value="0" style="width:100%">
 <div id="strip"></div><div id="frame" style="font-weight:600;margin-bottom:6px"></div>
@@ -179,7 +180,8 @@ function draw(i){fi=i;while(G.children.length)G.remove(G.children[0]);const f=D.
  if(D.stills){const st=D.stills[String(f.k)];document.getElementById('still').style.display=st?'block':'none';
   if(st){document.getElementById('img').src=document.getElementById('ovl').checked?st.overlay:st.plain;
    document.getElementById('cam').textContent='('+st.camera+' camera, t = '+st.t+' s)';}}
- document.getElementById('frame').innerHTML=`moment ${f.k} (${i+1} of ${D.frames.length}): <span style="color:${CSS[f.verdict]}">${f.verdict}</span>${f.reason?' ('+f.reason+')':''}`;
+ document.getElementById('frame').innerHTML=`moment ${f.k} (${i+1} of ${D.frames.length}): <span style="color:${CSS[f.verdict]}">${f.verdict}</span>${f.reason?' ('+f.reason+')':''}`+
+  (f.untracked&&f.untracked.length?`<div style="font-weight:400;color:var(--muted)">not well tracked: ${f.untracked.join(', ')} (no segment seen at both ends)</div>`:'');
  document.getElementById('tab').innerHTML='<tr><th>finger</th><th>state</th><th>off</th><th>side</th><th>sunk</th><th>phalanx</th></tr>'+f.fingers.map(x=>
   `<tr><td><span class="sw" style="background:${CSS[x.state]??CSS.off}"></span>${x.finger}</td><td>${x.state==='off'?'lifted':x.state}${x.reason?' ('+x.reason+')':''}</td>`+
   (x.reach_mm===null?'<td colspan="4"></td>':`<td>${x.reach_mm} mm</td><td>${x.facing_deg}&deg;</td><td>${x.pen_mm} mm</td><td>${x.phalanx}</td>`)+'</tr>').join('');
@@ -190,6 +192,11 @@ document.getElementById('prev').onclick=()=>draw((fi-1+D.frames.length)%D.frames
 document.getElementById('next').onclick=()=>draw((fi+1)%D.frames.length);
 document.getElementById('play').onclick=e=>{if(timer){clearInterval(timer);timer=null;e.target.textContent='play';}else{timer=setInterval(()=>draw((fi+1)%D.frames.length),400);e.target.textContent='pause';}};
 ghost.onchange=()=>draw(fi);document.getElementById('ovl').onchange=()=>draw(fi);
+// fixed viewpoints, in the hand frame (x toward the thumb, y distal, z palmar)
+const VIEWS={palm:[0,-0.25,1],thumb:[1,0,0.25],little:[-1,0,0.25],tips:[0,1,0.4]};
+function setView(v){const c=new THREE.Vector3(...D.frames[fi].ball);const d=new THREE.Vector3(...VIEWS[v]).normalize();
+ ctl.target.copy(c);cam.position.copy(c.clone().add(d.multiplyScalar(0.19)));cam.up.set(0,v==='tips'?0:1,v==='tips'?1:0);cam.lookAt(c);ctl.update();}
+document.querySelectorAll('[data-v]').forEach(b=>{if(b.dataset.v!=='video')b.onclick=()=>setView(b.dataset.v);});
 // camera: from the palm side, a little toward the thumb, looking at the ball
 const c0=new THREE.Vector3(...D.frames[0].ball);ctl.target.copy(c0);cam.up.set(0,1,0);
 cam.position.copy(c0.clone().add(new THREE.Vector3(0.07,-0.035,0.17)));ctl.update();

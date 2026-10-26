@@ -191,7 +191,12 @@ def main():
                     "contact_normal": [None if v is None else np.round((c_h - v) / np.linalg.norm(c_h - v), 5).tolist()
                                        for v in cps],
                     "force_on_object_N": forces,
-                    "skeleton": skel, "palm_fit_rms_m": round(rms, 5), "palm_points": len(have)})
+                    "skeleton": skel, "palm_fit_rms_m": round(rms, 5), "palm_points": len(have),
+                    # touching digits with no segment tracked at both ends
+                    # (middle-end joint or end joint-tip): their contact
+                    # rests on a lone keypoint (26 Oct)
+                    "untracked": [dg for i_, dg in enumerate(digits) if f["contact"][i_] and not any(
+                        skel[a_] is not None and skel[b_] is not None for a_, b_, _ in SEGS[dg][-2:])]})
     name = L["id"].replace("_derived", "") + "_handframe"
     lead = {**{k: v for k, v in L.items() if k != "frames"}, "id": name,
             "name": L["name"] + ", in the demonstrator's palm frame",

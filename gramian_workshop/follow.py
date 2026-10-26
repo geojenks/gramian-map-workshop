@@ -122,6 +122,7 @@ RESPACE_DEG = 20.0         # proposed: how far a station may be moved round the 
 PEN_GREEN_M = 0.003        # a pad may compress this far into the object (George 26 Oct, from his index: p90 ~6 mm)
 PEN_AMBER_M = 0.006        # "close" (George 26 Oct)
 PEN_WEIGHT = 1.0           # IK weight of the push-out row (as position)
+TOUCH_TOL_M = 0.002        # a finger this close to the object still counts as touching it
 SIDE_GREEN_DEG = 90.0      # tangent contact: anywhere but the nail half (George 23 Oct)
 SIDE_AMBER_DEG = 120.0     # proposed: onto the edge of the nail half
 SIDE_WEIGHT_M = 0.005      # soft IK preference for the pad over the side (m per rad)
@@ -810,20 +811,32 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 continue
             p, nrm, _ = leader.station(k, i, Rw, t)
             (b, pl, nl), (q, res, face, pw, nw, pen) = iks[a].best_tangent(p, c, leader.R_obj, middle=middle)
-            near = res <= REACH_AMBER_M and face <= SIDE_AMBER_DEG and pen <= PEN_AMBER_M
-            exact = res <= REACH_GREEN_M and face <= SIDE_GREEN_DEG and pen <= PEN_GREEN_M
+            # a soft pad pressed PEN_GREEN_M into the object touches over a
+            # patch, not a point (Hertz: radius sqrt(2 R_eff delta)); the
+            # leader's contact anywhere in it is reached (26 Oct)
+            r_link = iks[a].proxies(middle)[b][2]
+            Reff = leader.R_obj * r_link / (leader.R_obj + r_link)
+            patch = math.sqrt(2.0 * Reff * PEN_GREEN_M)
+            near = res <= REACH_AMBER_M + patch and face <= SIDE_AMBER_DEG and pen <= PEN_AMBER_M
+            exact = res <= REACH_GREEN_M + patch and face <= SIDE_GREEN_DEG and pen <= PEN_GREEN_M
             item = {"finger": f.label, "station": i, "reach_mm": res * 1e3,
                     "facing_deg": face, "phalanx": "distal" if b == f.tip_body else "middle",
                     # the solved pose, for rendering (tools/render_follow.py)
                     "q": [float(x) for x in q], "target": p.tolist(), "pad_world": pw.tolist(),
                     "pad_normal": nw.tolist(), "penetration_mm": max(0.0, pen) * 1e3,
-                    "side_deg": face}
+                    "side_deg": face, "patch_mm": patch * 1e3}
             if not near:
                 item["state"] = "red"
-                item["reason"] = ("reach" if res > REACH_AMBER_M else
+                item["reason"] = ("reach" if res > REACH_AMBER_M + patch else
                                   "nail side" if face > SIDE_AMBER_DEG else "penetrates")
-                per.append(item)
-                continue
+                # it misses the leader's contact, but if it still touches the
+                # object (allowed side, not sunk too deep) that contact can
+                # still help hold it (26 Oct: one near miss should not fail
+                # the moment); otherwise it carries nothing
+                if not (-TOUCH_TOL_M <= pen <= PEN_AMBER_M and face <= SIDE_AMBER_DEG):
+                    per.append(item)
+                    continue
+                item["used_in_force_check"] = True
             # actual contact: the pad point projected onto the object
             v = pw - c
             cp = c + leader.R_obj * v / np.linalg.norm(v)
@@ -843,7 +856,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 cols = _finger_columns(hand, f, iks[a], M, lim, Jf, pw, kq)
                 torque_ok, un = _columns_hold(cols, fv)
                 item["unbalanced_Nm"] = un
-            item["state"] = "green" if (exact and in_cone and torque_ok) else "amber?"
+            if item.get("state") != "red":
+                item["state"] = "green" if (exact and in_cone and torque_ok) else "amber?"
             item["torque_checked"] = M is not None
             per.append(item)
             pts.append(cp)
@@ -864,6 +878,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             need_redistribute = True
         if need_redistribute:
             ok, reason = _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol)
+            # a red finger whose contact the force check could still use
+            # makes the moment amber at best, not red, when the forces work
             verdict = ("green" if all_green else "amber") if ok else "red"
             for x in per:
                 if x.get("state") == "amber?":
@@ -882,6 +898,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
                        "ball_center": c.tolist(), "palm_penetration_mm": palm_pen * 1e3,
                        "unserved": unserved, "fingers": per,
+                       **({"untracked": leader.frames[k]["untracked"]} if "untracked" in leader.frames[k] else {}),
                        **({"scale_margin": sm} if margin else {}),
                        **({"disturbance_margin": dm} if disturbance else {}),
                        **({"apply_limit": al} if apply else {}),
