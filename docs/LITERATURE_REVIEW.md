@@ -3,7 +3,7 @@
 Written 23 October 2026 for the ARIA workshop. This was a reading and
 writing task: no code was changed. Updated the same day after reading
 Bicchi and Prattichizzo 2000 and 1998, and after the scale margin was added
-to `follow.py`.
+to `follow.py`. Updated on 25 October when the disturbance margin was added.
 
 ## The result in brief
 
@@ -58,21 +58,21 @@ Effort estimates use one coarse scale: **hours** (under a day), **days**
 
 This summary is from the code on `main`, so the reader can match each
 source to a line. It was first written against the strength model before
-commit fbf16fd. It was updated on 23 October, after that commit and after
-the scale margin was added, and the line numbers below are for that
-version.
+commit fbf16fd. It was updated on 23 October, after that commit, and again
+on 24 October when the scale margin was added, and on 25 October when the
+disturbance margin was added; the line numbers below are for that version.
 
 - **Contact model.** Hard finger, point contact with friction. The contact
   Jacobian is `Jf = jacp[:, f.dof]` from MuJoCo's `mj_jac` at the pad point
-  ([follow.py:545](../gramian_workshop/follow.py)).
+  ([follow.py:566](../gramian_workshop/follow.py)).
 - **Friction cone.** Per finger, the leader's force must lie inside the cone:
-  `fv @ n_in >= cos(atan(mu))*|fv|` (follow.py:547). For redistribution, the
+  `fv @ n_in >= cos(atan(mu))*|fv|` (follow.py:568). For redistribution, the
   cone is an inscribed pyramid of `CONE_EDGES = 8` edges
   ([capability_core.py:17](../gramian_workshop/vendor/capability_core.py),
   `generators` at line 89). `OUTER_FACTOR = 1/cos(π/8)` (line 20) gives the
   circumscribed pyramid as an outer bracket
   ([readout.py:53, 96, 234](../gramian_workshop/readout.py)).
-- **Transmission and strength.** `_finger_columns` (follow.py:599–630)
+- **Transmission and strength.** `_finger_columns` (follow.py:623–654)
   folds slaved joints into their masters (the matrix E, with each slaved
   entry the derivative of the polynomial coupling). A contact force f needs
   the reduced joint torque Tr f, with Tr = E^T Jf^T. The finger can supply
@@ -82,18 +82,18 @@ version.
   passive columns, sized so the contact moves at most `DEFLECT_MAX_M`. The
   default kq is 0, so by default torque that no input can make must be
   zero.
-- **Torque check.** `_columns_hold` (follow.py:633–642) solves for x by
+- **Torque check.** `_columns_hold` (follow.py:657–666) solves for x by
   non-negative least squares. The unbalanced torque must be at most
   `UNACT_TOL` (0.05) of |Tr f|.
-- **Redistribution.** `_redistribute` (follow.py:658–682) asks whether the
+- **Redistribution.** `_redistribute` (follow.py:682–706) asks whether the
   contacts we made can produce the leader's object wrench with forces of
   their own choosing. It runs three tests in turn: span (least squares, line
-  671), friction (non-negative least squares on the pyramid, line 675), then
-  torque. The torque system is built by `_torque_stack` (follow.py:685–712).
+  681), friction (non-negative least squares on the pyramid, line 685), then
+  torque. The torque system is built by `_torque_stack` (follow.py:709–736).
   It stacks the wrench balance, each finger's joint balance Tr F λ = C x,
   and x plus a slack equal to 1. The wrench may be missed by `RESID_TOL`
   (0.05) of its norm.
-- **Scale margin.** `_scale_margin` (follow.py:715–792) gives each frame the
+- **Scale margin.** `_scale_margin` (follow.py:739–816) gives each frame the
   largest factor s by which the leader's object wrench could grow and still
   pass the torque test of `_redistribute`. It uses the same system, with
   s times the wrench on the right-hand side, and a tolerance that grows
@@ -117,18 +117,45 @@ version.
   frame whose unactuated joints cannot reach zero torque fails at every
   scale, so it also reads 0: the margin grades only frames that pass that
   rule. It is absent when no finger has its torque checked.
+- **Disturbance margin.** `_disturbance_margin` (follow.py:819–893) gives
+  each frame the smallest extra wrench, added on top of the leader's, that
+  the made contacts could no longer produce along with it. In plain terms:
+  how hard a push or twist from outside the grip, in the worst direction,
+  before the motors or friction give out. It is the worst-direction
+  reading of the largest-ball measure (Ferrari and Canny 1992, via Roa and
+  Suárez 2015), limited by torque as our test is. It uses the
+  `_torque_stack` system unchanged, with the extra wrench added to the
+  right-hand side and the tolerance of `_redistribute` held fixed, so at
+  zero disturbance it is exactly the torque test. The wrenches that system
+  can produce form a convex set, so along each direction the disturbances
+  that hold form one run from zero, and bisection is sound. We try the 12
+  signed axes of the scaled wrench (push along x, y and z; twist about x,
+  y and z: `DISTURB_DIRS`, proposed), so the result is an upper bound on
+  the true smallest disturbance. Each direction is bisected to
+  `MARGIN_REL` of the margin (floor `cap.BISECT_TOL`), and a direction
+  that still holds at the smallest margin so far is skipped. The margin is
+  a share of the leader's wrench norm, which is also reported (torque
+  divided by L, as W20), with the worst direction. Its shape depends on
+  that L scaling. It is 0 when the leader's own load fails, and absent
+  when no finger has its torque checked (without input limits the cones
+  are unbounded). It runs continuously from 0: a frame that only just
+  passes at the leader's load, with close to `RESID_TOL` of it unbalanced,
+  reads near 0. It is off unless asked (`disturbance=True`) and changes no
+  verdict.
 - **Task.** One exact wrench per frame, given by the leader motion. There is
   no task set and no worst case over a set. Each frame is green, amber or
-  red, and, when asked (`margin=True`), carries its scale margin.
-- **Search.** Cross-entropy placement (`placement_search`, line 330) and a
+  red, and, when asked (`margin=True`, `disturbance=True`), carries its
+  scale margin and its disturbance margin.
+- **Search.** Cross-entropy placement (`placement_search`, line 349) and a
   permutation assignment of fingers to stations (`best_assignment`, line
-  383).
-- **Constants.** follow.py:74–99. They include `REACH_GREEN_M` 2 mm,
+  402).
+- **Constants.** follow.py:80–111. They include `REACH_GREEN_M` 2 mm,
   `REACH_AMBER_M` 10 mm, `FACE_GREEN_DEG` 30, `FACE_AMBER_DEG` 60,
-  `CONTACT_CONE_DEG` 85 (line 78), `IK_ITERS` 60 (line 82), `RESID_TOL`
-  (line 87), `RESPACE_DEG` 20 (line 91), `UNACT_TOL` (line 92),
-  `DEFLECT_MAX_M` 2 mm (line 93), `JOINT_STIFFNESS` 0 (line 94) and
-  `FACE_WEIGHT_M` 0.02 m per radian (line 95).
+  `CONTACT_CONE_DEG` 85 (line 84), `IK_ITERS` 60 (line 88), `RESID_TOL`
+  (line 93), `RESPACE_DEG` 20 (line 97), `UNACT_TOL` (line 98),
+  `DEFLECT_MAX_M` 2 mm (line 99), `JOINT_STIFFNESS` 0 (line 100),
+  `FACE_WEIGHT_M` 0.02 m per radian (line 101) and the disturbance
+  directions `DISTURB_DIRS` (line 106).
 - **Compliance.** Passive joint stiffness is in `_finger_columns`, as
   above. Passive tip stiffness also enters `readout.soft_hold_passive`
   (readout.py:197), used by `demos/passive.py`, as a spring force within a
@@ -192,12 +219,12 @@ GitHub. We did not download the official 2.6 zip, so the 2.6 source is
 |---|---|---|---|
 | `SGgraspMatrix` (G from contact points and object centre) | Maps contact forces to object wrench, w = −Gλ (T-RO eq 2) | `capability_core.direction_basis` (line 76) and `generators` (line 89); torques divided by a length L | Same object. We scale torque by L. |
 | `SGselectionMatrix`, `SGhMatrix` (contact type: hard finger, soft finger, full constraint) | Selects which wrench components a contact carries | Hard finger only, implicit in using the 3-row `jacp` | Same as their hard-finger type. We have no soft-finger type. |
-| `SGjacobianMatrix`, then J = H J̃ | Hand Jacobian at the contacts | `Jf = jacp[:, f.dof]` from `mj_jac` (follow.py:545) | Same. MuJoCo gives it; they build it from Denavit–Hartenberg chains. |
-| `SGdefineSynergies` (S, with qr = S z) | Inputs set a reference posture through S | E and the input columns C in `_finger_columns` (follow.py:599–630) | Different. Our E is a rigid coupling: q is exactly E z. Theirs is a reference that springs pull towards. |
+| `SGjacobianMatrix`, then J = H J̃ | Hand Jacobian at the contacts | `Jf = jacp[:, f.dof]` from `mj_jac` (follow.py:566) | Same. MuJoCo gives it; they build it from Denavit–Hartenberg chains. |
+| `SGdefineSynergies` (S, with qr = S z) | Inputs set a reference posture through S | E and the input columns C in `_finger_columns` (follow.py:623–654) | Different. Our E is a rigid coupling: q is exactly E z. Theirs is a reference that springs pull towards. |
 | `SGjointStiffness` (Kq), `SGcontactStiffness` (Ks), `SGsynergyStiffness` (Kz) | Springs at joints, contacts and inputs | Joint stiffness kq as passive columns in `_finger_columns`, within a deflection budget (default kq 0). Tip stiffness in `readout.soft_hold_passive` | Partly. Our kq bounds the torque a joint can hold; it does not solve for the deflection. We have no Ks or Kz. |
 | `SGquasistatic` (X = inv(Uq+Kq) Kq, and so on) | Solves the linearised system for a change in input | None. We test one static load per frame | Different question: they ask "what happens", we ask "can it hold". |
-| `SGgraspAnalysis`: E = orth(A B1), V = null(J), N = null(J') | Active internal forces, internal motions, structural forces | The joint balance Tr F λ = C x in `_torque_stack` (follow.py:685–712) | Related. Their N = null(J^T) is the handbook's "defective" class; ours is the torque that the input columns cannot reach. |
-| `SGcheckFriction`, `SGVcost` (barrier cost on the cone) | Checks friction, hard finger only | Per-finger cone test (follow.py:547) and the pyramid NNLS in `_redistribute` | Same test. We use an 8-edge pyramid with an outer bracket; they use the circular cone. |
+| `SGgraspAnalysis`: E = orth(A B1), V = null(J), N = null(J') | Active internal forces, internal motions, structural forces | The joint balance Tr F λ = C x in `_torque_stack` (follow.py:709–736) | Related. Their N = null(J^T) is the handbook's "defective" class; ours is the torque that the input columns cannot reach. |
+| `SGcheckFriction`, `SGVcost` (barrier cost on the cone) | Checks friction, hard finger only | Per-finger cone test (follow.py:568) and the pyramid NNLS in `_redistribute` | Same test. We use an 8-edge pyramid with an outer bracket; they use the circular cone. |
 | `SGminSVG`, `SGgraspIsotropyIndex`, `SGdistSingularConfiguration`, `SGmanipEllipsoidVolume`, `SGunifTransf` | Scalar quality indices from G and from H_O = (G^+)^T J | None. We give no scalar index | We could report these as extras, but they score a grasp, not a task. |
 | `SGkinManipulability`, `SGforceManipulability` | Ellipsoids under compliant synergies (RAS 2012 section 4) | None | Different: they describe a set; we test one wrench. |
 
@@ -325,7 +352,8 @@ task set, and with kq = 0 it reads 0 for every frame that fails the
 zero-torque rule, so it grades only the frames that pass it.
 
 **Verdict.** **Cite** as the origin of task-oriented grasp quality. The
-scale margin is done.
+scale margin is done. Its worst-direction companion, the disturbance
+margin, is also built (section 1).
 
 Related work, citation only:
 - Li Z, Hsu P, Sastry S. "Grasping and coordinated manipulation by a
@@ -585,6 +613,9 @@ Related work, citation only:
     (eq 24) to this paper, with the cone as an m-sided pyramid and two force
     bounds (L∞ per finger, L1 in total).
   - Our equivalent: the pyramid of primitive wrenches, our `generators`.
+    The largest-ball measure is the source of our disturbance margin
+    (section 1), taken about the leader's wrench rather than zero, sampled
+    along 12 axes, and limited by torque.
   - Verdict: **cite**. Effort: none.
 - **Pollard NS. "Parallel Methods for Synthesizing Whole-Hand Grasps from
   Generalized Prototypes".** MIT AI Technical Report AITR-1464, 1994.
@@ -961,6 +992,9 @@ predictive.
    wrench could grow and still be held, on the existing `_redistribute`
    system (Li and Sastry's β for a single wrench; the handbook's LP2 margin
    is the nearest published form).
+   A worst-direction disturbance margin followed on 25 October:
+   `_disturbance_margin` (section 1), the largest-ball measure limited by
+   torque, about the leader's wrench. Off by default.
 3. **Joint compliance from SynGrasp.** Partly done in commit fbf16fd: a
    finite kq lets each free joint hold torque within a deflection budget
    (section 2). Still to do: solve for the deflection, as SynGrasp's
@@ -986,6 +1020,9 @@ the anthropomorphism indices (they answer a different question).
 
 Do not cite these as fact until someone checks them.
 
+- Jeong and Cheong 2012 and Zheng and Yamane 2013, the torque-limited
+  wrench set behind our disturbance margin. We know them only through Roa
+  and Suárez 2015 and have not checked either.
 - The full texts of Li and Sastry 1987 and 1988. All Li and Sastry content
   here is from the 1986 memo.
 - The full texts of the SynGrasp ICRA 2013 and RAM 2015 papers.
