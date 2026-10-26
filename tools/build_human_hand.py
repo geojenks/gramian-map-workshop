@@ -19,6 +19,13 @@ offset for its last segment (+0.5 mm middle, +1 mm proximal). Muscles as
 the index's. Writes data/hands/measured_<name>/hand.xml (with --arch, the
 assumed arch below).
 
+--thumb PATH [--thumb-clip CLIP] (with --measured) places the thumb's base
+and points its metacarpal from measured keypoints (a thumb_base JSON, e.g.
+data/hands/measured/george_right_thumb_base_2026-10-26.json; default clip
+tennis_new_cup, the clip nearest the tennis-ball cup leader): the base offset
+from the index knuckle and the metacarpal direction of the held (gripping)
+frames. The thumb's curl direction stays ASSUMED (THUMB_CURL).
+
 --proportions gives each digit measured human proportions instead of copies
 of the index: Buryanov & Kotiuk 2010 (Int. J. Morphol. 28(3):755-758, Table
 I, X-ray bone lengths, 66 adults). Bone lengths are not the joint-to-joint
@@ -78,7 +85,21 @@ BK2010 = {"thumb": (21.67, None, 31.57, 46.22), "index": (15.82, 22.38, 39.78, 6
 THUMB_CMC_DEG = 32.0          # ASSUMED: direction of the thumb's base from the wrist
 
 
-def measured_geometry(path):
+def _from_keypoint_frame(v):
+    """Keypoint hand frame (x wrist->middle knuckle, y toward the thumb,
+    z back of the hand) -> this model's (x toward the thumb, y distal, z palmar)."""
+    return np.array([v[1], v[0], -v[2]], float)
+
+
+def measured_thumb(path, clip):
+    """(base offset from the index knuckle m, metacarpal direction) from a
+    thumb_base JSON (three-camera keypoints, held frames of one clip)."""
+    import json
+    c = json.load(open(path))["per_clip"][clip]
+    return _from_keypoint_frame(c["cmc_from_index_mcp_mm"]) / 1e3, _from_keypoint_frame(c["metacarpal_dir"])
+
+
+def measured_geometry(path, thumb=None):
     """From a hand_dimensions JSON: {finger: (knuckle xyz m, (Lp, Lm, Ld) m,
     radius m)} in the hand frame (wrist at the origin)."""
     import json
@@ -99,13 +120,18 @@ def measured_geometry(path):
     xy = {"index": v[0:2], "middle": np.array([0.0, v[2]]), "ring": v[3:5], "little": v[5:7]}
     a = math.radians(THUMB_CMC_DEG)
     xy["thumb"] = g("thumb wrist-CMC") * np.array([math.sin(a), math.cos(a)])
+    thumb_base = None
+    if thumb is not None:
+        off, _ = thumb
+        thumb_base = np.array([xy["index"][0], xy["index"][1], 0.0]) + off
     pads = {f: x / 1e3 for f, x in J["pad_offset_used_mm"].items()}
     out = {}
     for f in four + ["thumb"]:
         names = ("CMC-MCP", "MCP-IP", "IP-tip") if f == "thumb" else ("MCP-PIP", "PIP-DIP", "DIP-tip")
         L = tuple(g(f"{f} {n}") for n in names)
         z = THUMB_BASE[2] if f == "thumb" else 0.0
-        out[f] = (np.array([xy[f][0], xy[f][1], z]), L, pads[f])
+        p0 = thumb_base if (f == "thumb" and thumb_base is not None) else np.array([xy[f][0], xy[f][1], z])
+        out[f] = (p0, L, pads[f])
     return out
 
 
@@ -137,8 +163,9 @@ def _quat(R):
     return f"{w:.6f} {x:.6f} {y:.6f} {z:.6f}"
 
 
-def thumb_frame():
-    y = THUMB_DISTAL / np.linalg.norm(THUMB_DISTAL)
+def thumb_frame(distal=None):
+    y = THUMB_DISTAL if distal is None else np.asarray(distal, float)
+    y = y / np.linalg.norm(y)
     z = THUMB_CURL - (THUMB_CURL @ y) * y
     z /= np.linalg.norm(z)
     x = np.cross(y, z)
@@ -172,21 +199,22 @@ def _roll(deg):
     return np.array([[math.cos(a), 0, math.sin(a)], [0, 1, 0], [-math.sin(a), 0, math.cos(a)]])
 
 
-def build(column, arch=False, proportions=False, measured=None):
+def build(column, arch=False, proportions=False, measured=None, thumb=None):
     R_mm, F0, _ = vc.build(column)
     R_m = R_mm / 1e3
     joints = ["mcp_add", "mcp_flex", "pip", "dip"]
     names = list(FINGERS) + ["thumb"]
     bodies = ""
     if measured:
-        geo = measured_geometry(measured)
+        geo = measured_geometry(measured, thumb)
         for n in FINGERS:
             p0, L, r = geo[n]
             pos = (p0[0], p0[1], ARCH_PALMAR_M[n] if arch else 0.0)
             quat = _quat(_roll(ARCH_ROLL_DEG[n])) if arch else "1 0 0 0"
             bodies += finger_xml(n, pos, quat, 30.0, L, r, tip_at_end=True)
         p0, L, r = geo["thumb"]
-        bodies += finger_xml("thumb", p0, _quat(thumb_frame()), THUMB_ABD_DEG, L, r, tip_at_end=True)
+        bodies += finger_xml("thumb", p0, _quat(thumb_frame(thumb[1] if thumb else None)),
+                             THUMB_ABD_DEG, L, r, tip_at_end=True)
         palm = (f'<geom type="box" pos="{-0.008} {0.055} -0.010" size="0.045 0.055 0.010" mass="0.3"/>')
     else:
         for n, x in FINGERS.items():
@@ -206,7 +234,8 @@ def build(column, arch=False, proportions=False, measured=None):
                         f'ctrllimited="true" forcerange="0 {F0[k]:.4g}" forcelimited="true"/>')
     tag = ("_arch" if arch else "") + ("_prop" if proportions else "")
     if measured:
-        tag = "_measured_" + os.path.basename(measured).split("_20")[0] + ("_arch" if arch else "")
+        tag = ("_measured_" + os.path.basename(measured).split("_20")[0] + ("_arch" if arch else "")
+               + ("_thumb" if thumb else ""))
     xml = f"""<mujoco model="human_vc1998_{column}{tag}">
 <!-- generated by tools/build_human_hand.py ({column} column of Valero-Cuevas et al. 1998, Tables 1-2) -->
 <compiler angle="radian"/>
@@ -235,10 +264,15 @@ if __name__ == "__main__":
     ap.add_argument("--arch", action="store_true")
     ap.add_argument("--proportions", action="store_true")
     ap.add_argument("--measured", default=None, help="hand_dimensions JSON")
+    ap.add_argument("--thumb", default=None, help="thumb_base JSON (with --measured)")
+    ap.add_argument("--thumb-clip", default="tennis_new_cup")
     a = ap.parse_args()
-    print("wrote", build(a.column, a.arch, a.proportions, a.measured))
+    th = measured_thumb(a.thumb, a.thumb_clip) if a.thumb else None
+    print("wrote", build(a.column, a.arch, a.proportions, a.measured, th))
+    if th is not None:
+        print(f"   thumb base from the index knuckle {np.round(th[0] * 1e3, 1)} mm, metacarpal {np.round(th[1], 3)}")
     if a.measured:
-        for n, (p0, L, r) in measured_geometry(a.measured).items():
+        for n, (p0, L, r) in measured_geometry(a.measured, th).items():
             print(f"   {n:7s} base {np.round(p0 * 1e3, 1)} mm, segments {[round(x * 1e3, 1) for x in L]} mm, "
                   f"pad radius {r * 1e3:.1f} mm")
         raise SystemExit

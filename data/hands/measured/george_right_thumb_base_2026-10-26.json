@@ -1,0 +1,196 @@
+{
+ "source": [
+  "human_demo/derived/takes_2026-10-23/juggling_cup/take3_juggling_ball_hand_three_view.npz",
+  "human_demo/derived/takes_2026-10-23/tennis_new_cup/take3_tennis_ball_hand_three_view.npz",
+  "human_demo/derived/takes_2026-10-23/tennis_new_pinch/take3_tennis_ball_hand_three_view.npz",
+  "human_demo/derived/takes_2026-10-23/yellow_cup/take3_yellow_ball_hand_three_view.npz",
+  "human_demo/derived/takes_2026-10-23/yellow_pinch/take3_yellow_ball_hand_three_view.npz"
+ ],
+ "frames": "held frames (all gripping: cup or pinch; no rest frames exist), three-camera triangulation, frames with wrist, thumb CMC/MCP, index/middle/little knuckles and middle tip all triangulated",
+ "hand_frame": "origin wrist (joint 0); x wrist -> middle knuckle (joint 9); y = index knuckle - little knuckle (5 - 17), x part removed (towards the thumb side); z = x cross y",
+ "plus_z_is": "back of the hand",
+ "per_clip": {
+  "juggling_cup": {
+   "frames": 1564,
+   "cmc_from_wrist_mm": [
+    32.04,
+    25.908,
+    -21.925
+   ],
+   "cmc_from_index_mcp_mm": [
+    -73.807,
+    2.051,
+    -14.772
+   ],
+   "metacarpal_dir": [
+    0.82,
+    -0.105,
+    -0.563
+   ],
+   "metacarpal_azimuth_deg": -7.25,
+   "metacarpal_elevation_deg": -34.05,
+   "middle_tip_z_mm": -59.01
+  },
+  "tennis_new_cup": {
+   "frames": 910,
+   "cmc_from_wrist_mm": [
+    34.703,
+    26.239,
+    -21.812
+   ],
+   "cmc_from_index_mcp_mm": [
+    -74.559,
+    -2.001,
+    -14.523
+   ],
+   "metacarpal_dir": [
+    0.77,
+    -0.002,
+    -0.638
+   ],
+   "metacarpal_azimuth_deg": -0.11,
+   "metacarpal_elevation_deg": -38.85,
+   "middle_tip_z_mm": -51.12
+  },
+  "tennis_new_pinch": {
+   "frames": 1406,
+   "cmc_from_wrist_mm": [
+    32.309,
+    29.234,
+    -19.601
+   ],
+   "cmc_from_index_mcp_mm": [
+    -75.916,
+    6.806,
+    -11.534
+   ],
+   "metacarpal_dir": [
+    0.547,
+    0.357,
+    -0.757
+   ],
+   "metacarpal_azimuth_deg": 33.13,
+   "metacarpal_elevation_deg": -48.87,
+   "middle_tip_z_mm": -60.5
+  },
+  "yellow_cup": {
+   "frames": 923,
+   "cmc_from_wrist_mm": [
+    33.64,
+    24.225,
+    -21.435
+   ],
+   "cmc_from_index_mcp_mm": [
+    -76.049,
+    1.413,
+    -14.249
+   ],
+   "metacarpal_dir": [
+    0.756,
+    0.055,
+    -0.652
+   ],
+   "metacarpal_azimuth_deg": 4.08,
+   "metacarpal_elevation_deg": -40.52,
+   "middle_tip_z_mm": -41.2
+  },
+  "yellow_pinch": {
+   "frames": 1681,
+   "cmc_from_wrist_mm": [
+    25.086,
+    28.536,
+    -18.674
+   ],
+   "cmc_from_index_mcp_mm": [
+    -76.605,
+    3.588,
+    -13.43
+   ],
+   "metacarpal_dir": [
+    0.481,
+    0.384,
+    -0.789
+   ],
+   "metacarpal_azimuth_deg": 38.35,
+   "metacarpal_elevation_deg": -51.81,
+   "middle_tip_z_mm": -64.59
+  }
+ },
+ "cmc_from_wrist_mm_xyz": {
+  "median": [
+   32.309,
+   26.239,
+   -21.435
+  ],
+  "clip_min": [
+   25.086,
+   24.225,
+   -21.925
+  ],
+  "clip_max": [
+   34.703,
+   29.234,
+   -18.674
+  ]
+ },
+ "cmc_from_index_mcp_mm_xyz": {
+  "median": [
+   -75.916,
+   2.051,
+   -14.249
+  ],
+  "clip_min": [
+   -76.605,
+   -2.001,
+   -14.772
+  ],
+  "clip_max": [
+   -73.807,
+   6.806,
+   -11.534
+  ]
+ },
+ "metacarpal_dir_unit_xyz_cmc_to_mcp": {
+  "median": [
+   0.756,
+   0.055,
+   -0.652
+  ],
+  "clip_min": [
+   0.481,
+   -0.105,
+   -0.789
+  ],
+  "clip_max": [
+   0.82,
+   0.384,
+   -0.563
+  ]
+ },
+ "metacarpal_azimuth_deg_from_x_towards_thumb_side": {
+  "median": [
+   4.079
+  ],
+  "clip_min": [
+   -7.25
+  ],
+  "clip_max": [
+   38.347
+  ]
+ },
+ "metacarpal_elevation_deg_out_of_palm_plane_towards_plus_z": {
+  "median": [
+   -40.523
+  ],
+  "clip_min": [
+   -51.805
+  ],
+  "clip_max": [
+   -34.049
+  ]
+ },
+ "caveats": [
+  "CMC is a hand-model keypoint (WiLoR/MANO), placed inside the thenar flesh; it is the model's joint centre, not a measured bone end",
+  "read in the grip, not at rest: the clip range shows how far the metacarpal moves between grips"
+ ]
+}
