@@ -31,12 +31,14 @@ def main():
     ap.add_argument("--frames", type=int, default=40,
                     help="leader frames evaluated, spread over the recording")
     ap.add_argument("--tag", default="", help="suffix for the output file names")
+    ap.add_argument("--leader-id", default=None,
+                    help="a leader file in data/leaders/ by id, for every hand (e.g. a human demo)")
     ap.add_argument("--respace", action="store_true",
                     help="move stations round the ring to suit the hand")
     a = ap.parse_args()
     for hk in a.hands:
         n = len(HANDS[hk]["fingers"])
-        lid = LEADERS[a.leader].format(n=n)
+        lid = a.leader_id or LEADERS[a.leader].format(n=n)
         with open(os.path.join(ROOT, "data", "leaders", lid + ".json")) as f:
             L = json.load(f)
         t0 = time.time()
