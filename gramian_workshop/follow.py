@@ -60,7 +60,11 @@ With follow(margin=True), each frame also carries a scale_margin: the
 largest factor by which the leader's object wrench could grow and the
 contacts made still produce it (see _scale_margin). It does not change the
 verdict. It is off by default, as in readout.soft_hold(want_margin=False), because it
-makes a run several times slower.
+makes a run several times slower. With follow(disturbance=True), each frame
+also carries a disturbance_margin: the smallest extra push or twist on the
+object, on top of the leader's load, that the contacts made could no longer
+resist (see _disturbance_margin; also off by default, and also no change to
+the verdict).
 
 Simulation only; comparative, not predictive. The hand's own weight is not
 counted, and only position-level reach is checked (no collisions).
@@ -99,6 +103,12 @@ MARGIN_MAX = 1024.0        # proposed: scale margin search stops here (W20's gri
                            # ends at cap.SCALE_MAX = 16; the cup leaders clear that)
 MARGIN_REL = 0.01          # proposed: above that grid, bisect to this share of the
                            # margin (a failed solve there costs ~0.7 s)
+DISTURB_DIRS = [(i, sg) for i in range(6) for sg in (1.0, -1.0)]
+                           # proposed: disturbance directions, the 12 signed axes
+                           # of the scaled object wrench (push along x, y, z,
+                           # twist about x, y, z); their minimum is an upper
+                           # bound on the true smallest disturbance
+DISTURB_LABELS = ["fx", "fy", "fz", "tx", "ty", "tz"]
 
 
 # ----------------------------------------------------------------------
@@ -438,14 +448,15 @@ def torque_limits(hand, finger):
 
 def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
-           placement=None, joint_stiffness=None, margin=False):
+           placement=None, joint_stiffness=None, margin=False, disturbance=False):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
     respace: move stations round the ring to suit the hand; placement: a
     previous result's "placement" and "assignment" (and "respace_deg"), to
     re-evaluate without searching again; margin: give each frame a
-    scale_margin (see _scale_margin)."""
+    scale_margin (see _scale_margin); disturbance: give each frame a
+    disturbance_margin (see _disturbance_margin)."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -454,7 +465,7 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
         return _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol,
                        place or {}, wrist, respace, placement,
                        JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness),
-                       margin)
+                       margin, disturbance)
     finally:
         IK_ITERS = old_iters
 
@@ -493,7 +504,7 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 
 
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
-            respace, placement, kq, margin=True):
+            respace, placement, kq, margin=True, disturbance=False):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
@@ -586,9 +597,12 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                     x["state"] = "amber" if ok else "red"
         if margin:
             sm = _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol)
+        if disturbance:
+            dm = _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol)
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
                        "unserved": unserved, "fingers": per,
                        **({"scale_margin": sm} if margin else {}),
+                       **({"disturbance_margin": dm} if disturbance else {}),
                        **({"wrist_rad": wq} if wq is not None else {})})
     return {"hand": hand_key, "hand_name": hand.spec["name"],
             "leader": leader_json["id"], "placement_cost_mm": cost * 1e3,
@@ -598,7 +612,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "respace": respace, "reused_placement": placement is not None,
                          "strength": "input columns, one-sided where the model says (23 Oct)",
                          "joint_stiffness_Nm_per_rad": kq, "deflect_max_m": DEFLECT_MAX_M,
-                         "scale_margin": margin},
+                         "scale_margin": margin, "disturbance_margin": disturbance},
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
             "respace_deg": np.degrees(leader.phi).tolist(),
@@ -799,6 +813,83 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
         else:
             b = m
     out["margin"] = a
+    return out
+
+
+def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
+    """Smallest extra object wrench, added to the leader's and in any of
+    DISTURB_DIRS, that the made contacts can no longer produce with the
+    leader's one: the worst-direction margin of the largest-ball measure
+    (Ferrari & Canny 1992), with the torque limits of _redistribute (the
+    torque-limited variant; see docs/LITERATURE_REVIEW.md). The system of
+    _torque_stack, unchanged, with right-hand side ws + e*|ws|*d and the
+    tolerance of _redistribute, tol_frac*|ws|, held fixed (it does not grow
+    with e), so e = 0 is exactly _redistribute's torque test. The wrenches
+    that system can produce form a convex set, so along each direction the
+    feasible e form one run from 0: each direction is bisected (relative
+    MARGIN_REL, floor cap.BISECT_TOL), and a direction that holds at the
+    smallest e so far is skipped, as it cannot lower the minimum.
+
+    Returns {margin, leader_wrench, direction, capped}: margin is e as a
+    share of |ws|, the scaled leader wrench norm (torque / L, as W20), which
+    is leader_wrench; direction is the worst one ("+fx" a push along +x,
+    "-tz" a twist about -z, ...), None if none breaks it; capped if every
+    direction holds at MARGIN_MAX. Margin 0 if the leader's own load already
+    fails (direction, friction or torque). None with no contact or no torque
+    checked: without input limits the cones are unbounded, so a grip that
+    encloses the object would resist any disturbance. The margin runs
+    continuously from 0: a frame that only just passes at the leader's load
+    (unbalanced share near tol_frac) reads near 0. The ball's shape depends
+    on the L scaling of torque against force."""
+    tol_frac = RESID_TOL if resid_tol is None else resid_tol
+    if not pts or all(c_ is None for c_ in Js):
+        return None
+    pts, nrms = np.array(pts), np.array(nrms)
+    ws = cap.scale_wrench(W, L)
+    wn = float(np.linalg.norm(ws))
+    out = {"margin": 0.0, "leader_wrench": wn, "direction": None, "capped": False}
+    tol = max(tol_frac * wn, cap.FEAS_REL)
+    D = cap.direction_basis(pts, nrms, c, L)
+    x, *_ = np.linalg.lstsq(D, ws, rcond=None)
+    if np.linalg.norm(D @ x - ws) > tol:
+        return out
+    Gs, cidx, Fc = cap.generators(pts, nrms, c, mu, L)
+    if not _feasible(Gs, ws, tol)[0]:
+        return out
+    Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
+    tail = np.concatenate([np.zeros(nt), np.ones(nx)])
+
+    def held(i, sg, e):
+        w = ws.copy()
+        w[i] += sg * e * wn
+        return _feasible(Mx, np.concatenate([w, tail]), tol)[0]
+
+    if not held(0, 1.0, 0.0):
+        return out
+    best, worst = None, None
+    for i, sg in DISTURB_DIRS:
+        if best is None:
+            a, b = 0.0, 1.0
+            if held(i, sg, 1.0):
+                a = 1.0
+                while a < MARGIN_MAX and held(i, sg, 2 * a):
+                    a *= 2
+                if a >= MARGIN_MAX:
+                    best = a
+                    continue
+                b = 2 * a
+        else:
+            if held(i, sg, best):
+                continue
+            a, b = 0.0, best
+        while b - a > max(MARGIN_REL * a, cap.BISECT_TOL):
+            m = 0.5 * (a + b)
+            if held(i, sg, m):
+                a = m
+            else:
+                b = m
+        best, worst = a, ("+" if sg > 0 else "-") + DISTURB_LABELS[i]
+    out.update(margin=best, direction=worst, capped=worst is None)
     return out
 
 
