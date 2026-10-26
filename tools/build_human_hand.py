@@ -242,6 +242,7 @@ def build(column, arch=False, proportions=False, measured=None, thumb=None, wide
         kn = {n: np.array([geo[n][0][0], geo[n][0][1], ARCH_PALMAR_M[n] if arch else 0.0]) for n in FINGERS}
         segs_ = [(np.zeros(3), kn[n]) for n in FINGERS] + [(kn["index"], kn["middle"]), (kn["middle"], kn["ring"]),
                                                           (kn["ring"], kn["little"])]
+        segs_.append((np.zeros(3), np.array(geo["thumb"][0])))   # wrist to the thumb's base, as the skeleton has it
         palm = "".join(f'<geom type="capsule" fromto="{a[0]:.5f} {a[1]:.5f} {a[2]:.5f} {b[0]:.5f} {b[1]:.5f} {b[2]:.5f}" '
                        f'size="{PALM_RADIUS_M}" mass="0.04"/>' for a, b in segs_)
     else:

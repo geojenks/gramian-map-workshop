@@ -119,8 +119,8 @@ RESID_TOL = 0.05           # proposed: amber may leave this share of the
                            # acceleration of the object), as a fraction of its norm
 IK_DAMP = 1e-4
 RESPACE_DEG = 20.0         # proposed: how far a station may be moved round the ring
-PEN_GREEN_M = 0.001        # proposed: a pad may compress this far into the object
-PEN_AMBER_M = 0.003        # proposed: "close"
+PEN_GREEN_M = 0.003        # a pad may compress this far into the object (George 26 Oct, from his index: p90 ~6 mm)
+PEN_AMBER_M = 0.006        # "close" (George 26 Oct)
 PEN_WEIGHT = 1.0           # IK weight of the push-out row (as position)
 SIDE_GREEN_DEG = 90.0      # tangent contact: anywhere but the nail half (George 23 Oct)
 SIDE_AMBER_DEG = 120.0     # proposed: onto the edge of the nail half
