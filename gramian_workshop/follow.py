@@ -548,7 +548,10 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             near = res <= REACH_AMBER_M and face <= FACE_AMBER_DEG
             exact = res <= REACH_GREEN_M and face <= FACE_GREEN_DEG
             item = {"finger": f.label, "station": i, "reach_mm": res * 1e3,
-                    "facing_deg": face, "phalanx": "distal" if b == f.tip_body else "middle"}
+                    "facing_deg": face, "phalanx": "distal" if b == f.tip_body else "middle",
+                    # the solved pose, for rendering (tools/render_follow.py)
+                    "q": [float(x) for x in q], "target": p.tolist(), "pad_world": pw.tolist(),
+                    "pad_normal": nw.tolist()}
             if not near:
                 item["state"] = "red"
                 item["reason"] = "reach" if res > REACH_AMBER_M else "facing"
@@ -600,6 +603,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         if disturbance:
             dm = _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol)
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
+                       "ball_center": c.tolist(),
                        "unserved": unserved, "fingers": per,
                        **({"scale_margin": sm} if margin else {}),
                        **({"disturbance_margin": dm} if disturbance else {}),
