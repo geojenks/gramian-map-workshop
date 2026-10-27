@@ -736,7 +736,7 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
            placement=None, joint_stiffness=None, margin=False, disturbance=False,
            apply=False, apply_free=False, inertia=False, rate_limit=None,
-           lag_s=None):
+           lag_s=None, trajectory=False):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -751,7 +751,9 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     (per second, as a share of each actuator's limit) and lag_s (s): link
     each actuator's torque to the previous checked frame's (see _reach).
     Their link is only as tight as the checked frames are dense: n_eval sets
-    the time between them."""
+    the time between them. trajectory: also solve each run of checked frames
+    as one linear programme, with rate_limit and lag_s as rows between
+    frames (see trajectory.py; needs scipy); the result's "trajectory"."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -761,7 +763,7 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
                        place or {}, wrist, respace, placement,
                        JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness),
                        margin, disturbance, apply or apply_free, apply_free, inertia,
-                       rate_limit, lag_s)
+                       rate_limit, lag_s, trajectory)
     finally:
         IK_ITERS = old_iters
 
@@ -801,7 +803,8 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
             respace, placement, kq, margin=True, disturbance=False, apply=False,
-            apply_free=False, inertia=False, rate_limit=None, lag_s=None):
+            apply_free=False, inertia=False, rate_limit=None, lag_s=None,
+            trajectory=False):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
@@ -831,6 +834,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
     # in the force check there, taken as 0), and that frame's time
     u_state, t_prev = [None] * len(hand.fingers), None
     frames = []
+    if trajectory:
+        from . import trajectory as tj
+        recs = []
     for k in ks:
         made = leader.made(k)
         dt = None
@@ -926,6 +932,10 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             Js_act.append(_finger_columns(hand, f, iks[a], M, lim, Jf, pw, 0.0)
                           if apply and kq > 0 and M is not None else cols)
             fingers_on.append(a)
+        if trajectory:
+            recs.append(tj.frame_record(k, float(leader.frames[k]["t"]), pts, nrms, Js, c, W,
+                                        mu, L, taus if inertia else None, fingers_on,
+                                        [x[1] for x in lims], resid_tol))
         unserved = [i for i in made if i not in assign]
         need_redistribute = unserved or leader.respaced or \
             any(x.get("state") == "amber?" for x in per)
@@ -992,12 +1002,15 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "apply_limit": apply, "apply_limit_free": apply_free,
                          "inertia": inertia,
                          **({"fit_half_s": FIT_HALF_S} if inertia else {}),
-                         "rate_limit_per_s": rate_limit, "lag_s": lag_s},
+                         "rate_limit_per_s": rate_limit, "lag_s": lag_s,
+                         **({"trajectory": True} if trajectory else {})},
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
             "respace_deg": np.degrees(leader.phi).tolist(),
             "placement": {"rotation_matrix": Rw.tolist(), "translation_m": t.tolist()},
-            "frames": frames}
+            "frames": frames,
+            # off: no key at all, so earlier outputs reproduce exactly
+            **({"trajectory": tj.check(recs, rate_limit, lag_s)} if trajectory else {})}
 
 
 def _finger_columns(hand, finger, ik, M, lim, Jf, p_contact, kq):

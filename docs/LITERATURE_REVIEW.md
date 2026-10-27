@@ -1329,6 +1329,158 @@ limits, stated plainly:
   solution can pass its box by about the solver's residual.
 - **No resonance.** A rate limit and a first-order lag cannot ring.
 
+*27 Oct 2026: a whole-motion check of the same link, off by default.*
+The link above carries one solution from frame to frame. That can be too
+harsh: of the many force sets that hold a frame, the one carried may leave
+the next frame out of reach when another would not, and a frame that fails
+passes its least-bad attempt on. So an actuator able to hold the frames on
+either side of a hard stretch, by taking a different path through it, can
+be failed by the chain. `follow(trajectory=True)` (scipy needed:
+`pip install -e .[trajectory]`) asks instead whether one input history
+holds every checked frame of a run at once. A run is a stretch of
+consecutive checked frames that each hold on their own. All its frames go
+into one linear programme, with the rate and lag rows between consecutive
+frames' net torques. Each frame keeps the torque stack of the existing
+test, with an L1 budget on its residual, so it is never looser than the
+existing test. The result's `trajectory` entry gives three readings, from
+most to least forgiving, and keeps the chain for comparison:
+
+- **Each frame alone** (`unlinked_holds`, `unlinked_margin`): no link.
+- **Each pair of neighbouring frames** (`pairs`): an optimistic bound. A
+  run's margin is never above the margin of any pair inside it, and a
+  pair's is never above either frame's alone.
+- **The whole run** (`runs`): whether it holds at scale 1, and if not, the
+  first frame at which it stops holding; and one scale margin for all its
+  frames together. That margin is set by the run's weakest frame, so
+  compare it with the weakest frame's margin under the other tests, not
+  frame by frame.
+- **The chain, redone with this test** (`chain_lp_holds`,
+  `chain_lp_margin`): usually the harshest reading, but not a strict
+  bound. Its input box sits inside the residual, as follow's does (above),
+  while the run's link rows are hard, so the chain can take a step the
+  run cannot, by up to the residual budget.
+
+`per_frame=True` in `trajectory.check` also gives each frame's margin with
+the rest of its run held at scale 1 (`trajectory_margin`). This is a test
+of a one-frame spike, not a bound on the run's margin either way; it
+searches every scale point and is slow.
+
+The limits, stated plainly:
+
+- **The chain here carries one solution of many**, as follow's does, but
+  not the same one: the linear programme returns a corner of the set that
+  holds, the least-squares solver another point. The two chains agree in
+  pattern, not frame by frame.
+- **The chain's box is soft; the run's link is hard.** A chain solve can
+  leave its input box and pay for it from the residual budget, the same
+  budget that absorbs numerical error. Where the rate step is small next
+  to that budget, the excess is a real share of the step (the example
+  below is about a quarter). Making the box hard, or the run's link rows
+  soft, would make the two comparable; neither is done here.
+- **Solver verdicts.** HiGHS sometimes ends with no verdict. Such a solve
+  is tried again without presolve, then by interior point; one still
+  without a verdict counts as failing. The readout counts both
+  (`lp.retried`, `lp.other_status`).
+- **At a zero-wrench frame** the budget is the 1e-9 floor, and HiGHS's own
+  feasibility tolerance (about 1e-7) is coarser. That could be looser than
+  the existing test only where joint torque is needed at zero wrench; no
+  stored record has such a frame.
+- **Palm penetration and unserved stations** are reported by follow as
+  before; they are not part of whether a run holds.
+- **The time constants are illustrative**, as above.
+
+What it shows, on the dense cases used for the link above (the four human
+hands on the tennis-ball demonstration at 300 checked frames, and the
+robot hands on the 10-step cup wave), with lags of 0.03, 0.1 and 0.3 s and
+rate limits of 1 and 3 per second:
+
+Each entry is a median over runs of two or more frames. For each run, it
+is the weakest frame's margin under that test, divided by the run's
+margin. Below 1, the test is harsher than the whole run; above 1, more
+forgiving. The NNLS chain is follow's own banked chain; on the human
+hands it was run only at lag 0.1 s and rate 3 per second. The leap hand
+has no run of two or more frames on this wave. Made by
+`tools/trajectory_sweep.py` and `tools/trajectory_summary.py --table`.
+
+| hand | link | runs | LP chain | NNLS chain | pair | unlinked |
+|---|---|---|---|---|---|---|
+| allegro | lag 0.03 s | 4 | 0.657 | 0.723 | 1 | 1 |
+| allegro | lag 0.1 s | 4 | 0.276 | 0.309 | 1 | 1 |
+| allegro | lag 0.3 s | 4 | 0.103 | 0.123 | 1 | 1 |
+| allegro | rate 1 /s | 4 | 0.0365 | 0.051 | 1 | 1 |
+| allegro | rate 3 /s | 4 | 0.0983 | 0.118 | 1 | 1 |
+| human, clip skeleton | lag 0.03 s | 27 | 0.942 | - | 1 | 1 |
+| human, clip skeleton | lag 0.1 s | 27 | 0.663 | 0.722 | 1 | 1.18 |
+| human, clip skeleton | lag 0.3 s | 27 | 0.636 | - | 1 | 2.7 |
+| human, clip skeleton | rate 1 /s | 27 | 0.641 | - | 1 | 6.67 |
+| human, clip skeleton | rate 3 /s | 27 | 0.561 | 0.832 | 1 | 2.22 |
+| human, measured | lag 0.03 s | 42 | 0.931 | - | 1 | 1 |
+| human, measured | lag 0.1 s | 42 | 0.646 | 0.706 | 1 | 1.08 |
+| human, measured | lag 0.3 s | 42 | 0.562 | - | 1 | 1.98 |
+| human, measured | rate 1 /s | 42 | 0.48 | - | 1 | 4.5 |
+| human, measured | rate 3 /s | 42 | 0.483 | 0.854 | 1 | 1.5 |
+| human, measured, wide ranges | lag 0.03 s | 41 | 0.899 | - | 1 | 1 |
+| human, measured, wide ranges | lag 0.1 s | 41 | 0.569 | 0.602 | 1 | 1.07 |
+| human, measured, wide ranges | lag 0.3 s | 41 | 0.485 | - | 1 | 2.11 |
+| human, measured, wide ranges | rate 1 /s | 41 | 0.451 | - | 1 | 4.84 |
+| human, measured, wide ranges | rate 3 /s | 41 | 0.423 | 0.64 | 1 | 1.62 |
+| human, measured thumb base | lag 0.03 s | 22 | 0.966 | - | 1 | 1 |
+| human, measured thumb base | lag 0.1 s | 22 | 0.613 | 0.642 | 1 | 1 |
+| human, measured thumb base | lag 0.3 s | 22 | 0.384 | - | 1 | 1.33 |
+| human, measured thumb base | rate 1 /s | 22 | 0.347 | - | 1 | 2 |
+| human, measured thumb base | rate 3 /s | 22 | 0.367 | 1.01 | 1 | 1 |
+| l20 | lag 0.03 s | 31 | 0.736 | 0.763 | 1 | 1.12 |
+| l20 | lag 0.1 s | 31 | 0.363 | 0.377 | 1 | 1.26 |
+| l20 | lag 0.3 s | 31 | 0.33 | 0.334 | 1 | 2.75 |
+| l20 | rate 1 /s | 31 | 0.492 | 0.525 | 1 | 9.33 |
+| l20 | rate 3 /s | 31 | 0.358 | 0.393 | 1 | 3.16 |
+| shadow | lag 0.03 s | 7 | 1 | 1.53 | 1 | 1 |
+| shadow | lag 0.1 s | 7 | 1 | 1.53 | 1 | 1 |
+| shadow | lag 0.3 s | 7 | 1 | 1.53 | 1 | 1 |
+| shadow | rate 1 /s | 7 | 1 | 1.53 | 1 | 1 |
+| shadow | rate 3 /s | 7 | 1 | 1.53 | 1 | 1 |
+
+What this says:
+
+- **The chain is too harsh, often by a lot.** Both chains fail runs that
+  one input history can hold. On the human hands the gap widens as the
+  link tightens: about 0.9 to 0.97 of the run margin at a 0.03 s lag,
+  0.35 to 0.64 at a rate limit of 1 per second. On allegro it is far
+  worse (0.04 at rate 1). The LP chain is harsher than follow's NNLS
+  chain in every row, most at rate 3 per second. Shadow is the exception:
+  its runs are set by a frame that no link changes, so every LP reading
+  agrees. Its NNLS figure of 1.53 is a difference between the two tests,
+  not the link: on shadow the LP margin of a frame alone is about 0.6 of
+  follow's.
+- **Neighbouring pairs usually find the run's margin.** In every setting
+  the weakest pair is within 2% of the run's margin in at least 59% of
+  runs (fewest on the clip-skeleton hand at rate 1 per second); in the
+  rest the whole run is harsher, by up to about three times. So the
+  pairwise check is a good cheap first pass, but not the answer.
+- **Ignoring the link is too forgiving**, by up to about nine times on l20
+  at rate 1 per second.
+- **The orderings held** in 39 of the 40 settings: no run above its pairs,
+  no pair above its frames alone, and no chain holding through a run's
+  break. The one exception is l20 at rate 1 per second. Its chain holds
+  frame 169, where the run 168 to 173 first breaks and the pair 168 to 169
+  has margin 0.995. There the chain moves one actuator's net torque by
+  0.0408 against a rate step of 0.032. Its wrench and joint residuals are
+  zero; the 0.0088 excess is paid from the box residual, inside a budget
+  of 0.030 (`tools/trajectory_box_check.py l20 1 169`). This is the soft
+  box described above. The same check found
+  chain solves outside their box in 18 of 326 boxed solves on l20 at rate
+  1, and 4 of 414 on the measured human hand at rate 1 (both counts
+  include repeats from the margin search).
+- **Solver verdicts.** The retry cleared every no-verdict solve on l20
+  (up to 7 in a setting before it). Two remain on the measured human hand
+  at a 0.03 s lag, counted as failing. No margin changed with the retry.
+- **A one-frame spike** (`per_frame=True`, at lag 0.1 s) is usually easier
+  than lifting the whole run: the per-frame margin over the run margin has
+  median 1.79 on the measured human hand and 1.47 with wide ranges. Their
+  10th percentiles, 0.98 and 0.85, are below 1 because some runs do not
+  hold at scale 1, so holding the rest at 1 is the harder ask. The other
+  two human hands were not run.
+
 The literature also makes plain these limits of our tool.
 
 - **Polyhedral cones add direction-dependent artefacts**, by the reading

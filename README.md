@@ -34,6 +34,9 @@ pip install -e ".[hands]"
 python tools/fetch_hands.py
 ```
 
+The whole-motion check, `follow(trajectory=True)`, also needs scipy:
+`pip install -e ".[trajectory]"`.
+
 Install from a clone, not with `pip install git+https://...`: the demos read
 `data/` and write `outputs/` inside the repository.
 
