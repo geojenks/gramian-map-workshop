@@ -80,6 +80,8 @@ record, not against the physics: the settle audit in the M-11 project
 found simulated records under-state stroke by 10 to 82% and blocked force
 by 10 to 24%. The fit report says so.
 
+Blocked force size is reported, not gated (ruled 27 Oct 2026, for now).
+
 ## The hand file
 
 A plain file that builds a hand from records:
