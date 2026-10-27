@@ -40,6 +40,9 @@ what would a workshop task set need?
   (`LITERATURE_REVIEW.md`, section 8, "What a static check cannot see").
   So such a set should not be called a dynamic benchmark until those are in
   (issue 15 already asks for this in the talk).
+  *27 October: finger inertia is now an option in `follow.py`, off by
+  default (commit 027dd1a). Time-linked limits and contact changes are
+  still missing.*
 
 ## How the sources were read
 
@@ -268,7 +271,9 @@ also where the earlier review placed `follow.py` (section 8 of
 dynamic load. Tasks where finger inertia, actuator speed or contact changes
 decide success are not tested yet. These include spinning, catching and
 fast regrasps. The set should say so, and not claim to be a dynamic
-benchmark until those are in.
+benchmark until those are in. *27 October: finger inertia is now an
+option in `follow.py`, off by default (commit 027dd1a); actuator speed
+and contact changes are still not tested.*
 
 **Grouping by application.**
 
@@ -400,8 +405,8 @@ How the paper applies it:
 
 | Work | Draws on | Tasks | Hands scored | Forces | Read |
 |---|---|---|---|---|---|
-| Coulson, Li, Majidi and Pollard 2021, "The Elliott and Connolly Benchmark" (IEEE-RAS Humanoids), DOI 10.1109/humanoids47582.2021.9555798 | Elliott and Connolly | 13 patterns, mostly with YCB objects | one (CMU Foam Hand III, 10 of 13 patterns), with a human baseline | no | [abstract]; Shilati et al. add that rotation and translation are normalised by finger length |
-| Zhou et al. 2020, "50 Benchmarks for Anthropomorphic Hand Function-based Dexterity Classification and Kinematics-based Hand Design" (IEEE/RSJ IROS), DOI 10.1109/IROS45743.2020.9340982 | Feix's grasps; Bullock's categories, according to Shilati et al. | 50, including in-hand moves along the hand's axes | one (a soft hand with 22 degrees of freedom) | no | [abstract] |
+| Coulson, Li, Majidi and Pollard 2021, "The Elliott and Connolly Benchmark" (IEEE-RAS Humanoids), DOI 10.1109/humanoids47582.2021.9555798 | Elliott and Connolly | 13 patterns; Shilati et al. and POMDAR say mostly with YCB objects | one (CMU Foam Hand III, 10 of 13 patterns), with a human baseline | no | [abstract]; Shilati et al. add that rotation and translation are normalised by finger length |
+| Zhou et al. 2020, "50 Benchmarks for Anthropomorphic Hand Function-based Dexterity Classification and Kinematics-based Hand Design" (IEEE/RSJ IROS), DOI 10.1109/IROS45743.2020.9340982 | Feix's grasps; Bullock's categories, according to Shilati et al. | 50; POMDAR says the in-hand ones move along Cartesian axes | one (a soft hand with 22 degrees of freedom) | no | [abstract] |
 | POMDAR (Liconti et al. 2026), arXiv 2604.09294 | Elliott and Connolly's patterns, Ma and Dollar's pivoting, Feix's grasps; Bullock for the overall split | 12 manipulation and 6 grasping tasks | four versions of the ORCA hand | no | [full text read] |
 
 Shilati et al. 2026, "Benchmarking Dexterity of Multifingered Robot Hands:
