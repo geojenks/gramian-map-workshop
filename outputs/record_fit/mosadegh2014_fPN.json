@@ -1,0 +1,180 @@
+{
+ "record": "mosadegh2014_fPN",
+ "schema_version": "0.2",
+ "status": "fitted",
+ "slide_rule": "no forward motion or axial blocked force",
+ "length_source": "fitted from the free path (not recorded)",
+ "fit": {
+  "n_hinges": 3,
+  "slide": false,
+  "length_m": 0.09415426613555004,
+  "length_fitted": true,
+  "ratios": [
+   0.02481048015755307,
+   0.4206068519806295,
+   0.5545826678618174
+  ],
+  "a": [
+   -1.4173383946646436,
+   -2.490446883671529,
+   -7.785312306273845,
+   -3.8856630553199847,
+   -4.404290890589304
+  ],
+  "u": [
+   15000.0,
+   30000.0,
+   45000.0,
+   60000.0,
+   72000.0
+  ],
+  "free_err_m": [
+   0.00027895974356597963,
+   0.0002284495928201829,
+   6.562070699293797e-07,
+   0.0001618206097680793,
+   9.181604836344894e-05
+  ],
+  "free_err_max_m": 0.00027895974356597963,
+  "n_params": 8
+ },
+ "free_out_of_plane_max_m": 0.0,
+ "springs": {
+  "k": [
+   0.057757050212711054,
+   0.057757050212711054,
+   0.057757050212711054
+  ],
+  "note": "one spring scale fitted to the blocked force size (k_h = 0.05776 N m/rad)",
+  "units": "slide N/m, hinges N m/rad"
+ },
+ "blocked": [
+  {
+   "u": 344.0,
+   "pred_push_N": [
+    0.0,
+    -0.006281792556307149
+   ],
+   "pred_mag_N": 0.006281792556307149,
+   "large_deflection": {
+    "push_N": [
+     0.0,
+     -0.006282035280351601
+    ],
+    "stable": true,
+    "converged": true,
+    "max_joint_rad": 0.01461295307442992,
+    "small_motion_max_joint_rad": 0.014612838226643075
+   },
+   "rec_mag_N": 0.0096,
+   "mag_ratio_pred_over_rec": 0.6543533912819948
+  },
+  {
+   "u": 19846.0,
+   "pred_push_N": [
+    0.0,
+    -0.34091596451226197
+   ],
+   "pred_mag_N": 0.34091596451226197,
+   "large_deflection": {
+    "push_N": [
+     0.0,
+     -0.3854013121171393
+    ],
+    "stable": true,
+    "converged": true,
+    "max_joint_rad": 0.8149906515255797,
+    "small_motion_max_joint_rad": 0.7930459010932821
+   },
+   "rec_mag_N": 0.2059,
+   "mag_ratio_pred_over_rec": 1.6557356217205534
+  },
+  {
+   "u": 34873.0,
+   "pred_push_N": [
+    0.0,
+    -0.8137368250062699
+   ],
+   "pred_mag_N": 0.8137368250062699,
+   "large_deflection": {
+    "push_N": [
+     0.0,
+     -0.4584366067734936
+    ],
+    "stable": true,
+    "converged": true,
+    "max_joint_rad": 2.413053006890752,
+    "small_motion_max_joint_rad": 1.892931750976046
+   },
+   "rec_mag_N": 0.4312,
+   "mag_ratio_pred_over_rec": 1.8871447704227036
+  },
+  {
+   "u": 55038.0,
+   "pred_push_N": [
+    0.0,
+    -1.0002514362120472
+   ],
+   "pred_mag_N": 1.0002514362120472,
+   "large_deflection": {
+    "push_N": [
+     0.0,
+     86.90829686031817
+    ],
+    "stable": false,
+    "converged": true,
+    "max_joint_rad": 29.292174217295454,
+    "small_motion_max_joint_rad": 2.3268059701618977
+   },
+   "rec_mag_N": 0.89,
+   "mag_ratio_pred_over_rec": 1.1238780182157833
+  },
+  {
+   "u": 72662.0,
+   "pred_push_N": [
+    0.0,
+    -0.8511749819627193
+   ],
+   "pred_mag_N": 0.8511749819627193,
+   "large_deflection": {
+    "push_N": [
+     0.0,
+     87.28986447922995
+    ],
+    "stable": false,
+    "converged": true,
+    "max_joint_rad": 29.295995486578953,
+    "small_motion_max_joint_rad": 1.980021180657862
+   },
+   "rec_mag_N": 1.4005,
+   "mag_ratio_pred_over_rec": 0.6077650710194354
+  }
+ ],
+ "blocked_hold": "tip held in Y; X is carried by the structure (hinge-only)",
+ "counts": {
+  "free_numbers": 10,
+  "blocked_numbers": 5,
+  "stiffness_numbers": 0,
+  "free_params": 8,
+  "spring_params": 1,
+  "stiffness_numbers_used_for_springs": 0
+ },
+ "checks": {
+  "free_path": {
+   "worst_err_m": 0.00027895974356597963,
+   "stroke_m": 0.08441514220801859,
+   "share_of_stroke": 0.003304617350268247,
+   "pass": true
+  },
+  "blocked_size": {
+   "compared": "hypot(axial, transverse) magnitude; axis of the source gauge not stated, compared with |predicted push|",
+   "fitted": true,
+   "note": "one scale fitted, so only the shape across levels is tested"
+  },
+  "blocked_direction": {
+   "pass": null,
+   "note": "not possible: record gives no direction"
+  }
+ },
+ "pass": true
+}

@@ -1,0 +1,63 @@
+Stand-in finger fit check (docs/RECORD_FINGER_DESIGN.md).
+Tolerances measure the stand-in against the record, not the physics: simulated records under-state stroke and blocked force (M-11 settle audit).
+
+== wall_0.0010m  (fitted)
+  stand-in: slide + 3 hinges; slide rule: free tip moves forward (+X) at some level
+  length 0.06982 m (shape.spine_rest_m, last point x)
+  joint ratios r: 0.01023, 0.4348, 0.5652, 2.385e-09  (slide in m/rad first)
+  free path: worst 0.687 mm = 0.81% of stroke -> PASS (tol 5%)
+  springs: 322.8, 0.04177, 0.04177, 0.04177  [slide N/m, hinges N m/rad]; springs from stiffness at u=0 (k_y=5.509 N/m, k_x=322.8 N/m)
+  blocked: tip held in X and Y
+  blocked u=10: pred (0.09184, 0.008679) N, rec (0.05137, 0.001492) N, angle 3.73 deg, |pred|/|rec| 1.8
+      large-deflection check: (0.09177, 0.008703) N, joints up to 0.00614 rad (small-motion 0.00604)
+  blocked u=20: pred (0.2156, 0.02038) N, rec (0.1119, 0.003156) N, angle 3.78 deg, |pred|/|rec| 1.94
+      large-deflection check: (0.2152, 0.02051) N, joints up to 0.0147 rad (small-motion 0.0142)
+  blocked u=30: pred (0.3489, 0.03297) N, rec (0.1758, 0.00479) N, angle 3.84 deg, |pred|/|rec| 1.99
+      large-deflection check: (0.3477, 0.03334) N, joints up to 0.0244 rad (small-motion 0.023)
+  blocked u=40: pred (0.491, 0.0464) N, rec (0.2423, 0.006365) N, angle 3.89 deg, |pred|/|rec| 2.03
+      large-deflection check: (0.4884, 0.04715) N, joints up to 0.0353 rad (small-motion 0.0323)
+  blocked direction: worst 3.89 deg -> PASS (tol 10 deg)
+  blocked size: predicted from stiffness and free path; reported, not gated (no tolerance ruled)
+  tip stiffness u=0: k_y pred 5.509 rec 5.509 N/m; k_x pred 322.8 rec 322.8
+  tip stiffness u=100: k_y pred 6.134 rec 3.079 N/m; k_x pred 48.66 rec 334.5
+  tip stiffness u=200: k_y pred 9.475 rec 12.09 N/m; k_x pred 13.49 rec 40.2
+  force above u=40 is extrapolated from the free-path drive curve
+  out-of-plane free motion (left out): max 0.158 mm
+  numbers supplied / fitted: {"free_numbers": 398, "blocked_numbers": 8, "stiffness_numbers": 6, "free_params": 202, "spring_params": 0, "stiffness_numbers_used_for_springs": 2}
+  small-motion joint angles reach 0.0323 rad; where they are not small the blocked prediction is outside its range
+  blocked size |pred|/|rec| spans 1.8 to 2.03 across levels (not gated)
+  FIT CHECK (free path and force direction, the ruled tolerances): PASS
+  free-path error against hinge count (no slide): N=2: 14.74% (L 0.0698 m, 200 params / 398 numbers); N=3: 14.73% (L 0.0698 m, 201 params / 398 numbers); N=4: 14.74% (L 0.0698 m, 202 params / 398 numbers); N=5: 14.73% (L 0.0698 m, 203 params / 398 numbers)
+  free-path error against hinge count (with slide): N=2: 1.10% (L 0.0698 m, 201 params / 398 numbers); N=3: 0.81% (L 0.0698 m, 202 params / 398 numbers); N=4: 0.57% (L 0.0698 m, 203 params / 398 numbers); N=5: 0.41% (L 0.0698 m, 204 params / 398 numbers)
+
+== mosadegh2014_fPN  (fitted)
+  stand-in: 3 hinges; slide rule: no forward motion or axial blocked force
+  length 0.09415 m (fitted from the free path (not recorded))
+  joint ratios r: 0.02481, 0.4206, 0.5546
+  free path: worst 0.279 mm = 0.33% of stroke -> PASS (tol 5%)
+  springs: 0.05776, 0.05776, 0.05776  [slide N/m, hinges N m/rad]; one spring scale fitted to the blocked force size (k_h = 0.05776 N m/rad)
+  blocked: tip held in Y; X is carried by the structure (hinge-only)
+  blocked u=344: pred (0, -0.006282) N, |pred|/|rec| 0.654
+      large-deflection check: (0, -0.006282) N, joints up to 0.0146 rad (small-motion 0.0146)
+  blocked u=19846: pred (0, -0.3409) N, |pred|/|rec| 1.66
+      large-deflection check: (0, -0.3854) N, joints up to 0.815 rad (small-motion 0.793)
+  blocked u=34873: pred (0, -0.8137) N, |pred|/|rec| 1.89
+      large-deflection check: (0, -0.4584) N, joints up to 2.41 rad (small-motion 1.89)
+  blocked u=55038: pred (0, -1) N, |pred|/|rec| 1.12
+      large-deflection check: (0, 86.91) N, joints up to 29.3 rad (small-motion 2.33), UNSTABLE
+  blocked u=72662: pred (0, -0.8512) N, |pred|/|rec| 0.608
+      large-deflection check: (0, 87.29) N, joints up to 29.3 rad (small-motion 1.98), UNSTABLE
+  blocked direction: not possible: record gives no direction
+  blocked size: one scale fitted, so only the shape across levels is tested
+  out-of-plane free motion (left out): max 0 mm
+  numbers supplied / fitted: {"free_numbers": 10, "blocked_numbers": 5, "stiffness_numbers": 0, "free_params": 8, "spring_params": 1, "stiffness_numbers_used_for_springs": 0}
+  large-deflection balance unstable or unconverged at some level: the small-motion prediction is the one used
+  small-motion joint angles reach 2.33 rad; where they are not small the blocked prediction is outside its range
+  blocked size |pred|/|rec| spans 0.608 to 1.89 across levels (not gated)
+  FIT CHECK (free path and force direction, the ruled tolerances): PASS
+  free-path error against hinge count (no slide): N=2: 1.76% (L 0.0612 m, 7 params / 10 numbers); N=3: 0.33% (L 0.0942 m, 8 params / 10 numbers); N=4: 0.38% (L 0.124 m, 9 params / 10 numbers); N=5: 0.38% (L 0.0679 m, 10 params / 10 numbers)
+  free-path error against hinge count (with slide): N=2: 1.35% (L 0.061 m, 8 params / 10 numbers); N=3: 0.03% (L 0.0635 m, 9 params / 10 numbers); N=4: 0.08% (L 0.0643 m, 10 params / 10 numbers); N=5: 0.00% (L 0.252 m, 11 params / 10 numbers)
+
+== shadow_hand_finger  (refused)
+  no free path in the record (free, blocked and stiffness: absent, absent, absent)
+

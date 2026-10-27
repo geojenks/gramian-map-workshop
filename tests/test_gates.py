@@ -85,7 +85,7 @@ class Smoke(unittest.TestCase):
             self.assertEqual(ar.validate(rec)[0], [], e["file"])
 
     def test_every_record_loads(self):
-        self.assertEqual(len(all_fingers()), 22)
+        self.assertEqual(len(all_fingers()), 27)   # 22 + 5 published-data records imported 27 Oct
 
 
 if __name__ == "__main__":
