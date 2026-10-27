@@ -74,8 +74,11 @@ A stand-in that fails is still written, flagged, and its verdicts carry
 the flag. Records with few levels (Mosadegh has five) will give coarse
 fits, and the check shows that rather than hiding it.
 
-**Tolerances need a ruling.** None is sourced yet. Proposal to rule on:
-free path within 5% of stroke, force direction within 10 degrees.
+**Tolerances (ruled 27 Oct 2026):** free path within 5% of stroke, force
+direction within 10 degrees. These measure the stand-in against the
+record, not against the physics: the settle audit in the M-11 project
+found simulated records under-state stroke by 10 to 82% and blocked force
+by 10 to 24%. The fit report says so.
 
 ## The hand file
 
@@ -140,3 +143,61 @@ This edit waits until the apply-side wrench work in `follow.py` is on
 2. The hand file and the build tool; one hand of three stand-ins.
 3. The spring term in `follow.py`, after the apply-side wrench work lands.
 4. Checks 2 to 4 above, then the record-built hand on the cup tasks.
+
+## Amended 27 Oct 2026, after reading the records
+
+Reading the three example records changed four parts of the design above.
+Where this section and the text above disagree, this section wins.
+
+**The pneunet extends as well as bends.** `wall_0.0010m`'s blocked force
+points almost entirely along the finger (canonical X); its sideways part
+is a few per cent. Its free path also moves the tip forward at low
+pressure, which bending alone cannot do (bending pulls the tip back). A
+chain of hinges held straight at the tip pushes only sideways, so it would
+miss the blocked-force direction by close to 90 degrees. The stand-in is
+therefore built from hinges, a slide along X, or both, chosen by what the
+record's free path and blocked force show. "Bending records" and "axial
+records" above become one case.
+
+**What the fit actually fits.** The free path is motion only: it fixes how
+far each joint moves at each input, in ratios fixed across the input, and
+says nothing about stiffness. Because the drive does not depend on pose
+(stated below), one drive curve serves both the free and blocked cases.
+So:
+
+1. The free path fixes the joint motions against input, and through the
+   springs, the drive.
+2. The springs are the only parameters left. They are set from the
+   record's `stiffness` block where it exists; otherwise fitted to the
+   blocked force size.
+3. The blocked force, both size and direction, is then a prediction: the
+   tip is pinned at rest, the joints left free settle under drive and
+   springs, and the reaction is read off.
+
+One spring for all hinges (plus one for the slide) to start; one per
+hinge only when the record has the data to pin them. The fit report
+counts the numbers each record supplies against the parameters fitted.
+
+**Records with nothing to fit get no stand-in.** `shadow_hand_finger`
+holds no free path, blocked force or stiffness. The fitter refuses it and
+says why. The analytical route therefore cannot yet reach the force check;
+that needs a ruling (below).
+
+**Mosadegh needs three allowances.** Its tip moves in −Y, against the +Y
+convention; hinge ratios are signed and the record is never rotated. Its
+length is not recorded; the rest length is fitted from the path and
+reported as fitted. Its blocked force is a size only, on an axis the
+source does not state, so the direction check is reported as not
+possible. With five points curling most of the way round, three hinges
+may not be enough; the number of hinges is a setting, and the report
+gives the error against it.
+
+**Extrapolation is flagged.** `wall_0.0010m`'s blocked force stops at
+40 Pa while its free path runs to 398 Pa. Force above the last blocked
+level is extrapolated and the report says from where.
+
+**New open ruling: the analytical route.** A record from the analytical
+route, such as `shadow_hand_finger`, carries kinematics but no force
+curves. Either the route must also emit a free path and blocked force (or
+joint stiffness and drive limits), or analytical fingers enter the force
+check as model-file hands instead of through the stand-in.
