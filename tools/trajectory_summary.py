@@ -60,7 +60,7 @@ def baseline(file, setting):
     fn = os.path.join(B, f"dense__{os.path.splitext(file)[0]}__{setting}.json")
     if not os.path.exists(fn):
         return None
-    r = json.load(open(fn))
+    r = json.load(open(fn, encoding="utf-8"))
     return {fr["k"]: m(fr["scale_margin"]) for fr in r["frames"]}
 
 
@@ -77,7 +77,7 @@ def out(*a):
 ORDER = ["lag0.03", "lag0.1", "lag0.3", "rate1.0", "rate3.0"]
 res = {}
 for f in glob.glob(os.path.join(D, "traj__*.json")):
-    r = json.load(open(f))
+    r = json.load(open(f, encoding="utf-8"))
     res[(r["hand"], r["leader"], r["setting"], r["per_frame"])] = r
 
 for hand, leader in sorted({k[:2] for k in res}):

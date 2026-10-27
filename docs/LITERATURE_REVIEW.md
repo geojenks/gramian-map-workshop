@@ -1478,8 +1478,8 @@ What this says:
   than lifting the whole run: the per-frame margin over the run margin has
   median 1.79 on the measured human hand and 1.47 with wide ranges. Their
   10th percentiles, 0.98 and 0.85, are below 1 because some runs do not
-  hold at scale 1, so holding the rest at 1 is the harder ask. The other
-  two human hands were not run.
+  hold at scale 1, so holding the rest at 1 is the harder ask. The runs
+  for the other two human hands had not finished when this was written.
 
 The literature also makes plain these limits of our tool.
 

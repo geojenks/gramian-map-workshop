@@ -38,9 +38,9 @@ def records(tag, rate):
         got["recs"] = recs
         raise SystemExit  # records only
     T.check = grab
-    old = json.load(open(fn))
+    old = json.load(open(fn, encoding="utf-8"))
     s = old["settings"]
-    L = json.load(open(os.path.join(S.ROOT, "data", "leaders", old["leader"] + ".json")))
+    L = json.load(open(os.path.join(S.ROOT, "data", "leaders", old["leader"] + ".json"), encoding="utf-8"))
     try:
         F.follow(old["hand"], L, middle=s["middle"], ik_iters=s.get("ik_iters"), wrist=bool(s.get("wrist")),
                  respace=bool(s.get("respace")), joint_stiffness=s.get("joint_stiffness_Nm_per_rad"),

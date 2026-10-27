@@ -47,9 +47,9 @@ def one(job):
     from gramian_workshop import follow as F
     fn, label, per_frame = job
     t0 = time.time()
-    old = json.load(open(fn))
+    old = json.load(open(fn, encoding="utf-8"))
     s = old["settings"]
-    L = json.load(open(os.path.join(ROOT, "data", "leaders", old["leader"] + ".json")))
+    L = json.load(open(os.path.join(ROOT, "data", "leaders", old["leader"] + ".json"), encoding="utf-8"))
     _, rate, lag = next(x for x in SETTINGS if x[0] == label)
     tennis = "tennis" in old["leader"]
     if per_frame:
@@ -67,7 +67,7 @@ def one(job):
            "frame_k": [fr["k"] for fr in r["frames"]],
            "frame_t": [float(L["frames"][fr["k"]]["t"]) for fr in r["frames"]],
            "trajectory": r["trajectory"], "wall_s": time.time() - t0}
-    json.dump(res, open(os.path.join(OUT, name_of(fn, label, per_frame)), "w"), indent=1)
+    json.dump(res, open(os.path.join(OUT, name_of(fn, label, per_frame)), "w", encoding="utf-8"), indent=1)
     return name_of(fn, label, per_frame), round(res["wall_s"])
 
 
