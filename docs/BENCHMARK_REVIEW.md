@@ -289,7 +289,8 @@ benchmark until those are in.
 - The FLS source paper (Fried et al. 2004) and the ring count.
 - JIGSAWS: that the robot was a da Vinci, from search snippets only.
 - The first author of the Amazon Picking Challenge analysis.
-- Chen, Xu and Agrawal 2021: the success threshold.
+- Chen, Xu and Agrawal 2021: the success threshold. The earlier review
+  read its appendices for joint torques, not for this.
 - GenHand (npj-series journal, 2026): a snippet says it retargets grasps
   under force equilibrium and reports wrench residuals across four
   grippers. Behind a login.
