@@ -49,7 +49,7 @@ def capsules(hand, fr):
             b = int(m.body_parentid[b])
     out = []
     for g in range(m.ngeom):
-        if m.geom_type[g] != mj.mjtGeom.mjGEOM_CAPSULE:
+        if int(m.geom_type[g]) != int(mj.mjtGeom.mjGEOM_CAPSULE):
             continue
         c, R = d.geom_xpos[g], d.geom_xmat[g].reshape(3, 3)
         h, r = m.geom_size[g][1], m.geom_size[g][0]

@@ -160,7 +160,7 @@ class Finger:
         joints, b = [], self.tip_body
         while b > 0:
             for j in range(m.body_jntadr[b], m.body_jntadr[b] + m.body_jntnum[b]):
-                if m.jnt_type[j] in (mj.mjtJoint.mjJNT_HINGE, mj.mjtJoint.mjJNT_SLIDE):
+                if int(m.jnt_type[j]) in (int(mj.mjtJoint.mjJNT_HINGE), int(mj.mjtJoint.mjJNT_SLIDE)):
                     joints.append(j)
             b = int(m.body_parentid[b])
         self.joints = sorted(joints)
@@ -187,16 +187,16 @@ class Finger:
             Rm = np.zeros(9)
             mj.mju_quat2Mat(Rm, R)
             Rm = Rm.reshape(3, 3)
-            if m.geom_type[g] == mj.mjtGeom.mjGEOM_MESH:
+            if int(m.geom_type[g]) == int(mj.mjtGeom.mjGEOM_MESH):
                 mid = m.geom_dataid[g]
                 v = m.mesh_vert[m.mesh_vertadr[mid]:m.mesh_vertadr[mid]
                                 + m.mesh_vertnum[mid]]
                 pts = v @ Rm.T + m.geom_pos[g]
             else:
                 s = m.geom_size[g]
-                ext = np.array([s[0], s[0] if m.geom_type[g] != mj.mjtGeom.mjGEOM_BOX
-                                else s[1], s[0] if m.geom_type[g] == mj.mjtGeom.mjGEOM_SPHERE
-                                else (s[2] if m.geom_type[g] == mj.mjtGeom.mjGEOM_BOX
+                ext = np.array([s[0], s[0] if int(m.geom_type[g]) != int(mj.mjtGeom.mjGEOM_BOX)
+                                else s[1], s[0] if int(m.geom_type[g]) == int(mj.mjtGeom.mjGEOM_SPHERE)
+                                else (s[2] if int(m.geom_type[g]) == int(mj.mjtGeom.mjGEOM_BOX)
                                       else s[1] + s[0])])
                 corners = np.array([[x, y, z] for x in (-1, 1) for y in (-1, 1)
                                     for z in (-1, 1)]) * ext
@@ -255,7 +255,7 @@ class Hand:
         m = self.model
         self.coupled = {}                              # dependent -> (master, polycoef)
         for e in range(m.neq):
-            if m.eq_type[e] == mj.mjtEq.mjEQ_JOINT and m.eq_active0[e]:
+            if int(m.eq_type[e]) == int(mj.mjtEq.mjEQ_JOINT) and m.eq_active0[e]:
                 self.coupled[int(m.eq_obj1id[e])] = (int(m.eq_obj2id[e]),
                                                      np.array(m.eq_data[e][:5]))
 

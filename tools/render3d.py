@@ -66,11 +66,11 @@ def scene(hand, fr):
     for g in range(m.ngeom):
         c, R = d.geom_xpos[g], d.geom_xmat[g].reshape(3, 3)
         lab = owner.get(int(m.geom_bodyid[g]))
-        if m.geom_type[g] == mj.mjtGeom.mjGEOM_CAPSULE:
+        if int(m.geom_type[g]) == int(mj.mjtGeom.mjGEOM_CAPSULE):
             h, r = m.geom_size[g][1], m.geom_size[g][0]
             caps.append({"a": (c - R[:, 2] * h).round(5).tolist(), "b": (c + R[:, 2] * h).round(5).tolist(),
                          "r": round(float(r), 5), "finger": lab, "state": state.get(lab, "palm")})
-        elif m.geom_type[g] == mj.mjtGeom.mjGEOM_BOX and lab is None:
+        elif int(m.geom_type[g]) == int(mj.mjtGeom.mjGEOM_BOX) and lab is None:
             boxes.append({"c": c.round(5).tolist(), "R": R.round(5).tolist(),
                           "size": m.geom_size[g].round(5).tolist()})
     marks = []

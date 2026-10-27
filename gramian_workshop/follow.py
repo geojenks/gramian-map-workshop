@@ -179,16 +179,16 @@ def _link_vertices(m, body):
         mj.mju_quat2Mat(Rm, m.geom_quat[g])
         t = m.geom_type[g]
         s = m.geom_size[g]
-        if t == mj.mjtGeom.mjGEOM_MESH:
+        if t == int(mj.mjtGeom.mjGEOM_MESH):
             mid = m.geom_dataid[g]
             v = m.mesh_vert[m.mesh_vertadr[mid]:m.mesh_vertadr[mid] + m.mesh_vertnum[mid]]
         else:
             # surface samples of the primitive, in its own frame
             u = np.random.default_rng(0).standard_normal((600, 3))
             u /= np.linalg.norm(u, axis=1, keepdims=True)
-            if t == mj.mjtGeom.mjGEOM_SPHERE:
+            if t == int(mj.mjtGeom.mjGEOM_SPHERE):
                 v = s[0] * u
-            elif t == mj.mjtGeom.mjGEOM_CAPSULE:
+            elif t == int(mj.mjtGeom.mjGEOM_CAPSULE):
                 # on the surface: the cylinder side, then the two caps (until
                 # 26 Oct this mixed in points inside the capsule)
                 ang = np.random.default_rng(1).uniform(0, 2 * np.pi, 300)
@@ -196,11 +196,11 @@ def _link_vertices(m, body):
                 side = np.column_stack([s[0] * np.cos(ang), s[0] * np.sin(ang), z])
                 cap_ = s[0] * u[:300] + np.outer(np.sign(u[:300, 2]), [0, 0, s[1]])
                 v = np.vstack([side, cap_])
-            elif t == mj.mjtGeom.mjGEOM_CYLINDER:
+            elif t == int(mj.mjtGeom.mjGEOM_CYLINDER):
                 ang = np.linspace(0, 2 * np.pi, 600)
                 z = np.random.default_rng(1).uniform(-s[1], s[1], 600)
                 v = np.column_stack([s[0] * np.cos(ang), s[0] * np.sin(ang), z])
-            elif t == mj.mjtGeom.mjGEOM_BOX:
+            elif t == int(mj.mjtGeom.mjGEOM_BOX):
                 v = u / np.abs(u).max(1, keepdims=True) * s[:3]
             else:
                 continue
@@ -220,15 +220,15 @@ def _body_shapes(m, body, max_pts=300):
         Rm = np.zeros(9)
         mj.mju_quat2Mat(Rm, m.geom_quat[g])
         Rm = Rm.reshape(3, 3)
-        t, sz, pos = m.geom_type[g], m.geom_size[g], np.array(m.geom_pos[g])
-        if t == mj.mjtGeom.mjGEOM_CAPSULE:
+        t, sz, pos = int(m.geom_type[g]), m.geom_size[g], np.array(m.geom_pos[g])
+        if t == int(mj.mjtGeom.mjGEOM_CAPSULE):
             ax = Rm[:, 2] * sz[1]
             out.append(("seg", pos - ax, pos + ax, float(sz[0])))
-        elif t == mj.mjtGeom.mjGEOM_SPHERE:
+        elif t == int(mj.mjtGeom.mjGEOM_SPHERE):
             out.append(("seg", pos, pos, float(sz[0])))
     V = None
     others = [g for g in range(m.ngeom) if m.geom_bodyid[g] == body
-              and m.geom_type[g] not in (mj.mjtGeom.mjGEOM_CAPSULE, mj.mjtGeom.mjGEOM_SPHERE)
+              and int(m.geom_type[g]) not in (int(mj.mjtGeom.mjGEOM_CAPSULE), int(mj.mjtGeom.mjGEOM_SPHERE))
               and not (m.geom_contype[g] == 0 and m.geom_conaffinity[g] == 0)]
     if others:
         V = _link_vertices(m, body)

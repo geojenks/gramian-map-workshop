@@ -29,7 +29,7 @@ jobs:
           python -m venv .venv
           if [ -f .venv/Scripts/activate ]; then . .venv/Scripts/activate; else . .venv/bin/activate; fi
           pip install -e .
-          echo "$(dirname "$(command -v python)")" >> "$GITHUB_PATH"
+          python -c "import os, sys; print(os.path.dirname(sys.executable))" >> "$GITHUB_PATH"
       - name: Demos reproduce the stored results
         run: |
           python demos/cup_hold.py
@@ -60,7 +60,7 @@ jobs:
           if [ -f .venv/Scripts/activate ]; then . .venv/Scripts/activate; else . .venv/bin/activate; fi
           pip install -e ".[hands]"
           python tools/fetch_hands.py
-          echo "$(dirname "$(command -v python)")" >> "$GITHUB_PATH"
+          python -c "import os, sys; print(os.path.dirname(sys.executable))" >> "$GITHUB_PATH"
       - name: Every public hand loads
         run: python -c "from gramian_workshop.hands import hand_card; [print(k, hand_card(k)['fingers'][0]) for k in ('allegro', 'shadow', 'leap', 'l20_public')]"
       - name: Tests
