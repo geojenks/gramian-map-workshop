@@ -71,6 +71,12 @@ object by actuation alone, with no leader load, along each of the 12 signed
 axes (see _apply_limit; off by default, no change to the verdict).
 follow(apply_free=True) adds a second reading that lets the other five
 components take any value; it is far slower (see _apply_limit).
+With follow(inertia=True), each touching finger's joints must also supply
+the torque its own motion needs, M(q) qdd + C(q, qd) qd, on top of the
+contact load, in the per-finger torque test, the redistribution and the
+scale and disturbance margins (not the apply limit); see _finger_dynamics.
+Off by default, so earlier results reproduce exactly. The fingers' weight
+stays out, as before.
 
 Contact (26 Oct): a TANGENT contact. A finger touches with its last or
 middle phalanx, each as a capsule (the model's own for capsule links; one
@@ -145,6 +151,10 @@ DISTURB_LABELS = ["fx", "fy", "fz", "tx", "ty", "tz"]
 APPLY_FIRST_N = 1.0        # proposed: the apply limit's search tries this push
                            # (N; a twist of this times L) first, then doubles up
                            # to MARGIN_MAX or bisects below it
+FIT_HALF_S = 0.10          # finger inertia: joint velocity and acceleration from a
+                           # local quadratic fit over +/- this (s), the fit and window
+                           # tools/import_demo_leader.py uses for the object's motion
+FIT_MIN_POINTS = 5         # as that tool's local_fit
 
 
 # ----------------------------------------------------------------------
@@ -716,7 +726,7 @@ def torque_limits(hand, finger):
 def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
            placement=None, joint_stiffness=None, margin=False, disturbance=False,
-           apply=False, apply_free=False):
+           apply=False, apply_free=False, inertia=False):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -726,7 +736,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     scale_margin (see _scale_margin); disturbance: give each frame a
     disturbance_margin (see _disturbance_margin); apply: give each frame an
     apply_limit (see _apply_limit); apply_free: add its second reading,
-    other_components_free (implies apply)."""
+    other_components_free (implies apply); inertia: add the torque each
+    touching finger's own motion needs (see _finger_dynamics)."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -735,7 +746,7 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
         return _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol,
                        place or {}, wrist, respace, placement,
                        JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness),
-                       margin, disturbance, apply or apply_free, apply_free)
+                       margin, disturbance, apply or apply_free, apply_free, inertia)
     finally:
         IK_ITERS = old_iters
 
@@ -775,7 +786,7 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
             respace, placement, kq, margin=True, disturbance=False, apply=False,
-            apply_free=False):
+            apply_free=False, inertia=False):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
@@ -795,6 +806,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
     lims = [torque_limits(hand, f) for f in hand.fingers]
     mj = _mj()
     m = hand.model
+    if inertia:
+        # joint velocities are indexed by joint position below
+        assert m.nq == m.nv, "inertia needs a hinge/slide-only hand"
     ks = range(len(leader.frames)) if n_eval is None else \
         np.linspace(0, len(leader.frames) - 1, n_eval).astype(int)
     frames = []
@@ -807,7 +821,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             p, _, _ = leader.station(k, i, Rw, t, raw=True)
             fv = leader.force(k, i, Rw, raw=True)
             W += np.concatenate([fv, np.cross(p - c, fv)])
-        per, pts, nrms, Js, Js_act, fingers_on = [], [], [], [], [], []
+        per, pts, nrms, Js, Js_act, fingers_on, taus = [], [], [], [], [], [], []
         for a, f in enumerate(hand.fingers):
             i = assign[a]
             if i not in made:
@@ -845,6 +859,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             v = pw - c
             cp = c + leader.R_obj * v / np.linalg.norm(v)
             n_in = (c - cp) / np.linalg.norm(c - cp)
+            M, lim = lims[a]
+            dyn = _finger_dynamics(iks[a], leader, k, i, Rw, t, b, q) \
+                if inertia and M is not None else None
             iks[a].d.qpos[:] = hand.apply_coupling(_q_full(m, iks[a], q))
             mj.mj_kinematics(m, iks[a].d)
             mj.mj_comPos(m, iks[a].d)
@@ -853,12 +870,14 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             Jf = jacp[:, f.dof]
             fv = leader.force(k, i, Rw)
             in_cone = fv @ n_in >= math.cos(math.atan(mu)) * np.linalg.norm(fv) - 1e-12
-            M, lim = lims[a]
             torque_ok = True
             cols = None
+            tau = None
             if M is not None:
                 cols = _finger_columns(hand, f, iks[a], M, lim, Jf, pw, kq)
-                torque_ok, un = _columns_hold(cols, fv)
+                if inertia:
+                    item["inertia"], tau = _inertia_item(hand, f, iks[a], M, lim, Jf, pw, dyn)
+                torque_ok, un = _columns_hold(cols, fv, tau)
                 item["unbalanced_Nm"] = un
             if item.get("state") != "red":
                 item["state"] = "green" if (exact and in_cone and torque_ok) else "amber?"
@@ -867,6 +886,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             pts.append(cp)
             nrms.append(n_in)
             Js.append(cols)
+            taus.append(tau)
             # the apply limit counts inputs only: a spring resists but cannot push
             Js_act.append(_finger_columns(hand, f, iks[a], M, lim, Jf, pw, 0.0)
                           if apply and kq > 0 and M is not None else cols)
@@ -881,7 +901,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             # a red finger's station load must also be carried by the others
             need_redistribute = True
         if need_redistribute:
-            ok, reason = _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol)
+            ok, reason = _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol,
+                                       taus if inertia else None)
             # a red finger whose contact the force check could still use
             # makes the moment amber at best, not red, when the forces work
             verdict = ("green" if all_green else "amber") if ok else "red"
@@ -894,9 +915,11 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         elif palm_pen > PEN_GREEN_M and verdict == "green":
             verdict = "amber"
         if margin:
-            sm = _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol)
+            sm = _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol,
+                               taus if inertia else None)
         if disturbance:
-            dm = _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol)
+            dm = _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol,
+                                     taus if inertia else None)
         if apply:
             al = _apply_limit(pts, nrms, Js_act, c, mu, L, resid_tol, apply_free)
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
@@ -916,7 +939,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "strength": "input columns, one-sided where the model says (23 Oct)",
                          "joint_stiffness_Nm_per_rad": kq, "deflect_max_m": DEFLECT_MAX_M,
                          "scale_margin": margin, "disturbance_margin": disturbance,
-                         "apply_limit": apply, "apply_limit_free": apply_free},
+                         "apply_limit": apply, "apply_limit_free": apply_free,
+                         "inertia": inertia,
+                         **({"fit_half_s": FIT_HALF_S} if inertia else {})},
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
             "respace_deg": np.degrees(leader.phi).tolist(),
@@ -930,16 +955,7 @@ def _finger_columns(hand, finger, ik, M, lim, Jf, p_contact, kq):
     (a muscle pulls only; a motor with a two-sided range gives two) and two
     per free joint for passive stiffness kq within DEFLECT_MAX_M of contact
     motion."""
-    m = hand.model
-    nj = len(finger.joints)
-    E = np.zeros((nj, len(ik.free)))
-    for c_, j in enumerate(ik.free):
-        E[finger.joints.index(j), c_] = 1.0
-    for dep, (master, cf) in ik.dep.items():
-        if master in ik.free:
-            x = ik.d.qpos[m.jnt_qposadr[master]]
-            E[finger.joints.index(dep), ik.free.index(master)] = \
-                cf[1] + 2 * cf[2] * x + 3 * cf[3] * x ** 2 + 4 * cf[4] * x ** 3
+    E = _free_map(hand, finger, ik)
     B = M @ E
     Tr = E.T @ Jf.T
     cols = []
@@ -958,10 +974,157 @@ def _finger_columns(hand, finger, ik, M, lim, Jf, p_contact, kq):
     return Tr, np.array(cols).T
 
 
-def _columns_hold(cols, fv):
-    """Can the finger hold contact force fv? (ok, unbalanced joint torque N.m)"""
+def _free_map(hand, finger, ik):
+    """E (finger.joints x free joints): how each joint moves with the free
+    ones at the pose in ik.d, couplings included; E.T maps joint torque to
+    the free joints."""
+    m = hand.model
+    nj = len(finger.joints)
+    E = np.zeros((nj, len(ik.free)))
+    for c_, j in enumerate(ik.free):
+        E[finger.joints.index(j), c_] = 1.0
+    for dep, (master, cf) in ik.dep.items():
+        if master in ik.free:
+            x = ik.d.qpos[m.jnt_qposadr[master]]
+            E[finger.joints.index(dep), ik.free.index(master)] = \
+                cf[1] + 2 * cf[2] * x + 3 * cf[3] * x ** 2 + 4 * cf[4] * x ** 3
+    return E
+
+
+def _local_derivs(dt, Q):
+    """First and second derivative at dt = 0 of the quadratic fitted to Q
+    (rows) at times dt: tools/import_demo_leader.py's local_fit, with the
+    first derivative kept too."""
+    A = np.column_stack([np.ones(len(dt)), dt, dt ** 2])
+    coef = np.linalg.lstsq(A, Q, rcond=None)[0]
+    return coef[1], 2 * coef[2]
+
+
+def _window_q(ik, leader, k, i, Rw, t, body, q_k, half=None):
+    """(dt, Q): times from frame k, and full joint positions, of this finger
+    following station i through the leader frames within +/- half (default
+    FIT_HALF_S) of frame k while the station stays made. Each frame is
+    solved with the link frame k chose, starting from its neighbour nearer
+    k, so the path stays on frame k's solution (a fresh solve per frame can
+    jump to another one)."""
+    half = FIT_HALF_S if half is None else half
+    F, m = leader.frames, ik.hand.model
+    tk = float(F[k]["t"])
+    qs = {k: np.asarray(q_k, float)}
+    for step in (1, -1):
+        q, j = qs[k], k + step
+        while 0 <= j < len(F) and abs(float(F[j]["t"]) - tk) <= half + 1e-9 \
+                and i in leader.made(j):
+            p, _, cc = leader.station(j, i, Rw, t)
+            q = ik.solve_tangent(body, p, cc, leader.R_obj, q0=q)[0]
+            qs[j] = q
+            j += step
+    js = sorted(qs)
+    dt = np.array([float(F[j]["t"]) - tk for j in js])
+    Q = np.array([ik.hand.apply_coupling(_q_full(m, ik, qs[j])) for j in js])
+    return dt, Q
+
+
+def _joint_dynamics(ik, q, qd, qdd):
+    """(motion, weight): joint torques (every dof) the hand needs at full
+    pose q to move with velocity qd and acceleration qdd, M(q) qdd +
+    C(q, qd) qd, from MuJoCo's recursive Newton-Euler (mj_rne at (q, qd,
+    qdd) less mj_rne at (q, 0, 0)); and its weight alone, mj_rne at
+    (q, 0, 0). Contacts and passive forces are not in mj_rne."""
+    mj, m, d = ik.mj, ik.hand.model, ik.d
+    out = []
+    for v, acc in ((np.zeros(m.nv), np.zeros(m.nv)), (qd, qdd)):
+        d.qpos[:] = q
+        d.qvel[:] = v
+        d.qacc[:] = acc
+        mj.mj_kinematics(m, d)
+        mj.mj_comPos(m, d)
+        mj.mj_comVel(m, d)
+        r = np.zeros(m.nv)
+        mj.mj_rne(m, d, 1, r)
+        out.append(r)
+    d.qvel[:] = 0.0
+    d.qacc[:] = 0.0
+    return out[1] - out[0], out[0]
+
+
+def _finger_dynamics(ik, leader, k, i, Rw, t, body, q_k):
+    """The finger's own motion at frame k while it follows station i: its
+    joint path over +/- FIT_HALF_S (_window_q), velocity and acceleration
+    from a local quadratic fit, and the joint torques that motion needs
+    (_joint_dynamics). The other fingers and the wrist are held still (with
+    wrist=True, at frame k's angles), so their motion is not counted.
+    Returns {n, step_max_rad, motion, weight} (torques on every dof), with
+    motion None if the window has fewer than FIT_MIN_POINTS frames.
+    step_max_rad is the largest change of any of the finger's joints
+    between neighbouring frames of the window, to show where the path still
+    jumps. Leaves ik.d at an arbitrary pose."""
+    dt, Q = _window_q(ik, leader, k, i, Rw, t, body, q_k)
+    dofs = ik.f.dof
+    out = {"n": len(dt),
+           "step_max_rad": float(np.abs(np.diff(Q[:, dofs], axis=0)).max()) if len(dt) > 1 else 0.0}
+    q = Q[int(np.argmin(np.abs(dt)))]
+    if len(dt) < FIT_MIN_POINTS:
+        out["motion"] = None
+        out["weight"] = _joint_dynamics(ik, q, np.zeros(len(q)), np.zeros(len(q)))[1]
+        return out
+    qd, qdd = _local_derivs(dt, Q)
+    out["motion"], out["weight"] = _joint_dynamics(ik, q, qd, qdd)
+    out["qd_max_rad_s"] = float(np.abs(qd[dofs]).max())
+    out["qdd_max_rad_s2"] = float(np.abs(qdd[dofs]).max())
+    return out
+
+
+def _input_share(C_in, tau):
+    """Per free joint, tau_j as a share of the largest torque the inputs can
+    make at that joint in tau_j's sense (every input that helps at its
+    limit); None where no input can. For a hand with one motor per joint
+    this is tau over that motor's limit."""
+    out = []
+    for j, tj in enumerate(tau):
+        row = C_in[j]
+        cap_ = row[row > 0].sum() if tj > 0 else -row[row < 0].sum()
+        out.append(None if cap_ <= 0 else float(abs(tj) / cap_))
+    return out
+
+
+def _inertia_item(hand, finger, ik, M, lim, Jf, pw, dyn):
+    """(record, tau): the frame's inertia readout for one finger and the
+    torque its motion adds on its free joints (None when not fitted), from
+    _finger_dynamics' output; ik.d must be at the frame's pose."""
+    E = _free_map(hand, finger, ik)
+    C_in = _finger_columns(hand, finger, ik, M, lim, Jf, pw, 0.0)[1]
+    g = E.T @ dyn["weight"][finger.dof]
+    rec = {"window_n": dyn["n"], "window_step_max_rad": dyn["step_max_rad"],
+           "weight_Nm": g.tolist(), "weight_share": _input_share(C_in, g)}
+    if dyn["motion"] is None:
+        rec["fitted"] = False
+        return rec, None
+    tau = E.T @ dyn["motion"][finger.dof]
+    rec.update(fitted=True, motion_Nm=tau.tolist(), motion_share=_input_share(C_in, tau),
+               qd_max_rad_s=dyn["qd_max_rad_s"], qdd_max_rad_s2=dyn["qdd_max_rad_s2"])
+    return rec, tau
+
+
+def _joint_rhs(Js, taus, L):
+    """Right-hand side of _torque_stack's joint-balance rows: -tau / L for
+    each finger whose motion needs torque tau (C x = Tr F lambda + tau),
+    zero for the rest."""
+    parts = []
+    for cols, tau in zip(Js, taus):
+        if cols is None:
+            continue
+        parts.append(np.zeros(cols[0].shape[0]) if tau is None else -np.asarray(tau) / L)
+    return np.concatenate(parts) if parts else np.zeros(0)
+
+
+def _columns_hold(cols, fv, tau=None):
+    """Can the finger hold contact force fv (and, with tau, also supply the
+    torque tau its own motion needs)? (ok, unbalanced joint torque N.m)"""
     Tr, C = cols
     t = Tr @ fv
+    if tau is not None:
+        t = t + tau
     n = C.shape[1]
     A = np.block([[C, np.zeros((C.shape[0], n))], [np.eye(n), np.eye(n)]])
     b = np.concatenate([t, np.ones(n)])
@@ -1000,12 +1163,14 @@ def _feasible_retry(A, b, tol):
     raise np.linalg.LinAlgError("solve broke down in both row orders")
 
 
-def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None):
+def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
     """Can the made, reachable contacts produce the leader's object wrench
     with forces of their own choosing (inside the cone, within torque
     limits), to within resid_tol (default RESID_TOL) of its norm? The W20
     construction (vendored generators, solver and stacking), with that
-    tolerance in place of W20's exact bar."""
+    tolerance in place of W20's exact bar. taus (one per Js entry, or None):
+    torque each finger's own motion needs, which its inputs must also
+    supply."""
     tol_frac = RESID_TOL if resid_tol is None else resid_tol
     if not pts:
         return False, "no_contact"
@@ -1022,7 +1187,8 @@ def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     if all(c_ is None for c_ in Js):
         return True, None
     Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
-    rhs = np.concatenate([ws, np.zeros(nt), np.ones(nx)])
+    jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
+    rhs = np.concatenate([ws, jr, np.ones(nx)])
     ok = _feasible(Mx, rhs, tol)[0]
     return (True, None) if ok else (False, "torque")
 
@@ -1057,7 +1223,7 @@ def _torque_stack(Gs, cidx, Fc, Js, L):
     return Mx, nt, nx
 
 
-def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
+def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
     """Largest factor s by which the leader's object wrench could grow and
     the made contacts still produce it: the system and tolerance of
     _redistribute, the tolerance growing with the wrench; above s = 1 the
@@ -1073,7 +1239,8 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     with no contact or no torque checked (the cones alone set no scale).
     With kq = 0 a failed zero-torque row on an unactuated joint fails at
     every scale, so such frames read 0: the margin grades only frames that
-    pass that rule."""
+    pass that rule. taus as _redistribute: the fingers' own motion does not
+    grow with s, so its torque stays as it is at every scale."""
     tol_frac = RESID_TOL if resid_tol is None else resid_tol
     if not pts or all(c_ is None for c_ in Js):
         return None
@@ -1090,6 +1257,7 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     if not _feasible(Gs, ws, tol)[0]:
         return none
     Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
+    jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
 
     ng = Gs.shape[1]
 
@@ -1101,11 +1269,11 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
         # the wrench, a large wrench would let the inputs run far past their
         # limits.
         if s <= 1.0:
-            rhs = np.concatenate([s * ws, np.zeros(nt), np.ones(nx)])
+            rhs = np.concatenate([s * ws, jr, np.ones(nx)])
             return _feasible(Mx, rhs, max(tol_frac * s * wn, cap.FEAS_REL))[0]
         Ms = Mx.copy()
         Ms[6:6 + nt, :ng] *= s
-        rhs = np.concatenate([ws, np.zeros(nt), np.ones(nx)])
+        rhs = np.concatenate([ws, jr, np.ones(nx)])
         return _feasible(Ms, rhs, max(tol_frac * wn, cap.FEAS_REL))[0]
 
     grid = np.array([held(s) for s in cap.SCALE_GRID])
@@ -1137,7 +1305,7 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     return out
 
 
-def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
+def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
     """Smallest extra object wrench, added to the leader's and in any of
     DISTURB_DIRS, that the made contacts can no longer produce with the
     leader's one: the worst-direction margin of the largest-ball measure
@@ -1161,7 +1329,7 @@ def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     encloses the object would resist any disturbance. The margin runs
     continuously from 0: a frame that only just passes at the leader's load
     (unbalanced share near tol_frac) reads near 0. The ball's shape depends
-    on the L scaling of torque against force."""
+    on the L scaling of torque against force. taus as _redistribute."""
     tol_frac = RESID_TOL if resid_tol is None else resid_tol
     if not pts or all(c_ is None for c_ in Js):
         return None
@@ -1178,7 +1346,8 @@ def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None):
     if not _feasible(Gs, ws, tol)[0]:
         return out
     Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
-    tail = np.concatenate([np.zeros(nt), np.ones(nx)])
+    jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
+    tail = np.concatenate([jr, np.ones(nx)])
 
     def held(i, sg, e):
         w = ws.copy()

@@ -1269,6 +1269,36 @@ in time.
    That needs a forward simulation, which is a different tool, and calling
    the check dynamic does not need it.
 
+*27 Oct 2026: the first of these is now built, off by default.*
+`follow(inertia=True)` re-solves each finger at the leader frames within
+`FIT_HALF_S` of frame k (the smoothing of `tools/import_demo_leader.py`),
+warm-started from the neighbour nearer k so the solve stays on one branch,
+and fits a quadratic to the joint angles to get velocity and acceleration.
+MuJoCo's inverse dynamics then gives the torque the motion needs,
+M(q) q̈ + C(q, q̇) q̇, with the weight term removed. That torque is added to
+what each actuator must supply, in the per-finger hold test, the
+redistribution, and the scale and disturbance margins (the motion torque
+is not scaled with the leader's wrench). The apply limit is unchanged.
+Each finger's record gets an `inertia` entry: the motion torque, its share
+of the actuator limits, and the fit's speed, acceleration and largest
+joint step. The limits, stated plainly:
+
+- **Weight is reported, not added.** The check has never counted the
+  hand's own weight, and this keeps that. The weight term uses the model's
+  own gravity: zero in our human-hand models, and in the robot models'
+  frame, not the demo's orientation.
+- **One finger moves at a time.** The wrist, and the other fingers, are
+  held at frame k's angles while a finger's path is solved.
+- **The path is re-solved, not recorded.** Where the solve changes branch
+  between neighbouring frames, the fitted speed, and so the torque, are
+  inflated. `window_step_max_rad` in the record lets a reader find those
+  frames; nothing is filtered on it.
+- **Share of the limit** is the torque over what the input columns can
+  supply in its sense. For a hand with one motor per joint this is the
+  torque over the motor's limit.
+- Fingers with too few made frames in the window (fewer than
+  `FIT_MIN_POINTS`) get no torque and are marked not fitted.
+
 The literature also makes plain these limits of our tool.
 
 - **Polyhedral cones add direction-dependent artefacts**, by the reading
