@@ -1,0 +1,147 @@
+{
+ "schema_version": "0.2",
+ "id": "mosadegh2014_sPN",
+ "name": "Mosadegh 2014 sPN (slow pneu-net)",
+ "source": {
+  "kind": "literature",
+  "detail": "digitized: Mosadegh et al. 2014 SI Fig S5 (tip trajectory, Camera series) + Fig S6 (blocked force, Sensor series)",
+  "date": "2026-09-10",
+  "reference": "doi:10.1002/adfm.201303288"
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": null,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "Pneu-net (pneumatic network) bending finger; Ecoflex 30 extensible layer / Sylgard 184 PDMS inextensible strain limiter. Tier-1 curves only (free tip trajectory + blocked force output vs pressure); no shape/Gramian block -- see data_completeness. Bending device: polarity_axial is not meaningful (not an axial contract/extend actuator) and is left null rather than forced to a value."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "chamber pressure",
+    "unit": "Pa",
+    "range": [
+     0.0,
+     72662.0
+    ],
+    "rated": null
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "free-end centroid"
+ },
+ "free": {
+  "u": [
+   [
+    0.0
+   ],
+   [
+    15000.0
+   ],
+   [
+    30000.0
+   ],
+   [
+    45000.0
+   ],
+   [
+    60000.0
+   ]
+  ],
+  "tip_displacement_m": [
+   [
+    -0.000243,
+    -0.003707,
+    0.0
+   ],
+   [
+    -0.001399,
+    -0.011791000000000001,
+    0.0
+   ],
+   [
+    -0.003905,
+    -0.020338000000000002,
+    0.0
+   ],
+   [
+    -0.006261,
+    -0.027031,
+    0.0
+   ],
+   [
+    -0.007731,
+    -0.030017,
+    0.0
+   ]
+  ],
+  "uncertainty": null
+ },
+ "blocked": {
+  "u": [
+   [
+    344.0
+   ],
+   [
+    18023.0
+   ],
+   [
+    36199.0
+   ],
+   [
+    54431.0
+   ],
+   [
+    72662.0
+   ]
+  ],
+  "force_axial_N": null,
+  "force_transverse_N": [
+   0.013,
+   0.232,
+   0.3967,
+   0.6012,
+   1.0011
+  ],
+  "method": "digitized SI Fig S6 force-sensor curve; source paper does not state the force-gauge axis explicitly -- recorded as transverse (bending/blocking) force, not axial, consistent with a bending pneu-net finger",
+  "uncertainty": null
+ },
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.030996590941585817,
+  "free_direction": [
+   -0.14155850498872602,
+   -0.9899298912879422,
+   0.0
+  ],
+  "polarity_axial": null,
+  "blocked_force_N": 1.0011,
+  "stiffness_N_per_m": null,
+  "effective_dof": null
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.1
+ },
+ "data_completeness": "curves_only",
+ "provenance": {
+  "data_dir": "data/published/mosadegh2014",
+  "digitizer_script": "digitize_mosadegh2014_si.py",
+  "source_csvs": [
+   {
+    "file": "mosadegh2014_si_FigS5_sPN_Camera_trajectory.csv",
+    "sha256": "16f436fe998ac5d05aedb969382c47b3a6bed5319bfad816d5c46ce0626f96af"
+   },
+   {
+    "file": "mosadegh2014_si_FigS6_sPN_Sensor.csv",
+    "sha256": "a1baa83a79661090c79877a9246cb998925ec8ed2bfdcf99386a8121bc225e76"
+   }
+  ],
+  "citation": "Mosadegh, B. et al. \"Pneumatic Networks for Soft Robotics that Actuate Rapidly.\" Adv. Funct. Mater. 24(15), 2163-2170, 2014. doi:10.1002/adfm.201303288"
+ }
+}

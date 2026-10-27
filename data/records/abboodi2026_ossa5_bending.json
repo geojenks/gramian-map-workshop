@@ -1,0 +1,229 @@
+{
+ "schema_version": "0.2",
+ "id": "abboodi2026_ossa5_bending",
+ "name": "Abboodi 2026 OSSA (OSSA 5) differential bend",
+ "source": {
+  "kind": "literature",
+  "detail": "digitized: Abboodi & Doumit 2026 Sci Rep Fig 4 panel (d) blocked bending force vs pressure, model OSSA 5",
+  "date": "2026-09-10",
+  "reference": "doi:10.1038/s41598-026-40604-5"
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": null,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "OSSA differential-chamber bending mode, model OSSA 5. Only blocked bending force digitized (Fig 4d); Fig 4e (bending ANGLE vs pressure) is not convertible into the schema's tip_displacement_m (translation) field without a moment-arm/length_m value this record does not have, so it is left out entirely rather than approximated -- see PROVENANCE.md for the panel-e CSV if that conversion is wanted later. free block left null."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "differential chamber pressure (bending)",
+    "unit": "Pa",
+    "range": [
+     0.0,
+     127680.0
+    ],
+    "rated": null
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "free-end centroid"
+ },
+ "free": null,
+ "blocked": {
+  "u": [
+   [
+    7370.0
+   ],
+   [
+    11310.0
+   ],
+   [
+    13210.0
+   ],
+   [
+    14990.0
+   ],
+   [
+    17280.0
+   ],
+   [
+    19820.0
+   ],
+   [
+    40780.0
+   ],
+   [
+    41290.0
+   ],
+   [
+    44340.0
+   ],
+   [
+    47260.0
+   ],
+   [
+    49420.0
+   ],
+   [
+    52090.0
+   ],
+   [
+    53740.0
+   ],
+   [
+    59200.0
+   ],
+   [
+    68860.0
+   ],
+   [
+    71520.0
+   ],
+   [
+    74450.0
+   ],
+   [
+    75720.0
+   ],
+   [
+    79270.0
+   ],
+   [
+    80540.0
+   ],
+   [
+    84360.0
+   ],
+   [
+    85250.0
+   ],
+   [
+    88290.0
+   ],
+   [
+    91220.0
+   ],
+   [
+    92740.0
+   ],
+   [
+    96300.0
+   ],
+   [
+    98460.0
+   ],
+   [
+    101380.0
+   ],
+   [
+    102400.0
+   ],
+   [
+    105320.0
+   ],
+   [
+    108870.0
+   ],
+   [
+    110150.0
+   ],
+   [
+    112690.0
+   ],
+   [
+    115740.0
+   ],
+   [
+    117130.0
+   ],
+   [
+    120820.0
+   ],
+   [
+    121830.0
+   ],
+   [
+    125260.0
+   ],
+   [
+    127680.0
+   ]
+  ],
+  "force_axial_N": null,
+  "force_transverse_N": [
+   2.27,
+   2.778,
+   3.013,
+   3.17,
+   3.443,
+   3.757,
+   5.302,
+   5.322,
+   5.517,
+   5.635,
+   5.791,
+   5.87,
+   5.909,
+   6.261,
+   6.77,
+   6.848,
+   7.004,
+   7.083,
+   7.2,
+   7.278,
+   7.435,
+   7.435,
+   7.67,
+   7.748,
+   7.826,
+   8.022,
+   8.1,
+   8.217,
+   8.217,
+   8.374,
+   8.491,
+   8.57,
+   8.648,
+   8.804,
+   8.843,
+   9.0,
+   9.039,
+   9.196,
+   9.274
+  ],
+  "method": "digitized Fig 4d FEA blocked bending-force curve",
+  "uncertainty": null
+ },
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": null,
+  "free_direction": null,
+  "polarity_axial": null,
+  "blocked_force_N": 9.274,
+  "stiffness_N_per_m": null,
+  "effective_dof": null
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.1
+ },
+ "data_completeness": "curves_only",
+ "provenance": {
+  "data_dir": "data/published/abboodi2026_ossa",
+  "digitizer_script": "digitize_abboodi2026_ossa.py",
+  "source_csvs": [
+   {
+    "file": "abboodi2026_fig4d_bending_force.csv",
+    "sha256": "ca604886cc9f52e962a7418332f00383db7352ef715577af217c6d4dc791cf40"
+   }
+  ],
+  "citation": "Abboodi, A. and Doumit, M. \"Design, manufacturing, and testing of a novel omnidirectional soft sleeve actuator.\" Sci. Rep. 16:9828, 2026. doi:10.1038/s41598-026-40604-5"
+ }
+}

@@ -1,0 +1,387 @@
+{
+ "schema_version": "0.2",
+ "id": "abboodi2026_ossa5_vacuum_contract",
+ "name": "Abboodi 2026 OSSA (OSSA 5) vacuum contract",
+ "source": {
+  "kind": "literature",
+  "detail": "digitized: Abboodi & Doumit 2026 Sci Rep Fig 4 panel (c) free contraction vs vacuum, model OSSA 5",
+  "date": "2026-09-10",
+  "reference": "doi:10.1038/s41598-026-40604-5"
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": null,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "OSSA, all chambers vacuum-actuated equally -- contraction mode, model OSSA 5. No blocked-force curve digitized for this mode in Fig 4 (panel f, stiffness, is out of scope per PROVENANCE.md); blocked block left null rather than guessed."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "chamber vacuum (all 4 equal)",
+    "unit": "Pa",
+    "range": [
+     -94250.0,
+     0.0
+    ],
+    "rated": null
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "free-end centroid"
+ },
+ "free": {
+  "u": [
+   [
+    -16420.0
+   ],
+   [
+    -18110.0
+   ],
+   [
+    -20000.0
+   ],
+   [
+    -21700.0
+   ],
+   [
+    -23400.0
+   ],
+   [
+    -25280.0
+   ],
+   [
+    -27170.0
+   ],
+   [
+    -29060.0
+   ],
+   [
+    -30750.0
+   ],
+   [
+    -32640.0
+   ],
+   [
+    -34340.0
+   ],
+   [
+    -36230.0
+   ],
+   [
+    -38020.0
+   ],
+   [
+    -39810.0
+   ],
+   [
+    -41600.0
+   ],
+   [
+    -43400.0
+   ],
+   [
+    -45090.0
+   ],
+   [
+    -46890.0
+   ],
+   [
+    -48680.0
+   ],
+   [
+    -58110.0
+   ],
+   [
+    -59720.0
+   ],
+   [
+    -61510.0
+   ],
+   [
+    -63210.0
+   ],
+   [
+    -65190.0
+   ],
+   [
+    -66980.0
+   ],
+   [
+    -68680.0
+   ],
+   [
+    -70470.0
+   ],
+   [
+    -72360.0
+   ],
+   [
+    -74150.0
+   ],
+   [
+    -75850.0
+   ],
+   [
+    -77640.0
+   ],
+   [
+    -78770.0
+   ],
+   [
+    -83210.0
+   ],
+   [
+    -85190.0
+   ],
+   [
+    -86980.0
+   ],
+   [
+    -88490.0
+   ],
+   [
+    -90380.0
+   ],
+   [
+    -91890.0
+   ],
+   [
+    -94250.0
+   ]
+  ],
+  "tip_displacement_m": [
+   [
+    -0.000222,
+    0.0,
+    0.0
+   ],
+   [
+    -0.000222,
+    0.0,
+    0.0
+   ],
+   [
+    -0.000296,
+    0.0,
+    0.0
+   ],
+   [
+    -0.000296,
+    0.0,
+    0.0
+   ],
+   [
+    -0.00037,
+    0.0,
+    0.0
+   ],
+   [
+    -0.000444,
+    0.0,
+    0.0
+   ],
+   [
+    -0.000519,
+    0.0,
+    0.0
+   ],
+   [
+    -0.000593,
+    0.0,
+    0.0
+   ],
+   [
+    -0.0006670000000000001,
+    0.0,
+    0.0
+   ],
+   [
+    -0.000815,
+    0.0,
+    0.0
+   ],
+   [
+    -0.000889,
+    0.0,
+    0.0
+   ],
+   [
+    -0.001037,
+    0.0,
+    0.0
+   ],
+   [
+    -0.001111,
+    0.0,
+    0.0
+   ],
+   [
+    -0.001259,
+    0.0,
+    0.0
+   ],
+   [
+    -0.001407,
+    0.0,
+    0.0
+   ],
+   [
+    -0.001556,
+    0.0,
+    0.0
+   ],
+   [
+    -0.001704,
+    0.0,
+    0.0
+   ],
+   [
+    -0.0018520000000000001,
+    0.0,
+    0.0
+   ],
+   [
+    -0.002,
+    0.0,
+    0.0
+   ],
+   [
+    -0.0029630000000000004,
+    0.0,
+    0.0
+   ],
+   [
+    -0.0031110000000000005,
+    0.0,
+    0.0
+   ],
+   [
+    -0.003259,
+    0.0,
+    0.0
+   ],
+   [
+    -0.003481,
+    0.0,
+    0.0
+   ],
+   [
+    -0.00363,
+    0.0,
+    0.0
+   ],
+   [
+    -0.003778,
+    0.0,
+    0.0
+   ],
+   [
+    -0.004,
+    0.0,
+    0.0
+   ],
+   [
+    -0.004148,
+    0.0,
+    0.0
+   ],
+   [
+    -0.004370000000000001,
+    0.0,
+    0.0
+   ],
+   [
+    -0.0045190000000000004,
+    0.0,
+    0.0
+   ],
+   [
+    -0.004667,
+    0.0,
+    0.0
+   ],
+   [
+    -0.004889,
+    0.0,
+    0.0
+   ],
+   [
+    -0.004963,
+    0.0,
+    0.0
+   ],
+   [
+    -0.005037,
+    0.0,
+    0.0
+   ],
+   [
+    -0.005259000000000001,
+    0.0,
+    0.0
+   ],
+   [
+    -0.005370000000000001,
+    0.0,
+    0.0
+   ],
+   [
+    -0.005481,
+    0.0,
+    0.0
+   ],
+   [
+    -0.00563,
+    0.0,
+    0.0
+   ],
+   [
+    -0.005852,
+    0.0,
+    0.0
+   ],
+   [
+    -0.005926000000000001,
+    0.0,
+    0.0
+   ]
+  ],
+  "uncertainty": null
+ },
+ "blocked": null,
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.005926000000000001,
+  "free_direction": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "polarity_axial": -1,
+  "blocked_force_N": null,
+  "stiffness_N_per_m": null,
+  "effective_dof": null
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.1
+ },
+ "data_completeness": "curves_only",
+ "provenance": {
+  "data_dir": "data/published/abboodi2026_ossa",
+  "digitizer_script": "digitize_abboodi2026_ossa.py",
+  "source_csvs": [
+   {
+    "file": "abboodi2026_fig4c_contraction.csv",
+    "sha256": "06b28442f6da0437d914dc8bd4264ff930b96c9cc6b28ab407a369d581837a25"
+   }
+  ],
+  "citation": "Abboodi, A. and Doumit, M. \"Design, manufacturing, and testing of a novel omnidirectional soft sleeve actuator.\" Sci. Rep. 16:9828, 2026. doi:10.1038/s41598-026-40604-5"
+ }
+}

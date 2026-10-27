@@ -1,0 +1,147 @@
+{
+ "schema_version": "0.2",
+ "id": "mosadegh2014_fPN",
+ "name": "Mosadegh 2014 fPN (fast pneu-net)",
+ "source": {
+  "kind": "literature",
+  "detail": "digitized: Mosadegh et al. 2014 SI Fig S5 (tip trajectory, FEM series) + Fig S6 (blocked force, Sensor series)",
+  "date": "2026-09-10",
+  "reference": "doi:10.1002/adfm.201303288"
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": null,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "Pneu-net (pneumatic network) bending finger; Ecoflex 30 extensible layer / Sylgard 184 PDMS inextensible strain limiter. Tier-1 curves only (free tip trajectory + blocked force output vs pressure); no shape/Gramian block -- see data_completeness. Bending device: polarity_axial is not meaningful (not an axial contract/extend actuator) and is left null rather than forced to a value. free.tip_displacement_m uses the FEM trajectory series (SI Fig S5 panel F) because the Camera (experimental) series has only 2 digitizable points (marker occlusion per PROVENANCE.md 'Dropped points') -- below the tier-1 minimum of 3. FEM is the paper's own finite-element prediction, not an independent measurement."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "chamber pressure",
+    "unit": "Pa",
+    "range": [
+     0.0,
+     72662.0
+    ],
+    "rated": null
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "free-end centroid"
+ },
+ "free": {
+  "u": [
+   [
+    15000.0
+   ],
+   [
+    30000.0
+   ],
+   [
+    45000.0
+   ],
+   [
+    60000.0
+   ],
+   [
+    72000.0
+   ]
+  ],
+  "tip_displacement_m": [
+   [
+    -0.032546,
+    -0.050899,
+    0.0
+   ],
+   [
+    -0.07370399999999999,
+    -0.048863000000000004,
+    0.0
+   ],
+   [
+    -0.09093000000000001,
+    -0.027280000000000002,
+    0.0
+   ],
+   [
+    -0.091159,
+    -0.012702,
+    0.0
+   ],
+   [
+    -0.084375,
+    -0.0026030000000000003,
+    0.0
+   ]
+  ],
+  "uncertainty": null
+ },
+ "blocked": {
+  "u": [
+   [
+    344.0
+   ],
+   [
+    19846.0
+   ],
+   [
+    34873.0
+   ],
+   [
+    55038.0
+   ],
+   [
+    72662.0
+   ]
+  ],
+  "force_axial_N": null,
+  "force_transverse_N": [
+   0.0096,
+   0.2059,
+   0.4312,
+   0.89,
+   1.4005
+  ],
+  "method": "digitized SI Fig S6 force-sensor curve; source paper does not state the force-gauge axis explicitly -- recorded as transverse (bending/blocking) force, not axial, consistent with a bending pneu-net finger",
+  "uncertainty": null
+ },
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.08441514220801859,
+  "free_direction": [
+   -0.9987787042222235,
+   0.04940748923165469,
+   0.0
+  ],
+  "polarity_axial": null,
+  "blocked_force_N": 1.4005,
+  "stiffness_N_per_m": null,
+  "effective_dof": null
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.1
+ },
+ "data_completeness": "curves_only",
+ "provenance": {
+  "data_dir": "data/published/mosadegh2014",
+  "digitizer_script": "digitize_mosadegh2014_si.py",
+  "source_csvs": [
+   {
+    "file": "mosadegh2014_si_FigS5_fPN_FEM_trajectory.csv",
+    "sha256": "04607537538f62910146fffa85c6e90426a077c81ca0126f9bd22529ffb89657"
+   },
+   {
+    "file": "mosadegh2014_si_FigS6_fPN_Sensor.csv",
+    "sha256": "013a07d36113b183e6e53b1fd4cd95530013577961a54c7c28f7f901ba7b23e5"
+   }
+  ],
+  "citation": "Mosadegh, B. et al. \"Pneumatic Networks for Soft Robotics that Actuate Rapidly.\" Adv. Funct. Mater. 24(15), 2163-2170, 2014. doi:10.1002/adfm.201303288"
+ }
+}
