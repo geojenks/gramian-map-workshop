@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gramian map workshop</title>
+<style>
+:root { color-scheme: light; --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b;
+  --ink2:#52514e; --muted:#898781; --grid:#e1e0d9; --link:#256abf; --code:#efeee9; }
+@media (prefers-color-scheme: dark) { :root { color-scheme: dark; --page:#141413;
+  --surface:#1c1c1b; --ink:#f2f1ed; --ink2:#c2c0b8; --muted:#8f8d86; --grid:#33322f;
+  --link:#7fb0ef; --code:#262624; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 16px 4rem; }
+h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .4rem; }
+h2 { font-size: 1.15rem; margin: 2.2rem 0 .6rem; }
+p, li { color: var(--ink2); }
+.lede { font-size: 1.15rem; color: var(--ink); margin: 0 0 1rem; }
+.note { border-left: 3px solid var(--grid); padding: .2rem 0 .2rem .9rem; color: var(--muted); }
+a { color: var(--link); }
+pre { background: var(--code); padding: .9rem 1rem; border-radius: 6px; overflow-x: auto;
+  font-size: .9rem; line-height: 1.45; }
+code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+ul.links { list-style: none; padding: 0; }
+ul.links li { padding: .55rem 0; border-top: 1px solid var(--grid); }
+ul.links li:last-child { border-bottom: 1px solid var(--grid); }
+ul.links a { font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+<h1>Can N copies of your actuator hold, and turn, a ball in a cup?</h1>
+<p class="lede">A small tool from our ARIA dexterous soft robotics work. Give it a
+soft actuator's record (datasheet numbers or a measured table) and it says, for
+each arrangement of fingers, whether the task can be done and, if not, why:
+direction, friction, or strength.</p>
+<p class="note">Simulation and records only: comparative, not predictive. Record
+forces are uncalibrated, so strength is shown but never scored.</p>
+
+<h2>Try it with no install</h2>
+<ul class="links">
+<li><a href="record_form.html">Record form</a>: type datasheet numbers or paste a
+measured table in whatever units you have, and download a record file. It runs in
+your browser.</li>
+<li><a href="cup_hold.html">Cup hold</a>: which actuators hold the ball, with N = 1
+to 8 fingers and four ways of mounting them. Hover any cell for the reason.</li>
+<li><a href="cup_turn.html">Cup turn</a>: the same cup turned by a travelling
+make/break wave; which fingers can drive the turn and which can only hold.</li>
+<li><a href="cup_hold_passive_2mm.html">Cup hold with passive stiffness</a>: each
+finger may also resist as a spring, within 2 mm of deflection.</li>
+<li><a href="follow_respaced.html">Can this hand follow the leader?</a>: rigid and
+human hands checked against a recorded wave gait.</li>
+</ul>
+
+<h2>Run it on your own actuator</h2>
+<p>You need Python 3.9 or newer and git.</p>
+<pre><code>git clone https://github.com/geojenks/gramian-map-workshop
+cd gramian-map-workshop
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -e .
+python demos/cup_hold.py --record my_actuator.json
+python demos/cup_turn.py --record my_actuator.json</code></pre>
+<p>To check rigid robot hands as well (Allegro, Shadow, LEAP and Linker's public
+L20), add MuJoCo and fetch the hand models:</p>
+<pre><code>pip install -e ".[hands]"
+python tools/fetch_hands.py</code></pre>
+<p>The <a href="https://github.com/geojenks/gramian-map-workshop#readme">README</a>
+explains how to read a result, what data a record needs, and where every number
+comes from. Each push is checked on clean Linux and Windows machines.</p>
+
+<h2>Licence</h2>
+<p>Apache-2.0. The hand models fetched by <code>fetch_hands.py</code> keep their
+own licences (BSD, Apache-2.0 and MIT for the Menagerie hands; Apache-2.0 for
+Linker's L20).</p>
+</main>
+</body>
+</html>

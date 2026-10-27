@@ -68,7 +68,10 @@ class Dynamics(unittest.TestCase):
         d = mj.MjData(m)
         d.qpos[:] = q
         mj.mj_forward(m, d)
-        mj.mj_fullM(m, Mf, d.qM)
+        if hasattr(d, "qM"):
+            mj.mj_fullM(m, Mf, d.qM)
+        else:  # newer MuJoCo: mj_fullM(m, d, dst)
+            mj.mj_fullM(m, d, Mf)
         np.testing.assert_allclose(motion, Mf @ qdd, rtol=1e-9, atol=1e-12)
         self.assertGreater(motion[dof], 0.0)
         # at rest the weight term is MuJoCo's bias force

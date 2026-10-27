@@ -30,10 +30,10 @@ def main():
                          f"({f['inputs_source']}); torque limits: "
                          f"{f['torque_limits'] or 'none in model'}; reach {f['reach_mm']:.0f} mm")
     os.makedirs(os.path.join(ROOT, "outputs"), exist_ok=True)
-    with open(os.path.join(ROOT, "outputs", "hand_cards.json"), "w") as fo:
+    with open(os.path.join(ROOT, "outputs", "hand_cards.json"), "w", encoding="utf-8") as fo:
         json.dump(cards, fo, indent=1)
     txt = "\n".join(lines) + "\n"
-    with open(os.path.join(ROOT, "outputs", "hand_cards.txt"), "w") as fo:
+    with open(os.path.join(ROOT, "outputs", "hand_cards.txt"), "w", encoding="utf-8") as fo:
         fo.write(txt)
     print(txt)
 

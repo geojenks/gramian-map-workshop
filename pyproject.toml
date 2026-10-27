@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "Pair soft-actuator records with manipulation tasks: can N copies of your actuator hold, and turn, a ball in a cup?"
 readme = "README.md"
 requires-python = ">=3.9"
+license = {text = "Apache-2.0"}
 dependencies = ["numpy>=1.21"]
 
 [project.optional-dependencies]

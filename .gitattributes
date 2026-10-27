@@ -1,0 +1,5 @@
+# Files pinned by sha256 (copied byte for byte from their source repositories)
+# must check out exactly as stored, never with Windows line endings.
+gramian_workshop/vendor/** -text
+docs/RECORD_SCHEMA.md -text
+data/records/** -text

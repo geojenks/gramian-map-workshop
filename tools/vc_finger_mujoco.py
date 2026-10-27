@@ -214,7 +214,7 @@ def main():
         print(f"   {k:8s} static {np.round(f[:3], 2)} vs matrix {np.round(M[:3] @ e, 2)}; "
               f"self-motion curvature {curv * 1e3:8.2f} N.mm/rad^2: {state}")
     out["test4_statics_stability"] = t4
-    with open(os.path.join(ROOT, "outputs", f"vc1998_mujoco_checks_{a.column}.json"), "w") as f:
+    with open(os.path.join(ROOT, "outputs", f"vc1998_mujoco_checks_{a.column}.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1)
     print(f"wrote outputs/vc1998_mujoco_checks_{a.column}.json")
 

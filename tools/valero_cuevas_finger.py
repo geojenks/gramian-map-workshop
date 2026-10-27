@@ -199,7 +199,7 @@ def main():
            "frame": "distal phalanx: x lateral, y distal, z palmar; forces the fingertip applies, N",
            **res}
     os.makedirs(os.path.join(ROOT, "outputs"), exist_ok=True)
-    with open(os.path.join(ROOT, "outputs", "vc1998_index_finger.json"), "w") as f:
+    with open(os.path.join(ROOT, "outputs", "vc1998_index_finger.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1)
     recs = []
     for name in ("nominal", "adjusted"):
@@ -223,7 +223,7 @@ def main():
            "caveat": "model, not measurement"})
     os.makedirs(os.path.join(ROOT, "data", "records_draft"), exist_ok=True)
     for rec in recs:
-        with open(os.path.join(ROOT, "data", "records_draft", rec["id"] + ".json"), "w") as f:
+        with open(os.path.join(ROOT, "data", "records_draft", rec["id"] + ".json"), "w", encoding="utf-8") as f:
             json.dump(rec, f, indent=1)
     print("wrote outputs/vc1998_index_finger.json and data/records_draft/human_index_vc1998_*.json")
 

@@ -99,12 +99,12 @@ def main():
     os.makedirs(VENDOR, exist_ok=True)
     for out, spec in SOURCES.items():
         p = os.path.join(VENDOR, out)
-        with open(p, "w") as f:
+        with open(p, "w", encoding="utf-8") as f:
             f.write(render(spec, wm))
         print(f"wrote {p}")
     init = os.path.join(VENDOR, "__init__.py")
     if not os.path.exists(init):
-        with open(init, "w") as f:
+        with open(init, "w", encoding="utf-8") as f:
             f.write('"""Verbatim copies of the W20 readout core '
                     '(see tools/vendor_w20.py)."""\n')
 

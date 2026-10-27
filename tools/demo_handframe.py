@@ -208,13 +208,13 @@ def main():
                           "fit_rms_median_m": float(np.median(rms_all)), "reflections_rejected": int(refl)},
             "frames": out}
     p_out = os.path.join(ROOT, "data", "leaders", name + ".json")
-    json.dump(lead, open(p_out, "w"), separators=(",", ":"))
+    json.dump(lead, open(p_out, "w", encoding="utf-8"), separators=(",", ":"))
     c0 = out[0]["obj_pos"]
     fixed = {"placement": {"rotation_matrix": np.eye(3).tolist(), "translation_m": c0},
              "assignment": {d_: i for i, d_ in enumerate(L["stations"])},
              "respace_deg": [0.0] * L["n_stations"], "placement_cost_mm": 0.0,
              "note": "the demonstrator's own palm frame: no placement search"}
-    json.dump(fixed, open(os.path.join(ROOT, "outputs", "handframe_" + name.replace("_handframe", "") + ".json"), "w"),
+    json.dump(fixed, open(os.path.join(ROOT, "outputs", "handframe_" + name.replace("_handframe", "") + ".json"), "w", encoding="utf-8"),
               indent=1)
     cmc = np.median([x[0] for x in thumb], 0)
     y = np.median([x[1] for x in thumb], 0)
@@ -224,7 +224,7 @@ def main():
     w /= np.linalg.norm(w)
     th = {"source": a.keypoints, "frames": len(thumb), "frame": "model hand frame",
           "cmc_m": cmc.round(5).tolist(), "metacarpal_dir": y.round(4).tolist(), "curl_dir": w.round(4).tolist()}
-    json.dump(th, open(os.path.join(ROOT, "data", "hands", "measured", "george_thumb_from_keypoints.json"), "w"),
+    json.dump(th, open(os.path.join(ROOT, "data", "hands", "measured", "george_thumb_from_keypoints.json"), "w", encoding="utf-8"),
               indent=1)
     print(f"wrote {p_out}: {len(out)} of {len(L['frames'])} frames kept, palm fit rms median "
           f"{np.median(rms_all) * 1e3:.1f} mm, {refl} mirrored fits rejected")

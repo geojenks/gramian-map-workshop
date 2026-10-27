@@ -45,7 +45,7 @@ def main():
         r = follow(hk, L, n_eval=a.frames, respace=a.respace)
         r["elapsed_s"] = round(time.time() - t0, 1)
         out = os.path.join(ROOT, "outputs", f"follow_{hk}__{lid}" + ("__respaced" if a.respace else "") + (f"__{a.tag}" if a.tag else "") + ".json")
-        with open(out, "w") as f:
+        with open(out, "w", encoding="utf-8") as f:
             json.dump(r, f, indent=1, default=float)
         v = collections.Counter(fr["verdict"] for fr in r["frames"])
         why = collections.Counter(fr["reason"] for fr in r["frames"] if fr["reason"])

@@ -37,11 +37,11 @@ def main():
                                          + ")" for b in BUDGETS_MM)
                      + "   " + "; ".join(f.k_notes))
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
-    with open(a.out + ".json", "w") as fo:
+    with open(a.out + ".json", "w", encoding="utf-8") as fo:
         json.dump({"weight_N": W, "budgets_mm": BUDGETS_MM, "records": rows},
                   fo, indent=1)
     txt = "\n".join(lines) + "\n"
-    with open(a.out + ".txt", "w") as fo:
+    with open(a.out + ".txt", "w", encoding="utf-8") as fo:
         fo.write(txt)
     print(txt)
 

@@ -19,6 +19,8 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")  # tables use ✓ and μ; Windows consoles default to cp1252
 
 from gramian_workshop import report  # noqa: E402
 from gramian_workshop.arrange import Arrangement  # noqa: E402
@@ -152,9 +154,9 @@ def write_hold(task, fingers, h, dm, txt_extra):
     lines += txt_extra
     txt = "\n".join(lines) + "\n"
     base = os.path.join(ROOT, "outputs", f"cup_hold_passive_{dm:g}mm")
-    with open(base + ".txt", "w") as fo:
+    with open(base + ".txt", "w", encoding="utf-8") as fo:
         fo.write(txt)
-    with open(base + ".json", "w") as fo:
+    with open(base + ".json", "w", encoding="utf-8") as fo:
         json.dump({"budget_mm": dm, "caveat": CAVEAT,
                    "soft": {"|".join(map(str, k)): v for k, v in h.items()}},
                   fo, indent=1, default=str)
@@ -183,7 +185,7 @@ def write_hold(task, fingers, h, dm, txt_extra):
     body.append("<details><summary>Table view and prediction scores"
                 f'</summary><div class="card"><pre>{report.esc(txt)}</pre>'
                 "</div></details>")
-    with open(base + ".html", "w") as fo:
+    with open(base + ".html", "w", encoding="utf-8") as fo:
         fo.write(report.page(f"Cup hold with passive stiffness ({dm:g} mm)",
                              CAVEAT, "".join(body)))
     return txt
@@ -221,10 +223,10 @@ def main():
     tl += [""] + ptxt
     ttxt = "\n".join(tl) + "\n"
     with open(os.path.join(ROOT, "outputs", "cup_turn_passive_2mm.txt"),
-              "w") as fo:
+              "w", encoding="utf-8") as fo:
         fo.write(ttxt)
     with open(os.path.join(ROOT, "outputs", "cup_turn_passive_2mm.json"),
-              "w") as fo:
+              "w", encoding="utf-8") as fo:
         json.dump({"budget_mm": HEADLINE_MM, "caveat": CAVEAT,
                    "held_frac": {f"{k[0]}|{k[1]}|{k[2]}": v
                                  for k, v in turn.items() if len(k) == 4},

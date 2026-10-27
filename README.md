@@ -11,12 +11,65 @@ the task can be done and, if not, **why**.
 > Simulation and records only: comparative, not predictive. Record forces are
 > uncalibrated, so strength is shown but never scored.
 
+## Install
+
+You need Python 3.9 or newer and git. Clone the repository and install it
+into a fresh virtual environment:
+
+```bash
+git clone https://github.com/geojenks/gramian-map-workshop
+cd gramian-map-workshop
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -e .                 # the core: numpy only
+```
+
+That is enough for the three demos, the record form and the record checker.
+To check rigid robot hands as well, add MuJoCo and fetch the hand models
+(about 70 MB, downloaded from GitHub into `external/`, which is not
+committed):
+
+```bash
+pip install -e ".[hands]"
+python tools/fetch_hands.py
+```
+
+Install from a clone, not with `pip install git+https://...`: the demos read
+`data/` and write `outputs/` inside the repository.
+
+**Check it worked.**
+
+```bash
+python demos/cup_hold.py
+python tools/compare_outputs.py outputs/cup_hold.json
+```
+
+The demo rewrites `outputs/cup_hold.*`. The second command compares the new
+file with the one stored in git and should end `reproduces HEAD`; numbers
+may differ from ours by round-off only. Then run the tests:
+
+```bash
+python -m unittest discover -s tests
+```
+
+Without the hands, the hand tests skip themselves; so do the source checks
+that need our private Wave_manip repository.
+
+**Hands available.** Allegro, Shadow and LEAP come from MuJoCo Menagerie
+(BSD, Apache-2.0 and MIT, each licence kept with its model). `l20_public` is
+Linker's published L20 model (Apache-2.0, `linker-bot/linkerhand-urdf`),
+built into MuJoCo by `fetch_hands.py`. The hand we call `l20` is the one in
+our lab, built from vendor files we cannot share; Linker's public model
+differs from it (finger bases and joint ranges), so stored `follow_l20__*`
+results do not apply to `l20_public`. The human-finger hands are in
+`data/hands/` and need nothing extra.
+
+Every step above is run on clean Linux and Windows machines by
+`.github/workflows/install-check.yml` on each push.
+
 ## Quick start (about two minutes)
 
 ```bash
-git clone <this repo> && cd gramian-map-workshop
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -e .                                     # numpy is the only dependency
 python demos/cup_hold.py                             # Demo 1
 python demos/cup_turn.py                             # Demo 2
 python demos/passive.py                              # Demo 3 (passive stiffness)

@@ -34,7 +34,7 @@ def main():
             src["placement_cost_mm"] = src["mean_reach_mm"]
         r = follow(hk, L, n_eval=40, placement=src)
         r["rescored_from"] = which
-        json.dump(r, open(os.path.join(ROOT, "outputs", f"rescore_{which}_{hk}.json"), "w"),
+        json.dump(r, open(os.path.join(ROOT, "outputs", f"rescore_{which}_{hk}.json"), "w", encoding="utf-8"),
                   indent=1, default=float)
         v = collections.Counter(f["verdict"] for f in r["frames"])
         why = collections.Counter(f["reason"] for f in r["frames"] if f["verdict"] == "red")

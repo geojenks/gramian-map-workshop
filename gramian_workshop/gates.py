@@ -279,7 +279,7 @@ def main():
     g["all_pass"] = all(v.get("pass", False) for v in g.values()
                         if isinstance(v, dict))
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
-    with open(a.out, "w") as f:
+    with open(a.out, "w", encoding="utf-8") as f:
         json.dump(g, f, indent=1, default=str)
     for k, v in g.items():
         print(k, json.dumps(v, default=str) if isinstance(v, dict) else v)

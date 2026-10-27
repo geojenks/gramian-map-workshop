@@ -34,7 +34,7 @@ def main():
         man[dst] = {"source": "geojenks/Gramain_extraction", **source_entry(repo, src)}
         print(f"copied {src} -> {dst}")
     with open(os.path.join(ROOT, "gramian_workshop", "vendor",
-                           "SCHEMA_MANIFEST.json"), "w") as f:
+                           "SCHEMA_MANIFEST.json"), "w", encoding="utf-8") as f:
         json.dump(man, f, indent=1)
 
 

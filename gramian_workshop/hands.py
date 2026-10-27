@@ -1,8 +1,8 @@
 """Rigid hands from MuJoCo models: fingers, inputs, limits, fingertip reach.
 
 Needs `mujoco` (pip install -e .[hands]) and the hand models: run
-tools/fetch_hands.py once, or set GMW_MENAGERIE / GMW_WAVE_MANIP to local
-checkouts.
+tools/fetch_hands.py once (it also builds `l20_public` from Linker's public
+URDF), or set GMW_MENAGERIE / GMW_WAVE_MANIP to local checkouts.
 
 One rule for every hand, stated rather than tuned per hand:
   fingertip point  the vertex of the distal link's collision geometry
@@ -24,6 +24,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DEFAULT_MENAGERIE = os.path.join(ROOT, "external", "mujoco_menagerie")
 DEFAULT_WAVE_MANIP = os.path.join(ROOT, "external", "wave_manip_models")
+DEFAULT_LINKER = os.path.join(ROOT, "external", "linker_l20_public")
 
 HANDS = {
     "allegro": {
@@ -49,6 +50,14 @@ HANDS = {
     "l20": {
         "name": "Linker L20", "base": "wave_manip",
         "file": "linker_l20_right/l20_right.xml",
+        "fingers": {"thumb": "thumb_distal", "index": "index_distal",
+                    "middle": "middle_distal", "ring": "ring_distal",
+                    "little": "pinky_distal"}},
+    "l20_public": {
+        # Linker's published URDF (Apache-2.0), built by tools/fetch_hands.py;
+        # not the lab's hand above: finger bases and joint ranges differ
+        "name": "Linker L20 (Linker's public model)", "base": "linker",
+        "file": "l20_right.xml",
         "fingers": {"thumb": "thumb_distal", "index": "index_distal",
                     "middle": "middle_distal", "ring": "ring_distal",
                     "little": "pinky_distal"}},
@@ -123,6 +132,8 @@ def model_path(key):
         return os.path.join(ROOT, "data", "hands", spec["file"])
     if spec["base"] == "menagerie":
         base = os.environ.get("GMW_MENAGERIE", DEFAULT_MENAGERIE)
+    elif spec["base"] == "linker":
+        base = DEFAULT_LINKER
     else:
         base = os.environ.get("GMW_WAVE_MANIP", DEFAULT_WAVE_MANIP)
     return os.path.join(base, spec["file"])

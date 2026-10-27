@@ -235,7 +235,7 @@ def main():
     }
     os.makedirs(OUT, exist_ok=True)
     p = os.path.join(OUT, lid + ".json")
-    with open(p, "w") as f:
+    with open(p, "w", encoding="utf-8") as f:
         json.dump(leader, f, separators=(",", ":"))
     n_con = [sum(r["contact"]) for r in rows]
     print(f"wrote {p}: {len(rows)} frames, {leader['n_stations']} stations, "

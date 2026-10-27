@@ -1,0 +1,67 @@
+# Does exactly what the README's Install section says, on clean Linux and
+# Windows machines, then checks the demos reproduce the stored results.
+name: install-check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  core:
+    # numpy only: the three demos must reproduce, and the tests must pass
+    # with the hand tests skipping themselves
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        shell: bash
+        run: |
+          python -m venv .venv
+          if [ -f .venv/Scripts/activate ]; then . .venv/Scripts/activate; else . .venv/bin/activate; fi
+          pip install -e .
+          echo "$(dirname "$(command -v python)")" >> "$GITHUB_PATH"
+      - name: Demos reproduce the stored results
+        run: |
+          python demos/cup_hold.py
+          python demos/cup_turn.py
+          python demos/passive.py
+          python tools/compare_outputs.py outputs/cup_hold.json outputs/cup_turn.json outputs/cup_hold_passive_1mm.json outputs/cup_hold_passive_2mm.json outputs/cup_hold_passive_4mm.json
+      - name: Tests
+        run: python -m unittest discover -s tests
+
+  hands:
+    # with MuJoCo and the fetched hand models
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        shell: bash
+        run: |
+          python -m venv .venv
+          if [ -f .venv/Scripts/activate ]; then . .venv/Scripts/activate; else . .venv/bin/activate; fi
+          pip install -e ".[hands]"
+          python tools/fetch_hands.py
+          echo "$(dirname "$(command -v python)")" >> "$GITHUB_PATH"
+      - name: Every public hand loads
+        run: python -c "from gramian_workshop.hands import hand_card; [print(k, hand_card(k)['fingers'][0]) for k in ('allegro', 'shadow', 'leap', 'l20_public')]"
+      - name: Tests
+        run: python -m unittest discover -s tests

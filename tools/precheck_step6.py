@@ -87,7 +87,7 @@ def main():
                str(k): W / (k * nz) for k in range(1, 9)},
            "records": rows}
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
-    with open(a.out + ".json", "w") as fo:
+    with open(a.out + ".json", "w", encoding="utf-8") as fo:
         json.dump(out, fo, indent=1)
     lines = [
         "W20 step 6 pre-check (records and task geometry only; nothing solved)",
@@ -111,7 +111,7 @@ def main():
             f"{g('aimed_yaw90_d_offaxis', '9.4f')} {g('aimed_yaw90_turn_per_stroke_deg', '8.1f')} "
             f"{g('N_needed_aimed_comparative', '6d')} {' '.join(r['flags'])}")
     txt = "\n".join(lines) + "\n"
-    with open(a.out + ".txt", "w") as fo:
+    with open(a.out + ".txt", "w", encoding="utf-8") as fo:
         fo.write(txt)
     print(txt)
 

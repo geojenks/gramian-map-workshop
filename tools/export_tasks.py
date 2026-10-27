@@ -91,7 +91,7 @@ def main():
     }
     for tid, t in tasks.items():
         p = os.path.join(OUT, f"{tid}.json")
-        with open(p, "w") as f:
+        with open(p, "w", encoding="utf-8") as f:
             json.dump(t, f, indent=1)
         print(f"wrote {p}")
     print("values:", {**vals, "duty": duty})

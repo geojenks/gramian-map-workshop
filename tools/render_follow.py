@@ -147,7 +147,7 @@ contact point the solver chose on the finger, with its outward normal; the colou
 on the ball. Green needs the dot within 2 mm of the cross and the normal within 30&deg; of pointing into the ball. Lifted-off fingers are drawn faded in the model's rest pose (collisions are not checked, so they may cross the ball).
 SIMULATION ONLY.</p>{''.join(cards)}</body></html>"""
     out = os.path.join(ROOT, "outputs", f"render_{src['hand']}.html")
-    open(out, "w").write(page)
+    open(out, "w", encoding="utf-8").write(page)
     print("wrote", out)
 
 

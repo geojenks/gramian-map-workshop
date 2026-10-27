@@ -90,7 +90,7 @@ def main():
                 .replace("__SUB__", sub)
                 .replace("__DATA__", json.dumps(L, separators=(",", ":"))))
         out = os.path.join(ROOT, "outputs", f"leader_{L['id']}.html")
-        with open(out, "w") as f:
+        with open(out, "w", encoding="utf-8") as f:
             f.write(html)
         print("wrote", out)
 

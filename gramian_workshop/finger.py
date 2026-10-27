@@ -41,7 +41,7 @@ def load_record(rid_or_path):
     if not os.path.exists(p):
         p = os.path.join(DATA, "records",
                          load_manifest()["records"][rid_or_path]["file"])
-    with open(p) as f:
+    with open(p, encoding="utf-8") as f:
         return json.load(f)
 
 

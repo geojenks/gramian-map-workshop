@@ -37,7 +37,7 @@ def job(args):
         cost, assign, floor, res = reach_only(hk, L)
         out = {"hand": hk, "leader": lid, "mean_reach_mm": cost * 1e3, "assignment": assign,
                "floor": floor, **res, "elapsed_s": round(time.time() - t0, 1)}
-        with open(os.path.join(ROOT, "outputs", f"reach_only_{hk}.json"), "w") as f:
+        with open(os.path.join(ROOT, "outputs", f"reach_only_{hk}.json"), "w", encoding="utf-8") as f:
             json.dump(out, f, indent=1)
         lines = [f"{hk} reach-only placement: mean reach {cost * 1e3:.1f} mm; {assign}; {out['elapsed_s']} s"]
         lines += [f"   {k:7s} floor med {v['median_mm']:5.1f} p90 {v['p90_mm']:5.1f} max {v['max_mm']:5.1f} mm"
@@ -45,7 +45,7 @@ def job(args):
     else:
         r = follow(hk, L, n_eval=40, wrist=True)
         r["elapsed_s"] = round(time.time() - t0, 1)
-        with open(os.path.join(ROOT, "outputs", f"follow_{hk}__{lid}__wrist.json"), "w") as f:
+        with open(os.path.join(ROOT, "outputs", f"follow_{hk}__{lid}__wrist.json"), "w", encoding="utf-8") as f:
             json.dump(r, f, indent=1, default=float)
         v = collections.Counter(fr["verdict"] for fr in r["frames"])
         why = collections.Counter(fr["reason"] for fr in r["frames"] if fr["verdict"] == "red")

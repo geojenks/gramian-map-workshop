@@ -111,7 +111,7 @@ def main():
             cells.append(f"k{kappa:<5g} {s:5.1f} N (co {co:+.2f}; sim {np.linalg.norm(f):5.1f} N, drift {drift:5.2f} deg)")
         out["directions"][k] = row
         print(f"   {k:8s} unconstrained {s0:5.1f} | " + " | ".join(cells))
-    with open(os.path.join(ROOT, "outputs", f"vc1998_cocontraction_{a.column}.json"), "w") as f:
+    with open(os.path.join(ROOT, "outputs", f"vc1998_cocontraction_{a.column}.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1)
     print(f"wrote outputs/vc1998_cocontraction_{a.column}.json")
 

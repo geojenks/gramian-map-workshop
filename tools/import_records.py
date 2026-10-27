@@ -60,7 +60,7 @@ def main():
             **source_entry(repo, os.path.join("gramian_map", "records", name)),
             "quality": flags.get(rid, {}),
         }
-    with open(os.path.join(OUT, "MANIFEST.json"), "w") as f:
+    with open(os.path.join(OUT, "MANIFEST.json"), "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=1)
     print(f"copied {len(manifest['records'])} records -> {OUT}")
     for rid, e in manifest["records"].items():

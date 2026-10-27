@@ -32,7 +32,7 @@ def main():
             r = follow(hk, L, n_eval=40, placement=src, joint_stiffness=kq)
             r["rescored_from"] = os.path.relpath(src_p, ROOT)
             out = src_p.replace("__side.json", f"__side_kq{kq:g}.json")
-            json.dump(r, open(out, "w"), indent=1, default=float)
+            json.dump(r, open(out, "w", encoding="utf-8"), indent=1, default=float)
             v = collections.Counter(f["verdict"] for f in r["frames"])
             why = collections.Counter(f["reason"] for f in r["frames"] if f["verdict"] == "red")
             fin = collections.Counter((x["finger"], x["state"]) for f in r["frames"]

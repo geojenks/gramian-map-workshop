@@ -282,7 +282,7 @@ def build(column, arch=False, proportions=False, measured=None, thumb=None, wide
 """
     out = OUT.replace("human_vc1998", "human_vc1998" + tag)
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    with open(out, "w") as f:
+    with open(out, "w", encoding="utf-8") as f:
         f.write(xml)
     return out
 

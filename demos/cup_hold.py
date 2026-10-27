@@ -15,6 +15,8 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")  # tables use ✓ and μ; Windows consoles default to cp1252
 
 from gramian_workshop import report  # noqa: E402
 from gramian_workshop.arrange import Arrangement  # noqa: E402
@@ -137,7 +139,7 @@ def main():
                         + (f"  {detail.get(k)}" if not v and detail.get(k)
                            else ""))
     txt = "\n".join(rows_txt) + "\n"
-    with open(os.path.join(ROOT, "outputs", "cup_hold.txt"), "w") as fo:
+    with open(os.path.join(ROOT, "outputs", "cup_hold.txt"), "w", encoding="utf-8") as fo:
         fo.write(txt)
 
     js = {"task": "cup_hold", "caveat": CAVEAT,
@@ -145,7 +147,7 @@ def main():
           "soft": {f"{k[0]}|{k[1]}|{k[2]}": v for k, v in soft.items()},
           "strength_min_N_aimed_yaw0": smin,
           "predictions": P, "prediction_detail": detail}
-    with open(os.path.join(ROOT, "outputs", "cup_hold.json"), "w") as fo:
+    with open(os.path.join(ROOT, "outputs", "cup_hold.json"), "w", encoding="utf-8") as fo:
         json.dump(js, fo, indent=1, default=str)
 
     body = [report.legend_reasons()]
@@ -181,7 +183,7 @@ def main():
                 "reason, input count and comparative margin.</p>")
     body.append("<details><summary>Table view and prediction scores</summary>"
                 f'<div class="card"><pre>{report.esc(txt)}</pre></div></details>')
-    with open(os.path.join(ROOT, "outputs", "cup_hold.html"), "w") as fo:
+    with open(os.path.join(ROOT, "outputs", "cup_hold.html"), "w", encoding="utf-8") as fo:
         fo.write(report.page("Cup hold readout", CAVEAT, "".join(body)))
     print(txt)
 

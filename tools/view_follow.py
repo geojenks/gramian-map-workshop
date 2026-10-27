@@ -105,7 +105,7 @@ def main():
             "phalanx. The wrist (Shadow) is held still. "
             "Hover a cell for the details.</p>" + "".join(card(r) for r in rs))
     out = os.path.join(ROOT, "outputs", "follow.html")
-    with open(out, "w") as f:
+    with open(out, "w", encoding="utf-8") as f:
         f.write(page("Can this hand follow the leader?",
                      "SIMULATION ONLY: comparative, not predictive. Allegro and LEAP "
                      "models carry no torque limits, so strength is not checked for them.",

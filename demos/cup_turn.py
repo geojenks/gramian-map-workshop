@@ -21,6 +21,8 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")  # tables use ✓ and μ; Windows consoles default to cp1252
 
 from gramian_workshop import report  # noqa: E402
 from gramian_workshop.arrange import Arrangement  # noqa: E402
@@ -119,7 +121,7 @@ def main():
         lines.append(f"  P{k}: {'HIT' if v else 'MISS'}  {detail[k]}")
     txt = "\n".join(lines) + "\n"
     os.makedirs(os.path.join(ROOT, "outputs"), exist_ok=True)
-    with open(os.path.join(ROOT, "outputs", "cup_turn.txt"), "w") as fo:
+    with open(os.path.join(ROOT, "outputs", "cup_turn.txt"), "w", encoding="utf-8") as fo:
         fo.write(txt)
     js = {"task": "cup_turn", "caveat": CAVEAT, "duties": duties,
           "predictions": P, "prediction_detail": detail,
@@ -129,7 +131,7 @@ def main():
                                    "made_count", "drive_azimuth",
                                    "drive_offaxis", "turn_per_stroke_deg")}
               for k, v in res.items()}}
-    with open(os.path.join(ROOT, "outputs", "cup_turn.json"), "w") as fo:
+    with open(os.path.join(ROOT, "outputs", "cup_turn.json"), "w", encoding="utf-8") as fo:
         json.dump(js, fo, indent=1, default=str)
 
     body = ['<p class="note">Each cell is the fraction of the wave cycle on '
@@ -174,7 +176,7 @@ def main():
     body.append("<details><summary>Table view and prediction scores"
                 f'</summary><div class="card"><pre>{report.esc(txt)}</pre>'
                 "</div></details>")
-    with open(os.path.join(ROOT, "outputs", "cup_turn.html"), "w") as fo:
+    with open(os.path.join(ROOT, "outputs", "cup_turn.html"), "w", encoding="utf-8") as fo:
         fo.write(report.page("Cup turn readout", CAVEAT, "".join(body)))
     print(txt)
 

@@ -121,7 +121,7 @@ def main():
     for hk in ("human_vc", "allegro", "shadow", "leap", "l20"):
         rows[hk] = finger_pushes(hk)
     rows["shadow_kq0.2"] = finger_pushes("shadow", kq=0.2)
-    with open(os.path.join(ROOT, "outputs", "finger_compare.json"), "w") as f:
+    with open(os.path.join(ROOT, "outputs", "finger_compare.json"), "w", encoding="utf-8") as f:
         json.dump({"posture_deg": POSE_DEG, "rows": rows}, f, indent=1)
     names = {"human_vc1998_adjusted": "Human index, VC 1998 adjusted (paper's numbers)",
              "human_vc1998_nominal": "Human index, VC 1998 nominal",
@@ -136,7 +136,7 @@ def main():
         lines.append(f"| {names[k]} | " + " | ".join(f"{p[d]:.1f}" for d in DIRS)
                      + f" | {r['inputs']}{' (pull only)' if r['one_sided_inputs'] else ''} | {r['limit_source']} |")
     md = "\n".join(lines)
-    with open(os.path.join(ROOT, "outputs", "finger_compare.md"), "w") as f:
+    with open(os.path.join(ROOT, "outputs", "finger_compare.md"), "w", encoding="utf-8") as f:
         f.write(md + "\n")
     print(md)
 

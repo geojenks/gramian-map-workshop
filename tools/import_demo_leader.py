@@ -149,7 +149,7 @@ def main():
                            "unbalanced_share_p90": float(np.percentile(resid, 90)) if resid else None},
             "frames": out_frames, "caveat": "forces derived, not measured"}
     out = os.path.join(ROOT, "data", "leaders", name + ".json")
-    json.dump(lead, open(out, "w"), separators=(",", ":"))
+    json.dump(lead, open(out, "w", encoding="utf-8"), separators=(",", ":"))
     print(f"wrote {out}: {len(out_frames)} frames kept, {dropped} dropped (touching without a point); "
           f"wrench left unbalanced by the cones: median {np.median(resid):.3f}, p90 {np.percentile(resid, 90):.3f}")
 

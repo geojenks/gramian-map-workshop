@@ -80,7 +80,7 @@ def run_hand(args):
         t0 = time.time()
         r = follow(hk, L, n_eval=frames, **kw)
         r["elapsed_s"] = round(time.time() - t0, 1)
-        with open(os.path.join(ROOT, "outputs", "ladder", f"follow_{hk}__{lid}__{sid}.json"), "w") as f:
+        with open(os.path.join(ROOT, "outputs", "ladder", f"follow_{hk}__{lid}__{sid}.json"), "w", encoding="utf-8") as f:
             json.dump(r, f, indent=1, default=float)
         bound = reach_bound(hk, L, r, middle=kw.get("middle", False))
         s = summarise(r, bound)
@@ -106,7 +106,7 @@ def main():
         res = pool.map(run_hand, [(h, a.frames) for h in a.hands])
     doc = {"steps": [{"id": s, "label": l, "settings": kw} for s, l, kw in STEPS],
            "hands": {hk: {"leader": lid, "steps": out} for hk, lid, out in res}}
-    with open(os.path.join(ROOT, "outputs", "reach_ladder.json"), "w") as f:
+    with open(os.path.join(ROOT, "outputs", "reach_ladder.json"), "w", encoding="utf-8") as f:
         json.dump(doc, f, indent=1, default=float)
     print("wrote outputs/reach_ladder.json")
 
