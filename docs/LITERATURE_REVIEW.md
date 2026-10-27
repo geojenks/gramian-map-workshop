@@ -1220,7 +1220,13 @@ directions. A cell from an abstract-only source rests on that abstract.
 - **A recorded manipulation, scored frame by frame, for a hand.** Orsolino
   et al. do this for legs; Fakhari et al. compute along a path but keep the
   minimum. We found no hand paper that keeps a readout for every frame of a
-  given motion.
+  given motion. Added on 27 October, from the benchmark search
+  (`BENCHMARK_REVIEW.md`): CHORD (Zhu et al. 2026) comes closest. It builds
+  a friction-cone wrench set from the demonstrated contacts at each frame
+  and compares the robot's with the human's, but as a training reward,
+  with no actuator limits. DexMachina (Mandi et al. 2025) compares six
+  hands against a demonstrated object motion, but through a learned policy
+  and with no wrench check.
 - **Mixed inputs in one test.** Inouye et al. treat one-sided tendons;
   Zheng and Yamane remove forces the joints cannot make, without torque
   magnitudes; Bicchi and Prattichizzo 2000 give the passive-joint statics
@@ -1512,6 +1518,14 @@ Learning-based dexterity:
 - Rajeswaran A et al. "Learning Complex Dexterous Manipulation with Deep
   Reinforcement Learning and Demonstrations". *Robotics: Science and
   Systems XIV*, 2018. DOI 10.15607/rss.2018.xiv.049. **[abstract]**
+- Zhu et al. "Learning Dexterous Manipulation Using Contact Wrench
+  Guidance From Human Demonstration" (CHORD). arXiv 2607.00033, 2026.
+  **[read: method and evaluation]** Per-frame friction-cone wrench sets
+  from demonstrated contacts, compared through sampled support directions
+  as a reward. Added 27 October.
+- Mandi Z et al. "DexMachina: Functional Retargeting for Bimanual
+  Dexterous Manipulation". arXiv 2505.24853, 2025. **[read]** Six hands
+  scored against demonstrated object motion. Added 27 October.
 
 ## 9. References and claims we could not verify
 
