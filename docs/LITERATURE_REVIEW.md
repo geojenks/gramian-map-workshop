@@ -1299,6 +1299,36 @@ joint step. The limits, stated plainly:
 - Fingers with too few made frames in the window (fewer than
   `FIT_MIN_POINTS`) get no torque and are marked not fitted.
 
+*27 Oct 2026: the second is now built too, off by default.*
+`follow(rate_limit=r)` and `follow(lag_s=T)` link each actuator's limits
+to the previous checked frame. From the net torque u the actuator gave
+there, a rate limit lets it reach u ± r · (its larger limit) · dt, and a
+first-order lag lets it reach between u e + (1 − e) lo and u e + (1 − e) hi,
+with e = exp(−dt/T). Given both, both apply. The result is intersected with
+the actuator's own range and replaces the [0, 1] box on its input columns,
+in the per-finger hold test, the redistribution, and the scale and
+disturbance margins. The apply limit and the passive stiffness columns are
+not linked. Each finger's record gets an `actuator_link` entry: the
+previous torque, the box, and the torque this frame's solution used. The
+limits, stated plainly:
+
+- **No time constant is sourced.** No record or digitised source gives how
+  fast a soft actuator pressurises or a muscle activates, so both are unset
+  by default. Any value used so far is illustrative.
+- **The previous torque is one solution of many.** It is taken from the
+  solve that decided the previous checked frame: the redistribution if it
+  ran, otherwise each finger's own hold test. The least-squares solver
+  returns one of the force sets that work; another would give a different
+  starting point. Linking the net torque, not each input, means a motor
+  pushing both ways at once does not matter.
+- **dt is the gap between checked frames**, so the link is only as strong
+  as the frames are dense. With few checked frames a lag opens almost the
+  whole range. The first checked frame, and a finger with no torque the
+  frame before, start from zero torque.
+- **The input rows are least-squares rows**, as in the [0, 1] test, so a
+  solution can pass its box by about the solver's residual.
+- **No resonance.** A rate limit and a first-order lag cannot ring.
+
 The literature also makes plain these limits of our tool.
 
 - **Polyhedral cones add direction-dependent artefacts**, by the reading

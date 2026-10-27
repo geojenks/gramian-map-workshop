@@ -77,6 +77,15 @@ contact load, in the per-finger torque test, the redistribution and the
 scale and disturbance margins (not the apply limit); see _finger_dynamics.
 Off by default, so earlier results reproduce exactly. The fingers' weight
 stays out, as before.
+With follow(rate_limit=r) and/or follow(lag_s=T), each actuator's net
+torque at a checked frame must be reachable from what it gave at the
+previous checked frame: within r times its limit per second of it, and/or
+along a first-order lag with time constant T towards any torque in its
+range (both given: both apply). The test that decided the previous checked
+frame gives that torque (see _reach). This box holds in the per-finger
+torque test, the redistribution and the scale and disturbance margins (not
+the apply limit, and not the passive stiffness columns). Off by default;
+no constant is sourced, so none is set.
 
 Contact (26 Oct): a TANGENT contact. A finger touches with its last or
 middle phalanx, each as a capsule (the model's own for capsule links; one
@@ -726,7 +735,8 @@ def torque_limits(hand, finger):
 def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
            placement=None, joint_stiffness=None, margin=False, disturbance=False,
-           apply=False, apply_free=False, inertia=False):
+           apply=False, apply_free=False, inertia=False, rate_limit=None,
+           lag_s=None):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -737,7 +747,11 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     disturbance_margin (see _disturbance_margin); apply: give each frame an
     apply_limit (see _apply_limit); apply_free: add its second reading,
     other_components_free (implies apply); inertia: add the torque each
-    touching finger's own motion needs (see _finger_dynamics)."""
+    touching finger's own motion needs (see _finger_dynamics); rate_limit
+    (per second, as a share of each actuator's limit) and lag_s (s): link
+    each actuator's torque to the previous checked frame's (see _reach).
+    Their link is only as tight as the checked frames are dense: n_eval sets
+    the time between them."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -746,7 +760,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
         return _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol,
                        place or {}, wrist, respace, placement,
                        JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness),
-                       margin, disturbance, apply or apply_free, apply_free, inertia)
+                       margin, disturbance, apply or apply_free, apply_free, inertia,
+                       rate_limit, lag_s)
     finally:
         IK_ITERS = old_iters
 
@@ -786,7 +801,7 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
             respace, placement, kq, margin=True, disturbance=False, apply=False,
-            apply_free=False, inertia=False):
+            apply_free=False, inertia=False, rate_limit=None, lag_s=None):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
@@ -811,9 +826,18 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         assert m.nq == m.nv, "inertia needs a hinge/slide-only hand"
     ks = range(len(leader.frames)) if n_eval is None else \
         np.linspace(0, len(leader.frames) - 1, n_eval).astype(int)
+    link = rate_limit is not None or lag_s is not None
+    # each finger's actuator torques at the previous checked frame (None: not
+    # in the force check there, taken as 0), and that frame's time
+    u_state, t_prev = [None] * len(hand.fingers), None
     frames = []
     for k in ks:
         made = leader.made(k)
+        dt = None
+        if link:
+            tk = float(leader.frames[k]["t"])
+            dt = None if t_prev is None else tk - t_prev
+            bounds, xs_hold = [], {}
         wq = _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made) if wrist else None
         c = leader.center(k, Rw, t)
         W = np.zeros(6)
@@ -873,12 +897,21 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             torque_ok = True
             cols = None
             tau = None
+            box = None
             if M is not None:
                 cols = _finger_columns(hand, f, iks[a], M, lim, Jf, pw, kq)
                 if inertia:
                     item["inertia"], tau = _inertia_item(hand, f, iks[a], M, lim, Jf, pw, dyn)
-                torque_ok, un = _columns_hold(cols, fv, tau)
+                if dt is not None:
+                    u_lo, u_hi = _reach(lim, u_state[a], dt, rate_limit, lag_s)
+                    box = _input_box(lim, cols[1].shape[1], u_lo, u_hi)
+                    item["actuator_link"] = {
+                        "u_prev": None if u_state[a] is None else u_state[a].tolist(),
+                        "u_lo": u_lo.tolist(), "u_hi": u_hi.tolist()}
+                torque_ok, un, xh = _hold_solve(cols, fv, tau, box)
                 item["unbalanced_Nm"] = un
+                if link:
+                    xs_hold[a] = xh
             if item.get("state") != "red":
                 item["state"] = "green" if (exact and in_cone and torque_ok) else "amber?"
             item["torque_checked"] = M is not None
@@ -887,6 +920,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             nrms.append(n_in)
             Js.append(cols)
             taus.append(tau)
+            if link:
+                bounds.append(box)
             # the apply limit counts inputs only: a spring resists but cannot push
             Js_act.append(_finger_columns(hand, f, iks[a], M, lim, Jf, pw, 0.0)
                           if apply and kq > 0 and M is not None else cols)
@@ -900,9 +935,11 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         if any(x.get("state") == "red" for x in per):
             # a red finger's station load must also be carried by the others
             need_redistribute = True
+        bnd = bounds if dt is not None else None
+        stack = {} if link else None
         if need_redistribute:
             ok, reason = _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol,
-                                       taus if inertia else None)
+                                       taus if inertia else None, bnd, stack)
             # a red finger whose contact the force check could still use
             # makes the moment amber at best, not red, when the forces work
             verdict = ("green" if all_green else "amber") if ok else "red"
@@ -916,10 +953,22 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             verdict = "amber"
         if margin:
             sm = _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol,
-                               taus if inertia else None)
+                               taus if inertia else None, bnd)
         if disturbance:
             dm = _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol,
-                                     taus if inertia else None)
+                                     taus if inertia else None, bnd)
+        if link:
+            # the next frame links to the input use of the test that decided
+            # this one: the redistribution's when its torque stack ran, else
+            # each finger's own hold test (NNLS gives one of the solutions,
+            # deterministic but arbitrary among them)
+            xs = _split_stack(Js, fingers_on, stack["x"]) if "x" in stack else xs_hold
+            u_state = [None] * len(hand.fingers)
+            for a, xa in xs.items():
+                u_state[a] = _net_torque(lims[a][1], xa)
+                rec = per[[x["finger"] for x in per].index(hand.fingers[a].label)]
+                rec.setdefault("actuator_link", {})["u"] = u_state[a].tolist()
+            t_prev = tk
         if apply:
             al = _apply_limit(pts, nrms, Js_act, c, mu, L, resid_tol, apply_free)
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
@@ -929,6 +978,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                        **({"scale_margin": sm} if margin else {}),
                        **({"disturbance_margin": dm} if disturbance else {}),
                        **({"apply_limit": al} if apply else {}),
+                       **({"actuator_dt_s": dt} if link else {}),
                        **({"wrist_rad": wq} if wq is not None else {})})
     return {"hand": hand_key, "hand_name": hand.spec["name"],
             "leader": leader_json["id"], "placement_cost_mm": cost * 1e3,
@@ -941,7 +991,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "scale_margin": margin, "disturbance_margin": disturbance,
                          "apply_limit": apply, "apply_limit_free": apply_free,
                          "inertia": inertia,
-                         **({"fit_half_s": FIT_HALF_S} if inertia else {})},
+                         **({"fit_half_s": FIT_HALF_S} if inertia else {}),
+                         "rate_limit_per_s": rate_limit, "lag_s": lag_s},
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
             "respace_deg": np.degrees(leader.phi).tolist(),
@@ -1121,16 +1172,118 @@ def _joint_rhs(Js, taus, L):
 def _columns_hold(cols, fv, tau=None):
     """Can the finger hold contact force fv (and, with tau, also supply the
     torque tau its own motion needs)? (ok, unbalanced joint torque N.m)"""
+    return _hold_solve(cols, fv, tau)[:2]
+
+
+def _hold_solve(cols, fv, tau=None, box=None):
+    """_columns_hold, also giving the input use x it found; with box (l, h),
+    each column's x is held in [l, h] instead of [0, 1] (x = l + y, y in
+    [0, h - l])."""
     Tr, C = cols
     t = Tr @ fv
     if tau is not None:
         t = t + tau
     n = C.shape[1]
     A = np.block([[C, np.zeros((C.shape[0], n))], [np.eye(n), np.eye(n)]])
-    b = np.concatenate([t, np.ones(n)])
-    x, res = cap.solve(A, b)
-    resid = float(np.linalg.norm(C @ x[:n] - t))
-    return resid <= UNACT_TOL * float(np.linalg.norm(t)) + 1e-9, resid
+    if box is None:
+        b = np.concatenate([t, np.ones(n)])
+        x, res = cap.solve(A, b)
+        x = x[:n]
+    else:
+        l, h = box
+        y, res = cap.solve(A, np.concatenate([t - C @ l, h - l]))
+        x = l + y[:n]
+    resid = float(np.linalg.norm(C @ x - t))
+    return resid <= UNACT_TOL * float(np.linalg.norm(t)) + 1e-9, resid, x
+
+
+def _input_senses(lim):
+    """(actuator, its limit in that sense) for each input column of
+    _finger_columns, in its order (hi, then lo)."""
+    out = []
+    for a, (lo, hi) in enumerate(lim):
+        if hi > 0:
+            out.append((a, float(hi)))
+        if lo < 0:
+            out.append((a, float(lo)))
+    return out
+
+
+def _net_torque(lim, x):
+    """Each actuator's net torque for input use x (the passive stiffness
+    columns after the inputs are ignored)."""
+    u = np.zeros(len(lim))
+    for j, (a, v) in enumerate(_input_senses(lim)):
+        u[a] += v * x[j]
+    return u
+
+
+def _reach(lim, u_prev, dt, rate=None, lag=None):
+    """(u_lo, u_hi) per actuator: the net torques reachable dt seconds after
+    u_prev (None: 0), inside the actuator's range [lo, hi]. rate: change at
+    most rate * max(hi, -lo) per second; lag: first-order lag with time
+    constant lag towards any torque in [lo, hi], so u = u_prev e^(-dt/lag)
+    + (1 - e^(-dt/lag)) u_cmd. Both given: both hold. u_prev is clipped into
+    [lo, hi] first (the NNLS can overshoot its bound by its residual)."""
+    lo, hi = np.asarray(lim, float)[:, 0], np.asarray(lim, float)[:, 1]
+    u = np.zeros(len(lo)) if u_prev is None else np.clip(u_prev, lo, hi)
+    u_lo, u_hi = lo.copy(), hi.copy()
+    if rate is not None:
+        r = rate * np.maximum(hi, -lo) * dt
+        u_lo, u_hi = np.maximum(u_lo, u - r), np.minimum(u_hi, u + r)
+    if lag is not None:
+        e = math.exp(-dt / lag)
+        u_lo = np.maximum(u_lo, u * e + (1 - e) * lo)
+        u_hi = np.minimum(u_hi, u * e + (1 - e) * hi)
+    return u_lo, u_hi
+
+
+def _input_box(lim, ncols, u_lo, u_hi):
+    """(l, h): bounds on each of a finger's ncols columns that give exactly
+    net torques in [u_lo, u_hi] per actuator (a two-sided motor's pull
+    column x+ and push column x-: x+ in [max(u_lo, 0), max(u_hi, 0)] / hi,
+    x- in [max(-u_hi, 0), max(-u_lo, 0)] / -lo). Passive stiffness columns
+    keep [0, 1]."""
+    l, h = np.zeros(ncols), np.ones(ncols)
+    for j, (a, v) in enumerate(_input_senses(lim)):
+        if v > 0:
+            l[j], h[j] = max(u_lo[a], 0.0) / v, max(u_hi[a], 0.0) / v
+        else:
+            l[j], h[j] = max(-u_hi[a], 0.0) / -v, max(-u_lo[a], 0.0) / -v
+    return l, np.maximum(h, l)
+
+
+def _split_stack(Js, fingers_on, x):
+    """{finger index: its input use} from _torque_stack's input block x."""
+    out, c0 = {}, 0
+    for cols, a in zip(Js, fingers_on):
+        if cols is None:
+            continue
+        n = cols[1].shape[1]
+        out[a] = x[c0:c0 + n]
+        c0 += n
+    return out
+
+
+def _stack_rhs(Js, taus, bounds, L):
+    """(joint rows, input rows, l) of _torque_stack's right-hand side with
+    each finger's inputs held in its box (l, h) (None: [0, 1]): x = l + y,
+    so Tr F lambda - C y = C l - tau (over L) and y + slack = h - l."""
+    jr, span, low = [], [], []
+    for j, cols in enumerate(Js):
+        if cols is None:
+            continue
+        C = cols[1]
+        n = C.shape[1]
+        l, h = (np.zeros(n), np.ones(n)) if bounds[j] is None else bounds[j]
+        r = C @ l
+        if taus is not None and taus[j] is not None:
+            r = r - np.asarray(taus[j])
+        jr.append(r / L)
+        span.append(h - l)
+        low.append(l)
+    cat = lambda p: np.concatenate(p) if p else np.zeros(0)  # noqa: E731
+    return cat(jr), cat(span), cat(low)
 
 
 def _q_full(m, ik, qfree):
@@ -1140,10 +1293,15 @@ def _q_full(m, ik, qfree):
 
 
 def _feasible(A, b, tol):
+    return _feasible_x(A, b, tol)[:2]
+
+
+def _feasible_x(A, b, tol):
+    """_feasible, also giving the solution of the solve that decided it."""
     x, res = cap.solve(A, b)
     if res > tol:
         x, res = cap.solve(A, b, cap.NNLS_RECHECK_MULT)
-    return res <= tol, res
+    return res <= tol, res, x
 
 
 def _feasible_retry(A, b, tol):
@@ -1163,14 +1321,18 @@ def _feasible_retry(A, b, tol):
     raise np.linalg.LinAlgError("solve broke down in both row orders")
 
 
-def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
+def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
+                  bounds=None, out=None):
     """Can the made, reachable contacts produce the leader's object wrench
     with forces of their own choosing (inside the cone, within torque
     limits), to within resid_tol (default RESID_TOL) of its norm? The W20
     construction (vendored generators, solver and stacking), with that
     tolerance in place of W20's exact bar. taus (one per Js entry, or None):
     torque each finger's own motion needs, which its inputs must also
-    supply."""
+    supply. bounds (one (l, h) or None per Js entry, or None): each input
+    column's range in place of [0, 1] (see _stack_rhs). out (a dict, or
+    None): given "x", the input use the torque stack's solve found, when it
+    ran (pass or fail)."""
     tol_frac = RESID_TOL if resid_tol is None else resid_tol
     if not pts:
         return False, "no_contact"
@@ -1187,9 +1349,16 @@ def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
     if all(c_ is None for c_ in Js):
         return True, None
     Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
-    jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
-    rhs = np.concatenate([ws, jr, np.ones(nx)])
-    ok = _feasible(Mx, rhs, tol)[0]
+    if bounds is None:
+        jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
+        span, low = np.ones(nx), np.zeros(nx)
+    else:
+        jr, span, low = _stack_rhs(Js, taus, bounds, L)
+    rhs = np.concatenate([ws, jr, span])
+    ok, _, xs = _feasible_x(Mx, rhs, tol)
+    if out is not None:
+        ng = Gs.shape[1]
+        out["x"] = low + xs[ng:ng + nx]
     return (True, None) if ok else (False, "torque")
 
 
@@ -1223,7 +1392,8 @@ def _torque_stack(Gs, cidx, Fc, Js, L):
     return Mx, nt, nx
 
 
-def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
+def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
+                  bounds=None):
     """Largest factor s by which the leader's object wrench could grow and
     the made contacts still produce it: the system and tolerance of
     _redistribute, the tolerance growing with the wrench; above s = 1 the
@@ -1240,7 +1410,8 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
     With kq = 0 a failed zero-torque row on an unactuated joint fails at
     every scale, so such frames read 0: the margin grades only frames that
     pass that rule. taus as _redistribute: the fingers' own motion does not
-    grow with s, so its torque stays as it is at every scale."""
+    grow with s, so its torque stays as it is at every scale. bounds as
+    _redistribute: the inputs' box stays as it is at every scale too."""
     tol_frac = RESID_TOL if resid_tol is None else resid_tol
     if not pts or all(c_ is None for c_ in Js):
         return None
@@ -1257,7 +1428,11 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
     if not _feasible(Gs, ws, tol)[0]:
         return none
     Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
-    jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
+    if bounds is None:
+        jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
+        span = np.ones(nx)
+    else:
+        jr, span, _ = _stack_rhs(Js, taus, bounds, L)
 
     ng = Gs.shape[1]
 
@@ -1269,11 +1444,11 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
         # the wrench, a large wrench would let the inputs run far past their
         # limits.
         if s <= 1.0:
-            rhs = np.concatenate([s * ws, jr, np.ones(nx)])
+            rhs = np.concatenate([s * ws, jr, span])
             return _feasible(Mx, rhs, max(tol_frac * s * wn, cap.FEAS_REL))[0]
         Ms = Mx.copy()
         Ms[6:6 + nt, :ng] *= s
-        rhs = np.concatenate([ws, jr, np.ones(nx)])
+        rhs = np.concatenate([ws, jr, span])
         return _feasible(Ms, rhs, max(tol_frac * wn, cap.FEAS_REL))[0]
 
     grid = np.array([held(s) for s in cap.SCALE_GRID])
@@ -1305,7 +1480,8 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
     return out
 
 
-def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
+def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
+                        bounds=None):
     """Smallest extra object wrench, added to the leader's and in any of
     DISTURB_DIRS, that the made contacts can no longer produce with the
     leader's one: the worst-direction margin of the largest-ball measure
@@ -1329,7 +1505,8 @@ def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
     encloses the object would resist any disturbance. The margin runs
     continuously from 0: a frame that only just passes at the leader's load
     (unbalanced share near tol_frac) reads near 0. The ball's shape depends
-    on the L scaling of torque against force. taus as _redistribute."""
+    on the L scaling of torque against force. taus and bounds as
+    _redistribute."""
     tol_frac = RESID_TOL if resid_tol is None else resid_tol
     if not pts or all(c_ is None for c_ in Js):
         return None
@@ -1346,8 +1523,11 @@ def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None):
     if not _feasible(Gs, ws, tol)[0]:
         return out
     Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
-    jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
-    tail = np.concatenate([jr, np.ones(nx)])
+    if bounds is None:
+        jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
+        tail = np.concatenate([jr, np.ones(nx)])
+    else:
+        tail = np.concatenate(_stack_rhs(Js, taus, bounds, L)[:2])
 
     def held(i, sg, e):
         w = ws.copy()
