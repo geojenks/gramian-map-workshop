@@ -1323,8 +1323,8 @@ limits, stated plainly:
   pushing both ways at once does not matter.
 - **dt is the gap between checked frames**, so the link is only as strong
   as the frames are dense. With few checked frames a lag opens almost the
-  whole range. The first checked frame, and a finger with no torque the
-  frame before, start from zero torque.
+  whole range. The first checked frame has no link. At later frames, a
+  finger absent from the previous frame's check starts from zero torque.
 - **The input rows are least-squares rows**, as in the [0, 1] test, so a
   solution can pass its box by about the solver's residual.
 - **No resonance.** A rate limit and a first-order lag cannot ring.
