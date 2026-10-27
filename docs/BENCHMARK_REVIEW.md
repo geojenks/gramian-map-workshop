@@ -82,7 +82,7 @@ reports what a source says.
 | AHAP (Llop-Harillo et al. 2019) | 26 tasks: 8 grasp types on 3 objects each, plus two others | 1, 0.5 or 0 per grasp and per hold, rated from video, as a percentage of a human's score | a posture shown by an operator | no; 3 s holds | yes: three ARMAR-6 hand versions, two KIT prosthetic versions | [full text read, pp. 3–6] |
 | Cruciani et al. 2020, in-hand benchmark | goal hand poses and contact regions on YCB objects, at three levels | final position, orientation and contact-region error; grasp held 5 s | a goal state, not the path | no | public results store; authors say comparisons suit similar hardware | [full text read] |
 | Elangovan et al. 2022 | 24 tasks in five groups (pick and place, reorientation, fine work, tools, puzzles) | success and time scores against the fastest of ten people | human baseline | no | one gripper tested | [full text read] |
-| Elliott and Connolly benchmark (Coulson et al. 2021) | 13 in-hand patterns from a human taxonomy | qualitative and quantitative | human baseline | no | one hand (10 of 13 patterns) | [metadata only] |
+| Elliott and Connolly benchmark (Coulson et al. 2021) | 13 in-hand patterns from a human taxonomy | qualitative and quantitative | human baseline | no | one hand (10 of 13 patterns) | [abstract] |
 | FFP index (Sureshbabu et al. 2019) | form, features and a task series | combined index | — | no | yes | [full text read, p. 1] |
 | RGMC 2016–2020 (Sun et al. 2021) | over 40 tasks; service, manufacturing, logistics tracks | points per task, within time limits | task outcome | no | team rankings, each with a whole robot | [full text read] |
 | RGMC 2024 in-hand track | 10 waypoints in a 5 cm cube, 20 s each | summed position error | set target points | no; slow | competition results | [full text read, through a summary] |
@@ -280,6 +280,167 @@ benchmark until those are in.
 - Existing clinical and competition sets give the task ideas for the
   helper and manufacturing groups. Their scoring would not carry over.
 
+## Two in-hand taxonomies: Elliott and Connolly, and Bullock, Ma and Dollar
+
+Added 27 October 2026. We were asked whether either taxonomy could serve
+as the gait layer or the task layer of a workshop set, and whether anyone
+scores hands against either. The terms, as they were put to us:
+
+- A **task** is defined only by what the object does, with a tolerance on
+  the object's motion.
+- A **gait** is a named way of doing a task, with its own contact plan:
+  cup gait, pinch roll, finger gaiting, regrasp, pushing against a
+  surface, or a learned policy.
+- A hand passes a task if any one gait passes our per-frame check. The
+  number of gaits that pass measures redundancy.
+
+### In brief
+
+- **Neither taxonomy is a task layer.** Both classify what the hand does,
+  not what the object must do. Bullock et al. chose this on purpose, and
+  suggest pairing their tree with an object-centric classification.
+- **Both fit the gait layer, at different grain.** Elliott and Connolly
+  name individual digit movement patterns. Bullock's tree gives coarse
+  codes for the hand's contact and motion, and the paper defines finger
+  gaiting and regrasping.
+- **Three groups score hands against them, each on few hands.** Coulson et
+  al. (one hand, against Elliott and Connolly), Zhou et al. (one soft hand,
+  50 tasks said to draw on Bullock and on Feix), and POMDAR (four versions
+  of one hand, drawing on both). None spans as many hand versions as AHAP
+  does, and none checks forces.
+- **The main later pointer** is a 2026 review from the NSF HAND
+  Engineering Research Center (Shilati et al.). It groups these as
+  "taxonomy-inspired" benchmarks and argues for tasks that do not assume a
+  human hand.
+
+### Elliott and Connolly 1984
+
+Elliott JM, Connolly KJ. "A classification of manipulative hand
+movements". *Developmental Medicine & Child Neurology* 26(3):283–296,
+1984. DOI 10.1111/j.1469-8749.1984.tb04445.x. **[abstract]**, from the
+Crossref record; the body was not reached.
+
+What the abstract says:
+
+- It separates palmar grips, which hold an object still in the hand, from
+  digital patterns, which move it. This is separate from power and
+  precision.
+- Manipulative movements fall in three classes: sequential patterns, and
+  synergies split into simple and reciprocal ones. Each class holds
+  several named patterns, which differ mainly in how many digits take part
+  and how the thumb is used.
+- It covers digit movements that manipulate an object within the hand. It
+  excludes moving the whole hand with the wrist or arm while the object is
+  held still.
+
+What others report of it (not checked in the paper itself):
+
+- Bullock and Dollar 2011, and Bullock et al. 2013, describe the classes
+  the same way. Simple synergies move all digits as one unit, as in
+  pinching or squeezing. In the second class the fingers move together and
+  the thumb independently, for example rolling an object between thumb and
+  index finger. Sequential patterns move digits independently in a
+  repeatable order. Both papers call this middle class "complex" in one
+  sentence and "reciprocal" in another. Both note a limit the authors
+  themselves state: flexion and extension of single digits are not
+  included. **[full text read]** of both Bullock papers.
+- Shilati et al. 2026 and POMDAR give 13 patterns. POMDAR's text names
+  some of them, among them dynamic tripod (writing with a pen), full roll
+  and linear step. **[full text read]** of POMDAR's html and of the
+  Shilati review's section on these benchmarks; the full list sits in a
+  POMDAR figure we did not read.
+
+### Bullock, Ma and Dollar 2013
+
+Bullock IM, Ma RR, Dollar AM. "A Hand-Centric Classification of Human and
+Robot Dexterous Manipulation". *IEEE Transactions on Haptics*
+6(2):129–144, 2013. DOI 10.1109/TOH.2012.53. **[full text read]**:
+introduction, related work, the taxonomy itself, its applications and the
+section on regrasping and gaiting. The earlier conference version is
+Bullock IM, Dollar AM, "Classifying human manipulation behavior", IEEE
+ICORR 2011, DOI 10.1109/icorr.2011.5975408, **[full text read]** for its
+related work.
+
+What it classifies, and how:
+
+- One hand movement at one instant, by five yes-or-no questions: is the
+  hand in contact; is the contact prehensile; is the hand moving relative
+  to the body; is there motion within the hand; is there motion at the
+  contact, meaning the object slides, rolls or pivots relative to the
+  contact frame. This gives 15 classes, numbered in its Table 2. That
+  confirms POMDAR's account of 15 classes, which our earlier notes had
+  marked as POMDAR's alone.
+- It deliberately leaves out hand shape, so that it applies to any hand.
+- The two classes for prehensile motion within the hand (with and without
+  motion at the contact) are subdivided by the main axis of motion: three
+  rotations and three translations in a frame fixed to the back of the
+  hand. One of the twelve cells has no human example in its figure.
+- Longer tasks are written as a sequence of classes over time, or as a sum
+  of what different parts of the hand do at once.
+- It sets out the two views with a bottle-cap example. The object-centric
+  view says what the cap must do; the hand-centric view describes the many
+  ways a hand can do it. It argues that object-centric classes do not map
+  directly onto hand behaviour.
+- It defines regrasping (letting go, for instance onto a table, and taking
+  hold again) and finger gaiting (exchanging contacts while the hand keeps
+  hold).
+
+How the paper applies it:
+
+- To one robot hand, a simple three-fingered design, as a worked example:
+  which axes of motion are easy, which need two fingers to hold while the
+  third moves, and which the kinematics rule out. This is a qualitative
+  discussion, not a score.
+- To three daily-living tasks filmed with a head-mounted camera, coded
+  frame by frame. It proposes choosing a representative benchmark task set
+  from such statistics, paired with an object classification. It does not
+  build that set.
+
+### Who scores hands against them
+
+| Work | Draws on | Tasks | Hands scored | Forces | Read |
+|---|---|---|---|---|---|
+| Coulson, Li, Majidi and Pollard 2021, "The Elliott and Connolly Benchmark" (IEEE-RAS Humanoids), DOI 10.1109/humanoids47582.2021.9555798 | Elliott and Connolly | 13 patterns, mostly with YCB objects | one (CMU Foam Hand III, 10 of 13 patterns), with a human baseline | no | [abstract]; Shilati et al. add that rotation and translation are normalised by finger length |
+| Zhou et al. 2020, "50 Benchmarks for Anthropomorphic Hand Function-based Dexterity Classification and Kinematics-based Hand Design" (IEEE/RSJ IROS), DOI 10.1109/IROS45743.2020.9340982 | Feix's grasps; Bullock's categories, according to Shilati et al. | 50, including in-hand moves along the hand's axes | one (a soft hand with 22 degrees of freedom) | no | [abstract] |
+| POMDAR (Liconti et al. 2026), arXiv 2604.09294 | Elliott and Connolly's patterns, Ma and Dollar's pivoting, Feix's grasps; Bullock for the overall split | 12 manipulation and 6 grasping tasks | four versions of the ORCA hand | no | [full text read] |
+
+Shilati et al. 2026, "Benchmarking Dexterity of Multifingered Robot Hands:
+A Review and Perspective", arXiv 2609.05585 (NSF HAND Engineering Research
+Center), **[full text read]** for its section on taxonomy-inspired
+benchmarks. It places all three works above in that group. It notes that
+such benchmarks inherit assumptions about a human hand, and sets them
+against task-centric ones (clinical tests, task boards, simulation
+suites). It proposes three levels of benchmark: component, hand and
+system.
+
+### Our inference
+
+- **Task layer.** Neither taxonomy defines a task by what the object does
+  with a tolerance. Bullock's axes of motion come closest, but they are
+  measured in the hand's frame, not the world's or the object's, and they
+  give a direction, not a target. Our task layer would still come from
+  demonstrated object motions, as proposed above.
+- **Gait layer.** Both fit, and they can be stacked. Bullock's codes say
+  what kind of gait it is: prehensile or not, motion at the contact or
+  not, hand still or moving. Of the gaits we were given, finger gaiting
+  and regrasp are defined in Bullock; pushing against a surface falls in
+  its non-prehensile classes; pinch roll is a prehensile gait with motion
+  at the contact. Elliott and Connolly would name the finer pattern within
+  a class, for human-like hands only. Neither covers a learned policy as a
+  gait; that would be tagged by its contact behaviour after the fact.
+- **POMDAR already moved from gait to task.** It merged several Elliott
+  and Connolly patterns into one task scored by object outcome, so as not
+  to penalise hands with fewer fingers or unusual layouts. That is the
+  move our structure makes explicit: score the task by the object, and
+  count the gaits separately.
+- **Redundancy.** None of the three scoring works counts how many ways a
+  hand can do a task. Each asks whether the hand can do the named pattern.
+  Counting the gaits that pass would be new, as far as this search goes.
+- **The AHAP analogue.** Coulson, Zhou and POMDAR are the nearest
+  analogues to AHAP for these taxonomies. Each scores one hand or one hand
+  family, by success and time or by range of motion. None checks forces or
+  actuator limits.
+
 ## References and claims we could not verify
 
 - Cutkosky 1989: the DOI (10.1109/70.34763, from a lecture slide) and the
@@ -301,3 +462,12 @@ benchmark until those are in.
 - Venues for DexMachina, Bi-DexHands, MyoSuite, DexGraspNet, Bench2Dex and
   CHORD.
 - The task lists of Bi-DexHands and Bench2Dex past the parts read.
+- Elliott and Connolly 1984: the 13 pattern names and their content, read
+  only through the abstract and through Bullock, POMDAR and Shilati et al.
+- Zhou et al. 2020: that its in-hand tasks use Bullock's categories. This
+  is Shilati et al.'s account; Zhou's abstract does not say so.
+- Bullock, Feix and Dollar 2014 (dexterous workspace of two- and
+  three-fingered precision manipulation, DOI 10.1109/haptics.2014.6775431)
+  and Roa et al. 2014 (functional evaluation of manipulation in dexterous
+  hand design, DOI 10.1109/ICRA.2014.6907863): both cite Bullock et al.
+  2013; no abstract reached, so we say nothing of their content.
