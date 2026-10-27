@@ -42,8 +42,8 @@ second reading, with the other components free.
   The nearest records work is Wang et al. 2026, which we must cite.
 - **What not to claim.** That we invented grasp feasibility, the friction
   pyramid or the torque-limited wrench set (Inouye et al. 2012 built one).
-  That the check is dynamic: it tests the wrench the leader needs, and
-  models no finger inertia, velocity terms or contact transitions. That our human-finger numbers are measurements. That the 1998
+  That the check is dynamic. The object's load is dynamic, but the hand
+  is checked statically at each frame (section 8 lists what is missing). That our human-finger numbers are measurements. That the 1998
   finger model is reproduced (our rebuild is off in one of five directions,
   by half).
 
@@ -1055,8 +1055,9 @@ force–displacement operating ranges.
 **What not to claim.** We should not claim to have invented grasp
 feasibility, the friction pyramid, the zero-unactuated-torque condition,
 synergy-based hands or the torque-limited wrench set (Inouye et al. 2012).
-We should not call the check dynamic: it tests the wrench the leader needs,
-and models no finger inertia, velocity terms or contact transitions. We should not present the human-finger numbers as
+We should not call the check dynamic. It checks the hand statically, frame
+by frame, against the dynamic load the object needs; section 8 lists what
+is missing. We should not present the human-finger numbers as
 measurements: they come from a 1998 model at one posture, our rebuild of it
 matches the paper's torque directions but not all its maximal forces, and
 one internal split is our reconstruction. We should not compare the finger's
@@ -1134,13 +1135,17 @@ fetched, and carries a read mark as in "How each claim is marked".
   joints in one test, and keeps graded margins for every frame. Each part
   of that has a precedent; the combination does not, as far as our search
   found.
-- **Nothing in `follow.py` is dynamic.** It checks the wrench the leader's
+- **The load is dynamic; the hand is checked statically.** `follow.py` checks the wrench the leader's
   contact forces sum to. Those come from MuJoCo contacts in a dynamic
   simulation, or are derived from the object's measured motion as mass
   times acceleration less gravity, plus inertia times angular
   acceleration. So the object's inertia is in the leader's forces;
-  `follow.py` adds no inertia term of its own. It does not model
-  the fingers' inertia, velocity terms or contact transitions. The
+  `follow.py` adds no inertia term of its own. In effect the object's
+  inertia enters as d'Alembert's inertial load, and the hand is then
+  checked for static equilibrium. This is not quasi-dynamic in the sense
+  of Pang et al. 2023, who drop the inertia; we keep the object's and drop
+  the hand's. What is missing to call it dynamic is listed under "What a
+  static check cannot see". The
   planned acceleration step (section 1, apply limit) has close
   precedents: Byun and Lee 2006, and Zheng, Tomochika and Yoshikawa 1993.
 
@@ -1234,7 +1239,31 @@ directions. A cell from an abstract-only source rests on that abstract.
 
 ### What a static check cannot see
 
-These are limits of our tool that the literature makes plain.
+Four things stand between our check and one we could call dynamic. The
+first two would make it a dynamic feasibility check along a trajectory:
+inverse dynamics of hand and object together, with actuator limits linked
+in time.
+
+1. **The fingers' own inertia and velocity terms.** The joint torque
+   counted is only the contact forces mapped back through the Jacobian.
+   `follow.py` already writes the follower's joint angles for every frame,
+   so velocities and accelerations can be taken by differencing across
+   frames, and the fingers' mass-matrix and velocity terms added to the
+   torque each actuator must supply.
+2. **Actuator limits linked in time.** Each frame is checked alone, so an
+   actuator may go from zero to full in one frame. Limits on how fast a
+   soft actuator can pressurise, or a muscle can activate, would couple the
+   frames. This matters most for soft hands, and it is also where any
+   resonance of the actuator would show.
+3. **Contacts made and broken.** The leader's contacts are taken as given
+   at each frame; impact, the onset of slip and contact changes between
+   frames are not modelled. This could stay as a stated simplification.
+4. **Whether the follower reproduces the motion.** We check that the
+   leader's motion is affordable, not that the follower would produce it.
+   That needs a forward simulation, which is a different tool, and calling
+   the check dynamic does not need it.
+
+The literature also makes plain these limits of our tool.
 
 - **Polyhedral cones add direction-dependent artefacts**, by the reading
   of Pang et al. 2023. Our 8-edge pyramid has them. The circumscribed
