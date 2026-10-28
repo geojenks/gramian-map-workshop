@@ -3,3 +3,4 @@
 gramian_workshop/vendor/** -text
 docs/RECORD_SCHEMA.md -text
 data/records/** -text
+data/test_curves/** -text

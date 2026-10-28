@@ -1,0 +1,61 @@
+{
+ "curves": {
+  "input.channels[0].range": {
+   "status": "identical",
+   "max_abs_diff": 0.0,
+   "max_rel_diff": 0.0
+  },
+  "free.u": {
+   "status": "identical",
+   "max_abs_diff": 0.0,
+   "max_rel_diff": 0.0
+  },
+  "free.tip_displacement_m": {
+   "status": "identical",
+   "max_abs_diff": 0.0,
+   "max_rel_diff": 0.0
+  },
+  "blocked.u": {
+   "status": "identical",
+   "max_abs_diff": 0.0,
+   "max_rel_diff": 0.0
+  },
+  "blocked.force_axial_N": {
+   "status": "both absent"
+  },
+  "blocked.force_transverse_N": {
+   "status": "identical",
+   "max_abs_diff": 0.0,
+   "max_rel_diff": 0.0
+  },
+  "blocked.force_N": {
+   "status": "both absent"
+  }
+ },
+ "scalars": {
+  "free_stroke_m": {
+   "new": 0.09493399443824116,
+   "old": 0.08441514220801859
+  },
+  "free_direction": {
+   "new": [
+    -0.5387088914152084,
+    -0.8424919764070145,
+    0.0
+   ],
+   "old": [
+    -0.9987787042222235,
+    0.04940748923165469,
+    0.0
+   ]
+  },
+  "polarity_axial": {
+   "new": null,
+   "old": null
+  },
+  "blocked_force_N": {
+   "new": 1.4005,
+   "old": 1.4005
+  }
+ }
+}

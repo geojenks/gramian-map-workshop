@@ -1,0 +1,18 @@
+round trip: mosadegh2014_fPN_from_curves (new) against data/records/mosadegh2014_fPN.json (old)
+curves:
+  input.channels[0].range      identical
+  free.u                       identical
+  free.tip_displacement_m      identical
+  blocked.u                    identical
+  blocked.force_axial_N        both absent
+  blocked.force_transverse_N   identical
+  blocked.force_N              both absent
+headline numbers (scalars):
+  free_stroke_m      new 0.09493399443824116
+                     old 0.08441514220801859
+  free_direction     new [-0.5387088914152084, -0.8424919764070145, 0.0]
+                     old [-0.9987787042222235, 0.04940748923165469, 0.0]
+  polarity_axial     new None
+                     old None
+  blocked_force_N    new 1.4005
+                     old 1.4005

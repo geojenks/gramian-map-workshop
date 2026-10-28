@@ -1,0 +1,26 @@
+# Test curves for one actuator: docs/TEST_CURVE_FORMAT.md. Written by tools/curves_to_record.py --from-record from record mosadegh2014_fPN.
+id,mosadegh2014_fPN_from_curves
+name,Mosadegh 2014 fPN (fast pneu-net)
+source,literature
+detail,"digitized: Mosadegh et al. 2014 SI Fig S5 (tip trajectory, FEM series) + Fig S6 (blocked force, Sensor series)"
+reference,doi:10.1002/adfm.201303288
+date,2026-09-10
+actuation,pneumatic
+input_name,chamber pressure
+motion,bends
+force_direction,sideways
+blocked_method,"digitized SI Fig S6 force-sensor curve; source paper does not state the force-gauge axis explicitly -- recorded as transverse (bending/blocking) force, not axial, consistent with a bending pneu-net finger"
+uncertainty,0.1
+notes,"Pneu-net (pneumatic network) bending finger; Ecoflex 30 extensible layer / Sylgard 184 PDMS inextensible strain limiter. Tier-1 curves only (free tip trajectory + blocked force output vs pressure); no shape/Gramian block -- see data_completeness. Bending device: polarity_axial is not meaningful (not an axial contract/extend actuator) and is left null rather than forced to a value. free.tip_displacement_m uses the FEM trajectory series (SI Fig S5 panel F) because the Camera (experimental) series has only 2 digitizable points (marker occlusion per PROVENANCE.md 'Dropped points') -- below the tier-1 minimum of 3. FEM is the paper's own finite-element prediction, not an independent measurement."
+
+curve,input_kPa,tip_dx_mm,tip_dy_mm,tip_dz_mm,force_N
+free,15.0,-32.546,-50.899,0.0,
+free,30.0,-73.704,-48.863,0.0,
+free,45.0,-90.93,-27.28,0.0,
+free,60.0,-91.159,-12.702,0.0,
+free,72.0,-84.375,-2.603,0.0,
+blocked,0.344,,,,0.0096
+blocked,19.846,,,,0.2059
+blocked,34.873,,,,0.4312
+blocked,55.038,,,,0.89
+blocked,72.662,,,,1.4005

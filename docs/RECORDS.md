@@ -15,6 +15,11 @@ python tools/check_record.py my_actuator.json
 
 which validates it and prints exactly what the tool reads from it.
 
+**If you have test curves** (input against tip motion or bending angle, and
+input against blocked force), fill the CSV file described in
+`docs/TEST_CURVE_FORMAT.md` and convert it with
+`python tools/curves_to_record.py my_curves.csv --out my_actuator.json`.
+
 ## The frame
 
 Every direction is in the actuator's own frame:
