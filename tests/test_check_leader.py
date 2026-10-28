@@ -133,6 +133,81 @@ class Faults(unittest.TestCase):
         L["frames"][0]["contact_point"][0] = [0.04, 0.0, 0.1]
         self.assertIn("off the sphere's surface", self.warnings(L))
 
+    def test_allowance_defaults_when_absent(self):
+        rep, s = cl.check(_minimal())
+        self.assertEqual(s["allowed_overlap_m"], 0.002)
+        self.assertFalse(s["allowed_overlap_stated"])
+        self.assertTrue(s["other_contact_allowed"])
+        self.assertEqual(s["other_overlap_m"], 0.002)
+
+    def test_allowance_as_stated(self):
+        L = _minimal()
+        L["allowed_overlap_m"] = 0.001
+        L["other_contact"] = {"allowed": True, "max_overlap_m": 0.0005}
+        rep, s = cl.check(L)
+        self.assertEqual((rep.errors, rep.warnings), ({}, {}))
+        self.assertEqual((s["allowed_overlap_m"], s["other_overlap_m"]), (0.001, 0.0005))
+        self.assertNotIn("allowed_overlap_m", s["top_not_read"])
+        self.assertNotIn("other_contact", s["top_not_read"])
+
+    def test_other_contact_allowed_defaults_to_the_contact_allowance(self):
+        L = _minimal()
+        L["allowed_overlap_m"] = 0.001
+        L["other_contact"] = {"allowed": True}
+        self.assertEqual(cl.check(L)[1]["other_overlap_m"], 0.001)
+
+    def test_other_contact_not_allowed_is_a_clearance(self):
+        L = _minimal()
+        L["other_contact"] = {"allowed": False}
+        rep, s = cl.check(L)
+        self.assertEqual(rep.errors, {})
+        self.assertFalse(s["other_contact_allowed"])
+        self.assertEqual(s["other_overlap_m"], -cl.TOUCH_TOL_M)
+
+    def test_negative_allowance_is_an_error(self):
+        L = _minimal()
+        L["allowed_overlap_m"] = -0.001
+        self.assertIn("allowed_overlap_m", self.errors(L))
+
+    def test_other_contact_must_say_whether(self):
+        L = _minimal()
+        L["other_contact"] = 0.002
+        self.assertIn("allowed: true or false", self.errors(L))
+        L["other_contact"] = {"max_overlap_m": 0.002}
+        self.assertIn("allowed: true or false", self.errors(L))
+
+    def test_depth_with_contact_not_allowed_is_an_error(self):
+        L = _minimal()
+        L["other_contact"] = {"allowed": False, "max_overlap_m": 0.001}
+        self.assertIn("only goes with allowed: true", self.errors(L))
+
+    def test_large_allowance_is_a_warning(self):
+        L = _minimal()
+        L["allowed_overlap_m"] = 2.0          # millimetres written as metres
+        self.assertEqual(self.errors(L), "")
+        self.assertIn("check the units", self.warnings(L))
+
+    def test_checker_and_follow_agree_on_the_allowance(self):
+        # follow.py's reader, where it imports (it needs no mujoco to load)
+        try:
+            import sys
+            sys.path.insert(0, ROOT)
+            from gramian_workshop import follow as fo
+        except ImportError as e:            # pragma: no cover
+            self.skipTest(str(e))
+        self.assertEqual(cl.OVERLAP_DEFAULT_M, fo.OVERLAP_ALLOWED_M)
+        self.assertEqual(cl.TOUCH_TOL_M, fo.TOUCH_TOL_M)
+        for extra in ({}, {"allowed_overlap_m": 0.001},
+                      {"allowed_overlap_m": 0.001, "other_contact": {"allowed": True}},
+                      {"other_contact": {"allowed": True, "max_overlap_m": 0.004}},
+                      {"allowed_overlap_m": 0.0, "other_contact": {"allowed": False}}):
+            L = {**_minimal(), **extra}
+            s = cl.check(L)[1]
+            a = fo.overlap_allowance(L)
+            self.assertEqual((s["allowed_overlap_m"], s["other_overlap_m"],
+                              s["other_contact_allowed"]),
+                             (a["contact_m"], a["other_m"], a["other_allowed"]), extra)
+
     def test_a_stored_leader_with_its_mass_removed_fails(self):
         L = copy.deepcopy(cl.load(LEADERS[0]))
         L["object"]["mass_kg"] = None

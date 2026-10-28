@@ -4,7 +4,8 @@ Written 28 Oct 2026, for anyone who wants to bring a manipulation from their
 own simulation or demonstration and ask which hands can do it. The files
 live in `data/leaders/*.json`. `tools/check_leader.py` checks one against
 this page. Everything below was read from the code that writes and reads
-these files, at commit `0b628b8`.
+these files, at commit `0b628b8`; the allowed-overlap fields were added
+on 28 Oct (see "Allowed overlap" below).
 
 ## What a leader is
 
@@ -16,8 +17,14 @@ these files, at commit `0b628b8`.
   force each one puts on it. A cup gait, a pinch roll, a regrasp and a
   wrist roll are different methods, so they are different leaders, even
   for the same object motion.
+- **The task also states how much overlap it allows** between the hand
+  and the object: how deep a finger may press in at a stated contact, and
+  whether, and how deep, the rest of the hand may touch it elsewhere
+  (`allowed_overlap_m`, `other_contact`). Both are optional, with
+  defaults.
 - **The follow check** (`gramian_workshop/follow.py`) asks, frame by
-  frame, whether a hand can be at those contacts and supply those forces.
+  frame, whether a hand can be at those contacts and supply those forces,
+  within that overlap. It adds no penalty for overlap the task allows.
 - **A fail means "this hand cannot do this task by this method"**, never
   "this hand cannot do this task". The same hand may pass with another
   leader for the same object motion.
@@ -42,12 +49,13 @@ python tools/check_leader.py --table data/leaders/*.json   # Markdown tables
 - **warn**: the follow check runs, but reads part of the file in a way you
   may not expect. Each message says what it does instead.
 - After that it prints what the follow check reads: object, friction,
-  stations, frames, time step, contacts per frame, and the net contact
-  force against the object's weight.
+  allowed overlap, stations, frames, time step, contacts per frame, and
+  the net contact force against the object's weight.
 
 The tolerances behind the warnings are constants at the top of the
-checker (`SURFACE_TOL_M`, `UNIT_TOL`, `NORMAL_TOL_DEG`). They are the
-checker's own, marked "proposed"; the follow check does not use them.
+checker (`SURFACE_TOL_M`, `UNIT_TOL`, `NORMAL_TOL_DEG`,
+`OVERLAP_LARGE_M`). They are the checker's own, marked "proposed"; the
+follow check does not use them.
 `tests/test_check_leader.py` runs the checker over every stored leader.
 
 ## Conventions
@@ -84,6 +92,8 @@ checker's own, marked "proposed"; the follow check does not use them.
   "source": { "...": "provenance: repository, commit, script, settings" },
   "object": { "shape": "sphere", "radius_m": <number>, "mass_kg": <number> },
   "n_stations": <whole number>,
+  "allowed_overlap_m": 0.002,
+  "other_contact": { "allowed": true, "max_overlap_m": 0.002 },
   "frames": [
     {
       "t": <seconds>,
@@ -113,6 +123,8 @@ order.
 | `object` | yes | object, below | yes | The manipulated object. |
 | `frames` | yes | non-empty list, below | yes | The method, frame by frame, in time order. |
 | `mu` | no | number above 0 | yes | Friction coefficient for the follow check. If absent it uses its own default (`leader_json.get("mu", 1.0)` in `follow.py`). No stored leader sets it. |
+| `allowed_overlap_m` | no | number, 0 or more, metres | yes | How deep the finger touching a stated contact may sink into the object. Default 0.002 (2 mm) when absent. See "Allowed overlap". |
+| `other_contact` | no | object, below | yes | Whether the rest of the hand may touch the object away from the stated contacts, and how deep. Default: allowed, as deep as `allowed_overlap_m`. See "Allowed overlap". |
 | `name` | no | string | no | A readable title. |
 | `kind` | no | string | no | Where the method came from. |
 | `source` | no | object | no | Provenance: repository, commit, script, every setting that was overridden. |
@@ -133,6 +145,66 @@ such keys under "not read".
 | `radius_m` | yes | number above 0, metres | yes | Sphere radius. |
 | `mass_kg` | yes | number above 0, kilograms | read, not used | The follow check parses it but the forces already carry the load. Writers that derive forces from motion need it. |
 | `mass_note` | no | string | no | Say here if the mass is assumed rather than measured. |
+
+## Allowed overlap
+
+A task states how much overlap between hand and object it allows. A small
+overlap is expected: a soft pad presses in. The follow check scores a
+hand against exactly what the file states, and adds no penalty of its
+own for overlap within it. Both fields are optional; a file without them
+gets the defaults, so every leader written before these fields stays
+valid and means what it meant, with the default allowance.
+
+**`allowed_overlap_m`**: a number, 0 or more, in metres. How deep the
+finger touching a stated contact may sink into the object. "The finger"
+here is the link the follow check touches with: the last or middle
+phalanx. Default `0.002` (2 mm), until we have a reason for another
+number.
+
+**`other_contact`**: whether the rest of the hand may touch the object
+away from the stated contacts, and how deep. "The rest of the hand" is
+the other links of each touching finger, and the palm.
+
+| Field | Required | Type and units | Meaning |
+|---|---|---|---|
+| `allowed` | yes | `true` or `false` | Whether other contact is allowed at all. |
+| `max_overlap_m` | no; only with `allowed: true` | number, 0 or more, metres | How deep other parts may sink in. Default: the same as `allowed_overlap_m`. |
+
+- Absent: the same as `{"allowed": true}`, i.e. other parts may sink in
+  as deep as the touching finger.
+- `{"allowed": true, "max_overlap_m": 0}`: other parts may graze the
+  surface but not sink in.
+- `{"allowed": false}`: other parts must stay clear of the object by the
+  distance at which the follow check counts a finger as touching
+  (`TOUCH_TOL_M`, 2 mm).
+
+How the follow check uses them (the module docstring of `follow.py`,
+"Allowed overlap", has the detail):
+
+- **Verdict.** A finger is green only if its touching link is within
+  `allowed_overlap_m` and its other links within the other-contact
+  allowance. It is amber ("close") if no part is deeper than its
+  allowance plus `allowed_overlap_m` again, and red ("penetrates")
+  beyond. The palm is graded the same way against the other-contact
+  allowance, per frame ("palm penetrates").
+- **Pose search.** The finger's pose, the hand's placement and the wrist
+  are searched with the same allowances: depth within them costs
+  nothing, depth beyond them counts against the pose.
+- **Contact patch.** A soft pad pressed `allowed_overlap_m` into the
+  object touches over a patch, not a point, and the leader's contact
+  anywhere in that patch counts as reached. A larger allowance widens it.
+- **Reported.** Each finger in each frame carries `overlap_mm` (its
+  touching link; negative means clear of the surface by that much) and
+  `other_overlap_mm` (its other links), each frame `palm_overlap_mm`, and
+  the result's `settings` the allowances used and where they came from
+  (the file, the default, or an override).
+
+`tools/run_follow.py --allowed-overlap-m`, `--other-overlap-m` and
+`--no-other-contact` override the file, as do the `allowed_overlap_m`
+and `other_contact` arguments of `follow()`. Before 28 Oct the follow
+check applied one allowance of its own, 3 mm (amber to 6 mm), to the
+whole finger and the palm, and no file could change it. No stored leader
+sets these fields, so the stored leaders now get the 2 mm default.
 
 ## Per-frame fields
 
@@ -155,7 +227,8 @@ Any other per-frame key is allowed and is not read.
 
 **Reads.**
 
-- `n_stations`, `object.radius_m`, `id`, and `mu` if present.
+- `n_stations`, `object.radius_m`, `id`, and `mu`, `allowed_overlap_m`
+  and `other_contact` if present.
 - Per frame: `contact`, `obj_pos`, and for each touching station its
   `contact_point` (or, if that is `null`, its `station_pos`) and its
   `force_on_object_N`.
@@ -347,9 +420,12 @@ demonstrator's palm frame.**
    assumed.
 5. **Keep the contact flag and the force in step.** A touching station
    needs a contact point; a station not touching should carry no force.
-6. **Record where it came from** in `source`, and what the numbers are
+6. **Say how much overlap you allow**, if not the default: how deep a
+   finger may press in at a contact (`allowed_overlap_m`), and whether the
+   rest of the hand may touch the object (`other_contact`).
+7. **Record where it came from** in `source`, and what the numbers are
    good for in `caveat`.
-7. **Check it**: `python tools/check_leader.py your_file.json`. Then put
+8. **Check it**: `python tools/check_leader.py your_file.json`. Then put
    it in `data/leaders/` and run the follow check on it for each hand:
    `python tools/run_follow.py --leader-id <id>` (needs MuJoCo and the
    hand models; see the README).
@@ -365,3 +441,6 @@ demonstrator's palm frame.**
   names.
 - Station positions off the object (`station_pos`) are used only as a
   stand-in for a missing contact point.
+- The allowed overlap is one pair of numbers for the whole run and every
+  station. Fingers that are not touching are not checked for overlap,
+  and fingers are not checked against each other.

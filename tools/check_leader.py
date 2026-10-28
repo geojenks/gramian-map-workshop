@@ -38,11 +38,18 @@ UNIT_TOL = 0.01            # proposed: a quaternion or normal whose length
                            # is off 1 by more than this is reported
 NORMAL_TOL_DEG = 5.0       # proposed: a stated contact normal this far from
                            # the direction to the object's centre is reported
+OVERLAP_DEFAULT_M = 0.002  # follow.py OVERLAP_ALLOWED_M: allowed overlap when the
+                           # file states none
+TOUCH_TOL_M = 0.002        # follow.py TOUCH_TOL_M: with other contact not allowed,
+                           # the other parts must keep this far clear
+OVERLAP_LARGE_M = 0.01     # proposed: an allowed overlap above this is reported
+                           # (deeper than a soft pad presses in)
 
 TOP_REQUIRED = ("schema", "id", "n_stations", "object", "frames")
 FRAME_REQUIRED = ("t", "obj_pos", "contact", "contact_point", "force_on_object_N")
 # what follow.py reads, so that everything else can be listed as not read
-TOP_READ = ("id", "n_stations", "object", "frames", "mu")
+TOP_READ = ("id", "n_stations", "object", "frames", "mu", "allowed_overlap_m",
+            "other_contact")
 FRAME_READ = ("t", "obj_pos", "contact", "contact_point", "station_pos",
               "force_on_object_N", "untracked")
 
@@ -91,6 +98,46 @@ class Report:
         return len({k for hits in d.values() for k, _ in hits if k is not None})
 
 
+def _allowance(L, rep):
+    """The allowed overlap the follow check will use, from the optional
+    allowed_overlap_m and other_contact (errors where it would stop on
+    them). Returns summary entries."""
+    a_c, a_o, other = OVERLAP_DEFAULT_M, None, True
+    stated = "allowed_overlap_m" in L
+    if stated:
+        x = L["allowed_overlap_m"]
+        if _num(x) and x >= 0:
+            a_c = float(x)
+        else:
+            rep.error("allowed_overlap_m, when given, must be a number, 0 or more (metres)")
+    if "other_contact" in L:
+        oc = L["other_contact"]
+        if not isinstance(oc, dict) or not isinstance(oc.get("allowed"), bool):
+            rep.error("other_contact, when given, must be an object with allowed: true "
+                      "or false")
+        else:
+            extra = set(oc) - {"allowed", "max_overlap_m"}
+            if extra:
+                rep.warn("other_contact has keys the follow check does not read: "
+                         + ", ".join(sorted(extra)))
+            other = oc["allowed"]
+            m = oc.get("max_overlap_m")
+            if m is not None and not other:
+                rep.error("other_contact.max_overlap_m only goes with allowed: true")
+            elif m is not None and not (_num(m) and m >= 0):
+                rep.error("other_contact.max_overlap_m, when given, must be a number, "
+                          "0 or more (metres)")
+            elif m is not None:
+                a_o = float(m)
+    if a_o is None:
+        a_o = a_c if other else -TOUCH_TOL_M
+    if max(a_c, a_o) > OVERLAP_LARGE_M:
+        rep.warn(f"an allowed overlap above {OVERLAP_LARGE_M * 1e3:g} mm: deeper than a "
+                 "soft pad presses in; check the units are metres")
+    return {"allowed_overlap_m": a_c, "allowed_overlap_stated": stated,
+            "other_contact_allowed": other, "other_overlap_m": a_o}
+
+
 def check(L):
     """Check a parsed leader. Returns (report, summary); summary is None
     when the errors stop the per-frame reading."""
@@ -129,6 +176,7 @@ def check(L):
                           "check reads it even though the forces already carry the load")
     if "mu" in L and not (_num(L["mu"]) and L["mu"] > 0):
         rep.error("mu, when given, must be a number above 0")
+    allow = _allowance(L, rep)
     fr = L.get("frame")
     if isinstance(fr, dict) and "units" in fr and fr["units"] != "m":
         rep.error(f"frame.units is {fr['units']!r}: every length must be in metres")
@@ -272,6 +320,7 @@ def check(L):
         "id": L["id"], "name": L.get("name"), "kind": L.get("kind"),
         "radius_m": R, "mass_kg": mass,
         "mu": float(L["mu"]) if "mu" in L else None,
+        **allow,
         "n_stations": n, "n_frames": len(F),
         "t_first_s": float(F[0]["t"]), "t_last_s": float(F[-1]["t"]),
         "dt_median_s": float(np.median(dts)), "dt_max_s": float(np.max(dts)),
@@ -315,6 +364,11 @@ def check_file(path):
           f"{s['mass_kg']:.4g} kg (read, but the forces already carry the load)")
     print(f"     friction  mu {s['mu'] if s['mu'] is not None else MU_DEFAULT:g}"
           + ("" if s["mu"] is not None else " (not in the file: the follow check's default)"))
+    print(f"     overlap   allowed {s['allowed_overlap_m'] * 1e3:g} mm at a stated contact"
+          + ("" if s["allowed_overlap_stated"] else " (not in the file: the default)")
+          + "; elsewhere " + (f"allowed to {s['other_overlap_m'] * 1e3:g} mm"
+                              if s["other_contact_allowed"] else
+                              f"not allowed (keep {-s['other_overlap_m'] * 1e3:g} mm clear)"))
     print(f"     stations  {s['n_stations']}; {s['touching_min']}-{s['touching_max']} "
           f"touching per frame; {s['frames_without_contact']} frames with none")
     print(f"     frames    {s['n_frames']}, t {s['t_first_s']:g} to {s['t_last_s']:g} s; "
