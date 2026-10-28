@@ -356,6 +356,25 @@ record's unitless level), its share of the range, the contact force, how
 far that force is from the leader's, and the balance left. The result's
 settings say which fingers were posed this way.
 
+**`wall_x3_ring` on the two cup leaders, re-run with a fresh placement
+search** (into a scratch folder, not `outputs/`; provisional, since the
+drive is the record's unitless level):
+
+| Leader | Before (stored) | Now |
+|---|---|---|
+| `..._R33.5_n4` | red 40: torque 20, direction 20 | red 40: direction 30, friction 9, torque 1 |
+| `..._R33.5_n5` | red 40: direction 26, friction 10, torque 4 | red 40: direction 38, friction 1, torque 1 |
+
+The poses are now ones the finger holds: the balance left is below
+1e-9, the drive sits at a median 26% (n4) and 48% (n5) of its range, and
+the contact force is within 0.01 N (median) of the leader's. The torque
+reds, which came from the pose choice, are almost gone. What is left is
+mostly the hand against the task: three fingers on a gait of four or five
+stations. In 30 of 40 frames (n4) and 39 of 40 (n5) a station that
+touches has no finger, and the one or two contacts left cannot make the
+leader's push on the ball ("direction"). These are verdicts on a
+three-finger hand doing a four- or five-finger gait, not on the finger.
+
 ## Each joint type in its own unit, 28 Oct 2026 (issue 21)
 
 Ruled on issue 21: the per-finger torque test must check each joint
@@ -380,3 +399,7 @@ every strong rigid hand and change all their verdicts, which the ruling
 did not ask for. The redistribution and the margins still hold all joint
 rows to one tolerance on the object's load, slide rows included; that is
 not changed here.
+
+On the n4 cup leader at the placement found above, the per-type test
+turns 9 of 64 green finger checks red (the hinges, now tested in their
+own unit); no frame verdict changes, since none was green.
