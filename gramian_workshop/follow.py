@@ -205,11 +205,26 @@ that behaviour back exactly. Each finger record carries "overlap_mm"
 that much) and "other_overlap_mm" (the finger's other links), each frame
 "palm_overlap_mm", and the result's settings the allowances used.
 
+Reusing a placement (28 Oct, issue 21): the placement search is nearly all
+of a run's time, and the per-frame check after it takes seconds. Each
+result stores what its placement depends on, "placement_key" (see
+placement_key: the hand model, the leader file, the search's options and
+allowances, and a hash of the search's own code, which leaves the
+per-frame check out), and how long the search took, "placement_search_s".
+tools/run_follow.py --reuse-placement re-scores a stored placement whose
+key matches instead of searching, so a change to the check alone is
+re-run in seconds. A reused placement's result carries the stored key.
+
 Simulation only; comparative, not predictive. The hand's own weight is not
 counted.
 """
+import hashlib
+import inspect
 import itertools
+import json
 import math
+import sys
+import time
 
 import numpy as np
 
@@ -1135,6 +1150,94 @@ def best_assignment(C):
 
 
 # ----------------------------------------------------------------------
+# what a placement depends on, so a stored one can be reused
+# ----------------------------------------------------------------------
+_SEARCH_ROOTS = ("placement_search", "_rot", "Leader", "FingerIK", "best_assignment",
+                 "palm_penetration", "overlap_allowance", "Hand")
+
+
+_SEARCH_SKIP = ("HANDS",)    # the hand's own entry is in the key instead
+
+
+def _search_code(roots=_SEARCH_ROOTS):
+    """The source of every function and class the placement search reaches
+    from `roots` (names in this module), following the names their code
+    uses (not their docstrings) into this package's modules, hands.py
+    included; and the values of the numeric constants they read. Its hash
+    is the search's code version: a change to the per-frame check alone
+    leaves it as it was; a change to the search, the IK it calls, or a
+    constant either reads, changes it (so does an edit to a comment in
+    them)."""
+    import ast
+    import textwrap
+    pkg = __name__.rsplit(".", 1)[0]
+    todo = [(sys.modules[__name__], n) for n in roots]
+    seen, parts = set(), []
+    while todo:
+        mod, name = todo.pop()
+        obj = getattr(mod, name, None)
+        if obj is None or name in _SEARCH_SKIP or inspect.ismodule(obj):
+            continue
+        home = sys.modules.get(getattr(obj, "__module__", None) or "", mod)
+        key = (home.__name__, name)
+        if key in seen:
+            continue
+        seen.add(key)
+        if inspect.isfunction(obj) or inspect.isclass(obj):
+            if not (home.__name__ == pkg or home.__name__.startswith(pkg + ".")):
+                continue                     # numpy, mujoco: their versions are in the key
+            src = inspect.getsource(obj)
+            parts.append(f"{key[0]}.{name}:\n{src}")
+            used = {n.id for n in ast.walk(ast.parse(textwrap.dedent(src)))
+                    if isinstance(n, ast.Name)}
+            todo += [(home, n) for n in sorted(used) if n != name]
+        elif name.isupper() and isinstance(obj, (int, float, tuple, list, dict)):
+            # numbers (and containers of them); path strings are left out,
+            # as they differ between machines
+            parts.append(f"{key[0]}.{name} = {obj!r}")
+    return "\n".join(sorted(parts))
+
+
+def placement_key(hand, leader_json, seed=0, respace=False, place=None, allow=None):
+    """What the placement search's result depends on, as a dict that a
+    result stores ("placement_key") and a later run compares before reusing
+    that result's placement: the hand (its key, its entry in hands.HANDS
+    and a hash of the compiled MuJoCo model, so a rebuilt hand changes
+    it), the leader (its id and a
+    hash of the whole file), the search's options (seed, respace, the
+    placement settings, IK iterations, the overlap allowances it scores
+    against), and its code version (a hash of _search_code, with the mujoco
+    and numpy versions). hand: a Hand, or a hand key (the model is then
+    loaded); place: as follow(place=...); allow: overlap_allowance(...)
+    (default: the leader's own)."""
+    mj = _mj()
+    if not isinstance(hand, Hand):
+        hand = Hand(hand)
+    buf = np.zeros(mj.mj_sizeModel(hand.model), np.uint8)
+    mj.mj_saveModel(hand.model, None, buf)
+    allow = overlap_allowance(leader_json) if allow is None else allow
+    return {"hand": hand.key,
+            "hand_spec": json.loads(json.dumps(hand.spec, default=str)),
+            "hand_model_sha256": hashlib.sha256(buf.tobytes()).hexdigest(),
+            "leader": leader_json.get("id"),
+            "leader_sha256": hashlib.sha256(json.dumps(
+                leader_json, sort_keys=True).encode("utf-8")).hexdigest(),
+            "seed": int(seed), "respace": bool(respace),
+            "place": {**PLACE_FINE, **(place or {})}, "ik_iters": IK_ITERS,
+            "allowed_overlap_m": allow["contact_m"], "other_overlap_m": allow["other_m"],
+            "search_code_sha256": hashlib.sha256(_search_code().encode("utf-8")).hexdigest(),
+            "mujoco": getattr(mj, "__version__", None), "numpy": np.__version__}
+
+
+def same_placement_key(a, b):
+    """Whether two placement keys (as results store them) match."""
+    if not a or not b:
+        return False
+    return (json.dumps(a, sort_keys=True, default=float)
+            == json.dumps(b, sort_keys=True, default=float))
+
+
+# ----------------------------------------------------------------------
 # the per-frame readout
 # ----------------------------------------------------------------------
 def torque_limits(hand, finger):
@@ -1263,14 +1366,22 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         ik.mu = float(leader_json.get("mu", 1.0))   # the cone of the equilibrium search
     posed_eq = any(ik.eq is not None for ik in iks)
     if placement is None:
+        # what this placement depends on, for reuse (placement_key); taken
+        # before the search, so an edit to the code during a run is not in it
+        key = placement_key(hand, leader_json, seed, respace, place, allow)
+        t_search = time.time()
         cost, Rw, t, assign, _ = placement_search(hand, leader, cands, iks, seed=seed,
                                                   respace=respace, **place)
+        t_search = time.time() - t_search
     else:
         Rw = np.array(placement["placement"]["rotation_matrix"])
         t = np.array(placement["placement"]["translation_m"])
         assign = [int(placement["assignment"][f.label]) for f in hand.fingers]
         leader.phi = np.radians(placement.get("respace_deg") or np.zeros(leader.n))
         cost = placement["placement_cost_mm"] / 1e3
+        # the reused placement's own key and search time (None in results
+        # from before keys were stored)
+        key, t_search = placement.get("placement_key"), placement.get("placement_search_s")
     wrist = wrist and bool(hand.shared_joints)
     mu = float(leader_json.get("mu", 1.0))
     L = leader.R_obj
@@ -1528,6 +1639,10 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                            for a in range(len(hand.fingers))},
             "respace_deg": np.degrees(leader.phi).tolist(),
             "placement": {"rotation_matrix": Rw.tolist(), "translation_m": t.tolist()},
+            # what the placement depends on (placement_key; tools/run_follow.py
+            # --reuse-placement compares it), and how long its search took (s)
+            "placement_key": key,
+            "placement_search_s": None if t_search is None else round(float(t_search), 1),
             "frames": frames,
             # off: no key at all, so earlier outputs reproduce exactly
             **({"trajectory": tj.check(recs, rate_limit, lag_s)} if trajectory else {})}
