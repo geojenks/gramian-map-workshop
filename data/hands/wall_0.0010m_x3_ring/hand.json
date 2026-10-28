@@ -1,0 +1,93 @@
+{
+ "name": "wall_0.0010m_x3_ring",
+ "note": "Example hand: three stand-ins of record wall_0.0010m at 120 deg on a 30 mm ring, pointing up and bending inward. Palm size and mount layout are design choices for this example, not data.",
+ "palm": {
+  "size_m": [
+   0.045,
+   0.045,
+   0.005
+  ],
+  "pos_m": [
+   0,
+   0,
+   -0.005
+  ]
+ },
+ "fingers": [
+  {
+   "label": "f0",
+   "record": "wall_0.0010m",
+   "hinges": 3,
+   "slide": null,
+   "contact_radius_m": null,
+   "input_range": null,
+   "mount": {
+    "pos_m": [
+     0.0,
+     0.03,
+     0.0
+    ],
+    "length_axis": [
+     0,
+     0,
+     1
+    ],
+    "bend_axis": [
+     -0.0,
+     -1.0,
+     0
+    ]
+   }
+  },
+  {
+   "label": "f1",
+   "record": "wall_0.0010m",
+   "hinges": 3,
+   "slide": null,
+   "contact_radius_m": null,
+   "input_range": null,
+   "mount": {
+    "pos_m": [
+     -0.025980762,
+     -0.015,
+     0.0
+    ],
+    "length_axis": [
+     0,
+     0,
+     1
+    ],
+    "bend_axis": [
+     0.866025404,
+     0.5,
+     0
+    ]
+   }
+  },
+  {
+   "label": "f2",
+   "record": "wall_0.0010m",
+   "hinges": 3,
+   "slide": null,
+   "contact_radius_m": null,
+   "input_range": null,
+   "mount": {
+    "pos_m": [
+     0.025980762,
+     -0.015,
+     0.0
+    ],
+    "length_axis": [
+     0,
+     0,
+     1
+    ],
+    "bend_axis": [
+     -0.866025404,
+     0.5,
+     0
+    ]
+   }
+  }
+ ]
+}

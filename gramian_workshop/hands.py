@@ -123,6 +123,11 @@ HANDS = {
         "fingers": {"index": "index_distal", "middle": "middle_distal",
                     "ring": "ring_distal", "little": "little_distal",
                     "thumb": "thumb_distal"}},
+    "wall_x3_ring": {
+        "name": "Three record-fitted stand-ins of wall_0.0010m on a ring (example)",
+        "base": "local", "file": "wall_0.0010m_x3_ring/hand.xml",
+        # tools/build_record_hand.py data/hands/wall_0.0010m_x3_ring/hand.json
+        "fingers": {"f0": "f0_distal", "f1": "f1_distal", "f2": "f2_distal"}},
 }
 
 

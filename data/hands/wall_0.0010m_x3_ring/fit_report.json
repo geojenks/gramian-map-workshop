@@ -1,0 +1,289 @@
+{
+ "hand": "wall_0.0010m_x3_ring",
+ "hand_file": "data\\hands\\wall_0.0010m_x3_ring\\hand.json",
+ "fingers": [
+  {
+   "label": "f0",
+   "record": "wall_0.0010m",
+   "fit_check": "PASS",
+   "checks": {
+    "free_path": {
+     "worst_err_m": 0.0006866338683298054,
+     "stroke_m": 0.08523791650618269,
+     "share_of_stroke": 0.008055498028040148,
+     "pass": true
+    },
+    "blocked_size": {
+     "compared": "|force_N|",
+     "fitted": false,
+     "note": "predicted from stiffness and free path; reported, not gated (no tolerance ruled)"
+    },
+    "blocked_direction": {
+     "worst_deg": 3.8939782608966174,
+     "pass": true
+    },
+    "tip_stiffness": {
+     "rows": [
+      {
+       "u": 0.0,
+       "pred_k_y": 5.5089999999999995,
+       "rec_k_y": 5.509,
+       "pred_k_x": 322.781,
+       "rec_k_x": 322.781
+      },
+      {
+       "u": 100.0,
+       "pred_k_y": 6.134488008858332,
+       "rec_k_y": 3.0785,
+       "pred_k_x": 48.66443600962777,
+       "rec_k_x": 334.472
+      },
+      {
+       "u": 200.0,
+       "pred_k_y": 9.47475973073736,
+       "rec_k_y": 12.0908,
+       "pred_k_x": 13.488286860257231,
+       "rec_k_x": 40.1967
+      }
+     ],
+     "note": "reported, not gated"
+    }
+   },
+   "input_range": [
+    0.0,
+    398.0
+   ],
+   "drive_range": [
+    0.0,
+    2.3098678726876707
+   ],
+   "contact_radius_m": 0.0064437565526163035,
+   "contact_radius_source": "cylinder of the record's material volume over its length",
+   "length_m": 0.06981958752127812,
+   "length_source": "shape.spine_rest_m, last point x",
+   "ratios": [
+    0.010234392660538586,
+    0.43483913058593343,
+    0.565160870492996,
+    -1.0789293902746522e-09
+   ],
+   "springs": {
+    "k": [
+     322.781,
+     0.041774653483488425,
+     0.041774653483488425,
+     0.041774653483488425
+    ],
+    "note": "springs from stiffness at u=0 (k_y=5.509 N/m, k_x=322.8 N/m)",
+    "units": "slide N/m, hinges N m/rad"
+   },
+   "joints": [
+    "f0_slide",
+    "f0_hinge0",
+    "f0_hinge1",
+    "f0_hinge2"
+   ]
+  },
+  {
+   "label": "f1",
+   "record": "wall_0.0010m",
+   "fit_check": "PASS",
+   "checks": {
+    "free_path": {
+     "worst_err_m": 0.0006866338683298054,
+     "stroke_m": 0.08523791650618269,
+     "share_of_stroke": 0.008055498028040148,
+     "pass": true
+    },
+    "blocked_size": {
+     "compared": "|force_N|",
+     "fitted": false,
+     "note": "predicted from stiffness and free path; reported, not gated (no tolerance ruled)"
+    },
+    "blocked_direction": {
+     "worst_deg": 3.8939782608966174,
+     "pass": true
+    },
+    "tip_stiffness": {
+     "rows": [
+      {
+       "u": 0.0,
+       "pred_k_y": 5.5089999999999995,
+       "rec_k_y": 5.509,
+       "pred_k_x": 322.781,
+       "rec_k_x": 322.781
+      },
+      {
+       "u": 100.0,
+       "pred_k_y": 6.134488008858332,
+       "rec_k_y": 3.0785,
+       "pred_k_x": 48.66443600962777,
+       "rec_k_x": 334.472
+      },
+      {
+       "u": 200.0,
+       "pred_k_y": 9.47475973073736,
+       "rec_k_y": 12.0908,
+       "pred_k_x": 13.488286860257231,
+       "rec_k_x": 40.1967
+      }
+     ],
+     "note": "reported, not gated"
+    }
+   },
+   "input_range": [
+    0.0,
+    398.0
+   ],
+   "drive_range": [
+    0.0,
+    2.3098678726876707
+   ],
+   "contact_radius_m": 0.0064437565526163035,
+   "contact_radius_source": "cylinder of the record's material volume over its length",
+   "length_m": 0.06981958752127812,
+   "length_source": "shape.spine_rest_m, last point x",
+   "ratios": [
+    0.010234392660538586,
+    0.43483913058593343,
+    0.565160870492996,
+    -1.0789293902746522e-09
+   ],
+   "springs": {
+    "k": [
+     322.781,
+     0.041774653483488425,
+     0.041774653483488425,
+     0.041774653483488425
+    ],
+    "note": "springs from stiffness at u=0 (k_y=5.509 N/m, k_x=322.8 N/m)",
+    "units": "slide N/m, hinges N m/rad"
+   },
+   "joints": [
+    "f1_slide",
+    "f1_hinge0",
+    "f1_hinge1",
+    "f1_hinge2"
+   ]
+  },
+  {
+   "label": "f2",
+   "record": "wall_0.0010m",
+   "fit_check": "PASS",
+   "checks": {
+    "free_path": {
+     "worst_err_m": 0.0006866338683298054,
+     "stroke_m": 0.08523791650618269,
+     "share_of_stroke": 0.008055498028040148,
+     "pass": true
+    },
+    "blocked_size": {
+     "compared": "|force_N|",
+     "fitted": false,
+     "note": "predicted from stiffness and free path; reported, not gated (no tolerance ruled)"
+    },
+    "blocked_direction": {
+     "worst_deg": 3.8939782608966174,
+     "pass": true
+    },
+    "tip_stiffness": {
+     "rows": [
+      {
+       "u": 0.0,
+       "pred_k_y": 5.5089999999999995,
+       "rec_k_y": 5.509,
+       "pred_k_x": 322.781,
+       "rec_k_x": 322.781
+      },
+      {
+       "u": 100.0,
+       "pred_k_y": 6.134488008858332,
+       "rec_k_y": 3.0785,
+       "pred_k_x": 48.66443600962777,
+       "rec_k_x": 334.472
+      },
+      {
+       "u": 200.0,
+       "pred_k_y": 9.47475973073736,
+       "rec_k_y": 12.0908,
+       "pred_k_x": 13.488286860257231,
+       "rec_k_x": 40.1967
+      }
+     ],
+     "note": "reported, not gated"
+    }
+   },
+   "input_range": [
+    0.0,
+    398.0
+   ],
+   "drive_range": [
+    0.0,
+    2.3098678726876707
+   ],
+   "contact_radius_m": 0.0064437565526163035,
+   "contact_radius_source": "cylinder of the record's material volume over its length",
+   "length_m": 0.06981958752127812,
+   "length_source": "shape.spine_rest_m, last point x",
+   "ratios": [
+    0.010234392660538586,
+    0.43483913058593343,
+    0.565160870492996,
+    -1.0789293902746522e-09
+   ],
+   "springs": {
+    "k": [
+     322.781,
+     0.041774653483488425,
+     0.041774653483488425,
+     0.041774653483488425
+    ],
+    "note": "springs from stiffness at u=0 (k_y=5.509 N/m, k_x=322.8 N/m)",
+    "units": "slide N/m, hinges N m/rad"
+   },
+   "joints": [
+    "f2_slide",
+    "f2_hinge0",
+    "f2_hinge1",
+    "f2_hinge2"
+   ]
+  }
+ ],
+ "model": "data\\hands\\wall_0.0010m_x3_ring\\hand.xml",
+ "round_trip": {
+  "f0": {
+   "free_levels_checked": 199,
+   "tip_err_max_m": 0.0006866339721418402,
+   "fit_free_err_max_m": 0.0006866338683298054,
+   "tip_err_with_out_of_plane_max_m": 0.0007045951174929445,
+   "tip_err_with_out_of_plane_share_of_stroke": 0.008266217035488393,
+   "tip_err_note": "tip_err is in the bending plane, as the fit check measures it, so it should equal the fit's error; the second figure adds the record's out-of-plane drift, which a planar chain cannot follow",
+   "drive_spring_balance_max": 5.651771495251978e-09,
+   "loader_tip_offset_m": 0.01116091371286476,
+   "loader_tip_note": "hands.Finger takes the farthest bounding-box corner of the distal capsule, so its fingertip sits about a capsule radius (and a corner) past the chain's tip"
+  },
+  "f1": {
+   "free_levels_checked": 199,
+   "tip_err_max_m": 0.0006866339721418348,
+   "fit_free_err_max_m": 0.0006866338683298054,
+   "tip_err_with_out_of_plane_max_m": 0.0007045951174929384,
+   "tip_err_with_out_of_plane_share_of_stroke": 0.00826621703548832,
+   "tip_err_note": "tip_err is in the bending plane, as the fit check measures it, so it should equal the fit's error; the second figure adds the record's out-of-plane drift, which a planar chain cannot follow",
+   "drive_spring_balance_max": 5.651771495251978e-09,
+   "loader_tip_offset_m": 0.01116091371286476,
+   "loader_tip_note": "hands.Finger takes the farthest bounding-box corner of the distal capsule, so its fingertip sits about a capsule radius (and a corner) past the chain's tip"
+  },
+  "f2": {
+   "free_levels_checked": 199,
+   "tip_err_max_m": 0.0006866339721418457,
+   "fit_free_err_max_m": 0.0006866338683298054,
+   "tip_err_with_out_of_plane_max_m": 0.000704595117492949,
+   "tip_err_with_out_of_plane_share_of_stroke": 0.008266217035488445,
+   "tip_err_note": "tip_err is in the bending plane, as the fit check measures it, so it should equal the fit's error; the second figure adds the record's out-of-plane drift, which a planar chain cannot follow",
+   "drive_spring_balance_max": 5.651771495251978e-09,
+   "loader_tip_offset_m": 0.01116091371286476,
+   "loader_tip_note": "hands.Finger takes the farthest bounding-box corner of the distal capsule, so its fingertip sits about a capsule radius (and a corner) past the chain's tip"
+  }
+ },
+ "status": "built"
+}

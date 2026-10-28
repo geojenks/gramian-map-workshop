@@ -1,0 +1,79 @@
+"""The record-built hand (tools/build_record_hand.py): rebuilding it from its
+hand file gives the stored model, and the model reproduces the fit. Needs
+mujoco; without it the tests are skipped."""
+import importlib.util
+import json
+import os
+import shutil
+import sys
+import tempfile
+import unittest
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+HAND = os.path.join(ROOT, "data", "hands", "wall_0.0010m_x3_ring")
+
+try:
+    import mujoco  # noqa: F401
+except ImportError:
+    mujoco = None
+
+
+def _tool():
+    spec = importlib.util.spec_from_file_location(
+        "build_record_hand", os.path.join(ROOT, "tools", "build_record_hand.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+@unittest.skipIf(mujoco is None, "mujoco not installed")
+class RecordHand(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.mkdtemp()
+        shutil.copy(os.path.join(HAND, "hand.json"), cls.tmp)
+        cls.rep = _tool().build(os.path.join(cls.tmp, "hand.json"))
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp)
+
+    def test_rebuild_matches_stored_model(self):
+        with open(os.path.join(HAND, "hand.xml"), encoding="utf-8") as fh:
+            stored = fh.read()
+        with open(os.path.join(self.tmp, "hand.xml"), encoding="utf-8") as fh:
+            rebuilt = fh.read()
+        # the generated comment names the hand file's path, which differs here
+        drop = lambda s: [l for l in s.splitlines() if not l.startswith("<!--")]
+        self.assertEqual(drop(stored), drop(rebuilt))
+
+    def test_round_trip(self):
+        self.assertEqual(self.rep["status"], "built")
+        for lab, rt in self.rep["round_trip"].items():
+            # the model at q = r a(u) puts the tip where the fit does
+            self.assertAlmostEqual(rt["tip_err_max_m"], rt["fit_free_err_max_m"],
+                                   delta=1e-9, msg=lab)
+            # drive and springs balance there
+            self.assertLess(rt["drive_spring_balance_max"], 1e-6, msg=lab)
+
+    def test_stored_report_matches(self):
+        with open(os.path.join(HAND, "fit_report.json"), encoding="utf-8") as fh:
+            stored = json.load(fh)
+        self.assertEqual(stored["round_trip"].keys(), self.rep["round_trip"].keys())
+        for lab in stored["round_trip"]:
+            self.assertAlmostEqual(stored["round_trip"][lab]["tip_err_max_m"],
+                                   self.rep["round_trip"][lab]["tip_err_max_m"],
+                                   delta=1e-12)
+
+    def test_loads_in_force_check(self):
+        from gramian_workshop.hands import hand_card
+        card = hand_card("wall_x3_ring", n=200)
+        self.assertEqual(card["n_actuators"], 3)
+        self.assertEqual(card["shared_joints"], [])
+        for f in card["fingers"]:
+            self.assertEqual(f["torque_limits"], "actuator forcerange")
+
+
+if __name__ == "__main__":
+    unittest.main()
