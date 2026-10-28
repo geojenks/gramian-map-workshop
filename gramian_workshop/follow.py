@@ -932,8 +932,9 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     the time between them. trajectory: also solve each run of checked frames
     as one linear programme, with rate_limit and lag_s as rows between
     frames (see trajectory.py; needs scipy); the result's "trajectory".
-    joint_stiffness (N.m/rad, default JOINT_STIFFNESS = 0): the uniform
-    passive deflection allowance on every free joint (see _finger_columns).
+    joint_stiffness (N.m/rad, default JOINT_STIFFNESS = 0; read as N/m on a
+    slide): the uniform passive deflection allowance on every free joint
+    (see _finger_columns).
     The model's own joint springs are not an option: they are always read,
     and add to it (module docstring, "Joint springs"). A hand whose spec
     has a "caveat" (record-built hands: the drive is not in newtons) passes
@@ -1248,7 +1249,12 @@ def _finger_columns(hand, finger, ik, M, lim, Jf, p_contact, kq):
     the finger can supply C @ x for 0 <= x <= 1, one column per input sense
     (a muscle pulls only; a motor with a two-sided range gives two) and two
     per free joint for passive stiffness kq within DEFLECT_MAX_M of contact
-    motion."""
+    motion. A hinge turns by DEFLECT_MAX_M / arm to move the contact that
+    far, so its column is kq DEFLECT_MAX_M / arm (N.m); a slide moves the
+    contact by its own travel, with no lever arm, so its column is the
+    force kq DEFLECT_MAX_M along its axis (N; kq read as N/m on a slide, as
+    MuJoCo reads joint stiffness). Before 28 Oct a slide was given a lever
+    arm too (issue 21)."""
     E = _free_map(hand, finger, ik)
     B = M @ E
     Tr = E.T @ Jf.T
@@ -1259,9 +1265,13 @@ def _finger_columns(hand, finger, ik, M, lim, Jf, p_contact, kq):
         if lo < 0:
             cols.append(B[a] * lo)
     if kq > 0:
+        slide = int(_mj().mjtJoint.mjJNT_SLIDE)
         for c_, j in enumerate(ik.free):
-            arm = float(np.linalg.norm(p_contact - ik.d.xanchor[j]))
-            t = kq * DEFLECT_MAX_M / max(arm, 1e-3)
+            if int(hand.model.jnt_type[j]) == slide:
+                t = kq * DEFLECT_MAX_M
+            else:
+                arm = float(np.linalg.norm(p_contact - ik.d.xanchor[j]))
+                t = kq * DEFLECT_MAX_M / max(arm, 1e-3)
             e = np.zeros(len(ik.free))
             e[c_] = t
             cols += [e, -e]

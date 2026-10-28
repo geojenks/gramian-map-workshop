@@ -114,6 +114,60 @@ class ReadFromModel(unittest.TestCase):
         self.assertGreater(res, fo.UNACT_TOL * np.linalg.norm(tau))
 
 
+@unittest.skipIf(mujoco is None, "mujoco not installed")
+class StiffnessColumns(unittest.TestCase):
+    """joint_stiffness columns (_finger_columns): a hinge's is kq D / arm,
+    a slide's is kq D with no lever arm (issue 21)."""
+
+    def test_slide_has_no_lever_arm(self):
+        hand = fo.Hand("wall_x3_ring")
+        f = hand.fingers[0]
+        ik = fo.FingerIK(hand, f)
+        m = hand.model
+        slide = int(fo._mj().mjtJoint.mjJNT_SLIDE)
+        kinds = [int(m.jnt_type[j]) == slide for j in ik.free]
+        self.assertTrue(any(kinds) and not all(kinds))
+        _pose(hand, f, ik, np.zeros(len(ik.free)))
+        M, lim = fo.torque_limits(hand, f)
+        J, p = _tip_jac(hand, f, ik)
+        kq, D = 0.7, fo.DEFLECT_MAX_M
+        n = len(ik.free)
+        # the same contact pushed further out along the finger: the slide's
+        # column must not change, the hinges' must shrink with the arm
+        cols = []
+        for extra in (0.0, 0.05):
+            pc = p + extra * (p - ik.d.xanchor[ik.free[0]])
+            C = fo._finger_columns(hand, f, ik, M, lim, J, pc, kq)[1][:, -2 * n:]
+            cols.append(C)
+            for c_, j in enumerate(ik.free):
+                col = C[:, 2 * c_]
+                want = kq * D if kinds[c_] else \
+                    kq * D / max(float(np.linalg.norm(pc - ik.d.xanchor[j])), 1e-3)
+                self.assertAlmostEqual(float(col[c_]), want, places=12)
+                self.assertEqual(float(np.abs(np.delete(col, c_)).max()), 0.0)
+                np.testing.assert_array_equal(C[:, 2 * c_ + 1], -col)
+        for c_ in range(n):
+            a, b = cols[0][c_, 2 * c_], cols[1][c_, 2 * c_]
+            if kinds[c_]:
+                self.assertEqual(a, b)
+            else:
+                self.assertGreater(a, b)
+
+    def test_hinge_only_hand_unchanged(self):
+        # a hinge-only hand: the columns follow the rule before the fix
+        hand = fo.Hand("human_vc")
+        f = hand.fingers[0]
+        ik = fo.FingerIK(hand, f)
+        _pose(hand, f, ik, ik.rng.mean(1))
+        M, lim = fo.torque_limits(hand, f)
+        J, p = _tip_jac(hand, f, ik)
+        n = len(ik.free)
+        C = fo._finger_columns(hand, f, ik, M, lim, J, p, 0.4)[1][:, -2 * n:]
+        for c_, j in enumerate(ik.free):
+            arm = float(np.linalg.norm(p - ik.d.xanchor[j]))
+            self.assertEqual(float(C[c_, 2 * c_]), 0.4 * fo.DEFLECT_MAX_M / max(arm, 1e-3))
+
+
 class ApplyLimitLoad(unittest.TestCase):
     """The apply limit on a made-up stack: two opposed contacts on a ball,
     each finger one joint row and two input columns."""
