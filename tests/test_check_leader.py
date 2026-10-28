@@ -135,10 +135,10 @@ class Faults(unittest.TestCase):
 
     def test_allowance_defaults_when_absent(self):
         rep, s = cl.check(_minimal())
-        self.assertEqual(s["allowed_overlap_m"], 0.002)
+        self.assertEqual(s["allowed_overlap_m"], 0.003)
         self.assertFalse(s["allowed_overlap_stated"])
         self.assertTrue(s["other_contact_allowed"])
-        self.assertEqual(s["other_overlap_m"], 0.002)
+        self.assertEqual(s["other_overlap_m"], 0.003)
 
     def test_allowance_as_stated(self):
         L = _minimal()

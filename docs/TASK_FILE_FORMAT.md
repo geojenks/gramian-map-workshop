@@ -92,8 +92,8 @@ follow check does not use them.
   "source": { "...": "provenance: repository, commit, script, settings" },
   "object": { "shape": "sphere", "radius_m": <number>, "mass_kg": <number> },
   "n_stations": <whole number>,
-  "allowed_overlap_m": 0.002,
-  "other_contact": { "allowed": true, "max_overlap_m": 0.002 },
+  "allowed_overlap_m": 0.003,
+  "other_contact": { "allowed": true, "max_overlap_m": 0.003 },
   "frames": [
     {
       "t": <seconds>,
@@ -123,7 +123,7 @@ order.
 | `object` | yes | object, below | yes | The manipulated object. |
 | `frames` | yes | non-empty list, below | yes | The method, frame by frame, in time order. |
 | `mu` | no | number above 0 | yes | Friction coefficient for the follow check. If absent it uses its own default (`leader_json.get("mu", 1.0)` in `follow.py`). No stored leader sets it. |
-| `allowed_overlap_m` | no | number, 0 or more, metres | yes | How deep the finger touching a stated contact may sink into the object. Default 0.002 (2 mm) when absent. See "Allowed overlap". |
+| `allowed_overlap_m` | no | number, 0 or more, metres | yes | How deep the finger touching a stated contact may sink into the object. Default 0.003 (3 mm) when absent. See "Allowed overlap". |
 | `other_contact` | no | object, below | yes | Whether the rest of the hand may touch the object away from the stated contacts, and how deep. Default: allowed, as deep as `allowed_overlap_m`. See "Allowed overlap". |
 | `name` | no | string | no | A readable title. |
 | `kind` | no | string | no | Where the method came from. |
@@ -158,8 +158,8 @@ valid and means what it meant, with the default allowance.
 **`allowed_overlap_m`**: a number, 0 or more, in metres. How deep the
 finger touching a stated contact may sink into the object. "The finger"
 here is the link the follow check touches with: the last or middle
-phalanx. Default `0.002` (2 mm), until we have a reason for another
-number.
+phalanx. Default `0.003` (3 mm), the depth the follow check allowed
+before the allowance was stated (ruled 28 Oct, issue 22).
 
 **`other_contact`**: whether the rest of the hand may touch the object
 away from the stated contacts, and how deep. "The rest of the hand" is
@@ -204,7 +204,7 @@ How the follow check uses them (the module docstring of `follow.py`,
 and `other_contact` arguments of `follow()`. Before 28 Oct the follow
 check applied one allowance of its own, 3 mm (amber to 6 mm), to the
 whole finger and the palm, and no file could change it. No stored leader
-sets these fields, so the stored leaders now get the 2 mm default.
+sets these fields, so the stored leaders now get the 3 mm default.
 
 ## Per-frame fields
 

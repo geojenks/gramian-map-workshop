@@ -37,7 +37,7 @@ class Reader(unittest.TestCase):
         self.assertEqual((a["contact_m"], a["other_m"], a["other_allowed"]),
                          (fo.OVERLAP_ALLOWED_M, fo.OVERLAP_ALLOWED_M, True))
         self.assertEqual(a["source"], {"contact": "default", "other": "default"})
-        self.assertEqual(fo.OVERLAP_ALLOWED_M, 0.002)
+        self.assertEqual(fo.OVERLAP_ALLOWED_M, 0.003)
 
     def test_from_the_leader(self):
         a = fo.overlap_allowance({"allowed_overlap_m": 0.001,
@@ -75,8 +75,8 @@ class Grading(unittest.TestCase):
 
     def test_no_cost_within_the_allowance(self):
         a = fo.overlap_allowance({})
-        self.assertEqual(fo._over(0.0019, 0.002, a), 0.0)
-        self.assertAlmostEqual(fo._over(0.003, 0.0025, a), 0.001)
+        self.assertEqual(fo._over(0.0029, 0.003, a), 0.0)
+        self.assertAlmostEqual(fo._over(0.004, 0.0035, a), 0.001)
 
     def test_old_single_allowance_is_the_whole_finger_at_once(self):
         # before 28 Oct: green to PEN_GREEN_M and amber to PEN_AMBER_M on

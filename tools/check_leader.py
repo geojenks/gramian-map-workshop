@@ -38,7 +38,7 @@ UNIT_TOL = 0.01            # proposed: a quaternion or normal whose length
                            # is off 1 by more than this is reported
 NORMAL_TOL_DEG = 5.0       # proposed: a stated contact normal this far from
                            # the direction to the object's centre is reported
-OVERLAP_DEFAULT_M = 0.002  # follow.py OVERLAP_ALLOWED_M: allowed overlap when the
+OVERLAP_DEFAULT_M = 0.003  # follow.py OVERLAP_ALLOWED_M: allowed overlap when the
                            # file states none
 TOUCH_TOL_M = 0.002        # follow.py TOUCH_TOL_M: with other contact not allowed,
                            # the other parts must keep this far clear

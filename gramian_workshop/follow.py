@@ -204,7 +204,7 @@ PEN_AMBER_M = 0.006        # before 28 Oct: "close" (George 26 Oct). follow() no
                            # either; the task's allowance replaces them. The pad-point IK
                            # (FingerIK.solve and .best, which follow() no longer calls) and
                            # tools/feasibility_probe.py still use them
-OVERLAP_ALLOWED_M = 0.002  # allowed overlap at a contact when the task states none (George 28 Oct)
+OVERLAP_ALLOWED_M = 0.003  # allowed overlap at a contact when the task states none (George 28 Oct, issue 22)
 PUSH_CLEAR = (0.2, 0.0)    # IK push-out, first try: on a part deeper than 0.2 of its allowance,
                            # back to 0 (keeps clear of the bound; as before 28 Oct)
 PUSH_USE = (1.0, 1.0)      # second try, where the first is not green: only beyond the
