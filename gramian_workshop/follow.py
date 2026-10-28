@@ -108,6 +108,31 @@ DEFLECT_MAX_M) on top of the model's springs, whatever the model holds.
 The tolerance stays UNACT_TOL of the whole joint torque, springs
 included, and a hand with slides mixes N and N.m in that norm.
 
+Fingers with fewer inputs than joints (28 Oct, ruled on issue 21): a
+finger whose free joints all have springs in the model, and whose inputs
+are fewer than those joints (wall_x3_ring: one drive, a slide and three
+hinges), cannot be posed freely. Its shape is set by the drive level, and
+contact only deflects it against the springs. Such a finger is posed by
+equilibrium (FingerIK._solve_equilibrium): for a drive level u and a
+contact force f on the object at the touch, the joints sit where
+K (q - springref) = M^T u - J^T f (spring torque = drive torque + J^T of
+the object's push on the finger), and the search is over u, in the
+drive's range, and f, in the friction cone, for the touch the geometric
+search would score best (reach, pad side, overlap), with f kept near the
+leader's force at that contact (EQ_FORCE_WEIGHT_M). The pose returned is
+solved exactly from the u and f found. Joint ranges are not imposed on it:
+a record-built finger's ranges hold its free motion only, and how far
+contact pushes a joint past them is the springs' to say
+(tools/build_record_hand.py); a hinge stays within +-pi. The force tests
+then run at that pose unchanged: the leader's force passes the per-finger
+test there only if it is (near) a force that holds the finger in that
+pose, and the redistribution may use the force found, which does. Each
+such finger's record gets "equilibrium" (drive, drive_share, force_N,
+force_departure_N from the leader's, balance) and the result's settings
+"pose". Fingers with as many inputs as joints, and fingers without
+springs (every rigid hand here, Shadow's tendon-coupled fingers included),
+keep the geometric pose and their results are unchanged.
+
 Contact (26 Oct): a TANGENT contact. A finger touches with its last or
 middle phalanx, each as a capsule (the model's own for capsule links; one
 fitted to the link's vertices for meshes): the IK puts the capsule axis at
@@ -235,6 +260,20 @@ FIT_HALF_S = 0.10          # finger inertia: joint velocity and acceleration fro
                            # local quadratic fit over +/- this (s), the fit and window
                            # tools/import_demo_leader.py uses for the object's motion
 FIT_MIN_POINTS = 5         # as that tool's local_fit
+EQ_FORCE_WEIGHT_M = REACH_AMBER_M  # proposed: equilibrium pose search, metres of touch
+                           # error per force scale (the leader's force, or EQ_FORCE_FLOOR_N)
+                           # that the contact force departs from the leader's: departing by
+                           # the leader's whole force costs as much as missing by the amber
+                           # reach. On ten frames of the n4 cup leader, 1e-3 to 0.1 here gave
+                           # the same reach (median 4 mm); at 1e-3 the forces wander far
+                           # from the leader's (28 Oct)
+EQ_FORCE_FLOOR_N = 0.05    # proposed: the force scale where the leader's force is smaller
+EQ_WEIGHT = 10.0           # proposed: weight of the joint balance rows in that search
+EQ_NEWTON_ITERS = 30       # Newton steps for one equilibrium
+EQ_BALANCE_TOL = 1e-10     # joint balance left at an equilibrium (N.m and N)
+EQ_MIN_CURV = 1e-3         # Newton: curvature floor, as a share of the softest spring
+EQ_POINT_ROUNDS = 5        # final equilibrium: re-solves as the touch point settles ...
+EQ_POINT_TOL_M = 1e-9      # ... to within this on the link
 
 
 # ----------------------------------------------------------------------
@@ -509,6 +548,10 @@ class FingerIK:
         self.qadr = np.array([m.jnt_qposadr[j] for j in self.free])
         self.dofs = np.array([m.jnt_dofadr[j] for j in self.free])
         self.rng = np.array([m.jnt_range[j] for j in self.free])
+        # fewer inputs than sprung joints: posed by equilibrium (None: by
+        # geometry, every rigid hand); mu is the leader's, set by follow()
+        self.eq = equilibrium_spec(hand, finger, self)
+        self.mu = 1.0
         # the finger's links (tip to the first joint's body), for penetration
         first = m.jnt_bodyid[finger.joints[0]] if finger.joints else finger.tip_body
         self.shapes, b = {}, finger.tip_body
@@ -564,7 +607,7 @@ class FingerIK:
                 1 if r[1] <= REACH_AMBER_M and r[2] <= SIDE_AMBER_DEG and o <= 1
                 else 2, r[1], r[2])
 
-    def solve_tangent(self, body, target, c, R, q0=None, ball_pen=True):
+    def solve_tangent(self, body, target, c, R, q0=None, ball_pen=True, force=None):
         """Touch the object (centre c, radius R) with this link's contact
         capsule at the leader's contact `target`. Returns (q_free, reach_m,
         side_deg, contact point, link outward normal there, penetration_m,
@@ -572,11 +615,18 @@ class FingerIK:
         penetration_m is the larger of the two.
         With ball_pen, two tries (module docstring, "Allowed overlap"):
         the push-out PUSH_CLEAR, and, unless that is green, PUSH_USE; the
-        better by rank() (the first on a tie)."""
-        r = self._solve_tangent(body, target, c, R, q0, ball_pen, PUSH_CLEAR)
+        better by rank() (the first on a tie).
+        A finger with fewer inputs than sprung joints (self.eq) is posed by
+        _solve_equilibrium instead, whose result has a ninth item, the
+        drive and contact force that hold it there; force is the leader's
+        force on the object at this contact, which that search keeps the
+        contact force near (module docstring, "Fingers with fewer inputs
+        than joints"). Other fingers ignore force."""
+        solve = self._solve_tangent if self.eq is None else             (lambda *a: self._solve_equilibrium(*a, force))
+        r = solve(body, target, c, R, q0, ball_pen, PUSH_CLEAR)
         if not ball_pen or PUSH_USE is None or self.rank(r)[0] == 0:
             return r
-        r2 = self._solve_tangent(body, target, c, R, q0, ball_pen, PUSH_USE)
+        r2 = solve(body, target, c, R, q0, ball_pen, PUSH_USE)
         if self.rank(r2) < self.rank(r):
             return r2
         q = np.array(self.hand.base_q)        # leave self.d at the pose returned
@@ -646,16 +696,206 @@ class FingerIK:
         return (q[self.qadr].copy(), float(np.linalg.norm(cp - target)), side, cp, -n_out, pen,
                 pc, po)
 
-    def best_tangent(self, target, c, R, starts=None, middle=True):
+    # ------------------------------------------------------------------
+    # fingers with fewer inputs than sprung joints: pose from equilibrium
+    # ------------------------------------------------------------------
+    def _set_pose(self, q):
+        qq = np.array(self.hand.base_q)
+        qq[self.qadr] = q
+        self.d.qpos[:] = self.hand.apply_coupling(qq)
+        self.mj.mj_kinematics(self.hand.model, self.d)
+
+    def _energy(self, q, u, f, body, p_local):
+        """Spring energy less the drive's work, plus the contact force's
+        potential: E = (q - ref) K (q - ref) / 2 - u M q + f . p(q), where p
+        is the contact point (fixed on `body`) and f the force the finger
+        puts on the object there. Its gradient is the joint balance
+        K (q - ref) - M^T u + J^T f; it is zero at an equilibrium."""
+        eq = self.eq
+        self._set_pose(q)
+        p = self.d.xpos[body] + self.d.xmat[body].reshape(3, 3) @ p_local
+        dq = q - eq["ref"]
+        return 0.5 * float(dq @ (eq["k"] * dq)) - float(u @ (eq["M"] @ q)) + float(f @ p)
+
+    def _balance(self, q, u, f, body, p_local):
+        """(G, H, Jc) at q: the joint balance K (q - ref) - M^T u + J^T f,
+        its derivative K + d(J^T f)/dq (the contact force's geometric
+        stiffness, from the joint axes: for joints i before j on the chain,
+        d c_j / d q_i = a_i x c_j for a hinge i, 0 for a slide), and the
+        contact point's Jacobian on the free joints. Leaves self.d at q."""
+        mj, m, d, eq = self.mj, self.hand.model, self.d, self.eq
+        self._set_pose(q)
+        mj.mj_comPos(m, d)
+        p = d.xpos[body] + d.xmat[body].reshape(3, 3) @ p_local
+        jacp = np.zeros((3, m.nv))
+        mj.mj_jac(m, d, jacp, None, p, body)
+        Jc = jacp[:, self.dofs]
+        G = eq["k"] * (q - eq["ref"]) - eq["M"].T @ u + Jc.T @ f
+        # f . (a_i x c_j) = (f x a_i) . c_j, for i at or before j
+        T = np.triu((np.cross(f, d.xaxis[self.free]) @ Jc) * eq["hinge"][:, None])
+        Hg = T + T.T - np.diag(np.diag(T))
+        return G, np.diag(eq["k"]) + Hg, Jc
+
+    def _equilibrium(self, q, u, f, body, p_local):
+        """Joint angles where drive u, the springs and contact force f (on
+        the object, at p_local on `body`) balance, from q: Newton on the
+        energy (_energy), its Hessian made positive definite, with a
+        backtracking line search, so it settles in a stable equilibrium
+        near q. Joint ranges are not imposed (for a record-built finger
+        they hold the free motion only; tools/build_record_hand.py), but a
+        hinge stays within +-pi. Returns (q, |G| at q, H, Jc), self.d at q."""
+        eq = self.eq
+        q = np.array(q, float)
+        floor = EQ_MIN_CURV * float(eq["k"].min())
+        for _ in range(EQ_NEWTON_ITERS):
+            G, H, Jc = self._balance(q, u, f, body, p_local)
+            g = float(np.linalg.norm(G))
+            if g <= EQ_BALANCE_TOL:
+                return q, g, H, Jc
+            w, V = np.linalg.eigh(H)
+            step = -V @ ((V.T @ G) / np.maximum(w, floor))
+            e0 = self._energy(q, u, f, body, p_local)
+            t, qn = 1.0, q
+            while t > 1e-6:
+                qn = np.clip(q + t * step, eq["lo"], eq["hi"])
+                if self._energy(qn, u, f, body, p_local) <= e0 + 1e-4 * t * float(G @ step):
+                    break
+                t *= 0.5
+            q = qn
+        G, H, Jc = self._balance(q, u, f, body, p_local)
+        return q, float(np.linalg.norm(G)), H, Jc
+
+    def _solve_equilibrium(self, body, target, c, R, q0, ball_pen, push, force):
+        """_solve_tangent for a finger with fewer inputs than sprung joints
+        (self.eq): the pose returned is an equilibrium of its drive, its
+        springs and a contact force on the object at the touch, and what is
+        searched for is the drive level (in its range) and that force (in
+        the friction cone, mu = self.mu); the joint angles follow from them.
+        One damped least-squares solve over joints, drive and force
+        together: the error rows of _solve_tangent (touch, pad preference,
+        push-out), the joint balance K (q - ref) - M^T u + J^T f as rows
+        weighted by EQ_WEIGHT (each joint's imbalance over its spring, as a
+        deflection; a hinge's times its distance to the fingertip at rest,
+        so in metres),
+        and three rows keeping the force near the leader's (force;
+        EQ_FORCE_WEIGHT_M per force scale, the leader's force or
+        EQ_FORCE_FLOOR_N). After each step the drive is clipped to its
+        range and the force put back in the cone. Then the pose is solved
+        exactly for the drive and force found (_equilibrium), and the touch
+        is scored there, so the balance holds at the pose returned whatever
+        the search left (re-solved while the touch point on the link
+        settles, EQ_POINT_ROUNDS). Starts from q0 (default the middle of
+        the joint ranges), the drive that best holds it with no contact,
+        and the leader's force. Returns _solve_tangent's tuple and a ninth item:
+        {drive, drive_share, force_N, balance} (balance: |G| left, N.m and
+        N mixed; Newton's, not the search's)."""
+        push_from, push_to = push
+        mj, m, d, eq = self.mj, self.hand.model, self.d, self.eq
+        a_l, b_l, r, side_l = self.proxies()[body]
+        n_t = (target - c) / np.linalg.norm(target - c)
+        P = c + (R + r) * n_t                  # where the capsule axis must pass
+        lo, hi = eq["lim"][:, 0], eq["lim"][:, 1]
+        span = np.maximum(hi - lo, 1e-12)
+        fv = np.zeros(3) if force is None else np.asarray(force, float)
+        F0 = max(float(np.linalg.norm(fv)), EQ_FORCE_FLOOR_N)
+        q = np.clip(self.rng.mean(1) if q0 is None else np.asarray(q0, float), eq["lo"], eq["hi"])
+        # the drive that best holds q0 with no contact: M^T u = K (q0 - ref)
+        u = np.clip(np.linalg.lstsq(eq["M"].T, eq["k"] * (q - eq["ref"]), rcond=None)[0], lo, hi)
+        s = (u - lo) / span
+        n, ns = len(q), len(s)
+        # each joint's imbalance as the deflection it would cause, in metres
+        wq = EQ_WEIGHT * np.where(eq["hinge"], eq["arm"], 1.0) / eq["k"]
+        jacp, jacr = np.zeros((3, m.nv)), np.zeros((3, m.nv))
+
+        def axis_point():
+            Rb, pb = d.xmat[body].reshape(3, 3), d.xpos[body]
+            A, B = pb + Rb @ a_l, pb + Rb @ b_l
+            ab = B - A
+            L2 = float(ab @ ab)
+            tt = 0.0 if L2 < 1e-16 else min(1.0, max(0.0, float((P - A) @ ab) / L2))
+            return A + tt * ab, Rb @ side_l
+
+        def contact_local():
+            # the touch on the object's surface, held fixed on the link, and
+            # the direction into the object there
+            x, _ = axis_point()
+            v = x - c
+            nv = max(float(np.linalg.norm(v)), 1e-12)
+            cp = c + R * v / nv
+            return d.xmat[body].reshape(3, 3).T @ (cp - d.xpos[body]), -v / nv
+
+        self._set_pose(q)
+        p_l, n_in = contact_local()
+        phi = _cone_project(fv / F0, n_in, self.mu)
+        for _ in range(IK_ITERS):
+            self._set_pose(q)
+            p_l, n_in = contact_local()
+            u, f = lo + s * span, F0 * phi
+            G, H, Jc = self._balance(q, u, f, body, p_l)
+            x, s_w = axis_point()
+            e = P - x
+            mj.mj_jac(m, d, jacp, jacr, x, body)
+            Jp, Jr = jacp[:, self.dofs], jacr[:, self.dofs]
+            e = np.concatenate([e, SIDE_WEIGHT_M * np.cross(s_w, -n_t)])
+            J = np.vstack([Jp, SIDE_WEIGHT_M * Jr])
+            if ball_pen:
+                best_ = None
+                for (pen, bb, xp, uu), a_ in zip(self.overlaps(body, (c, R)),
+                                                  (self.allow["contact_m"], self.allow["other_m"])):
+                    if pen - a_ * push_from > 0 and (best_ is None or pen - a_ * push_from > best_[0]):
+                        best_ = (pen - a_ * push_from, pen - a_ * push_to, bb, xp, uu)
+                if best_ is not None:
+                    _, err, bb, xp, uu = best_
+                    jx = np.zeros((3, m.nv))
+                    mj.mj_jac(m, d, jx, None, xp, bb)
+                    J = np.vstack([J, PEN_WEIGHT * (uu @ jx[:, self.dofs])[None, :]])
+                    e = np.concatenate([e, [PEN_WEIGHT * err]])
+            nr = len(e)
+            # unknowns: joints, drive share, force over F0
+            A = np.zeros((nr + n + 3, n + ns + 3))
+            A[:nr, :n] = J
+            A[nr:nr + n, :n] = wq[:, None] * H
+            A[nr:nr + n, n:n + ns] = -wq[:, None] * (eq["M"].T * span)
+            A[nr:nr + n, n + ns:] = wq[:, None] * (F0 * Jc.T)
+            A[nr + n:, n + ns:] = EQ_FORCE_WEIGHT_M * np.eye(3)
+            b = np.concatenate([e, -wq * G, EQ_FORCE_WEIGHT_M * (fv / F0 - phi)])
+            dz = A.T @ np.linalg.solve(A @ A.T + IK_DAMP * np.eye(A.shape[0]), b)
+            q = np.clip(q + dz[:n], eq["lo"], eq["hi"])
+            s = np.clip(s + dz[n:n + ns], 0.0, 1.0)
+            phi = _cone_project(phi + dz[n + ns:], n_in, self.mu)
+        u, f = lo + s * span, F0 * phi
+        # the exact equilibrium, with the force where the touch then is
+        self._set_pose(q)
+        p_l, _ = contact_local()
+        for _ in range(EQ_POINT_ROUNDS):
+            q, bal, H, Jc = self._equilibrium(q, u, f, body, p_l)
+            p_new, _ = contact_local()
+            moved = float(np.linalg.norm(p_new - p_l))
+            p_l = p_new
+            if moved <= EQ_POINT_TOL_M:
+                break
+        x, s_w = axis_point()
+        v = x - c
+        n_out = v / np.linalg.norm(v)          # from the centre through the touch
+        cp = c + R * n_out                     # the touch, on the object's surface
+        side = math.degrees(math.acos(max(-1.0, min(1.0, float(s_w @ -n_out)))))
+        pc, po = (float(x_[0]) for x_ in self.overlaps(body, (c, R)))
+        pen = max(pc, po)
+        info = {"drive": u.tolist(), "drive_share": s.tolist(), "force_N": f.tolist(),
+                "balance": bal}
+        return (q.copy(), float(np.linalg.norm(cp - target)), side, cp, -n_out, pen,
+                pc, po, info)
+
+    def best_tangent(self, target, c, R, starts=None, middle=True, force=None):
         """Best link and pose for a tangent touch at target: green before
-        amber before red, then reach, then side."""
+        amber before red, then reach, then side. force: as solve_tangent."""
         if starts is None:
             lo, hi = self.rng[:, 0], self.rng[:, 1]
             starts = [None, lo + 0.25 * (hi - lo), lo + 0.75 * (hi - lo)][:IK_STARTS]
         best = None
         for b in self.proxies(middle):
             for q0 in starts:
-                r = self.solve_tangent(b, target, c, R, q0)
+                r = self.solve_tangent(b, target, c, R, q0, force=force)
                 key = self.rank(r)
                 if best is None or key < best[0]:
                     best = (key, (b, None, None), r)
@@ -840,7 +1080,8 @@ def placement_search(hand, leader, cands, iks, n_frames=10, n_samples=80, seed=0
                         if i not in leader.made(k):
                             continue
                         p, nrm, cc = leader.station(k, i, Rw, t)
-                        _, r = ik.best_tangent(p, cc, leader.R_obj, starts=[None])
+                        _, r = ik.best_tangent(p, cc, leader.R_obj, starts=[None],
+                                               force=leader.force(k, i, Rw))
                         # reach error, plus touching beyond the pad's side
                         # (toward the nail), plus sinking into the object
                         # beyond the task's allowance
@@ -974,7 +1215,8 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
             if i not in made:
                 continue
             p, nrm, cc = leader.station(k, i, Rw, t)
-            _, r = ik.best_tangent(p, cc, leader.R_obj, starts=[None])
+            _, r = ik.best_tangent(p, cc, leader.R_obj, starts=[None],
+                                   force=leader.force(k, i, Rw))
             c += r[1] + FACE_WEIGHT_M * math.radians(max(0.0, r[2] - SIDE_GREEN_DEG)) + _over(r[6], r[7], ik.allow)
         return c
 
@@ -999,6 +1241,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
     iks = [FingerIK(hand, f, allow) for f in hand.fingers]
+    for ik in iks:
+        ik.mu = float(leader_json.get("mu", 1.0))   # the cone of the equilibrium search
+    posed_eq = any(ik.eq is not None for ik in iks)
     if placement is None:
         cost, Rw, t, assign, _ = placement_search(hand, leader, cands, iks, seed=seed,
                                                   respace=respace, **place)
@@ -1055,8 +1300,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 per.append({"finger": f.label, "station": i, "state": "off"})
                 continue
             p, nrm, _ = leader.station(k, i, Rw, t)
-            (b, pl, nl), (q, res, face, pw, nw, pen, pc, po) = iks[a].best_tangent(
-                p, c, leader.R_obj, middle=middle)
+            (b, pl, nl), r_ = iks[a].best_tangent(p, c, leader.R_obj, middle=middle,
+                                                  force=leader.force(k, i, Rw))
+            q, res, face, pw, nw, pen, pc, po = r_[:8]
             # a soft pad pressed the allowed overlap into the object touches
             # over a patch, not a point (Hertz: radius sqrt(2 R_eff delta));
             # the leader's contact anywhere in it is reached (26 Oct)
@@ -1077,6 +1323,11 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                     "overlap_mm": pc * 1e3 if math.isfinite(pc) else None,
                     "other_overlap_mm": po * 1e3 if math.isfinite(po) else None,
                     "overlap_within_allowance": o_rank == 0}
+            if len(r_) > 8:
+                # posed by equilibrium: the drive and contact force that hold
+                # this pose, and how far that force is from the leader's
+                item["equilibrium"] = dict(r_[8], force_departure_N=float(np.linalg.norm(
+                    np.asarray(r_[8]["force_N"]) - leader.force(k, i, Rw))))
             if not near:
                 item["state"] = "red"
                 item["reason"] = ("reach" if res > REACH_AMBER_M + patch else
@@ -1233,7 +1484,14 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          # off (no joint stiffness in the model): no key, so
                          # earlier outputs reproduce exactly
                          **({"joint_springs": "from the model: k (q - springref) "
-                             "at each solved pose, on the joint balance"} if sprung else {})},
+                             "at each solved pose, on the joint balance"} if sprung else {}),
+                         # off (no finger with fewer inputs than sprung
+                         # joints): no key, as above
+                         **({"pose": "fingers with fewer inputs than sprung joints: an "
+                             "equilibrium of drive, springs and contact force (issue 21)",
+                             "pose_fingers": [f.label for f, ik in zip(hand.fingers, iks)
+                                              if ik.eq is not None]}
+                            if posed_eq else {})},
             **({"caveat": hand.spec["caveat"]} if hand.spec.get("caveat") else {}),
             "assignment": {hand.fingers[a].label: int(assign[a])
                            for a in range(len(hand.fingers))},
@@ -1320,7 +1578,8 @@ def _window_q(ik, leader, k, i, Rw, t, body, q_k, half=None):
         while 0 <= j < len(F) and abs(float(F[j]["t"]) - tk) <= half + 1e-9 \
                 and i in leader.made(j):
             p, _, cc = leader.station(j, i, Rw, t)
-            q = ik.solve_tangent(body, p, cc, leader.R_obj, q0=q)[0]
+            q = ik.solve_tangent(body, p, cc, leader.R_obj, q0=q,
+                                 force=leader.force(j, i, Rw))[0]
             qs[j] = q
             j += step
     js = sorted(qs)
@@ -1408,6 +1667,55 @@ def _inertia_item(hand, finger, ik, M, lim, Jf, pw, dyn):
     rec.update(fitted=True, motion_Nm=tau.tolist(), motion_share=_input_share(C_in, tau),
                qd_max_rad_s=dyn["qd_max_rad_s"], qdd_max_rad_s2=dyn["qdd_max_rad_s2"])
     return rec, tau
+
+
+def equilibrium_spec(hand, finger, ik):
+    """What _solve_equilibrium needs for a finger posed by equilibrium, or
+    None for a finger posed by geometry. A finger is posed by equilibrium
+    when every one of its free joints has a spring in the model, its inputs
+    have limits, they are fewer than its free joints, and no joint of it is
+    slaved to another: then its shape is set by the drive level, and
+    contact only deflects it against the springs (ruled on issue 21). A
+    finger with as many inputs as joints can hold any pose, and a finger
+    without springs has no equilibrium to solve for, so both keep the
+    geometric pose (every rigid hand here). Returns {k, ref, M (inputs x
+    free joints), lim, hinge (per free joint), arm (each joint's distance
+    to the fingertip at rest), lo, hi (pose bounds)}."""
+    if ik.dep or not ik.free:
+        return None
+    spr = model_springs(hand, finger)
+    if spr is None:
+        return None
+    idx = [finger.joints.index(j) for j in ik.free]
+    k, ref = spr[0][idx], spr[1][idx]
+    if not np.all(k > 0):
+        return None
+    M, lim = torque_limits(hand, finger)
+    if M is None or M.shape[0] >= len(ik.free):
+        return None
+    m = hand.model
+    hinge = np.array([int(m.jnt_type[j]) == int(_mj().mjtJoint.mjJNT_HINGE) for j in ik.free])
+    big = np.full(len(ik.free), np.inf)
+    # each hinge's distance to the fingertip at the model's rest pose
+    tip = finger.tip_pos(hand.data)
+    arm = np.array([max(float(np.linalg.norm(tip - hand.data.xanchor[j])), 1e-3) for j in ik.free])
+    return {"k": k, "ref": ref, "M": np.asarray(M, float)[:, idx], "lim": np.asarray(lim, float),
+            "hinge": hinge, "arm": arm, "lo": np.where(hinge, -math.pi, -big),
+            "hi": np.where(hinge, math.pi, big)}
+
+
+def _cone_project(f, n, mu):
+    """f projected onto the friction cone about the unit normal n (half
+    angle atan(mu)): the nearest force pushing along n within it."""
+    fn = float(f @ n)
+    ft = f - fn * n
+    t = float(np.linalg.norm(ft))
+    if t <= mu * fn:
+        return f
+    if mu * t <= -fn:
+        return np.zeros(3)
+    fn2 = (fn + mu * t) / (1.0 + mu * mu)
+    return fn2 * n + (mu * fn2 / t) * ft
 
 
 def model_springs(hand, finger):

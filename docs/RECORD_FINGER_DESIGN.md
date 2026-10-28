@@ -301,3 +301,51 @@ chain's end itself. The build tool's round trip now reports that offset
 before this change and still carries the old figure; it is not rebuilt.
 In `follow.py` the fingertip sets which way a distal link's pad faces and
 where the placement search starts; contact itself is the link's capsule.
+
+## Poses for fingers with fewer drives than joints, 28 Oct 2026 (issue 21)
+
+Ruled on issue 21: a finger with one drive and four sprung joints cannot be
+posed freely. Its shape is set by the drive level, and contact only
+deflects it against the springs. Until now `follow.py` chose the pose from
+geometry alone, so `wall_x3_ring` landed in shapes it cannot hold and every
+frame was red; those verdicts were an artefact of the pose choice, not
+verdicts on the finger.
+
+What `follow.py` does now, for a finger whose free joints all have springs
+in the model and whose inputs are fewer than those joints:
+
+- **The pose is an equilibrium.** For a drive level u and a contact force f
+  on the object at the touch, the joints sit where the spring torque
+  equals the drive torque less the object's push carried back to the
+  joints: K (q - rest) = M^T u - J^T f.
+- **The search is over u and f, not over joint angles.** u stays in the
+  drive's range and f in the friction cone at the touch. The search scores
+  the touch exactly as the geometric pose search does (reach, pad side,
+  overlap beyond the task's allowance), and keeps f near the leader's force
+  at that contact: departing from it by its own size costs as much as
+  missing the contact by the amber reach (10 mm). On ten frames of the n4
+  cup leader, any weight from a hundredth to ten times that gave the same
+  reach; much weaker, and the forces wander far from the leader's for no
+  gain in reach.
+- **The pose returned is solved exactly** from the u and f found (Newton on
+  the finger's energy, so it is a stable equilibrium), and it is that pose
+  the touch and the force tests are scored at.
+- **Joint ranges are not imposed on it.** The build tool writes each range
+  as the free motion only, and leaves how far contact pushes a joint past
+  it to the springs. A hinge stays within plus or minus 180 degrees.
+- **The force tests are unchanged.** At the pose, the leader's force passes
+  the per-finger test only if it is (near) a force that holds the finger
+  there; the redistribution can use the force found, which does.
+
+Fingers with as many inputs as joints can hold any pose, and fingers
+without springs have no equilibrium to solve for, so both keep the
+geometric pose. That covers every rigid hand here, Shadow's
+tendon-coupled fingers included; their results are unchanged (checked
+against the code before this change on Allegro, Shadow, L20 with
+`joint_stiffness`, a human-finger hand with inertia, the margins, the
+apply limit and a rate limit, and one fresh placement search).
+
+Each finger posed this way records `equilibrium`: the drive (in the
+record's unitless level), its share of the range, the contact force, how
+far that force is from the leader's, and the balance left. The result's
+settings say which fingers were posed this way.
