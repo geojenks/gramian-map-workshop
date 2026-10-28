@@ -4,6 +4,7 @@ mujoco; without it the tests are skipped."""
 import importlib.util
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -14,6 +15,10 @@ import numpy as np
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 HAND = os.path.join(ROOT, "data", "hands", "wall_0.0010m_x3_ring")
+# rebuilt model against the stored one: numbers are written to 9 significant
+# figures, in metres, radians and the drive level
+REBUILD_RTOL = 1e-6
+REBUILD_ATOL = 1e-12
 
 try:
     import mujoco  # noqa: F401
@@ -48,7 +53,19 @@ class RecordHand(unittest.TestCase):
             rebuilt = fh.read()
         # the generated comment names the hand file's path, which differs here
         drop = lambda s: [l for l in s.splitlines() if not l.startswith("<!--")]
-        self.assertEqual(drop(stored), drop(rebuilt))
+        a, b = drop(stored), drop(rebuilt)
+        self.assertEqual(len(a), len(b))
+        # the text must match and the numbers agree to a relative and an
+        # absolute tolerance (ruled on issue 21): the near-zero last-hinge
+        # limit is round-off in a fitted ratio of about 1e-9, and differs in
+        # its last written digits between machines
+        num = re.compile(r"[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?")
+        for la, lb in zip(a, b):
+            self.assertEqual(num.sub("#", la), num.sub("#", lb))
+            xa = [float(x) for x in num.findall(la)]
+            xb = [float(x) for x in num.findall(lb)]
+            np.testing.assert_allclose(xa, xb, rtol=REBUILD_RTOL, atol=REBUILD_ATOL,
+                                       err_msg=la)
 
     def test_round_trip(self):
         self.assertEqual(self.rep["status"], "built")
