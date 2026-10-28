@@ -127,7 +127,11 @@ HANDS = {
         "name": "Three record-fitted stand-ins of wall_0.0010m on a ring (example)",
         "base": "local", "file": "wall_0.0010m_x3_ring/hand.xml",
         # tools/build_record_hand.py data/hands/wall_0.0010m_x3_ring/hand.json
-        "fingers": {"f0": "f0_distal", "f1": "f1_distal", "f2": "f2_distal"}},
+        "fingers": {"f0": "f0_distal", "f1": "f1_distal", "f2": "f2_distal"},
+        # follow() copies this into every result for this hand
+        "caveat": ("PROVISIONAL: each motor's force is the record's unitless drive "
+                   "level a(u), not newtons, and the simulated record's forces are "
+                   "comparative; strength verdicts wait on the units ruling")},
 }
 
 

@@ -41,9 +41,11 @@ free path, in the bending plane (should equal the fit's own error) and with
 the record's out-of-plane drift added; the drive and spring forces must
 balance there.
 
-follow.py does not read joint stiffness until the spring term lands
-(design: "What changes in follow.py"), so until then a force check of this
-hand treats it as rigid with actuator limits and gives no strength verdict.
+follow.py reads each joint's stiffness and springref from the model and
+adds the spring torque at each solved pose to the joint balance (issue 21;
+follow.py's docstring, "Joint springs"). Strength verdicts stay provisional
+while the drive is in the record's units (hands.py gives the hand a caveat,
+which every result carries).
 """
 import argparse
 import json
