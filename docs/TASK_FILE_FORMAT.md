@@ -133,6 +133,7 @@ order.
 | `stations` | no | list of `n_stations` strings | no | A name per station (`thumb`, `index`, ...). |
 | `derivation` | no | object | no | How derived forces were made (see below). |
 | `notes` | no | list of strings | no | Free notes. |
+| `supersedes` | no | string | no | In a corrected copy, the `id` of the stored leader it replaces. See "Corrected copies of stored leaders". |
 
 Any other top-level key is allowed and is not read. The checker lists
 such keys under "not read".
@@ -316,7 +317,8 @@ as stored at `0b628b8`):
 | `w12c_cup_analytic_lock.json` | 204 | 8 | 5-6 | 0.512-7.008 | 0.032 | 0.032 | 60 | 0.1572 | 1.000 | 205 | - | 0 | 0 |
 
 Every stored leader passes: no errors. The warnings are differences in
-structure, set out below. We have not changed any leader file.
+structure, set out below. We have not changed any leader file; corrected
+copies sit beside them (see "Corrected copies of stored leaders").
 
 **The `w10_cup_physical_*` leaders: the contact flag and the physical
 contact disagree.** `contact` is the simulation bridge's own per-station
@@ -401,6 +403,84 @@ demonstrator's palm frame.**
   it stands, which `tools/demo_handframe.py` writes to
   `outputs/handframe_tennis_new_cup_take3.json`.
 - Its `n_frames` and `notes` are carried over as in the derived leader.
+
+## Corrected copies of stored leaders
+
+We never edit a stored leader. Where one needs correcting, we write a
+corrected copy beside it, named `<id>__<suffix>.json`. The copy's
+`supersedes` names the leader it replaces, and its `notes` say what
+changed. New runs should use the corrected copy. Results already computed
+from the old leader stay as they are.
+
+| Corrected copy | Supersedes | What changed | Written by |
+|---|---|---|---|
+| `w10_cup_physical_x0.1_a0.15_n4__contactfix` | `w10_cup_physical_x0.1_a0.15_n4` | `contact` follows the physical contact | `tools/record_leader.py --contact-from mujoco` |
+| `w10_cup_physical_x0.1_a0.15_n5__contactfix` | `w10_cup_physical_x0.1_a0.15_n5` | as above | as above |
+| `w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix` | `w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4` | as above | as above |
+| `w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix` | `w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5` | as above | as above |
+| `w10_cup_physical_x0.3_a0.15_n4__contactfix` | `w10_cup_physical_x0.3_a0.15_n4` | as above | as above |
+| `w10_cup_physical_x0.3_a0.15_n5__contactfix` | `w10_cup_physical_x0.3_a0.15_n5` | as above | as above |
+| `w10_cup_physical_x0.3_a0.15_sl0.3t_n4__contactfix` | `w10_cup_physical_x0.3_a0.15_sl0.3t_n4` | as above | as above |
+| `w10_cup_physical_x0.3_a0.15_sl0.3t_n5__contactfix` | `w10_cup_physical_x0.3_a0.15_sl0.3t_n5` | as above | as above |
+| `tennis_new_cup_take3_derived__nframesfix` | `tennis_new_cup_take3_derived` | `n_frames` is the file's own count; out-of-date carried notes marked | `tools/fix_demo_leader_header.py` |
+| `tennis_new_cup_take3_handframe__nframesfix` | `tennis_new_cup_take3_handframe` | as above | as above |
+
+**Why the w10 contact flags were wrong.** `tools/record_leader.py` took
+`contact` from the bridge's `stations.contact`. On the route these leaders
+use (the analytic contact model, helpers off), the bridge fills that flag
+from the wave pattern (`wave_contact`, in `friction_torque_implicit` in
+`unified_v6/bridge/server.py`): the stations the gait plans to be in
+stance, not the stations touching the ball. The contact point and the
+force come from MuJoCo's contacts between station and ball. So a station
+in its planned stance but hovering off the ball was flagged touching with
+no point, and the follow check aimed the finger at the station's centre;
+a station touching the ball outside its planned stance was flagged not
+touching, and its force was dropped.
+
+**How the w10 copies were made.** We ran the recorder again on the same
+Wave_manip commit as each stored leader (its `source.commit`), unpacked
+with `git archive` so the Wave_manip checkout was not changed, with the
+settings in its `source`. In its default mode the recorder reproduces the
+stored leaders' frames exactly, except
+`w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4`, where the last rounded
+digit differs in the forces of its first frame and in the orientation of
+one frame. With `--contact-from mujoco` the flag is on exactly when the
+station has a MuJoCo contact with the ball, so every touching station has
+a contact point. Every other field per frame comes from the same
+recording. We invented no contact point: a flag with no MuJoCo contact is
+set off. Each copy counts its changes in `source.contact_fix` (flags set
+off, flags set on, frames changed) and names the recorder's commit in
+`source.recorder_commit`. A station touching the ball can carry a zero
+force; it stays flagged touching, as MuJoCo reports the contact.
+
+**How the tennis copies were made.** `tools/fix_demo_leader_header.py`
+copies the leader and changes only its header. `n_frames` becomes the
+file's own frame count, and the source recording's count is kept as
+`n_frames_source`. Each carried note is tested against the file; one that
+no longer holds is kept word for word behind "OUT OF DATE in this file",
+with the reason. `copied_from` gives the stored file's path and sha256.
+
+The checker's table for the corrected copies (output of
+`python tools/check_leader.py --table data/leaders/*__*.json`, on the
+copies as committed with this section). No copy has an error or a warning:
+
+| File | Frames | Stations | Touching per frame | Time span (s) | Step, median (s) | Largest step (s) | Radius (mm) | Mass (kg) | Net contact force / weight, median | Touching with zero force | station_pos gap where it stands in, median (mm) | Errors | Frames with a warning |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `tennis_new_cup_take3_derived__nframesfix.json` | 1319 | 5 | 1-5 | 0-33.6783 | 0.01666 | 1.183 | 36.93 | 0.0577 | 1.004 | 8 | - | 0 | 0 |
+| `tennis_new_cup_take3_handframe__nframesfix.json` | 1240 | 5 | 1-5 | 0.06662-33.6783 | 0.01666 | 1.183 | 36.93 | 0.0577 | 1.005 | 23 | - | 0 | 0 |
+| `w10_cup_physical_x0.1_a0.15_n4__contactfix.json` | 610 | 4 | 2-4 | 0.512-20 | 0.032 | 0.032 | 60 | 0.1572 | 1.000 | 3 | - | 0 | 0 |
+| `w10_cup_physical_x0.1_a0.15_n5__contactfix.json` | 610 | 5 | 2-4 | 0.512-20 | 0.032 | 0.032 | 60 | 0.1572 | 1.000 | 19 | - | 0 | 0 |
+| `w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json` | 297 | 4 | 2-4 | 0.512-9.984 | 0.032 | 0.032 | 33.5 | 0.06124 | 1.000 | 5 | - | 0 | 0 |
+| `w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix.json` | 297 | 5 | 2-4 | 0.512-9.984 | 0.032 | 0.032 | 33.5 | 0.06124 | 1.000 | 20 | - | 0 | 0 |
+| `w10_cup_physical_x0.3_a0.15_n4__contactfix.json` | 297 | 4 | 2-4 | 0.512-9.984 | 0.032 | 0.032 | 60 | 0.1572 | 1.000 | 11 | - | 0 | 0 |
+| `w10_cup_physical_x0.3_a0.15_n5__contactfix.json` | 297 | 5 | 2-4 | 0.512-9.984 | 0.032 | 0.032 | 60 | 0.1572 | 1.000 | 49 | - | 0 | 0 |
+| `w10_cup_physical_x0.3_a0.15_sl0.3t_n4__contactfix.json` | 297 | 4 | 2-4 | 0.512-9.984 | 0.032 | 0.032 | 60 | 0.1572 | 1.000 | 7 | - | 0 | 0 |
+| `w10_cup_physical_x0.3_a0.15_sl0.3t_n5__contactfix.json` | 297 | 5 | 2-4 | 0.512-9.984 | 0.032 | 0.032 | 60 | 0.1572 | 1.000 | 28 | - | 0 | 0 |
+
+Compared with the stored leaders' table above, the touching count per
+frame now follows the ball: some frames of the five-station copies have
+fewer stations touching than any frame of the stored ones, and some frames
+of the four-station copies have more.
 
 ## Bringing your own task
 
