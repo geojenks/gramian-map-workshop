@@ -280,3 +280,24 @@ Open, for a ruling:
   static hold leader exists.
 - **Whether the hand's own springs should set the deflection allowance**,
   in place of the uniform `joint_stiffness=`.
+
+## The fingertip of a record-built finger, 28 Oct 2026 (issue 16)
+
+Ruled on issue 16: for a hand built from records, the fingertip is the
+record's own tip point, the end of the fitted chain. Hands from model files
+keep their rule (the point of the last link's collision shape farthest from
+its joint). `hands.py` tells the two apart by the build tool's
+`fit_report.json`: a hand is record-built when that report sits beside its
+model and names it. We chose the report over a flag in the hand list
+because the build tool always writes it, so a new record-built hand cannot
+be registered without it. The tip is then one link length (the record's
+length over the hinge count) along the distal link.
+
+For `wall_x3_ring` the fingertip moves from 11.2 mm past the chain's end
+(a capsule radius along the finger and a corner off its axis) to the
+chain's end itself. The build tool's round trip now reports that offset
+(0) as `loader_tip_offset_m`, and the old rule's as
+`model_file_tip_rule_offset_m`. The stored `fit_report.json` was written
+before this change and still carries the old figure; it is not rebuilt.
+In `follow.py` the fingertip sets which way a distal link's pad faces and
+where the placement search starts; contact itself is the link's capsule.

@@ -7,7 +7,13 @@ URDF), or set GMW_MENAGERIE / GMW_WAVE_MANIP to local checkouts.
 One rule for every hand, stated rather than tuned per hand:
   fingertip point  the vertex of the distal link's collision geometry
                    farthest from that link's own joint (for primitive geoms,
-                   the farthest point of their bounding box)
+                   the farthest point of their bounding box). Hands built
+                   from actuator records (tools/build_record_hand.py) are
+                   the exception (ruled on issue 16): their fingertip is the
+                   record's own tip point, the end of the fitted chain. A
+                   hand counts as built from records when the build tool's
+                   fit_report.json sits beside its model and names it; see
+                   record_report
   inputs           actuators whose moment touches the finger's joints (the
                    model's own actuators); a model with no actuators (the
                    L20 here) counts its uncoupled joints as inputs
@@ -148,6 +154,24 @@ def model_path(key):
     return os.path.join(base, spec["file"])
 
 
+def record_report(path):
+    """The build tool's fit report for the model at `path`, or None if the
+    hand was not built from records. The signal is the report itself: the
+    build tool writes fit_report.json beside every model it writes, with
+    "model" naming that file, and nothing else writes one. It cannot be
+    left out when a new hand is registered, as a flag in HANDS could."""
+    rp = os.path.join(os.path.dirname(os.path.abspath(path)), "fit_report.json")
+    if not os.path.exists(rp):
+        return None
+    import json
+    with open(rp, encoding="utf-8") as fh:
+        rep = json.load(fh)
+    named = os.path.basename(str(rep.get("model", "")).replace("\\", "/"))
+    if rep.get("status") != "built" or named != os.path.basename(path):
+        return None
+    return rep
+
+
 def _mj():
     try:
         import mujoco
@@ -176,7 +200,31 @@ class Finger:
         self.dof = np.array([m.jnt_dofadr[j] for j in self.joints])
         self.qadr = np.array([m.jnt_qposadr[j] for j in self.joints])
         self.ranges = np.array([m.jnt_range[j] for j in self.joints])
-        self.tip_local = self._tip_point()
+        rec = self._record_tip()
+        if rec is None:
+            self.tip_local, self.tip_rule = self._tip_point(), "farthest collision point"
+        else:
+            self.tip_local, self.tip_rule = rec, "record chain end"
+
+    def _record_tip(self):
+        """For a hand built from records (hand.record), the record's own tip
+        point in the distal body's frame: the end of the fitted chain, one
+        link length (the record's length over the hinge count) along the
+        distal link, as tools/build_record_hand.py builds it and checks it
+        in its round trip. None for any other hand."""
+        rep = self.hand.record
+        if rep is None:
+            return None
+        mj = _mj()
+        m = self.hand.model
+        names = sorted(m.joint(j).name for j in self.joints)
+        fit = [f for f in rep["fingers"] if sorted(f["joints"]) == names]
+        if len(fit) != 1:
+            raise ValueError(f"{self.hand.key}/{self.label}: the fit report beside the "
+                             "model has no finger with these joints")
+        hinge = int(mj.mjtJoint.mjJNT_HINGE)
+        n_h = sum(int(m.jnt_type[j]) == hinge for j in self.joints)
+        return np.array([float(fit[0]["length_m"]) / n_h, 0.0, 0.0])
 
     def _tip_point(self):
         """Farthest collision point of the distal link from its own joint,
@@ -241,6 +289,8 @@ class Hand:
                 f"{self.path} not found: run tools/fetch_hands.py, or set "
                 "GMW_MENAGERIE / GMW_WAVE_MANIP")
         self.model = mj.MjModel.from_xml_path(self.path)
+        # the build tool's fit report if the hand was built from records
+        self.record = record_report(self.path)
         self.data = mj.MjData(self.model)
         mj.mj_forward(self.model, self.data)
         self.fingers = [Finger(self, lab, body)

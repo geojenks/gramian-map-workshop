@@ -254,7 +254,12 @@ def round_trip(xml_path, fitted):
                                         + d.qfrc_passive[dof]).max()))
             in_range.append(k)
         stroke = float(ff["rec"]["scalars"]["free_stroke_m"])
-        # the loader's fingertip rule (hands.Finger) against the chain's tip
+        # hands.Finger takes the chain's end as the fingertip of a hand built
+        # from records (issue 16), from the report's length over the hinge
+        # count; the rule for model-file hands is kept for comparison
+        n_h = sum(int(m.jnt_type[m.joint(n).id]) == int(mj.mjtJoint.mjJNT_HINGE)
+                  for n in names)
+        tip_loader = np.array([float(f["length_m"]) / n_h, 0.0, 0.0])
         tip_rule = _tip_rule_point(m, distal)
         out[lab] = {
             "free_levels_checked": len(in_range),
@@ -268,16 +273,20 @@ def round_trip(xml_path, fitted):
                             "out-of-plane drift, which a planar chain cannot "
                             "follow",
             "drive_spring_balance_max": max(bal_err),
-            "loader_tip_offset_m": float(np.linalg.norm(tip_rule - [ch.l, 0, 0])),
-            "loader_tip_note": "hands.Finger takes the farthest bounding-box "
-                               "corner of the distal capsule, so its fingertip "
-                               "sits about a capsule radius (and a corner) past "
-                               "the chain's tip"}
+            "loader_tip_offset_m": float(np.linalg.norm(tip_loader - [ch.l, 0, 0])),
+            "model_file_tip_rule_offset_m": float(np.linalg.norm(tip_rule - [ch.l, 0, 0])),
+            "loader_tip_note": "hands.Finger takes the chain's end as the "
+                               "fingertip of a hand built from records (issue "
+                               "16). The rule for model-file hands (the "
+                               "farthest bounding-box corner of the distal "
+                               "capsule) would sit about a capsule radius (and "
+                               "a corner) past it: model_file_tip_rule_offset_m"}
     return out
 
 
 def _tip_rule_point(m, body):
-    """hands.Finger._tip_point's rule for capsule geoms, in the body frame."""
+    """hands.Finger._tip_point's rule (model-file hands) for capsule geoms,
+    in the body frame."""
     import mujoco as mj
     best, bestd = None, -1.0
     for g in range(m.ngeom):

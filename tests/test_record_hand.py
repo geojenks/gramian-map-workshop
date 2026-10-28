@@ -9,6 +9,8 @@ import sys
 import tempfile
 import unittest
 
+import numpy as np
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 HAND = os.path.join(ROOT, "data", "hands", "wall_0.0010m_x3_ring")
@@ -65,6 +67,29 @@ class RecordHand(unittest.TestCase):
             self.assertAlmostEqual(stored["round_trip"][lab]["tip_err_max_m"],
                                    self.rep["round_trip"][lab]["tip_err_max_m"],
                                    delta=1e-12)
+
+    def test_fingertip_is_the_chain_end(self):
+        # ruled on issue 16: a record-built finger's tip is the record's own
+        # tip point, the end of the chain; model-file hands keep their rule
+        from gramian_workshop.hands import Hand
+        hand = Hand("wall_x3_ring")
+        self.assertIsNotNone(hand.record)
+        m = hand.model
+        for f in hand.fingers:
+            self.assertEqual(f.tip_rule, "record chain end")
+            # the far end of the distal capsule's axis, as the tool writes it
+            g = [g for g in range(m.ngeom) if m.geom_bodyid[g] == f.tip_body][0]
+            Rm = np.zeros(9)
+            mujoco.mju_quat2Mat(Rm, m.geom_quat[g])
+            ends = [m.geom_pos[g] + s * Rm.reshape(3, 3)[:, 2] * m.geom_size[g][1]
+                    for s in (-1, 1)]
+            end = max(ends, key=np.linalg.norm)            # the one away from the joint
+            np.testing.assert_allclose(f.tip_local, end, atol=1e-9)
+            # and the round trip's offset of the loader's tip in this build
+            self.assertLess(self.rep["round_trip"][f.label]["loader_tip_offset_m"], 1e-12)
+        other = Hand("human_vc")
+        self.assertIsNone(other.record)
+        self.assertTrue(all(f.tip_rule == "farthest collision point" for f in other.fingers))
 
     def test_loads_in_force_check(self):
         from gramian_workshop.hands import hand_card
