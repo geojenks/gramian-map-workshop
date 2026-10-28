@@ -65,7 +65,7 @@ def _contact_point(L):
             off += np.linalg.norm(c + R * u / np.linalg.norm(u) - cp) > RADIAL_TOL_M
     if off:
         why = (f"{off} of {total} contact points lie more than "
-               f"{RADIAL_TOL_M * 1e3:g} mm from that point")
+               f"{RADIAL_TOL_M * 1e3:g} mm from the point this note describes")
         if "handframe" in L:
             why += (". Here contact_point is re-made from the hand skeleton "
                     f"({L['handframe'].get('script')}): the point on the ball "
@@ -104,8 +104,8 @@ def fix(path):
     rel = os.path.relpath(os.path.abspath(path), ROOT).replace(os.sep, "/")
     notes.append(
         f"Copy of {old_id} with n_frames set to this file's frame count "
-        f"(n_frames_source is the source recording's) and {marked} out-of-date "
-        "carried notes marked; every other field unchanged. "
+        f"(n_frames_source is the source recording's), and {marked} of the "
+        "carried notes marked out of date; every other field unchanged. "
         "n_held_frames_without_ball_centre_dropped and "
         "n_frames_without_tip_per_station count frames of the source "
         "recording, not of this file.")
