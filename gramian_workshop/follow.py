@@ -122,11 +122,53 @@ the object.
 
 Penetration (26 Oct, George: "the fingers go inside the ball ... that is of
 course non-physical"): no part of a touching finger, nor the palm, may sit
-inside the object. The IK pushes any link point that sinks in back out; a
-finger is green only if it sinks in at most PEN_GREEN_M (pad compression),
-amber up to PEN_AMBER_M, red ("penetrates") beyond; the palm likewise, per
-frame ("palm penetrates"), and the placement search pays for both. Fingers
-are not checked against each other, and lifted fingers are not posed.
+inside the object beyond what the task allows. Fingers are not checked
+against each other, and lifted fingers are not posed.
+
+Allowed overlap is part of the task (ruling of 28 Oct, issue 22): the
+leader file states it (docs/TASK_FILE_FORMAT.md), and the check scores the
+hand against exactly that, with no other penalty for sinking in. Two
+allowances (see overlap_allowance):
+  at the contact  allowed_overlap_m: how deep the touching link (the
+                  phalanx at the leader's contact) may sink in; default
+                  OVERLAP_ALLOWED_M
+  elsewhere       other_contact: whether the other links of a touching
+                  finger and the palm may touch the object, and how deep;
+                  default allowed, as deep as at the contact. Not allowed:
+                  they must keep TOUCH_TOL_M clear of it (the distance at
+                  which the check counts a finger as touching)
+Both are used the same way in the four places sinking enters:
+  pose search   a pose within both allowances ranks as green; the
+                placement and wrist searches pay only for depth beyond
+                them
+  push-out      each IK solve is tried twice. First the push-out keeps
+                clear of the allowance (PUSH_CLEAR: it acts on a part
+                deeper than a fifth of its allowance and pushes it back to
+                zero). If that pose is not green, a second try leaves
+                overlap within the allowance alone (PUSH_USE: it acts only
+                beyond the allowance, and only back to it), and the better
+                of the two is kept. The second try alone settles on the
+                bound and, pulled by reach, often just past it (tenths of a
+                mm); the first alone can give up reach to stay clear of an
+                overlap the task allows
+  verdict       a finger is green only within both allowances; amber
+                ("close") if no part is deeper than its allowance plus the
+                contact allowance again; red ("penetrates") beyond. The
+                palm likewise, per frame ("palm penetrates"). A finger that
+                misses its contact still helps hold the object only within
+                the amber depths
+  contact patch a soft pad pressed the contact allowance into the object
+                touches over a patch (see _follow), so the contact
+                allowance also widens the reach that counts as at the
+                contact
+Before 28 Oct the same tests ran with one hidden allowance, PEN_GREEN_M (3
+mm; amber to PEN_AMBER_M, 6 mm), on the whole finger at once, and the
+push-out began at a fifth of it and pushed back to zero (the first try
+alone). Setting both allowances to PEN_GREEN_M and PUSH_USE = None gives
+that behaviour back exactly. Each finger record carries "overlap_mm"
+(deepest point of the touching link; negative: clear of the surface by
+that much) and "other_overlap_mm" (the finger's other links), each frame
+"palm_overlap_mm", and the result's settings the allowances used.
 
 Simulation only; comparative, not predictive. The hand's own weight is not
 counted.
@@ -157,8 +199,16 @@ RESID_TOL = 0.05           # proposed: amber may leave this share of the
                            # acceleration of the object), as a fraction of its norm
 IK_DAMP = 1e-4
 RESPACE_DEG = 20.0         # proposed: how far a station may be moved round the ring
-PEN_GREEN_M = 0.003        # a pad may compress this far into the object (George 26 Oct, from his index: p90 ~6 mm)
-PEN_AMBER_M = 0.006        # "close" (George 26 Oct)
+PEN_GREEN_M = 0.003        # before 28 Oct: a pad may compress this far into the object (George 26 Oct, from his index: p90 ~6 mm)
+PEN_AMBER_M = 0.006        # before 28 Oct: "close" (George 26 Oct). follow() no longer reads
+                           # either; the task's allowance replaces them. The pad-point IK
+                           # (FingerIK.solve and .best, which follow() no longer calls) and
+                           # tools/feasibility_probe.py still use them
+OVERLAP_ALLOWED_M = 0.002  # allowed overlap at a contact when the task states none (George 28 Oct)
+PUSH_CLEAR = (0.2, 0.0)    # IK push-out, first try: on a part deeper than 0.2 of its allowance,
+                           # back to 0 (keeps clear of the bound; as before 28 Oct)
+PUSH_USE = (1.0, 1.0)      # second try, where the first is not green: only beyond the
+                           # allowance, back to it (None: no second try, as before 28 Oct)
 PEN_WEIGHT = 1.0           # IK weight of the push-out row (as position)
 TOUCH_TOL_M = 0.002        # a finger this close to the object still counts as touching it
 SIDE_GREEN_DEG = 90.0      # tangent contact: anywhere but the nail half (George 23 Oct)
@@ -318,6 +368,62 @@ def palm_penetration(hand, c, R, _cache={}):
     return float(_deepest(d, sh, np.asarray(c, float), R)[0]) if sh else -np.inf
 
 
+def overlap_allowance(leader_json=None, allowed_overlap_m=None, other_contact=None):
+    """The task's allowed overlap between hand and object, as a dict:
+    contact_m (the touching link at a stated contact), other_m (the other
+    links of a touching finger and the palm; negative = a clearance they
+    must keep), other_allowed, and source ("leader file", "default" or
+    "override", per allowance). Read from the leader's allowed_overlap_m
+    and other_contact (docs/TASK_FILE_FORMAT.md); the arguments override
+    them: allowed_overlap_m a number, other_contact True, False, a number
+    (allowed, to that depth) or a dict as in the file."""
+    L = leader_json or {}
+    src = {}
+    if allowed_overlap_m is not None:
+        a_c, src["contact"] = float(allowed_overlap_m), "override"
+    elif L.get("allowed_overlap_m") is not None:
+        a_c, src["contact"] = float(L["allowed_overlap_m"]), "leader file"
+    else:
+        a_c, src["contact"] = OVERLAP_ALLOWED_M, "default"
+    if a_c < 0:
+        raise ValueError("allowed_overlap_m must be 0 or more (metres)")
+    oc, src["other"] = other_contact, "override"
+    if oc is None:
+        oc, src["other"] = L.get("other_contact"), "leader file"
+        if oc is None:
+            oc, src["other"] = True, "default"
+    if isinstance(oc, bool):
+        oc = {"allowed": oc}
+    elif not isinstance(oc, dict):
+        oc = {"allowed": True, "max_overlap_m": float(oc)}
+    allowed = bool(oc.get("allowed", True))
+    if allowed:
+        a_o = oc.get("max_overlap_m")
+        a_o = a_c if a_o is None else float(a_o)
+        if a_o < 0:
+            raise ValueError("other_contact.max_overlap_m must be 0 or more (metres)")
+    else:
+        if oc.get("max_overlap_m") is not None:
+            raise ValueError("other_contact: max_overlap_m only goes with allowed: true")
+        a_o = -TOUCH_TOL_M
+    return {"contact_m": a_c, "other_m": a_o, "other_allowed": allowed, "source": src}
+
+
+def _over(pc, po, allow):
+    """Depth beyond the allowances (m, 0 within them), the larger of the
+    touching link's and the other parts'."""
+    return max(0.0, pc - allow["contact_m"], po - allow["other_m"])
+
+
+def _overlap_rank(pc, po, allow):
+    """0 within both allowances, 1 close (no part deeper than its allowance
+    plus the contact allowance again), 2 beyond."""
+    a_c, a_o = allow["contact_m"], allow["other_m"]
+    if pc <= a_c and po <= a_o:
+        return 0
+    return 1 if pc <= a_c + a_c and po <= a_o + a_c else 2
+
+
 def _palm_side(hand, finger, body):
     """Unit direction (in `body`'s frame) the phalanx's surface moves when
     the finger curls: the tip's velocity under the finger's joints moving
@@ -389,9 +495,12 @@ def pad_candidates(hand, finger, middle=False):
 # inverse kinematics for one finger, one pad point
 # ----------------------------------------------------------------------
 class FingerIK:
-    def __init__(self, hand, finger):
+    def __init__(self, hand, finger, allow=None):
+        """allow: overlap_allowance(...) (default: OVERLAP_ALLOWED_M at the
+        contact, other contact allowed as deep)."""
         mj = _mj()
         self.mj, self.hand, self.f = mj, hand, finger
+        self.allow = overlap_allowance() if allow is None else allow
         m = hand.model
         self.d = mj.MjData(m)
         # independent joints and their coupled dependants
@@ -447,10 +556,40 @@ class FingerIK:
         self._proxy = (middle, out)
         return out
 
+    def rank(self, r):
+        """(green 0 / amber 1 / red 2, reach, side) of a solve_tangent
+        result, before the force tests: the order best_tangent picks by."""
+        o = _overlap_rank(r[6], r[7], self.allow)
+        return (0 if r[1] <= REACH_GREEN_M and r[2] <= SIDE_GREEN_DEG and o == 0 else
+                1 if r[1] <= REACH_AMBER_M and r[2] <= SIDE_AMBER_DEG and o <= 1
+                else 2, r[1], r[2])
+
     def solve_tangent(self, body, target, c, R, q0=None, ball_pen=True):
         """Touch the object (centre c, radius R) with this link's contact
         capsule at the leader's contact `target`. Returns (q_free, reach_m,
-        side_deg, contact point, link outward normal there, penetration_m)."""
+        side_deg, contact point, link outward normal there, penetration_m,
+        overlap of this link m, overlap of the finger's other links m);
+        penetration_m is the larger of the two.
+        With ball_pen, two tries (module docstring, "Allowed overlap"):
+        the push-out PUSH_CLEAR, and, unless that is green, PUSH_USE; the
+        better by rank() (the first on a tie)."""
+        r = self._solve_tangent(body, target, c, R, q0, ball_pen, PUSH_CLEAR)
+        if not ball_pen or PUSH_USE is None or self.rank(r)[0] == 0:
+            return r
+        r2 = self._solve_tangent(body, target, c, R, q0, ball_pen, PUSH_USE)
+        if self.rank(r2) < self.rank(r):
+            return r2
+        q = np.array(self.hand.base_q)        # leave self.d at the pose returned
+        q[self.qadr] = r[0]
+        self.d.qpos[:] = self.hand.apply_coupling(q)
+        self.mj.mj_kinematics(self.hand.model, self.d)
+        return r
+
+    def _solve_tangent(self, body, target, c, R, q0, ball_pen, push):
+        """One damped least-squares solve for solve_tangent; push = (from,
+        to): the push-out acts on a part deeper than `from` times its
+        allowance and pushes it back to `to` times it."""
+        push_from, push_to = push
         mj, m, d = self.mj, self.hand.model, self.d
         a_l, b_l, r, side_l = self.proxies()[body]
         n_t = (target - c) / np.linalg.norm(target - c)
@@ -479,12 +618,20 @@ class FingerIK:
             e = np.concatenate([e, SIDE_WEIGHT_M * np.cross(s_w, -n_t)])
             J = np.vstack([Jp, SIDE_WEIGHT_M * Jr])
             if ball_pen:
-                pen, bb, xp, u = self.penetration((c, R))
-                if pen > 0.2 * PEN_GREEN_M:
+                # the part furthest past where the push-out starts: the
+                # touching link against the contact allowance, the others
+                # against theirs
+                best_ = None
+                for (pen, bb, xp, u), a_ in zip(self.overlaps(body, (c, R)),
+                                                 (self.allow["contact_m"], self.allow["other_m"])):
+                    if pen - a_ * push_from > 0 and (best_ is None or pen - a_ * push_from > best_[0]):
+                        best_ = (pen - a_ * push_from, pen - a_ * push_to, bb, xp, u)
+                if best_ is not None:
+                    _, err, bb, xp, u = best_
                     jx = np.zeros((3, m.nv))
                     mj.mj_jac(m, d, jx, None, xp, bb)
                     J = np.vstack([J, PEN_WEIGHT * (u @ self._eff_jac(jx))[None, :]])
-                    e = np.concatenate([e, [PEN_WEIGHT * pen]])
+                    e = np.concatenate([e, [PEN_WEIGHT * err]])
             dq = J.T @ np.linalg.solve(J @ J.T + IK_DAMP * np.eye(J.shape[0]), e)
             q[self.qadr] = np.clip(q[self.qadr] + dq, self.rng[:, 0], self.rng[:, 1])
         d.qpos[:] = self.hand.apply_coupling(q.copy())
@@ -494,8 +641,10 @@ class FingerIK:
         n_out = v / np.linalg.norm(v)          # from the centre through the touch
         cp = c + R * n_out                     # the touch, on the object's surface
         side = math.degrees(math.acos(max(-1.0, min(1.0, float(s_w @ -n_out)))))
-        pen = float(self.penetration((c, R))[0])
-        return q[self.qadr].copy(), float(np.linalg.norm(cp - target)), side, cp, -n_out, pen
+        pc, po = (float(x_[0]) for x_ in self.overlaps(body, (c, R)))
+        pen = max(pc, po)
+        return (q[self.qadr].copy(), float(np.linalg.norm(cp - target)), side, cp, -n_out, pen,
+                pc, po)
 
     def best_tangent(self, target, c, R, starts=None, middle=True):
         """Best link and pose for a tangent touch at target: green before
@@ -507,10 +656,7 @@ class FingerIK:
         for b in self.proxies(middle):
             for q0 in starts:
                 r = self.solve_tangent(b, target, c, R, q0)
-                rank = (0 if r[1] <= REACH_GREEN_M and r[2] <= SIDE_GREEN_DEG and r[5] <= PEN_GREEN_M else
-                        1 if r[1] <= REACH_AMBER_M and r[2] <= SIDE_AMBER_DEG and r[5] <= PEN_AMBER_M
-                        else 2)
-                key = (rank, r[1], r[2])
+                key = self.rank(r)
                 if best is None or key < best[0]:
                     best = (key, (b, None, None), r)
         return best[1], best[2]
@@ -519,6 +665,14 @@ class FingerIK:
         """(depth m, body, point, outward) of the finger's deepest point
         inside ball = (centre, radius), at the pose in self.d."""
         return _deepest(self.d, self.shapes, np.asarray(ball[0], float), float(ball[1]))
+
+    def overlaps(self, body, ball):
+        """The deepest point, as penetration() gives it, of the link `body`
+        (the touching link), then of the finger's other links."""
+        c, R = np.asarray(ball[0], float), float(ball[1])
+        own = {b: s_ for b, s_ in self.shapes.items() if b == body}
+        rest = {b: s_ for b, s_ in self.shapes.items() if b != body}
+        return _deepest(self.d, own, c, R), _deepest(self.d, rest, c, R)
 
     def _eff_jac(self, J):
         m = self.hand.model
@@ -689,14 +843,17 @@ def placement_search(hand, leader, cands, iks, n_frames=10, n_samples=80, seed=0
                         _, r = ik.best_tangent(p, cc, leader.R_obj, starts=[None])
                         # reach error, plus touching beyond the pad's side
                         # (toward the nail), plus sinking into the object
+                        # beyond the task's allowance
                         fw = FACE_WEIGHT_M if face_weight is None else face_weight
                         res.append(r[1] + fw * math.radians(max(0.0, r[2] - SIDE_GREEN_DEG))
-                                   + max(0.0, r[5] - PEN_GREEN_M))
+                                   + _over(r[6], r[7], ik.allow))
                     C[a, i] = np.mean(res) if res else 1.0
             assign, cost = best_assignment(C)
-            # the palm must not sit inside the object either
+            # the palm must not sit inside the object either, beyond the
+            # allowance for contact away from the stated points
+            a_o = iks[0].allow["other_m"]
             cost += float(np.mean([max(0.0, palm_penetration(hand, leader.center(k, Rw, t),
-                                                             leader.R_obj) - PEN_GREEN_M) for k in ks]))
+                                                             leader.R_obj) - a_o) for k in ks]))
             scores.append(cost)
             if best is None or cost < best[0]:
                 best = (cost, Rw, t, assign, x)
@@ -757,7 +914,7 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
            placement=None, joint_stiffness=None, margin=False, disturbance=False,
            apply=False, apply_free=False, inertia=False, rate_limit=None,
-           lag_s=None, trajectory=False):
+           lag_s=None, trajectory=False, allowed_overlap_m=None, other_contact=None):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -780,7 +937,9 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     The model's own joint springs are not an option: they are always read,
     and add to it (module docstring, "Joint springs"). A hand whose spec
     has a "caveat" (record-built hands: the drive is not in newtons) passes
-    it on in the result."""
+    it on in the result. allowed_overlap_m and other_contact override the
+    leader's own (see overlap_allowance; module docstring, "Allowed
+    overlap")."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -790,7 +949,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
                        place or {}, wrist, respace, placement,
                        JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness),
                        margin, disturbance, apply or apply_free, apply_free, inertia,
-                       rate_limit, lag_s, trajectory)
+                       rate_limit, lag_s, trajectory,
+                       overlap_allowance(leader_json, allowed_overlap_m, other_contact))
     finally:
         IK_ITERS = old_iters
 
@@ -814,7 +974,7 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
                 continue
             p, nrm, cc = leader.station(k, i, Rw, t)
             _, r = ik.best_tangent(p, cc, leader.R_obj, starts=[None])
-            c += r[1] + FACE_WEIGHT_M * math.radians(max(0.0, r[2] - SIDE_GREEN_DEG)) + max(0.0, r[5] - PEN_GREEN_M)
+            c += r[1] + FACE_WEIGHT_M * math.radians(max(0.0, r[2] - SIDE_GREEN_DEG)) + _over(r[6], r[7], ik.allow)
         return c
 
     axes = [np.linspace(lo, hi, grid) for lo, hi in rng]
@@ -831,11 +991,13 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
             respace, placement, kq, margin=True, disturbance=False, apply=False,
             apply_free=False, inertia=False, rate_limit=None, lag_s=None,
-            trajectory=False):
+            trajectory=False, allow=None):
+    allow = overlap_allowance(leader_json) if allow is None else allow
+    a_c, a_o = allow["contact_m"], allow["other_m"]
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
-    iks = [FingerIK(hand, f) for f in hand.fingers]
+    iks = [FingerIK(hand, f, allow) for f in hand.fingers]
     if placement is None:
         cost, Rw, t, assign, _ = placement_search(hand, leader, cands, iks, seed=seed,
                                                   respace=respace, **place)
@@ -892,21 +1054,28 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 per.append({"finger": f.label, "station": i, "state": "off"})
                 continue
             p, nrm, _ = leader.station(k, i, Rw, t)
-            (b, pl, nl), (q, res, face, pw, nw, pen) = iks[a].best_tangent(p, c, leader.R_obj, middle=middle)
-            # a soft pad pressed PEN_GREEN_M into the object touches over a
-            # patch, not a point (Hertz: radius sqrt(2 R_eff delta)); the
-            # leader's contact anywhere in it is reached (26 Oct)
+            (b, pl, nl), (q, res, face, pw, nw, pen, pc, po) = iks[a].best_tangent(
+                p, c, leader.R_obj, middle=middle)
+            # a soft pad pressed the allowed overlap into the object touches
+            # over a patch, not a point (Hertz: radius sqrt(2 R_eff delta));
+            # the leader's contact anywhere in it is reached (26 Oct)
             r_link = iks[a].proxies(middle)[b][2]
             Reff = leader.R_obj * r_link / (leader.R_obj + r_link)
-            patch = math.sqrt(2.0 * Reff * PEN_GREEN_M)
-            near = res <= REACH_AMBER_M + patch and face <= SIDE_AMBER_DEG and pen <= PEN_AMBER_M
-            exact = res <= REACH_GREEN_M + patch and face <= SIDE_GREEN_DEG and pen <= PEN_GREEN_M
+            patch = math.sqrt(2.0 * Reff * a_c)
+            o_rank = _overlap_rank(pc, po, allow)
+            near = res <= REACH_AMBER_M + patch and face <= SIDE_AMBER_DEG and o_rank <= 1
+            exact = res <= REACH_GREEN_M + patch and face <= SIDE_GREEN_DEG and o_rank == 0
             item = {"finger": f.label, "station": i, "reach_mm": res * 1e3,
                     "facing_deg": face, "phalanx": "distal" if b == f.tip_body else "middle",
                     # the solved pose, for rendering (tools/render_follow.py)
                     "q": [float(x) for x in q], "target": p.tolist(), "pad_world": pw.tolist(),
                     "pad_normal": nw.tolist(), "penetration_mm": max(0.0, pen) * 1e3,
-                    "side_deg": face, "patch_mm": patch * 1e3}
+                    "side_deg": face, "patch_mm": patch * 1e3,
+                    # depth into the object against the task's allowance
+                    # (negative: clear of it by that much; None: no shape)
+                    "overlap_mm": pc * 1e3 if math.isfinite(pc) else None,
+                    "other_overlap_mm": po * 1e3 if math.isfinite(po) else None,
+                    "overlap_within_allowance": o_rank == 0}
             if not near:
                 item["state"] = "red"
                 item["reason"] = ("reach" if res > REACH_AMBER_M + patch else
@@ -915,7 +1084,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 # object (allowed side, not sunk too deep) that contact can
                 # still help hold it (26 Oct: one near miss should not fail
                 # the moment); otherwise it carries nothing
-                if not (-TOUCH_TOL_M <= pen <= PEN_AMBER_M and face <= SIDE_AMBER_DEG):
+                if not (-TOUCH_TOL_M <= pen and o_rank <= 1 and face <= SIDE_AMBER_DEG):
                     per.append(item)
                     continue
                 item["used_in_force_check"] = True
@@ -998,10 +1167,12 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             for x in per:
                 if x.get("state") == "amber?":
                     x["state"] = "amber" if ok else "red"
-        palm_pen = max(0.0, palm_penetration(hand, c, leader.R_obj))
-        if palm_pen > PEN_AMBER_M:
+        # the palm is contact away from the stated points
+        palm_raw = palm_penetration(hand, c, leader.R_obj)
+        palm_pen = max(0.0, palm_raw)
+        if palm_raw > a_o + a_c:
             verdict, reason = "red", "palm penetrates"
-        elif palm_pen > PEN_GREEN_M and verdict == "green":
+        elif palm_raw > a_o and verdict == "green":
             verdict = "amber"
         if margin:
             sm = _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol,
@@ -1026,6 +1197,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                               springs_on if sprung else None)
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
                        "ball_center": c.tolist(), "palm_penetration_mm": palm_pen * 1e3,
+                       "palm_overlap_mm": palm_raw * 1e3 if math.isfinite(palm_raw) else None,
                        "unserved": unserved, "fingers": per,
                        **({"untracked": leader.frames[k]["untracked"]} if "untracked" in leader.frames[k] else {}),
                        **({"scale_margin": sm} if margin else {}),
@@ -1046,6 +1218,16 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "inertia": inertia,
                          **({"fit_half_s": FIT_HALF_S} if inertia else {}),
                          "rate_limit_per_s": rate_limit, "lag_s": lag_s,
+                         # the task's allowed overlap, as used (module
+                         # docstring, "Allowed overlap")
+                         "allowed_overlap_m": a_c,
+                         "other_contact": {"allowed": allow["other_allowed"],
+                                           "max_overlap_m": a_o if allow["other_allowed"] else None,
+                                           **({} if allow["other_allowed"]
+                                              else {"clearance_m": -a_o})},
+                         "overlap_source": allow["source"],
+                         "push_out": {"first": list(PUSH_CLEAR),
+                                      "second": None if PUSH_USE is None else list(PUSH_USE)},
                          **({"trajectory": True} if trajectory else {}),
                          # off (no joint stiffness in the model): no key, so
                          # earlier outputs reproduce exactly
@@ -1831,7 +2013,7 @@ def reach_only(hand_key, leader_json, middle=True, seed=0, place=None):
     hand = Hand(hand_key)
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
-    iks = [FingerIK(hand, f) for f in hand.fingers]
+    iks = [FingerIK(hand, f, overlap_allowance(leader_json)) for f in hand.fingers]
     saved = FACE_WEIGHT_M
     FACE_WEIGHT_M = 0.0
     try:
