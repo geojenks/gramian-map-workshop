@@ -38,7 +38,7 @@ need a different one.
 | Hand from actuator records | Copies of one record on a cup ring (`demos/`) | | Records placed on a palm, with reach checked |
 | Task from a simulation | `tools/record_leader.py`, `tools/export_tasks.py` | | A published spec for the task file |
 | Task from a human demo | `tools/import_demo_leader.py` (tennis ball, take 3) | Object mass is assumed, not measured | |
-| Verdict | `follow.py` for model-file hands | Both margins computed but not stored with results (issue 8) | Record-built fingers in `follow.py` (issue 5) |
+| Verdict | `follow.py` for model-file hands | Both margins computed but not stored with results (issue 8); record-built fingers in `follow.py`, springs read from the model, verdicts provisional (issues 5 and 21) | |
 
 ## Rulings needed before the work
 

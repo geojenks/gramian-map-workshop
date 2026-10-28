@@ -1,0 +1,125 @@
+{
+ "hand": "wall_x3_ring",
+ "record": "wall_0.0010m",
+ "caveat": "PROVISIONAL: each motor's force is the record's unitless drive level a(u), not newtons, and the simulated record's forces are comparative; strength verdicts wait on the units ruling",
+ "input_u": 40.0,
+ "drive_a": 0.14863206365368237,
+ "drive_top": 2.30986787,
+ "fit_report": "outputs/record_fit/wall_0.0010m.json",
+ "fit_report_extrapolated_above_u": 40.0,
+ "fingers": [
+  {
+   "finger": "f0",
+   "azimuth_deg": 90.0,
+   "mount_vs_demo_frame_deg": {
+    "length_axis": 0.0,
+    "bend_axis": 0.0
+   },
+   "stand_in_push": [
+    -0.0,
+    -0.046399315910388046,
+    0.49100119173787093
+   ],
+   "stand_in_push_N": 0.4931886726243431,
+   "demo_push_dir": [
+    0.002736193835102014,
+    -0.026253739022411213,
+    0.9996515665123723
+   ],
+   "demo_F_N": 0.2424254667535454,
+   "direction_diff_deg": 3.897127980042503,
+   "strength_ratio_stand_in_over_demo": 2.0343930001616894,
+   "fit_report_pred_mag_N": 0.4931886713761311
+  },
+  {
+   "finger": "f1",
+   "azimuth_deg": -149.99999989158383,
+   "mount_vs_demo_frame_deg": {
+    "length_axis": 0.0,
+    "bend_axis": 0.0
+   },
+   "stand_in_push": [
+    0.040182986299116014,
+    0.023199657950863074,
+    0.49100119173787093
+   ],
+   "stand_in_push_N": 0.4931886726243431,
+   "demo_push_dir": [
+    0.021368307990861195,
+    0.015496482922515846,
+    0.9996515665123723
+   ],
+   "demo_F_N": 0.2424254667535454,
+   "direction_diff_deg": 3.8971279804764962,
+   "strength_ratio_stand_in_over_demo": 2.0343930001616894,
+   "fit_report_pred_mag_N": 0.4931886713761311
+  },
+  {
+   "finger": "f2",
+   "azimuth_deg": -30.00000010841618,
+   "mount_vs_demo_frame_deg": {
+    "length_axis": 0.0,
+    "bend_axis": 0.0
+   },
+   "stand_in_push": [
+    -0.040182986299116014,
+    0.023199657950863074,
+    0.49100119173787093
+   ],
+   "stand_in_push_N": 0.4931886726243431,
+   "demo_push_dir": [
+    -0.024104501834930864,
+    0.010757256185939893,
+    0.9996515665123723
+   ],
+   "demo_F_N": 0.2424254667535454,
+   "direction_diff_deg": 3.89712797960851,
+   "strength_ratio_stand_in_over_demo": 2.0343930001616894,
+   "fit_report_pred_mag_N": 0.4931886713761311
+  }
+ ],
+ "cup_hold_readout_palm_yaw0": {
+  "n": 3,
+  "record_push": {
+   "canonical_push_dir": [
+    0.9996515665123723,
+    0.026253739022411213,
+    0.002736193835102016
+   ],
+   "F_N": 0.2424254667535454,
+   "reason": "direction",
+   "margin": null,
+   "input_count": 0
+  },
+  "record_push_in_plane": {
+   "canonical_push_dir": [
+    0.9996553086074176,
+    0.026253837300641358,
+    0.0
+   ],
+   "F_N": 0.2424254667535454,
+   "reason": "met",
+   "margin": 1.482177734375,
+   "input_count": 0
+  },
+  "stand_in_push": {
+   "canonical_push_dir": [
+    0.9955646165325821,
+    0.09408025461451984,
+    0.0
+   ],
+   "F_N": 0.4931886713761311,
+   "reason": "met",
+   "margin": 3.0030517578125,
+   "input_count": 0
+  },
+  "stored_outputs_cup_hold": {
+   "reason": "direction",
+   "input_count": 0,
+   "margin": null,
+   "closure": null,
+   "edge_fingers": 0,
+   "out_fingers": 0
+  }
+ }
+}

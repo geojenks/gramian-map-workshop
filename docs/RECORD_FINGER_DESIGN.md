@@ -203,3 +203,80 @@ route, such as `shadow_hand_finger`, carries kinematics but no force
 curves. Either the route must also emit a free path and blocked force (or
 joint stiffness and drive limits), or analytical fingers enter the force
 check as model-file hands instead of through the stand-in.
+
+## The spring term, 28 Oct 2026 (issue 21)
+
+`follow.py` now reads each finger joint's spring from the hand model:
+MuJoCo's joint stiffness and its rest position (`springref`), as
+`tools/build_record_hand.py` writes them. At the pose the inverse
+kinematics finds, the spring pushes back by k (q - rest), and the finger's
+inputs must supply that torque on top of the contact load. It enters the
+joint balance where the finger's motion torque does, and the two add when
+both are on.
+
+What we chose, and why:
+
+- **No switch.** The springs are read whenever the model has them. A hand
+  whose finger joints have no stiffness takes exactly the old path and its
+  results carry no new keys. None of our rigid hands has joint or tendon
+  stiffness in its model.
+- **`joint_stiffness=` is a separate term.** It still adds the uniform
+  deflection allowance (a spring that lets the contact move a little
+  from the solved pose). The model's springs give the torque at that pose.
+  The two add. Whether a hand's own springs should set that allowance is
+  open (below).
+- **The apply limit counts inputs only.** A spring is never an input. At
+  the solved pose its torque is a load the inputs must hold before they
+  can push, so it shifts the apply limit: less push one way, more the
+  other.
+- **Record-built hands carry a caveat.** `hands.py` gives `wall_x3_ring`
+  one, and every result for it repeats it: the motor force is the
+  record's unitless drive level, so strength verdicts are provisional
+  until the units ruling.
+
+Checks:
+
+- Rigid hands: every stored rigid-hand result was re-evaluated with the
+  new code and with the code before the change, at the stored placement.
+  The two agree exactly. Neither reproduces the stored files, which were
+  made by earlier versions of the force check; that is not from this
+  change.
+- The model's springs balance the drive on the free path and leave an
+  unbalanced torque off it (`tests/test_follow_springs.py`).
+- Copies on the cup ring against the demos: `tools/record_hand_vs_demo.py`,
+  output `outputs/record_hand_vs_demo__wall_x3_ring.json`. The stand-in's
+  push at rest matches the fit report's prediction in direction and size.
+  It differs from the record's push by the fit check's direction error, and
+  is larger by the fit report's size ratio. The demos' readout fails the
+  record's own push on direction for three copies on the palm mount, but
+  passes it once its small out-of-plane part is dropped. That part makes
+  every copy twist the ball the same way about the vertical, and pushes
+  are one-sided, so nothing cancels it. The planar stand-in cannot push out
+  of the plane, so it passes.
+- The hand on the cup leaders:
+  `outputs/follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__provisional.json`
+  and the same for `_n5`. Every checked frame is red. Frames fail on
+  direction or friction where too few stations are touched, and on torque
+  where the force check is reached. Turning the springs off gives the same
+  frame verdicts: with one drive for four joints, the redistribution's
+  torque test fails either way.
+
+Open, for a ruling:
+
+- **The tolerance mixes units.** The per-finger test allows UNACT_TOL of
+  the whole joint torque. With a slide, that norm adds newtons (the slide)
+  to newton-metres (the hinges). The slide's spring force is far larger in
+  number, so the hinge rows are hardly tested. The redistribution instead
+  holds the joint rows to a share of the object's load, so it is much
+  stricter. The two disagree for this hand.
+- **The pose ignores the springs.** The inverse kinematics chooses the pose
+  from geometry alone. A finger with one drive and several sprung joints
+  can only sit where the drive balances the springs and the contact load.
+  Most poses the inverse kinematics finds are off that set, so the torque
+  test fails there.
+- **Which leaders are the cup tasks.** No leader file is called `cup_hold`
+  or `cup_turn`. We ran the two tennis-size cup leaders, the ones the rigid
+  hands use, and the demos' `cup_hold` task through the check above. No
+  static hold leader exists.
+- **Whether the hand's own springs should set the deflection allowance**,
+  in place of the uniform `joint_stiffness=`.
