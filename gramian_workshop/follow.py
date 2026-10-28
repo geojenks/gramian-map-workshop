@@ -119,8 +119,11 @@ K (q - springref) = M^T u - J^T f (spring torque = drive torque + J^T of
 the object's push on the finger), and the search is over u, in the
 drive's range, and f, in the friction cone, for the touch the geometric
 search would score best (reach, pad side, overlap), with f kept near the
-leader's force at that contact (EQ_FORCE_WEIGHT_M). The pose returned is
-solved exactly from the u and f found. Joint ranges are not imposed on it:
+leader's force at that contact (EQ_FORCE_WEIGHT_M). The touching link
+must sit on the object's surface, since a contact force needs a contact:
+the radial part of the touch weighs as the balance does, and a link left
+standing clear of the surface counts that gap in its reach (it does not
+touch there). The pose returned is solved exactly from the u and f found. Joint ranges are not imposed on it:
 a record-built finger's ranges hold its free motion only, and how far
 contact pushes a joint past them is the springs' to say
 (tools/build_record_hand.py); a hinge stays within +-pi. The force tests
@@ -732,7 +735,7 @@ class FingerIK:
         Jc = jacp[:, self.dofs]
         G = eq["k"] * (q - eq["ref"]) - eq["M"].T @ u + Jc.T @ f
         # f . (a_i x c_j) = (f x a_i) . c_j, for i at or before j
-        T = np.triu((np.cross(f, d.xaxis[self.free]) @ Jc) * eq["hinge"][:, None])
+        T = np.triu((_cross3(f, d.xaxis[self.free]) @ Jc) * eq["hinge"][:, None])
         Hg = T + T.T - np.diag(np.diag(T))
         return G, np.diag(eq["k"]) + Hg, Jc
 
@@ -836,7 +839,12 @@ class FingerIK:
             e = P - x
             mj.mj_jac(m, d, jacp, jacr, x, body)
             Jp, Jr = jacp[:, self.dofs], jacr[:, self.dofs]
-            e = np.concatenate([e, SIDE_WEIGHT_M * np.cross(s_w, -n_t)])
+            # the link must sit on the surface: a force without contact is no
+            # equilibrium, so the radial part of the touch weighs as the
+            # balance does
+            e = e + (EQ_WEIGHT - 1.0) * n_t * float(n_t @ e)
+            Jp = Jp + (EQ_WEIGHT - 1.0) * np.outer(n_t, n_t @ Jp)
+            e = np.concatenate([e, SIDE_WEIGHT_M * _cross3(s_w, -n_t)])
             J = np.vstack([Jp, SIDE_WEIGHT_M * Jr])
             if ball_pen:
                 best_ = None
@@ -883,8 +891,11 @@ class FingerIK:
         pen = max(pc, po)
         info = {"drive": u.tolist(), "drive_share": s.tolist(), "force_N": f.tolist(),
                 "balance": bal}
-        return (q.copy(), float(np.linalg.norm(cp - target)), side, cp, -n_out, pen,
-                pc, po, info)
+        # reach: from the leader's contact to the touch, and, if the link
+        # stands clear of the surface, across that gap too (it then does
+        # not touch, and its force would act on nothing)
+        reach = math.hypot(float(np.linalg.norm(cp - target)), max(0.0, -pc))
+        return (q.copy(), reach, side, cp, -n_out, pen, pc, po, info)
 
     def best_tangent(self, target, c, R, starts=None, middle=True, force=None):
         """Best link and pose for a tangent touch at target: green before
@@ -1702,6 +1713,14 @@ def equilibrium_spec(hand, finger, ik):
     return {"k": k, "ref": ref, "M": np.asarray(M, float)[:, idx], "lim": np.asarray(lim, float),
             "hinge": hinge, "arm": arm, "lo": np.where(hinge, -math.pi, -big),
             "hi": np.where(hinge, math.pi, big)}
+
+
+def _cross3(a, b):
+    """a x b for 3-vectors (b may be rows of them): np.cross without its
+    overhead, which the equilibrium search calls in its inner loop."""
+    return np.stack([a[1] * b[..., 2] - a[2] * b[..., 1],
+                     a[2] * b[..., 0] - a[0] * b[..., 2],
+                     a[0] * b[..., 1] - a[1] * b[..., 0]], axis=-1)
 
 
 def _cone_project(f, n, mu):

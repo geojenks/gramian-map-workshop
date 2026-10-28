@@ -327,6 +327,12 @@ in the model and whose inputs are fewer than those joints:
   cup leader, any weight from a hundredth to ten times that gave the same
   reach; much weaker, and the forces wander far from the leader's for no
   gain in reach.
+- **The touching link must sit on the surface.** A contact force needs a
+  contact, so the search weighs the gap between link and surface as it
+  weighs the balance, and a link left standing clear of the surface counts
+  that gap in its reach: it does not touch there. A first run without this
+  left the fingers a median 5 mm clear of the ball, pushing on nothing,
+  and the reach (measured round the surface only) did not show it.
 - **The pose returned is solved exactly** from the u and f found (Newton on
   the finger's energy, so it is a stable equilibrium), and it is that pose
   the touch and the force tests are scored at.

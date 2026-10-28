@@ -129,6 +129,9 @@ class Pose(unittest.TestCase):
             fv = leader.force(k, i, Rw)
             (b, _, _), r = ik.best_tangent(p, c, leader.R_obj, force=fv)
             q, info = r[0], r[8]
+            # a link standing clear of the surface does not touch: the gap
+            # counts in the reach
+            self.assertGreaterEqual(r[1], max(0.0, -r[6]))
             u, force = np.array(info["drive"]), np.array(info["force_N"])
             lim = ik.eq["lim"]
             self.assertTrue(np.all(u >= lim[:, 0]) and np.all(u <= lim[:, 1]))
