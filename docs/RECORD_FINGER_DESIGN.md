@@ -355,3 +355,28 @@ Each finger posed this way records `equilibrium`: the drive (in the
 record's unitless level), its share of the range, the contact force, how
 far that force is from the leader's, and the balance left. The result's
 settings say which fingers were posed this way.
+
+## Each joint type in its own unit, 28 Oct 2026 (issue 21)
+
+Ruled on issue 21: the per-finger torque test must check each joint
+against its own limit, slide force against the slide's and hinge torque
+against the hinges', never summed across joint types. Before, it allowed
+5% (UNACT_TOL) of the norm of all the finger's joint torques, which for
+this hand added the slide's newtons to the hinges' newton-metres; the
+slide's spring force is far larger in number, so the hinge rows were
+hardly tested.
+
+For a finger with both hinges and slides, the test now allows the hinges
+5% of the hinges' torque and the slides 5% of the slides' force, and
+finds the drive use with each type's rows weighed by its own allowance.
+The finger's record gives `unbalanced_Nm` for the hinges and
+`unbalanced_N` for the slides. Fingers with one joint type (every rigid
+hand) keep the test exactly as it was.
+
+We read "its own limit" as each joint type's own allowance, a share of
+the torque (or force) asked of that type, rather than a share of what the
+drive could make at each joint: the second would loosen the test for
+every strong rigid hand and change all their verdicts, which the ruling
+did not ask for. The redistribution and the margins still hold all joint
+rows to one tolerance on the object's load, slide rows included; that is
+not changed here.

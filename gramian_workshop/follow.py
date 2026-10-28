@@ -106,7 +106,14 @@ old path, and its results carry no new keys. Tendon springs are not read
 unchanged: it adds its uniform deflection allowance (columns, within
 DEFLECT_MAX_M) on top of the model's springs, whatever the model holds.
 The tolerance stays UNACT_TOL of the whole joint torque, springs
-included, and a hand with slides mixes N and N.m in that norm.
+included. For a finger with both hinges and slides, that norm mixed N and
+N.m; since 28 Oct (ruled on issue 21) such a finger's per-finger test
+checks each joint type in its own unit, the hinges' torque against
+UNACT_TOL of the hinges' and the slides' force against UNACT_TOL of the
+slides', never summed (_hold_solve_by_kind; its record then has
+"unbalanced_Nm" for the hinges and "unbalanced_N" for the slides). Every
+other finger keeps the test as it was. The redistribution and the margins
+still hold all joint rows to one tolerance on the object's load.
 
 Fingers with fewer inputs than joints (28 Oct, ruled on issue 21): a
 finger whose free joints all have springs in the model, and whose inputs
@@ -1271,6 +1278,14 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
     # the model's joint springs, per finger (None: none on its joints)
     springs = [model_springs(hand, f) for f in hand.fingers]
     sprung = any(s is not None for s in springs)
+    # each finger's free joint types, where it has both hinges and slides
+    # (the per-finger torque test then checks each type in its own unit);
+    # None for every other finger, which keeps the test as before
+    slide_t = int(_mj().mjtJoint.mjJNT_SLIDE)
+    kinds = []
+    for ik in iks:
+        kd = ["slide" if int(hand.model.jnt_type[j]) == slide_t else "hinge" for j in ik.free]
+        kinds.append(kd if len(set(kd)) > 1 else None)
     # the joint torque each finger must also supply goes to the force tests
     # when either term is on; otherwise exactly the old calls (None)
     use_taus = inertia or sprung
@@ -1385,8 +1400,13 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                     item["actuator_link"] = {
                         "u_prev": None if u_state[a] is None else u_state[a].tolist(),
                         "u_lo": u_lo.tolist(), "u_hi": u_hi.tolist()}
-                torque_ok, un, xh = _hold_solve(cols, fv, tau, box)
-                item["unbalanced_Nm"] = un
+                torque_ok, un, xh = _hold_solve(cols, fv, tau, box, kinds[a])
+                if isinstance(un, dict):
+                    # each joint type in its own unit (issue 21)
+                    item["unbalanced_Nm"] = un["hinge"]
+                    item["unbalanced_N"] = un["slide"]
+                else:
+                    item["unbalanced_Nm"] = un
                 if link:
                     xs_hold[a] = xh
             if item.get("state") != "red":
@@ -1780,10 +1800,14 @@ def _columns_hold(cols, fv, tau=None):
     return _hold_solve(cols, fv, tau)[:2]
 
 
-def _hold_solve(cols, fv, tau=None, box=None):
+def _hold_solve(cols, fv, tau=None, box=None, kinds=None):
     """_columns_hold, also giving the input use x it found; with box (l, h),
     each column's x is held in [l, h] instead of [0, 1] (x = l + y, y in
-    [0, h - l])."""
+    [0, h - l]). kinds: each joint row's type ("hinge" or "slide"), given
+    only for a finger with both (see _hold_solve_by_kind); None: the test
+    on the whole joint torque, as before."""
+    if kinds is not None and len(set(kinds)) > 1:
+        return _hold_solve_by_kind(cols, fv, tau, box, kinds)
     Tr, C = cols
     t = Tr @ fv
     if tau is not None:
@@ -1800,6 +1824,36 @@ def _hold_solve(cols, fv, tau=None, box=None):
         x = l + y[:n]
     resid = float(np.linalg.norm(C @ x - t))
     return resid <= UNACT_TOL * float(np.linalg.norm(t)) + 1e-9, resid, x
+
+
+def _hold_solve_by_kind(cols, fv, tau, box, kinds):
+    """_hold_solve for a finger with both hinges and slides (ruled on issue
+    21): each joint type is checked in its own unit and never summed with
+    the other, the hinges' unbalanced torque (N.m) against UNACT_TOL of the
+    hinges' torque, the slides' unbalanced force (N) against UNACT_TOL of
+    the slides' force. The input use is solved with each type's rows
+    divided by that allowance, so neither unit outweighs the other.
+    Returns (ok, {kind: unbalanced, N.m for hinges, N for slides}, x)."""
+    Tr, C = cols
+    t = Tr @ fv
+    if tau is not None:
+        t = t + tau
+    kinds = np.asarray(kinds)
+    w = np.ones(len(t))
+    allow = {}
+    for kd in sorted(set(kinds.tolist())):
+        rows = kinds == kd
+        allow[kd] = UNACT_TOL * float(np.linalg.norm(t[rows])) + 1e-9
+        w[rows] = 1.0 / allow[kd]
+    n = C.shape[1]
+    Cw = C * w[:, None]
+    A = np.block([[Cw, np.zeros((C.shape[0], n))], [np.eye(n), np.eye(n)]])
+    l, h = (np.zeros(n), np.ones(n)) if box is None else box
+    y, _ = cap.solve(A, np.concatenate([w * (t - C @ l), h - l]))
+    x = l + y[:n]
+    r = C @ x - t
+    un = {kd: float(np.linalg.norm(r[kinds == kd])) for kd in allow}
+    return all(un[kd] <= allow[kd] for kd in allow), un, x
 
 
 def _input_senses(lim):
