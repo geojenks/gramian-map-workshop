@@ -13,6 +13,16 @@ sim/ submodule and mujoco.
 A leader file is the general format: any source that can say where the
 contacts are, when, and with what force (an authored gait, a human demo,
 another policy) can write one.
+
+`contact` is, by default, the bridge's own per-station flag
+(`stations.contact` in its feedback). On the analytic route with the
+helpers off (the w10 physical cup) that flag is the wave pattern's planned
+contact (`wave_contact`), not whether the station touches the ball, so a
+station can be flagged touching while it hovers off the ball with no
+MuJoCo contact. `--contact-from mujoco` sets the flag from MuJoCo's
+contacts between the station and the ball instead: on exactly when the
+station has a contact point. Such a leader is written as `<id>__contactfix`
+beside the bridge-flag one, and records how many flags changed.
 """
 import argparse
 import hashlib
@@ -66,6 +76,15 @@ def main():
                          "each wave's nWave), e.g. the hand's finger count")
     ap.add_argument("--settle", type=float, default=0.5,
                     help="seconds dropped from the start")
+    ap.add_argument("--contact-from", choices=("bridge", "mujoco"),
+                    default="bridge",
+                    help="bridge: the bridge's stations.contact flag (as the "
+                         "stored leaders); mujoco: on exactly when MuJoCo has "
+                         "a contact between the station and the ball, written "
+                         "as <id>__contactfix")
+    ap.add_argument("--source-commit", default=None,
+                    help="the Wave_manip commit to record when --wave-manip "
+                         "is not a git checkout (e.g. a git archive of it)")
     a = ap.parse_args()
     import mujoco
     wm = os.path.abspath(a.wave_manip)
@@ -117,6 +136,9 @@ def main():
               f"_sl{a.soft_landing:g}" + ("t" if a.takeoff else ""))
            + ("" if a.ball_radius is None else f"_R{a.ball_radius * 1e3:g}")
            + ("" if not a.stations else f"_n{a.stations}"))
+    old_lid = lid
+    if a.contact_from == "mujoco":
+        lid += "__contactfix"
     buf = io.StringIO()
     with redirect_stdout(buf):
         srv = rr.fresh_bridge()
@@ -186,12 +208,25 @@ def main():
             if cpt[i] is not None:
                 v = np.array(cpt[i]) - oc
                 cpt[i] = np.round(oc + Rb * v / np.linalg.norm(v), 6).tolist()
+        flag = [bool(x) for x in st["contact"]]
+        if a.contact_from == "mujoco":
+            # the flag follows the physical contact: on exactly when the
+            # station has a MuJoCo contact with the ball (so a point)
+            cf = meta.setdefault("contact_fix", {"off": 0, "on": 0,
+                                                 "frames": 0})
+            new = [cpt[i] is not None for i in range(n)]
+            off = sum(1 for i in range(n) if flag[i] and not new[i])
+            on = sum(1 for i in range(n) if new[i] and not flag[i])
+            cf["off"] += off
+            cf["on"] += on
+            cf["frames"] += int(off + on > 0)
+            flag = new
         rows.append({
             "t": round(float(d.time), 4),
             "obj_pos": np.round(d.xpos[meta["ball_body"]], 6).tolist(),
             "obj_quat": np.round(d.xquat[meta["ball_body"]], 6).tolist(),
             "station_pos": np.round(pos, 6).tolist(),
-            "contact": [bool(x) for x in st["contact"]],
+            "contact": flag,
             "force_on_object_N": np.round(force, 5).tolist(),
             "contact_point": cpt,
             "contact_normal": cnorm,
@@ -201,8 +236,9 @@ def main():
         srv.run_session(live, headless=True, duration=a.duration,
                         _frame_sink=sink)
     os.chdir(cwd)
-    head = subprocess.run(["git", "-C", wm, "rev-parse", "HEAD"],
-                          capture_output=True, text=True).stdout.strip()
+    head = a.source_commit or subprocess.run(
+        ["git", "-C", wm, "rev-parse", "HEAD"],
+        capture_output=True, text=True).stdout.strip()
     with open(ppath, "rb") as f:
         psha = hashlib.sha256(f.read()).hexdigest()
     leader = {
@@ -212,7 +248,8 @@ def main():
             "" if a.speed_scale == 1.0 else f" -- slowed x{a.speed_scale:g}"),
         "kind": "authored wave (Wave_manip unified_v6 preset)",
         "source": {"repo": "geojenks/Wave_manip", "commit": head,
-                   "preset": os.path.relpath(ppath, wm), "preset_sha256": psha,
+                   "preset": os.path.relpath(ppath, wm).replace(os.sep, "/"),
+                   "preset_sha256": psha,
                    "recorder": "tools/record_leader.py",
                    "speed_scale": a.speed_scale,
                    "stations_override": a.stations,
@@ -233,6 +270,30 @@ def main():
         "frames": rows,
         "caveat": "SIMULATION ONLY -- comparative, not predictive",
     }
+    if a.contact_from == "mujoco":
+        cf = meta.get("contact_fix", {"off": 0, "on": 0, "frames": 0})
+        rec = subprocess.run(["git", "-C", ROOT, "rev-parse", "HEAD"],
+                             capture_output=True, text=True).stdout.strip()
+        leader["supersedes"] = old_lid
+        leader["source"]["recorder_commit"] = rec
+        leader["source"]["contact_source"] = (
+            f"on exactly when the station has a contact point, from "
+            f"{meta.get('force_source')}")
+        leader["source"]["contact_fix"] = {
+            "flag_on_without_contact_set_off": cf["off"],
+            "flag_off_with_contact_set_on": cf["on"],
+            "frames_changed": cf["frames"],
+            "counted_in": "station-frames, except frames_changed"}
+        leader["notes"] = [
+            f"Re-recorded from the same source as {old_lid} with "
+            "--contact-from mujoco. There, contact was the bridge's "
+            "stations.contact flag, which on this route is the wave "
+            "pattern's planned contact, so a station could be flagged "
+            "touching with no contact point. Here the flag is on exactly "
+            "when MuJoCo has a contact between the station and the ball. "
+            "Every other field comes from the same recording. No contact "
+            "point was invented: a flag with no MuJoCo contact is set off, "
+            "and source.contact_fix counts the changes."]
     os.makedirs(OUT, exist_ok=True)
     p = os.path.join(OUT, lid + ".json")
     with open(p, "w", encoding="utf-8") as f:
