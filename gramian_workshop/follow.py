@@ -914,7 +914,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
            placement=None, joint_stiffness=None, margin=False, disturbance=False,
            apply=False, apply_free=False, inertia=False, rate_limit=None,
-           lag_s=None, trajectory=False, allowed_overlap_m=None, other_contact=None):
+           lag_s=None, trajectory=False, allowed_overlap_m=None, other_contact=None,
+           frame_step=1):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -939,7 +940,9 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     has a "caveat" (record-built hands: the drive is not in newtons) passes
     it on in the result. allowed_overlap_m and other_contact override the
     leader's own (see overlap_allowance; module docstring, "Allowed
-    overlap")."""
+    overlap"). frame_step: check only every frame_step-th of the n_eval
+    frames (the same frames a full run checks, fewer of them; the placement
+    search does not use them)."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -950,7 +953,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
                        JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness),
                        margin, disturbance, apply or apply_free, apply_free, inertia,
                        rate_limit, lag_s, trajectory,
-                       overlap_allowance(leader_json, allowed_overlap_m, other_contact))
+                       overlap_allowance(leader_json, allowed_overlap_m, other_contact),
+                       frame_step)
     finally:
         IK_ITERS = old_iters
 
@@ -991,7 +995,7 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
             respace, placement, kq, margin=True, disturbance=False, apply=False,
             apply_free=False, inertia=False, rate_limit=None, lag_s=None,
-            trajectory=False, allow=None):
+            trajectory=False, allow=None, frame_step=1):
     allow = overlap_allowance(leader_json) if allow is None else allow
     a_c, a_o = allow["contact_m"], allow["other_m"]
     hand = Hand(hand_key)
@@ -1024,6 +1028,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         assert m.nq == m.nv, "inertia needs a hinge/slide-only hand"
     ks = range(len(leader.frames)) if n_eval is None else \
         np.linspace(0, len(leader.frames) - 1, n_eval).astype(int)
+    ks = list(ks)[::int(frame_step)]
     link = rate_limit is not None or lag_s is not None
     # each finger's actuator torques at the previous checked frame (None: not
     # in the force check there, taken as 0), and that frame's time
@@ -1218,6 +1223,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "inertia": inertia,
                          **({"fit_half_s": FIT_HALF_S} if inertia else {}),
                          "rate_limit_per_s": rate_limit, "lag_s": lag_s,
+                         "frame_step": int(frame_step),
                          # the task's allowed overlap, as used (module
                          # docstring, "Allowed overlap")
                          "allowed_overlap_m": a_c,

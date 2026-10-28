@@ -37,6 +37,8 @@ def main():
     ap.add_argument("--leader", choices=list(LEADERS), default="tennis")
     ap.add_argument("--frames", type=int, default=40,
                     help="leader frames evaluated, spread over the recording")
+    ap.add_argument("--frame-step", type=int, default=1,
+                    help="check only every Nth of those frames (the placement search is unchanged)")
     ap.add_argument("--tag", default="", help="suffix for the output file names")
     ap.add_argument("--leader-id", default=None,
                     help="a leader file in data/leaders/ by id, for every hand (e.g. a human demo)")
@@ -71,7 +73,8 @@ def main():
             L = json.load(f)
         t0 = time.time()
         r = follow(hk, L, n_eval=a.frames, respace=a.respace, placement=placement,
-                   allowed_overlap_m=a.allowed_overlap_m, other_contact=other)
+                   allowed_overlap_m=a.allowed_overlap_m, other_contact=other,
+                   frame_step=a.frame_step)
         r["elapsed_s"] = round(time.time() - t0, 1)
         out = os.path.join(a.out_dir, f"follow_{hk}__{lid}" + ("__respaced" if a.respace else "") + (f"__{a.tag}" if a.tag else "") + ".json")
         with open(out, "w", encoding="utf-8") as f:
