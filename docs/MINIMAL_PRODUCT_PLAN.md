@@ -31,14 +31,31 @@ need a different one.
 | Stage | Working now | Part way | Not started |
 |---|---|---|---|
 | Actuator in: mesh | SOFA pipeline in the M-11 project; pneunet, bellows, McKibben, cable-finger records | | Run live at the workshop (not planned: hours of compute) |
-| Actuator in: test data | Records digitised from published curves (`mosadegh2014_*`, `abboodi2026_*`) | `forms/record_form.html` and `tools/check_record.py` | A stated input format for raw curves |
-| Actuator in: analytical | `shadow_hand_finger` (forward kinematics from published dimensions) | | A worked example starting from a Jacobian |
+| Actuator in: test data | Test-curve file format (`docs/TEST_CURVE_FORMAT.md`) and converter to a record (`tools/curves_to_record.py`, both ways); records digitised from published curves (`mosadegh2014_*`, `abboodi2026_*`); `forms/record_form.html` and `tools/check_record.py` | Angle-only curves are kept as `free.bend_angle_rad` and make no tip path, so the stand-in fitter refuses them (ruled, issue 23) | |
+| Actuator in: analytical | `shadow_hand_finger` (forward kinematics from published dimensions) | | A worked example starting from a per-joint table (axis, position, range, torque limit, stiffness; ruled on issue 16) |
 | Actuator onto the map | `make_atlas.py` in the M-11 project rebuilds the map from the records | | Adding one uploaded record without a full rebuild |
 | Hand from a model file | Allegro, Shadow, LEAP (MuJoCo Menagerie), Linker L20 (vendor URDF), human-finger hands | | Loading a visitor's own URDF or MJCF |
-| Hand from actuator records | Copies of one record on a cup ring (`demos/`) | | Records placed on a palm, with reach checked |
-| Task from a simulation | `tools/record_leader.py`, `tools/export_tasks.py` | | A published spec for the task file |
-| Task from a human demo | `tools/import_demo_leader.py` (tennis ball, take 3) | Object mass is assumed, not measured | |
-| Verdict | `follow.py` for model-file hands | Both margins computed but not stored with results (issue 8); record-built fingers in `follow.py`, springs read from the model, verdicts provisional (issues 5 and 21) | |
+| Hand from actuator records | Hand file and build tool (`tools/build_record_hand.py`): fitted stand-in fingers on a palm, fit check, round trip; `wall_x3_ring` (three `wall_0.0010m` stand-ins on a 30 mm ring) | Verdicts provisional: the drive is the record's unitless level (ruling 2) | |
+| Task from a simulation | `tools/record_leader.py`, `tools/export_tasks.py`; the task-file format (`docs/TASK_FILE_FORMAT.md`) with `tools/check_leader.py`; corrected `__contactfix` copies of the w10 cup leaders | | A static hold leader (none exists; the `cup_hold` row below is scored only through the demos' readout) |
+| Task from a human demo | `tools/import_demo_leader.py` (tennis ball, take 3); corrected `__nframesfix` copies | Object mass is assumed, not measured | |
+| Verdict | `follow.py` for model-file hands; springs read from the model; fingers with fewer drives than joints posed by equilibrium; each joint type checked in its own unit (per-finger test); overlap scored against the task's stated allowance (default 3 mm); stored placements reused | Both margins computed but not stored with results (issue 8); redistribution and margins still put all joints under one tolerance; fresh placement searches take 45 to 65 min a hand (screening on a few frames not yet built) | |
+
+### Stored results that predate the current check
+
+Nothing in `outputs/` written before 28 Oct can be quoted as a verdict:
+
+- Results written before 6922372 (26 Oct) predate the check that a finger
+  must not sink into the object. 35 of the 49 stored follow results flip
+  under the current code (issue 21, 28 Oct). They stay as they are; their
+  verdicts are superseded by a fresh placement search.
+- Results from the stored `w10_cup_physical_*` leaders aimed, in up to half
+  the frames, at a station flagged touching with no contact point: the
+  station centre, 8 to 9 mm off the ball. The `__contactfix` copies replace
+  those leaders (issue 22, 28 Oct); no stored result has been re-run on them
+  yet.
+- The two `follow_wall_x3_ring__*__provisional` files were written before
+  equilibrium posing (89a6b86). Their reds are an artefact of a pose choice
+  from geometry alone, not verdicts on the finger (issue 21 ruling 3).
 
 ## Rulings needed before the work
 
@@ -63,14 +80,16 @@ need a different one.
    - Analytical: a finger from a written Jacobian, through the record form.
    - Copy the published-data records into `data/records/` with
      `tools/import_records.py`; the workshop copy predates them.
-2. **State the test-data format.** Most visitors will bring test curves for
+2. **State the test-data format** (done 28 Oct, da65543). Most visitors will bring test curves for
    one actuator: input against displacement, input against blocked force,
    with units. Write the format down with one filled example.
-3. **The hand file and the join into the force check** (rulings 1 and 3).
-   Then one hand built from records, run on the cup tasks.
+3. **The hand file and the join into the force check** (rulings 1 and 3;
+   done 28 Oct, 0b628b8 and a479ad7 to 9b74767, provisional on ruling 2).
+   Then one hand built from records, run on the cup tasks: run on the stored
+   cup leaders only; still to run on the corrected copies.
 4. **Loading a visitor's model file.** One hand loaded from a URDF that we
    did not prepare ourselves.
-5. **The task-file spec.** Publish the leader file format so others can
+5. **The task-file spec** (done 28 Oct, faa5b37 to cfbc15b). Publish the leader file format so others can
    bring tasks from their own simulations.
 6. **Store and show both margins** with every verdict (issue 8).
 
