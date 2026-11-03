@@ -4,3 +4,5 @@ __pycache__/
 build/
 dist/
 external/
+# Shadow copies written per machine by tools/make_shadow_spring_hand.py
+data/hands/shadow_spring/
