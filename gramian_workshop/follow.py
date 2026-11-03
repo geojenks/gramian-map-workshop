@@ -1276,7 +1276,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            resid_tol=None, place=None, ik_iters=None, wrist=False, respace=False,
            placement=None, joint_stiffness=None, margin=False, disturbance=False,
            apply=False, apply_free=False, inertia=False, rate_limit=None,
-           lag_s=None, trajectory=False, allowed_overlap_m=None, other_contact=None):
+           lag_s=None, trajectory=False, allowed_overlap_m=None, other_contact=None,
+           top_speed=False):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -1294,6 +1295,9 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     the time between them. trajectory: also solve each run of checked frames
     as one linear programme, with rate_limit and lag_s as rows between
     frames (see trajectory.py; needs scipy); the result's "trajectory".
+    top_speed (with trajectory): also the fastest multiple of the recorded
+    speed at which each run holds (trajectory.top_speed; the result's
+    "trajectory"["top_speed"]); slow for long runs.
     joint_stiffness (N.m/rad, default JOINT_STIFFNESS = 0; read as N/m on a
     slide): the uniform passive deflection allowance on every free joint
     (see _finger_columns).
@@ -1313,7 +1317,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
                        JOINT_STIFFNESS if joint_stiffness is None else float(joint_stiffness),
                        margin, disturbance, apply or apply_free, apply_free, inertia,
                        rate_limit, lag_s, trajectory,
-                       overlap_allowance(leader_json, allowed_overlap_m, other_contact))
+                       overlap_allowance(leader_json, allowed_overlap_m, other_contact),
+                       top_speed)
     finally:
         IK_ITERS = old_iters
 
@@ -1355,7 +1360,7 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
             respace, placement, kq, margin=True, disturbance=False, apply=False,
             apply_free=False, inertia=False, rate_limit=None, lag_s=None,
-            trajectory=False, allow=None):
+            trajectory=False, allow=None, top_speed=False):
     allow = overlap_allowance(leader_json) if allow is None else allow
     a_c, a_o = allow["contact_m"], allow["other_m"]
     hand = Hand(hand_key)
@@ -1431,6 +1436,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             W += np.concatenate([fv, np.cross(p - c, fv)])
         per, pts, nrms, Js, Js_act, fingers_on, taus = [], [], [], [], [], [], []
         springs_on = []
+        taus_motion = []        # the inertia part of taus alone (trajectory.top_speed)
         for a, f in enumerate(hand.fingers):
             i = assign[a]
             if i not in made:
@@ -1495,12 +1501,14 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             torque_ok = True
             cols = None
             tau = None
+            tau_motion = None
             box = None
             spring = None
             if M is not None:
                 cols = _finger_columns(hand, f, iks[a], M, lim, Jf, pw, kq)
                 if inertia:
                     item["inertia"], tau = _inertia_item(hand, f, iks[a], M, lim, Jf, pw, dyn)
+                    tau_motion = tau
                 if springs[a] is not None:
                     item["spring"], spring = _spring_item(hand, f, iks[a], M, lim, Jf, pw,
                                                           springs[a])
@@ -1528,6 +1536,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             nrms.append(n_in)
             Js.append(cols)
             taus.append(tau)
+            taus_motion.append(tau_motion)
             springs_on.append(spring)
             if link:
                 bounds.append(box)
@@ -1540,7 +1549,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         if trajectory:
             recs.append(tj.frame_record(k, float(leader.frames[k]["t"]), pts, nrms, Js, c, W,
                                         mu, L, taus if use_taus else None, fingers_on,
-                                        [x[1] for x in lims], resid_tol))
+                                        [x[1] for x in lims], resid_tol,
+                                        taus_motion if inertia else None))
         unserved = [i for i in made if i not in assign]
         need_redistribute = unserved or leader.respaced or \
             any(x.get("state") == "amber?" for x in per)
@@ -1645,7 +1655,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             "placement_search_s": None if t_search is None else round(float(t_search), 1),
             "frames": frames,
             # off: no key at all, so earlier outputs reproduce exactly
-            **({"trajectory": tj.check(recs, rate_limit, lag_s)} if trajectory else {})}
+            **({"trajectory": {**tj.check(recs, rate_limit, lag_s),
+                               **({"top_speed": tj.top_speed(recs, rate_limit, lag_s)}
+                                  if top_speed else {})}} if trajectory else {})}
 
 
 def _finger_columns(hand, finger, ik, M, lim, Jf, p_contact, kq):

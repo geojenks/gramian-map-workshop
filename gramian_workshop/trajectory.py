@@ -44,6 +44,16 @@ A solve that HiGHS ends with no verdict is tried again without presolve,
 then by interior point; one still without a verdict counts as failing. The
 readout counts both (lp.retried, lp.other_status).
 
+Speed (top_speed): the same motion replayed at a speed v times the recorded
+one (v = 1 as recorded, 0.5 half as fast). Every checked frame keeps its
+pose and the leader's forces; the time between frames becomes dt / v, so
+the rate and lag rows loosen as v falls, and each finger's own motion
+torque (follow(inertia=True), M qdd + C qd, homogeneous of degree two in
+the speed) becomes v^2 times its recorded value, the spring torque unchanged.
+At v = 0 there are no rate rows, the lag rows are each actuator's full
+range, and the motion torque is 0. The object's own inertia is not modelled
+here, so the recorded contact forces are kept at every speed.
+
 Simulation only; comparative, not predictive."""
 import math
 import time
@@ -57,17 +67,19 @@ NORM = "L1 of the whole stacked residual per frame"
 
 
 def frame_record(k, t, pts, nrms, Js, c, W, mu, L, taus, fingers_on, lims,
-                 resid_tol=None):
+                 resid_tol=None, taus_motion=None):
     """What the check needs of one checked frame, as follow collects it:
     generators and torque stack built once, and the direction and friction
     tests at s = 1 (the tolerance of follow._redistribute). lims: every
-    finger's torque_limits limits (None without them)."""
+    finger's torque_limits limits (None without them). taus_motion: the
+    part of taus that is each finger's own motion torque (None: none of
+    it), which the speed search scales."""
     tol_frac = fo.RESID_TOL if resid_tol is None else resid_tol
     ws = cap.scale_wrench(W, L)
     lims_on = [lims[a] for a in fingers_on]
     if not len(pts):
         return stack_record(k, t, ws, None, None, None, Js, L, taus, fingers_on, lims_on,
-                            tol_frac, "no_contact")
+                            tol_frac, "no_contact", taus_motion)
     pts, nrms = np.array(pts), np.array(nrms)
     tol = max(tol_frac * float(np.linalg.norm(ws)), cap.FEAS_REL)
     D = cap.direction_basis(pts, nrms, c, L)
@@ -76,15 +88,17 @@ def frame_record(k, t, pts, nrms, Js, c, W, mu, L, taus, fingers_on, lims,
     reason = ("direction" if np.linalg.norm(D @ x - ws) > tol else
               "friction" if not fo._feasible(Gs, ws, tol)[0] else None)
     return stack_record(k, t, ws, Gs, cidx, Fc, Js, L, taus, fingers_on, lims_on,
-                        tol_frac, reason)
+                        tol_frac, reason, taus_motion)
 
 
 def stack_record(k, t, ws, Gs, cidx, Fc, Js, L, taus, fingers_on, lims, tol_frac,
-                 reason=None):
+                 reason=None, taus_motion=None):
     """The record itself, from the scaled wrench ws, the generators (None
     with no contact) and the outcome of the direction and friction tests
     (reason None: both pass). Js, fingers_on and lims (each finger's limits)
-    are parallel, one per contact."""
+    are parallel, one per contact. jr_motion is the joint right-hand side
+    of taus_motion alone (zeros without it): at speed v the joint rows read
+    jr + (v^2 - 1) jr_motion."""
     r = {"k": int(k), "t": float(t), "L": float(L), "tol_frac": tol_frac,
          "fingers_on": list(fingers_on), "Js": list(Js), "taus": taus,
          "lims": list(lims), "ws": np.asarray(ws, float),
@@ -93,8 +107,15 @@ def stack_record(k, t, ws, Gs, cidx, Fc, Js, L, taus, fingers_on, lims, tol_frac
     if Gs is not None and any(c_ is not None for c_ in Js):
         Mx, nt, nx = fo._torque_stack(Gs, cidx, Fc, Js, L)
         jr = np.zeros(nt) if taus is None else fo._joint_rhs(Js, taus, L)
-        r.update(torque=True, Mx=Mx, nt=nt, nx=nx, ng=Gs.shape[1], jr=jr)
+        jm = np.zeros(nt) if taus_motion is None else fo._joint_rhs(Js, taus_motion, L)
+        r.update(torque=True, Mx=Mx, nt=nt, nx=nx, ng=Gs.shape[1], jr=jr, jr_motion=jm)
     return r
+
+
+def _speed_dt(dt, speed):
+    """The time between two frames dt seconds apart when the motion is
+    replayed at speed times the recorded speed (speed 0: never)."""
+    return dt / speed if speed > 0 else math.inf
 
 
 def _columns(r):
@@ -116,13 +137,15 @@ class _Stats:
 
 
 def _solve(recs, scales, rate=None, lag=None, bounds=None, budget=True,
-           stats=None):
+           stats=None, speed=1.0):
     """One LP over the frames recs (consecutive, the first unlinked), frame
     i at scale scales[i]. bounds (one per rec, or None): each finger's input
     box as follow._stack_rhs (x = low + y; the chain), no link rows then.
     The objective is the total L1 residual, so the solution returned is the
     least-residual one; budget=False drops the budget rows (the least-bad
-    attempt of a failed frame). Returns (holds, {rec index: {finger: x}})."""
+    attempt of a failed frame). speed: the motion replayed at that multiple
+    of the recorded speed (see the module docstring; 1 as recorded).
+    Returns (holds, {rec index: {finger: x}})."""
     from scipy import sparse
     from scipy.optimize import linprog
     Ei, Ej, Ev, beq = [], [], [], []
@@ -143,6 +166,8 @@ def _solve(recs, scales, rate=None, lag=None, bounds=None, budget=True,
                 jr, span, low = r["jr"], np.ones(nx), np.zeros(nx)
             else:
                 jr, span, low = fo._stack_rhs(r["Js"], r["taus"], bounds[i], r["L"])
+            if speed != 1.0:
+                jr = jr + (speed ** 2 - 1.0) * r["jr_motion"]
             rhs = np.concatenate([(s if s <= 1.0 else 1.0) * r["ws"], jr, span])
             tol = max(r["tol_frac"] * (s if s <= 1.0 else 1.0) * r["wn"], cap.FEAS_REL)
             m_, nz = M.shape
@@ -165,7 +190,7 @@ def _solve(recs, scales, rate=None, lag=None, bounds=None, budget=True,
                             for j, (act, v) in enumerate(fo._input_senses(lim))]
             ne, nv = ne + m_, nv + nz + 2 * m_
         if prev is not None and bounds is None and (rate is not None or lag is not None):
-            dt = r["t"] - prev[0]
+            dt = _speed_dt(r["t"] - prev[0], speed)
             for a, tm in terms.items():
                 lim = np.asarray(recs[i]["lims"][recs[i]["fingers_on"].index(a)], float)
                 old = prev[1].get(a, [])          # absent: u_{k-1} = 0
@@ -175,11 +200,11 @@ def _solve(recs, scales, rate=None, lag=None, bounds=None, budget=True,
                     if not now:
                         continue
                     rows = []
-                    if rate is not None:
+                    if rate is not None and math.isfinite(dt):
                         R = rate * max(hi, -lo) * dt
                         rows += [(1.0, 1.0, R), (-1.0, -1.0, R)]
                     if lag is not None:
-                        e = math.exp(-dt / lag)
+                        e = math.exp(-dt / lag)     # dt inf: 0, the full range
                         rows += [(1.0, e, (1 - e) * hi), (-1.0, -e, -(1 - e) * lo)]
                     # each row: sg (u_k) - w (u_{k-1}) <= bound
                     for sg, w, bnd in rows:
@@ -455,3 +480,66 @@ def _chain(recs, frames, rate, lag, st, full_grid=False):
         else:
             fr["chain_lp_margin"] = {"margin": 0.0, "capped": False, "contiguous": True,
                                      "search": None}
+
+
+def top_speed(recs, rate=None, lag=None):
+    """The fastest speed at which the motion holds: per run, the largest
+    multiple of the recorded speed (1 as recorded, 0.5 half as fast) at
+    which every frame of the run holds in one LP at s = 1 with the rate and
+    lag rows at that speed (module docstring, "Speed"); the motion's is the
+    smallest over its runs. A frame that holds at no speed breaks the
+    motion into runs: one failing the direction or friction test, and one
+    failing on torque alone at the recorded speed that slowing cannot
+    rescue (with its own motion torque counted, follow(inertia=True), it
+    stays in its run when it holds at speed 0; without that it fails at
+    every speed). unholdable lists them with the reason, and
+    holds_everywhere says whether there are none, so speed is the speed of
+    the stretches between them. The search is _search's over every grid
+    point (slowing is not proven to help: the soft input rows and a motion
+    torque that offsets a spring can both break that), with contiguous
+    reported.
+
+    Returns {settings, speed, capped, holds_everywhere, runs, unholdable,
+    lp}; speed None when no run checks torque."""
+    st = _Stats()
+    t_start = time.perf_counter()
+    tol_frac = recs[0]["tol_frac"] if recs else fo.RESID_TOL
+    unholdable = []
+    runs, cur = [], []
+    for i, r in enumerate(recs):
+        reason = None
+        if not r["ok"]:
+            reason = r["reason"]
+        elif r["torque"] and not _solve([r], [1.0], stats=st)[0] and \
+                (not np.any(r["jr_motion"]) or not _solve([r], [1.0], speed=0.0, stats=st)[0]):
+            reason = "torque"
+        if reason is None:
+            cur.append(i)
+        else:
+            unholdable.append({"k": r["k"], "t": r["t"], "reason": reason})
+            if cur:
+                runs.append(cur)
+                cur = []
+    if cur:
+        runs.append(cur)
+    out_runs = []
+    for idx in runs:
+        sub = [recs[i] for i in idx]
+        run = {"k_first": sub[0]["k"], "k_last": sub[-1]["k"], "n_frames": len(sub),
+               "speed": None}
+        if any(r["torque"] for r in sub):
+            run.update(_search(lambda v: _solve(sub, [1.0] * len(sub), rate, lag,
+                                                stats=st, speed=v)[0], False))
+            run["speed"] = run.pop("margin")
+        out_runs.append(run)
+    with_torque = [r for r in out_runs if r["speed"] is not None]
+    slowest = min(with_torque, key=lambda r: r["speed"]) if with_torque else None
+    return {"settings": {"rate_limit_per_s": rate, "lag_s": lag, "tol_frac": tol_frac,
+                         "norm": NORM},
+            "speed": None if slowest is None else slowest["speed"],
+            "capped": None if slowest is None else slowest["capped"],
+            "holds_everywhere": not unholdable,
+            "runs": out_runs, "unholdable": unholdable,
+            "lp": {"n_solves": st.n, "solve_s": st.wall,
+                   "wall_s": time.perf_counter() - t_start, "retried": st.retried,
+                   "other_status": st.other}}

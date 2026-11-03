@@ -220,3 +220,100 @@ class Runs(unittest.TestCase):
         out = tj.check(recs)
         self.assertTrue(out["runs"][0]["holds"])
         self.assertNotIn("chain_lp_holds", out["frames"][0])
+
+
+def _motion(k, u, u_motion):
+    """A frame whose wrench needs net torque u at rest, and whose finger's
+    own motion at the recorded speed needs u_motion more of it (the
+    motion torque is scaled by speed^2 in trajectory.top_speed)."""
+    r = _demand(k, u)
+    r["taus"] = [np.array([u_motion])]
+    r["jr"] = fo._joint_rhs(r["Js"], r["taus"], 1.0)
+    r["jr_motion"] = r["jr"].copy()
+    return r
+
+
+def _tight(recs):
+    """The same frames with no residual budget beyond FEAS_REL, so the
+    speeds below are the analytic ones (with RESID_TOL the budget lets a
+    step shrink by up to its share of the demand, and the speed found is
+    that much higher)."""
+    for r in recs:
+        r["tol_frac"] = 0.0
+    return recs
+
+
+@unittest.skipIf(scipy is None, "scipy not installed")
+class TopSpeed(unittest.TestCase):
+    def test_rate_limit_sets_the_speed(self):
+        # a step of 1.5 in DT against rate 1 (3 per second at most) needs
+        # dt = 0.5 s between the frames: a fifth of the recorded speed
+        recs = _tight([_demand(0, 0.0), _demand(1, 1.5)])
+        out = tj.top_speed(recs, rate=1.0)
+        v = 1.0 * LIM[0, 1] * DT / 1.5
+        self.assertAlmostEqual(out["speed"], v, delta=fo.cap.BISECT_TOL)
+        self.assertFalse(out["capped"])
+        self.assertTrue(out["runs"][0]["contiguous"])
+        self.assertTrue(tj._solve(recs, [1.0, 1.0], rate=1.0, speed=v - 1e-4)[0])
+        self.assertFalse(tj._solve(recs, [1.0, 1.0], rate=1.0, speed=v + 1e-3)[0])
+        # with the budget the step can shrink, so the speed found is higher
+        soft = tj.top_speed([_demand(0, 0.0), _demand(1, 1.5)], rate=1.0)["speed"]
+        self.assertGreater(soft, v)
+        self.assertLess(soft, v / (1 - 2 * fo.RESID_TOL))
+        self.assertEqual(out["unholdable"], [])
+
+    def test_lag_sets_the_speed(self):
+        # from 0 the lag reaches (1 - e) hi in one step: e = 1 - u / hi
+        u = 2.4
+        recs = _tight([_demand(0, 0.0), _demand(1, u)])
+        out = tj.top_speed(recs, lag=LAG)
+        e = 1.0 - u / LIM[0, 1]
+        v = -DT / (LAG * math.log(e))
+        self.assertAlmostEqual(out["speed"], v, delta=fo.cap.BISECT_TOL)
+
+    def test_speed_one_is_the_run_check(self):
+        for step in (0.2, 2.0):
+            recs = [_demand(0, 0.0), _demand(1, step)]
+            held = tj.check(recs, rate=1.0)["runs"][0]["holds"]
+            self.assertEqual(tj.top_speed(recs, rate=1.0)["speed"] >= 1.0, held)
+
+    def test_speed_zero_drops_the_rate_and_frees_the_lag(self):
+        recs = [_demand(0, 0.0), _demand(1, 2.9)]
+        self.assertFalse(tj._solve(recs, [1.0, 1.0], rate=1.0, lag=LAG)[0])
+        self.assertTrue(tj._solve(recs, [1.0, 1.0], rate=1.0, lag=LAG, speed=0.0)[0])
+        # a demand outside the range stays out of reach at speed 0
+        recs = [_demand(0, 0.0), _demand(1, 3.5)]
+        self.assertFalse(tj._solve(recs, [1.0, 1.0], lag=LAG, speed=0.0)[0])
+
+    def test_motion_torque_scales_with_speed_squared(self):
+        # rest needs 2, the motion 2 more: over the limit 3 as recorded,
+        # within it below speed sqrt(0.5)
+        recs = _tight([_motion(0, 2.0, 2.0)])
+        out = tj.top_speed(recs)
+        self.assertAlmostEqual(out["speed"], math.sqrt(0.5), delta=fo.cap.BISECT_TOL)
+        self.assertTrue(tj._solve(recs, [1.0], speed=0.5)[0])
+        self.assertFalse(tj._solve(recs, [1.0])[0])
+        self.assertEqual(out["unholdable"], [])
+
+    def test_motion_can_be_the_rescue_and_the_breaks_are_named(self):
+        # frame 0 holds as recorded; a friction failure and a frame that
+        # needs 4 at rest (over the limit at every speed) both break the
+        # motion, so frames 0 and 3 are runs of their own
+        bad = _demand(1, 0.0)
+        bad.update(ok=False, reason="friction")
+        recs = [_demand(0, 1.0), bad, _demand(2, 4.0), _demand(3, 1.0)]
+        out = tj.top_speed(recs, rate=1.0)
+        self.assertEqual([(r["k_first"], r["k_last"]) for r in out["runs"]], [(0, 0), (3, 3)])
+        self.assertTrue(all(r["speed"] >= 1.0 for r in out["runs"]))
+        self.assertGreaterEqual(out["speed"], 1.0)
+        self.assertFalse(out["holds_everywhere"])
+        self.assertEqual([(u["k"], u["reason"]) for u in out["unholdable"]],
+                         [(1, "friction"), (2, "torque")])
+        # with its own motion torque counted, slowing rescues a frame that
+        # needs 0.5 at rest and 4 more for its motion, so it stays in its
+        # run and the motion holds everywhere
+        recs = [_motion(0, 1.0, 1.0), _motion(1, 0.5, 4.0)]
+        out = tj.top_speed(recs, rate=1.0)
+        self.assertEqual(len(out["runs"]), 1)
+        self.assertTrue(out["holds_everywhere"])
+        self.assertGreater(out["speed"], 0.0)
