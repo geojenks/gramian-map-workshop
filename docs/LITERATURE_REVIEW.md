@@ -1591,6 +1591,46 @@ What this says:
 - **Not done:** slowing only the hard stretches, rather than the whole
   motion by one factor.
 
+*3 Nov 2026: a joint on its end stop takes the moment the stop can carry.*
+The per-finger torque test, the redistribution and the margins now credit a
+joint that the IK left resting on a range limit with any moment of the sense
+that pushes it further into the stop: its balance row becomes an inequality
+(reaction into the stop, at least zero), one more column in the finger's
+supply, and the result records which joints were credited and with how much
+(`follow.py`, module docstring "End stops"; off with `stop_reactions=False`,
+which is exactly the earlier test). This is the hand's own geometry, not an
+assumed spring, so it is the complement of the stiffness bracket above. On
+the Shadow's self-hold the little finger turns green through its J1 on its
+upper stop (its J1 and J2 share one motor), the index and ring stay red
+because their stopped joint is J4, which has its own drive, and the middle
+finger has no joint on a stop; the hold stays red. On the cup wave with the
+record-built hand nothing changes: its only stopped joint is each finger's
+frozen third hinge, which the equilibrium posing can leave past its range
+(recorded as `beyond_limit`, not credited). A joint stopped by contact with
+the object or palm, rather than by its range, is still not credited. Against
+the passive stiffness (`tools/hold_stiffness_bracket.py shadow --tag stops`,
+`outputs/hold_shadow__kq_bracket__stops.md`) the hold then reads red at kq 0
+(index red, middle red, ring red, little green, thumb green), amber at 0.001
+to 0.01 and green from 0.02 N.m/rad, against red to 0.005, amber at 0.01 and
+green from 0.02 without the stops; the scale margins are 0, 1.16, 1.38, 2.1,
+3.39, 6.15, 14.8, 29.5, 58.8 against 0, 0.114, 0.229, 0.572, 1.1, 1.92,
+4.47, 8.8, 17.5 (3.1 to 10 times, the stops carrying what the spring
+otherwise had to). The one reaction credited is LFJ1's, into its upper stop:
+0.0044 N.m at kq 0 falling to 0.0032 at 0.01, and none from 0.02 N.m/rad,
+where the spring carries it; FFJ4, RFJ4, LFJ4, THJ3 rest on their stops but
+their own drives balance them, so they take none. Two things about the
+solver came out of this (`follow.py`, "End stops"): the stop's column is
+left unbounded, a bound a hundred times an input's having made the vendored
+NNLS cycle on round-off for minutes a solve, and every stack with a stop
+column is solved scaled by its largest column norm, the solver's gradient
+tolerance being absolute; and a drive column parallel to a stop's is
+absorbed by the stop in the solve (the pair is exactly dependent, and the
+solver cycled on that too) and the reaction re-split afterwards, the opposed
+drive backed off and the drive filled first, since the solver's own split
+left the drive pulling off the stop at full use with the stop cancelling it,
+which read as a reaction of the drive's whole torque. The bracket with stops
+took 108 s against the stored run's 562 s.
+
 
 The literature also makes plain these limits of our tool.
 

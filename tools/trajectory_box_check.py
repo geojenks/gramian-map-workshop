@@ -75,6 +75,11 @@ def main(tag, rate, k=None):
                 tol = max(r["tol_frac"] * r["wn"], cap.FEAS_REL)
                 _, span, low = F._stack_rhs(r["Js"], r["taus"], bounds[0], r["L"])
                 y = np.concatenate([out[1][0][a] for a, _, _, _ in T._columns(r)]) - low
+                # a stop's column (upper bound infinite) has no box row
+                fin = np.isfinite(np.concatenate(
+                    [np.ones(c[1].shape[1]) if b is None else np.asarray(b[1], float)
+                     for c, b in zip(r["Js"], bounds[0]) if c is not None]))
+                y = y[fin]
                 rows.append((r["k"], tol, e[:nw].sum(), e[nw:nw + nj].sum(), e[nw + nj:].sum(),
                              float(np.max(y - span, initial=0.0))))
         return out

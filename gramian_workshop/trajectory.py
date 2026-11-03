@@ -67,19 +67,22 @@ NORM = "L1 of the whole stacked residual per frame"
 
 
 def frame_record(k, t, pts, nrms, Js, c, W, mu, L, taus, fingers_on, lims,
-                 resid_tol=None, taus_motion=None):
+                 resid_tol=None, taus_motion=None, bounds=None):
     """What the check needs of one checked frame, as follow collects it:
     generators and torque stack built once, and the direction and friction
     tests at s = 1 (the tolerance of follow._redistribute). lims: every
     finger's torque_limits limits (None without them). taus_motion: the
     part of taus that is each finger's own motion torque (None: none of
-    it), which the speed search scales."""
+    it), which the speed search scales. bounds: each finger's input box as
+    follow._stack_rhs (None: [0, 1]), the frame's own, a stop's column
+    unbounded (follow._stop_box: no bound row in the stack); the chain
+    gives _solve its own, keeping those columns unbounded."""
     tol_frac = fo.RESID_TOL if resid_tol is None else resid_tol
     ws = cap.scale_wrench(W, L)
     lims_on = [lims[a] for a in fingers_on]
     if not len(pts):
         return stack_record(k, t, ws, None, None, None, Js, L, taus, fingers_on, lims_on,
-                            tol_frac, "no_contact", taus_motion)
+                            tol_frac, "no_contact", taus_motion, bounds)
     pts, nrms = np.array(pts), np.array(nrms)
     tol = max(tol_frac * float(np.linalg.norm(ws)), cap.FEAS_REL)
     D = cap.direction_basis(pts, nrms, c, L)
@@ -88,27 +91,33 @@ def frame_record(k, t, pts, nrms, Js, c, W, mu, L, taus, fingers_on, lims,
     reason = ("direction" if np.linalg.norm(D @ x - ws) > tol else
               "friction" if not fo._feasible(Gs, ws, tol)[0] else None)
     return stack_record(k, t, ws, Gs, cidx, Fc, Js, L, taus, fingers_on, lims_on,
-                        tol_frac, reason, taus_motion)
+                        tol_frac, reason, taus_motion, bounds)
 
 
 def stack_record(k, t, ws, Gs, cidx, Fc, Js, L, taus, fingers_on, lims, tol_frac,
-                 reason=None, taus_motion=None):
+                 reason=None, taus_motion=None, bounds=None):
     """The record itself, from the scaled wrench ws, the generators (None
     with no contact) and the outcome of the direction and friction tests
     (reason None: both pass). Js, fingers_on and lims (each finger's limits)
     are parallel, one per contact. jr_motion is the joint right-hand side
     of taus_motion alone (zeros without it): at speed v the joint rows read
-    jr + (v^2 - 1) jr_motion."""
+    jr + (v^2 - 1) jr_motion. span and low: the input rows' right-hand side
+    and the box's lower bounds (ones and zeros without bounds), what _solve
+    uses when given no bounds of its own; bounds, the frame's, as given."""
     r = {"k": int(k), "t": float(t), "L": float(L), "tol_frac": tol_frac,
          "fingers_on": list(fingers_on), "Js": list(Js), "taus": taus,
          "lims": list(lims), "ws": np.asarray(ws, float),
          "wn": float(np.linalg.norm(ws)), "ok": reason is None, "reason": reason,
          "torque": False}
     if Gs is not None and any(c_ is not None for c_ in Js):
-        Mx, nt, nx = fo._torque_stack(Gs, cidx, Fc, Js, L)
+        Mx, nt, nx, _ = fo._torque_stack(Gs, cidx, Fc, Js, L, bounds)
         jr = np.zeros(nt) if taus is None else fo._joint_rhs(Js, taus, L)
         jm = np.zeros(nt) if taus_motion is None else fo._joint_rhs(Js, taus_motion, L)
-        r.update(torque=True, Mx=Mx, nt=nt, nx=nx, ng=Gs.shape[1], jr=jr, jr_motion=jm)
+        span, low = np.ones(nx), np.zeros(nx)
+        if bounds is not None:
+            jr, span, low = fo._stack_rhs(Js, taus, bounds, L)
+        r.update(torque=True, Mx=Mx, nt=nt, nx=nx, ng=Gs.shape[1], jr=jr, jr_motion=jm,
+                 span=span, low=low, bounds=bounds)
     return r
 
 
@@ -163,7 +172,7 @@ def _solve(recs, scales, rate=None, lag=None, bounds=None, budget=True,
                 M = M.copy()
                 M[6:6 + nt, :ng] *= s
             if bounds is None or bounds[i] is None:
-                jr, span, low = r["jr"], np.ones(nx), np.zeros(nx)
+                jr, span, low = r["jr"], r["span"], r["low"]
             else:
                 jr, span, low = fo._stack_rhs(r["Js"], r["taus"], bounds[i], r["L"])
             if speed != 1.0:
@@ -459,12 +468,17 @@ def _chain(recs, frames, rate, lag, st, full_grid=False):
         if t_prev is not None:
             dt = r["t"] - t_prev
             bnd = []
-            for cols, a, lim in zip(r["Js"], r["fingers_on"], r["lims"]):
+            for j, (cols, a, lim) in enumerate(zip(r["Js"], r["fingers_on"], r["lims"])):
                 if cols is None:
                     bnd.append(None)
                     continue
                 u_lo, u_hi = fo._reach(lim, u_state.get(a), dt, rate, lag)
-                bnd.append(fo._input_box(lim, cols[1].shape[1], u_lo, u_hi))
+                l, h = fo._input_box(lim, cols[1].shape[1], u_lo, u_hi)
+                fb = r.get("bounds")
+                if fb is not None and fb[j] is not None:
+                    # a stop's column stays unbounded (no row in Mx)
+                    h = np.where(np.isfinite(np.asarray(fb[j][1], float)), h, np.inf)
+                bnd.append((l, h))
         bb = None if bnd is None else [bnd]
         ok, xs = _solve([r], [1.0], bounds=bb, stats=st)
         if not ok:

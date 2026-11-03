@@ -45,8 +45,11 @@ Choices, stated up front (George, 21 Oct: "yes that's good"):
               i.e. none) within a deflection that moves the contact at most
               DEFLECT_MAX_M (as the soft finger's passive model). Solved
               exactly as one non-negative system (the SynGrasp-style
-              compliant reading, 23 Oct). Joint-limit reactions are not
-              credited (conservative).
+              compliant reading, 23 Oct). A joint resting on a range limit
+              (within STOP_TOL) may take any moment of the sense that pushes
+              it further into the stop (its balance row becomes an
+              inequality; 3 Nov, issue 26, stop_reactions=True by default);
+              the record says which joints were credited and with how much.
 
 Verdict per finger per frame (and per frame: the worst finger):
   green   reaches the leader's contact within REACH_GREEN_M with the pad
@@ -114,6 +117,67 @@ slides', never summed (_hold_solve_by_kind; its record then has
 "unbalanced_Nm" for the hinges and "unbalanced_N" for the slides). Every
 other finger keeps the test as it was. The redistribution and the margins
 still hold all joint rows to one tolerance on the object's load.
+
+End stops (3 Nov, issue 26): a joint resting on a range limit (within
+STOP_TOL of it at the pose the IK finds; the IK clips to the range, so a
+finger that wanted to go further sits exactly on it) is held there by the
+stop, which can supply any moment of the sense that pushes the joint
+further into it (positive at the lower limit, negative at the upper) and
+none of the other. That joint's balance row therefore becomes an
+inequality: the reaction is a non-negative unknown into the stop. It is one
+more column of the finger's C (after the inputs and the stiffness pairs),
+E.T e_j times the finger's strongest input column, so a coupled dependant
+on its stop passes its reaction to its master (as its torque is passed).
+The column is sized like an input and its use has no upper bound: the
+stop's column gets no bound row in any solve (an infinite upper bound in
+the finger's box, _stop_box; _hold_solve, _torque_stack and _stack_rhs
+skip such a column's row), the reaction being simply a non-negative
+unknown. A bound was tried two ways, a column a hundred times an input's
+and a bound row a hundred times the others', and each made the vendored
+NNLS (absolute gradient tolerance) cycle on round-off to its iteration cap,
+minutes a solve. A column already parallel to a stop's, in its sense (a
+drive acting on that joint alone, or the spring pushing the joint off the
+stop), is absorbed by the stop (_absorbed): its joint entries are zeroed in
+the solve, after the right-hand side has taken its lower bound, so it sits
+at that bound and the stop takes the rest. The two columns and the drive's
+bound row are exactly dependent, and the vendored NNLS cycles on that too
+(a Shadow margin solve of 64 by 117 ran to its cap of 3600 iterations,
+0.8 s each and hundreds a frame; absorbed, 0.01 s); the torques the pair
+can make are unchanged, the stop being unbounded. The split between the
+two is then indeterminate, and the solve's own split (drive at its lower
+bound, or its opposed column, the same drive's other sense, at full use,
+pulling off the stop with all it has, the stop cancelling that and carrying
+the load) misreads as a reaction of the drive's full torque, so after every
+solve the reaction is re-split (_drive_first; the same torque, the
+residual unchanged): first the columns opposed to the stop (a negative
+multiple of its column) are backed off, the stop giving up what they
+pulled against it, then the reaction left is moved into the absorbed
+columns, each up to its upper bound, and the stop keeps the overflow. The
+reaction reported is then the moment the inputs cannot make, and the input
+use the next frame links to has the drive doing its utmost rather than
+pulling off the stop. The same solver also
+cycles on round-off alone in these stacks (a cone column whose gradient
+sits at 1e-12, the vendored tolerance, which is absolute, with a residual
+of 0.05 and columns of norm 100), so every solve with a stop column runs
+on the system divided by its largest column norm (_solve, scaled), the
+residual read back in the original units: the solution is the same, the
+tolerance now relative, and the solve takes 0.01 s instead of 0.8. Solves
+without a stop column are untouched, so stop_reactions=False is byte for
+byte the old test. It
+enters the per-finger torque test, the redistribution, the scale and
+disturbance margins and the whole-motion check; not the apply limit, which
+counts what the inputs alone can push with (as a spring), nor the inertia
+and spring shares (what the inputs can make). Each touching finger's record
+gets "stops": the joints on a limit (name, side) and the reaction each took
+in the test that decided the moment (the redistribution's when its torque
+stack ran, else the finger's own; N.m for a hinge, N for a slide). A joint
+posed more than STOP_TOL past a limit (a finger posed by equilibrium can
+settle there; the wall hands' hinge2, whose range is 2.5e-9 wide, does) is
+not resting on a stop and gets no credit; the record lists it under
+"beyond_limit" (name, side, by). Off (follow(stop_reactions=False)) is
+exactly the old test. Motivation: the
+Shadow's J1/J2 share one tendon motor with no spring, so a pad load with
+J1 on its stop was red for torque the stop in fact carries.
 
 Fingers with fewer inputs than joints (28 Oct, ruled on issue 21): a
 finger whose free joints all have springs in the model, and whose inputs
@@ -267,6 +331,9 @@ SIDE_WEIGHT_M = 0.005      # soft IK preference for the pad over the side (m per
 UNACT_TOL = 0.05           # unbalanced joint torque allowed, share of |J^T f|
 DEFLECT_MAX_M = 0.002      # passive joint stiffness may deflect the contact this far
 JOINT_STIFFNESS = 0.0      # N.m/rad, passive, every free joint (follow(joint_stiffness=))
+STOP_REACTIONS = True      # a joint resting on a range limit may take any moment into the
+                           # stop (3 Nov, issue 26; follow(stop_reactions=))
+STOP_TOL = 1e-4            # rad (m on a slide): this close to a limit is resting on it
 FACE_WEIGHT_M = 0.02       # metres of position error per radian of facing error
 MARGIN_MAX = 1024.0        # proposed: scale margin search stops here (W20's grid
                            # ends at cap.SCALE_MAX = 16; the cup leaders clear that)
@@ -1277,7 +1344,7 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            placement=None, joint_stiffness=None, margin=False, disturbance=False,
            apply=False, apply_free=False, inertia=False, rate_limit=None,
            lag_s=None, trajectory=False, allowed_overlap_m=None, other_contact=None,
-           top_speed=False):
+           top_speed=False, stop_reactions=None):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -1300,7 +1367,9 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     "trajectory"["top_speed"]); slow for long runs.
     joint_stiffness (N.m/rad, default JOINT_STIFFNESS = 0; read as N/m on a
     slide): the uniform passive deflection allowance on every free joint
-    (see _finger_columns).
+    (see _finger_columns). stop_reactions (default STOP_REACTIONS = True):
+    credit a joint resting on a range limit with the moment the stop can
+    supply (module docstring, "End stops"); False is the test before 3 Nov.
     The model's own joint springs are not an option: they are always read,
     and add to it (module docstring, "Joint springs"). A hand whose spec
     has a "caveat" (record-built hands: the drive is not in newtons) passes
@@ -1318,7 +1387,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
                        margin, disturbance, apply or apply_free, apply_free, inertia,
                        rate_limit, lag_s, trajectory,
                        overlap_allowance(leader_json, allowed_overlap_m, other_contact),
-                       top_speed)
+                       top_speed,
+                       STOP_REACTIONS if stop_reactions is None else bool(stop_reactions))
     finally:
         IK_ITERS = old_iters
 
@@ -1360,7 +1430,7 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
             respace, placement, kq, margin=True, disturbance=False, apply=False,
             apply_free=False, inertia=False, rate_limit=None, lag_s=None,
-            trajectory=False, allow=None, top_speed=False):
+            trajectory=False, allow=None, top_speed=False, stop_reactions=True):
     allow = overlap_allowance(leader_json) if allow is None else allow
     a_c, a_o = allow["contact_m"], allow["other_m"]
     hand = Hand(hand_key)
@@ -1426,7 +1496,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         if link:
             tk = float(leader.frames[k]["t"])
             dt = None if t_prev is None else tk - t_prev
-            bounds, xs_hold = [], {}
+        bounds = []             # each finger's input box (None: [0, 1]), with the stops' bound
+        xs_hold = {}            # each finger's input use from its own hold test
         wq = _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made) if wrist else None
         c = leader.center(k, Rw, t)
         W = np.zeros(6)
@@ -1504,8 +1575,16 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             tau_motion = None
             box = None
             spring = None
+            stops = _stops(hand, f, iks[a]) if stop_reactions and M is not None else []
             if M is not None:
-                cols = _finger_columns(hand, f, iks[a], M, lim, Jf, pw, kq)
+                cols = _finger_columns(hand, f, iks[a], M, lim, Jf, pw, kq, stops)
+                if stops:
+                    item["stops"] = [{"joint": m.joint(f.joints[jx]).name, "side": side}
+                                     for jx, side, _ in stops]
+                if stop_reactions:
+                    beyond = _beyond_limits(hand, f, iks[a])
+                    if beyond:
+                        item["beyond_limit"] = beyond
                 if inertia:
                     item["inertia"], tau = _inertia_item(hand, f, iks[a], M, lim, Jf, pw, dyn)
                     tau_motion = tau
@@ -1519,6 +1598,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                     item["actuator_link"] = {
                         "u_prev": None if u_state[a] is None else u_state[a].tolist(),
                         "u_lo": u_lo.tolist(), "u_hi": u_hi.tolist()}
+                if stops:
+                    box = _stop_box(cols[1].shape[1], len(stops), box)
                 torque_ok, un, xh = _hold_solve(cols, fv, tau, box, kinds[a])
                 if isinstance(un, dict):
                     # each joint type in its own unit (issue 21)
@@ -1526,8 +1607,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                     item["unbalanced_N"] = un["slide"]
                 else:
                     item["unbalanced_Nm"] = un
-                if link:
-                    xs_hold[a] = xh
+                xs_hold[a] = xh
             if item.get("state") != "red":
                 item["state"] = "green" if (exact and in_cone and torque_ok) else "amber?"
             item["torque_checked"] = M is not None
@@ -1538,19 +1618,20 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             taus.append(tau)
             taus_motion.append(tau_motion)
             springs_on.append(spring)
-            if link:
-                bounds.append(box)
-            # the apply limit counts inputs only: a spring resists but cannot push
-            # (the joint_stiffness columns are dropped; the model's springs
-            # stay only as the load at this pose, in springs_on)
+            bounds.append(box)
+            # the apply limit counts inputs only: a spring resists but cannot
+            # push, and a stop holds a joint but drives nothing (the
+            # joint_stiffness and stop columns are dropped; the model's
+            # springs stay only as the load at this pose, in springs_on)
             Js_act.append(_finger_columns(hand, f, iks[a], M, lim, Jf, pw, 0.0)
-                          if apply and kq > 0 and M is not None else cols)
+                          if apply and (kq > 0 or stops) and M is not None else cols)
             fingers_on.append(a)
         if trajectory:
             recs.append(tj.frame_record(k, float(leader.frames[k]["t"]), pts, nrms, Js, c, W,
                                         mu, L, taus if use_taus else None, fingers_on,
                                         [x[1] for x in lims], resid_tol,
-                                        taus_motion if inertia else None))
+                                        taus_motion if inertia else None,
+                                        bounds if any(b is not None for b in bounds) else None))
         unserved = [i for i in made if i not in assign]
         need_redistribute = unserved or leader.respaced or \
             any(x.get("state") == "amber?" for x in per)
@@ -1560,8 +1641,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         if any(x.get("state") == "red" for x in per):
             # a red finger's station load must also be carried by the others
             need_redistribute = True
-        bnd = bounds if dt is not None else None
-        stack = {} if link else None
+        bnd = bounds if any(b is not None for b in bounds) else None
+        stack = {}
         if need_redistribute:
             ok, reason = _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol,
                                        taus if use_taus else None, bnd, stack)
@@ -1584,12 +1665,19 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         if disturbance:
             dm = _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol,
                                      taus if use_taus else None, bnd)
+        # the input use of the test that decided this moment: the
+        # redistribution's when its torque stack ran, else each finger's own
+        # hold test (NNLS gives one of the solutions, deterministic but
+        # arbitrary among them)
+        xs = _split_stack(Js, fingers_on, stack["x"]) if "x" in stack else xs_hold
+        for a, xa in xs.items():
+            rec = per[[x["finger"] for x in per].index(hand.fingers[a].label)]
+            if "stops" in rec:
+                rec["stops"] = _stop_use(hand, hand.fingers[a], iks[a], lims[a][0], lims[a][1],
+                                         kq, rec["stops"], xa,
+                                         "redistribution" if "x" in stack else "finger")
         if link:
-            # the next frame links to the input use of the test that decided
-            # this one: the redistribution's when its torque stack ran, else
-            # each finger's own hold test (NNLS gives one of the solutions,
-            # deterministic but arbitrary among them)
-            xs = _split_stack(Js, fingers_on, stack["x"]) if "x" in stack else xs_hold
+            # the next frame links to that input use
             u_state = [None] * len(hand.fingers)
             for a, xa in xs.items():
                 u_state[a] = _net_torque(lims[a][1], xa)
@@ -1615,7 +1703,11 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             "settings": {"middle": middle, "ik_iters": IK_ITERS,
                          "place": {**PLACE_FINE, **place}, "wrist": wrist,
                          "respace": respace, "reused_placement": placement is not None,
-                         "strength": "input columns, one-sided where the model says (23 Oct)",
+                         "strength": "input columns, one-sided where the model says (23 Oct)"
+                                     + ("; a joint on a range limit takes any moment into the "
+                                        "stop (3 Nov, issue 26)" if stop_reactions else ""),
+                         "stop_reactions": {"on": stop_reactions,
+                                            **({"tol": STOP_TOL} if stop_reactions else {})},
                          "joint_stiffness_Nm_per_rad": kq, "deflect_max_m": DEFLECT_MAX_M,
                          "scale_margin": margin, "disturbance_margin": disturbance,
                          "apply_limit": apply, "apply_limit_free": apply_free,
@@ -1660,13 +1752,16 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                                   if top_speed else {})}} if trajectory else {})}
 
 
-def _finger_columns(hand, finger, ik, M, lim, Jf, p_contact, kq):
+def _finger_columns(hand, finger, ik, M, lim, Jf, p_contact, kq, stops=()):
     """(Tr, C): Tr @ f is the reduced joint torque a contact force f needs;
     the finger can supply C @ x for 0 <= x <= 1, one column per input sense
-    (a muscle pulls only; a motor with a two-sided range gives two) and two
+    (a muscle pulls only; a motor with a two-sided range gives two), two
     per free joint for passive stiffness kq within DEFLECT_MAX_M of contact
-    motion. A hinge turns by DEFLECT_MAX_M / arm to move the contact that
-    far, so its column is kq DEFLECT_MAX_M / arm (N.m); a slide moves the
+    motion, and one per joint in stops (from _stops: resting on a range
+    limit), the moment the stop can supply, E.T e_j in the stop's sense
+    times _stop_scale, its use unbounded above (_stop_box) and absorbing any
+    column parallel to it (_absorbed; module docstring, "End stops").
+    A hinge turns by DEFLECT_MAX_M / arm to move the contact that far, so its column is kq DEFLECT_MAX_M / arm (N.m); a slide moves the
     contact by its own travel, with no lever arm, so its column is the
     force kq DEFLECT_MAX_M along its axis (N; kq read as N/m on a slide, as
     MuJoCo reads joint stiffness). Before 28 Oct a slide was given a lever
@@ -1691,7 +1786,91 @@ def _finger_columns(hand, finger, ik, M, lim, Jf, p_contact, kq):
             e = np.zeros(len(ik.free))
             e[c_] = t
             cols += [e, -e]
+    if stops:
+        sc = _stop_scale(E, M, lim)
+        for jx, _, sg in stops:
+            cols.append(E[jx] * (sg * sc))
     return Tr, np.array(cols).T
+
+
+def _stops(hand, finger, ik):
+    """[(index in finger.joints, "lo" or "hi", sign)]: the finger's joints
+    resting on a range limit at the pose in ik.d (within STOP_TOL of it,
+    either side; joints the model limits only), with the sign of the moment
+    the stop can supply: +1 at the lower limit, -1 at the upper (both
+    entries for a joint its range freezes)."""
+    m = hand.model
+    out = []
+    for jx, j in enumerate(finger.joints):
+        if not m.jnt_limited[j]:
+            continue
+        q = float(ik.d.qpos[m.jnt_qposadr[j]])
+        lo, hi = m.jnt_range[j]
+        # within the tolerance on either side; a joint posed further past a
+        # limit is not resting on it (see _beyond_limits). A joint whose
+        # range is narrower than the tolerance is frozen by its limits: it
+        # rests on both, and takes any moment, so it gets both columns
+        if abs(q - lo) <= STOP_TOL:
+            out.append((jx, "lo", 1.0))
+        if abs(q - hi) <= STOP_TOL:
+            out.append((jx, "hi", -1.0))
+    return out
+
+
+def _beyond_limits(hand, finger, ik):
+    """[{"joint", "side", "by"}]: the finger's limited joints posed more
+    than STOP_TOL past a range limit in ik.d (by: rad, or m on a slide).
+    The IK clips its free joints to their ranges, but a finger posed by
+    equilibrium (equilibrium_spec) can settle past one, and the wall
+    hands' hinge2 (range of width 2.5e-9) does; no stop is credited there,
+    the record only says so."""
+    m = hand.model
+    out = []
+    for j in finger.joints:
+        if not m.jnt_limited[j]:
+            continue
+        q = float(ik.d.qpos[m.jnt_qposadr[j]])
+        lo, hi = m.jnt_range[j]
+        if q < lo - STOP_TOL:
+            out.append({"joint": m.joint(j).name, "side": "lo", "by": lo - q})
+        elif q > hi + STOP_TOL:
+            out.append({"joint": m.joint(j).name, "side": "hi", "by": q - hi})
+    return out
+
+
+def _stop_scale(E, M, lim):
+    """The size of a stop's column: the norm of the finger's largest input
+    column (1 where it has none), so a stop is scaled like an input."""
+    B = M @ E
+    best = max([abs(v) * float(np.linalg.norm(B[a])) for a, v in _input_senses(lim)] or [0.0])
+    return best if best > 0 else 1.0
+
+
+def _stop_box(ncols, nstops, box=None):
+    """(l, h) for a finger's ncols columns, the last nstops of them stop
+    columns: box (from _input_box; None: [0, 1] on every column) with each
+    stop's upper bound infinite, which every solve reads as "no bound row"
+    (module docstring, "End stops")."""
+    if box is None:
+        l, h = np.zeros(ncols), np.ones(ncols)
+    else:
+        l, h = np.array(box[0], float), np.array(box[1], float)
+    h[ncols - nstops:] = np.inf
+    return l, h
+
+
+def _stop_use(hand, finger, ik, M, lim, kq, stops, x, decided_by):
+    """The finger's "stops" record filled from the input use x of the test
+    that decided the moment: each joint on a limit with the reaction it took
+    (N.m for a hinge, N for a slide, >= 0 into the stop)."""
+    E = _free_map(hand, finger, ik)
+    sc = _stop_scale(E, M, lim)
+    off = len(_input_senses(lim)) + (2 * len(ik.free) if kq > 0 else 0)
+    out = []
+    for i, st in enumerate(stops):
+        xi = float(x[off + i]) if off + i < len(x) else 0.0
+        out.append({**st, "reaction": xi * sc, "decided_by": decided_by})
+    return out
 
 
 def _free_map(hand, finger, ik):
@@ -1930,9 +2109,11 @@ def _columns_hold(cols, fv, tau=None):
 def _hold_solve(cols, fv, tau=None, box=None, kinds=None):
     """_columns_hold, also giving the input use x it found; with box (l, h),
     each column's x is held in [l, h] instead of [0, 1] (x = l + y, y in
-    [0, h - l]). kinds: each joint row's type ("hinge" or "slide"), given
-    only for a finger with both (see _hold_solve_by_kind); None: the test
-    on the whole joint torque, as before."""
+    [0, h - l]); a column with h infinite (a stop's, _stop_box) gets no
+    bound row, its y simply non-negative. kinds: each joint row's type
+    ("hinge" or "slide"), given only for a finger with both (see
+    _hold_solve_by_kind); None: the test on the whole joint torque, as
+    before."""
     if kinds is not None and len(set(kinds)) > 1:
         return _hold_solve_by_kind(cols, fv, tau, box, kinds)
     Tr, C = cols
@@ -1940,15 +2121,10 @@ def _hold_solve(cols, fv, tau=None, box=None, kinds=None):
     if tau is not None:
         t = t + tau
     n = C.shape[1]
-    A = np.block([[C, np.zeros((C.shape[0], n))], [np.eye(n), np.eye(n)]])
-    if box is None:
-        b = np.concatenate([t, np.ones(n)])
-        x, res = cap.solve(A, b)
-        x = x[:n]
-    else:
-        l, h = box
-        y, res = cap.solve(A, np.concatenate([t - C @ l, h - l]))
-        x = l + y[:n]
+    l, h = (np.zeros(n), np.ones(n)) if box is None else box
+    A, b, ab = _bound_rows(C, l, h)
+    y, res = _solve(A, np.concatenate([t - C @ l, b]), scaled=_has_stop(h))
+    x = _drive_first(C, l, h, l + np.where(ab, 0.0, y[:n]))
     resid = float(np.linalg.norm(C @ x - t))
     return resid <= UNACT_TOL * float(np.linalg.norm(t)) + 1e-9, resid, x
 
@@ -1973,14 +2149,138 @@ def _hold_solve_by_kind(cols, fv, tau, box, kinds):
         allow[kd] = UNACT_TOL * float(np.linalg.norm(t[rows])) + 1e-9
         w[rows] = 1.0 / allow[kd]
     n = C.shape[1]
-    Cw = C * w[:, None]
-    A = np.block([[Cw, np.zeros((C.shape[0], n))], [np.eye(n), np.eye(n)]])
     l, h = (np.zeros(n), np.ones(n)) if box is None else box
-    y, _ = cap.solve(A, np.concatenate([w * (t - C @ l), h - l]))
-    x = l + y[:n]
+    A, b, ab = _bound_rows(C * w[:, None], l, h)
+    y, _ = _solve(A, np.concatenate([w * (t - C @ l), b]), scaled=_has_stop(h))
+    x = _drive_first(C, l, h, l + np.where(ab, 0.0, y[:n]))
     r = C @ x - t
     un = {kd: float(np.linalg.norm(r[kinds == kd])) for kd in allow}
     return all(un[kd] <= allow[kd] for kd in allow), un, x
+
+
+def _has_stop(h):
+    """True if a column of the box (l, h) is unbounded (a stop's)."""
+    return not bool(np.all(np.isfinite(np.asarray(h, float))))
+
+
+def _stops_in(bounds):
+    """True if any finger's box in bounds (as _redistribute takes it) has
+    an unbounded column; False for None."""
+    return bounds is not None and any(b is not None and _has_stop(b[1]) for b in bounds)
+
+
+def _solve(A, b, mult=None, scaled=False):
+    """cap.solve (the vendored NNLS), with scaled on the system divided by
+    its largest column norm, the residual given back in the original units
+    (module docstring, "End stops": the solver's gradient tolerance is
+    absolute, and a stop-column stack sits at its round-off floor). The
+    solution is scale-free, so x is the same point; off, exactly
+    cap.solve."""
+    m = cap.NNLS_ITER_MULT if mult is None else mult
+    if not scaled:
+        return cap.solve(A, b, m)
+    f = float(np.linalg.norm(A, axis=0).max()) if A.size else 1.0
+    f = f if f > 0 else 1.0
+    x, res = cap.solve(A / f, b / f, m)
+    return x, res * f
+
+
+def _bound_rows(C, l, h):
+    """(A, b, absorbed): the hold solve's system for columns C under the box
+    (l, h), x = l + y, y >= 0: A = [[C, 0], [I_fin, I]] and b = (h - l) on
+    the bounded columns (h finite), so y + slack = h - l there and a column
+    with h infinite (a stop's) has no bound row and no slack. The columns a
+    stop absorbs (_absorbed) are zeroed in A; the caller's right-hand side
+    keeps their lower bound, and their y is 0."""
+    n = C.shape[1]
+    h = np.asarray(h, float)
+    fin = np.isfinite(h)
+    k = int(fin.sum())
+    ab = _absorbed(C, h)
+    C = np.where(ab[None, :], 0.0, C)
+    A = np.block([[C, np.zeros((C.shape[0], k))], [np.eye(n)[fin], np.eye(k)]])
+    return A, (h - l)[fin], ab
+
+
+def _absorbed(C, h, rel=1e-9):
+    """Which columns of C a stop absorbs: a bounded column (h finite) that
+    is a positive multiple of an unbounded one (a stop's, h infinite),
+    within rel of its norm (module docstring, "End stops"). All False where
+    no column is unbounded, so solves without stops are untouched."""
+    out = np.zeros(C.shape[1], bool)
+    for j, _, _ in _absorb_pairs(C, h, rel):
+        out[j] = True
+    return out
+
+
+def _absorb_pairs(C, h, rel=1e-9, opposed=False):
+    """[(j, s, k)]: each bounded column j of C (h finite) that a stop column
+    s (h infinite) absorbs, C[:, j] = k C[:, s] with k > 0 (the first such
+    stop where a column is parallel to several); with opposed, instead the
+    columns opposed to a stop, C[:, j] = -k C[:, s]. Empty where no column
+    is unbounded."""
+    h = np.asarray(h, float)
+    sg = -1.0 if opposed else 1.0
+    out, taken = [], set()
+    for s in np.flatnonzero(~np.isfinite(h)):
+        ns2 = float(C[:, s] @ C[:, s])
+        for j in np.flatnonzero(np.isfinite(h)):
+            if j not in taken and _parallel(C[:, j], sg * C[:, s], rel):
+                out.append((int(j), int(s), sg * float(C[:, j] @ C[:, s]) / ns2))
+                taken.add(int(j))
+    return out
+
+
+def _drive_first(C, l, h, x, rel=1e-9):
+    """x re-split between each stop and the columns along its line (module
+    docstring, "End stops"): first the columns opposed to the stop
+    (_absorb_pairs(opposed=True)) are backed off towards their lower bound,
+    the stop giving up what they pulled against it; then the reaction left
+    is moved into the columns the stop absorbs, each up to its upper bound,
+    the stop keeping the overflow. The same torque C x; the reaction then
+    the moment the bounded columns cannot make. x unchanged where no column
+    is unbounded."""
+    l, h = np.asarray(l, float), np.asarray(h, float)
+    x = np.array(x, float)
+    for j, s, k in _absorb_pairs(C, h, rel, opposed=True):
+        d = min(float(x[j] - l[j]), float(x[s]) / k)
+        if d > 0:
+            x[j] -= d
+            x[s] = max(0.0, x[s] - d * k)
+    for j, s, k in _absorb_pairs(C, h, rel):
+        d = min(float(h[j] - x[j]), float(x[s]) / k)
+        if d > 0:
+            x[j] += d
+            x[s] = max(0.0, x[s] - d * k)
+    return x
+
+
+def _drive_first_stack(Js, bounds, x):
+    """_drive_first on each finger's slice of _torque_stack's input block x
+    (as _split_stack cuts it), under its box in bounds (None: no stops, x
+    unchanged)."""
+    if bounds is None:
+        return x
+    x = np.array(x, float)
+    c0 = 0
+    for cols, b in zip(Js, bounds):
+        if cols is None:
+            continue
+        C = cols[1]
+        n = C.shape[1]
+        if b is not None and _has_stop(b[1]):
+            x[c0:c0 + n] = _drive_first(C, b[0], b[1], x[c0:c0 + n])
+        c0 += n
+    return x
+
+
+def _parallel(c, s, rel=1e-9):
+    """True if column c is a positive multiple of s (within rel of |c|)."""
+    nc, ns = float(np.linalg.norm(c)), float(np.linalg.norm(s))
+    if nc == 0.0 or ns == 0.0:
+        return False
+    d = float(c @ s) / ns
+    return d > 0 and float(np.linalg.norm(c - s * (d / ns))) <= rel * nc
 
 
 def _input_senses(lim):
@@ -2054,7 +2354,10 @@ def _split_stack(Js, fingers_on, x):
 def _stack_rhs(Js, taus, bounds, L):
     """(joint rows, input rows, l) of _torque_stack's right-hand side with
     each finger's inputs held in its box (l, h) (None: [0, 1]): x = l + y,
-    so Tr F lambda - C y = C l - tau (over L) and y + slack = h - l."""
+    so Tr F lambda - C y = C l - tau (over L) and y + slack = h - l on each
+    column with h finite (the input rows: one per such column, as
+    _torque_stack lays them out; a stop's column, h infinite, has none).
+    l is given for every column."""
     jr, span, low = [], [], []
     for j, cols in enumerate(Js):
         if cols is None:
@@ -2062,11 +2365,12 @@ def _stack_rhs(Js, taus, bounds, L):
         C = cols[1]
         n = C.shape[1]
         l, h = (np.zeros(n), np.ones(n)) if bounds[j] is None else bounds[j]
+        h = np.asarray(h, float)
         r = C @ l
         if taus is not None and taus[j] is not None:
             r = r - np.asarray(taus[j])
         jr.append(r / L)
-        span.append(h - l)
+        span.append((h - l)[np.isfinite(h)])
         low.append(l)
     cat = lambda p: np.concatenate(p) if p else np.zeros(0)  # noqa: E731
     return cat(jr), cat(span), cat(low)
@@ -2078,15 +2382,17 @@ def _q_full(m, ik, qfree):
     return q
 
 
-def _feasible(A, b, tol):
-    return _feasible_x(A, b, tol)[:2]
+def _feasible(A, b, tol, scaled=False):
+    return _feasible_x(A, b, tol, scaled)[:2]
 
 
-def _feasible_x(A, b, tol):
-    """_feasible, also giving the solution of the solve that decided it."""
-    x, res = cap.solve(A, b)
+def _feasible_x(A, b, tol, scaled=False):
+    """_feasible, also giving the solution of the solve that decided it.
+    scaled: the solve on the normalised system (_solve), for a stack with a
+    stop column."""
+    x, res = _solve(A, b, scaled=scaled)
     if res > tol:
-        x, res = cap.solve(A, b, cap.NNLS_RECHECK_MULT)
+        x, res = _solve(A, b, cap.NNLS_RECHECK_MULT, scaled)
     return res <= tol, res, x
 
 
@@ -2134,27 +2440,34 @@ def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
         return False, "friction"
     if all(c_ is None for c_ in Js):
         return True, None
-    Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
+    Mx, nt, nx, ab = _torque_stack(Gs, cidx, Fc, Js, L, bounds)
     if bounds is None:
         jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
         span, low = np.ones(nx), np.zeros(nx)
     else:
         jr, span, low = _stack_rhs(Js, taus, bounds, L)
     rhs = np.concatenate([ws, jr, span])
-    ok, _, xs = _feasible_x(Mx, rhs, tol)
+    ok, _, xs = _feasible_x(Mx, rhs, tol, _stops_in(bounds))
     if out is not None:
         ng = Gs.shape[1]
-        out["x"] = low + xs[ng:ng + nx]
+        out["x"] = _drive_first_stack(Js, bounds, low + np.where(ab, 0.0, xs[ng:ng + nx]))
     return (True, None) if ok else (False, "torque")
 
 
-def _torque_stack(Gs, cidx, Fc, Js, L):
-    """(Mx, nt, nx): the stacked system for the torque test, with the object
-    wrench as the first 6 rows of its right-hand side."""
+def _torque_stack(Gs, cidx, Fc, Js, L, bounds=None):
+    """(Mx, nt, nx, absorbed): the stacked system for the torque test, with
+    the object wrench as the first 6 rows of its right-hand side. bounds (one
+    (l, h) or None per Js entry, or None): a column whose upper bound is
+    infinite (a stop's, _stop_box) gets no bound row and no slack, so Mx has
+    6 + nt + k rows and ng + nx + k columns, k the bounded columns (every
+    one of the nx without bounds), and the columns such a stop absorbs
+    (_absorbed; a mask over the nx) are zeroed in the joint rows, their x
+    sitting at its lower bound; _stack_rhs gives the matching right-hand
+    side."""
     # unknowns: cone weights (Gs columns), each finger's input use x in
     # [0, 1] (its C columns), slacks; rows: the object wrench, each finger's
     # joint balance Tr F lambda = C x (N.m / L), and x + slack = 1
-    T_rows, C_blocks = [], []
+    T_rows, C_blocks, fin, ab = [], [], [], []
     for ci, cols in enumerate(Js):
         if cols is None:
             continue
@@ -2163,7 +2476,12 @@ def _torque_stack(Gs, cidx, Fc, Js, L):
         for e in np.where(cidx == ci)[0]:
             Tb[:, e] = Tr @ Fc[:, e]
         T_rows.append(Tb / L)
-        C_blocks.append(C / L)
+        b = None if bounds is None else bounds[ci]
+        h = np.ones(C.shape[1]) if b is None else np.asarray(b[1], float)
+        a = _absorbed(C, h)
+        C_blocks.append(np.where(a[None, :], 0.0, C) / L)
+        fin.append(np.isfinite(h))
+        ab.append(a)
     nx = sum(C.shape[1] for C in C_blocks)
     nt = sum(T.shape[0] for T in T_rows)
     Cb = np.zeros((nt, nx))
@@ -2172,10 +2490,12 @@ def _torque_stack(Gs, cidx, Fc, Js, L):
         Cb[r0:r0 + C.shape[0], c0:c0 + C.shape[1]] = C
         r0, c0 = r0 + C.shape[0], c0 + C.shape[1]
     ng = Gs.shape[1]
-    Mx = np.block([[Gs, np.zeros((6, 2 * nx))],
-                   [np.vstack(T_rows), -Cb, np.zeros((nt, nx))],
-                   [np.zeros((nx, ng)), np.eye(nx), np.eye(nx)]])
-    return Mx, nt, nx
+    fin = np.concatenate(fin) if fin else np.zeros(0, bool)
+    k = int(fin.sum())
+    Mx = np.block([[Gs, np.zeros((6, nx + k))],
+                   [np.vstack(T_rows), -Cb, np.zeros((nt, k))],
+                   [np.zeros((k, ng)), np.eye(nx)[fin], np.eye(k)]])
+    return Mx, nt, nx, (np.concatenate(ab) if ab else np.zeros(0, bool))
 
 
 def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
@@ -2213,7 +2533,7 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
     Gs, cidx, Fc = cap.generators(pts, nrms, c, mu, L)
     if not _feasible(Gs, ws, tol)[0]:
         return none
-    Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
+    Mx, nt, nx, _ = _torque_stack(Gs, cidx, Fc, Js, L, bounds)
     if bounds is None:
         jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
         span = np.ones(nx)
@@ -2221,6 +2541,7 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
         jr, span, _ = _stack_rhs(Js, taus, bounds, L)
 
     ng = Gs.shape[1]
+    scaled = _stops_in(bounds)
 
     def held(s):
         # above s = 1, every row divided by s and the cone weights taken per
@@ -2231,11 +2552,11 @@ def _scale_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
         # limits.
         if s <= 1.0:
             rhs = np.concatenate([s * ws, jr, span])
-            return _feasible(Mx, rhs, max(tol_frac * s * wn, cap.FEAS_REL))[0]
+            return _feasible(Mx, rhs, max(tol_frac * s * wn, cap.FEAS_REL), scaled)[0]
         Ms = Mx.copy()
         Ms[6:6 + nt, :ng] *= s
         rhs = np.concatenate([ws, jr, span])
-        return _feasible(Ms, rhs, max(tol_frac * wn, cap.FEAS_REL))[0]
+        return _feasible(Ms, rhs, max(tol_frac * wn, cap.FEAS_REL), scaled)[0]
 
     grid = np.array([held(s) for s in cap.SCALE_GRID])
     idx = np.where(grid)[0]
@@ -2308,17 +2629,18 @@ def _disturbance_margin(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
     Gs, cidx, Fc = cap.generators(pts, nrms, c, mu, L)
     if not _feasible(Gs, ws, tol)[0]:
         return out
-    Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
+    Mx, nt, nx, _ = _torque_stack(Gs, cidx, Fc, Js, L, bounds)
     if bounds is None:
         jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
         tail = np.concatenate([jr, np.ones(nx)])
     else:
         tail = np.concatenate(_stack_rhs(Js, taus, bounds, L)[:2])
+    scaled = _stops_in(bounds)
 
     def held(i, sg, e):
         w = ws.copy()
         w[i] += sg * e * wn
-        return _feasible(Mx, np.concatenate([w, tail]), tol)[0]
+        return _feasible(Mx, np.concatenate([w, tail]), tol, scaled)[0]
 
     if not held(0, 1.0, 0.0):
         return out
@@ -2412,7 +2734,7 @@ def _apply_limit(pts, nrms, Js, c, mu, L, resid_tol=None, free=False, taus=None)
         return None
     pts, nrms = np.array(pts), np.array(nrms)
     Gs, cidx, Fc = cap.generators(pts, nrms, c, mu, L)
-    Mx, nt, nx = _torque_stack(Gs, cidx, Fc, Js, L)
+    Mx, nt, nx, _ = _torque_stack(Gs, cidx, Fc, Js, L)
     ng = Gs.shape[1]
     tol = max(tol_frac, cap.FEAS_REL)
     jr = np.zeros(nt) if taus is None else _joint_rhs(Js, taus, L)
