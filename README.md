@@ -36,6 +36,9 @@ python tools/fetch_hands.py
 
 The whole-motion check, `follow(trajectory=True)`, also needs scipy:
 `pip install -e ".[trajectory]"`.
+Its speed search, `tools/trajectory_top_speed.py`, finds how fast a hand
+could do a stored motion and writes a retimed copy of the leader to
+`outputs/retimed_leaders/` (never over a stored one).
 
 Install from a clone, not with `pip install git+https://...`: the demos read
 `data/` and write `outputs/` inside the repository.

@@ -1481,6 +1481,117 @@ What this says:
   hold at scale 1, so holding the rest at 1 is the harder ask. The runs
   for the other two human hands had not finished when this was written.
 
+*3 Nov 2026: how fast each hand could do the motion, with a retimed copy.*
+The whole-motion check above asks whether a run holds at the recorded
+speed. `follow(trajectory=True, top_speed=True)` asks instead how fast
+the hand could do it: the motion is replayed at a multiple of the recorded
+speed, so the time between checked frames shrinks by that multiple and
+the rate and lag rows tighten with it, and the fingers' motion torque
+(`inertia=True`) grows as its square. Per run the search of the margin
+(`trajectory._search`) finds the largest multiple at which the whole run
+holds; the motion's speed is its slowest run's. At speed 0 there are no
+rate rows, the lag rows open to the full range and there is no motion
+torque, so a frame that fails there holds at no speed and breaks the
+runs; the speed reported is then the speed of the stretches between such
+frames. `tools/trajectory_top_speed.py` runs the search on a stored
+placement and, where the speed found is below 1, writes a retimed copy of
+the leader under `outputs/retimed_leaders/` (every frame time divided by
+the speed; poses, contacts and forces unchanged) and runs the
+whole-motion check on the copy. `tools/trajectory_top_speed_sweep.py`
+did this for the dense cases and settings of the sweep above, with and
+without the motion torque, on the CPU box (readouts in
+`outputs/top_speed/`, 80 jobs, summarised by
+`tools/trajectory_top_speed_summary.py --table`). The time constants are
+the illustrative ones of the sweep, so the speeds are comparative, not
+predictions; the object's own inertia is not re-derived for the retimed
+copy; and the robot hands have no stored placement on the tennis
+demonstration, so the two groups are on different motions.
+
+The columns: the frames checked; runs of frames that hold alone (without
+and with motion torque); frames that hold at no speed (the same); the
+speed found as a multiple of the recorded speed; and, where a copy was
+written, how many of its runs held when checked again.
+
+| hand | link | frames | runs | hold at no speed | speed | speed with motion torque | retimed holds | with motion torque |
+|---|---|---|---|---|---|---|---|---|
+| allegro | lag 0.03 s | 297 | 8/8 | 285/285 | 1.02e+03 (capped) | 12.4 | - | - |
+| allegro | lag 0.1 s | 297 | 8/8 | 285/285 | 1.02e+03 (capped) | 8.37 | - | - |
+| allegro | lag 0.3 s | 297 | 8/8 | 285/285 | 1.02e+03 (capped) | 5.86 | - | - |
+| allegro | rate 1 /s | 297 | 8/8 | 285/285 | 1.02e+03 (capped) | 4.02 | - | - |
+| allegro | rate 3 /s | 297 | 8/8 | 285/285 | 1.02e+03 (capped) | 5.68 | - | - |
+| human, clip skeleton | lag 0.03 s | 300 | 26/26 | 26/26 | 8.98 | 4.53 | - | - |
+| human, clip skeleton | lag 0.1 s | 300 | 26/26 | 26/26 | 2.69 | 2.63 | - | - |
+| human, clip skeleton | lag 0.3 s | 300 | 26/26 | 26/26 | 0.898 | 0.895 | 26/26 | 26/26 |
+| human, clip skeleton | rate 1 /s | 300 | 26/26 | 26/26 | 0.351 | 0.351 | 26/26 | 26/26 |
+| human, clip skeleton | rate 3 /s | 300 | 26/26 | 26/26 | 1.05 | 1.05 | - | - |
+| human, measured | lag 0.03 s | 300 | 50/50 | 81/81 | 7.35 | 4.76 | - | - |
+| human, measured | lag 0.1 s | 300 | 50/50 | 81/81 | 2.2 | 2.15 | - | - |
+| human, measured | lag 0.3 s | 300 | 50/50 | 81/81 | 0.735 | 0.733 | 50/50 | 50/50 |
+| human, measured | rate 1 /s | 300 | 50/50 | 81/81 | 0.255 | 0.255 | 50/50 | 50/50 |
+| human, measured | rate 3 /s | 300 | 50/50 | 81/81 | 0.766 | 0.764 | 50/50 | 50/50 |
+| human, measured, wide ranges | lag 0.03 s | 300 | 47/47 | 54/54 | 7.04 | 4.37 | - | - |
+| human, measured, wide ranges | lag 0.1 s | 300 | 47/47 | 54/54 | 2.11 | 2.07 | - | - |
+| human, measured, wide ranges | lag 0.3 s | 300 | 47/47 | 54/54 | 0.704 | 0.703 | 47/47 | 47/47 |
+| human, measured, wide ranges | rate 1 /s | 300 | 47/47 | 54/54 | 0.246 | 0.246 | 47/47 | 47/47 |
+| human, measured, wide ranges | rate 3 /s | 300 | 47/47 | 54/54 | 0.739 | 0.737 | 47/47 | 47/47 |
+| human, measured thumb base | lag 0.03 s | 300 | 23/23 | 45/45 | 0.877 | 0.889 | 23/23 | 23/23 |
+| human, measured thumb base | lag 0.1 s | 300 | 23/23 | 45/45 | 0.263 | 0.263 | 23/23 | 23/23 |
+| human, measured thumb base | lag 0.3 s | 300 | 23/23 | 45/45 | 0.0877 | 0.0877 | 23/23 | 23/23 |
+| human, measured thumb base | rate 1 /s | 300 | 23/23 | 45/45 | 0.0869 | 0.0869 | 23/23 | 23/23 |
+| human, measured thumb base | rate 3 /s | 300 | 23/23 | 45/45 | 0.261 | 0.261 | 23/23 | 23/23 |
+| l20 | lag 0.03 s | 297 | 36/36 | 134/134 | 32.8 | 7.33 | - | - |
+| l20 | lag 0.1 s | 297 | 36/36 | 134/134 | 9.87 | 4.79 | - | - |
+| l20 | lag 0.3 s | 297 | 36/36 | 134/134 | 3.29 | 3.08 | - | - |
+| l20 | rate 1 /s | 297 | 36/36 | 134/134 | 0.995 | 0.988 | 36/36 | 36/36 |
+| l20 | rate 3 /s | 297 | 36/36 | 134/134 | 2.98 | 2.83 | - | - |
+| leap | lag 0.03 s | 297 | 0/0 | 297/297 | - | - | - | - |
+| leap | lag 0.1 s | 297 | 0/0 | 297/297 | - | - | - | - |
+| leap | lag 0.3 s | 297 | 0/0 | 297/297 | - | - | - | - |
+| leap | rate 1 /s | 297 | 0/0 | 297/297 | - | - | - | - |
+| leap | rate 3 /s | 297 | 0/0 | 297/297 | - | - | - | - |
+| shadow | lag 0.03 s | 297 | 7/7 | 259/259 | 1.02e+03 (capped) | 2.8 | - | - |
+| shadow | lag 0.1 s | 297 | 7/7 | 259/259 | 672 | 2.8 | - | - |
+| shadow | lag 0.3 s | 297 | 7/7 | 259/259 | 224 | 2.8 | - | - |
+| shadow | rate 1 /s | 297 | 7/7 | 259/259 | 67 | 2.8 | - | - |
+| shadow | rate 3 /s | 297 | 7/7 | 259/259 | 201 | 2.8 | - | - |
+
+What this says:
+
+- **The human hands could do the tennis demonstration about as fast as
+  it was recorded, or a little slower.** With the motion torque counted
+  (the headline reading), the measured hand reaches 0.76 of the recorded
+  speed at a rate limit of 3 per second and 0.73 at a 0.3 s lag; at a
+  0.1 s lag or a 0.03 s lag it has room, 2.1 and 4.8 times. A rate limit
+  of 1 per second is the binding setting everywhere: 0.26 of the
+  recorded speed on the measured hand. The measured-thumb-base hand is
+  slowest in every setting (0.087 at rate 1), set by one 42-frame run.
+- **The motion torque matters only at the tightest lag.** Without it the
+  speeds at a 0.03 s lag are about 1.5 to 2 times higher (7.3 against
+  4.8 on the measured hand); at the other settings the two readings are
+  within 3% on the human hands and within 7% on l20. On one run of the
+  thumb-base hand at the 0.03 s lag the motion torque raised the speed
+  by 1.3% (0.889 against 0.877): the motion torque can take either sign,
+  and here it helps the balance.
+- **l20 holds the cup wave at the recorded speed in every setting but
+  rate 1 per second**, where it reaches 0.99 of it; at a 0.03 s lag it
+  has 7 times the speed in hand with the motion torque, 33 without.
+- **The robot hands' speeds on the cup wave are the speeds of short
+  stretches.** Allegro holds 12 of 297 frames at any speed and shadow
+  38 (the rest fail on direction or lack of contact, as in the sweep
+  above), so their runs are 1 to 6 frames long. Runs of one frame have
+  no link rows and are capped without the motion torque; with it,
+  shadow's speed is 2.8 in every setting, set by its first 5-frame run
+  through the motion torque alone. Leap holds no frame. These speeds
+  say little about the whole motion.
+- **Every retimed copy holds**: in all 28 cases where a copy was written,
+  every run held when checked again, with the same count of fitted
+  motion torques as the search. Without the motion torque that is by
+  construction; with it, the refit over the scaled window reproduces the
+  search's torques.
+- **Not done:** slowing only the hard stretches, rather than the whole
+  motion by one factor.
+
+
 The literature also makes plain these limits of our tool.
 
 - **Polyhedral cones add direction-dependent artefacts**, by the reading
