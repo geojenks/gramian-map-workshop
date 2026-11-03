@@ -288,7 +288,7 @@ number, the check stops. The checker also requires it to be positive.
 
 ## The stored leaders, and how they differ
 
-Three tools write leaders. `tools/export_tasks.py` does not: it writes
+Four tools write leaders. `tools/export_tasks.py` does not: it writes
 the static ring tasks in `data/tasks/` (`cup_hold`, `cup_turn`), a
 different file read by `gramian_workshop/task.py` for the demos.
 
@@ -297,6 +297,7 @@ different file read by `gramian_workshop/task.py` for the demos.
 | `tools/record_leader.py` | `w10_cup_physical_*`, `w12c_cup_analytic_lock` | A Wave_manip preset run headless in MuJoCo, control ticks thinned as `source.every_nth_tick` records. |
 | `tools/import_demo_leader.py` | `tennis_new_cup_take3_derived` | A recorded human demonstration (three cameras) with forces derived from the ball's motion. |
 | `tools/demo_handframe.py` | `tennis_new_cup_take3_handframe` | The derived leader carried into the demonstrator's palm frame, contacts re-made from the hand skeleton, forces re-derived there. |
+| `tools/make_hold_leader.py` | `hold_<hand>__self` | No recording: a static hold of a 30 mm radius ball made from the hand's own forward kinematics. Each finger's joints sit at one fraction of their range (a grid search, scored by how well a ball of that radius touches every distal pad, pad facing it, clear of the palm and the fingers' other links); the ball is placed by least squares; every station pushes 0.1 N along the inward normal, and the object's mass is whatever that net force holds. The known answer for the check: with the stored placement every frame should be green, and the scale margin says by how much. `source` records the pose, the fit and its misses. |
 
 The checker's table over every stored leader (output of
 `python tools/check_leader.py --table data/leaders/*.json`, on the leaders

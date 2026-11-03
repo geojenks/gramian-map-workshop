@@ -455,7 +455,7 @@ def record_to_curves(rec):
     s = rec.get("scalars") or {}
     pol = s.get("polarity_axial")
     motion = {1: "extends", -1: "contracts"}.get(pol, "bends")
-    det = [("id", rec["id"] + "_from_curves"),
+    det = [("id", rec["id"].replace(".", "_") + "_from_curves"),
            ("name", rec.get("name", rec["id"])),
            ("source", rec["source"]["kind"]),
            ("detail", rec["source"].get("detail") or ""),

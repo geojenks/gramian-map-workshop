@@ -1,0 +1,4 @@
+wall_x3_ring on w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix: {'red': 35, 'amber': 5}; red because {'torque': 14, 'direction': 21}; assignment {'f0': 3, 'f1': 0, 'f2': 2}; placement cost 5.30 mm; respaced by [0, 0, 0, 0] deg; 3259.7 s
+   per finger: {('f0', 'green'): 18, ('f0', 'off'): 10, ('f0', 'red'): 12, ('f1', 'amber'): 5, ('f1', 'off'): 11, ('f1', 'red'): 24, ('f2', 'amber'): 3, ('f2', 'green'): 20, ('f2', 'off'): 10, ('f2', 'red'): 7}
+   overlap (deepest part of each posed finger, per frame): median 1.72 mm, max 6.81 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+[complete] 

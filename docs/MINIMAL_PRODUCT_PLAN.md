@@ -36,7 +36,7 @@ need a different one.
 | Actuator onto the map | `make_atlas.py` in the M-11 project rebuilds the map from the records | | Adding one uploaded record without a full rebuild |
 | Hand from a model file | Allegro, Shadow, LEAP (MuJoCo Menagerie), Linker L20 (vendor URDF), human-finger hands | | Loading a visitor's own URDF or MJCF |
 | Hand from actuator records | Hand file and build tool (`tools/build_record_hand.py`): fitted stand-in fingers on a palm, fit check, round trip; `wall_x3_ring` (three `wall_0.0010m` stand-ins on a 30 mm ring) | Verdicts provisional: the drive is the record's unitless level (ruling 2) | |
-| Task from a simulation | `tools/record_leader.py`, `tools/export_tasks.py`; the task-file format (`docs/TASK_FILE_FORMAT.md`) with `tools/check_leader.py`; corrected `__contactfix` copies of the w10 cup leaders | | A static hold leader (none exists; the `cup_hold` row below is scored only through the demos' readout) |
+| Task from a simulation | `tools/record_leader.py`, `tools/export_tasks.py`; the task-file format (`docs/TASK_FILE_FORMAT.md`) with `tools/check_leader.py`; corrected `__contactfix` copies of the w10 cup leaders; a static hold leader per hand from its own kinematics (`tools/make_hold_leader.py`, `data/leaders/hold_<hand>__self.json`), checked with margins (`outputs/hold_summary.md` from `tools/tabulate_holds.py`) | The Shadow's hold is red (torque): its coupled J1/J2 pair cannot carry the pad load as posed, and the verdict moves with the pose (an earlier pose of the same search was amber) | |
 | Task from a human demo | `tools/import_demo_leader.py` (tennis ball, take 3); corrected `__nframesfix` copies | Object mass is assumed, not measured | |
 | Verdict | `follow.py` for model-file hands; springs read from the model; fingers with fewer drives than joints posed by equilibrium; each joint type checked in its own unit (per-finger test); overlap scored against the task's stated allowance (default 3 mm); stored placements reused | Both margins computed but not stored with results (issue 8); redistribution and margins still put all joints under one tolerance; fresh placement searches take 45 to 65 min a hand (screening on a few frames not yet built) | |
 
@@ -102,7 +102,7 @@ way to lay out the top of the tree.
 
 | Task | Method | State |
 |---|---|---|
-| Hold a ball | Fingertip cup, static | Filled: `cup_hold` |
+| Hold a ball | Fingertip cup, static | Filled: `cup_hold`; and `hold_<hand>__self`, one self-made hold per hand (the known answer for the check) |
 | Turn about the vertical axis | Make/break wave in a fingertip cup | Filled: `cup_turn` |
 | Turn a ball in the hand | Human demonstration | Filled: tennis ball, take 3 |
 | Turn about each horizontal axis | Gait, regrasp | Empty |
