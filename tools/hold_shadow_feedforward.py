@@ -39,8 +39,9 @@ VARIANTS = {"follow_bounds": {"servo_range": False, "friction": False},
             "no_joint_friction": {"servo_range": True, "friction": False},
             "as_modelled": {"servo_range": True, "friction": True}}
 TITLES = {"follow_bounds": "Force range only, no joint friction (follow.py's torque test)",
-          "no_joint_friction": "Commands within the control range, no joint friction",
-          "as_modelled": "Commands within the control range, joint friction as modelled"}
+          "no_joint_friction": "Commands within the control range, no joint friction (the verdict)",
+          "as_modelled": "Commands within the control range, plus the model's joint friction (necessary condition)"}
+ORDER = ["no_joint_friction", "as_modelled", "follow_bounds"]
 FOLLOW_ARGS = {"margin": True, "joint_stiffness": 0.0, "stop_reactions": True}
 
 
@@ -195,23 +196,48 @@ def table(out):
              "Nothing is settled, the object is not released and its stability is not tested. "
              "The leader gives contact forces only, so no contact torque is checked.", "",
              "## Result", ""]
-    for name in VARIANTS:
+
+    def count(name):
         yes = [x["finger"] for x in fr0["fingers"] if x["variants"][name]["force"] == "yes"]
         no = [x["finger"] for x in fr0["fingers"] if x["variants"][name]["force"] == "no"]
-        lines.append(f"- {TITLES[name]}: {len(yes)} of {len(fr0['fingers'])} fingers can apply the demanded force"
-                     + (f" ({', '.join(yes)})" if yes and no else "")
-                     + (f"; {', '.join(no)} cannot." if no else "."))
-    am = [x["variants"]["as_modelled"] for x in fr0["fingers"]]
-    top = max(max(v["carried"]["friction_share"]) for v in am)
-    fl = max(max(v["frictionloss_Nm"]) for v in am)
-    lines += ["", f"With friction credited, the most any joint leans on it is {100 * top:.0f} % of the model's "
-              f"{fl:g} N.m of dry friction. Whether joint friction counts as something a hand can feed forward "
-              "is a judgement this check does not make; both readings are given.",
+        return (f"{len(yes)} of {len(fr0['fingers'])} fingers can apply the demanded force"
+                + (f" ({', '.join(yes)})" if yes and no else "") + (f"; {', '.join(no)} cannot." if no else "."))
+
+    lines += [f"- Verdict, with what the hand commands or leans on (servos within their control range, end "
+              f"stops): {count('no_joint_friction')}",
+              f"- With the model's joint friction as well: {count('as_modelled')}",
+              f"- Check against follow.py (its force-range bounds, no friction): {count('follow_bounds')}",
+              "", "Joint friction is not something the hand commands, so it is not an input to the verdict; it is "
+              "a property the hand has (ruling of 6 Nov). What the hold needs of it is the minimum friction each "
+              "joint must supply once the servos and stops have done all they can, against what the model has:",
+              "", "| finger | joint | stiction needed (N.m) | the model's (N.m) | needed / model's |",
+              "|---|---|---|---|---|"]
+    clipped = False
+    for x in fr0["fingers"]:
+        v = x["variants"]["as_modelled"]
+        rows = [(j, abs(p), fl) for j, p, fl in zip(x["joints"], v["carried"]["friction_Nm"], v["frictionloss_Nm"])
+                if abs(p) > 1e-9]
+        if v["force"] != "yes":
+            lines.append(f"| {x['finger']} | - | not enough: {v['unbalanced_Nm']:.5f} N.m left unbalanced at the "
+                         f"model's friction | | |")
+            continue
+        if not rows:
+            lines.append(f"| {x['finger']} | none | 0 | | |")
+        for j, p, fl in rows:
+            at_ceiling = fl > 0 and p >= fl * (1 - 1e-6)
+            clipped |= at_ceiling
+            lines.append(f"| {x['finger']} | {_short(j)} | {p:.4f}{' (at least)' if at_ceiling else ''} | {fl:g} | "
+                         f"{p / fl:.2f} |" if fl > 0 else f"| {x['finger']} | {_short(j)} | {p:.4f} | 0 | - |")
+    lines += ["", ("A joint marked 'at least' uses all the friction the model has, so its true minimum is unknown. "
+                   if clipped else "")
+              + "Stiction holds a joint only while nothing else moves it, so this is a necessary condition for the "
+              "hold, not a demonstration of it; whether the real hand's joints have this much is a question for "
+              "its data sheet or a measurement, not this model.",
               "", f"Location: the pad point is {min(x['reach_mm'] for x in fr0['fingers']):.2f} to "
               f"{max(x['reach_mm'] for x in fr0['fingers']):.2f} mm from the leader's station "
               f"(follow.py's reach; green within {1e3 * tol['reach_green_m']:g} mm, amber within "
               f"{1e3 * tol['reach_amber_m']:g} mm).", ""]
-    for name in VARIANTS:
+    for name in ORDER:
         lines += [f"## {TITLES[name]}", "",
                   "| finger | reach (mm) | demanded (N) | torque needed (N.m) | left unbalanced (N.m) | share | "
                   "follow.py's unbalanced (N.m) | nearest force it can hold: off by (N) | limit (N) | "
@@ -263,16 +289,23 @@ def main():
     ap.add_argument("--hand", default="shadow")
     ap.add_argument("--frames", type=int, default=None)
     ap.add_argument("--overwrite", action="store_true")
+    ap.add_argument("--table-only", action="store_true", help="re-render the report from the stored JSON")
+    ap.add_argument("--report", default=None, help="where the report goes (default outputs/hold_<hand>__feedforward.md)")
     a = ap.parse_args()
     base = os.path.join(ROOT, "outputs", f"hold_{a.hand}__feedforward")
-    if not a.overwrite and (os.path.exists(base + ".json") or os.path.exists(base + ".md")):
-        sys.exit(f"{base}.json or .md exists: stored outputs are not overwritten (use --overwrite)")
-    out = run(a.hand, a.frames)
-    with open(base + ".json", "w", encoding="utf-8") as fh:
-        json.dump(out, fh, indent=1, default=_enc)
+    report = a.report or base + ".md"
+    if a.table_only:
+        if not a.overwrite and os.path.exists(report):
+            sys.exit(f"{report} exists: stored outputs are not overwritten (use --overwrite)")
+    else:
+        if not a.overwrite and (os.path.exists(base + ".json") or os.path.exists(report)):
+            sys.exit(f"{base}.json or {report} exists: stored outputs are not overwritten (use --overwrite)")
+        out = run(a.hand, a.frames)
+        with open(base + ".json", "w", encoding="utf-8") as fh:
+            json.dump(out, fh, indent=1, default=_enc)
     with open(base + ".json", encoding="utf-8") as fh:
         text = table(json.load(fh))
-    with open(base + ".md", "w", encoding="utf-8", newline="\n") as fh:
+    with open(report, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(text)
     print(text)
 
