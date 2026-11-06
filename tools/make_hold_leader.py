@@ -27,16 +27,35 @@ How the hold is made (nothing is chosen by hand):
             the hand's base pose) + PALM_WEIGHT * the deepest overlap of a
             finger's other links (every link from the tip back to the first
             joint's body, as the check reads them: FingerIK.shapes) with the
-            ball: fingers in turn, each set to the grid value
+            ball + PALM_WEIGHT * the hand's overlap with itself (below):
+            fingers in turn, each set to the grid value
             that scores best given the others, until nothing changes; started
-            from every grid value (all fingers alike), the best kept
+            from every grid value (all fingers alike) and, with the term for
+            the hand against itself, also from the pose the score without
+            that term chooses (from a uniform curl the only single-finger
+            moves that part two crossed fingers also take that finger off
+            the ball); the best kept (source.sphere_fit.search_start says
+            which start won; source.curl_start is that curl, or null when
+            the extra start won)
+  itself    the hand's overlap with itself at the whole-hand pose: the
+            pairs of the hand's own bodies whose collision geoms penetrate
+            in MuJoCo (tools/hold_pose_self_overlap.py: pairs_at), each
+            pair's depth less its depth at the rest pose, the deepest pair
+            taken. Without it each finger is curled against the ball alone
+            and two fingers can be given the same space. MuJoCo leaves out
+            a body against its parent and pairs the model excludes, so this
+            is a lower bound. --no-self-term leaves it out, which
+            reproduces the superseded hold_<hand>__self leaders
   forces    the same inward normal force at every station (--force, N).
             Their sum is not zero on a cup of fingers, so the object is given
             the mass that sum carries, with gravity along it ("frame" says
             so); the check never reads gravity, only the forces
-The leader is in the hand's own frame, so the check needs no placement
+The leader is hold_<hand>__self__selfoverlapfix (it supersedes
+hold_<hand>__self, which had no term for the hand against itself and is
+kept). It is in the hand's own frame, so the check needs no placement
 search: the fixed placement (identity, translated to the object centre,
-finger i serving station i) is written beside it. With --run, the check
+finger i serving station i) is written beside it
+(outputs/hold_placement_<hand>__selfoverlapfix.json). With --run, the check
 runs with that fixed placement, with margins (the known answer: every
 frame green at zero placement cost); with --search it then runs again with
 its own placement search at the coarse budget (does the search find it?).
@@ -52,15 +71,19 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gramian_workshop.hands import HANDS, Hand, model_path              # noqa: E402
 from gramian_workshop.follow import (FingerIK, follow, PLACE_COARSE,     # noqa: E402
                                      FACE_WEIGHT_M, palm_penetration, _mj)
+from hold_pose_self_overlap import owners, pairs_at, net_of_rest         # noqa: E402
 
 G = 9.81
 SCHEMA = "gramian-workshop/leader@1"
 RADIUS_M = 0.030         # default ball: about the wave-manipulation cup task's (33.5 mm)
-PALM_WEIGHT = 3.0        # metres of score per metre the palm penetrates the ball
+PALM_WEIGHT = 3.0        # metres of score per metre of overlap (palm or other links in the
+                         # ball, the hand in itself)
 GN_ITERS = 50
+SELF_SUFFIX = "__selfoverlapfix"   # leaders whose curl score has the hand-against-itself term
 
 
 def _git():
@@ -162,11 +185,13 @@ def other_overlap(c, caps, R):
     return worst
 
 
-def score(caps, c0, R, hand):
+def score(caps, c0, R, hand, self_m=0.0):
+    """self_m: the hand's overlap with itself at this pose (m), 0 when that
+    term is left out."""
     c, miss, face, X, U = fit_ball(caps, c0, R)
     pen = max(0.0, palm_penetration(hand, c, R))
     ov = max(0.0, other_overlap(c, caps, R))
-    return (miss.max() + FACE_WEIGHT_M * np.radians(face.max()) + PALM_WEIGHT * (pen + ov),
+    return (miss.max() + FACE_WEIGHT_M * np.radians(face.max()) + PALM_WEIGHT * (pen + ov + self_m),
             c, miss, face, X, U, pen, ov)
 
 
@@ -185,12 +210,26 @@ def _start_centre(cs, R):
     return x[:3] if 0 < x[3] < 0.2 else P.mean(0) + R * N.mean(0)
 
 
-def make(key, curls, force_N, n_frames, R):
+def make(key, curls, force_N, n_frames, R, self_term=True):
     mj = _mj()
     hand = Hand(key)
     n = len(hand.fingers)
     grid = np.array(sorted(set(curls)))
     iks = [FingerIK(hand, f) for f in hand.fingers]
+    # the hand against itself at a whole-hand pose (one grid index per
+    # finger): the deepest pair of its own bodies, net of the rest pose
+    own = owners(hand.model, hand)
+    rest = pairs_at(mj, hand.model, -1, hand.apply_coupling(np.array(hand.base_q)), own) if self_term else []
+    seen = {}
+
+    def self_at(idx):
+        if not self_term:
+            return 0.0, None
+        k_ = tuple(idx)
+        if k_ not in seen:
+            mm, who = net_of_rest(pairs_at(mj, hand.model, -1, pose(hand, [grid[j] for j in k_]), own), rest)
+            seen[k_] = (1e-3 * mm, who)
+        return seen[k_]
     # each finger's capsule at every grid value: the fingers are independent
     # chains, so one pose per grid value gives every finger's
     caps = {}
@@ -200,11 +239,15 @@ def make(key, curls, force_N, n_frames, R):
         mj.mj_kinematics(hand.model, d)
         for i, f in enumerate(hand.fingers):
             caps[i, k] = capsule(hand, f, d, iks[i])
-    best = None
-    for k0 in range(len(grid)):
-        idx = [k0] * n
+    def own_m(idx, with_self):
+        return self_at(idx)[0] if with_self else 0.0
+
+    def descend(idx, with_self):
+        """Coordinate descent from one whole-hand pose: one finger at a time
+        to the grid value that lowers the score, until none does."""
+        idx = list(idx)
         cur = [caps[i, idx[i]] for i in range(n)]
-        s, c, *_ = score(cur, _start_centre(cur, R), R, hand)
+        s, c, *_ = score(cur, _start_centre(cur, R), R, hand, own_m(idx, with_self))
         changed = True
         while changed:
             changed = False
@@ -214,14 +257,45 @@ def make(key, curls, force_N, n_frames, R):
                         continue
                     trial = list(cur)
                     trial[i] = caps[i, k]
-                    s2, c2, *_ = score(trial, c, R, hand)
+                    s2, c2, *_ = score(trial, c, R, hand, own_m(idx[:i] + [k] + idx[i + 1:], with_self))
                     if s2 < s - 1e-12:
                         s, c, idx[i], cur, changed = s2, c2, k, trial, True
-        if best is None or s < best["score"]:
-            s, c, miss, face, X, U, pen, ov = score(cur, c, R, hand)
-            curl = [float(grid[j]) for j in idx]
-            best = dict(score=s, curl=curl, q=pose(hand, curl), caps=cur, c=c, R=R, miss=miss, palm=pen, other=ov,
-                        face=face, X=X, U=U, start=float(grid[k0]))
+        return s, c, idx, cur
+
+    def search(starts, with_self):
+        """The best of the descents. The sphere fit inside a descent carries
+        on from the last accepted centre, so a descent's own score is not
+        quite the score of its final pose: a descent that beats the best so
+        far is re-scored from its final centre, and that is what is kept
+        (and what the leader records). With the term for the hand against
+        itself the descent crosses poses no sphere fits well, from which the
+        fit can wander, so there the pose is also re-scored from the start
+        centre and the lower is kept; without the term the one re-score
+        stands, so the superseded leaders are reproduced exactly."""
+        best = None
+        for name, idx0 in starts:
+            s, c, idx, cur = descend(idx0, with_self)
+            if best is None or s < best["score"]:
+                fits = [score(cur, c, R, hand, own_m(idx, with_self))]
+                if with_self:
+                    fits.append(score(cur, _start_centre(cur, R), R, hand, own_m(idx, with_self)))
+                s, c, miss, face, X, U, pen, ov = min(fits, key=lambda f: f[0])
+                best = dict(score=s, c=c, idx=idx, caps=cur, start=name, miss=miss, face=face, X=X, U=U,
+                            palm=pen, other=ov)
+        return best
+
+    uniform = [(float(grid[k0]), [k0] * n) for k0 in range(len(grid))]
+    starts = list(uniform)
+    if self_term:
+        # the hand against itself makes the score rugged: from a uniform curl
+        # the only single-finger moves that part two crossed fingers also
+        # take that finger off the ball, so the descent can settle on a pose
+        # with no overlap and no ball. One more start: the pose the score
+        # without the term chooses (the superseded leader's pose).
+        starts.append(("without the term", search(uniform, False)["idx"]))
+    best = search(starts, self_term)
+    curl = [float(grid[j]) for j in best["idx"]]
+    best.update(curl=curl, q=pose(hand, curl), R=R, self=self_at(best["idx"]))
     c, U, X = best["c"], best["U"], best["X"]
     r = np.array([cp[2] for cp in best["caps"]])
     normal = U                                            # into the object
@@ -239,16 +313,17 @@ def make(key, curls, force_N, n_frames, R):
                        "force_on_object_N": (force_N * normal).tolist(),
                        "contact_point": contact.tolist(),
                        "contact_normal": normal.tolist()})
-    lid = f"hold_{key}__self"
+    lid = f"hold_{key}__self" + (SELF_SUFFIX if self_term else "")
     leader = {
         "schema": SCHEMA, "id": lid,
         "name": f"{hand.spec['name']}: static hold of a {1e3 * R:.1f} mm sphere on its distal pads "
-                f"({force_N:g} N per finger)",
+                f"({force_N:g} N per finger)" + (", curls scored against the hand's own overlap" if self_term else ""),
         "kind": "self-generated static hold (the hand's own forward kinematics)",
         "source": {"script": "tools/make_hold_leader.py", "commit": _git(), "hand": key,
                    "model": os.path.relpath(model_path(key), ROOT).replace("\\", "/"),
                    "curl_fraction": {f.label: best["curl"][i] for i, f in enumerate(hand.fingers)},
-                   "curl_grid": [float(t) for t in grid], "curl_start": best["start"],
+                   "curl_grid": [float(t) for t in grid],
+                   "curl_start": best["start"] if isinstance(best["start"], float) else None,
                    "force_per_station_N": force_N,
                    "pose_qpos": {f.label: best["q"][f.qadr].tolist() for f in hand.fingers},
                    "contact_capsule_local": {
@@ -282,6 +357,23 @@ def make(key, curls, force_N, n_frames, R):
                   "from touching the sphere at this pose; the check's reach should match it, "
                   "and its facing the stored facing"],
     }
+    if self_term:
+        sm, who = best["self"]
+        leader["supersedes"] = f"hold_{key}__self"
+        leader["source"]["sphere_fit"]["self_overlap_m"] = float(sm)
+        leader["source"]["sphere_fit"]["self_overlap_pair"] = None if who is None else [who["body1"], who["body2"]]
+        leader["source"]["sphere_fit"]["search_start"] = (
+            f"uniform curl {best['start']}" if isinstance(best["start"], float) else
+            "the pose the score without the term chooses (source.curl_start is null)")
+        leader["source"]["sphere_fit"]["self_overlap_measure"] = (
+            "deepest pair of the hand's own bodies whose collision geoms penetrate in MuJoCo at "
+            "source.pose_qpos, each pair less its depth at the rest pose "
+            "(tools/hold_pose_self_overlap.py: pairs_at, net_of_rest); a term of the curl score")
+        leader["notes"].append(
+            f"supersedes hold_{key}__self, whose curl score had no term for the hand against itself: "
+            "each finger was curled against the ball alone, so two fingers could be given the same "
+            "space. Here the score also carries the hand's overlap with itself "
+            "(source.sphere_fit.self_overlap_m is what is left of it)")
     fixed = {"placement": {"rotation_matrix": np.eye(3).tolist(), "translation_m": c.tolist()},
              "assignment": {f.label: i for i, f in enumerate(hand.fingers)},
              "respace_deg": [0.0] * n, "placement_cost_mm": 0.0,
@@ -304,14 +396,17 @@ def main():
     ap.add_argument("--run", action="store_true", help="run the follow check with the fixed placement")
     ap.add_argument("--search", action="store_true",
                     help="with --run: also let the check search for the placement (coarse budget; slow)")
+    ap.add_argument("--no-self-term", action="store_true",
+                    help="leave the hand's overlap with itself out of the curl score: reproduces the "
+                         "superseded hold_<hand>__self leader and hold_placement_<hand>.json")
     ap.add_argument("--overwrite", action="store_true")
     a = ap.parse_args()
 
-    leader, fixed, best = make(a.hand, a.curl, a.force, a.frames, a.radius)
+    leader, fixed, best = make(a.hand, a.curl, a.force, a.frames, a.radius, self_term=not a.no_self_term)
     os.makedirs(a.out_dir, exist_ok=True)
     os.makedirs(a.results_dir, exist_ok=True)
     p_lead = os.path.join(a.out_dir, leader["id"] + ".json")
-    p_fix = os.path.join(a.results_dir, f"hold_placement_{a.hand}.json")
+    p_fix = os.path.join(a.results_dir, f"hold_placement_{a.hand}{'' if a.no_self_term else SELF_SUFFIX}.json")
     for p in (p_lead, p_fix):
         if os.path.exists(p) and not a.overwrite:
             raise SystemExit(f"{p} exists; pass --overwrite or another --out-dir/--results-dir")
@@ -324,7 +419,10 @@ def main():
           f"{np.round(1e3 * best['miss'], 3).tolist()} mm, facing "
           f"{np.round(best['face'], 1).tolist()} deg, palm penetration {1e3 * best['palm']:.2f} mm, "
           f"other-link overlap {1e3 * best['other']:.2f} mm, "
-          f"object mass {1e3 * leader['object']['mass_kg']:.2f} g")
+          + ("" if a.no_self_term else
+             f"overlap with itself {1e3 * best['self'][0]:.2f} mm"
+             + (f" ({best['self'][1]['body1']} / {best['self'][1]['body2']})" if best['self'][1] else "") + ", ")
+          + f"object mass {1e3 * leader['object']['mass_kg']:.2f} g")
     print(f"wrote {os.path.relpath(p_lead, ROOT)} and {os.path.relpath(p_fix, ROOT)}")
     if not a.run:
         return

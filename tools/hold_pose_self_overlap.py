@@ -2,9 +2,11 @@
 
     python tools/hold_pose_self_overlap.py                  # every stored hold result
     python tools/hold_pose_self_overlap.py --out-dir DIR    # write somewhere else
+    python tools/hold_pose_self_overlap.py --tag __selfoverlapfix --before outputs/hold_pose_self_overlap.json
 
-Reads the stored hold results (outputs/follow_<hand>__hold_<hand>__self__fixed.json)
-and their leaders (data/leaders/hold_<hand>__self.json); runs no follow check.
+Reads the stored hold results (outputs/follow_<hand>__hold_<hand>__self__fixed.json;
+with --tag T, follow_<hand>__hold_<hand>__self<T>__fixed.json) and the leader
+each result names (data/leaders/<leader id>.json); runs no follow check.
 For each hand it sets three poses in MuJoCo and lists the pairs of the hand's
 own bodies whose collision geoms penetrate (the object is left out):
 
@@ -26,6 +28,11 @@ verdict was given at.
 What the pair list cannot see: MuJoCo drops contacts between a body and its
 parent, between pairs the model excludes, and for geoms with no collision
 bits. So the list is a lower bound on the overlap.
+
+With --before (an earlier table's .json) a section is added that sets the two
+side by side, hand by hand: the stored verdict, and the deepest
+finger-against-finger pair and the deepest pair net of the rest pose, at the
+generator pose and at the follow pose.
 
 Nothing here is a new verdict: these are facts about the geometry of poses
 whose verdicts are already stored.
@@ -94,6 +101,19 @@ def pairs_at(mj, m, sph, q, own):
     return out
 
 
+def net_of_rest(pairs, rest):
+    """The deepest pair once each pair's depth at the rest pose is taken off
+    (a pair that is no deeper than at rest counts as nothing): (depth in mm,
+    that pair's record), or (0.0, None) when nothing is left."""
+    at_rest = {(p["body1"], p["body2"]): p["depth_mm"] for p in rest}
+    best, who = 0.0, None
+    for p in pairs:
+        d = p["depth_mm"] - at_rest.get((p["body1"], p["body2"]), 0.0)
+        if d > best:
+            best, who = d, p
+    return best, who
+
+
 def kind(p):
     a, b = p["finger1"], p["finger2"]
     if a is None and b is None:
@@ -106,7 +126,8 @@ def kind(p):
 def one(mj, key, res_path):
     with open(res_path, encoding="utf-8") as fh:
         S = json.load(fh)
-    with open(os.path.join(ROOT, "data", "leaders", f"hold_{key}__self.json"), encoding="utf-8") as fh:
+    lead = S.get("leader") or f"hold_{key}__self"
+    with open(os.path.join(ROOT, "data", "leaders", lead + ".json"), encoding="utf-8") as fh:
         L = json.load(fh)
     hand = Hand(key)
     R = float(L["object"]["radius_m"])
@@ -120,7 +141,7 @@ def one(mj, key, res_path):
 
     ncol = int(sum(1 for g in range(m.ngeom) if g != sph and (m.geom_contype[g] or m.geom_conaffinity[g])))
     rec = {"hand": key, "result": os.path.relpath(res_path, ROOT).replace("\\", "/"),
-           "leader": f"data/leaders/hold_{key}__self.json", "leader_commit": L.get("source", {}).get("commit"),
+           "leader": f"data/leaders/{lead}.json", "leader_commit": L.get("source", {}).get("commit"),
            "radius_m": R, "verdicts": sorted({f["verdict"] for f in S["frames"]}),
            "model": {"colliding_geoms": ncol, "bodies": int(m.nbody) - 1, "contact_excludes": int(m.nexclude)}}
 
@@ -216,13 +237,58 @@ def _names(ps):
     return "; ".join(out) or "none"
 
 
-def markdown(recs, commit):
-    L = ["# Self-overlap of the hand at the stored self-hold poses", "",
+def brief(r):
+    """The few numbers the before-and-after section compares, from one
+    hand's record (mm; the follow pose's are the deepest over its frames)."""
+    def ff(ps):
+        return _deep([p for p in ps if p["kind"] == "finger-finger"])
+    g = r["generator"]
+    return {"verdicts": ", ".join(r["verdicts"]),
+            "generator_finger_finger_mm": None if g is None else ff(g),
+            "generator_net_of_rest_mm": None if g is None else net_of_rest(g, r["rest"])[0],
+            "follow_finger_finger_mm": max(ff(f["pairs"]) for f in r["follow"]),
+            "follow_net_of_rest_mm": max(net_of_rest(f["pairs"], r["rest"])[0] for f in r["follow"])}
+
+
+def before_after(recs, before):
+    """One row per hand of `recs`, with the same hand's numbers from the
+    earlier table's records where it has them."""
+    was = {r["hand"]: r for r in before}
+    return [{"hand": r["hand"], "leader_before": was[r["hand"]]["leader"] if r["hand"] in was else None,
+             "leader_after": r["leader"], "before": brief(was[r["hand"]]) if r["hand"] in was else None,
+             "after": brief(r)} for r in recs]
+
+
+def _ba_markdown(rows, before_path):
+    def n(b, k):
+        return "-" if b is None or b[k] is None else f"{b[k]:.1f}"
+    L = ["## Before and after", "",
+         f"Before: the same hand's row in `{before_path}`. After: this table. Depths in mm; the follow pose's are "
+         "the deepest over its frames. Net of rest: each pair's depth less the same pair's depth at the rest pose, "
+         "the deepest pair taken (the measure the hold generator's curl score now carries).", "",
+         "| hand | verdict before | verdict after | generator pose, finger against finger: before | after | "
+         "generator pose, any pair net of rest: before | after | follow pose, finger against finger: before | after | "
+         "follow pose, any pair net of rest: before | after |",
+         "|---|---|---|---|---|---|---|---|---|---|---|"]
+    for r in rows:
+        b, a = r["before"], r["after"]
+        L.append(f"| {r['hand']} | {'-' if b is None else b['verdicts']} | {a['verdicts']} | "
+                 + " | ".join(f"{n(b, k)} | {n(a, k)}" for k in
+                              ("generator_finger_finger_mm", "generator_net_of_rest_mm",
+                               "follow_finger_finger_mm", "follow_net_of_rest_mm")) + " |")
+    return L + [""]
+
+
+def markdown(recs, commit, tag="", ba=None, before_path=None):
+    L = ["# Self-overlap of the hand at the stored self-hold poses"
+         + (f" (leaders hold_<hand>__self{tag})" if tag else ""), "",
          f"Written by `tools/hold_pose_self_overlap.py` at {commit}. Depths in mm. A pair is two of the hand's own "
          "bodies whose collision geoms penetrate in MuJoCo (the ball left out). MuJoCo drops contacts between a body "
          "and its parent, between pairs the model excludes, and for geoms with no collision bits, so the counts are "
-         "a lower bound. These are facts about the poses of stored results, not new verdicts.", "",
-         "## Pairs by pose", "",
+         "a lower bound. These are facts about the poses of stored results, not new verdicts.", ""]
+    if ba is not None:
+        L += _ba_markdown(ba, before_path)
+    L += ["## Pairs by pose", "",
          "| hand | stored verdict | colliding geoms | model's contact excludes | pairs at rest (deepest) | "
          "pairs at generator pose (deepest; not at rest) | pairs at follow pose, first frame (deepest; not at rest) | "
          "of those, finger against another finger (deepest) |",
@@ -265,11 +331,17 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("hands", nargs="*", help="hand keys (default: every stored hold result)")
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "outputs"))
-    ap.add_argument("--name", default="hold_pose_self_overlap")
+    ap.add_argument("--tag", default="",
+                    help="read the results of the leaders hold_<hand>__self<TAG> (e.g. __selfoverlapfix); "
+                         "default: the first leaders, hold_<hand>__self")
+    ap.add_argument("--name", default=None, help="output file name (default hold_pose_self_overlap<TAG>)")
+    ap.add_argument("--before", default=None,
+                    help="an earlier table's .json: adds a before-and-after section, hand by hand")
     ap.add_argument("--overwrite", action="store_true")
     a = ap.parse_args()
+    a.name = a.name or "hold_pose_self_overlap" + a.tag
     mj = fa._mj()
-    paths = sorted(glob.glob(os.path.join(ROOT, "outputs", "follow_*__hold_*__self__fixed.json")))
+    paths = sorted(glob.glob(os.path.join(ROOT, "outputs", f"follow_*__hold_*__self{a.tag}__fixed.json")))
     found = {os.path.basename(p)[len("follow_"):].split("__hold_")[0]: p for p in paths}
     keys = a.hands or sorted(found)
     outs = [os.path.join(a.out_dir, a.name + ext) for ext in (".json", ".md")]
@@ -288,12 +360,23 @@ def main():
             skipped.append({"hand": k, "why": f"{type(e).__name__}: {e}"})
             print(f"{k}: skipped, {type(e).__name__}: {e}", flush=True)
     commit = _git()
+    ba = bpath = None
+    if a.before:
+        with open(a.before, encoding="utf-8") as fh:
+            ba = before_after(recs, json.load(fh)["hands"])
+        bpath = os.path.relpath(os.path.abspath(a.before), ROOT).replace("\\", "/")
     os.makedirs(a.out_dir, exist_ok=True)
+    doc = {"schema": SCHEMA, "script": "tools/hold_pose_self_overlap.py", "commit": commit,
+           "deep_threshold_m": DEEP_M, "hands": recs, "skipped": skipped}
+    if a.tag:
+        doc["tag"] = a.tag
+    if ba is not None:
+        doc["before"] = bpath
+        doc["before_and_after"] = ba
     with open(outs[0], "w", encoding="utf-8", newline="\n") as fh:
-        json.dump({"schema": SCHEMA, "script": "tools/hold_pose_self_overlap.py", "commit": commit,
-                   "deep_threshold_m": DEEP_M, "hands": recs, "skipped": skipped}, fh, indent=1)
+        json.dump(doc, fh, indent=1)
     with open(outs[1], "w", encoding="utf-8", newline="\n") as fh:
-        fh.write(markdown(recs, commit))
+        fh.write(markdown(recs, commit, a.tag, ba, bpath))
     print("wrote", *outs)
 
 

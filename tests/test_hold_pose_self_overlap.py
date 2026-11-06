@@ -63,6 +63,23 @@ class KnownPairs(unittest.TestCase):
         # MuJoCo leaves the pair out: the list is a lower bound
         self.assertNotIn(("a", "a_child"), self._pairs([0.0, 0.0, 0.0]))
 
+    def _list(self, q):
+        return hp.pairs_at(mujoco, self.m, -1, np.array(q), {})
+
+    def test_net_of_rest_counts_only_what_the_pose_adds(self):
+        deep, apart = self._list([0.0, 0.0, 0.0]), self._list([0.0, 0.0, 0.010])
+        # rest clear, pose 6 mm deep: all 6 mm is the pose's
+        mm, who = hp.net_of_rest(deep, apart)
+        self.assertAlmostEqual(mm, 6.0, places=3)
+        self.assertEqual((who["body1"], who["body2"]), ("a", "b"))
+        # the same 6 mm already there at rest: nothing is the pose's
+        self.assertEqual(hp.net_of_rest(deep, deep), (0.0, None))
+        # rest 6 mm deep, pose 8 mm deep (axes 8 mm apart): 2 mm is the pose's
+        mm, _ = hp.net_of_rest(self._list([0.0, 0.0, -0.002]), deep)
+        self.assertAlmostEqual(mm, 2.0, places=3)
+        # a pose shallower than rest counts as nothing
+        self.assertEqual(hp.net_of_rest(apart, deep), (0.0, None))
+
 
 @unittest.skipIf(mujoco is None, "mujoco not installed")
 class StoredPose(unittest.TestCase):
