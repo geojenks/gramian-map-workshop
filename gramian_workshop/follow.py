@@ -269,6 +269,23 @@ that behaviour back exactly. Each finger record carries "overlap_mm"
 that much) and "other_overlap_mm" (the finger's other links), each frame
 "palm_overlap_mm", and the result's settings the allowances used.
 
+The hand against itself (6 Nov, issue 27): every measure above is of the
+hand against the object. Each finger is solved on its own, so the poses of
+one frame, put together on the one hand, can leave a finger inside another
+finger or inside the palm. Each frame record carries "self_overlap": the
+hand's own bodies that penetrate at that frame's whole-hand pose (every
+finger at its stored pose, a finger not touching at the rest pose), each
+pair with its depth and the depth the same pair has at the model's rest
+pose, and the deepest depth beyond rest for a finger against another
+finger and for a finger against the palm (see self_overlap). It is
+reported only: by the ruling of 6 Nov the verdict, the reasons and the
+finger states take no account of it, and no allowance applies. The pairs
+are MuJoCo's own contacts between the model's collision geoms, which
+leave out a body against its parent, pairs the model excludes and geoms
+with no collision bits, so the measure is a lower bound; the result's
+"self_overlap" says how many geoms and excluded pairs the model has and
+lists the pairs at rest.
+
 Reusing a placement (28 Oct, issue 21): the placement search is nearly all
 of a run's time, and the per-frame check after it takes seconds. Each
 result stores what its placement depends on, "placement_key" (see
@@ -497,6 +514,97 @@ def palm_penetration(hand, c, R, _cache={}):
         _cache[key] = (d, palm_shapes(hand))
     d, sh = _cache[key]
     return float(_deepest(d, sh, np.asarray(c, float), R)[0]) if sh else -np.inf
+
+
+# ----------------------------------------------------------------------
+# the hand against itself (reported only: no verdict reads it; issue 27)
+# ----------------------------------------------------------------------
+def body_owners(hand):
+    """{body: index of the finger it belongs to}: every body from a
+    finger's first joint's body down (its tip body alone when the finger
+    has no joint of its own). A body not in it is the palm (wrist and base
+    included)."""
+    m = hand.model
+    own = {}
+    for a, f in enumerate(hand.fingers):
+        root = int(m.jnt_bodyid[f.joints[0]]) if len(f.joints) else int(f.tip_body)
+        for b in range(1, m.nbody):
+            x = b
+            while x > 0 and x != root:
+                x = int(m.body_parentid[x])
+            if x == root:
+                own[b] = a
+    return own
+
+
+def self_pairs(m, q, d=None):
+    """{(body1, body2): depth m}, body1 < body2: the model's own bodies
+    whose collision geoms penetrate at qpos q, deepest contact per pair.
+    MuJoCo's contacts, so a body against its parent, pairs the model
+    excludes and geoms with no collision bits are not in it (a lower
+    bound). d: an MjData to use (it is left at q)."""
+    mj = _mj()
+    d = mj.MjData(m) if d is None else d
+    d.qpos[:] = q
+    mj.mj_fwdPosition(m, d)
+    out = {}
+    for i in range(d.ncon):
+        con = d.contact[i]
+        if con.dist >= 0:
+            continue
+        b1, b2 = sorted((int(m.geom_bodyid[con.geom1]), int(m.geom_bodyid[con.geom2])))
+        if -con.dist > out.get((b1, b2), 0.0):
+            out[(b1, b2)] = -float(con.dist)
+    return out
+
+
+def _pair_kind(own, b1, b2):
+    a1, a2 = own.get(b1), own.get(b2)
+    if a1 is None and a2 is None:
+        return "palm-palm"
+    if a1 is None or a2 is None:
+        return "finger-palm"
+    return "same finger" if a1 == a2 else "finger-finger"
+
+
+def self_overlap(hand, q, rest=None, own=None, d=None):
+    """The hand against itself at the whole-hand pose q (qpos, couplings
+    applied), as the frame record's "self_overlap":
+      pairs             every pair of the hand's bodies that penetrate
+                        (self_pairs), deepest first: body1, body2, kind
+                        ("finger-finger", "finger-palm", "same finger" or
+                        "palm-palm"; palm: any body of no finger),
+                        depth_mm, and rest_mm, the same pair's depth at the
+                        rest pose (0 when clear there)
+      finger_finger_mm  the deepest depth beyond rest (depth_mm - rest_mm)
+                        of a finger against another finger, and
+      finger_finger_pair  its two bodies (0 and None when no such pair is
+                        deeper than at rest)
+      finger_palm_mm, finger_palm_pair  the same for a finger against the
+                        palm
+    rest: self_pairs at the rest pose (default: the model's qpos0 with
+    couplings applied); own: body_owners(hand). Reported only: nothing in
+    the verdict reads it."""
+    m = hand.model
+    own = body_owners(hand) if own is None else own
+    if rest is None:
+        rest = self_pairs(m, hand.apply_coupling(np.array(m.qpos0)))
+    pairs = []
+    head = {"finger-finger": (0.0, None), "finger-palm": (0.0, None)}
+    for (b1, b2), dep in self_pairs(m, q, d).items():
+        kind = _pair_kind(own, b1, b2)
+        r = rest.get((b1, b2), 0.0)
+        names = [m.body(b1).name, m.body(b2).name]
+        pairs.append({"body1": names[0], "body2": names[1], "kind": kind,
+                      "depth_mm": dep * 1e3, "rest_mm": r * 1e3})
+        if kind in head and dep - r > head[kind][0]:
+            head[kind] = (dep - r, names)
+    pairs.sort(key=lambda x: (-x["depth_mm"], x["body1"], x["body2"]))
+    return {"finger_finger_mm": head["finger-finger"][0] * 1e3,
+            "finger_finger_pair": head["finger-finger"][1],
+            "finger_palm_mm": head["finger-palm"][0] * 1e3,
+            "finger_palm_pair": head["finger-palm"][1],
+            "pairs": pairs}
 
 
 def overlap_allowance(leader_json=None, allowed_overlap_m=None, other_contact=None):
@@ -1487,6 +1595,14 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
     # in the force check there, taken as 0), and that frame's time
     u_state, t_prev = [None] * len(hand.fingers), None
     frames = []
+    # the hand against itself (reported only, issue 27): which finger each
+    # body belongs to, the pairs already overlapping at the model's rest
+    # pose, and a data of its own for the whole-hand pose (the fingers'
+    # own are left as their solves had them)
+    self_own = body_owners(hand)
+    self_d = mj.MjData(m)
+    self_rest = self_pairs(m, hand.apply_coupling(np.array(m.qpos0)), self_d)
+    f_index = {f.label: a for a, f in enumerate(hand.fingers)}
     if trajectory:
         from . import trajectory as tj
         recs = []
@@ -1687,10 +1803,18 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         if apply:
             al = _apply_limit(pts, nrms, Js_act, c, mu, L, resid_tol, apply_free,
                               springs_on if sprung else None)
+        # the whole hand at this frame: every finger at its stored pose (a
+        # finger not touching stays at the base pose), then its own bodies
+        # against one another. Read by no test above or below
+        q_hand = np.array(hand.base_q)
+        for x in per:
+            if "q" in x:
+                q_hand[iks[f_index[x["finger"]]].qadr] = x["q"]
+        so = self_overlap(hand, hand.apply_coupling(q_hand), self_rest, self_own, self_d)
         frames.append({"k": int(k), "verdict": verdict, "reason": reason,
                        "ball_center": c.tolist(), "palm_penetration_mm": palm_pen * 1e3,
                        "palm_overlap_mm": palm_raw * 1e3 if math.isfinite(palm_raw) else None,
-                       "unserved": unserved, "fingers": per,
+                       "unserved": unserved, "fingers": per, "self_overlap": so,
                        **({"untracked": leader.frames[k]["untracked"]} if "untracked" in leader.frames[k] else {}),
                        **({"scale_margin": sm} if margin else {}),
                        **({"disturbance_margin": dm} if disturbance else {}),
@@ -1699,6 +1823,16 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                        **({"wrist_rad": wq} if wq is not None else {})})
     return {"hand": hand_key, "hand_name": hand.spec["name"],
             "leader": leader_json["id"], "placement_cost_mm": cost * 1e3,
+            # what each frame's "self_overlap" was measured with and against
+            # (module docstring, "The hand against itself"): reported only
+            "self_overlap": {
+                "in_verdict": False,
+                "colliding_geoms": int(np.sum((m.geom_contype != 0) | (m.geom_conaffinity != 0))),
+                "contact_excludes": int(m.nexclude),
+                "rest_pairs": [{"body1": m.body(b1).name, "body2": m.body(b2).name,
+                                "kind": _pair_kind(self_own, b1, b2), "depth_mm": dep * 1e3}
+                               for (b1, b2), dep in sorted(self_rest.items(),
+                                                           key=lambda kv: -kv[1])]},
             "resid_tol": RESID_TOL if resid_tol is None else resid_tol,
             "settings": {"middle": middle, "ik_iters": IK_ITERS,
                          "place": {**PLACE_FINE, **place}, "wrist": wrist,

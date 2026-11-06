@@ -199,6 +199,11 @@ How the follow check uses them (the module docstring of `follow.py`,
   `other_overlap_mm` (its other links), each frame `palm_overlap_mm`, and
   the result's `settings` the allowances used and where they came from
   (the file, the default, or an override).
+- **The hand against itself.** These allowances are about the hand and
+  the object only. Each frame also carries `self_overlap`, the hand's
+  own bodies that penetrate one another at that frame's pose (issue 27).
+  It is reported only: no allowance applies to it and the verdict does
+  not read it.
 
 `tools/run_follow.py --allowed-overlap-m`, `--other-overlap-m` and
 `--no-other-contact` override the file, as do the `allowed_overlap_m`
