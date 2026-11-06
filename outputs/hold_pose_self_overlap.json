@@ -1,0 +1,6282 @@
+{
+ "schema": "gramian-workshop/hold-pose-self-overlap@1",
+ "script": "tools/hold_pose_self_overlap.py",
+ "commit": "51793c7dbf1d854a54497f294bd610ea45d1243e",
+ "deep_threshold_m": 0.0005,
+ "hands": [
+  {
+   "hand": "allegro",
+   "result": "outputs/follow_allegro__hold_allegro__self__fixed.json",
+   "leader": "data/leaders/hold_allegro__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 21,
+    "bodies": 21,
+    "contact_excludes": 5
+   },
+   "rest": [],
+   "generator": [
+    {
+     "body1": "ff_tip",
+     "body2": "th_tip",
+     "finger1": "index",
+     "finger2": "thumb",
+     "depth_mm": 15.695084112051783,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "ff_tip",
+       "body2": "th_tip",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 17.522184524827818,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 5.145573136257811,
+       "link_radii_sum_mm": 24.0
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -0.010445842141427325,
+        "overlap_mm_stored": -0.010445842141427325,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.04629153354856,
+        "other_overlap_mm_stored": -4.04629153354856,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.15826230448808334,
+        "overlap_mm_stored": 0.15826230448808334,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.23003845650201,
+        "other_overlap_mm_stored": -13.23003845650201,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": -0.14578696566109814,
+        "overlap_mm_stored": -0.14578696566109814,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.403102336135223,
+        "other_overlap_mm_stored": -4.403102336135223,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.11284784986637444,
+        "overlap_mm_stored": 0.11284784986637444,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -3.967635528223025,
+        "other_overlap_mm_stored": -3.967635528223025,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "ff_tip",
+       "body2": "th_tip",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 17.522184524827818,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 5.145573136257811,
+       "link_radii_sum_mm": 24.0
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -0.010445842141427325,
+        "overlap_mm_stored": -0.010445842141427325,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.04629153354856,
+        "other_overlap_mm_stored": -4.04629153354856,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.15826230448808334,
+        "overlap_mm_stored": 0.15826230448808334,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.23003845650201,
+        "other_overlap_mm_stored": -13.23003845650201,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": -0.14578696566109814,
+        "overlap_mm_stored": -0.14578696566109814,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.403102336135223,
+        "other_overlap_mm_stored": -4.403102336135223,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.11284784986637444,
+        "overlap_mm_stored": 0.11284784986637444,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -3.967635528223025,
+        "other_overlap_mm_stored": -3.967635528223025,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "george_clip",
+   "result": "outputs/follow_george_clip__hold_george_clip__self__fixed.json",
+   "leader": "data/leaders/hold_george_clip__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 23,
+    "bodies": 16,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 18.89999999999999,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 18.700000000000003,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 19.199969852088795,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 14.898817515901396,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 18.09999999999999,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 18.899978842169045,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 18.699999999999996,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 19.19941272304073,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 14.897772663632098,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 18.09999999999999,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 0.7881261365198025,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 0.1981004285382046,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.4304846968511002,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.4158442612993287,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 18.8999724814487,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 18.700000000000003,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 19.199412020099608,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 14.897330917534068,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 18.099999999999998,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 0.13578789048574944,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 0.4211688278928788,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 1.4370299768354626,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 13.46345275276487,
+       "link_radii_sum_mm": 17.9
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -0.5861332474163122,
+        "overlap_mm_stored": -0.5861332474163122,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.45861072431403055,
+        "other_overlap_mm_stored": 0.45861072431403055,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.6004514042700776,
+        "overlap_mm_stored": 0.6004514042700776,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -14.598504596626336,
+        "other_overlap_mm_stored": -14.598504596626336,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": -0.33885699487104515,
+        "overlap_mm_stored": -0.33885699487104515,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -12.157644416691149,
+        "other_overlap_mm_stored": -12.157644416691149,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.5229015660961831,
+        "overlap_mm_stored": 0.5229015660961831,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.721357932229871,
+        "other_overlap_mm_stored": -10.721357932229871,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.36747646454159466,
+        "overlap_mm_stored": 0.36747646454159466,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.2305900313852409,
+        "other_overlap_mm_stored": 0.2305900313852409,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 18.8999724814487,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 18.700000000000003,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 19.199412020099608,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 14.897330917534068,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 18.099999999999998,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 0.13578789048574944,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 0.4211688278928788,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 1.4370299768354626,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 13.46345275276487,
+       "link_radii_sum_mm": 17.9
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -0.5861332474163122,
+        "overlap_mm_stored": -0.5861332474163122,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.45861072431403055,
+        "other_overlap_mm_stored": 0.45861072431403055,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.6004514042700776,
+        "overlap_mm_stored": 0.6004514042700776,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -14.598504596626336,
+        "other_overlap_mm_stored": -14.598504596626336,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": -0.33885699487104515,
+        "overlap_mm_stored": -0.33885699487104515,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -12.157644416691149,
+        "other_overlap_mm_stored": -12.157644416691149,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.5229015660961831,
+        "overlap_mm_stored": 0.5229015660961831,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.721357932229871,
+        "other_overlap_mm_stored": -10.721357932229871,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.36747646454159466,
+        "overlap_mm_stored": 0.36747646454159466,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.2305900313852409,
+        "other_overlap_mm_stored": 0.2305900313852409,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "george_kp",
+   "result": "outputs/follow_george_kp__hold_george_kp__self__fixed.json",
+   "leader": "data/leaders/hold_george_kp__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 16,
+    "bodies": 16,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.899999999999999,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 2.2344024426890483,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 6.200000000000001,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.900000000000004,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 2.2344024426890625,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 6.200000000000002,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "middle_prox",
+     "body2": "ring_prox",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 0.9067276280440781,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_prox",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.1099148344739518,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.4104837619945896,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.900000000000007,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 2.2344024426890625,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 6.200000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.5742551622008318,
+        "overlap_mm_stored": 0.5742551622008318,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -14.253335872899793,
+        "other_overlap_mm_stored": -14.253335872899793,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.41220027644302965,
+        "overlap_mm_stored": 0.41220027644302965,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.3055116874275052,
+        "other_overlap_mm_stored": 0.3055116874275052,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.6113202551914082,
+        "overlap_mm_stored": 0.6113202551914082,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -1.8961938062961383,
+        "other_overlap_mm_stored": -1.8961938062961383,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": -0.4556597079729899,
+        "overlap_mm_stored": -0.4556597079729899,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 1.5090390401595113,
+        "other_overlap_mm_stored": 1.5090390401595113,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": -1.618257192440825,
+        "overlap_mm_stored": -1.618257192440825,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 1.620273200401475,
+        "other_overlap_mm_stored": 1.620273200401475,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.900000000000007,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 2.2344024426890625,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 6.200000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.5742551622008318,
+        "overlap_mm_stored": 0.5742551622008318,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -14.253335872899793,
+        "other_overlap_mm_stored": -14.253335872899793,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.41220027644302965,
+        "overlap_mm_stored": 0.41220027644302965,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.3055116874275052,
+        "other_overlap_mm_stored": 0.3055116874275052,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.6113202551914082,
+        "overlap_mm_stored": 0.6113202551914082,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -1.8961938062961383,
+        "other_overlap_mm_stored": -1.8961938062961383,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": -0.4556597079729899,
+        "overlap_mm_stored": -0.4556597079729899,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 1.5090390401595113,
+        "other_overlap_mm_stored": 1.5090390401595113,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": -1.618257192440825,
+        "overlap_mm_stored": -1.618257192440825,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 1.620273200401475,
+        "other_overlap_mm_stored": 1.620273200401475,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "george_kp_wide",
+   "result": "outputs/follow_george_kp_wide__hold_george_kp_wide__self__fixed.json",
+   "leader": "data/leaders/hold_george_kp_wide__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 22,
+    "bodies": 16,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 18.89999999999999,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 18.700000000000003,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 19.19877198246763,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 14.898298129874085,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 18.8996468145062,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 18.69999999999999,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 19.19877198246763,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 14.898532813222412,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.6552482103697717,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.2220937661732294,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.3047589059561222,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 4.275414393246229,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "ring_prox",
+     "body2": "little_prox",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 0.03494480818533839,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 18.899442416563737,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 18.699999999999996,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 19.19877198246763,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 14.898093459912921,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 2.5789575138486303,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 2.078957513848633,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 1.4934511166594597,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 3.74236718875467,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 10.92107877411509,
+       "link_radii_sum_mm": 17.9
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 0.1467641374274572,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.7739933136777415,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.1658994045721525,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.7090817123677042,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.2090817123677065,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.6739976866590308,
+        "overlap_mm_stored": 0.6739976866590308,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -2.4729764846187705,
+        "other_overlap_mm_stored": -2.4729764846187705,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.0831241149868156,
+        "overlap_mm_stored": 0.0831241149868156,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.97313377668648,
+        "other_overlap_mm_stored": -8.97313377668648,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.08241577484666834,
+        "overlap_mm_stored": 0.08241577484666834,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.888256032943003,
+        "other_overlap_mm_stored": -4.888256032943003,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": -0.19890778710248552,
+        "overlap_mm_stored": -0.19890778710248552,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -9.925084531257475,
+        "other_overlap_mm_stored": -9.925084531257475,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 1.3538019490703692,
+        "overlap_mm_stored": 1.3538019490703692,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -3.207950666831966,
+        "other_overlap_mm_stored": -3.207950666831966,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 18.899442416563737,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 18.699999999999996,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 19.19877198246763,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 14.898093459912921,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 2.5789575138486303,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 2.078957513848633,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 1.4934511166594597,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 3.74236718875467,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 10.92107877411509,
+       "link_radii_sum_mm": 17.9
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 0.1467641374274572,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.7739933136777415,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.1658994045721525,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.7090817123677042,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.2090817123677065,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.6739976866590308,
+        "overlap_mm_stored": 0.6739976866590308,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -2.4729764846187705,
+        "other_overlap_mm_stored": -2.4729764846187705,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.0831241149868156,
+        "overlap_mm_stored": 0.0831241149868156,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.97313377668648,
+        "other_overlap_mm_stored": -8.97313377668648,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.08241577484666834,
+        "overlap_mm_stored": 0.08241577484666834,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.888256032943003,
+        "other_overlap_mm_stored": -4.888256032943003,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": -0.19890778710248552,
+        "overlap_mm_stored": -0.19890778710248552,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -9.925084531257475,
+        "other_overlap_mm_stored": -9.925084531257475,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 1.3538019490703692,
+        "overlap_mm_stored": 1.3538019490703692,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -3.207950666831966,
+        "other_overlap_mm_stored": -3.207950666831966,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "george_measured",
+   "result": "outputs/follow_george_measured__hold_george_measured__self__fixed.json",
+   "leader": "data/leaders/hold_george_measured__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 16,
+    "bodies": 16,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.899999999999999,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 2.2344024426890483,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 6.200000000000001,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0999999999999985,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.900000000000004,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 2.2344024426890483,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 6.200000000000002,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0999999999999985,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 0.8723740078257873,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 0.27381163871242553,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.2406376344506267,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 0.7913516731633818,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.900000000000004,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 2.2344024426890483,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 6.199999999999999,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 1.1000000000000054,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -0.9398831901977143,
+        "overlap_mm_stored": -0.9398831901977143,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 1.0591224240427757,
+        "other_overlap_mm_stored": 1.0591224240427757,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.08452383528232549,
+        "overlap_mm_stored": 0.08452383528232549,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.42517449186413,
+        "other_overlap_mm_stored": -13.42517449186413,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.36768906418574443,
+        "overlap_mm_stored": 0.36768906418574443,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -12.979164150996654,
+        "other_overlap_mm_stored": -12.979164150996654,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.5397873485214824,
+        "overlap_mm_stored": 0.5397873485214824,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.361965070053227,
+        "other_overlap_mm_stored": -8.361965070053227,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.2115414352792909,
+        "overlap_mm_stored": 0.2115414352792909,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.251201345855849,
+        "other_overlap_mm_stored": -13.251201345855849,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.900000000000004,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 2.2344024426890483,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 6.199999999999999,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 1.1000000000000054,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -0.9398831901977143,
+        "overlap_mm_stored": -0.9398831901977143,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 1.0591224240427757,
+        "other_overlap_mm_stored": 1.0591224240427757,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.08452383528232549,
+        "overlap_mm_stored": 0.08452383528232549,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.42517449186413,
+        "other_overlap_mm_stored": -13.42517449186413,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.36768906418574443,
+        "overlap_mm_stored": 0.36768906418574443,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -12.979164150996654,
+        "other_overlap_mm_stored": -12.979164150996654,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.5397873485214824,
+        "overlap_mm_stored": 0.5397873485214824,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.361965070053227,
+        "other_overlap_mm_stored": -8.361965070053227,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.2115414352792909,
+        "overlap_mm_stored": 0.2115414352792909,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.251201345855849,
+        "other_overlap_mm_stored": -13.251201345855849,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "george_measured_thumb",
+   "result": "outputs/follow_george_measured_thumb__hold_george_measured_thumb__self__fixed.json",
+   "leader": "data/leaders/hold_george_measured_thumb__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 16,
+    "bodies": 16,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.899999999999999,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 2.2344024426890483,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 6.200000000000001,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.900000000000004,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 2.2344024426890483,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 6.200000000000002,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 0.8723740078257873,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 0.27381163871242553,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.2406376344506267,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 0.7913516731633818,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.9,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 2.2344024426890483,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 6.200000000000004,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 0.40025066366533407,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -0.6387504227507723,
+        "overlap_mm_stored": -0.6387504227507723,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 1.8043540694259175,
+        "other_overlap_mm_stored": 1.8043540694259175,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.23396690594956054,
+        "overlap_mm_stored": 0.23396690594956054,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.385147630463196,
+        "other_overlap_mm_stored": -13.385147630463196,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.3224349962445486,
+        "overlap_mm_stored": 0.3224349962445486,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.122991849902252,
+        "other_overlap_mm_stored": -13.122991849902252,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": -0.34060192786768834,
+        "overlap_mm_stored": -0.34060192786768834,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.591449637997824,
+        "other_overlap_mm_stored": -10.591449637997824,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.46841878537516934,
+        "overlap_mm_stored": 0.46841878537516934,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.5869456588244899,
+        "other_overlap_mm_stored": 0.5869456588244899,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.9,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 2.2344024426890483,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 6.200000000000004,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 0.40025066366533407,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -0.6387504227507723,
+        "overlap_mm_stored": -0.6387504227507723,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 1.8043540694259175,
+        "other_overlap_mm_stored": 1.8043540694259175,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.23396690594956054,
+        "overlap_mm_stored": 0.23396690594956054,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.385147630463196,
+        "other_overlap_mm_stored": -13.385147630463196,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.3224349962445486,
+        "overlap_mm_stored": 0.3224349962445486,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -13.122991849902252,
+        "other_overlap_mm_stored": -13.122991849902252,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": -0.34060192786768834,
+        "overlap_mm_stored": -0.34060192786768834,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.591449637997824,
+        "other_overlap_mm_stored": -10.591449637997824,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.46841878537516934,
+        "overlap_mm_stored": 0.46841878537516934,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.5869456588244899,
+        "other_overlap_mm_stored": 0.5869456588244899,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "human_vc",
+   "result": "outputs/follow_human_vc__hold_human_vc__self__fixed.json",
+   "leader": "data/leaders/hold_human_vc__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 16,
+    "bodies": 16,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0000000000000009,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 9.000000000000005,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0000000000000078,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 9.0,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 0.9999999999999974,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "index_distal",
+       "body2": "thumb_mid",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 1.9985033711284539,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "index_distal",
+       "body2": "thumb_distal",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 4.234538093545337,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 19.759106558818786,
+       "link_radii_sum_mm": 14.0
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.7432218892084175,
+        "overlap_mm_stored": 0.7432218892084175,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -0.694107139276659,
+        "other_overlap_mm_stored": -0.694107139276659,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.5464743953189632,
+        "overlap_mm_stored": 0.5464743953189632,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -0.7732546877756916,
+        "other_overlap_mm_stored": -0.7732546877756916,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.9093121731100426,
+        "overlap_mm_stored": 0.9093121731100426,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -0.6125379512345736,
+        "other_overlap_mm_stored": -0.6125379512345736,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 1.3366134111782864,
+        "overlap_mm_stored": 1.3366134111782864,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.5165428553054532,
+        "other_overlap_mm_stored": 0.5165428553054532,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.9755836120502043,
+        "overlap_mm_stored": 0.9755836120502043,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -2.628568520497733,
+        "other_overlap_mm_stored": -2.628568520497733,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 9.0,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 0.9999999999999974,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "index_distal",
+       "body2": "thumb_mid",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 1.9985033711284539,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "index_distal",
+       "body2": "thumb_distal",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 4.234538093545337,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 19.759106558818786,
+       "link_radii_sum_mm": 14.0
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.7432218892084175,
+        "overlap_mm_stored": 0.7432218892084175,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -0.694107139276659,
+        "other_overlap_mm_stored": -0.694107139276659,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.5464743953189632,
+        "overlap_mm_stored": 0.5464743953189632,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -0.7732546877756916,
+        "other_overlap_mm_stored": -0.7732546877756916,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.9093121731100426,
+        "overlap_mm_stored": 0.9093121731100426,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -0.6125379512345736,
+        "other_overlap_mm_stored": -0.6125379512345736,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 1.3366134111782864,
+        "overlap_mm_stored": 1.3366134111782864,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.5165428553054532,
+        "other_overlap_mm_stored": 0.5165428553054532,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.9755836120502043,
+        "overlap_mm_stored": 0.9755836120502043,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -2.628568520497733,
+        "other_overlap_mm_stored": -2.628568520497733,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "human_vc_arch",
+   "result": "outputs/follow_human_vc_arch__hold_human_vc_arch__self__fixed.json",
+   "leader": "data/leaders/hold_human_vc_arch__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 16,
+    "bodies": 16,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 4.999999999999999,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 0.9999999999999974,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0000000000000009,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.000000000000005,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 4.999999999999994,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 1.0000000000000044,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0000000000000078,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "middle_prox",
+     "body2": "ring_prox",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 2.943765070629817,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_prox",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.5905029919633349,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_prox",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 2.036498652870172,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 4.37324328829101,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 3.434384996470477,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 3.373243288291006,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 2.702155013847728,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "ring_prox",
+     "body2": "little_prox",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 1.2167180224063947,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "ring_prox",
+     "body2": "little_mid",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 0.13164817894297487,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "ring_mid",
+     "body2": "little_prox",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 0.9471569585934748,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "ring_mid",
+     "body2": "little_mid",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 2.5954602186554263,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "ring_mid",
+     "body2": "little_distal",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 1.0908611000613042,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "ring_distal",
+     "body2": "little_mid",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 3.2080325273825236,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "ring_distal",
+     "body2": "little_distal",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 2.228772820582066,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 5.000000000000004,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 1.0000000000000044,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 0.9999999999999974,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "index_mid",
+       "body2": "thumb_mid",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 3.0649269314685106,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "index_mid",
+       "body2": "thumb_distal",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 2.481664071355226,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 17.314291641716927,
+       "link_radii_sum_mm": 15.0
+      },
+      {
+       "body1": "index_distal",
+       "body2": "thumb_mid",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 7.975843927690415,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "index_distal",
+       "body2": "thumb_distal",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 6.921298418873691,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 2.413285571959394,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 9.43502835012,
+       "link_radii_sum_mm": 14.0
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 3.0866823650773973,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.925909495658103,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.0866823650773947,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 3.9450637333542997,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.945063733354301,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_distal",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.8743603886834537,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_distal",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.6267388990636067,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 9.311816636661979,
+       "link_radii_sum_mm": 14.0
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 1.2598483995697878,
+        "overlap_mm_stored": 1.2598483995697878,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.688310351807532,
+        "other_overlap_mm_stored": 0.688310351807532,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.0965332078190842,
+        "overlap_mm_stored": 0.0965332078190842,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.437348339069251,
+        "other_overlap_mm_stored": -10.437348339069251,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.04628609940394296,
+        "overlap_mm_stored": 0.04628609940394296,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.475583805113791,
+        "other_overlap_mm_stored": -10.475583805113791,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.703580170544331,
+        "overlap_mm_stored": 0.703580170544331,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.280813729695907,
+        "other_overlap_mm_stored": -10.280813729695907,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.2713080725465847,
+        "overlap_mm_stored": 0.2713080725465847,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.7178426145392491,
+        "other_overlap_mm_stored": 0.7178426145392491,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 5.000000000000004,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 1.0000000000000044,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 0.9999999999999974,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "index_mid",
+       "body2": "thumb_mid",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 3.0649269314685106,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "index_mid",
+       "body2": "thumb_distal",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 2.481664071355226,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 17.314291641716927,
+       "link_radii_sum_mm": 15.0
+      },
+      {
+       "body1": "index_distal",
+       "body2": "thumb_mid",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 7.975843927690415,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "index_distal",
+       "body2": "thumb_distal",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 6.921298418873691,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 2.413285571959394,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 9.43502835012,
+       "link_radii_sum_mm": 14.0
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 3.0866823650773973,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.925909495658103,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.0866823650773947,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 3.9450637333542997,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.945063733354301,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_distal",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.8743603886834537,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_distal",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.6267388990636067,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 9.311816636661979,
+       "link_radii_sum_mm": 14.0
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 1.2598483995697878,
+        "overlap_mm_stored": 1.2598483995697878,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.688310351807532,
+        "other_overlap_mm_stored": 0.688310351807532,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.0965332078190842,
+        "overlap_mm_stored": 0.0965332078190842,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.437348339069251,
+        "other_overlap_mm_stored": -10.437348339069251,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.04628609940394296,
+        "overlap_mm_stored": 0.04628609940394296,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.475583805113791,
+        "other_overlap_mm_stored": -10.475583805113791,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.703580170544331,
+        "overlap_mm_stored": 0.703580170544331,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.280813729695907,
+        "other_overlap_mm_stored": -10.280813729695907,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.2713080725465847,
+        "overlap_mm_stored": 0.2713080725465847,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": 0.7178426145392491,
+        "other_overlap_mm_stored": 0.7178426145392491,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "human_vc_arch_prop",
+   "result": "outputs/follow_human_vc_arch_prop__hold_human_vc_arch_prop__self__fixed.json",
+   "leader": "data/leaders/hold_human_vc_arch_prop__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 16,
+    "bodies": 16,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 4.999999999999999,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 0.9999999999999974,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0000000000000009,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 9.000000000000005,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 5.000000000000001,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 0.9999999999999974,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0000000000000009,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "middle_prox",
+     "body2": "ring_prox",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 3.617220692412798,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_prox",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 2.7180722032321762,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_prox",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 1.0596424085229077,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 6.728388811613539,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_mid",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 5.923092521569149,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_mid",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 4.703880688487357,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "middle_distal",
+     "body2": "ring_distal",
+     "finger1": "middle",
+     "finger2": "ring",
+     "depth_mm": 5.982221220179358,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "ring_prox",
+     "body2": "little_prox",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 0.24599412964176892,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.0,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 5.000000000000001,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 0.9999999999999974,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 1.0000000000000009,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "middle_prox",
+       "body2": "ring_prox",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 5.012505591444335,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_prox",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 4.012911925511356,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_prox",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 2.5440626879754404,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 8.454843500290878,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 7.454936159305845,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 6.5551173295204785,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 6.635906307947934,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 6.039230733106979,
+       "link_radii_sum_mm": 14.0
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.432041512306372,
+        "overlap_mm_stored": 0.432041512306372,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.004123910096482,
+        "other_overlap_mm_stored": -10.004123910096482,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.14672318492826852,
+        "overlap_mm_stored": 0.14672318492826852,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -12.429342895308949,
+        "other_overlap_mm_stored": -12.429342895308949,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.5858240669545447,
+        "overlap_mm_stored": 0.5858240669545447,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.873618609381554,
+        "other_overlap_mm_stored": -10.873618609381554,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.5721599432905733,
+        "overlap_mm_stored": 0.5721599432905733,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.52379435276024,
+        "other_overlap_mm_stored": -8.52379435276024,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 1.0172693214391126,
+        "overlap_mm_stored": 1.0172693214391126,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.2502604674381494,
+        "other_overlap_mm_stored": -4.2502604674381494,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.0,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 9.000000000000002,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 5.000000000000001,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 0.9999999999999974,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 1.0000000000000009,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "middle_prox",
+       "body2": "ring_prox",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 5.012505591444335,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_prox",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 4.012911925511356,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_prox",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 2.5440626879754404,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 8.454843500290878,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_mid",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 7.454936159305845,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_mid",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 6.5551173295204785,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "middle_distal",
+       "body2": "ring_distal",
+       "finger1": "middle",
+       "finger2": "ring",
+       "depth_mm": 6.635906307947934,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 6.039230733106979,
+       "link_radii_sum_mm": 14.0
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.432041512306372,
+        "overlap_mm_stored": 0.432041512306372,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.004123910096482,
+        "other_overlap_mm_stored": -10.004123910096482,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.14672318492826852,
+        "overlap_mm_stored": 0.14672318492826852,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -12.429342895308949,
+        "other_overlap_mm_stored": -12.429342895308949,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.5858240669545447,
+        "overlap_mm_stored": 0.5858240669545447,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -10.873618609381554,
+        "other_overlap_mm_stored": -10.873618609381554,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.5721599432905733,
+        "overlap_mm_stored": 0.5721599432905733,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.52379435276024,
+        "other_overlap_mm_stored": -8.52379435276024,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 1.0172693214391126,
+        "overlap_mm_stored": 1.0172693214391126,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.2502604674381494,
+        "other_overlap_mm_stored": -4.2502604674381494,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "human_vc_prop",
+   "result": "outputs/follow_human_vc_prop__hold_human_vc_prop__self__fixed.json",
+   "leader": "data/leaders/hold_human_vc_prop__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 16,
+    "bodies": 16,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0000000000000009,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "palm",
+     "body2": "index_prox",
+     "finger1": null,
+     "finger2": "index",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "middle_prox",
+     "finger1": null,
+     "finger2": "middle",
+     "depth_mm": 9.000000000000005,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "ring_prox",
+     "finger1": null,
+     "finger2": "ring",
+     "depth_mm": 9.0,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "little_prox",
+     "finger1": null,
+     "finger2": "little",
+     "depth_mm": 9.000000000000002,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "thumb_prox",
+     "finger1": null,
+     "finger2": "thumb",
+     "depth_mm": 1.0000000000000044,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.000000000000005,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 9.000000000000007,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 9.000000000000005,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 9.000000000000005,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 1.0000000000000044,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "index_mid",
+       "body2": "middle_prox",
+       "finger1": "index",
+       "finger2": "middle",
+       "depth_mm": 1.1638756028063186,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "index_mid",
+       "body2": "middle_mid",
+       "finger1": "index",
+       "finger2": "middle",
+       "depth_mm": 0.16417564652003447,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 0.4218586777189337,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.1897708550302,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.354862893350628,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 0.3549543574488034,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -1.0303700431839244,
+        "overlap_mm_stored": -1.0303700431839244,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.805419684011037,
+        "other_overlap_mm_stored": -8.805419684011037,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.5454929570315598,
+        "overlap_mm_stored": 0.5454929570315598,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -2.6912504154836676,
+        "other_overlap_mm_stored": -2.6912504154836676,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.5765244340206477,
+        "overlap_mm_stored": 0.5765244340206477,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -1.1306830952060447,
+        "other_overlap_mm_stored": -1.1306830952060447,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": -0.5917593050728045,
+        "overlap_mm_stored": -0.5917593050728045,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.242252900729149,
+        "other_overlap_mm_stored": -8.242252900729149,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.2305412398043924,
+        "overlap_mm_stored": 0.2305412398043924,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -5.077126703334538,
+        "other_overlap_mm_stored": -5.077126703334538,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "index_prox",
+       "finger1": null,
+       "finger2": "index",
+       "depth_mm": 9.000000000000005,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "middle_prox",
+       "finger1": null,
+       "finger2": "middle",
+       "depth_mm": 9.000000000000007,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "ring_prox",
+       "finger1": null,
+       "finger2": "ring",
+       "depth_mm": 9.000000000000005,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "little_prox",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 9.000000000000005,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "thumb_prox",
+       "finger1": null,
+       "finger2": "thumb",
+       "depth_mm": 1.0000000000000044,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "index_mid",
+       "body2": "middle_prox",
+       "finger1": "index",
+       "finger2": "middle",
+       "depth_mm": 1.1638756028063186,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "index_mid",
+       "body2": "middle_mid",
+       "finger1": "index",
+       "finger2": "middle",
+       "depth_mm": 0.16417564652003447,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_prox",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 0.4218586777189337,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_prox",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 2.1897708550302,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_mid",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.354862893350628,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "ring_mid",
+       "body2": "little_distal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 0.3549543574488034,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": -1.0303700431839244,
+        "overlap_mm_stored": -1.0303700431839244,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.805419684011037,
+        "other_overlap_mm_stored": -8.805419684011037,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.5454929570315598,
+        "overlap_mm_stored": 0.5454929570315598,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -2.6912504154836676,
+        "other_overlap_mm_stored": -2.6912504154836676,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.5765244340206477,
+        "overlap_mm_stored": 0.5765244340206477,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -1.1306830952060447,
+        "other_overlap_mm_stored": -1.1306830952060447,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": -0.5917593050728045,
+        "overlap_mm_stored": -0.5917593050728045,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -8.242252900729149,
+        "other_overlap_mm_stored": -8.242252900729149,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.2305412398043924,
+        "overlap_mm_stored": 0.2305412398043924,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -5.077126703334538,
+        "other_overlap_mm_stored": -5.077126703334538,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "leap",
+   "result": "outputs/follow_leap__hold_leap__self__fixed.json",
+   "leader": "data/leaders/hold_leap__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 71,
+    "bodies": 17,
+    "contact_excludes": 18
+   },
+   "rest": [],
+   "generator": [
+    {
+     "body1": "if_ds",
+     "body2": "th_ds",
+     "finger1": "index",
+     "finger2": "thumb",
+     "depth_mm": 6.032980690019142,
+     "geom_types": [
+      "mesh",
+      "mesh"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "if_ds",
+       "body2": "th_ds",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 10.579921023336627,
+       "geom_types": [
+        "mesh",
+        "mesh"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 27.347687614150253,
+       "link_radii_sum_mm": 27.8944907398552
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.3940480317375338,
+        "overlap_mm_stored": 0.3940480317375338,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.473074958225514,
+        "other_overlap_mm_stored": -4.473074958225514,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": -0.7221057812456799,
+        "overlap_mm_stored": -0.7221057812456799,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -7.0233761111338495,
+        "other_overlap_mm_stored": -7.0233761111338495,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 1.1345467829485292,
+        "overlap_mm_stored": 1.1345467829485292,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -5.690304979521887,
+        "other_overlap_mm_stored": -5.690304979521887,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": -1.8483144005335546,
+        "overlap_mm_stored": -1.8483144005335546,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -17.222340160697126,
+        "other_overlap_mm_stored": -17.222340160697126,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "if_ds",
+       "body2": "th_ds",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 10.579921023336627,
+       "geom_types": [
+        "mesh",
+        "mesh"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 27.347687614150253,
+       "link_radii_sum_mm": 27.8944907398552
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.3940480317375338,
+        "overlap_mm_stored": 0.3940480317375338,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.473074958225514,
+        "other_overlap_mm_stored": -4.473074958225514,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": -0.7221057812456799,
+        "overlap_mm_stored": -0.7221057812456799,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -7.0233761111338495,
+        "other_overlap_mm_stored": -7.0233761111338495,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 1.1345467829485292,
+        "overlap_mm_stored": 1.1345467829485292,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -5.690304979521887,
+        "other_overlap_mm_stored": -5.690304979521887,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": -1.8483144005335546,
+        "overlap_mm_stored": -1.8483144005335546,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -17.222340160697126,
+        "other_overlap_mm_stored": -17.222340160697126,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "shadow",
+   "result": "outputs/follow_shadow__hold_shadow__self__fixed.json",
+   "leader": "data/leaders/hold_shadow__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "red"
+   ],
+   "model": {
+    "colliding_geoms": 38,
+    "bodies": 25,
+    "contact_excludes": 2
+   },
+   "rest": [],
+   "generator": [
+    {
+     "body1": "rh_ffdistal",
+     "body2": "rh_thdistal",
+     "finger1": "index",
+     "finger2": "thumb",
+     "depth_mm": 6.2718647602724165,
+     "geom_types": [
+      "mesh",
+      "mesh"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "rh_rfmiddle",
+     "body2": "rh_lfproximal",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 3.7686105283095612,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "rh_rfmiddle",
+     "body2": "rh_lfmiddle",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 4.322641349515431,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "rh_rfdistal",
+     "body2": "rh_lfproximal",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 4.695308304018532,
+     "geom_types": [
+      "mesh",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "rh_rfdistal",
+     "body2": "rh_lfmiddle",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 15.821741900805229,
+     "geom_types": [
+      "mesh",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "rh_rfdistal",
+     "body2": "rh_lfdistal",
+     "finger1": "ring",
+     "finger2": "little",
+     "depth_mm": 2.770098218132911,
+     "geom_types": [
+      "mesh",
+      "mesh"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "red",
+     "pairs": [
+      {
+       "body1": "rh_palm",
+       "body2": "rh_lfknuckle",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 0.09316933674693888,
+       "geom_types": [
+        "box",
+        "cylinder"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_ffdistal",
+       "body2": "rh_thdistal",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 5.085689408802185,
+       "geom_types": [
+        "mesh",
+        "mesh"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 15.226660079291234,
+       "link_radii_sum_mm": 16.960433262958894
+      },
+      {
+       "body1": "rh_rfmiddle",
+       "body2": "rh_lfproximal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 6.578660538824881,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_rfmiddle",
+       "body2": "rh_lfmiddle",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 6.578660538824881,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_rfdistal",
+       "body2": "rh_lfproximal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 9.936095607671021,
+       "geom_types": [
+        "mesh",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_rfdistal",
+       "body2": "rh_lfmiddle",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 11.1013921800501,
+       "geom_types": [
+        "mesh",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_rfdistal",
+       "body2": "rh_lfdistal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.0985775023559998,
+       "geom_types": [
+        "mesh",
+        "mesh"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 15.558708408577749,
+       "link_radii_sum_mm": 14.68641463073236
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.2975489777855417,
+        "overlap_mm_stored": 0.2975489777855417,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -15.428483354728892,
+        "other_overlap_mm_stored": -15.428483354728892,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.5875983362783714,
+        "overlap_mm_stored": 0.5875983362783714,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -14.597030125966977,
+        "other_overlap_mm_stored": -14.597030125966977,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.3171383043369912,
+        "overlap_mm_stored": 0.3171383043369912,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -14.811378312203665,
+        "other_overlap_mm_stored": -14.811378312203665,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.9788484511263212,
+        "overlap_mm_stored": 0.9788484511263212,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.821945652998656,
+        "other_overlap_mm_stored": -4.821945652998656,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.659005550789564,
+        "overlap_mm_stored": 0.659005550789564,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -0.7120567621289111,
+        "other_overlap_mm_stored": -0.7120567621289111,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "red",
+     "pairs": [
+      {
+       "body1": "rh_palm",
+       "body2": "rh_lfknuckle",
+       "finger1": null,
+       "finger2": "little",
+       "depth_mm": 0.09316933674693888,
+       "geom_types": [
+        "box",
+        "cylinder"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_ffdistal",
+       "body2": "rh_thdistal",
+       "finger1": "index",
+       "finger2": "thumb",
+       "depth_mm": 5.085689408802185,
+       "geom_types": [
+        "mesh",
+        "mesh"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 15.226660079291234,
+       "link_radii_sum_mm": 16.960433262958894
+      },
+      {
+       "body1": "rh_rfmiddle",
+       "body2": "rh_lfproximal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 6.578660538824881,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_rfmiddle",
+       "body2": "rh_lfmiddle",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 6.578660538824881,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_rfdistal",
+       "body2": "rh_lfproximal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 9.936095607671021,
+       "geom_types": [
+        "mesh",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_rfdistal",
+       "body2": "rh_lfmiddle",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 11.1013921800501,
+       "geom_types": [
+        "mesh",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "rh_rfdistal",
+       "body2": "rh_lfdistal",
+       "finger1": "ring",
+       "finger2": "little",
+       "depth_mm": 1.0985775023559998,
+       "geom_types": [
+        "mesh",
+        "mesh"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 15.558708408577749,
+       "link_radii_sum_mm": 14.68641463073236
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "index",
+        "overlap_mm_recomputed": 0.2975489777855417,
+        "overlap_mm_stored": 0.2975489777855417,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -15.428483354728892,
+        "other_overlap_mm_stored": -15.428483354728892,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "middle",
+        "overlap_mm_recomputed": 0.5875983362783714,
+        "overlap_mm_stored": 0.5875983362783714,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -14.597030125966977,
+        "other_overlap_mm_stored": -14.597030125966977,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "ring",
+        "overlap_mm_recomputed": 0.3171383043369912,
+        "overlap_mm_stored": 0.3171383043369912,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -14.811378312203665,
+        "other_overlap_mm_stored": -14.811378312203665,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "little",
+        "overlap_mm_recomputed": 0.9788484511263212,
+        "overlap_mm_stored": 0.9788484511263212,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -4.821945652998656,
+        "other_overlap_mm_stored": -4.821945652998656,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "thumb",
+        "overlap_mm_recomputed": 0.659005550789564,
+        "overlap_mm_stored": 0.659005550789564,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -0.7120567621289111,
+        "other_overlap_mm_stored": -0.7120567621289111,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  },
+  {
+   "hand": "wall_x3_ring",
+   "result": "outputs/follow_wall_x3_ring__hold_wall_x3_ring__self__fixed.json",
+   "leader": "data/leaders/hold_wall_x3_ring__self.json",
+   "leader_commit": "b1d725c6649499d93b87869b56ffce382cccf580-dirty",
+   "radius_m": 0.03,
+   "verdicts": [
+    "green"
+   ],
+   "model": {
+    "colliding_geoms": 10,
+    "bodies": 13,
+    "contact_excludes": 0
+   },
+   "rest": [
+    {
+     "body1": "palm",
+     "body2": "f0_link0",
+     "finger1": null,
+     "finger2": "f0",
+     "depth_mm": 6.443756550000001,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "f1_link0",
+     "finger1": null,
+     "finger2": "f1",
+     "depth_mm": 6.443756550000001,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    },
+    {
+     "body1": "palm",
+     "body2": "f2_link0",
+     "finger1": null,
+     "finger2": "f2",
+     "depth_mm": 6.443756550000001,
+     "geom_types": [
+      "box",
+      "capsule"
+     ],
+     "kind": "base-finger",
+     "at_rest_too": true
+    }
+   ],
+   "generator": [
+    {
+     "body1": "f0_link1",
+     "body2": "f1_link1",
+     "finger1": "f0",
+     "finger2": "f1",
+     "depth_mm": 3.9601614112815247,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f0_link1",
+     "body2": "f1_distal",
+     "finger1": "f0",
+     "finger2": "f1",
+     "depth_mm": 5.92810313392556,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f0_link1",
+     "body2": "f2_link1",
+     "finger1": "f0",
+     "finger2": "f2",
+     "depth_mm": 3.9601614112815193,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f0_link1",
+     "body2": "f2_distal",
+     "finger1": "f0",
+     "finger2": "f2",
+     "depth_mm": 5.928103133925558,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f0_distal",
+     "body2": "f1_link1",
+     "finger1": "f0",
+     "finger2": "f1",
+     "depth_mm": 5.92810319268412,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f0_distal",
+     "body2": "f1_distal",
+     "finger1": "f0",
+     "finger2": "f1",
+     "depth_mm": 12.887513010414631,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f0_distal",
+     "body2": "f2_link1",
+     "finger1": "f0",
+     "finger2": "f2",
+     "depth_mm": 5.928103192684114,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f0_distal",
+     "body2": "f2_distal",
+     "finger1": "f0",
+     "finger2": "f2",
+     "depth_mm": 12.887513010414644,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f1_link1",
+     "body2": "f2_link1",
+     "finger1": "f1",
+     "finger2": "f2",
+     "depth_mm": 3.960161585598115,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f1_link1",
+     "body2": "f2_distal",
+     "finger1": "f1",
+     "finger2": "f2",
+     "depth_mm": 5.928103299614476,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f1_distal",
+     "body2": "f2_link1",
+     "finger1": "f1",
+     "finger2": "f2",
+     "depth_mm": 5.928103299614476,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    },
+    {
+     "body1": "f1_distal",
+     "body2": "f2_distal",
+     "finger1": "f1",
+     "finger2": "f2",
+     "depth_mm": 12.887513099999996,
+     "geom_types": [
+      "capsule",
+      "capsule"
+     ],
+     "kind": "finger-finger",
+     "at_rest_too": false
+    }
+   ],
+   "follow": [
+    {
+     "k": 0,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "f0_link0",
+       "finger1": null,
+       "finger2": "f0",
+       "depth_mm": 1.4234619937497794,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "f1_link0",
+       "finger1": null,
+       "finger2": "f1",
+       "depth_mm": 1.4234619937408926,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "f2_link0",
+       "finger1": null,
+       "finger2": "f2",
+       "depth_mm": 1.4234619937541475,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "f0_link1",
+       "body2": "f1_link1",
+       "finger1": "f0",
+       "finger2": "f1",
+       "depth_mm": 0.8812035038025505,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_link1",
+       "body2": "f1_distal",
+       "finger1": "f0",
+       "finger2": "f1",
+       "depth_mm": 3.261913506352446,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_link1",
+       "body2": "f2_link1",
+       "finger1": "f0",
+       "finger2": "f2",
+       "depth_mm": 0.8812035038053417,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_link1",
+       "body2": "f2_distal",
+       "finger1": "f0",
+       "finger2": "f2",
+       "depth_mm": 3.2619135063631997,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_distal",
+       "body2": "f1_link1",
+       "finger1": "f0",
+       "finger2": "f1",
+       "depth_mm": 3.2619135583946326,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_distal",
+       "body2": "f1_distal",
+       "finger1": "f0",
+       "finger2": "f1",
+       "depth_mm": 12.887513008727955,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 12.956901133086147,
+       "link_radii_sum_mm": 12.8875131
+      },
+      {
+       "body1": "f0_distal",
+       "body2": "f2_link1",
+       "finger1": "f0",
+       "finger2": "f2",
+       "depth_mm": 3.261913558389664,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_distal",
+       "body2": "f2_distal",
+       "finger1": "f0",
+       "finger2": "f2",
+       "depth_mm": 12.887513008718994,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 12.956901133087843,
+       "link_radii_sum_mm": 12.8875131
+      },
+      {
+       "body1": "f1_link1",
+       "body2": "f2_link1",
+       "finger1": "f1",
+       "finger2": "f2",
+       "depth_mm": 0.8812036778349988,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f1_link1",
+       "body2": "f2_distal",
+       "finger1": "f1",
+       "finger2": "f2",
+       "depth_mm": 3.2619136724051523,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f1_distal",
+       "body2": "f2_link1",
+       "finger1": "f1",
+       "finger2": "f2",
+       "depth_mm": 3.2619136723894564,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f1_distal",
+       "body2": "f2_distal",
+       "finger1": "f1",
+       "finger2": "f2",
+       "depth_mm": 12.887513099990995,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 12.956901277795405,
+       "link_radii_sum_mm": 12.8875131
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "f0",
+        "overlap_mm_recomputed": -0.1737342475815612,
+        "overlap_mm_stored": -0.1737342475815612,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -16.315842589135062,
+        "other_overlap_mm_stored": -16.315842589135062,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "f1",
+        "overlap_mm_recomputed": -0.17373424757323452,
+        "overlap_mm_stored": -0.17373424757323452,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -16.315842589127342,
+        "other_overlap_mm_stored": -16.315842589127342,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "f2",
+        "overlap_mm_recomputed": -0.17373424759231648,
+        "overlap_mm_stored": -0.17373424759231648,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -16.315842589140914,
+        "other_overlap_mm_stored": -16.315842589140914,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    },
+    {
+     "k": 1,
+     "verdict": "green",
+     "pairs": [
+      {
+       "body1": "palm",
+       "body2": "f0_link0",
+       "finger1": null,
+       "finger2": "f0",
+       "depth_mm": 1.4234619937497794,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "f1_link0",
+       "finger1": null,
+       "finger2": "f1",
+       "depth_mm": 1.4234619937408926,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "palm",
+       "body2": "f2_link0",
+       "finger1": null,
+       "finger2": "f2",
+       "depth_mm": 1.4234619937541475,
+       "geom_types": [
+        "box",
+        "capsule"
+       ],
+       "kind": "base-finger",
+       "at_rest_too": true
+      },
+      {
+       "body1": "f0_link1",
+       "body2": "f1_link1",
+       "finger1": "f0",
+       "finger2": "f1",
+       "depth_mm": 0.8812035038025505,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_link1",
+       "body2": "f1_distal",
+       "finger1": "f0",
+       "finger2": "f1",
+       "depth_mm": 3.261913506352446,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_link1",
+       "body2": "f2_link1",
+       "finger1": "f0",
+       "finger2": "f2",
+       "depth_mm": 0.8812035038053417,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_link1",
+       "body2": "f2_distal",
+       "finger1": "f0",
+       "finger2": "f2",
+       "depth_mm": 3.2619135063631997,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_distal",
+       "body2": "f1_link1",
+       "finger1": "f0",
+       "finger2": "f1",
+       "depth_mm": 3.2619135583946326,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_distal",
+       "body2": "f1_distal",
+       "finger1": "f0",
+       "finger2": "f1",
+       "depth_mm": 12.887513008727955,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 12.956901133086147,
+       "link_radii_sum_mm": 12.8875131
+      },
+      {
+       "body1": "f0_distal",
+       "body2": "f2_link1",
+       "finger1": "f0",
+       "finger2": "f2",
+       "depth_mm": 3.261913558389664,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f0_distal",
+       "body2": "f2_distal",
+       "finger1": "f0",
+       "finger2": "f2",
+       "depth_mm": 12.887513008718994,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 12.956901133087843,
+       "link_radii_sum_mm": 12.8875131
+      },
+      {
+       "body1": "f1_link1",
+       "body2": "f2_link1",
+       "finger1": "f1",
+       "finger2": "f2",
+       "depth_mm": 0.8812036778349988,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f1_link1",
+       "body2": "f2_distal",
+       "finger1": "f1",
+       "finger2": "f2",
+       "depth_mm": 3.2619136724051523,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f1_distal",
+       "body2": "f2_link1",
+       "finger1": "f1",
+       "finger2": "f2",
+       "depth_mm": 3.2619136723894564,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false
+      },
+      {
+       "body1": "f1_distal",
+       "body2": "f2_distal",
+       "finger1": "f1",
+       "finger2": "f2",
+       "depth_mm": 12.887513099990995,
+       "geom_types": [
+        "capsule",
+        "capsule"
+       ],
+       "kind": "finger-finger",
+       "at_rest_too": false,
+       "contact_points_apart_mm": 12.956901277795405,
+       "link_radii_sum_mm": 12.8875131
+      }
+     ],
+     "pose_check": {
+      "fingers": [
+       {
+        "finger": "f0",
+        "overlap_mm_recomputed": -0.1737342475815612,
+        "overlap_mm_stored": -0.1737342475815612,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -16.315842589135062,
+        "other_overlap_mm_stored": -16.315842589135062,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "f1",
+        "overlap_mm_recomputed": -0.17373424757323452,
+        "overlap_mm_stored": -0.17373424757323452,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -16.315842589127342,
+        "other_overlap_mm_stored": -16.315842589127342,
+        "other_difference_mm": 0.0
+       },
+       {
+        "finger": "f2",
+        "overlap_mm_recomputed": -0.17373424759231648,
+        "overlap_mm_stored": -0.17373424759231648,
+        "difference_mm": 0.0,
+        "other_overlap_mm_recomputed": -16.315842589140914,
+        "other_overlap_mm_stored": -16.315842589140914,
+        "other_difference_mm": 0.0
+       }
+      ],
+      "max_abs_difference_mm": 0.0,
+      "whole_hand_shift_mm": 0.0
+     }
+    }
+   ]
+  }
+ ],
+ "skipped": []
+}
