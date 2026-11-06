@@ -1,0 +1,19 @@
+# Self-hold checks, one row per hand
+
+Written by `tools/tabulate_holds.py` from `data/leaders/hold_*__self.json` and `outputs/hold_recheck_93d5b39/follow_*__hold_*__self__fixed.json`. The first leaders (hold_<hand>__self, unchanged) checked again on 6 Nov at commit 93d5b39 (follow.py as of 702a7a3, end-stop reactions credited), so that their verdicts can be set beside the hold_<hand>__self__selfoverlapfix leaders' at one version of the check; outputs/hold_summary.md holds the verdicts of 3 Nov, at the check of that day.
+
+| hand | fingers | curl | fit miss mm | fit face deg | fit palm mm | fit other mm | fit self mm | ball g | verdict | reason | finger states | reach mm | side deg | pen mm | torque | margin | s |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| allegro | 4 | 0.65,0.55,0.65,0.50 | 6.41 | 71.34 | 0.00 | 0.00 | - | 21.49 | green | - | green | 0.10 | 73.58 | 0.16 | yes | 280,280 | 210.70 |
+| george_clip | 5 | 0.60,0.60,0.55,0.55,0.15 | 1.26 | 78.88 | 0.00 | 0.00 | - | 31.95 | green | - | green | 1.22 | 77.41 | 0.60 | yes | 752,752 | 2.30 |
+| george_kp | 5 | 0.70,0.70,0.55,0.60,0.35 | 7.98 | 103.40 | 0.00 | 0.00 | - | 26.88 | green | - | green | 1.92 | 79.24 | 1.62 | yes | 1.02e+03,1.02e+03 | 8.40 |
+| george_kp_wide | 5 | 0.50,0.50,0.45,0.40,0.20 | 1.17 | 50.59 | 0.00 | 0.00 | - | 27.15 | green | - | green | 0.33 | 44.82 | 1.35 | yes | 460,460 | 97.30 |
+| george_measured | 5 | 0.60,0.60,0.55,0.50,0.35 | 1.80 | 51.61 | 0.00 | 0.00 | - | 32.76 | green | - | green | 1.40 | 49.41 | 1.06 | yes | 464,464 | 2.40 |
+| george_measured_thumb | 5 | 0.60,0.60,0.55,0.50,0.25 | 2.41 | 75.59 | 0.00 | 0.17 | - | 26.87 | green | - | green | 1.24 | 69.72 | 1.80 | yes | 696,696 | 5.70 |
+| human_vc | 5 | 0.65,0.60,0.60,0.70,0.45 | 1.40 | 55.36 | 0.00 | 0.00 | - | 37.31 | green | - | green | 1.33 | 62.42 | 1.34 | yes | 328,328 | 2.10 |
+| human_vc_arch | 5 | 0.70,0.65,0.65,0.70,0.45 | 2.29 | 52.09 | 0.00 | 0.00 | - | 44.34 | green | - | green | 1.36 | 60.18 | 1.26 | yes | 394,394 | 233.20 |
+| human_vc_arch_prop | 5 | 0.55,0.55,0.50,0.50,0.40 | 3.09 | 49.77 | 0.00 | 0.00 | - | 36.56 | green | - | green | 0.33 | 40.94 | 1.02 | yes | 352,352 | 228.10 |
+| human_vc_prop | 5 | 0.60,0.60,0.55,0.50,0.45 | 4.10 | 50.84 | 0.00 | 0.00 | - | 38.57 | green | - | green | 0.71 | 53.90 | 0.58 | yes | 294,294 | 6.80 |
+| leap | 4 | 0.50,0.45,0.50,0.50 | 4.29 | 62.40 | 0.00 | 0.00 | - | 19.89 | green | - | green | 0.15 | 65.35 | 1.13 | yes | 282,282 | 230.70 |
+| shadow | 5 | 0.60,0.60,0.60,0.55,0.65 | 1.91 | 46.98 | 0.00 | 0.00 | - | 39.62 | red | torque | green,red | 1.40 | 19.91 | 0.98 | yes | 0,0 | 12.50 |
+| wall_x3_ring | 3 | 0.35,0.35,0.35 | 0.00 | 1.84 | 0.00 | 0.00 | - | 28.97 | green | - | green | 2.23 | 5.08 | 0.00 | yes | 1.26,1.26 | 59.40 |

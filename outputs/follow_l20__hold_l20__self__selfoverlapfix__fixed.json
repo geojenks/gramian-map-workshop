@@ -1,0 +1,498 @@
+{
+ "hand": "l20",
+ "hand_name": "Linker L20",
+ "leader": "hold_l20__self__selfoverlapfix",
+ "placement_cost_mm": 0.0,
+ "resid_tol": 0.05,
+ "settings": {
+  "middle": true,
+  "ik_iters": 60,
+  "place": {
+   "n_frames": 10,
+   "n_samples": 80,
+   "iters": 4,
+   "pad_step": 6
+  },
+  "wrist": false,
+  "respace": false,
+  "reused_placement": true,
+  "strength": "input columns, one-sided where the model says (23 Oct); a joint on a range limit takes any moment into the stop (3 Nov, issue 26)",
+  "stop_reactions": {
+   "on": true,
+   "tol": 0.0001
+  },
+  "joint_stiffness_Nm_per_rad": 0.0,
+  "deflect_max_m": 0.002,
+  "scale_margin": true,
+  "disturbance_margin": false,
+  "apply_limit": false,
+  "apply_limit_free": false,
+  "inertia": false,
+  "rate_limit_per_s": null,
+  "lag_s": null,
+  "allowed_overlap_m": 0.003,
+  "other_contact": {
+   "allowed": true,
+   "max_overlap_m": 0.003
+  },
+  "overlap_source": {
+   "contact": "default",
+   "other": "default"
+  },
+  "push_out": {
+   "first": [
+    0.2,
+    0.0
+   ],
+   "second": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ "assignment": {
+  "thumb": 0,
+  "index": 1,
+  "middle": 2,
+  "ring": 3,
+  "little": 4
+ },
+ "respace_deg": [
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  0.0
+ ],
+ "placement": {
+  "rotation_matrix": [
+   [
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "translation_m": [
+   0.06305275539053759,
+   -0.0017488325073920022,
+   0.17439745489893554
+  ]
+ },
+ "placement_key": null,
+ "placement_search_s": null,
+ "frames": [
+  {
+   "k": 0,
+   "verdict": "green",
+   "reason": null,
+   "ball_center": [
+    0.06305275539053759,
+    -0.0017488325073920022,
+    0.17439745489893554
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -24.412210116923717,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "thumb",
+     "station": 0,
+     "reach_mm": 0.6325394849301553,
+     "facing_deg": 63.26956979928846,
+     "phalanx": "distal",
+     "q": [
+      0.43933472492588677,
+      1.56509848710984,
+      0.45026889445003565,
+      0.6743765770020271
+     ],
+     "target": [
+      0.0744577624142586,
+      0.015223426681238623,
+      0.15244595761918678
+     ],
+     "pad_world": [
+      0.07452815337081893,
+      0.01569780029376833,
+      0.1528584148763247
+     ],
+     "pad_normal": [
+      -0.3825132660093782,
+      -0.5815544267053444,
+      0.7179680007536944
+     ],
+     "penetration_mm": 1.3697112716687838,
+     "side_deg": 63.26956979928846,
+     "patch_mm": 6.477897413401742,
+     "overlap_mm": 1.3697112716687838,
+     "other_overlap_mm": -12.834203842888545,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 6.587803417401565e-16,
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "index",
+     "station": 1,
+     "reach_mm": 0.22245439032838107,
+     "facing_deg": 60.301629952434226,
+     "phalanx": "distal",
+     "q": [
+      0.022526223875834667,
+      0.6156998479044357,
+      0.9118799431126774
+     ],
+     "target": [
+      0.06399723918581435,
+      0.026534521193506706,
+      0.18435535898515362
+     ],
+     "pad_world": [
+      0.0639106192160736,
+      0.026604358805011392,
+      0.18416273073011868
+     ],
+     "pad_normal": [
+      -0.028595460851200325,
+      -0.9451063770801132,
+      -0.32550919437277087
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 60.301629952434226,
+     "patch_mm": 6.06460744386064,
+     "overlap_mm": -0.2639050865327758,
+     "other_overlap_mm": -2.3619111271741753,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 1.1041132721807002e-15,
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "middle",
+     "station": 2,
+     "reach_mm": 0.4378767373700124,
+     "facing_deg": 28.180768212760604,
+     "phalanx": "distal",
+     "q": [
+      -0.05401627048557908,
+      0.48018679496823596,
+      0.7378594691637944
+     ],
+     "target": [
+      0.057961633213969424,
+      0.011296294610808319,
+      0.2009286654527955
+     ],
+     "pad_world": [
+      0.05758781818330345,
+      0.011461891292543616,
+      0.20077189779357887
+     ],
+     "pad_normal": [
+      0.18216457357447136,
+      -0.440357459997854,
+      -0.8791480964881113
+     ],
+     "penetration_mm": 0.7357716604591246,
+     "side_deg": 28.180768212760604,
+     "patch_mm": 6.06460744386064,
+     "overlap_mm": 0.7357716604591246,
+     "other_overlap_mm": -0.6633287813757015,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 1.3608461339287949e-15,
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "ring",
+     "station": 3,
+     "reach_mm": 0.5805396670057921,
+     "facing_deg": 39.259139064246355,
+     "phalanx": "distal",
+     "q": [
+      -0.07125691630544916,
+      0.40720090752831767,
+      0.6745796136230988
+     ],
+     "target": [
+      0.05364568231916012,
+      -0.006125101937336139,
+      0.20254626023959435
+     ],
+     "pad_world": [
+      0.05315131054233217,
+      -0.00634910211747235,
+      0.20234023409916038
+     ],
+     "pad_normal": [
+      0.3300481616068472,
+      0.1533423203360116,
+      -0.9314259733408279
+     ],
+     "penetration_mm": 0.6630562746705697,
+     "side_deg": 39.259139064246355,
+     "patch_mm": 6.06460744386064,
+     "overlap_mm": 0.6630562746705697,
+     "other_overlap_mm": -0.5026228510487639,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 5.780366103279477e-16,
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "little",
+     "station": 4,
+     "reach_mm": 0.3529479678155596,
+     "facing_deg": 70.67470367229649,
+     "phalanx": "distal",
+     "q": [
+      -0.06995658600452279,
+      0.4848768173631962,
+      0.7586374344567697
+     ],
+     "target": [
+      0.058262120700388054,
+      -0.025165197588764086,
+      0.19252819304280144
+     ],
+     "pad_world": [
+      0.05814125501020155,
+      -0.025350656924418638,
+      0.19225329562968257
+     ],
+     "pad_normal": [
+      0.16371667934453474,
+      0.7867274805675546,
+      -0.5951946910249005
+     ],
+     "penetration_mm": 0.1950883696955237,
+     "side_deg": 70.67470367229649,
+     "patch_mm": 6.06460744386064,
+     "overlap_mm": 0.1950883696955237,
+     "other_overlap_mm": -2.259072631331037,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 7.470265951193337e-16,
+     "state": "green",
+     "torque_checked": true
+    }
+   ],
+   "scale_margin": {
+    "margin": 328.0,
+    "capped": false,
+    "contiguous": true
+   }
+  },
+  {
+   "k": 1,
+   "verdict": "green",
+   "reason": null,
+   "ball_center": [
+    0.06305275539053759,
+    -0.0017488325073920022,
+    0.17439745489893554
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -24.412210116923717,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "thumb",
+     "station": 0,
+     "reach_mm": 0.6325394849301553,
+     "facing_deg": 63.26956979928846,
+     "phalanx": "distal",
+     "q": [
+      0.43933472492588677,
+      1.56509848710984,
+      0.45026889445003565,
+      0.6743765770020271
+     ],
+     "target": [
+      0.0744577624142586,
+      0.015223426681238623,
+      0.15244595761918678
+     ],
+     "pad_world": [
+      0.07452815337081893,
+      0.01569780029376833,
+      0.1528584148763247
+     ],
+     "pad_normal": [
+      -0.3825132660093782,
+      -0.5815544267053444,
+      0.7179680007536944
+     ],
+     "penetration_mm": 1.3697112716687838,
+     "side_deg": 63.26956979928846,
+     "patch_mm": 6.477897413401742,
+     "overlap_mm": 1.3697112716687838,
+     "other_overlap_mm": -12.834203842888545,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 6.587803417401565e-16,
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "index",
+     "station": 1,
+     "reach_mm": 0.22245439032838107,
+     "facing_deg": 60.301629952434226,
+     "phalanx": "distal",
+     "q": [
+      0.022526223875834667,
+      0.6156998479044357,
+      0.9118799431126774
+     ],
+     "target": [
+      0.06399723918581435,
+      0.026534521193506706,
+      0.18435535898515362
+     ],
+     "pad_world": [
+      0.0639106192160736,
+      0.026604358805011392,
+      0.18416273073011868
+     ],
+     "pad_normal": [
+      -0.028595460851200325,
+      -0.9451063770801132,
+      -0.32550919437277087
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 60.301629952434226,
+     "patch_mm": 6.06460744386064,
+     "overlap_mm": -0.2639050865327758,
+     "other_overlap_mm": -2.3619111271741753,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 1.1041132721807002e-15,
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "middle",
+     "station": 2,
+     "reach_mm": 0.4378767373700124,
+     "facing_deg": 28.180768212760604,
+     "phalanx": "distal",
+     "q": [
+      -0.05401627048557908,
+      0.48018679496823596,
+      0.7378594691637944
+     ],
+     "target": [
+      0.057961633213969424,
+      0.011296294610808319,
+      0.2009286654527955
+     ],
+     "pad_world": [
+      0.05758781818330345,
+      0.011461891292543616,
+      0.20077189779357887
+     ],
+     "pad_normal": [
+      0.18216457357447136,
+      -0.440357459997854,
+      -0.8791480964881113
+     ],
+     "penetration_mm": 0.7357716604591246,
+     "side_deg": 28.180768212760604,
+     "patch_mm": 6.06460744386064,
+     "overlap_mm": 0.7357716604591246,
+     "other_overlap_mm": -0.6633287813757015,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 1.3608461339287949e-15,
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "ring",
+     "station": 3,
+     "reach_mm": 0.5805396670057921,
+     "facing_deg": 39.259139064246355,
+     "phalanx": "distal",
+     "q": [
+      -0.07125691630544916,
+      0.40720090752831767,
+      0.6745796136230988
+     ],
+     "target": [
+      0.05364568231916012,
+      -0.006125101937336139,
+      0.20254626023959435
+     ],
+     "pad_world": [
+      0.05315131054233217,
+      -0.00634910211747235,
+      0.20234023409916038
+     ],
+     "pad_normal": [
+      0.3300481616068472,
+      0.1533423203360116,
+      -0.9314259733408279
+     ],
+     "penetration_mm": 0.6630562746705697,
+     "side_deg": 39.259139064246355,
+     "patch_mm": 6.06460744386064,
+     "overlap_mm": 0.6630562746705697,
+     "other_overlap_mm": -0.5026228510487639,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 5.780366103279477e-16,
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "little",
+     "station": 4,
+     "reach_mm": 0.3529479678155596,
+     "facing_deg": 70.67470367229649,
+     "phalanx": "distal",
+     "q": [
+      -0.06995658600452279,
+      0.4848768173631962,
+      0.7586374344567697
+     ],
+     "target": [
+      0.058262120700388054,
+      -0.025165197588764086,
+      0.19252819304280144
+     ],
+     "pad_world": [
+      0.05814125501020155,
+      -0.025350656924418638,
+      0.19225329562968257
+     ],
+     "pad_normal": [
+      0.16371667934453474,
+      0.7867274805675546,
+      -0.5951946910249005
+     ],
+     "penetration_mm": 0.1950883696955237,
+     "side_deg": 70.67470367229649,
+     "patch_mm": 6.06460744386064,
+     "overlap_mm": 0.1950883696955237,
+     "other_overlap_mm": -2.259072631331037,
+     "overlap_within_allowance": true,
+     "unbalanced_Nm": 7.470265951193337e-16,
+     "state": "green",
+     "torque_checked": true
+    }
+   ],
+   "scale_margin": {
+    "margin": 328.0,
+    "capped": false,
+    "contiguous": true
+   }
+  }
+ ],
+ "elapsed_s": 257.0
+}

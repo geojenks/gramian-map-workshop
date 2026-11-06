@@ -1,0 +1,444 @@
+{
+ "schema": "gramian-workshop/leader@1",
+ "id": "hold_allegro__self__selfoverlapfix",
+ "name": "Allegro (Wonik): static hold of a 30.0 mm sphere on its distal pads (0.1 N per finger), curls scored against the hand's own overlap",
+ "kind": "self-generated static hold (the hand's own forward kinematics)",
+ "source": {
+  "script": "tools/make_hold_leader.py",
+  "commit": "1894096df8a513e3def4c25e5cfa7e217cfbd3e3",
+  "hand": "allegro",
+  "model": "external/mujoco_menagerie/wonik_allegro/right_hand.xml",
+  "curl_fraction": {
+   "index": 0.55,
+   "middle": 0.5,
+   "ring": 0.55,
+   "thumb": 0.55
+  },
+  "curl_grid": [
+   0.0,
+   0.05,
+   0.1,
+   0.15,
+   0.2,
+   0.25,
+   0.3,
+   0.35,
+   0.4,
+   0.45,
+   0.5,
+   0.55,
+   0.6,
+   0.65,
+   0.7,
+   0.75,
+   0.8,
+   0.85,
+   0.9,
+   0.95,
+   1.0
+  ],
+  "curl_start": 0.85,
+  "force_per_station_N": 0.1,
+  "pose_qpos": {
+   "index": [
+    0.04700000000000004,
+    0.7973000000000001,
+    0.8616500000000002,
+    0.7877500000000003
+   ],
+   "middle": [
+    0.0,
+    0.7070000000000001,
+    0.7675000000000001,
+    0.6955000000000001
+   ],
+   "ring": [
+    0.04700000000000004,
+    0.7973000000000001,
+    0.8616500000000002,
+    0.7877500000000003
+   ],
+   "thumb": [
+    0.8861500000000001,
+    0.5924,
+    0.81915,
+    0.87255
+   ]
+  },
+  "contact_capsule_local": {
+   "index": {
+    "body": "ff_tip",
+    "axis_m": [
+     [
+      0.0,
+      0.0,
+      0.009
+     ],
+     [
+      0.0,
+      0.0,
+      0.028999999999999998
+     ]
+    ],
+    "radius_m": 0.012,
+    "palm_side": [
+     0.8039511638373262,
+     -2.614160906229136e-19,
+     0.5946953221310968
+    ]
+   },
+   "middle": {
+    "body": "mf_tip",
+    "axis_m": [
+     [
+      0.0,
+      0.0,
+      0.009
+     ],
+     [
+      0.0,
+      0.0,
+      0.028999999999999998
+     ]
+    ],
+    "radius_m": 0.012,
+    "palm_side": [
+     0.803951163837326,
+     0.0,
+     0.5946953221310968
+    ]
+   },
+   "ring": {
+    "body": "rf_tip",
+    "axis_m": [
+     [
+      0.0,
+      0.0,
+      0.009
+     ],
+     [
+      0.0,
+      0.0,
+      0.028999999999999998
+     ]
+    ],
+    "radius_m": 0.012,
+    "palm_side": [
+     0.8039511638373259,
+     2.614160906229151e-19,
+     0.5946953221310969
+    ]
+   },
+   "thumb": {
+    "body": "th_tip",
+    "axis_m": [
+     [
+      0.0,
+      0.0,
+      0.027000000000000003
+     ],
+     [
+      0.0,
+      0.0,
+      0.043000000000000003
+     ]
+    ],
+    "radius_m": 0.012,
+    "palm_side": [
+     0.6482868281064773,
+     0.6293197827020327,
+     0.42857998040448536
+    ]
+   }
+  },
+  "pad_point_world_m": {
+   "index": [
+    0.022169448419162623,
+    -0.03923311968486726,
+    0.09559137433347653
+   ],
+   "middle": [
+    0.03358931928684994,
+    -0.0014845777557388384,
+    0.096949887646123
+   ],
+   "ring": [
+    0.022799558561638823,
+    0.030356488126400794,
+    0.09558923555013175
+   ],
+   "thumb": [
+    -0.0031382542699401684,
+    -0.02944183080653332,
+    0.08546897170859805
+   ]
+  },
+  "sphere_fit": {
+   "method": "Gauss-Newton on |c - axis_i| = R + r_i over the distal capsules, R given",
+   "miss_m": [
+    0.007106239556026822,
+    0.0052103387911203,
+    0.007544841998609775,
+    0.0002517404107942843
+   ],
+   "miss_max_m": 0.007544841998609775,
+   "facing_deg": [
+    64.6614143788013,
+    7.954725599947746,
+    65.17388433941271,
+    35.740474654157005
+   ],
+   "facing_max_deg": 65.17388433941271,
+   "palm_penetration_m": 0.0,
+   "other_link_overlap_m": 0.0,
+   "score_m": 0.0302948193593442,
+   "self_overlap_m": 0.0,
+   "self_overlap_pair": null,
+   "search_start": "uniform curl 0.85",
+   "self_overlap_measure": "deepest pair of the hand's own bodies whose collision geoms penetrate in MuJoCo at source.pose_qpos, each pair less its depth at the rest pose (tools/hold_pose_self_overlap.py: pairs_at, net_of_rest); a term of the curl score"
+  }
+ },
+ "frame": {
+  "units": "m",
+  "note": "the hand model's own frame; no placement search is needed",
+  "gravity": "9.81 m/s^2 along [-0.8492, 0.4665, 0.2475] (the direction of the stations' net force, which the object's weight balances)"
+ },
+ "object": {
+  "shape": "sphere",
+  "radius_m": 0.03,
+  "mass_kg": 0.01568526282831447
+ },
+ "n_stations": 4,
+ "stations": [
+  "index",
+  "middle",
+  "ring",
+  "thumb"
+ ],
+ "frames": [
+  {
+   "t": 0.0,
+   "obj_pos": [
+    0.008997697167168781,
+    -0.004551426055989236,
+    0.09633844191910028
+   ],
+   "obj_quat": [
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "station_pos": [
+    [
+     0.019646917952885243,
+     -0.03259120646260686,
+     0.09573444572231854
+    ],
+    [
+     0.038758033840353,
+     -0.0008399816666421396,
+     0.09707840248798902
+    ],
+    [
+     0.020025998787120546,
+     0.023341551240611946,
+     0.09573979268068057
+    ],
+    [
+     -0.003240953030887712,
+     -0.029652462312485743,
+     0.08537699036469108
+    ]
+   ],
+   "contact": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "force_on_object_N": [
+    [
+     -0.035497402619054874,
+     0.09346593468872542,
+     0.002013320655939127
+    ],
+    [
+     -0.0992011222439474,
+     -0.012371481297823655,
+     -0.0024665352296291392
+    ],
+    [
+     -0.03676100539983922,
+     -0.09297659098867062,
+     0.0019954974613990133
+    ],
+    [
+     0.04079550066018831,
+     0.08367012085498837,
+     0.03653817184803064
+    ]
+   ],
+   "contact_point": [
+    [
+     0.019646917952885243,
+     -0.03259120646260686,
+     0.09573444572231854
+    ],
+    [
+     0.038758033840353,
+     -0.0008399816666421396,
+     0.09707840248798902
+    ],
+    [
+     0.020025998787120546,
+     0.023341551240611946,
+     0.09573979268068057
+    ],
+    [
+     -0.003240953030887712,
+     -0.029652462312485743,
+     0.08537699036469108
+    ]
+   ],
+   "contact_normal": [
+    [
+     -0.35497402619054874,
+     0.9346593468872542,
+     0.02013320655939127
+    ],
+    [
+     -0.992011222439474,
+     -0.12371481297823654,
+     -0.024665352296291392
+    ],
+    [
+     -0.36761005399839214,
+     -0.929765909886706,
+     0.019954974613990133
+    ],
+    [
+     0.4079550066018831,
+     0.8367012085498836,
+     0.36538171848030637
+    ]
+   ]
+  },
+  {
+   "t": 1.0,
+   "obj_pos": [
+    0.008997697167168781,
+    -0.004551426055989236,
+    0.09633844191910028
+   ],
+   "obj_quat": [
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "station_pos": [
+    [
+     0.019646917952885243,
+     -0.03259120646260686,
+     0.09573444572231854
+    ],
+    [
+     0.038758033840353,
+     -0.0008399816666421396,
+     0.09707840248798902
+    ],
+    [
+     0.020025998787120546,
+     0.023341551240611946,
+     0.09573979268068057
+    ],
+    [
+     -0.003240953030887712,
+     -0.029652462312485743,
+     0.08537699036469108
+    ]
+   ],
+   "contact": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "force_on_object_N": [
+    [
+     -0.035497402619054874,
+     0.09346593468872542,
+     0.002013320655939127
+    ],
+    [
+     -0.0992011222439474,
+     -0.012371481297823655,
+     -0.0024665352296291392
+    ],
+    [
+     -0.03676100539983922,
+     -0.09297659098867062,
+     0.0019954974613990133
+    ],
+    [
+     0.04079550066018831,
+     0.08367012085498837,
+     0.03653817184803064
+    ]
+   ],
+   "contact_point": [
+    [
+     0.019646917952885243,
+     -0.03259120646260686,
+     0.09573444572231854
+    ],
+    [
+     0.038758033840353,
+     -0.0008399816666421396,
+     0.09707840248798902
+    ],
+    [
+     0.020025998787120546,
+     0.023341551240611946,
+     0.09573979268068057
+    ],
+    [
+     -0.003240953030887712,
+     -0.029652462312485743,
+     0.08537699036469108
+    ]
+   ],
+   "contact_normal": [
+    [
+     -0.35497402619054874,
+     0.9346593468872542,
+     0.02013320655939127
+    ],
+    [
+     -0.992011222439474,
+     -0.12371481297823654,
+     -0.024665352296291392
+    ],
+    [
+     -0.36761005399839214,
+     -0.929765909886706,
+     0.019954974613990133
+    ],
+    [
+     0.4079550066018831,
+     0.8367012085498836,
+     0.36538171848030637
+    ]
+   ]
+  }
+ ],
+ "caveat": "SELF-GENERATED: a consistency case for the follow check (the answer is known: every frame green at zero placement cost), not a task anyone asked for",
+ "notes": [
+  "2 identical frames over 1 s: a static hold, no motion",
+  "each station's force is the same inward normal force; the object's mass is whatever their sum carries (see frame.gravity)",
+  "the contact miss (source.sphere_fit) is how far each distal link's capsule is from touching the sphere at this pose; the check's reach should match it, and its facing the stored facing",
+  "supersedes hold_allegro__self, whose curl score had no term for the hand against itself: each finger was curled against the ball alone, so two fingers could be given the same space. Here the score also carries the hand's overlap with itself (source.sphere_fit.self_overlap_m is what is left of it)"
+ ],
+ "supersedes": "hold_allegro__self"
+}
