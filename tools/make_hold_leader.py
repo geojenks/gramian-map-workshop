@@ -52,7 +52,7 @@ How the hold is made (nothing is chosen by hand):
             so); the check never reads gravity, only the forces
 The leader is hold_<hand>__self__selfoverlapfix (it supersedes
 hold_<hand>__self, which had no term for the hand against itself and is
-kept). It is in the hand's own frame, so the check needs no placement
+kept; a hand with no such leader supersedes nothing). It is in the hand's own frame, so the check needs no placement
 search: the fixed placement (identity, translated to the object centre,
 finger i serving station i) is written beside it
 (outputs/hold_placement_<hand>__selfoverlapfix.json). With --run, the check
@@ -359,7 +359,9 @@ def make(key, curls, force_N, n_frames, R, self_term=True):
     }
     if self_term:
         sm, who = best["self"]
-        leader["supersedes"] = f"hold_{key}__self"
+        first = os.path.exists(os.path.join(ROOT, "data", "leaders", f"hold_{key}__self.json"))
+        if first:                                   # a hand whose first leader had no such term
+            leader["supersedes"] = f"hold_{key}__self"
         leader["source"]["sphere_fit"]["self_overlap_m"] = float(sm)
         leader["source"]["sphere_fit"]["self_overlap_pair"] = None if who is None else [who["body1"], who["body2"]]
         leader["source"]["sphere_fit"]["search_start"] = (
@@ -370,10 +372,11 @@ def make(key, curls, force_N, n_frames, R, self_term=True):
             "source.pose_qpos, each pair less its depth at the rest pose "
             "(tools/hold_pose_self_overlap.py: pairs_at, net_of_rest); a term of the curl score")
         leader["notes"].append(
-            f"supersedes hold_{key}__self, whose curl score had no term for the hand against itself: "
-            "each finger was curled against the ball alone, so two fingers could be given the same "
-            "space. Here the score also carries the hand's overlap with itself "
-            "(source.sphere_fit.self_overlap_m is what is left of it)")
+            (f"supersedes hold_{key}__self, whose curl score had no term for the hand against itself: "
+             "each finger was curled against the ball alone, so two fingers could be given the same "
+             "space. Here the score also carries" if first else
+             f"this hand's first leader (there is no hold_{key}__self); the curl score carries")
+            + " the hand's overlap with itself (source.sphere_fit.self_overlap_m is what is left of it)")
     fixed = {"placement": {"rotation_matrix": np.eye(3).tolist(), "translation_m": c.tolist()},
              "assignment": {f.label: i for i, f in enumerate(hand.fingers)},
              "respace_deg": [0.0] * n, "placement_cost_mm": 0.0,

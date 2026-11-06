@@ -73,6 +73,8 @@ def main():
                     help="tabulate the leaders hold_<hand>__self<TAG> (e.g. __selfoverlapfix); default: "
                          "the first leaders, hold_<hand>__self")
     ap.add_argument("--out", default=None, help="also write the table here (Markdown)")
+    ap.add_argument("--note", default=None,
+                    help="a sentence added to the table's header (what these leaders and results are)")
     ap.add_argument("--overwrite", action="store_true")
     a = ap.parse_args()
     if a.out and os.path.exists(a.out) and not a.overwrite:
@@ -80,10 +82,14 @@ def main():
     t = table(rows(a.leaders, a.results, a.tag))
     print(t)
     if a.out:
+        def where(p):                                   # the folder as the header names it
+            rel = os.path.relpath(p, ROOT)
+            return rel.replace(os.sep, "/") if not rel.startswith("..") else p.replace(os.sep, "/")
         with open(a.out, "w", encoding="utf-8", newline="\n") as fh:
             fh.write("# Self-hold checks, one row per hand\n\n"
-                     f"Written by `tools/tabulate_holds.py` from `data/leaders/hold_*__self{a.tag}.json` "
-                     f"and `outputs/follow_*__hold_*__self{a.tag}__fixed.json`.\n\n" + t + "\n")
+                     f"Written by `tools/tabulate_holds.py` from `{where(a.leaders)}/hold_*__self{a.tag}.json` "
+                     f"and `{where(a.results)}/follow_*__hold_*__self{a.tag}__fixed.json`."
+                     + (f" {a.note}" if a.note else "") + "\n\n" + t + "\n")
         print(f"wrote {os.path.relpath(a.out, ROOT)}")
 
 
