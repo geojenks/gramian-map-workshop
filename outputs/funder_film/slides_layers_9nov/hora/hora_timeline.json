@@ -1,0 +1,2245 @@
+{
+ "fps": 30,
+ "frames": 911,
+ "frame_px": [
+  1600,
+  900
+ ],
+ "video": "C:\\Users\\geo\\Documents\\Projects\\gramian-map-workshop\\outputs\\funder_film\\slides_layers_9nov\\hora\\hora.mp4",
+ "args": [
+  "hora",
+  "--wave-manip",
+  "C:/Users/geo/Documents/Projects/ARIA/Wave_manip",
+  "--out",
+  "outputs/funder_film/slides_layers_9nov/hora/hora.mp4",
+  "--run",
+  "outputs/funder_film/inputs_7nov/hora/follow_leap__hora_seed42_five_snapshots.json",
+  "--leader-json",
+  "outputs/funder_film/inputs_7nov/hora/hora_seed42_five_snapshots.json",
+  "--fit-az",
+  "120",
+  "--fit-dist",
+  ".34"
+ ],
+ "runs": [
+  {
+   "from_s": 0.0,
+   "to_s": 2.0,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 2.0,
+   "to_s": 3.6,
+   "active": 0,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 1 saved: positions and forces, as targets."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 3.6,
+   "to_s": 5.566666666666666,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 1 saved: positions and forces, as targets."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 5.566666666666666,
+   "to_s": 7.166666666666667,
+   "active": 1,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 2 saved: positions and forces, as targets."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 7.166666666666667,
+   "to_s": 9.133333333333333,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 2 saved: positions and forces, as targets."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 9.133333333333333,
+   "to_s": 10.733333333333333,
+   "active": 2,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 3 saved: positions and forces, as targets."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 10.733333333333333,
+   "to_s": 12.7,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 3 saved: positions and forces, as targets."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 12.7,
+   "to_s": 14.3,
+   "active": 3,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 4 saved: positions and forces, as targets."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 14.3,
+   "to_s": 16.266666666666666,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 4 saved: positions and forces, as targets."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 16.266666666666666,
+   "to_s": 17.866666666666667,
+   "active": 4,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 5 saved: positions and forces, as targets."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 17.866666666666667,
+   "to_s": 20.366666666666667,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "What the turning asks of each finger"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Hora, a published learned policy on an Allegro hand, turning a cylinder in simulation at 43 degrees per second. Replayed from its log."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Normal force: read from the simulator's contacts."
+       ]
+      ],
+      [
+       [
+        "E1640A",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Shear: derived from the object's motion and shared between fingers. One consistent split, not the only one."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each disc is that finger's friction limit. Right is the way the object turns."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "5 snapshots: what a hand must supply."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 20.366666666666667,
+   "to_s": 21.166666666666668,
+   "active": 0,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 1: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 1, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 21.166666666666668,
+   "to_s": 22.366666666666667,
+   "active": 0,
+   "borders": {
+    "0": "26A85C"
+   },
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 1: green."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 1, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 22.366666666666667,
+   "to_s": 23.166666666666668,
+   "active": 1,
+   "borders": {
+    "0": "26A85C"
+   },
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 2: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 2, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 23.166666666666668,
+   "to_s": 24.366666666666667,
+   "active": 1,
+   "borders": {
+    "0": "26A85C",
+    "1": "EBA000"
+   },
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 2: amber."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 2, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 24.366666666666667,
+   "to_s": 25.166666666666668,
+   "active": 2,
+   "borders": {
+    "0": "26A85C",
+    "1": "EBA000"
+   },
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 3: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 3, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 25.166666666666668,
+   "to_s": 26.366666666666667,
+   "active": 2,
+   "borders": {
+    "0": "26A85C",
+    "1": "EBA000",
+    "2": "26A85C"
+   },
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 3: green."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 3, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 26.366666666666667,
+   "to_s": 27.166666666666668,
+   "active": 3,
+   "borders": {
+    "0": "26A85C",
+    "1": "EBA000",
+    "2": "26A85C"
+   },
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 4: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 4, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 27.166666666666668,
+   "to_s": 28.366666666666667,
+   "active": 3,
+   "borders": {
+    "0": "26A85C",
+    "1": "EBA000",
+    "2": "26A85C",
+    "3": "26A85C"
+   },
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 4: green."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 4, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 28.366666666666667,
+   "to_s": 29.166666666666668,
+   "active": 4,
+   "borders": {
+    "0": "26A85C",
+    "1": "EBA000",
+    "2": "26A85C",
+    "3": "26A85C"
+   },
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 5: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 5, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 29.166666666666668,
+   "to_s": 30.366666666666667,
+   "active": 4,
+   "borders": {
+    "0": "26A85C",
+    "1": "EBA000",
+    "2": "26A85C",
+    "3": "26A85C",
+    "4": "26A85C"
+   },
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can LEAP supply these targets?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Each snapshot is checked on its own, frozen, against the targets just saved. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "Each dot is a finger's result: green passes, amber is close, red does not pass by this method at this pose."
+       ]
+      ],
+      [
+       [
+        null,
+        "Discs: the targets, named by Hora's fingers."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic. Each contact is tested on the cylinder's surface there, but the rest of the hand only on a sphere, and not against itself, so parts can pass through the cylinder or each other."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 5: green."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Simulated: comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 5, frozen"
+       ]
+      ]
+     ],
+     "size_px": 25,
+     "w": 600,
+     "x": 20,
+     "y": 18
+    }
+   ],
+   "marks": {}
+  }
+ ],
+ "tiles": [
+  {
+   "file": "hora_tile1.png",
+   "from_frame": 60,
+   "x": 920,
+   "y": 702,
+   "size": 118,
+   "from_s": 2.0
+  },
+  {
+   "file": "hora_tile2.png",
+   "from_frame": 167,
+   "x": 1046,
+   "y": 702,
+   "size": 118,
+   "from_s": 5.566666666666666
+  },
+  {
+   "file": "hora_tile3.png",
+   "from_frame": 274,
+   "x": 1172,
+   "y": 702,
+   "size": 118,
+   "from_s": 9.133333333333333
+  },
+  {
+   "file": "hora_tile4.png",
+   "from_frame": 381,
+   "x": 1298,
+   "y": 702,
+   "size": 118,
+   "from_s": 12.7
+  },
+  {
+   "file": "hora_tile5.png",
+   "from_frame": 488,
+   "x": 1424,
+   "y": 702,
+   "size": 118,
+   "from_s": 16.266666666666666
+  }
+ ]
+}

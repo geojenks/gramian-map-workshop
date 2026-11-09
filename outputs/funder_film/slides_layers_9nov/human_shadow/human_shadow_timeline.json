@@ -1,0 +1,3012 @@
+{
+ "fps": 30,
+ "frames": 1122,
+ "frame_px": [
+  1600,
+  900
+ ],
+ "video": "C:\\Users\\geo\\Documents\\Projects\\gramian-map-workshop\\outputs\\funder_film\\slides_layers_9nov\\human_shadow\\human_shadow.mp4",
+ "args": [
+  "human",
+  "--video",
+  "--checks",
+  "outputs/funder_film/checks_9nov",
+  "--fit-hand",
+  "shadow",
+  "--hold",
+  "2.5",
+  "--fit-seconds",
+  "3",
+  "--end",
+  "7",
+  "--fit-dist",
+  ".55",
+  "--phone-view",
+  "near",
+  "--fit-lift",
+  "0",
+  "--hide-turn-behind-ball",
+  "--wave-manip",
+  "C:/Users/geo/Documents/Projects/ARIA/Wave_manip",
+  "--out",
+  "outputs/funder_film/slides_layers_9nov/human_shadow/human_shadow.mp4"
+ ],
+ "runs": [
+  {
+   "from_s": 0.0,
+   "to_s": 2.066666666666667,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 2.066666666666667,
+   "to_s": 2.966666666666667,
+   "active": 0,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, ring and little."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 21 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 1: the tracked hand and ball."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 2.966666666666667,
+   "to_s": 4.566666666666666,
+   "active": 0,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, ring and little."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 21 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 1. Saved: where the ball is, which fingers touch, and how it turns: 121 degrees per second."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 635
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 4.566666666666666,
+   "to_s": 6.233333333333333,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 6.233333333333333,
+   "to_s": 7.133333333333334,
+   "active": 1,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, middle, ring and little."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 6 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 2: the tracked hand and ball."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 7.133333333333334,
+   "to_s": 8.733333333333333,
+   "active": 1,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, middle, ring and little."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 6 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 2. Saved: where the ball is, which fingers touch, and how it turns: 117 degrees per second."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 635
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 8.733333333333333,
+   "to_s": 10.933333333333334,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 10.933333333333334,
+   "to_s": 11.833333333333334,
+   "active": 2,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, middle, ring and little."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 22 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 3: the tracked hand and ball."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 11.833333333333334,
+   "to_s": 13.433333333333334,
+   "active": 2,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, middle, ring and little."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 22 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 3. Saved: where the ball is, which fingers touch, and how it turns: 242 degrees per second."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 635
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 13.433333333333334,
+   "to_s": 15.333333333333334,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 15.333333333333334,
+   "to_s": 16.233333333333334,
+   "active": 3,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, index and middle."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 22 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 4: the tracked hand and ball."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 16.233333333333334,
+   "to_s": 17.833333333333332,
+   "active": 3,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, index and middle."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 22 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 4. Saved: where the ball is, which fingers touch, and how it turns: 179 degrees per second."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 635
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 17.833333333333332,
+   "to_s": 19.666666666666668,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 19.666666666666668,
+   "to_s": 20.566666666666666,
+   "active": 4,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, index, middle, ring and little."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 31 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 5: the tracked hand and ball."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 20.566666666666666,
+   "to_s": 22.166666666666668,
+   "active": 4,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ],
+      [
+       [
+        null,
+        "Touching at this moment: thumb, index, middle, ring and little."
+       ]
+      ],
+      [
+       [
+        null,
+        "The turn's axis points into the picture, 31 degrees from straight on; the ball hides its far end."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 5. Saved: where the ball is, which fingers touch, and how it turns: 173 degrees per second."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 635
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 22.166666666666668,
+   "to_s": 22.366666666666667,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can a hand do what a human can?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "A person turning a tennis ball in the palm, about 156 degrees per second. Recorded video, at normal speed."
+       ]
+      ],
+      [
+       [
+        null,
+        "No sensor measured the forces here, and forces worked out from the ball's motion show the weight shared out, not the turn. So the targets are where the fingers touch and how the ball turns."
+       ]
+      ],
+      [
+       [
+        null,
+        "Wireframe: the joints the cameras tracked. Hidden joints are left out."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Axis and arc: the ball's turn relative to the palm, measured from the tracked ball."
+       ]
+      ],
+      [
+       [
+        "0F5CC7",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Dots: where the person's fingers touch."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 22.366666666666667,
+   "to_s": 23.166666666666668,
+   "active": 0,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 1: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  },
+  {
+   "from_s": 23.166666666666668,
+   "to_s": 25.366666666666667,
+   "active": 0,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        "EBA000",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Position check: amber. Every contact has a finger, but at least one is only close."
+       ]
+      ],
+      [
+       [
+        "26A85C",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Turning check: green. Ring, little and thumb can hold the ball inside friction and joint strength, with 681 mN m to spare about its turn. The turn itself needs 0.03 mN m."
+       ]
+      ],
+      [
+       [
+        null,
+        "The touching fingers' joints can follow the ball's surface motion at their contacts."
+       ]
+      ],
+      [
+       [
+        null,
+        "Torque to spare can be overstated: the model sets no limit on the load a joint's end stop carries."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "The ball's turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic: parts of the hand can pass through the ball or each other."
+       ]
+      ],
+      [
+       [
+        null,
+        "Squares under each snapshot: position check left, turning check right."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {
+    "0": [
+     "EBA000",
+     "26A85C"
+    ]
+   }
+  },
+  {
+   "from_s": 25.366666666666667,
+   "to_s": 26.166666666666668,
+   "active": 1,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 2: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {
+    "0": [
+     "EBA000",
+     "26A85C"
+    ]
+   }
+  },
+  {
+   "from_s": 26.166666666666668,
+   "to_s": 28.366666666666667,
+   "active": 1,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        "26A85C",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Position check: green. Every contact reached."
+       ]
+      ],
+      [
+       [
+        "26A85C",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Turning check: green. Middle, ring, little and thumb can hold the ball inside friction and joint strength, with 92 mN m to spare about its turn. The turn itself needs 0.07 mN m."
+       ]
+      ],
+      [
+       [
+        null,
+        "The touching fingers' joints can follow the ball's surface motion at their contacts."
+       ]
+      ],
+      [
+       [
+        null,
+        "Torque to spare can be overstated: the model sets no limit on the load a joint's end stop carries."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "The ball's turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic: parts of the hand can pass through the ball or each other."
+       ]
+      ],
+      [
+       [
+        null,
+        "Squares under each snapshot: position check left, turning check right."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {
+    "0": [
+     "EBA000",
+     "26A85C"
+    ],
+    "1": [
+     "26A85C",
+     "26A85C"
+    ]
+   }
+  },
+  {
+   "from_s": 28.366666666666667,
+   "to_s": 29.166666666666668,
+   "active": 2,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 3: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {
+    "0": [
+     "EBA000",
+     "26A85C"
+    ],
+    "1": [
+     "26A85C",
+     "26A85C"
+    ]
+   }
+  },
+  {
+   "from_s": 29.166666666666668,
+   "to_s": 31.366666666666667,
+   "active": 2,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        "26A85C",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Position check: green. Every contact reached."
+       ]
+      ],
+      [
+       [
+        "26A85C",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Turning check: green. Middle, ring, little and thumb can hold the ball inside friction and joint strength, with 618 mN m to spare about its turn. The turn itself needs 0.46 mN m."
+       ]
+      ],
+      [
+       [
+        null,
+        "The touching fingers' joints can follow the ball's surface motion at their contacts."
+       ]
+      ],
+      [
+       [
+        null,
+        "Torque to spare can be overstated: the model sets no limit on the load a joint's end stop carries."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "The ball's turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic: parts of the hand can pass through the ball or each other."
+       ]
+      ],
+      [
+       [
+        null,
+        "Squares under each snapshot: position check left, turning check right."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {
+    "0": [
+     "EBA000",
+     "26A85C"
+    ],
+    "1": [
+     "26A85C",
+     "26A85C"
+    ],
+    "2": [
+     "26A85C",
+     "26A85C"
+    ]
+   }
+  },
+  {
+   "from_s": 31.366666666666667,
+   "to_s": 32.166666666666664,
+   "active": 3,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 4: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {
+    "0": [
+     "EBA000",
+     "26A85C"
+    ],
+    "1": [
+     "26A85C",
+     "26A85C"
+    ],
+    "2": [
+     "26A85C",
+     "26A85C"
+    ]
+   }
+  },
+  {
+   "from_s": 32.166666666666664,
+   "to_s": 34.36666666666667,
+   "active": 3,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        "EBA000",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Position check: amber. Every contact has a finger, but at least one is only close."
+       ]
+      ],
+      [
+       [
+        "D13833",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Turning check: red. Index, middle and thumb cannot hold the ball with torque purely about the turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "The touching fingers' joints can follow the ball's surface motion at their contacts."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "The ball's turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic: parts of the hand can pass through the ball or each other."
+       ]
+      ],
+      [
+       [
+        null,
+        "Squares under each snapshot: position check left, turning check right."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {
+    "0": [
+     "EBA000",
+     "26A85C"
+    ],
+    "1": [
+     "26A85C",
+     "26A85C"
+    ],
+    "2": [
+     "26A85C",
+     "26A85C"
+    ],
+    "3": [
+     "EBA000",
+     "D13833"
+    ]
+   }
+  },
+  {
+   "from_s": 34.36666666666667,
+   "to_s": 35.166666666666664,
+   "active": 4,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Snapshot 5: fitting."
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 664
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {
+    "0": [
+     "EBA000",
+     "26A85C"
+    ],
+    "1": [
+     "26A85C",
+     "26A85C"
+    ],
+    "2": [
+     "26A85C",
+     "26A85C"
+    ],
+    "3": [
+     "EBA000",
+     "D13833"
+    ]
+   }
+  },
+  {
+   "from_s": 35.166666666666664,
+   "to_s": 37.36666666666667,
+   "active": 4,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Can Shadow do the same?"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Two separate checks on each frozen snapshot. No hand is simulated doing the turn."
+       ]
+      ],
+      [
+       [
+        "26A85C",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Position check: green. Every contact reached."
+       ]
+      ],
+      [
+       [
+        "26A85C",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "Turning check: green. Index, middle, ring, little and thumb can hold the ball inside friction and joint strength, with 924 mN m to spare about its turn. The turn itself needs 0.50 mN m."
+       ]
+      ],
+      [
+       [
+        null,
+        "The touching fingers' joints can follow at least 46% of the ball's surface motion at their contacts."
+       ]
+      ],
+      [
+       [
+        null,
+        "Torque to spare can be overstated: the model sets no limit on the load a joint's end stop carries."
+       ]
+      ],
+      [
+       [
+        "8C1EB4",
+        "\u25a0 "
+       ],
+       [
+        null,
+        "The ball's turn."
+       ]
+      ],
+      [
+       [
+        null,
+        "The pose is schematic: parts of the hand can pass through the ball or each other."
+       ]
+      ],
+      [
+       [
+        null,
+        "Squares under each snapshot: position check left, turning check right."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {
+    "0": [
+     "EBA000",
+     "26A85C"
+    ],
+    "1": [
+     "26A85C",
+     "26A85C"
+    ],
+    "2": [
+     "26A85C",
+     "26A85C"
+    ],
+    "3": [
+     "EBA000",
+     "D13833"
+    ],
+    "4": [
+     "26A85C",
+     "26A85C"
+    ]
+   }
+  },
+  {
+   "from_s": 37.36666666666667,
+   "to_s": 37.4,
+   "active": null,
+   "borders": {},
+   "items": [
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Every frame the checks looked at"
+       ]
+      ]
+     ],
+     "size_px": 36,
+     "w": 660,
+     "x": 920,
+     "y": 30
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "120 frames across the whole take, each frozen and checked on its own. Allegro and LEAP: no little finger, so the person's little-finger contact is left out. Red means not by this method at this pose, not that the hand can never do the task."
+       ]
+      ],
+      [
+       [
+        null,
+        "Green in the turning check is a low bar: the turn itself needs little torque, median 0.20 mN m, and the model sets no limit on end-stop load. Built for this film, not the banked method."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 80
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Allegro"
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 276
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Position check: 100 green, 20 amber, 0 red of 120"
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 306
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Turning check: 96 green, 7 amber, 17 red of 120"
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 354
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "LEAP"
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 410
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Position check: 106 green, 14 amber, 0 red of 120"
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 440
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Turning check: 96 green, 9 amber, 15 red of 120"
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 488
+    },
+    {
+     "bold": true,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Shadow"
+       ]
+      ]
+     ],
+     "size_px": 24,
+     "w": 660,
+     "x": 920,
+     "y": 544
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Position check: 84 green, 36 amber, 0 red of 120"
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 574
+    },
+    {
+     "bold": false,
+     "color": "1E1E1E",
+     "paras": [
+      [
+       [
+        null,
+        "Turning check: 35 green, 1 amber, 84 red of 120"
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 622
+    },
+    {
+     "bold": false,
+     "color": "696C70",
+     "paras": [
+      [
+       [
+        null,
+        "Mass and friction assumed. Comparative, not predictive."
+       ]
+      ]
+     ],
+     "size_px": 19,
+     "w": 660,
+     "x": 920,
+     "y": 854
+    }
+   ],
+   "marks": {}
+  }
+ ],
+ "tiles": [
+  {
+   "file": "human_shadow_tile1.png",
+   "from_frame": 62,
+   "x": 920,
+   "y": 702,
+   "size": 118,
+   "from_s": 2.066666666666667
+  },
+  {
+   "file": "human_shadow_tile2.png",
+   "from_frame": 187,
+   "x": 1046,
+   "y": 702,
+   "size": 118,
+   "from_s": 6.233333333333333
+  },
+  {
+   "file": "human_shadow_tile3.png",
+   "from_frame": 328,
+   "x": 1172,
+   "y": 702,
+   "size": 118,
+   "from_s": 10.933333333333334
+  },
+  {
+   "file": "human_shadow_tile4.png",
+   "from_frame": 460,
+   "x": 1298,
+   "y": 702,
+   "size": 118,
+   "from_s": 15.333333333333334
+  },
+  {
+   "file": "human_shadow_tile5.png",
+   "from_frame": 590,
+   "x": 1424,
+   "y": 702,
+   "size": 118,
+   "from_s": 19.666666666666668
+  }
+ ]
+}

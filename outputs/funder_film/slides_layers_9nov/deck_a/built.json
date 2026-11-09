@@ -1,0 +1,101 @@
+{
+ "spec": {
+  "captions": "outputs/funder_film/position_turning_film_rough_9nov_e_captions.md",
+  "out_dir": "outputs/funder_film/slides_layers_9nov/deck_a",
+  "deck": "position_turning_slides_9nov_a.pptx",
+  "title": "Can a robot hand do what a hand does? Rough cut, 9 November",
+  "parts": {
+   "hora": "outputs/funder_film/slides_layers_9nov/hora/hora_timeline.json",
+   "allegro": "outputs/funder_film/slides_layers_9nov/human_allegro/human_allegro_timeline.json",
+   "shadow": "outputs/funder_film/slides_layers_9nov/human_shadow/human_shadow_timeline.json"
+  },
+  "shots": [
+   {
+    "part": "hora",
+    "head": "What the turning asks of each finger",
+    "row": 1
+   },
+   {
+    "part": "hora",
+    "head": "Can LEAP supply these targets?",
+    "row": 2
+   },
+   {
+    "part": "allegro",
+    "head": "Can a hand do what a human can?",
+    "row": 3
+   },
+   {
+    "part": "allegro",
+    "head": "Can Allegro do the same?",
+    "row": 4
+   },
+   {
+    "part": "allegro",
+    "head": "Every frame the checks looked at",
+    "row": 5
+   },
+   {
+    "part": "shadow",
+    "head": "Can Shadow do the same?",
+    "row": 6
+   }
+  ],
+  "qa_times": [
+   0.5,
+   3.0,
+   9.0,
+   14.5
+  ]
+ },
+ "slides": [
+  {
+   "slide": 2,
+   "shot": "Hora replay, with five snapshots saved",
+   "part": "hora",
+   "from_s": 0.0,
+   "to_s": 20.367,
+   "effects": 27
+  },
+  {
+   "slide": 3,
+   "shot": "LEAP fitted to the five Hora snapshots",
+   "part": "hora",
+   "from_s": 20.367,
+   "to_s": 30.367,
+   "effects": 41
+  },
+  {
+   "slide": 4,
+   "shot": "Video of a person turning a tennis ball, pausing at five snapshots with the tracked hand and ball",
+   "part": "allegro",
+   "from_s": 0.0,
+   "to_s": 22.367,
+   "effects": 56
+  },
+  {
+   "slide": 5,
+   "shot": "Allegro fitted to the five human snapshots",
+   "part": "allegro",
+   "from_s": 22.367,
+   "to_s": 37.367,
+   "effects": 46
+  },
+  {
+   "slide": 6,
+   "shot": "Counts for every frame, Allegro, LEAP and Shadow",
+   "part": "allegro",
+   "from_s": 37.367,
+   "to_s": 44.367,
+   "effects": 1
+  },
+  {
+   "slide": 7,
+   "shot": "Shadow fitted to the five human snapshots",
+   "part": "shadow",
+   "from_s": 22.367,
+   "to_s": 37.367,
+   "effects": 46
+  }
+ ]
+}

@@ -1,0 +1,31 @@
+snapshots at [2.06, 3.76, 5.97, 7.9, 9.77] frames [458, 499, 551, 603, 676]
+video crop in the turned picture: x, y, side (303, 1018, 777)
+  phone view, frame 458: picture up check, pixels -291 (negative is up)
+  phone view, frame 499: picture up check, pixels -294 (negative is up)
+  phone view, frame 551: picture up check, pixels -286 (negative is up)
+  phone view, frame 603: picture up check, pixels -286 (negative is up)
+  phone view, frame 676: picture up check, pixels -283 (negative is up)
+  snapshot 1: deepest in the ball, mm: palm -14.6, index -14.4, middle -14.8, ring 4.4, little 3.1, thumb 1.9; hand into itself: ('rh_palm', 'rh_lfknuckle', 0.9)
+  snapshot 1: palm behind the ball as the phone sees it, mm: person 88, Shadow 142
+  snapshot 2: deepest in the ball, mm: palm -15.8, index -17.2, middle 0.4, ring 1.8, little 0.7, thumb 1.9; hand into itself: None
+  snapshot 2: palm behind the ball as the phone sees it, mm: person 91, Shadow 127
+  snapshot 3: deepest in the ball, mm: palm -14.7, index -13.5, middle 0.9, ring 1.0, little 3.2, thumb 0.9; hand into itself: ('rh_rfdistal', 'rh_lfproximal', 1.1)
+  snapshot 3: palm behind the ball as the phone sees it, mm: person 88, Shadow 137
+  snapshot 4: deepest in the ball, mm: palm -19.0, index 1.3, middle 1.6, ring -22.7, little -36.4, thumb 3.7; hand into itself: ('rh_mfproximal', 'rh_rfmiddle', 4.0)
+  snapshot 4: palm behind the ball as the phone sees it, mm: person 95, Shadow 132
+  snapshot 5: deepest in the ball, mm: palm -7.3, index 1.2, middle 1.8, ring 2.2, little 1.8, thumb 2.1; hand into itself: ('rh_palm', 'rh_lfknuckle', 0.5)
+  snapshot 5: palm behind the ball as the phone sees it, mm: person 83, Shadow 139
+frames 100
+frames 200
+frames 300
+frames 400
+frames 500
+frames 600
+frames 700
+frames 800
+frames 900
+frames 1000
+frames 1100
+frames 1200
+frames 1300
+wrote outputs/funder_film/inputs_position_turning_7nov/parts/human_shadow_e.mp4 frames 1331 seconds 44.4

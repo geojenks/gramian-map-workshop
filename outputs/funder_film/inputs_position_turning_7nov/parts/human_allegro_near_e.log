@@ -1,0 +1,31 @@
+snapshots at [2.06, 3.76, 5.97, 7.9, 9.77] frames [458, 499, 551, 603, 676]
+video crop in the turned picture: x, y, side (303, 1018, 777)
+  phone view, frame 458: picture up check, pixels -291 (negative is up)
+  phone view, frame 499: picture up check, pixels -294 (negative is up)
+  phone view, frame 551: picture up check, pixels -286 (negative is up)
+  phone view, frame 603: picture up check, pixels -286 (negative is up)
+  phone view, frame 676: picture up check, pixels -283 (negative is up)
+  snapshot 1: deepest in the ball, mm: palm -25.6, index -28.3, middle -26.1, ring 2.8, thumb 0.0; hand into itself: None
+  snapshot 1: palm behind the ball as the phone sees it, mm: person 88, Allegro 81
+  snapshot 2: deepest in the ball, mm: palm -23.2, index -26.6, middle -1.2, ring 2.6, thumb 0.3; hand into itself: None
+  snapshot 2: palm behind the ball as the phone sees it, mm: person 91, Allegro 75
+  snapshot 3: deepest in the ball, mm: palm -28.3, index -30.8, middle -1.1, ring -0.7, thumb 0.2; hand into itself: None
+  snapshot 3: palm behind the ball as the phone sees it, mm: person 88, Allegro 80
+  snapshot 4: deepest in the ball, mm: palm -32.6, index -0.1, middle -1.1, ring -48.7, thumb -0.3; hand into itself: None
+  snapshot 4: palm behind the ball as the phone sees it, mm: person 95, Allegro 80
+  snapshot 5: deepest in the ball, mm: palm -22.3, index -0.7, middle 0.8, ring -0.8, thumb 0.1; hand into itself: None
+  snapshot 5: palm behind the ball as the phone sees it, mm: person 83, Allegro 75
+frames 100
+frames 200
+frames 300
+frames 400
+frames 500
+frames 600
+frames 700
+frames 800
+frames 900
+frames 1000
+frames 1100
+frames 1200
+frames 1300
+wrote outputs/funder_film/inputs_position_turning_7nov/parts/human_allegro_near_e.mp4 frames 1331 seconds 44.4

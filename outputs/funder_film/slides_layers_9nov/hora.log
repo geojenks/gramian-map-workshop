@@ -1,0 +1,23 @@
+log joint angles on the model: link position error median 0.00 mm, max 0.00 mm; turning 43.4 deg/s
+over this window: longest normal 2.05 N, longest shear 0.71 N; arrows 32 mm per N; normal p98 1.95 N
+frames 100
+frames 200
+frames 300
+frames 400
+frames 500
+frames 600
+drawing fingertip pad if_tip
+drawing fingertip pad mf_tip
+drawing fingertip pad rf_tip
+drawing fingertip pad th_tip
+LEAP at snapshots: ['green', 'amber', 'green', 'green', 'green']
+  snapshot 1: deepest in the cylinder, mm: palm -27.5, index 1.7, middle -45.2, ring 12.3, thumb 10.4; hand into itself: None
+  snapshot 2: deepest in the cylinder, mm: palm -27.3, index 4.4, middle 10.7, ring 1.1, thumb 7.3; hand into itself: None
+  snapshot 3: deepest in the cylinder, mm: palm -30.2, index -53.9, middle 9.2, ring 1.8, thumb 3.6; hand into itself: None
+  snapshot 4: deepest in the cylinder, mm: palm -44.1, index 2.2, middle 10.8, ring 0.5, thumb -0.2; hand into itself: ('if_ds', 'th_px', 2.4)
+  snapshot 5: deepest in the cylinder, mm: palm -51.7, index 2.8, middle 12.6, ring 1.3, thumb -50.9; hand into itself: ('if_bs', 'if_md', 0.6)
+frames 700
+frames 800
+frames 900
+timeline 21 runs, 5 tiles
+wrote outputs/funder_film/slides_layers_9nov/hora/hora.mp4 frames 911 seconds 30.4

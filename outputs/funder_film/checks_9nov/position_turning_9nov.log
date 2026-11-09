@@ -1,0 +1,28 @@
+
+allegro: 120 frames, 46.8 s
+  with force targets, stored: {'green': 94, 'amber': 25, 'red': 1} {'direction': 1}
+  position only: {'green': 100, 'amber': 20} {}
+  touching fingers per frame: {2: 33, 3: 74, 4: 13} ; frames with a contact no finger has: 0
+  on the axis: {'cannot': 17, 'ok': 103}  off-axis free: {'ok': 120}
+  spare torque, on the axis, mN m: min -61.35, median 336.96, max 744.3; above zero 96 of 103
+  spare torque, off-axis free, mN m: min -53.66, median 411.03, max 914.9; above zero 119 of 120
+  torque the turn itself needs (I alpha), mN m: abs median 0.205, max 5.95
+  share of the surface motion a touching finger can follow: median 1.00, below 0.9 in 3 of 340
+  difference from the top of follow.py's own system, solved exactly, mN m: largest 0.00000 over 103 frames
+  follow.py's solver, tolerance tightened, refuses 5% above the top: 103 of 103
+  fingers with reach worse than with forces: 0
+  wrote outputs/funder_film/checks_9nov\position_turning_allegro.json
+
+leap: 120 frames, 45.8 s
+  with force targets, stored: {'green': 105, 'amber': 14, 'red': 1} {'direction': 1}
+  position only: {'green': 106, 'amber': 14} {}
+  touching fingers per frame: {2: 33, 3: 74, 4: 13} ; frames with a contact no finger has: 0
+  on the axis: {'cannot': 15, 'ok': 105}  off-axis free: {'ok': 118, 'cannot': 2}
+  spare torque, on the axis, mN m: min -69.86, median 487.83, max 916.2; above zero 96 of 105
+  spare torque, off-axis free, mN m: min -53.68, median 592.03, max 1021.5; above zero 117 of 118
+  torque the turn itself needs (I alpha), mN m: abs median 0.205, max 5.95
+  share of the surface motion a touching finger can follow: median 1.00, below 0.9 in 0 of 340
+  difference from the top of follow.py's own system, solved exactly, mN m: largest 0.00000 over 105 frames
+  follow.py's solver, tolerance tightened, refuses 5% above the top: 105 of 105
+  fingers with reach worse than with forces: 0
+  wrote outputs/funder_film/checks_9nov\position_turning_leap.json

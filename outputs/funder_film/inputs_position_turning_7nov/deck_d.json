@@ -1,0 +1,17 @@
+{
+ "captions": "outputs/funder_film/position_turning_film_rough_7nov_d_captions.md",
+ "out_dir": "outputs/funder_film/position_turning_film_rough_7nov_d_slides",
+ "deck": "position_turning_film_rough_7nov_d_slides.pptx",
+ "title": "Rough cut d, one slide per shot",
+ "parts": {
+  "hora": {"file": "outputs/funder_film/inputs_position_turning_7nov/parts/hora_d.mp4", "scene": 0.03},
+  "human": {"file": "outputs/funder_film/inputs_position_turning_7nov/parts/human_d.mp4", "scene": 0.25}
+ },
+ "shots": [
+  {"row": 1, "part": "hora", "from": 0, "to": 1},
+  {"row": 2, "part": "hora", "from": 1, "to": -1},
+  {"row": 3, "part": "human", "from": 0, "to": 1},
+  {"row": 4, "part": "human", "from": 1, "to": 2},
+  {"row": 5, "part": "human", "from": 2, "to": -1, "stills": 1}
+ ]
+}
