@@ -44,7 +44,7 @@ import numpy as np
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RECORDS = os.path.join(ROOT, "data", "records")
 OUT = os.path.join(ROOT, "outputs")
-STEM = "record_gramians"
+STEM = "record_gramians_b"
 
 # Order of the simulated cells: by family, then by the record id.
 FAMILIES = ["wall_", "cable_", "bellows", "mckibben"]
@@ -180,6 +180,7 @@ def describe(rid, r, quality):
         "tip_out_of_plane_share": float(W[2, 2] / np.trace(W)) if np.trace(W) > 0 else None,
         "free_end_displacement_m": tip_end.tolist(),
         "quality_flags": quality or {},
+        "free_curve_from_fem": "FEM series" in r["source"].get("detail", ""),
     }
     if r.get("shape"):
         S, V, lam, Wt = stored_blocks(r["shape"])
@@ -279,11 +280,11 @@ def draw_pub_cell(ax, d):
 
 
 def cell_text(ax, title, lines, flag=None):
-    ax.set_title(title, fontsize=10.5, pad=3)
-    ax.text(0.0, -0.03, "\n".join(lines), transform=ax.transAxes, fontsize=9.4,
+    ax.set_title(title, fontsize=13, pad=3)
+    ax.text(0.0, -0.03, "\n".join(lines), transform=ax.transAxes, fontsize=12,
             va="top", ha="left", color="0.15", linespacing=1.15)
     if flag:
-        ax.text(0.98, 0.97, flag, transform=ax.transAxes, fontsize=8.6,
+        ax.text(0.98, 0.97, flag, transform=ax.transAxes, fontsize=10.5, linespacing=1.1,
                 va="top", ha="right", color="#b03a2e", fontweight="bold")
 
 
@@ -301,8 +302,8 @@ def short_name(d):
                  ("Tendon-driven silicone finger (tendon 1)", "Tendon finger"),
                  ("Bellows + slack spine tendon", "Bellows + tendon"),
                  ("Two-body McKibben, braid ", "McKibben "),
-                 ("Abboodi 2026 OSSA (OSSA 5) ", "Abboodi 2026 OSSA, "),
-                 ("OSSA, axial extend", "OSSA, extend"), ("OSSA, vacuum contract", "OSSA, contract"),
+                 ("Abboodi 2026 OSSA (OSSA 5) ", "Abboodi 2026, "),
+                 ("2026, axial extend", "2026, extend"), ("2026, vacuum contract", "2026, contract"),
                  (" (fast pneu-net)", ""), (" (slow pneu-net)", "")):
         n = n.replace(a, b)
     if n.startswith("Pneu-net wall ") and n.endswith(" m"):
@@ -327,32 +328,33 @@ def draw(drawn, left_out, records_dir, png, svg):
     npub_rows = -(-len(pub) // 2) if pub else 0
     fig = plt.figure(figsize=(20, 11.25))
     outer = GridSpec(1, 2, width_ratios=[6, 2.35], wspace=0.06,
-                     left=0.012, right=0.992, top=0.875, bottom=0.175, figure=fig)
-    gs_sim = outer[0].subgridspec(max(nsim_rows, 1), ncol, hspace=0.62, wspace=0.08)
-    right = outer[1].subgridspec(2, 1, height_ratios=[max(npub_rows, 1) * 1.0, 1.05], hspace=0.38)
-    gs_pub = right[0].subgridspec(max(npub_rows, 1), 2, hspace=0.62, wspace=0.08)
+                     left=0.012, right=0.992, top=0.85, bottom=0.15, figure=fig)
+    gs_sim = outer[0].subgridspec(max(nsim_rows, 1), ncol, hspace=0.75, wspace=0.1)
+    right = outer[1].subgridspec(2, 1, height_ratios=[max(npub_rows, 1) * 1.0, 1.0], hspace=0.42)
+    gs_pub = right[0].subgridspec(max(npub_rows, 1), 2, hspace=0.75, wspace=0.1)
 
     fig.text(0.012, 0.965, "Simulated records: the stored Gramian (FEM sweeps, comparative units)",
-             fontsize=15, fontweight="bold", va="top")
-    fig.text(0.012, 0.932, "Grey: rest spine, base at the square.  Red: Gramian mode 1 on the spine.  "
-             "Orange dashed: mode 2.  Blue: tip block of the Gramian, as an ellipse at the tip.  "
+             fontsize=18, fontweight="bold", va="top")
+    fig.text(0.012, 0.93, "Grey: rest spine, base at the square.  Red: Gramian mode 1 on the spine.  "
+             "Orange dashed: mode 2.\nBlue: tip block, as an ellipse at the tip.  "
              "Each cell has its own scale.",
-             fontsize=10.5, va="top", color="0.25")
+             fontsize=12.5, va="top", color="0.25")
     xr = outer[1].get_position(fig).x0
-    fig.text(xr, 0.965, "Published records (physical units)", fontsize=15, fontweight="bold", va="top")
-    fig.text(xr, 0.932, "No stored Gramian. Tip block only, computed here\nfrom the digitised free tip curve.",
-             fontsize=10.5, va="top", color="0.25")
+    fig.text(xr, 0.965, "Published records (physical units)", fontsize=18, fontweight="bold", va="top")
+    fig.text(xr, 0.93, "No stored Gramian. Tip block only, computed\nhere from the digitised free tip curve.",
+             fontsize=12.5, va="top", color="0.25")
 
     by_id = {d["id"]: load(d["id"], records_dir) for d in sim}
     for i, d in enumerate(sim):
         ax = fig.add_subplot(gs_sim[i // ncol, i % ncol])
         draw_sim_cell(ax, d, by_id[d["id"]], colours)
         tidy(ax)
-        flag = None
+        flags = []
         if d["quality_flags"]:
-            flag = "at noise floor"
-        elif d["mode1_out_of_plane_share"] >= 0.2:
-            flag = f"mode 1 {d['mode1_out_of_plane_share']:.0%} out of view"
+            flags.append("at noise floor")
+        if d["mode1_out_of_plane_share"] >= 0.2:
+            flags.append(f"mode 1 {d['mode1_out_of_plane_share']:.0%} out of view")
+        flag = "\n".join(flags) or None
         cell_text(ax, short_name(d), [
             f"mode 2/mode 1 = {sci(d['stored_ratio_2_to_1'])}",
             f"tip size {sci(d['tip_sqrt_trace'])} {d['sqrt_trace_unit']}",
@@ -362,9 +364,12 @@ def draw(drawn, left_out, records_dir, png, svg):
         ax = fig.add_subplot(gs_pub[i // 2, i % 2])
         draw_pub_cell(ax, d)
         tidy(ax)
-        flag = None
+        flags = []
         if d["tip_ratio_2_to_1"] is not None and d["tip_ratio_2_to_1"] < 1e-12:
-            flag = "axial curve only"
+            flags.append("axial curve only")
+        if d["free_curve_from_fem"]:
+            flags.append("the paper's FEM curve,\nnot a measurement")
+        flag = "\n".join(flags) or None
         cell_text(ax, short_name(d), [
             f"tip 2/1 = {sci(d['tip_ratio_2_to_1']) if d['tip_ratio_2_to_1'] else '0'}",
             f"tip size {sci(d['tip_sqrt_trace'])} {d['sqrt_trace_unit']}",
@@ -373,30 +378,28 @@ def draw(drawn, left_out, records_dir, png, svg):
     ax = fig.add_subplot(right[1])
     ax.axis("off")
     ax.text(0.0, 1.0, f"Not drawn ({len(left_out)} of {len(drawn) + len(left_out)} records)",
-            fontsize=12.5, fontweight="bold", va="top", transform=ax.transAxes)
+            fontsize=14, fontweight="bold", va="top", transform=ax.transAxes)
     lines = []
     heads = {lo["id"]: lo["reason"].partition(" (holds: ") for lo in left_out}
     for head in sorted({h for h, _, _ in heads.values()}):
         lines.append(head[0].upper() + head[1:] + ":")
         lines += [f"    {lo['id']}  (holds: {heads[lo['id']][2]}" for lo in left_out if heads[lo["id"]][0] == head]
-    ax.text(0.0, 0.86, "\n".join(lines), fontsize=9.2, va="top", transform=ax.transAxes,
+    ax.text(0.0, 0.87, "\n".join(lines), fontsize=11, va="top", transform=ax.transAxes,
             family="DejaVu Sans", linespacing=1.2)
 
     pa = [d["free_u_span"][1] for d in sim if d["input_unit"] == "Pa"]
     top_pa = f"no more than {max(pa):.0f} Pa" if pa else "low pressures"
     worst = max((d["tip_block_rel_diff"] for d in sim), default=0.0)
     caption = (
-        "The Gramian is M-11's controllability Gramian, W_c = sum over input levels of |du| J J^T, with J = d(position)/du "
-        "(Gramain_extraction, gramian_map/jacobian.py). Every record has one input, so a wide ellipse means the direction of tip motion "
-        "turns along the stroke;\nit does not mean two directions can be chosen. "
-        f"Simulated pressure-driven records run at {top_pa}, far below physical pressures, so their magnitudes are comparative, "
+        "Gramian as in M-11 (gramian_map/jacobian.py): W_c = sum over input levels of |du| J J^T, J = d(position)/du.  "
+        "One input per record: a wide ellipse means the tip's direction turns along the stroke, not that two directions can be chosen.\n"
+        f"Simulated pressure-driven records run at {top_pa}, far below physical pressures: their magnitudes are comparative, "
         "not predictive, and cannot be set against the published panel.\n"
-        "Modes are sign-blind; each is drawn turned the way the free tip ends up moving. Views are in the record's XY plane; "
-        "where a cell gives a share 'out of view', that share of mode 1 lies out of that plane. 'Tip size' is the square root of the trace of the tip block.\n"
-        f"For all {len(sim)} simulated records, the tip block computed from the free tip curve matches the tip block of the stored Gramian "
-        f"(largest relative difference {sci(worst)}); the published cells apply that same calculation to digitised curves. "
-        "Numbers: outputs/record_gramians.md.")
-    fig.text(0.012, 0.012, caption, fontsize=9.6, va="bottom", ha="left", color="0.2", wrap=False)
+        f"Tip size = sqrt(trace) of the tip block.  On all {len(sim)} simulated records the tip block from the free tip curve "
+        f"matches the stored one (largest relative difference {sci(worst)}).\n"
+        "Views in the XY plane; 'N% out of view' is the share of mode 1 out of that plane.  Modes are sign-blind, drawn turned the way the free tip moves.  "
+        f"Numbers: outputs/{STEM}.md.")
+    fig.text(0.012, 0.012, caption, fontsize=11.5, va="bottom", ha="left", color="0.2", wrap=False)
 
     fig.savefig(png, dpi=120)
     fig.savefig(svg)
