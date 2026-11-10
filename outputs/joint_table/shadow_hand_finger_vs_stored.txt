@@ -1,0 +1,40 @@
+shadow_hand_finger_from_joint_table (from the joint table) against data/records/shadow_hand_finger.json
+numbers agree when within 1e-06 of each other
+
+same  metadata.length_m
+    table:  0.096
+    stored: 0.096
+same  metadata.actuation_physics
+DIFFERS  scalars.free_stroke_m
+    table:  0.12947240813847366
+    stored: 0.123687
+same  scalars.free_direction
+    table:  [-0.08127053260409789, 0.9966920790947654, 0.0]
+    stored: [-0.081271, 0.996692, 0.0]
+same  scalars.polarity_axial
+    table:  0
+    stored: 0
+DIFFERS  scalars.blocked_force_N
+    table:  10.416666666666666
+    stored: null
+DIFFERS  scalars.stiffness_N_per_m
+    table:  0.0
+    stored: null
+same  scalars.effective_dof
+    table:  3
+    stored: 3
+DIFFERS  input.channels
+    table:  [{"name": "drive level (fraction of each joint's upper range end and of its torque limit)", "unit": null, "range": [0.0, 1.0], "rated": 1.0}]
+    stored: [{"name": "joint flexion (uniform fraction)", "unit": null, "range": [0.0, 1.0], "rated": 1.0}]
+DIFFERS  free block
+    table:  true
+    stored: false
+DIFFERS  blocked block
+    table:  true
+    stored: false
+DIFFERS  stiffness block
+    table:  true
+    stored: false
+same  shape block
+    table:  false
+    stored: false

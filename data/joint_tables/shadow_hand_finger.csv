@@ -1,0 +1,17 @@
+# Joint table for one jointed finger: docs/JOINT_TABLE_FORMAT.md.
+# Lengths and ranges: the stored record data/records/shadow_hand_finger.json (45/25/26 mm phalanges; MCP 80 deg, PIP 100 deg, DIP 70 deg max flex), made by gramian_map/generate_literature_records.py in Gramain_extraction.
+# Torque limits and stiffness: MuJoCo Menagerie shadow_hand/right_hand.xml at b846dd12bc459d776cccb3dee0b1d02acbf7a9c7 (the commit tools/fetch_hands.py pins). Class right_hand sets position forcerange -1 1, which the FFJ3 actuator and the FFJ0 tendon actuator (J2 and J1, coefficient 1 each) inherit. No joint there sets a stiffness, so it is MuJoCo's default, 0.
+id,shadow_hand_finger_from_joint_table
+name,Shadow Hand finger from its joint table
+source,literature
+detail,"joint table: published nominal Shadow Dexterous Hand dimensions (45/25/26 mm phalanges, as the stored shadow_hand_finger record); torque limits and stiffness as the MuJoCo Menagerie model sets them"
+actuation,cable
+levels,21
+uncertainty,0.15
+notes,"Rigid articulated finger, three hinges. The real finger couples J2 and J1 through one tendon; the table cannot say so, and each joint is read on its own."
+
+joint,axis_x,axis_y,axis_z,pos_x_mm,pos_y_mm,pos_z_mm,min_deg,max_deg,torque_Nm,stiffness_Nm_per_rad
+J3,0,0,1,0,0,0,0,80,1,0
+J2,0,0,1,45,0,0,0,100,1,0
+J1,0,0,1,70,0,0,0,70,1,0
+tip,,,,96,0,0,,,,
