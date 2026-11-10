@@ -377,3 +377,103 @@ def hand_card(key, n=3000):
             "workspace_extent_mm": (1e3 * (pts.max(0) - pts.min(0))).round(1).tolist(),
         })
     return out
+
+
+# ----------------------------------------------------------------------
+# hands added from a model file we did not prepare (tools/add_hand.py,
+# docs/BRING_YOUR_HAND.md)
+# ----------------------------------------------------------------------
+# tools/add_hand.py checks a model file against a small description file
+# and writes one entry file per hand, <folder>/<key>/hand.json. Every entry
+# found here at import joins HANDS, so the hand is found by name with no
+# edit to the table above. Nothing above this line reads any of this: the
+# entry is an ordinary "local" one whose "file" is the model's path
+# (model_path joins it to data/hands, and an absolute path passes through).
+DEFAULT_ADDED = os.path.join(ROOT, "external", "added_hands")
+ADDED_SCHEMA = "gramian-workshop/added-hand@1"
+ADDED_ENTRY = "hand.json"
+BUILT_IN = tuple(HANDS)          # the table as typed above
+ADDED_PROBLEMS = []              # entries skipped at the last load_added, in words
+
+
+def added_dir():
+    """The folder of added hands: GMW_ADDED_HANDS, else external/added_hands."""
+    return os.environ.get("GMW_ADDED_HANDS") or DEFAULT_ADDED
+
+
+def added_entry(path):
+    """(key, spec for HANDS) from one entry file. ValueError, in plain
+    words, if the file is not an entry this code can use."""
+    import json
+    try:
+        with open(path, encoding="utf-8") as fh:
+            e = json.load(fh)
+    except (OSError, ValueError) as err:
+        raise ValueError(f"cannot be read as JSON ({err})") from None
+    if not isinstance(e, dict) or e.get("schema") != ADDED_SCHEMA:
+        raise ValueError(f'is not an added-hand entry ("schema" is not "{ADDED_SCHEMA}")')
+    key, fingers, model = e.get("key"), e.get("fingers"), e.get("model")
+    if not isinstance(key, str) or not key:
+        raise ValueError('has no "key"')
+    if key in BUILT_IN:
+        raise ValueError(f'uses the name "{key}", which a hand in the table already has')
+    if not isinstance(model, str) or not model:
+        raise ValueError('has no "model"')
+    if (not isinstance(fingers, dict) or len(fingers) < 2
+            or not all(isinstance(k, str) and isinstance(v, str) for k, v in fingers.items())):
+        raise ValueError('needs "fingers": two or more, each a label and a body name')
+    here = os.path.dirname(os.path.abspath(path))
+    full = os.path.normpath(model if os.path.isabs(model) else os.path.join(here, model))
+    try:                         # a path that does not name this machine, where it can
+        file = os.path.relpath(full, os.path.join(ROOT, "data", "hands")).replace("\\", "/")
+    except ValueError:           # another drive
+        file = full
+    spec = {"name": str(e.get("name") or key), "base": "local", "file": file,
+            "fingers": dict(fingers), "added": True}
+    ds = e.get("datasheet_torque_Nm")
+    if ds is not None:
+        try:
+            spec["datasheet_torque_Nm"] = (float(ds[0]), str(ds[1]))
+        except (TypeError, ValueError, IndexError, KeyError):
+            raise ValueError('"datasheet_torque_Nm" must be [a number in N.m, '
+                             'where it was published]') from None
+    if e.get("caveat"):
+        spec["caveat"] = str(e["caveat"])
+    return key, spec
+
+
+def load_added(folder=None, warn=True):
+    """Add every entry in `folder` (default added_dir()) to HANDS and return
+    the names added. An entry that cannot be used is skipped, never raised:
+    what was wrong goes to ADDED_PROBLEMS and, with warn, to stderr. Hands
+    added from that folder by an earlier call and no longer there are
+    dropped."""
+    import sys
+    folder = added_dir() if folder is None else folder
+    for k in [k for k, s in HANDS.items() if s.get("added")]:
+        del HANDS[k]
+    del ADDED_PROBLEMS[:]
+    names = []
+    try:
+        subs = sorted(os.listdir(folder)) if os.path.isdir(folder) else []
+    except OSError:
+        subs = []
+    for sub in subs:
+        p = os.path.join(folder, sub, ADDED_ENTRY)
+        if not os.path.isfile(p):
+            continue
+        try:
+            key, spec = added_entry(p)
+            if key in HANDS:
+                raise ValueError(f'uses the name "{key}", which another added hand has')
+        except ValueError as err:
+            ADDED_PROBLEMS.append(f"added hand skipped: {p} {err}")
+            if warn:
+                print(ADDED_PROBLEMS[-1], file=sys.stderr)
+            continue
+        HANDS[key] = spec
+        names.append(key)
+    return names
+
+
+load_added()
