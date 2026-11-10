@@ -1,0 +1,81 @@
+# Stored follow results superseded by the current check
+
+Written by `tools/list_superseded_follow.py`; the rules are in its docstring.
+
+Superseded, need a fresh placement search: 39
+- `outputs/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__respaced.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__respaced__side_kq0.05.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__respaced__side_kq0.2.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__respaced__side_kq0.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_allegro__w10_cup_physical_x0.3_a0.15_sl0.3t_n4.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_george_measured__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_george_measured_thumb__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_george_measured_thumb__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_pen.json`: stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_george_measured_thumb__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_tan.json`: stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_human_vc__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_human_vc__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_rescored.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_human_vc_arch__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_human_vc_arch_prop__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_human_vc_arch_prop__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_pen.json`: stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_human_vc_arch_prop__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_tan.json`: stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_human_vc_prop__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_l20__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_l20__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_l20__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_l20__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_kq0.05.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_l20__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_kq0.2.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_l20__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_kq0.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_l20__w10_cup_physical_x0.3_a0.15_sl0.3t_n5.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_leap__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_leap__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__respaced.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_leap__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_leap__w10_cup_physical_x0.3_a0.15_sl0.3t_n4.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_kq0.05.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_kq0.2.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__respaced__side_kq0.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__wrist.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_shadow__w10_cup_physical_x0.3_a0.15_sl0.3t_n5.json`: first committed before 6922372; stored w10 cup leader, not a __contactfix copy
+- `outputs/follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__provisional.json`: stored w10 cup leader, not a __contactfix copy; provisional (before equilibrium posing)
+- `outputs/follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__provisional.json`: stored w10 cup leader, not a __contactfix copy; provisional (before equilibrium posing)
+
+Not superseded by these rules: 35
+- `outputs/follow_allegro__hold_allegro__self__fixed.json`
+- `outputs/follow_allegro__hold_allegro__self__selfoverlapfix__fixed.json`
+- `outputs/follow_george_clip__hold_george_clip__self__fixed.json`
+- `outputs/follow_george_clip__hold_george_clip__self__selfoverlapfix__fixed.json`
+- `outputs/follow_george_clip__tennis_new_cup_take3_handframe.json`
+- `outputs/follow_george_kp__hold_george_kp__self__fixed.json`
+- `outputs/follow_george_kp__hold_george_kp__self__selfoverlapfix__fixed.json`
+- `outputs/follow_george_kp__tennis_new_cup_take3_handframe.json`
+- `outputs/follow_george_kp_wide__hold_george_kp_wide__self__fixed.json`
+- `outputs/follow_george_kp_wide__hold_george_kp_wide__self__selfoverlapfix__fixed.json`
+- `outputs/follow_george_kp_wide__tennis_new_cup_take3_handframe.json`
+- `outputs/follow_george_kp_wide__tennis_new_cup_take3_handframe__pen1.json`
+- `outputs/follow_george_kp_wide__tennis_new_cup_take3_handframe__pen3.json`
+- `outputs/follow_george_measured__hold_george_measured__self__fixed.json`
+- `outputs/follow_george_measured__hold_george_measured__self__selfoverlapfix__fixed.json`
+- `outputs/follow_george_measured_thumb__hold_george_measured_thumb__self__fixed.json`
+- `outputs/follow_george_measured_thumb__hold_george_measured_thumb__self__selfoverlapfix__fixed.json`
+- `outputs/follow_george_measured_thumb__tennis_new_cup_take3_derived__tan.json`
+- `outputs/follow_human_vc__hold_human_vc__self__fixed.json`
+- `outputs/follow_human_vc__hold_human_vc__self__selfoverlapfix__fixed.json`
+- `outputs/follow_human_vc_arch__hold_human_vc_arch__self__fixed.json`
+- `outputs/follow_human_vc_arch__hold_human_vc_arch__self__selfoverlapfix__fixed.json`
+- `outputs/follow_human_vc_arch_prop__hold_human_vc_arch_prop__self__fixed.json`
+- `outputs/follow_human_vc_arch_prop__hold_human_vc_arch_prop__self__selfoverlapfix__fixed.json`
+- `outputs/follow_human_vc_prop__hold_human_vc_prop__self__fixed.json`
+- `outputs/follow_human_vc_prop__hold_human_vc_prop__self__selfoverlapfix__fixed.json`
+- `outputs/follow_l20__hold_l20__self__selfoverlapfix__fixed.json`
+- `outputs/follow_l20_public__hold_l20_public__self__selfoverlapfix__fixed.json`
+- `outputs/follow_leap__hold_leap__self__fixed.json`
+- `outputs/follow_leap__hold_leap__self__selfoverlapfix__fixed.json`
+- `outputs/follow_shadow__hold_shadow__self__fixed.json`
+- `outputs/follow_shadow__hold_shadow__self__selfoverlapfix__fixed.json`
+- `outputs/follow_wall_x3_ring__hold_wall_x3_ring__self__fixed.json`
+- `outputs/follow_wall_x3_ring__hold_wall_x3_ring__self__selfoverlapfix__fixed.json`
+- `outputs/follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json`

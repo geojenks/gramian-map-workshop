@@ -1,0 +1,666 @@
+{
+ "hand": "wall_x3_ring",
+ "hand_name": "Three record-fitted stand-ins of wall_0.0010m on a ring (example)",
+ "leader": "hold_wall_x3_ring__self__selfoverlapfix",
+ "placement_cost_mm": 0.0,
+ "self_overlap": {
+  "in_verdict": false,
+  "colliding_geoms": 10,
+  "contact_excludes": 0,
+  "rest_pairs": [
+   {
+    "body1": "palm",
+    "body2": "f0_link0",
+    "kind": "finger-palm",
+    "depth_mm": 6.443756550000001
+   },
+   {
+    "body1": "palm",
+    "body2": "f1_link0",
+    "kind": "finger-palm",
+    "depth_mm": 6.443756550000001
+   },
+   {
+    "body1": "palm",
+    "body2": "f2_link0",
+    "kind": "finger-palm",
+    "depth_mm": 6.443756550000001
+   }
+  ]
+ },
+ "resid_tol": 0.05,
+ "settings": {
+  "middle": true,
+  "ik_iters": 60,
+  "place": {
+   "n_frames": 10,
+   "n_samples": 80,
+   "iters": 4,
+   "pad_step": 6
+  },
+  "wrist": false,
+  "respace": false,
+  "reused_placement": true,
+  "strength": "input columns, one-sided where the model says (23 Oct); a joint on a range limit takes any moment into the stop (3 Nov, issue 26)",
+  "stop_reactions": {
+   "on": true,
+   "tol": 0.0001
+  },
+  "joint_stiffness_Nm_per_rad": 0.0,
+  "deflect_max_m": 0.002,
+  "scale_margin": true,
+  "disturbance_margin": true,
+  "apply_limit": false,
+  "apply_limit_free": false,
+  "inertia": false,
+  "rate_limit_per_s": null,
+  "lag_s": null,
+  "allowed_overlap_m": 0.003,
+  "other_contact": {
+   "allowed": true,
+   "max_overlap_m": 0.003
+  },
+  "overlap_source": {
+   "contact": "default",
+   "other": "default"
+  },
+  "push_out": {
+   "first": [
+    0.2,
+    0.0
+   ],
+   "second": [
+    1.0,
+    1.0
+   ]
+  },
+  "joint_springs": "from the model: k (q - springref) at each solved pose, on the joint balance",
+  "pose": "fingers with fewer inputs than sprung joints: an equilibrium of drive, springs and contact force (issue 21)",
+  "pose_fingers": [
+   "f0",
+   "f1",
+   "f2"
+  ]
+ },
+ "caveat": "PROVISIONAL: each motor's force is the record's unitless drive level a(u), not newtons, and the simulated record's forces are comparative; strength verdicts wait on the units ruling",
+ "assignment": {
+  "f0": 0,
+  "f1": 1,
+  "f2": 2
+ },
+ "respace_deg": [
+  0.0,
+  0.0,
+  0.0
+ ],
+ "placement": {
+  "rotation_matrix": [
+   [
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "translation_m": [
+   -8.852069548438805e-18,
+   -0.03413166834909061,
+   0.09068036152866325
+  ]
+ },
+ "placement_key": null,
+ "placement_search_s": null,
+ "frames": [
+  {
+   "k": 0,
+   "verdict": "amber",
+   "reason": null,
+   "ball_center": [
+    -8.852069548438805e-18,
+    -0.03413166834909061,
+    0.09068036152866325
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -60.74994293424792,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 0.9983984635032136,
+     "facing_deg": 42.70524680984498,
+     "phalanx": "distal",
+     "q": [
+      0.00884391951944011,
+      0.38161850693956767,
+      0.5151384249222556,
+      0.006132869541541088
+     ],
+     "target": [
+      -8.611042349040021e-18,
+      -0.01940703447137369,
+      0.06454255065691672
+     ],
+     "pad_world": [
+      -9.559275196575065e-18,
+      -0.01855848349942271,
+      0.06503906839360327
+     ],
+     "pad_normal": [
+      2.357352160454204e-17,
+      -0.5191061616555966,
+      0.854709771168666
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 42.70524680984498,
+     "patch_mm": 5.641495501615238,
+     "overlap_mm": -0.17387028809515148,
+     "other_overlap_mm": -22.54264423467568,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.8854209121394688
+      ],
+      "drive_share": [
+       0.3833210217948392
+      ],
+      "force_N": [
+       1.6880757952124259e-18,
+       -0.06328064787197271,
+       0.07031002066869256
+      ],
+      "balance": 7.923909161477884e-16,
+      "force_departure_N": 0.022008561386104082
+     },
+     "beyond_limit": [
+      {
+       "joint": "f0_hinge2",
+       "side": "hi",
+       "by": 0.006132869541541088
+      }
+     ],
+     "spring": {
+      "torque": [
+       2.854649186404398,
+       0.015941980896587785,
+       0.02151972920566299,
+       0.00025619850005858283
+      ],
+      "share": [
+       0.37410677056700453,
+       0.37993882176606747,
+       0.39460694376965966,
+       null
+      ]
+     },
+     "unbalanced_Nm": 0.0012822003556494622,
+     "unbalanced_N": 0.12317739845121833,
+     "state": "amber",
+     "torque_checked": true
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 1.240886849926245,
+     "facing_deg": 59.769098297074514,
+     "phalanx": "distal",
+     "q": [
+      0.002510137337420642,
+      0.14311701363644327,
+      0.17019217616256838,
+      0.011213251531088353
+     ],
+     "target": [
+      -0.007628162478750417,
+      -0.010439069326355768,
+      0.07393306656064862
+     ],
+     "pad_world": [
+      -0.008588572587347751,
+      -0.011085154101925582,
+      0.0735020437423642
+     ],
+     "pad_normal": [
+      0.2862857529115914,
+      -0.7682171415721676,
+      0.5726105928766351
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 59.769098297074514,
+     "patch_mm": 5.641495501615238,
+     "overlap_mm": -0.11919056388404875,
+     "other_overlap_mm": -15.788778160268532,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.26084805440907055
+      ],
+      "drive_share": [
+       0.11292769504130579
+      ],
+      "force_N": [
+       0.03611181712735568,
+       -0.07280656827300877,
+       0.051478430268624004
+      ],
+      "balance": 5.4497414442758465e-11,
+      "force_departure_N": 0.01308056636511896
+     },
+     "beyond_limit": [
+      {
+       "joint": "f1_hinge2",
+       "side": "hi",
+       "by": 0.011213251531088353
+      }
+     ],
+     "spring": {
+      "torque": [
+       0.8102246399099723,
+       0.005978663654617193,
+       0.007109719187602254,
+       0.0004684296973195604
+      ],
+      "share": [
+       0.10618135668443371,
+       0.1424870873579496,
+       0.13037081149431676,
+       null
+      ]
+     },
+     "unbalanced_Nm": 0.0006911490916641413,
+     "unbalanced_N": 0.07253061190914512,
+     "state": "amber",
+     "torque_checked": true
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 1.240886772481419,
+     "facing_deg": 59.769098080928714,
+     "phalanx": "distal",
+     "q": [
+      0.002510137337423413,
+      0.14311701454359282,
+      0.17019217704441084,
+      0.011213252365588107
+     ],
+     "target": [
+      0.007628162478750414,
+      -0.010439069326355768,
+      0.07393306656064862
+     ],
+     "pad_world": [
+      0.00858857249469729,
+      -0.01108515407626708,
+      0.0735020437304657
+     ],
+     "pad_normal": [
+      -0.2862857498232433,
+      -0.768217142427451,
+      0.5726105932732515
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 59.769098080928714,
+     "patch_mm": 5.641495501615238,
+     "overlap_mm": -0.11919060022261285,
+     "other_overlap_mm": -15.788778170479363,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.26084805440933423
+      ],
+      "drive_share": [
+       0.11292769504141992
+      ],
+      "force_N": [
+       -0.036111817127414396,
+       -0.0728065682729749,
+       0.05147843026860069
+      ],
+      "balance": 2.777251110784821e-17,
+      "force_departure_N": 0.0130805663651906
+     },
+     "beyond_limit": [
+      {
+       "joint": "f2_hinge2",
+       "side": "hi",
+       "by": 0.011213252365588107
+      }
+     ],
+     "spring": {
+      "torque": [
+       0.8102246399108667,
+       0.005978663692513051,
+       0.007109719224440917,
+       0.0004684297321804985
+      ],
+      "share": [
+       0.10618135668455092,
+       0.14248708826110634,
+       0.13037081216982677,
+       null
+      ]
+     },
+     "unbalanced_Nm": 0.0006911490609734463,
+     "unbalanced_N": 0.07253060855227378,
+     "state": "amber",
+     "torque_checked": true
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 0.0,
+    "finger_palm_pair": null,
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 3.933619212579356,
+      "rest_mm": 6.443756550000001
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 3.9336192125765894,
+      "rest_mm": 6.443756550000001
+     }
+    ]
+   },
+   "scale_margin": {
+    "margin": 1.4775390625,
+    "capped": false,
+    "contiguous": true
+   },
+   "disturbance_margin": {
+    "margin": 0.08377083315281197,
+    "leader_wrench": 0.28700860319327076,
+    "direction": "+tx",
+    "capped": false
+   }
+  },
+  {
+   "k": 1,
+   "verdict": "amber",
+   "reason": null,
+   "ball_center": [
+    -8.852069548438805e-18,
+    -0.03413166834909061,
+    0.09068036152866325
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -60.74994293424792,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 0.9983984635032136,
+     "facing_deg": 42.70524680984498,
+     "phalanx": "distal",
+     "q": [
+      0.00884391951944011,
+      0.38161850693956767,
+      0.5151384249222556,
+      0.006132869541541088
+     ],
+     "target": [
+      -8.611042349040021e-18,
+      -0.01940703447137369,
+      0.06454255065691672
+     ],
+     "pad_world": [
+      -9.559275196575065e-18,
+      -0.01855848349942271,
+      0.06503906839360327
+     ],
+     "pad_normal": [
+      2.357352160454204e-17,
+      -0.5191061616555966,
+      0.854709771168666
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 42.70524680984498,
+     "patch_mm": 5.641495501615238,
+     "overlap_mm": -0.17387028809515148,
+     "other_overlap_mm": -22.54264423467568,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.8854209121394688
+      ],
+      "drive_share": [
+       0.3833210217948392
+      ],
+      "force_N": [
+       1.6880757952124259e-18,
+       -0.06328064787197271,
+       0.07031002066869256
+      ],
+      "balance": 7.923909161477884e-16,
+      "force_departure_N": 0.022008561386104082
+     },
+     "beyond_limit": [
+      {
+       "joint": "f0_hinge2",
+       "side": "hi",
+       "by": 0.006132869541541088
+      }
+     ],
+     "spring": {
+      "torque": [
+       2.854649186404398,
+       0.015941980896587785,
+       0.02151972920566299,
+       0.00025619850005858283
+      ],
+      "share": [
+       0.37410677056700453,
+       0.37993882176606747,
+       0.39460694376965966,
+       null
+      ]
+     },
+     "unbalanced_Nm": 0.0012822003556494622,
+     "unbalanced_N": 0.12317739845121833,
+     "state": "amber",
+     "torque_checked": true
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 1.240886849926245,
+     "facing_deg": 59.769098297074514,
+     "phalanx": "distal",
+     "q": [
+      0.002510137337420642,
+      0.14311701363644327,
+      0.17019217616256838,
+      0.011213251531088353
+     ],
+     "target": [
+      -0.007628162478750417,
+      -0.010439069326355768,
+      0.07393306656064862
+     ],
+     "pad_world": [
+      -0.008588572587347751,
+      -0.011085154101925582,
+      0.0735020437423642
+     ],
+     "pad_normal": [
+      0.2862857529115914,
+      -0.7682171415721676,
+      0.5726105928766351
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 59.769098297074514,
+     "patch_mm": 5.641495501615238,
+     "overlap_mm": -0.11919056388404875,
+     "other_overlap_mm": -15.788778160268532,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.26084805440907055
+      ],
+      "drive_share": [
+       0.11292769504130579
+      ],
+      "force_N": [
+       0.03611181712735568,
+       -0.07280656827300877,
+       0.051478430268624004
+      ],
+      "balance": 5.4497414442758465e-11,
+      "force_departure_N": 0.01308056636511896
+     },
+     "beyond_limit": [
+      {
+       "joint": "f1_hinge2",
+       "side": "hi",
+       "by": 0.011213251531088353
+      }
+     ],
+     "spring": {
+      "torque": [
+       0.8102246399099723,
+       0.005978663654617193,
+       0.007109719187602254,
+       0.0004684296973195604
+      ],
+      "share": [
+       0.10618135668443371,
+       0.1424870873579496,
+       0.13037081149431676,
+       null
+      ]
+     },
+     "unbalanced_Nm": 0.0006911490916641413,
+     "unbalanced_N": 0.07253061190914512,
+     "state": "amber",
+     "torque_checked": true
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 1.240886772481419,
+     "facing_deg": 59.769098080928714,
+     "phalanx": "distal",
+     "q": [
+      0.002510137337423413,
+      0.14311701454359282,
+      0.17019217704441084,
+      0.011213252365588107
+     ],
+     "target": [
+      0.007628162478750414,
+      -0.010439069326355768,
+      0.07393306656064862
+     ],
+     "pad_world": [
+      0.00858857249469729,
+      -0.01108515407626708,
+      0.0735020437304657
+     ],
+     "pad_normal": [
+      -0.2862857498232433,
+      -0.768217142427451,
+      0.5726105932732515
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 59.769098080928714,
+     "patch_mm": 5.641495501615238,
+     "overlap_mm": -0.11919060022261285,
+     "other_overlap_mm": -15.788778170479363,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.26084805440933423
+      ],
+      "drive_share": [
+       0.11292769504141992
+      ],
+      "force_N": [
+       -0.036111817127414396,
+       -0.0728065682729749,
+       0.05147843026860069
+      ],
+      "balance": 2.777251110784821e-17,
+      "force_departure_N": 0.0130805663651906
+     },
+     "beyond_limit": [
+      {
+       "joint": "f2_hinge2",
+       "side": "hi",
+       "by": 0.011213252365588107
+      }
+     ],
+     "spring": {
+      "torque": [
+       0.8102246399108667,
+       0.005978663692513051,
+       0.007109719224440917,
+       0.0004684297321804985
+      ],
+      "share": [
+       0.10618135668455092,
+       0.14248708826110634,
+       0.13037081216982677,
+       null
+      ]
+     },
+     "unbalanced_Nm": 0.0006911490609734463,
+     "unbalanced_N": 0.07253060855227378,
+     "state": "amber",
+     "torque_checked": true
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 0.0,
+    "finger_palm_pair": null,
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 3.933619212579356,
+      "rest_mm": 6.443756550000001
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 3.9336192125765894,
+      "rest_mm": 6.443756550000001
+     }
+    ]
+   },
+   "scale_margin": {
+    "margin": 1.4775390625,
+    "capped": false,
+    "contiguous": true
+   },
+   "disturbance_margin": {
+    "margin": 0.08377083315281197,
+    "leader_wrench": 0.28700860319327076,
+    "direction": "+tx",
+    "capped": false
+   }
+  }
+ ],
+ "elapsed_s": 34.0,
+ "placement_reused_from": "outputs\\follow_wall_x3_ring__hold_wall_x3_ring__self__selfoverlapfix__fixed.json"
+}

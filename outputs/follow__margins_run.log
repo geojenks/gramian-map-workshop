@@ -1,0 +1,162 @@
+allegro: note: outputs/follow_allegro__hold_allegro__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+allegro on hold_allegro__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'thumb': 3}; placement cost 0.00 mm; respaced by [0, 0, 0, 0] deg; 140.4 s
+   per finger: {('index', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.24 mm, max 0.90 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 189 (frame 0)
+   disturbance margin: smallest 52.94 (frame 0, worst direction -ty)
+    no finger is amber or red, no joint is past a limit
+george_clip: note: outputs/follow_george_clip__hold_george_clip__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+george_clip on hold_george_clip__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 505.5 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.10 mm, max 2.40 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 396 (frame 0)
+   disturbance margin: smallest 38.5 (frame 0, worst direction -tx)
+    no finger is amber or red, no joint is past a limit
+george_kp: note: outputs/follow_george_kp__hold_george_kp__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+george_kp on hold_george_kp__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 5.1 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.84 mm, max 1.36 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 832 (frame 0)
+   disturbance margin: smallest 29.1 (frame 0, worst direction -tx)
+    no finger is amber or red, no joint is past a limit
+george_kp_wide: note: outputs/follow_george_kp_wide__hold_george_kp_wide__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+george_kp_wide on hold_george_kp_wide__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 138.1 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.32 mm, max 0.60 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 452 (frame 0)
+   disturbance margin: smallest 56.08 (frame 0, worst direction +tz)
+    no finger is amber or red, no joint is past a limit
+george_measured: note: outputs/follow_george_measured__hold_george_measured__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+george_measured on hold_george_measured__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 7.3 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.37 mm, max 1.06 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 464 (frame 0)
+   disturbance margin: smallest 33.85 (frame 0, worst direction +fy)
+    no finger is amber or red, no joint is past a limit
+george_measured_thumb: note: outputs/follow_george_measured_thumb__hold_george_measured_thumb__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+george_measured_thumb on hold_george_measured_thumb__self__selfoverlapfix: {'amber': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 5.3 s
+   per finger: {('index', 'green'): 2, ('little', 'amber'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 1.53 mm, max 3.47 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest at least 1024 (frame 0)
+   disturbance margin: smallest 77.46 (frame 0, worst direction +fy)
+    little: amber in 2 of 2 frames
+human_vc: note: outputs/follow_human_vc__hold_human_vc__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+human_vc on hold_human_vc__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 8.2 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.91 mm, max 1.34 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 328 (frame 0)
+   disturbance margin: smallest 22.24 (frame 0, worst direction -tx)
+    no finger is amber or red, no joint is past a limit
+human_vc_arch: note: outputs/follow_human_vc_arch__hold_human_vc_arch__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+human_vc_arch on hold_human_vc_arch__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 239.7 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.54 mm, max 1.26 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 432 (frame 0)
+   disturbance margin: smallest 12.39 (frame 0, worst direction -ty)
+    no finger is amber or red, no joint is past a limit
+human_vc_arch_prop: note: outputs/follow_human_vc_arch_prop__hold_human_vc_arch_prop__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+human_vc_arch_prop on hold_human_vc_arch_prop__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 5.6 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.54 mm, max 0.60 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 820 (frame 0)
+   disturbance margin: smallest 25.21 (frame 0, worst direction -fz)
+    no finger is amber or red, no joint is past a limit
+human_vc_prop: note: outputs/follow_human_vc_prop__hold_human_vc_prop__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+human_vc_prop on hold_human_vc_prop__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 6.7 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.23 mm, max 0.58 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 294 (frame 0)
+   disturbance margin: smallest 10.03 (frame 0, worst direction -tx)
+    no finger is amber or red, no joint is past a limit
+l20: note: outputs/follow_l20__hold_l20__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+l20 on hold_l20__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'thumb': 0, 'index': 1, 'middle': 2, 'ring': 3, 'little': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 154.4 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.66 mm, max 1.37 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 328 (frame 0)
+   disturbance margin: smallest 77.07 (frame 0, worst direction +ty)
+    no finger is amber or red, no joint is past a limit
+l20_public: note: outputs/follow_l20_public__hold_l20_public__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+l20_public on hold_l20_public__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'thumb': 0, 'index': 1, 'middle': 2, 'ring': 3, 'little': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 4.7 s
+   per finger: {('index', 'green'): 2, ('little', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median -0.68 mm, max -0.36 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 240 (frame 0)
+   disturbance margin: smallest 45.92 (frame 0, worst direction +ty)
+    no finger is amber or red, no joint is past a limit
+leap: note: outputs/follow_leap__hold_leap__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+leap on hold_leap__self__selfoverlapfix: {'green': 2}; red because {}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'thumb': 3}; placement cost 0.00 mm; respaced by [0, 0, 0, 0] deg; 4.7 s
+   per finger: {('index', 'green'): 2, ('middle', 'green'): 2, ('ring', 'green'): 2, ('thumb', 'green'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.65 mm, max 0.65 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 304 (frame 0)
+   disturbance margin: smallest 16.76 (frame 0, worst direction -tx)
+    no finger is amber or red, no joint is past a limit
+shadow: note: outputs/follow_shadow__hold_shadow__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+shadow on hold_shadow__self__selfoverlapfix: {'red': 2}; red because {'torque': 2}; assignment {'index': 0, 'middle': 1, 'ring': 2, 'little': 3, 'thumb': 4}; placement cost 0.00 mm; respaced by [0, 0, 0, 0, 0] deg; 5.2 s
+   per finger: {('index', 'red'): 2, ('little', 'red'): 2, ('middle', 'red'): 2, ('ring', 'red'): 2, ('thumb', 'red'): 2}
+   overlap (deepest part of each posed finger, per frame): median 0.46 mm, max 4.67 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 0 (frame 0)
+   disturbance margin: smallest 0 (frame 0)
+    index: red (whole hand: torque; this finger unbalanced 0.00145 N.m) frames 0 to 1 (2)
+    middle: red (whole hand: torque; this finger unbalanced 0.00151 N.m) frames 0 to 1 (2)
+    ring: red (whole hand: torque; this finger unbalanced 0.00096 N.m) frames 0 to 1 (2)
+    little: red (whole hand: torque; this finger unbalanced 0.00066 N.m) frames 0 to 1 (2)
+    thumb: red (whole hand: torque; this finger balanced) frames 0 to 1 (2)
+wall_x3_ring: note: outputs/follow_wall_x3_ring__hold_wall_x3_ring__self__selfoverlapfix__fixed.json has no placement key; re-scoring its placement anyway
+wall_x3_ring on hold_wall_x3_ring__self__selfoverlapfix: {'amber': 2}; red because {}; assignment {'f0': 0, 'f1': 1, 'f2': 2}; placement cost 0.00 mm; respaced by [0, 0, 0] deg; 34.0 s
+   per finger: {('f0', 'amber'): 2, ('f1', 'amber'): 2, ('f2', 'amber'): 2}
+   overlap (deepest part of each posed finger, per frame): median -0.12 mm, max -0.12 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 1.478 (frame 0)
+   disturbance margin: smallest 0.08377 (frame 0, worst direction +tx)
+    f0: amber in 2 of 2 frames
+    f1: amber in 2 of 2 frames
+    f2: amber in 2 of 2 frames
+    f0_hinge2: past its upper limit by 0.00613, frames 0 to 1 (2)
+    f1_hinge2: past its upper limit by 0.0112, frames 0 to 1 (2)
+    f2_hinge2: past its upper limit by 0.0112, frames 0 to 1 (2)
+wall_x3_ring on w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix: {'red': 35, 'amber': 5}; red because {'torque': 14, 'direction': 21}; assignment {'f0': 3, 'f1': 0, 'f2': 2}; placement cost 5.30 mm; respaced by [0, 0, 0, 0] deg; 44.4 s
+   per finger: {('f0', 'green'): 18, ('f0', 'off'): 10, ('f0', 'red'): 12, ('f1', 'amber'): 5, ('f1', 'off'): 11, ('f1', 'red'): 24, ('f2', 'amber'): 3, ('f2', 'green'): 20, ('f2', 'off'): 10, ('f2', 'red'): 7}
+   overlap (deepest part of each posed finger, per frame): median 1.72 mm, max 6.81 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 0 (frame 0)
+   disturbance margin: smallest 0 (frame 0)
+    f0: red (whole hand: torque; this finger unbalanced 9.65e-05 N.m) frame 0; red (whole hand: direction; this finger unbalanced 0.000674 N.m) frame 37; red (whole hand: direction; this finger unbalanced 0.000678 N.m) frame 75; red (whole hand: torque; this finger unbalanced 0.000273 N.m) frame 83; red (whole hand: direction; this finger unbalanced 0.000671 to 0.000685 N.m) frames 113 to 121 (2); red (whole hand: direction; this finger unbalanced 0.000673 N.m) frame 159; red (whole hand: direction; this finger unbalanced 0.000676 N.m) frame 197; red (whole hand: torque; this finger unbalanced 8.56e-05 N.m) frame 204; red (whole hand: direction; this finger unbalanced 0.000673 to 0.00102 N.m) frames 235 to 242 (2); red (whole hand: direction; this finger unbalanced 0.000674 N.m) frame 280
+    f1: red (whole hand: torque; this finger unbalanced 0.0043 to 0.00531 N.m) frames 0 to 7 (2); red (whole hand: direction; this finger unbalanced 0.00133 N.m) frame 30; red (penetrates) frame 37; red (whole hand: torque; this finger unbalanced 0.00465 N.m) frame 45; red (whole hand: torque; this finger unbalanced 0.00295 N.m) frame 68; red (penetrates) frame 75; red (whole hand: torque; this finger unbalanced 0.0045 to 0.00504 N.m) frames 83 to 91 (2); red (penetrates) frames 113 to 121 (2); red (whole hand: torque; this finger unbalanced 0.00434 N.m) frame 129; red (whole hand: torque; this finger unbalanced 0.00372 N.m) frame 151; red (penetrates) frame 159; red (whole hand: torque; this finger unbalanced 0.00493 N.m) frame 166; red (penetrates) frame 197; red (whole hand: torque; this finger unbalanced 0.00419 to 0.00576 N.m) frames 204 to 212 (2); red (penetrates) frames 235 to 242 (2); red (whole hand: torque; this finger unbalanced 0.00458 N.m) frame 250; red (whole hand: torque; this finger unbalanced 0.00323 N.m) frame 273; red (penetrates) frame 280; red (whole hand: torque; this finger unbalanced 0.00505 N.m) frame 288; amber in 5 of 40 frames
+    f2: red (whole hand: torque; this finger unbalanced 0.00159 N.m) frame 0; red (whole hand: torque; this finger unbalanced 0.000504 N.m) frame 68; red (whole hand: torque; this finger unbalanced 0.000503 N.m) frame 151; red (whole hand: direction; this finger unbalanced 0.000283 N.m) frame 174; red (whole hand: torque; this finger unbalanced 0.00244 N.m) frame 204; red (whole hand: torque; this finger unbalanced 0.000503 N.m) frame 273; red (whole hand: direction; this finger unbalanced 0.000318 N.m) frame 296; amber in 3 of 40 frames
+    f0_hinge2: past its upper limit by 0.0111 to 0.0384, frames 0 to 15 (3)
+    f0_hinge2: past its upper limit by 0.0168 to 0.0404, frames 37 to 60 (4)
+    f0_hinge2: past its upper limit by 0.0169 to 0.0374, frames 75 to 98 (4)
+    f0_hinge2: past its upper limit by 0.0172 to 0.0402, frames 113 to 136 (4)
+    f0_hinge2: past its upper limit by 0.0163 to 0.0461, frames 159 to 182 (4)
+    f0_hinge2: past its upper limit by 0.00986 to 0.0382, frames 197 to 220 (4)
+    f0_hinge2: past its upper limit by 0.0169 to 0.0404, frames 235 to 258 (4)
+    f0_hinge2: past its upper limit by 0.0171 to 0.0381, frames 280 to 296 (3)
+    f1_slide: past its lower limit by 0.000492 to 0.000529, frames 0 to 7 (2)
+    f1_slide: past its lower limit by 0.000509, frame 45
+    f1_slide: past its lower limit by 0.000474 to 0.00053, frames 83 to 91 (2)
+    f1_slide: past its lower limit by 0.000495, frame 129
+    f1_slide: past its lower limit by 0.00052, frame 166
+    f1_slide: past its lower limit by 0.000488 to 0.000523, frames 204 to 212 (2)
+    f1_slide: past its lower limit by 0.000505, frame 250
+    f1_slide: past its lower limit by 0.000526, frame 288
+    f1_hinge2: past its upper limit by 0.16 to 0.163, frames 0 to 7 (2)
+    f1_hinge2: past its upper limit by 0.0767 to 0.12, frames 22 to 30 (2)
+    f1_hinge2: past its upper limit by 0.162, frame 45
+    f1_hinge2: past its upper limit by 0.117, frame 68
+    f1_hinge2: past its upper limit by 0.159 to 0.161, frames 83 to 91 (2)
+    f1_hinge2: past its upper limit by 0.0953, frame 106
+    f1_hinge2: past its upper limit by 0.163, frame 129
+    f1_hinge2: past its upper limit by 0.0704 to 0.126, frames 144 to 151 (2)
+    f1_hinge2: past its upper limit by 0.161, frame 166
+    f1_hinge2: past its upper limit by 0.104, frame 189
+    f1_hinge2: past its upper limit by 0.157 to 0.163, frames 204 to 212 (2)
+    f1_hinge2: past its upper limit by 0.0829, frame 227
+    f1_hinge2: past its upper limit by 0.162, frame 250
+    f1_hinge2: past its upper limit by 0.12, frame 273
+    f1_hinge2: past its upper limit by 0.161, frame 288
+    f2_hinge2: past its upper limit by 0.0832 to 0.171, frames 0 to 22 (4)
+    f2_hinge2: past its upper limit by 0.0805 to 0.149, frames 45 to 68 (4)
+    f2_hinge2: past its upper limit by 0.0832 to 0.157, frames 83 to 106 (4)
+    f2_hinge2: past its upper limit by 0.0823 to 0.163, frames 129 to 151 (4)
+    f2_hinge2: past its upper limit by 0.056 to 0.147, frames 166 to 189 (4)
+    f2_hinge2: past its upper limit by 0.0832 to 0.189, frames 204 to 227 (4)
+    f2_hinge2: past its upper limit by 0.0837 to 0.157, frames 250 to 273 (4)
+    f2_hinge2: past its upper limit by 0.0606 to 0.14, frames 288 to 296 (2)
+ALL DONE

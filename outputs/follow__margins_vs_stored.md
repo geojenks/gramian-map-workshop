@@ -1,0 +1,22 @@
+# Re-run against stored result
+
+Written by `tools/compare_follow.py`. "same" means the frames checked, each frame's verdict and reason, each finger's state, reason and station, the placement, the assignment and, where both carry it, the scale margin are equal. Settings that differ are listed apart. Notes list settings that only say which margins were asked for, and keys added since the stored run.
+
+| Re-run | Stored | Frames | Finger states | Outcome | Settings that differ | Notes |
+|---|---|---|---|---|---|---|
+| `follow_allegro__hold_allegro__self__selfoverlapfix__margins.json` | `follow_allegro__hold_allegro__self__selfoverlapfix__fixed.json` | 2 | 8 | same | none | setting disturbance_margin: False -> True |
+| `follow_george_clip__hold_george_clip__self__selfoverlapfix__margins.json` | `follow_george_clip__hold_george_clip__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_george_kp__hold_george_kp__self__selfoverlapfix__margins.json` | `follow_george_kp__hold_george_kp__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_george_kp_wide__hold_george_kp_wide__self__selfoverlapfix__margins.json` | `follow_george_kp_wide__hold_george_kp_wide__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_george_measured__hold_george_measured__self__selfoverlapfix__margins.json` | `follow_george_measured__hold_george_measured__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_george_measured_thumb__hold_george_measured_thumb__self__selfoverlapfix__margins.json` | `follow_george_measured_thumb__hold_george_measured_thumb__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_human_vc__hold_human_vc__self__selfoverlapfix__margins.json` | `follow_human_vc__hold_human_vc__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_human_vc_arch__hold_human_vc_arch__self__selfoverlapfix__margins.json` | `follow_human_vc_arch__hold_human_vc_arch__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_human_vc_arch_prop__hold_human_vc_arch_prop__self__selfoverlapfix__margins.json` | `follow_human_vc_arch_prop__hold_human_vc_arch_prop__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_human_vc_prop__hold_human_vc_prop__self__selfoverlapfix__margins.json` | `follow_human_vc_prop__hold_human_vc_prop__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_l20__hold_l20__self__selfoverlapfix__margins.json` | `follow_l20__hold_l20__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_l20_public__hold_l20_public__self__selfoverlapfix__margins.json` | `follow_l20_public__hold_l20_public__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_leap__hold_leap__self__selfoverlapfix__margins.json` | `follow_leap__hold_leap__self__selfoverlapfix__fixed.json` | 2 | 8 | same | none | setting disturbance_margin: False -> True |
+| `follow_shadow__hold_shadow__self__selfoverlapfix__margins.json` | `follow_shadow__hold_shadow__self__selfoverlapfix__fixed.json` | 2 | 10 | same | none | setting disturbance_margin: False -> True |
+| `follow_wall_x3_ring__hold_wall_x3_ring__self__selfoverlapfix__margins.json` | `follow_wall_x3_ring__hold_wall_x3_ring__self__selfoverlapfix__fixed.json` | 2 | 6 | same | none | setting disturbance_margin: False -> True |
+| `follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix__margins.json` | `follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json` | 40 | 120 | same | setting strength: 'input columns, one-sided where the model says (23 Oct)' -> 'input columns, one-sided where the model says (23 Oct); a joint on a range limit takes any moment into the stop (3 Nov, issue 26)' | setting disturbance_margin: False -> True; setting reused_placement: False -> True; setting scale_margin: False -> True; setting stop_reactions new since the stored run |

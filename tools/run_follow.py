@@ -25,6 +25,11 @@ The placement is searched for afresh, unless:
                       re-scored whatever its key (one hand only); a key
                       that differs from this run's is reported
 
+--scale-margin and --disturbance-margin give each frame its scale margin
+and disturbance margin (follow(margin=, disturbance=); neither changes the
+verdict, and both make a run slower); --margins turns both on. The margins
+are printed per hand, smallest over the frames.
+
 After each hand it prints which fingers are amber or red and when, and the
 joints posed past a limit; tools/report_failures.py draws the same from the
 saved result as a page.
@@ -66,6 +71,33 @@ def stored_placement(where, hk, key):
     return None, None
 
 
+def smallest_margin(frames, key):
+    """The smallest `key` margin over the frames that carry one, as
+    (margin, capped, frame k, direction), or None if no frame has a number
+    (the key is absent, or every frame's is None: no contact or no torque
+    checked). A capped frame's margin is a lower bound."""
+    got = [(fr[key]["margin"], bool(fr[key].get("capped")), fr["k"], fr[key].get("direction"))
+           for fr in frames if isinstance(fr.get(key), dict)]
+    return min(got, key=lambda g: g[0]) if got else None
+
+
+def margin_lines(r):
+    """One printed line per margin the result carries."""
+    out = []
+    for key, name in (("scale_margin", "scale margin"),
+                      ("disturbance_margin", "disturbance margin")):
+        if not any(key in fr for fr in r["frames"]):
+            continue
+        sm = smallest_margin(r["frames"], key)
+        if sm is None:
+            out.append(f"{name}: none (no contact or no torque checked)")
+            continue
+        m, capped, k, d = sm
+        out.append(f"{name}: smallest {'at least ' if capped else ''}{m:.4g} "
+                   f"(frame {k}" + (f", worst direction {d}" if d else "") + ")")
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--hands", nargs="*", default=list(HANDS))
@@ -90,12 +122,20 @@ def main():
     ap.add_argument("--reuse-placement", action="store_true",
                     help="reuse a stored placement whose placement_key matches this run's "
                          "(looked for in --placement-from, else --out-dir); search if none")
+    ap.add_argument("--scale-margin", action="store_true",
+                    help="give each frame its scale margin (follow(margin=True))")
+    ap.add_argument("--disturbance-margin", action="store_true",
+                    help="give each frame its disturbance margin (follow(disturbance=True))")
+    ap.add_argument("--margins", action="store_true",
+                    help="both margins: --scale-margin and --disturbance-margin")
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "outputs"),
                     help="where to write the results (default outputs/)")
     a = ap.parse_args()
     if a.no_other_contact and a.other_overlap_m is not None:
         ap.error("--no-other-contact and --other-overlap-m contradict each other")
     other = False if a.no_other_contact else a.other_overlap_m
+    want_scale = a.scale_margin or a.margins
+    want_dist = a.disturbance_margin or a.margins
     fixed = None
     if a.placement_from and not a.reuse_placement:
         if len(a.hands) != 1:
@@ -124,7 +164,8 @@ def main():
                                "no stored placement matches; searching"), flush=True)
         t0 = time.time()
         r = follow(hk, L, n_eval=a.frames, respace=a.respace, placement=placement,
-                   allowed_overlap_m=a.allowed_overlap_m, other_contact=other)
+                   allowed_overlap_m=a.allowed_overlap_m, other_contact=other,
+                   margin=want_scale, disturbance=want_dist)
         r["elapsed_s"] = round(time.time() - t0, 1)
         if src:
             r["placement_reused_from"] = os.path.relpath(src, ROOT)                 if os.path.abspath(src).startswith(ROOT) else os.path.abspath(src)
@@ -148,6 +189,8 @@ def main():
                   f"{sorted(ov)[len(ov) // 2]:.2f} mm, max {max(ov):.2f} mm; allowed "
                   f"{st['allowed_overlap_m'] * 1e3:g} mm at the contact, other contact "
                   f"{st['other_contact']}", flush=True)
+        for ln in margin_lines(r):
+            print("   " + ln, flush=True)
         # which fingers and joints fail, and when (tools/report_failures.py
         # draws the same as a page)
         # the result is already saved; a report that cannot read it must
