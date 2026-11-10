@@ -521,6 +521,7 @@ def add(model, description, registry=None, replace=False, check_only=False, out=
             n_mimic = build_urdf(model, built)
             out(f"Built a MuJoCo model from the URDF ({n_mimic} couplings from <mimic> tags).")
         summary, warn = check_pair(built or model, desc, fixed)
+        summary["model"] = os.path.abspath(model)
         print_summary(summary, warn, out)
         if check_only:
             out("The pair is sound. Nothing was added (--check-only).")
@@ -541,7 +542,6 @@ def add(model, description, registry=None, replace=False, check_only=False, out=
         with open(tmp, "w", encoding="utf-8") as fh:
             json.dump(e, fh, indent=1)
         os.replace(tmp, entry)                 # the entry appears whole or not at all
-        summary["model"] = os.path.join(folder, BUILT_MODEL) if built else summary["model"]
     finally:
         shutil.rmtree(work, ignore_errors=True)
     hands.load_added(registry if registry != hands.added_dir() else None, warn=False)
@@ -550,6 +550,11 @@ def add(model, description, registry=None, replace=False, check_only=False, out=
         out("The model is read from where it is: if you move it, add the hand again.")
     else:
         out("The meshes are read from beside the URDF: if you move them, add the hand again.")
+    k = desc["key"]
+    out("Next, a hold this hand can do by construction, and the check on it:")
+    out(f"  python tools/make_hold_leader.py {k}")
+    out(f"  python tools/run_follow.py --hands {k} --leader-id hold_{k}__self__selfoverlapfix "
+        f"--placement-from outputs/hold_placement_{k}__selfoverlapfix.json --tag fixed")
     return summary
 
 
