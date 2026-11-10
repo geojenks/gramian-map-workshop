@@ -515,7 +515,13 @@ of the four-station copies have more.
 8. **Check it**: `python tools/check_leader.py your_file.json`. Then put
    it in `data/leaders/` and run the follow check on it for each hand:
    `python tools/run_follow.py --leader-id <id>` (needs MuJoCo and the
-   hand models; see the README).
+   hand models; see the README). It prints which fingers are amber or
+   red and over which frames, and any joint posed past its range. For
+   the same as a page (a finger-by-frame grid and a joint-by-frame grid,
+   with the numbers on hover) and as tables:
+   `python tools/report_failures.py outputs/follow_<hand>__<id>.json`,
+   which reads the saved result only and needs neither MuJoCo nor the
+   hand models.
 
 ## Limits of the format today
 

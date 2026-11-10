@@ -25,6 +25,10 @@ The placement is searched for afresh, unless:
                       re-scored whatever its key (one hand only); a key
                       that differs from this run's is reported
 
+After each hand it prints which fingers are amber or red and when, and the
+joints posed past a limit; tools/report_failures.py draws the same from the
+saved result as a page.
+
 Needs mujoco and the hand models (tools/fetch_hands.py).
 """
 import argparse
@@ -39,6 +43,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from gramian_workshop.follow import (follow, overlap_allowance, placement_key,  # noqa: E402
                                      same_placement_key)
+from gramian_workshop import failures  # noqa: E402
 from gramian_workshop.hands import HANDS  # noqa: E402
 
 LEADERS = {"big": "w10_cup_physical_x0.3_a0.15_sl0.3t_n{n}",
@@ -143,6 +148,15 @@ def main():
                   f"{sorted(ov)[len(ov) // 2]:.2f} mm, max {max(ov):.2f} mm; allowed "
                   f"{st['allowed_overlap_m'] * 1e3:g} mm at the contact, other contact "
                   f"{st['other_contact']}", flush=True)
+        # which fingers and joints fail, and when (tools/report_failures.py
+        # draws the same as a page)
+        # the result is already saved; a report that cannot read it must
+        # not stop the hands still to run
+        try:
+            for ln in failures.brief(failures.summarise(r)).splitlines()[1:]:
+                print("  " + ln, flush=True)
+        except Exception as e:
+            print(f"  (no failure report: {type(e).__name__}: {e})", flush=True)
 
 
 if __name__ == "__main__":

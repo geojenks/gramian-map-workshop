@@ -149,7 +149,10 @@ hand follow a recorded manipulation, frame by frame?
 - Following a leader: `gramian_workshop/follow.py` (`follow`,
   `placement_search`, `best_assignment`, `FingerIK`), run by
   `tools/run_follow.py`, drawn by `tools/view_follow.py` into
-  `outputs/follow.html` and `outputs/follow_respaced.html`.
+  `outputs/follow.html` and `outputs/follow_respaced.html`. Which fingers
+  and joints fail, and when, for one result: `gramian_workshop/failures.py`,
+  `tools/report_failures.py` (`outputs/follow_*__failures.md` and `.html`;
+  `tools/run_follow.py` prints the short form after each hand).
 - Why rigid hands reach badly: `tools/reach_ladder.py` (`outputs/ladder/`,
   `outputs/reach_ladder.log`), `tools/reach_checks.py`
   (`outputs/reach_only_*.json`, `outputs/wrist_shadow.log`), and re-scoring
