@@ -1,0 +1,280 @@
+{
+ "meta": {
+  "made_by": "tools/margins_worked_check.py",
+  "date": "2026-11-10",
+  "follow_py_commit": "fbe006b27b7d2182bb6254314f227484e2bead13",
+  "follow_py_dirty": false,
+  "follow_py_sha256": "f9078b9f0cf4542863058c8b7b57a003e525b0b765b584b7a42a607de2d6a1b9",
+  "tight_resid_tol": 1e-06,
+  "default_resid_tol": 0.05,
+  "margin_rel": 0.01,
+  "bisect_tol": 0.0001,
+  "a_m": 0.05,
+  "L_m": 0.05,
+  "mu": 0.5,
+  "F_N": 10.0,
+  "load_N": 4.0
+ },
+ "cases": [
+  {
+   "case": "pinch",
+   "note": "two contacts, load on a pyramid edge",
+   "mu": 0.5,
+   "F_N": 10.0,
+   "load_N": 4.0,
+   "expected_scale": 2.5,
+   "expected_disturbance": 0.0,
+   "tight": {
+    "holds": true,
+    "reason": null,
+    "scale_margin": 2.5,
+    "disturbance_margin": 0.0,
+    "disturbance_direction": "+tx"
+   },
+   "default": {
+    "holds": true,
+    "reason": null,
+    "scale_margin": 2.88177490234375,
+    "disturbance_margin": 0.04996490478515625,
+    "disturbance_direction": "+tx"
+   },
+   "default_reading_scale": 2.6315789473684212
+  },
+  {
+   "case": "pinch, load between pyramid edges",
+   "note": "load at 22.5 degrees, midway between two edges",
+   "mu": 0.5,
+   "F_N": 10.0,
+   "load_N": 4.0,
+   "expected_scale": 2.309698831278217,
+   "expected_disturbance": 0.0,
+   "tight": {
+    "holds": true,
+    "reason": null,
+    "scale_margin": 2.3096923828125,
+    "disturbance_margin": 0.0,
+    "disturbance_direction": "+tx"
+   },
+   "default": {
+    "holds": true,
+    "reason": null,
+    "scale_margin": 2.66241455078125,
+    "disturbance_margin": 0.04974335432052612,
+    "disturbance_direction": "+tx"
+   },
+   "default_reading_scale": 2.4312619276612812
+  },
+  {
+   "case": "pinch at its limit",
+   "note": "boundary: scale margin one",
+   "mu": 0.5,
+   "F_N": 10.0,
+   "load_N": 10.0,
+   "expected_scale": 1.0,
+   "expected_disturbance": 0.0,
+   "tight": {
+    "holds": true,
+    "reason": null,
+    "scale_margin": 1.0,
+    "disturbance_margin": 0.0,
+    "disturbance_direction": "+fx"
+   },
+   "default": {
+    "holds": true,
+    "reason": null,
+    "scale_margin": 1.3599853515625,
+    "disturbance_margin": 0.049753591418266296,
+    "disturbance_direction": "+tx"
+   },
+   "default_reading_scale": 1.0526315789473684
+  },
+  {
+   "case": "pinch at twice its limit",
+   "note": "must fail: the fingers cannot push hard enough",
+   "mu": 0.5,
+   "F_N": 10.0,
+   "load_N": 20.0,
+   "expected_scale": 0.5,
+   "expected_disturbance": 0.0,
+   "tight": {
+    "holds": false,
+    "reason": "torque",
+    "scale_margin": 0.5,
+    "disturbance_margin": 0.0,
+    "disturbance_direction": null
+   },
+   "default": {
+    "holds": false,
+    "reason": "torque",
+    "scale_margin": 0.77764892578125,
+    "disturbance_margin": 0.0,
+    "disturbance_direction": null
+   },
+   "default_reading_scale": 0.5263157894736842
+  },
+  {
+   "case": "pinch, frictionless",
+   "note": "must fail: no friction, so no grip on a load along the faces",
+   "mu": 0.0,
+   "F_N": 10.0,
+   "load_N": 4.0,
+   "expected_scale": 0.0,
+   "expected_disturbance": 0.0,
+   "tight": {
+    "holds": false,
+    "reason": "friction",
+    "scale_margin": 0.0,
+    "disturbance_margin": 0.0,
+    "disturbance_direction": null
+   },
+   "default": {
+    "holds": false,
+    "reason": "friction",
+    "scale_margin": 0.0,
+    "disturbance_margin": 0.0,
+    "disturbance_direction": null
+   },
+   "default_reading_scale": 0.0
+  },
+  {
+   "case": "pinch, twist about its own axis",
+   "note": "must fail: two point contacts cannot twist about the line through them",
+   "mu": 0.5,
+   "F_N": 10.0,
+   "load_N": 4.0,
+   "expected_scale": 0.0,
+   "expected_disturbance": 0.0,
+   "tight": {
+    "holds": false,
+    "reason": "direction",
+    "scale_margin": 0.0,
+    "disturbance_margin": 0.0,
+    "disturbance_direction": null
+   },
+   "default": {
+    "holds": false,
+    "reason": "direction",
+    "scale_margin": 0.0,
+    "disturbance_margin": 0.0,
+    "disturbance_direction": null
+   },
+   "default_reading_scale": 0.0
+  },
+  {
+   "case": "four contacts",
+   "note": "force closure: both margins non-zero",
+   "mu": 0.5,
+   "F_N": 10.0,
+   "load_N": 4.0,
+   "expected_scale": 5.0,
+   "expected_disturbance": 2.5,
+   "tight": {
+    "holds": true,
+    "reason": null,
+    "scale_margin": 5.0,
+    "disturbance_margin": 2.4951171875,
+    "disturbance_direction": "+tx"
+   },
+   "default": {
+    "holds": true,
+    "reason": null,
+    "scale_margin": 5.5723876953125,
+    "disturbance_margin": 2.846729278564453,
+    "disturbance_direction": "+tx"
+   },
+   "default_reading_scale": 5.2631578947368425
+  }
+ ],
+ "units": [
+  {
+   "k": 1.0,
+   "case": "pinch",
+   "load_N": 4.0,
+   "F_N": 10.0,
+   "tight_scale_margin": 2.5,
+   "tight_holds": true,
+   "expected_scale": 2.5,
+   "expected_holds": true,
+   "holds": true,
+   "reason": null,
+   "scale_margin": 2.88177490234375,
+   "disturbance_margin": 0.04996490478515625,
+   "disturbance_direction": "+tx"
+  },
+  {
+   "k": 1.0,
+   "case": "pinch at twice its limit",
+   "load_N": 20.0,
+   "F_N": 10.0,
+   "tight_scale_margin": 0.5,
+   "tight_holds": false,
+   "expected_scale": 0.5,
+   "expected_holds": false,
+   "holds": false,
+   "reason": "torque",
+   "scale_margin": 0.77764892578125,
+   "disturbance_margin": 0.0,
+   "disturbance_direction": null
+  },
+  {
+   "k": 10.0,
+   "case": "pinch",
+   "load_N": 40.0,
+   "F_N": 100.0,
+   "tight_scale_margin": 2.50006103515625,
+   "tight_holds": true,
+   "expected_scale": 2.5,
+   "expected_holds": true,
+   "holds": true,
+   "reason": null,
+   "scale_margin": 6.04840087890625,
+   "disturbance_margin": 0.049928855150938034,
+   "disturbance_direction": "+tx"
+  },
+  {
+   "k": 10.0,
+   "case": "pinch at twice its limit",
+   "load_N": 200.0,
+   "F_N": 100.0,
+   "tight_scale_margin": 0.5,
+   "tight_holds": false,
+   "expected_scale": 0.5,
+   "expected_holds": false,
+   "holds": true,
+   "reason": null,
+   "scale_margin": 4.041259765625,
+   "disturbance_margin": 0.04925936367362738,
+   "disturbance_direction": "+tx"
+  },
+  {
+   "k": 100.0,
+   "case": "pinch",
+   "load_N": 400.0,
+   "F_N": 1000.0,
+   "tight_scale_margin": 2.50067138671875,
+   "tight_holds": true,
+   "expected_scale": 2.5,
+   "expected_holds": true,
+   "holds": true,
+   "reason": null,
+   "scale_margin": 37.75,
+   "disturbance_margin": 0.049739810172468424,
+   "disturbance_direction": "+tx"
+  },
+  {
+   "k": 100.0,
+   "case": "pinch at twice its limit",
+   "load_N": 2000.0,
+   "F_N": 1000.0,
+   "tight_scale_margin": 0.50030517578125,
+   "tight_holds": false,
+   "expected_scale": 0.5,
+   "expected_holds": false,
+   "holds": true,
+   "reason": null,
+   "scale_margin": 35.75,
+   "disturbance_margin": 0.04997957870364189,
+   "disturbance_direction": "+tx"
+  }
+ ]
+}
