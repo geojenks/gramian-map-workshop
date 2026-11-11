@@ -1,0 +1,8086 @@
+{
+ "hand": "mosadegh_x3_ring",
+ "hand_name": "Three stand-ins of the record made from the Mosadegh 2014 test curves, on a ring (run-through example)",
+ "leader": "hold_mosadegh_x3_ring__self__selfoverlapfix",
+ "placement_cost_mm": 0.0,
+ "self_overlap": {
+  "in_verdict": false,
+  "colliding_geoms": 10,
+  "contact_excludes": 0,
+  "rest_pairs": [
+   {
+    "body1": "palm",
+    "body2": "f0_link0",
+    "kind": "finger-palm",
+    "depth_mm": 8.0
+   },
+   {
+    "body1": "palm",
+    "body2": "f1_link0",
+    "kind": "finger-palm",
+    "depth_mm": 8.0
+   },
+   {
+    "body1": "palm",
+    "body2": "f2_link0",
+    "kind": "finger-palm",
+    "depth_mm": 8.0
+   }
+  ]
+ },
+ "resid_tol": 0.05,
+ "settings": {
+  "middle": true,
+  "ik_iters": 60,
+  "place": {
+   "n_frames": 10,
+   "n_samples": 80,
+   "iters": 4,
+   "pad_step": 6
+  },
+  "wrist": false,
+  "respace": false,
+  "reused_placement": true,
+  "strength": "input columns, one-sided where the model says (23 Oct); a joint on a range limit takes any moment into the stop (3 Nov, issue 26)",
+  "stop_reactions": {
+   "on": true,
+   "tol": 0.0001
+  },
+  "joint_stiffness_Nm_per_rad": 0.0,
+  "deflect_max_m": 0.002,
+  "scale_margin": true,
+  "disturbance_margin": true,
+  "apply_limit": false,
+  "apply_limit_free": false,
+  "inertia": false,
+  "rate_limit_per_s": null,
+  "lag_s": null,
+  "allowed_overlap_m": 0.003,
+  "other_contact": {
+   "allowed": true,
+   "max_overlap_m": 0.003
+  },
+  "overlap_source": {
+   "contact": "default",
+   "other": "default"
+  },
+  "push_out": {
+   "first": [
+    0.2,
+    0.0
+   ],
+   "second": [
+    1.0,
+    1.0
+   ]
+  },
+  "joint_springs": "from the model: k (q - springref) at each solved pose, on the joint balance",
+  "pose": "fingers with fewer inputs than sprung joints: an equilibrium of drive, springs and contact force (issue 21)",
+  "pose_fingers": [
+   "f0",
+   "f1",
+   "f2"
+  ]
+ },
+ "caveat": "Run-through example. The contact radius (8 mm) and the ring layout are choices made for the run-through, not data.",
+ "assignment": {
+  "f0": 0,
+  "f1": 1,
+  "f2": 2
+ },
+ "respace_deg": [
+  0.0,
+  0.0,
+  0.0
+ ],
+ "placement": {
+  "rotation_matrix": [
+   [
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "translation_m": [
+   3.264045886613822e-18,
+   6.554840434024074e-11,
+   0.11747807386369213
+  ]
+ },
+ "placement_key": null,
+ "placement_search_s": null,
+ "frames": [
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 0,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 1,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 2,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 3,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 3,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 3,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 3,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 3,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 3,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 3,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 3,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 3,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  },
+  {
+   "k": 4,
+   "verdict": "red",
+   "reason": "no_contact",
+   "ball_center": [
+    3.264045886613822e-18,
+    6.554840434024074e-11,
+    0.11747807386369213
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -87.57856039678622,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "f0",
+     "station": 0,
+     "reach_mm": 18.888828840782026,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974483,
+      -0.09281236721238442,
+      -0.04165130855354864
+     ],
+     "target": [
+      -1.5817922055753852e-17,
+      0.023684210540115457,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -2.760080577991485e-19,
+      0.02591182678515547,
+      0.10235930288014135
+     ],
+     "pad_normal": [
+      1.1800179814709902e-16,
+      -0.8637275573202357,
+      0.5039590327850261
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.46537647256169,
+     "other_overlap_mm": -31.741828409714284,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       6.36338351005385e-17,
+       -0.08217932640789247,
+       0.06119836634451625
+      ],
+      "balance": 1.6214766442797267e-14,
+      "force_departure_N": 0.003236970884108138
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f1",
+     "station": 1,
+     "reach_mm": 18.888828840782043,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.1417173442897449,
+      -0.09281236721238442,
+      -0.041651308553548635
+     ],
+     "target": [
+      -0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      -0.022440300168410244,
+      -0.012955913344882759,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      0.7480100056136749,
+      0.43186378034770545,
+      0.503959032785026
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561704,
+     "other_overlap_mm": -31.741828409714298,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       0.07116938418591673,
+       0.041089663462388265,
+       0.061198366344516246
+      ],
+      "balance": 1.6210928835659067e-14,
+      "force_departure_N": 0.003236970884108179
+     },
+     "state": "red",
+     "reason": "reach"
+    },
+    {
+     "finger": "f2",
+     "station": 2,
+     "reach_mm": 18.888828840782004,
+     "facing_deg": 121.67652094258476,
+     "phalanx": "distal",
+     "q": [
+      -0.14171734428974456,
+      -0.09281236721238419,
+      -0.041651308553548504
+     ],
+     "target": [
+      0.020511127894736844,
+      -0.011842105249358229,
+      0.0990645414976194
+     ],
+     "pad_world": [
+      0.022440300168410247,
+      -0.012955913344882768,
+      0.10235930288014136
+     ],
+     "pad_normal": [
+      -0.7480100056136748,
+      0.43186378034770573,
+      0.5039590327850259
+     ],
+     "penetration_mm": 0.0,
+     "side_deg": 121.67652094258476,
+     "patch_mm": 6.155870112510925,
+     "overlap_mm": -18.465376472561662,
+     "other_overlap_mm": -31.74182840971427,
+     "overlap_within_allowance": true,
+     "equilibrium": {
+      "drive": [
+       0.0
+      ],
+      "drive_share": [
+       1.0
+      ],
+      "force_N": [
+       -0.0711693841859166,
+       0.04108966346238821,
+       0.061198366344516246
+      ],
+      "balance": 1.6206274538182325e-14,
+      "force_departure_N": 0.0032369708841080555
+     },
+     "state": "red",
+     "reason": "reach"
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 3.469446951953614e-15,
+    "finger_palm_pair": [
+     "palm",
+     "f0_link0"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "f0_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.000000000000004,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f1_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     },
+     {
+      "body1": "palm",
+      "body2": "f2_link0",
+      "kind": "finger-palm",
+      "depth_mm": 8.0,
+      "rest_mm": 8.0
+     }
+    ]
+   },
+   "scale_margin": null,
+   "disturbance_margin": null
+  }
+ ],
+ "elapsed_s": 24.1,
+ "placement_reused_from": "rt_out\\results\\hold_placement_mosadegh_x3_ring__selfoverlapfix.json"
+}

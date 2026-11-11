@@ -1,0 +1,100 @@
+=== add_mosadegh
+$ <hands env>/Scripts/python.exe tools/add_hand.py data/hands/mosadegh2014_fPN_from_curves_x3_ring/hand.xml rt_out/mosadegh_x3_ring.json
+mosadegh_x3_ring: Three stand-ins of the record made from the Mosadegh 2014 test curves, on a ring (run-through example)
+  model: <clone>\data\hands\mosadegh2014_fPN_from_curves_x3_ring\hand.xml
+  9 joints, 3 actuators, 0 joint couplings
+  joints every finger shares (read as a wrist, held at rest): none
+  palm (bodies of no finger that have collision geometry): palm
+  finger f0: fingertip body f0_distal; joints f0_hinge0, f0_hinge1, f0_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+  finger f1: fingertip body f1_distal; joints f1_hinge0, f1_hinge1, f1_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+  finger f2: fingertip body f2_distal; joints f2_hinge0, f2_hinge1, f2_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+Added. The tools now know this hand as "mosadegh_x3_ring" (<clone>/rt_out/added_hands\mosadegh_x3_ring\hand.json).
+The model is read from where it is: if you move it, add the hand again.
+Next, a hold this hand can do by construction, and the check on it:
+  python tools/make_hold_leader.py mosadegh_x3_ring
+  python tools/run_follow.py --hands mosadegh_x3_ring --leader-id hold_mosadegh_x3_ring__self__selfoverlapfix --placement-from outputs/hold_placement_mosadegh_x3_ring__selfoverlapfix.json --tag fixed
+--- add_mosadegh: exit 0 in 0 s
+=== add_allegro
+$ <hands env>/Scripts/python.exe tools/add_hand.py external/mujoco_menagerie/wonik_allegro/left_hand.xml rt_out/allegro_left.json
+allegro_left: Allegro left hand (MuJoCo Menagerie)
+  model: <clone>\external\mujoco_menagerie\wonik_allegro\left_hand.xml
+  16 joints, 16 actuators, 0 joint couplings
+  joints every finger shares (read as a wrist, held at rest): none
+  palm (bodies of no finger that have collision geometry): palm
+  finger thumb: fingertip body th_tip; joints thj0, thj1, thj2, thj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 16.0 mm long, radius 12.0 mm
+  finger index: fingertip body ff_tip; joints ffj0, ffj1, ffj2, ffj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 20.0 mm long, radius 12.0 mm
+  finger middle: fingertip body mf_tip; joints mfj0, mfj1, mfj2, mfj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 20.0 mm long, radius 12.0 mm
+  finger ring: fingertip body rf_tip; joints rfj0, rfj1, rfj2, rfj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 20.0 mm long, radius 12.0 mm
+Added. The tools now know this hand as "allegro_left" (<clone>/rt_out/added_hands\allegro_left\hand.json).
+The model is read from where it is: if you move it, add the hand again.
+Next, a hold this hand can do by construction, and the check on it:
+  python tools/make_hold_leader.py allegro_left
+  python tools/run_follow.py --hands allegro_left --leader-id hold_allegro_left__self__selfoverlapfix --placement-from outputs/hold_placement_allegro_left__selfoverlapfix.json --tag fixed
+--- add_allegro: exit 0 in 1 s
+=== list
+$ <hands env>/Scripts/python.exe tools/add_hand.py --list
+allegro_left: Allegro left hand (MuJoCo Menagerie)  (<clone>\external\mujoco_menagerie\wonik_allegro\left_hand.xml)
+mosadegh_x3_ring: Three stand-ins of the record made from the Mosadegh 2014 test curves, on a ring (run-through example)  (<clone>\data\hands\mosadegh2014_fPN_from_curves_x3_ring\hand.xml)
+--- list: exit 0 in 0 s
+=== check_leader_sim
+$ <hands env>/Scripts/python.exe tools/check_leader.py data/leaders/w10_cup_physical_x0.1_a0.15_n4__contactfix.json
+
+== data/leaders/w10_cup_physical_x0.1_a0.15_n4__contactfix.json
+   what the follow check reads:
+     id        w10_cup_physical_x0.1_a0.15_n4__contactfix
+     object    sphere, radius 60 mm, mass 0.1572 kg (read, but the forces already carry the load)
+     friction  mu 1 (not in the file: the follow check's default)
+     overlap   allowed 3 mm at a stated contact (not in the file: the default); elsewhere allowed to 3 mm
+     stations  4; 2-4 touching per frame; 0 frames with none
+     frames    610, t 0.512 to 20 s; step median 0.032 s, largest 0.032 s
+     load      net contact force, median over frames with contact: 1.000 x the object's weight
+     zero-force contacts  3 (station touching, force [0, 0, 0]: still counted as a contact)
+     not read  top level: caveat, kind, name, notes, schema, source, supersedes
+               per frame: contact_normal, obj_quat
+--- check_leader_sim: exit 0 in 1 s
+=== check_leader_human
+$ <hands env>/Scripts/python.exe tools/check_leader.py data/leaders/tennis_new_cup_take3_handframe__nframesfix.json
+
+== data/leaders/tennis_new_cup_take3_handframe__nframesfix.json
+   what the follow check reads:
+     id        tennis_new_cup_take3_handframe__nframesfix
+     object    sphere, radius 36.93 mm, mass 0.0577 kg (read, but the forces already carry the load)
+     friction  mu 1 (not in the file: the follow check's default)
+     overlap   allowed 3 mm at a stated contact (not in the file: the default); elsewhere allowed to 3 mm
+     stations  5; 1-5 touching per frame; 0 frames with none
+     frames    1240, t 0.06662 to 33.6783 s; step median 0.01666 s, largest 1.183 s
+     load      net contact force, median over frames with contact: 1.005 x the object's weight
+     zero-force contacts  23 (station touching, force [0, 0, 0]: still counted as a contact)
+     not read  top level: caveat, copied_from, derivation, frame, handframe, kind, n_frames, n_frames_source, n_frames_without_tip_per_station, n_held_frames_without_ball_centre_dropped, name, notes, rate_hz_median, schema, source, stations, supersedes
+               per frame: contact_normal, contact_phalanx, obj_quat, palm_fit_rms_m, palm_points, skeleton  (obj_quat absent or null)
+--- check_leader_human: exit 0 in 0 s
+=== gramians
+$ <hands env>/Scripts/python.exe tools/figure_gramians.py --records data/records --out-dir rt_out/gramians
+Traceback (most recent call last):
+  File "<clone>\tools\figure_gramians.py", line 468, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "<clone>\tools\figure_gramians.py", line 460, in main
+    draw(drawn, left_out, a.records, base + ".png", base + ".svg")
+  File "<clone>\tools\figure_gramians.py", line 315, in draw
+    import matplotlib
+ModuleNotFoundError: No module named 'matplotlib'
+--- gramians: exit 1 in 0 s
+=== hold_mosadegh
+$ <hands env>/Scripts/python.exe tools/make_hold_leader.py mosadegh_x3_ring --out-dir rt_out/leaders --results-dir rt_out/results
+mosadegh_x3_ring: curl [0.0, 0.0, 0.0], sphere R = 30.00 mm at [0.0, 0.0, 117.48] mm, contact miss per finger [0.0, 0.0, 0.0] mm, facing [98.3, 98.3, 98.3] deg, palm penetration 0.00 mm, other-link overlap 0.00 mm, overlap with itself 0.00 mm, object mass 18.77 g
+wrote rt_out\leaders\hold_mosadegh_x3_ring__self__selfoverlapfix.json and rt_out\results\hold_placement_mosadegh_x3_ring__selfoverlapfix.json
+--- hold_mosadegh: exit 0 in 14 s
+=== hold_allegro
+$ <hands env>/Scripts/python.exe tools/make_hold_leader.py allegro_left --out-dir rt_out/leaders --results-dir rt_out/results
+allegro_left: curl [0.6, 0.6, 0.5, 0.6], sphere R = 30.00 mm at [6.14, -9.23, 94.96] mm, contact miss per finger [1.618, 4.167, 1.519, 2.493] mm, facing [58.4, 84.0, 14.2, 80.3] deg, palm penetration 0.00 mm, other-link overlap 0.00 mm, overlap with itself 0.00 mm, object mass 15.13 g
+wrote rt_out\leaders\hold_allegro_left__self__selfoverlapfix.json and rt_out\results\hold_placement_allegro_left__selfoverlapfix.json
+--- hold_allegro: exit 0 in 43 s
+rt_out/leaders:
+hold_allegro_left__self__selfoverlapfix.json
+hold_mosadegh_x3_ring__self__selfoverlapfix.json
+
+rt_out/results:
+hold_placement_allegro_left__selfoverlapfix.json
+hold_placement_mosadegh_x3_ring__selfoverlapfix.json
+ALLDONE

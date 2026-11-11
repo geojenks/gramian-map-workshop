@@ -1,0 +1,205 @@
+{
+ "hand": "mosadegh2014_fPN_from_curves_x3_ring_flipped",
+ "hand_file": "data\\hands\\mosadegh2014_fPN_from_curves_x3_ring_flipped\\hand.json",
+ "fingers": [
+  {
+   "label": "f0",
+   "record": "rt_out/mosadegh_from_curves.json",
+   "fit_check": "PASS",
+   "checks": {
+    "free_path": {
+     "worst_err_m": 0.00027895974356597963,
+     "stroke_m": 0.09493399443824116,
+     "share_of_stroke": 0.002938459981766126,
+     "pass": true
+    },
+    "blocked_size": {
+     "compared": "hypot(axial, transverse) magnitude; axis of the source gauge not stated, compared with |predicted push|",
+     "fitted": true,
+     "note": "one scale fitted, so only the shape across levels is tested"
+    },
+    "blocked_direction": {
+     "pass": null,
+     "note": "not possible: record gives no direction"
+    }
+   },
+   "input_range": [
+    0.0,
+    72000.0
+   ],
+   "drive_range": [
+    -7.785312306273845,
+    0.0
+   ],
+   "contact_radius_m": 0.008,
+   "contact_radius_source": "hand file",
+   "length_m": 0.09415426613555004,
+   "length_source": "fitted from the free path (not recorded)",
+   "ratios": [
+    0.02481048015755307,
+    0.4206068519806295,
+    0.5545826678618174
+   ],
+   "springs": {
+    "k": [
+     0.057757050212711054,
+     0.057757050212711054,
+     0.057757050212711054
+    ],
+    "note": "one spring scale fitted to the blocked force size (k_h = 0.05776 N m/rad)",
+    "units": "slide N/m, hinges N m/rad"
+   },
+   "joints": [
+    "f0_hinge0",
+    "f0_hinge1",
+    "f0_hinge2"
+   ]
+  },
+  {
+   "label": "f1",
+   "record": "rt_out/mosadegh_from_curves.json",
+   "fit_check": "PASS",
+   "checks": {
+    "free_path": {
+     "worst_err_m": 0.00027895974356597963,
+     "stroke_m": 0.09493399443824116,
+     "share_of_stroke": 0.002938459981766126,
+     "pass": true
+    },
+    "blocked_size": {
+     "compared": "hypot(axial, transverse) magnitude; axis of the source gauge not stated, compared with |predicted push|",
+     "fitted": true,
+     "note": "one scale fitted, so only the shape across levels is tested"
+    },
+    "blocked_direction": {
+     "pass": null,
+     "note": "not possible: record gives no direction"
+    }
+   },
+   "input_range": [
+    0.0,
+    72000.0
+   ],
+   "drive_range": [
+    -7.785312306273845,
+    0.0
+   ],
+   "contact_radius_m": 0.008,
+   "contact_radius_source": "hand file",
+   "length_m": 0.09415426613555004,
+   "length_source": "fitted from the free path (not recorded)",
+   "ratios": [
+    0.02481048015755307,
+    0.4206068519806295,
+    0.5545826678618174
+   ],
+   "springs": {
+    "k": [
+     0.057757050212711054,
+     0.057757050212711054,
+     0.057757050212711054
+    ],
+    "note": "one spring scale fitted to the blocked force size (k_h = 0.05776 N m/rad)",
+    "units": "slide N/m, hinges N m/rad"
+   },
+   "joints": [
+    "f1_hinge0",
+    "f1_hinge1",
+    "f1_hinge2"
+   ]
+  },
+  {
+   "label": "f2",
+   "record": "rt_out/mosadegh_from_curves.json",
+   "fit_check": "PASS",
+   "checks": {
+    "free_path": {
+     "worst_err_m": 0.00027895974356597963,
+     "stroke_m": 0.09493399443824116,
+     "share_of_stroke": 0.002938459981766126,
+     "pass": true
+    },
+    "blocked_size": {
+     "compared": "hypot(axial, transverse) magnitude; axis of the source gauge not stated, compared with |predicted push|",
+     "fitted": true,
+     "note": "one scale fitted, so only the shape across levels is tested"
+    },
+    "blocked_direction": {
+     "pass": null,
+     "note": "not possible: record gives no direction"
+    }
+   },
+   "input_range": [
+    0.0,
+    72000.0
+   ],
+   "drive_range": [
+    -7.785312306273845,
+    0.0
+   ],
+   "contact_radius_m": 0.008,
+   "contact_radius_source": "hand file",
+   "length_m": 0.09415426613555004,
+   "length_source": "fitted from the free path (not recorded)",
+   "ratios": [
+    0.02481048015755307,
+    0.4206068519806295,
+    0.5545826678618174
+   ],
+   "springs": {
+    "k": [
+     0.057757050212711054,
+     0.057757050212711054,
+     0.057757050212711054
+    ],
+    "note": "one spring scale fitted to the blocked force size (k_h = 0.05776 N m/rad)",
+    "units": "slide N/m, hinges N m/rad"
+   },
+   "joints": [
+    "f2_hinge0",
+    "f2_hinge1",
+    "f2_hinge2"
+   ]
+  }
+ ],
+ "model": "data\\hands\\mosadegh2014_fPN_from_curves_x3_ring_flipped\\hand.xml",
+ "round_trip": {
+  "f0": {
+   "free_levels_checked": 5,
+   "tip_err_max_m": 0.0002789597328578172,
+   "fit_free_err_max_m": 0.00027895974356597963,
+   "tip_err_with_out_of_plane_max_m": 0.0002789597328578172,
+   "tip_err_with_out_of_plane_share_of_stroke": 0.002938459868970257,
+   "tip_err_note": "tip_err is in the bending plane, as the fit check measures it, so it should equal the fit's error; the second figure adds the record's out-of-plane drift, which a planar chain cannot follow",
+   "drive_spring_balance_max": 2.7786412060137877e-10,
+   "loader_tip_offset_m": 0.0,
+   "model_file_tip_rule_offset_m": 0.013856406472954422,
+   "loader_tip_note": "hands.Finger takes the chain's end as the fingertip of a hand built from records (issue 16). The rule for model-file hands (the farthest bounding-box corner of the distal capsule) would sit about a capsule radius (and a corner) past it: model_file_tip_rule_offset_m"
+  },
+  "f1": {
+   "free_levels_checked": 5,
+   "tip_err_max_m": 0.00027895973285780716,
+   "fit_free_err_max_m": 0.00027895974356597963,
+   "tip_err_with_out_of_plane_max_m": 0.00027895973285780716,
+   "tip_err_with_out_of_plane_share_of_stroke": 0.002938459868970151,
+   "tip_err_note": "tip_err is in the bending plane, as the fit check measures it, so it should equal the fit's error; the second figure adds the record's out-of-plane drift, which a planar chain cannot follow",
+   "drive_spring_balance_max": 2.7786412060137877e-10,
+   "loader_tip_offset_m": 0.0,
+   "model_file_tip_rule_offset_m": 0.013856406472954422,
+   "loader_tip_note": "hands.Finger takes the chain's end as the fingertip of a hand built from records (issue 16). The rule for model-file hands (the farthest bounding-box corner of the distal capsule) would sit about a capsule radius (and a corner) past it: model_file_tip_rule_offset_m"
+  },
+  "f2": {
+   "free_levels_checked": 5,
+   "tip_err_max_m": 0.00027895973285780716,
+   "fit_free_err_max_m": 0.00027895974356597963,
+   "tip_err_with_out_of_plane_max_m": 0.00027895973285780716,
+   "tip_err_with_out_of_plane_share_of_stroke": 0.002938459868970151,
+   "tip_err_note": "tip_err is in the bending plane, as the fit check measures it, so it should equal the fit's error; the second figure adds the record's out-of-plane drift, which a planar chain cannot follow",
+   "drive_spring_balance_max": 2.7786412060137877e-10,
+   "loader_tip_offset_m": 0.0,
+   "model_file_tip_rule_offset_m": 0.013856406472954422,
+   "loader_tip_note": "hands.Finger takes the chain's end as the fingertip of a hand built from records (issue 16). The rule for model-file hands (the farthest bounding-box corner of the distal capsule) would sit about a capsule radius (and a corner) past it: model_file_tip_rule_offset_m"
+  }
+ },
+ "status": "built"
+}

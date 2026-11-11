@@ -1,0 +1,54 @@
+=== follow_mosadegh_x3_ring
+$ <hands env>/Scripts/python.exe tools/run_follow.py --hands mosadegh_x3_ring --leader-id hold_mosadegh_x3_ring__self__selfoverlapfix --placement-from rt_out/results/hold_placement_mosadegh_x3_ring__selfoverlapfix.json --tag fixed --margins --out-dir rt_out/results
+mosadegh_x3_ring: note: rt_out/results/hold_placement_mosadegh_x3_ring__selfoverlapfix.json has no placement key; re-scoring its placement anyway
+mosadegh_x3_ring on hold_mosadegh_x3_ring__self__selfoverlapfix: {'red': 40}; red because {'no_contact': 40}; assignment {'f0': 0, 'f1': 1, 'f2': 2}; placement cost 0.00 mm; respaced by [0, 0, 0] deg; 24.1 s
+   per finger: {('f0', 'red'): 40, ('f1', 'red'): 40, ('f2', 'red'): 40}
+   overlap (deepest part of each posed finger, per frame): median -18.47 mm, max -18.47 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: none (no contact or no torque checked)
+   disturbance margin: none (no contact or no torque checked)
+    f0: red (reach) frames 0 to 39 (40)
+    f1: red (reach) frames 0 to 39 (40)
+    f2: red (reach) frames 0 to 39 (40)
+--- follow_mosadegh_x3_ring: exit 0 in 25 s
+=== failures_mosadegh_x3_ring
+$ <analysis env>/Scripts/python.exe tools/report_failures.py rt_out/results/follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed.json --out-dir rt_out/results
+mosadegh_x3_ring on hold_mosadegh_x3_ring__self__selfoverlapfix: 40 frames, 40 red (frames numbered by position)
+  f0: red (reach) frames 0 to 39 (40)
+  f1: red (reach) frames 0 to 39 (40)
+  f2: red (reach) frames 0 to 39 (40)
+  wrote rt_out/results\follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed__failures.md
+  wrote rt_out/results\follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed__failures.html
+--- failures_mosadegh_x3_ring: exit 0 in 1 s
+=== follow_allegro_left
+$ <hands env>/Scripts/python.exe tools/run_follow.py --hands allegro_left --leader-id hold_allegro_left__self__selfoverlapfix --placement-from rt_out/results/hold_placement_allegro_left__selfoverlapfix.json --tag fixed --margins --out-dir rt_out/results
+allegro_left: note: rt_out/results/hold_placement_allegro_left__selfoverlapfix.json has no placement key; re-scoring its placement anyway
+allegro_left on hold_allegro_left__self__selfoverlapfix: {'green': 40}; red because {}; assignment {'thumb': 0, 'index': 1, 'middle': 2, 'ring': 3}; placement cost 0.00 mm; respaced by [0, 0, 0, 0] deg; 61.4 s
+   per finger: {('index', 'green'): 40, ('middle', 'green'): 40, ('ring', 'green'): 40, ('thumb', 'green'): 40}
+   overlap (deepest part of each posed finger, per frame): median 0.65 mm, max 0.75 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 217 (frame 0)
+   disturbance margin: smallest 59.11 (frame 0, worst direction -ty)
+    no finger is amber or red, no joint is past a limit
+--- follow_allegro_left: exit 0 in 62 s
+=== failures_allegro_left
+$ <analysis env>/Scripts/python.exe tools/report_failures.py rt_out/results/follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed.json --out-dir rt_out/results
+allegro_left on hold_allegro_left__self__selfoverlapfix: 40 frames, 40 green (frames numbered by position)
+  no finger is amber or red, no joint is past a limit
+  wrote rt_out/results\follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed__failures.md
+  wrote rt_out/results\follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed__failures.html
+--- failures_allegro_left: exit 0 in 0 s
+=== view
+$ <analysis env>/Scripts/python.exe tools/view_follow.py rt_out/results/follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed.json rt_out/results/follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed.json --out rt_out/results/follow_runthrough.html --table rt_out/results/follow_runthrough.md
+wrote rt_out/results/follow_runthrough.html
+wrote rt_out/results/follow_runthrough.md
+--- view: exit 0 in 0 s
+follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed.json
+follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed__failures.html
+follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed__failures.md
+follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed.json
+follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed__failures.html
+follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed__failures.md
+follow_runthrough.html
+follow_runthrough.md
+hold_placement_allegro_left__selfoverlapfix.json
+hold_placement_mosadegh_x3_ring__selfoverlapfix.json
+ALLDONE

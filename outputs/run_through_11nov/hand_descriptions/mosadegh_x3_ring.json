@@ -1,0 +1,7 @@
+{
+ "schema": "gramian-workshop/hand-description@1",
+ "key": "mosadegh_x3_ring",
+ "name": "Three stand-ins of the record made from the Mosadegh 2014 test curves, on a ring (run-through example)",
+ "fingers": {"f0": "f0_distal", "f1": "f1_distal", "f2": "f2_distal"},
+ "caveat": "Run-through example. The contact radius (8 mm) and the ring layout are choices made for the run-through, not data."
+}

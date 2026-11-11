@@ -1,0 +1,107 @@
+=== curves_to_record
+$ <analysis env>/Scripts/python.exe tools/curves_to_record.py data/test_curves/mosadegh2014_fPN.csv --out rt_out/r0/mosadegh_from_curves.json
+wrote rt_out/r0/mosadegh_from_curves.json (tier 1); check it with python tools/check_record.py rt_out/r0/mosadegh_from_curves.json
+--- curves_to_record: exit 0 in 1 s
+=== check_curves_record
+$ <analysis env>/Scripts/python.exe tools/check_record.py rt_out/r0/mosadegh_from_curves.json
+
+== rt_out/r0/mosadegh_from_curves.json
+   id mosadegh2014_fPN_from_curves  name 'Mosadegh 2014 fPN (fast pneu-net)'  tier 1
+   what the tool reads (canonical frame: X base->tip, +Y main sideways output):
+     push direction  -   from no force data: this actuator cannot push in the tool
+     push force      -   (comparative unless calibrated)
+     motion          [-0.539, -0.842, +0.000]   from scalars.free_direction
+     stroke          94.9 mm
+     stiffness       [+0.000, +0.000, +0.000] N/m (x, y, z)   no_stiffness_data
+--- check_curves_record: exit 0 in 0 s
+=== table_to_record
+$ <analysis env>/Scripts/python.exe tools/joint_table_to_record.py data/joint_tables/shadow_hand_finger.csv --out rt_out/r0/shadow_finger_from_table.json
+note   blocked force limited by joint J3
+wrote rt_out/r0/shadow_finger_from_table.json (tier 1)
+--- table_to_record: exit 0 in 0 s
+=== check_table_record
+$ <analysis env>/Scripts/python.exe tools/check_record.py rt_out/r0/shadow_finger_from_table.json
+
+== rt_out/r0/shadow_finger_from_table.json
+   id shadow_hand_finger_from_joint_table  name 'Shadow Hand finger from its joint table'  tier 1
+   what the tool reads (canonical frame: X base->tip, +Y main sideways output):
+     push direction  [+0.000, +1.000, +0.000]   from blocked.force_N (full force vector), highest input level
+     push force      10.42 N   (comparative unless calibrated)
+     motion          [-0.081, +0.997, +0.000]   from scalars.free_direction
+     stroke          129 mm
+     stiffness       [+0.000, +0.000, +0.000] N/m (x, y, z)   k_x missing -> 0; k_z missing -> 0
+     push vs motion  5 deg apart (a bender often pushes along X but moves along Y)
+--- check_table_record: exit 0 in 1 s
+=== build_curves_record_by_id
+$ <hands env>/Scripts/python.exe tools/build_record_hand.py data/hands/rt0_curves_by_id/hand.json
+Traceback (most recent call last):
+  File "<clone>\tools\build_record_hand.py", line 329, in <module>
+    main()
+  File "<clone>\tools\build_record_hand.py", line 317, in main
+    rep = build(ap.parse_args().hand_file)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<clone>\tools\build_record_hand.py", line 160, in build
+    ff, fit = fit_finger(spec)
+              ^^^^^^^^^^^^^^^^
+  File "<clone>\tools\build_record_hand.py", line 83, in fit_finger
+    rec = load_record(spec["record"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<clone>\gramian_workshop\finger.py", line 43, in load_record
+    load_manifest()["records"][rid_or_path]["file"])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'mosadegh2014_fPN_from_curves'
+--- build_curves_record_by_id: exit 1 in 0 s
+=== build_curves_record_by_path
+$ <hands env>/Scripts/python.exe tools/build_record_hand.py data/hands/rt0_curves_by_path/hand.json
+cannot build: f0 (rt_out/r0/mosadegh_from_curves.json): no contact radius: record gives no material volume and length
+--- build_curves_record_by_path: exit 1 in 1 s
+=== build_table_record_by_path
+$ <hands env>/Scripts/python.exe tools/build_record_hand.py data/hands/rt0_table_by_path/hand.json
+Traceback (most recent call last):
+  File "<clone>\tools\build_record_hand.py", line 329, in <module>
+    main()
+  File "<clone>\tools\build_record_hand.py", line 317, in main
+    rep = build(ap.parse_args().hand_file)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<clone>\tools\build_record_hand.py", line 160, in build
+    ff, fit = fit_finger(spec)
+              ^^^^^^^^^^^^^^^^
+  File "<clone>\tools\build_record_hand.py", line 84, in fit_finger
+    fit = fit_record(spec["record"], spec.get("hinges", 3), spec.get("slide"))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<clone>\gramian_workshop\record_fit.py", line 374, in fit_record
+    rows = predict(Kd)
+           ^^^^^^^^^^^
+  File "<clone>\gramian_workshop\record_fit.py", line 356, in predict
+    sol = np.linalg.solve(KKT0, np.concatenate([tau, np.zeros(m)]))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<hands env>\Lib\site-packages\numpy\linalg\_linalg.py", line 463, in solve
+    r = gufunc(a, b, signature=signature)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<hands env>\Lib\site-packages\numpy\linalg\_linalg.py", line 144, in _raise_linalgerror_singular
+    raise LinAlgError("Singular matrix")
+numpy.linalg.LinAlgError: Singular matrix
+--- build_table_record_by_path: exit 1 in 0 s
+=== gramians_mujoco_python
+$ <hands env>/Scripts/python.exe tools/figure_gramians.py --records data/records --out-dir rt_out/r0/gramians
+Traceback (most recent call last):
+  File "<clone>\tools\figure_gramians.py", line 468, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "<clone>\tools\figure_gramians.py", line 460, in main
+    draw(drawn, left_out, a.records, base + ".png", base + ".svg")
+  File "<clone>\tools\figure_gramians.py", line 315, in draw
+    import matplotlib
+ModuleNotFoundError: No module named 'matplotlib'
+--- gramians_mujoco_python: exit 1 in 1 s
+=== gramians_analysis_python
+$ <analysis env>/Scripts/python.exe tools/figure_gramians.py --records data/records --out-dir rt_out/r0/gramians
+drawn 21, left out 6; wrote rt_out/r0/gramians\record_gramians_b.png/.svg/.json/.md
+  not drawn: abboodi2026_ossa5_bending: no stored Gramian and no free tip curve (holds: blocked curve)
+  not drawn: example_rigid_pneumatic_cylinder: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: ossa_axial_extend: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: ossa_differential_bend: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: ossa_vacuum_contract: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: shadow_hand_finger: no stored Gramian and no free tip curve (holds: headline numbers only)
+--- gramians_analysis_python: exit 0 in 1 s
+ALLDONE

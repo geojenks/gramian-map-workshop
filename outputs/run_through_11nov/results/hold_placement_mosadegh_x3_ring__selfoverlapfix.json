@@ -1,0 +1,38 @@
+{
+ "placement": {
+  "rotation_matrix": [
+   [
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "translation_m": [
+   3.264045886613822e-18,
+   6.554840434024074e-11,
+   0.11747807386369213
+  ]
+ },
+ "assignment": {
+  "f0": 0,
+  "f1": 1,
+  "f2": 2
+ },
+ "respace_deg": [
+  0.0,
+  0.0,
+  0.0
+ ],
+ "placement_cost_mm": 0.0,
+ "note": "the hand's own frame, finger i at station i: no placement search"
+}

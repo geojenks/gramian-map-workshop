@@ -1,0 +1,12 @@
+{
+ "schema": "gramian-workshop/hand-description@1",
+ "key": "allegro_left",
+ "name": "Allegro left hand (MuJoCo Menagerie)",
+ "fingers": {
+  "thumb": "th_tip",
+  "index": "ff_tip",
+  "middle": "mf_tip",
+  "ring": "rf_tip"
+ },
+ "datasheet_torque_Nm": [0.70, "Allegro V4 max joint torque (reseller page)"]
+}

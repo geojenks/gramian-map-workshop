@@ -1,0 +1,7 @@
+{
+ "hand": "rt0_curves_by_path",
+ "hand_file": "data\\hands\\rt0_curves_by_path\\hand.json",
+ "fingers": [],
+ "status": "refused",
+ "reason": "f0 (rt_out/r0/mosadegh_from_curves.json): no contact radius: record gives no material volume and length"
+}

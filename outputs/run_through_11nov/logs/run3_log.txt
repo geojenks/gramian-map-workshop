@@ -1,0 +1,53 @@
+=== build
+$ <hands env>/Scripts/python.exe tools/build_record_hand.py data/hands/mosadegh2014_fPN_from_curves_x3_ring_flipped/hand.json
+f0: rt_out/mosadegh_from_curves.json, fit check PASS, radius 8.00 mm (hand file)
+f1: rt_out/mosadegh_from_curves.json, fit check PASS, radius 8.00 mm (hand file)
+f2: rt_out/mosadegh_from_curves.json, fit check PASS, radius 8.00 mm (hand file)
+f0 round trip: {"free_levels_checked": 5, "tip_err_max_m": 0.0002789597328578172, "fit_free_err_max_m": 0.00027895974356597963, "tip_err_with_out_of_plane_max_m": 0.0002789597328578172, "tip_err_with_out_of_plane_share_of_stroke": 0.002938459868970257, "tip_err_note": "tip_err is in the bending plane, as the fit check measures it, so it should equal the fit's error; the second figure adds the record's out-of-plane drift, which a planar chain cannot follow", "drive_spring_balance_max": 2.7786412060137877e-10, "loader_tip_offset_m": 0.0, "model_file_tip_rule_offset_m": 0.013856406472954422, "loader_tip_note": "hands.Finger takes the chain's end as the fingertip of a hand built from records (issue 16). The rule for model-file hands (the farthest bounding-box corner of the distal capsule) would sit about a capsule radius (and a corner) past it: model_file_tip_rule_offset_m"}
+f1 round trip: {"free_levels_checked": 5, "tip_err_max_m": 0.00027895973285780716, "fit_free_err_max_m": 0.00027895974356597963, "tip_err_with_out_of_plane_max_m": 0.00027895973285780716, "tip_err_with_out_of_plane_share_of_stroke": 0.002938459868970151, "tip_err_note": "tip_err is in the bending plane, as the fit check measures it, so it should equal the fit's error; the second figure adds the record's out-of-plane drift, which a planar chain cannot follow", "drive_spring_balance_max": 2.7786412060137877e-10, "loader_tip_offset_m": 0.0, "model_file_tip_rule_offset_m": 0.013856406472954422, "loader_tip_note": "hands.Finger takes the chain's end as the fingertip of a hand built from records (issue 16). The rule for model-file hands (the farthest bounding-box corner of the distal capsule) would sit about a capsule radius (and a corner) past it: model_file_tip_rule_offset_m"}
+f2 round trip: {"free_levels_checked": 5, "tip_err_max_m": 0.00027895973285780716, "fit_free_err_max_m": 0.00027895974356597963, "tip_err_with_out_of_plane_max_m": 0.00027895973285780716, "tip_err_with_out_of_plane_share_of_stroke": 0.002938459868970151, "tip_err_note": "tip_err is in the bending plane, as the fit check measures it, so it should equal the fit's error; the second figure adds the record's out-of-plane drift, which a planar chain cannot follow", "drive_spring_balance_max": 2.7786412060137877e-10, "loader_tip_offset_m": 0.0, "model_file_tip_rule_offset_m": 0.013856406472954422, "loader_tip_note": "hands.Finger takes the chain's end as the fingertip of a hand built from records (issue 16). The rule for model-file hands (the farthest bounding-box corner of the distal capsule) would sit about a capsule radius (and a corner) past it: model_file_tip_rule_offset_m"}
+wrote data\hands\mosadegh2014_fPN_from_curves_x3_ring_flipped\hand.xml
+--- build: exit 0 in 1 s
+=== add
+$ <hands env>/Scripts/python.exe tools/add_hand.py data/hands/mosadegh2014_fPN_from_curves_x3_ring_flipped/hand.xml rt_out/mosadegh_x3_ring_flipped.json
+mosadegh_x3_ring_flipped: Three stand-ins of the record made from the Mosadegh 2014 test curves, on a ring, bend axis outward (run-through example)
+  model: <clone>\data\hands\mosadegh2014_fPN_from_curves_x3_ring_flipped\hand.xml
+  9 joints, 3 actuators, 0 joint couplings
+  joints every finger shares (read as a wrist, held at rest): none
+  palm (bodies of no finger that have collision geometry): palm
+  finger f0: fingertip body f0_distal; joints f0_hinge0, f0_hinge1, f0_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+  finger f1: fingertip body f1_distal; joints f1_hinge0, f1_hinge1, f1_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+  finger f2: fingertip body f2_distal; joints f2_hinge0, f2_hinge1, f2_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+Added. The tools now know this hand as "mosadegh_x3_ring_flipped" (<clone>/rt_out/added_hands\mosadegh_x3_ring_flipped\hand.json).
+The model is read from where it is: if you move it, add the hand again.
+Next, a hold this hand can do by construction, and the check on it:
+  python tools/make_hold_leader.py mosadegh_x3_ring_flipped
+  python tools/run_follow.py --hands mosadegh_x3_ring_flipped --leader-id hold_mosadegh_x3_ring_flipped__self__selfoverlapfix --placement-from outputs/hold_placement_mosadegh_x3_ring_flipped__selfoverlapfix.json --tag fixed
+--- add: exit 0 in 0 s
+=== hold
+$ <hands env>/Scripts/python.exe tools/make_hold_leader.py mosadegh_x3_ring_flipped --out-dir rt_out/leaders --results-dir rt_out/results
+mosadegh_x3_ring_flipped: curl [0.0, 0.0, 0.0], sphere R = 30.00 mm at [0.0, 0.0, 117.48] mm, contact miss per finger [0.0, 0.0, 0.0] mm, facing [6.0, 6.0, 6.0] deg, palm penetration 0.00 mm, other-link overlap 0.00 mm, overlap with itself 0.00 mm, object mass 18.77 g
+wrote rt_out\leaders\hold_mosadegh_x3_ring_flipped__self__selfoverlapfix.json and rt_out\results\hold_placement_mosadegh_x3_ring_flipped__selfoverlapfix.json
+--- hold: exit 0 in 8 s
+=== follow
+$ <hands env>/Scripts/python.exe tools/run_follow.py --hands mosadegh_x3_ring_flipped --leader-id hold_mosadegh_x3_ring_flipped__self__selfoverlapfix --placement-from rt_out/results/hold_placement_mosadegh_x3_ring_flipped__selfoverlapfix.json --tag fixed --margins --out-dir rt_out/results
+mosadegh_x3_ring_flipped: note: rt_out/results/hold_placement_mosadegh_x3_ring_flipped__selfoverlapfix.json has no placement key; re-scoring its placement anyway
+mosadegh_x3_ring_flipped on hold_mosadegh_x3_ring_flipped__self__selfoverlapfix: {'green': 40}; red because {}; assignment {'f0': 0, 'f1': 1, 'f2': 2}; placement cost 0.00 mm; respaced by [0, 0, 0] deg; 103.8 s
+   per finger: {('f0', 'green'): 40, ('f1', 'green'): 40, ('f2', 'green'): 40}
+   overlap (deepest part of each posed finger, per frame): median -0.02 mm, max -0.02 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 5.76 (frame 0)
+   disturbance margin: smallest 0.4968 (frame 0, worst direction -tx)
+    f0_hinge0: past its upper limit by 0.115, frames 0 to 39 (40)
+    f1_hinge0: past its upper limit by 0.115, frames 0 to 39 (40)
+    f2_hinge0: past its upper limit by 0.115, frames 0 to 39 (40)
+--- follow: exit 0 in 105 s
+=== failures
+$ <analysis env>/Scripts/python.exe tools/report_failures.py rt_out/results/follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed.json --out-dir rt_out/results
+mosadegh_x3_ring_flipped on hold_mosadegh_x3_ring_flipped__self__selfoverlapfix: 40 frames, 40 green (frames numbered by position)
+  f0_hinge0: past its upper limit by 0.115, frames 0 to 39 (40)
+  f1_hinge0: past its upper limit by 0.115, frames 0 to 39 (40)
+  f2_hinge0: past its upper limit by 0.115, frames 0 to 39 (40)
+  wrote rt_out/results\follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed__failures.md
+  wrote rt_out/results\follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed__failures.html
+--- failures: exit 0 in 0 s
+ALLDONE
