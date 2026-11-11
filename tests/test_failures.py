@@ -41,6 +41,97 @@ RESULT = {
 }
 
 
+def rows(*jr):
+    return [{"joint": j, "kind": k, "residual": r, "tolerance": t} for j, k, r, t in jr]
+
+
+# the same shape with the keys follow.py writes since issue 29
+NEW = {
+    "hand": "made_up", "leader": "made_up_leader",
+    "frames": [
+        {"k": 0, "verdict": "amber", "reason": None, "fingers": [
+            finger("a", "amber", unbalanced_Nm=0.003, missed=["reach", "torque"],
+                   beyond_limit=[{"joint": "a_j2", "side": "hi", "by": 0.01, "kind": "hinge"}],
+                   joint_residuals={"finger": rows(("a_j1", "hinge", 0.001, 0.0005),
+                                                   ("a_j2", "hinge", -0.003, 0.0005),
+                                                   ("a_s", "slide", 0.2, 0.01))}),
+            finger("b", "green", missed=[],
+                   stops=[{"joint": "b_s", "side": "lo", "kind": "slide", "reaction": 0.5,
+                           "decided_by": "finger"}],
+                   joint_residuals={"finger": rows(("b_j1", "hinge", 0.0, 0.0005))})]},
+        {"k": 1, "verdict": "amber", "reason": None, "fingers": [
+            finger("a", "amber", unbalanced_Nm=0.002, missed=["torque"],
+                   joint_residuals={"finger": rows(("a_j1", "hinge", -0.002, 0.0004),
+                                                   ("a_j2", "hinge", 0.001, 0.0004),
+                                                   ("a_s", "slide", 0.1, 0.01))}),
+            finger("b", "green", missed=[])]},
+        {"k": 2, "verdict": "red", "reason": "torque", "fingers": [
+            finger("a", "red", unbalanced_Nm=0.0, missed=[],
+                   joint_residuals={"redistribution": rows(("a_j1", "hinge", 0.004, 0.002),
+                                                           ("a_j2", "hinge", -0.006, 0.002))}),
+            finger("b", "red", reason="reach", missed=["reach"])]},
+    ],
+}
+
+
+class JointResiduals(unittest.TestCase):
+    def setUp(self):
+        self.s = failures.summarise(NEW)
+        self.amber, self.red = self.s["fingers"]["a"]
+
+    def test_missed_is_the_union_in_test_order(self):
+        self.assertEqual(self.amber["missed"], ["reach", "torque"])
+        self.assertEqual(self.red["missed"], [])
+        self.assertEqual(self.s["fingers"]["b"][-1]["missed"], ["reach"])
+
+    def test_largest_residual_by_size_signed_and_by_joint_type(self):
+        r = {x["joint"]: x for x in self.amber["residuals"]["finger"]}
+        self.assertEqual((r["a_j2"]["residual"], r["a_j2"]["at"]), (-0.003, 0))
+        self.assertEqual((r["a_j1"]["residual"], r["a_j1"]["at"]), (-0.002, 1))
+        self.assertEqual(r["a_j2"]["tolerance"], (0.0004, 0.0005))
+        self.assertEqual([x["joint"] for x in r.values() if x["largest_of_kind"]],
+                         ["a_j2", "a_s"])
+        self.assertNotIn("redistribution", self.amber["residuals"])
+
+    def test_whole_hand_rows_without_own_rows(self):
+        self.assertEqual(list(self.red["residuals"]), ["redistribution"])
+        b = failures.brief(self.s)
+        self.assertIn("in the whole-hand test, largest residual at a_j2, -0.006 N.m "
+                      "(the bar on that test's whole residual: 0.002 N.m)", b)
+        self.assertIn("amber frames 0 to 1 (2): missed reach, torque; largest residual at "
+                      "a_j2, -0.003 N.m (the bar on the norm of its rows: 0.0004 to "
+                      "0.0005 N.m); largest residual at a_s, 0.2 N", b)
+
+    def test_equal_residuals_share_the_name_and_noise_names_none(self):
+        r = {"frames": [{"k": 0, "verdict": "amber", "fingers": [
+            finger("a", "amber", missed=["torque"], joint_residuals={"finger": rows(
+                ("j1", "hinge", 0.001, 0.0004), ("j2", "hinge", -0.001, 0.0004),
+                ("j3", "hinge", 2e-16, 0.0004))}),
+            finger("b", "amber", missed=["reach"], joint_residuals={"finger": rows(
+                ("k1", "hinge", 3e-16, 0.0004), ("k2", "hinge", -1e-16, 0.0004))})]}]}
+        s = failures.summarise(r)
+        b = failures.brief(s)
+        self.assertIn("largest residual at j1 and j2, equal in size, 0.001 N.m", b)
+        self.assertNotIn("k1", b)
+        t = failures.to_text(s)
+        self.assertIn("| j3 | 0 | 0 | 0.0004 N.m |  |", t)
+        self.assertIn("| k1 | 0 | 0 | 0.0004 N.m |  |", t)
+
+    def test_units_come_from_the_joint_kind(self):
+        self.assertIn("a_j2: past its upper limit by 0.01 rad, frame 0", failures.brief(self.s))
+        t = failures.to_text(self.s)
+        self.assertIn("| b_s | b | frame 0 | on stop | lower |  | 0.5 N | finger |", t)
+        self.assertIn("| a | frames 0 to 1 (2) | the finger's own torque test | a_j2 | "
+                      "-0.003 N.m | 0 | 0.0004 to 0.0005 N.m | yes |", t)
+        self.assertIn("| a | frame 2 | the whole-hand torque test | a_j1 | 0.004 N.m | 2 | "
+                      "0.002 N.m |  |", t)
+        self.assertNotIn("is not in this result file", t)
+        self.assertNotIn("over its bar", t)
+        page = failures.to_html(self.s)
+        self.assertIn("missed: reach, torque", page)
+        self.assertNotIn("is not in this result file", page)
+
+
 class Failures(unittest.TestCase):
     def setUp(self):
         self.s = failures.summarise(RESULT)
@@ -92,6 +183,14 @@ class Failures(unittest.TestCase):
                       failures.brief(s))
         self.assertIn("numbered by their position", failures.to_text(s))
         self.assertFalse(self.s["by_position"])
+
+    def test_old_result_says_the_joint_is_not_named(self):
+        self.assertFalse(self.s["has_joint_residuals"])
+        self.assertIsNone(self.s["fingers"]["a"][1]["missed"])
+        t = failures.to_text(self.s)
+        self.assertIn("falls short is not in this result file", t)
+        self.assertNotIn("Joint balance left over", t)
+        self.assertIn("past its upper limit by 0.01 to 0.02, frames", failures.brief(self.s))
 
     def test_never_overwrites(self):
         with tempfile.TemporaryDirectory() as d:

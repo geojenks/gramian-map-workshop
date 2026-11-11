@@ -20,8 +20,19 @@ and about a joint:
                 hinge, m for a slide)
   stops         resting on an end stop whose reaction is credited
 The torque left unbalanced is stated per finger (unbalanced_Nm, and
-unbalanced_N for slides), not per joint: a result does not say which joint
-of a finger falls short.
+unbalanced_N for slides). A result written since 10 Nov 2026 (issue 29)
+also says, per finger and frame:
+  missed           which of the finger's own tests it did not pass at the
+                   green bar
+  joint_residuals  the joint balance a torque test left, joint by joint:
+                   "finger" for the finger's own test, "redistribution" for
+                   the whole-hand test where its torque stage ran
+  kind             on beyond_limit and stops entries: hinge or slide
+These are restated too. A test holds the norm of its rows to its bar, not
+each row, so the report names the joint carrying the largest residual and
+gives the bar as the bar on the norm; it never says a joint is over a bar.
+Hinges (N.m) and slides (N) are ranked apart. An older result has none of
+these keys and reads as before: the joint that falls short is not named.
 """
 import collections
 import os
@@ -48,8 +59,55 @@ JOINT = collections.OrderedDict([
     ("on stop", ("s", "--st-dir", "resting on an end stop, reaction credited")),
 ])
 TINY = 1e-9   # display only: an unbalanced torque below this is not printed
+TIE = 1e-6    # display only: residuals this close in size (relative) are called equal
 OWN = "the finger's own test"
 WHOLE = "the whole-hand force test"
+TESTS = ("reach", "facing", "overlap", "friction cone", "torque")   # follow.py's order
+# joint_residuals key -> what the report calls that test
+TORQUE_TESTS = collections.OrderedDict([
+    ("finger", "the finger's own torque test"),
+    ("redistribution", "the whole-hand torque test")])
+FORCE_UNIT = {"hinge": " N.m", "slide": " N"}    # residual, stop reaction
+LIMIT_UNIT = {"hinge": " rad", "slide": " m"}    # how far past a limit
+
+
+def _missed(xs):
+    """The tests the finger records xs say they missed, in test order, or
+    None where none of them states it (a result from before the key)."""
+    stated = [x["missed"] for x in xs if x.get("missed") is not None]
+    if not stated:
+        return None
+    seen = {t for m in stated for t in m}
+    return [t for t in TESTS if t in seen] + sorted(seen - set(TESTS))
+
+
+def _residual_rows(kxs, which):
+    """One row per joint for the joint_residuals[which] entries of the
+    (frame name, finger record) pairs kxs: the residual largest in size
+    over them (signed, as stored), the frame it is at, the range of the
+    bar, and whether it is the largest of its joint type among the rows."""
+    rows = collections.OrderedDict()
+    for k, x in kxs:
+        for e in (x.get("joint_residuals") or {}).get(which) or []:
+            v = e.get("residual")
+            if v is None:
+                continue
+            r = rows.setdefault(e.get("joint"), {
+                "joint": e.get("joint"), "joint_kind": e.get("kind"),
+                "residual": v, "at": k, "tolerance": [], "n": 0})
+            r["n"] += 1
+            r["tolerance"].append(e.get("tolerance"))
+            if abs(v) > abs(r["residual"]):
+                r["residual"], r["at"] = v, k
+    rows = list(rows.values())
+    for r in rows:
+        r["tolerance"] = _rng(r["tolerance"])
+        top = max(abs(o["residual"]) for o in rows if o["joint_kind"] == r["joint_kind"])
+        # display only: rows equal in size to within TIE share the name (a
+        # coupled pair carries equal and opposite residuals), and rounding
+        # noise below TINY names no joint
+        r["largest_of_kind"] = top >= TINY and abs(r["residual"]) >= top * (1 - TIE)
+    return rows
 
 
 def finger_cause(frame, x):
@@ -87,9 +145,14 @@ def summarise(result):
                  palm_penetration_mm, finger_finger_mm, finger_palm_mm}]
       fingers  {finger: [{i0, k0, k1, n, state, cause, stated_by, station,
                  reach_mm, facing_deg, side_deg, penetration_mm,
-                 unbalanced_Nm, unbalanced_N}]}   ranges are (min, max)
+                 unbalanced_Nm, unbalanced_N, missed, residuals}]}
+               ranges are (min, max); missed is the union over the span in
+               test order, None where not stated; residuals is
+               {"finger" | "redistribution": [{joint, joint_kind, residual,
+               at, tolerance, n, largest_of_kind}]} (_residual_rows)
       joints   {joint: [{i0, k0, k1, n, finger, kind, side, by | reaction,
-                 decided_by}]}
+                 decided_by, joint_kind}]}   kind is "past limit" or
+               "on stop"; joint_kind is hinge or slide, None where not stated
       grid     per frame, the cause code of each finger and the joint
                events, for drawing
     plus hand, leader, ks, by_position, verdicts, finger_frames. Frames are
@@ -145,11 +208,17 @@ def summarise(result):
             for key in ("reach_mm", "facing_deg", "side_deg", "penetration_mm",
                         "unbalanced_Nm", "unbalanced_N"):
                 s[key] = _rng([x.get(key) for x in xs])
+            s["missed"] = _missed(xs)
+            kxs = [(ks[i], per[n][i]) for i in range(i0, i1 + 1) if per[n][i] is not None]
+            s["residuals"] = collections.OrderedDict(
+                (which, rows) for which in TORQUE_TESTS
+                for rows in [_residual_rows(kxs, which)] if rows)
             spans.append(s)
         out_fingers[n] = spans
 
     # joints: one track per (joint, kind, side, finger)
     tracks = collections.OrderedDict()
+    joint_kind = {}     # joint -> hinge or slide, where the result says
     for n in names:
         for i in range(len(frames)):
             x = per[n][i] or {}
@@ -159,6 +228,8 @@ def summarise(result):
                     t = tracks.setdefault((e.get("joint"), kind, e.get("side"), n),
                                           [None] * len(frames))
                     t[i] = (e.get(val), e.get("decided_by"))
+                    if e.get("kind") is not None:
+                        joint_kind.setdefault(e.get("joint"), e.get("kind"))
     out_joints = collections.OrderedDict()
     grid_j = collections.OrderedDict()
     for (joint, kind, side, n), t in tracks.items():
@@ -167,7 +238,8 @@ def summarise(result):
             if not on:
                 continue
             vals = t[i0:i1 + 1]
-            s = dict(span(i0, i1), finger=n, kind=kind, side=side)
+            s = dict(span(i0, i1), finger=n, kind=kind, side=side,
+                     joint_kind=joint_kind.get(joint))
             s["by" if kind == "past limit" else "reaction"] = _rng([v[0] for v in vals])
             if kind == "on stop":
                 s["decided_by"] = sorted({str(v[1]) for v in vals if v[1] is not None})
@@ -175,7 +247,7 @@ def summarise(result):
             for i in range(i0, i1 + 1):
                 # past limit outranks on stop where a joint has both
                 if row[i] is None or kind == "past limit":
-                    row[i] = (kind, side, t[i][0])
+                    row[i] = (kind, side, t[i][0], joint_kind.get(joint))
 
     counts = collections.Counter(c for n in names for c in grid_f[n])
     states = collections.Counter(x["state"] for n in names for x in out_fingers[n]
@@ -184,6 +256,7 @@ def summarise(result):
             "leader": result.get("leader"), "resid_tol": result.get("resid_tol"),
             "ks": ks, "by_position": by_position, "frames": out_frames, "fingers": out_fingers,
             "joints": out_joints, "grid": {"fingers": grid_f, "joints": grid_j},
+            "has_joint_residuals": any(x["residuals"] for n in names for x in out_fingers[n]),
             "verdicts": dict(collections.Counter(f.get("verdict") for f in frames)),
             "finger_frames": dict(counts), "finger_states": dict(states)}
 
@@ -219,6 +292,44 @@ def _finger_detail(s):
     return "; ".join(bits)
 
 
+def _largest(x, which):
+    """The joint carrying the largest residual of test `which` over finger
+    span x, one clause per joint type, or "" where the result has no such
+    rows. The bar is stated as what it is: a bar on the norm."""
+    rows = [r for r in (x.get("residuals") or {}).get(which, []) if r["largest_of_kind"]]
+    if not rows:
+        return ""
+    bar = ("the bar on the norm of its rows" if which == "finger"
+           else "the bar on that test's whole residual")
+    out = []
+    for jk in sorted({r["joint_kind"] for r in rows}, key=str):
+        rs = [r for r in rows if r["joint_kind"] == jk]
+        u = FORCE_UNIT.get(jk, "")
+        what = (f"{rs[0]['joint']}, {rs[0]['residual']:.3g}{u}" if len(rs) == 1 else
+                " and ".join(r["joint"] for r in rs)
+                + f", equal in size, {abs(rs[0]['residual']):.3g}{u}")
+        out.append(f"largest residual at {what} ({bar}: "
+                   f"{_r(_rng([t for r in rs for t in r['tolerance']]), u)})")
+    return "; ".join(out)
+
+
+def _res(v, unit):
+    """A residual for a table: rounding noise below TINY prints as 0."""
+    return "0" if abs(v) < TINY else f"{v:.3g}{unit}"
+
+
+def _joint_detail(x):
+    """What a result since issue 29 adds for finger span x, as a phrase."""
+    bits = []
+    if x.get("missed"):
+        bits.append("missed: " + ", ".join(x["missed"]))
+    for which, name in TORQUE_TESTS.items():
+        d = _largest(x, which)
+        if d:
+            bits.append(f"{name}: {d}")
+    return ". ".join(bits)
+
+
 def brief(s):
     """A few lines for a log: the fingers that are amber or red and when,
     and the joints posed past a limit."""
@@ -237,22 +348,40 @@ def brief(s):
                 u = x.get("unbalanced_Nm")
                 own = (f"; this finger unbalanced {_r(u, ' N.m')}" if u and max(u) >= TINY
                        else "; this finger balanced" if u else "")
-                bits.append(f"red (whole hand: {x['cause']}{own}) {_when(x)}")
+                # the joint: the whole hand's rows where its torque stage
+                # ran, else the finger's own
+                d = _largest(x, "redistribution")
+                d = (f"; in the whole-hand test, {d}" if d else
+                     f"; {_largest(x, 'finger')}" if _largest(x, "finger") else "")
+                bits.append(f"red (whole hand: {x['cause']}{own}{d}) {_when(x)}")
             else:
                 bits.append(f"red ({x['cause']}) {_when(x)}")
         amber = sum(x["n"] for x in spans if x["state"] == "amber")
         if amber:
             bits.append(f"amber in {amber} of {len(s['ks'])} frames")
+            for x in spans:
+                if x["state"] == "amber" and _joint_detail(x):
+                    d = "; ".join(b for b in (
+                        "missed " + ", ".join(x["missed"]) if x.get("missed") else "",
+                        _largest(x, "finger") if "torque" in (x.get("missed") or ()) else "")
+                        if b)
+                    if d:
+                        bits.append(f"amber {_when(x)}: {d}")
         if bits:
             lines.append(f"  {name}: " + "; ".join(bits))
     for joint, spans in s["joints"].items():
         for x in spans:
             if x["kind"] == "past limit":
                 lines.append(f"  {joint}: past its {_side(x['side'])} limit by "
-                             f"{_r(x['by'])}, {_when(x)}")
+                             f"{_r(x['by'], LIMIT_UNIT.get(x.get('joint_kind'), ''))}, "
+                             f"{_when(x)}")
     if len(lines) == 1:
         lines.append("  no finger is amber or red, no joint is past a limit")
     return "\n".join(lines)
+
+
+_NOT_NAMED = ("The torque left unbalanced is stated per finger. Which joint of a finger "
+              "falls short is not in this result file.")
 
 
 def _naming(s):
@@ -279,25 +408,55 @@ def to_text(s):
           "Green and off spans are left out. \"Stated by\" says whether a red is the "
           "finger's own (its pad misses the contact) or the whole hand's (the pad is in "
           "place and the force test fails).", "",
-          "| finger | when | state | cause | stated by | measured |", "|---|---|---|---|---|---|"]
+          "\"Own tests missed\" is blank where the result does not say.", "",
+          "| finger | when | state | cause | stated by | measured | own tests missed |",
+          "|---|---|---|---|---|---|---|"]
     rows = [f"| {name} | {_when(x)} | {x['state']} | "
             f"{x['cause'] if x['state'] == 'red' else ''} | {x['stated_by'] or ''} | "
-            f"{_finger_detail(x)} |"
+            f"{_finger_detail(x)} | "
+            f"{'' if x['missed'] is None else ', '.join(x['missed']) or 'none'} |"
             for name, spans in s["fingers"].items() for x in spans
             if x["state"] in ("amber", "red")]
-    L += rows or ["| (none) | | | | | |"]
+    L += rows or ["| (none) | | | | | | |"]
+    if s.get("has_joint_residuals"):
+        L += ["", "## Joint balance left over", "",
+              "For each amber or red span, what a torque test left unbalanced at each joint: "
+              "the residual largest in size over the span (signed; N.m on a hinge, N on a "
+              "slide) and the frame it is at. A test holds the norm of its rows to its bar, "
+              "not each row. For the finger's own test the bar is on that finger's rows of "
+              "one joint type. For the whole-hand test it is on all its rows, the object's "
+              "included, so a joint's residual is a share of it; that test has rows only "
+              "at frames where it reached its torque stage, so none at a frame red on "
+              "direction or friction. Residuals equal in size share the last column (a "
+              "coupled pair of joints carries equal and opposite ones); a residual that is "
+              "rounding noise prints as 0 and names no joint.", "",
+              "| finger | when | test | joint | largest residual | at frame | "
+              "bar on the norm | largest of its joint type |",
+              "|---|---|---|---|---|---|---|---|"]
+        for name, spans in s["fingers"].items():
+            for x in spans:
+                if x["state"] not in ("amber", "red"):
+                    continue
+                for which, rows in x["residuals"].items():
+                    for r in rows:
+                        u = FORCE_UNIT.get(r["joint_kind"], "")
+                        L.append(f"| {name} | {_when(x)} | {TORQUE_TESTS[which]} | "
+                                 f"{r['joint']} | {_res(r['residual'], u)} | {r['at']} | "
+                                 f"{_r(r['tolerance'], u)} | "
+                                 f"{'yes' if r['largest_of_kind'] else ''} |")
     L += ["", "## Joints", "",
           "Past a limit: rad for a hinge, m for a slide. On a stop: the reaction the check "
           "credited (N.m, or N for a slide), which helps the hold and is not a failure.", "",
           "| joint | finger | when | what | side | by | reaction | decided by |",
           "|---|---|---|---|---|---|---|---|"]
     rows = [f"| {joint} | {x['finger']} | {_when(x)} | {x['kind']} | {_side(x['side'])} | "
-            f"{_r(x.get('by'))} | {_r(x.get('reaction'))} | "
+            f"{_r(x.get('by'), LIMIT_UNIT.get(x.get('joint_kind'), ''))} | "
+            f"{_r(x.get('reaction'), FORCE_UNIT.get(x.get('joint_kind'), ''))} | "
             f"{', '.join(x.get('decided_by', []))} |"
             for joint, spans in s["joints"].items() for x in spans]
     L += rows or ["| (none) | | | | | | | |"]
-    L += ["", "The torque left unbalanced is stated per finger. Which joint of a finger "
-          "falls short is not in a result file.", ""]
+    L += ["", _NOT_NAMED if not s.get("has_joint_residuals") else
+          "The torque left unbalanced is stated per finger, and joint by joint above.", ""]
     return "\n".join(L)
 
 
@@ -331,6 +490,7 @@ def to_html(s):
             if x["state"] == "red":
                 tip += f", {code}" + (f" ({x['stated_by']})" if x["stated_by"] else "")
             d = _finger_detail(x)
+            d = "; ".join(b for b in (d, _joint_detail(x)) if b)
             if d:
                 tip += f". Over {_when(x)}: {d}"
         letter, role, _t = CAUSES.get(code, (str(code)[:1], "--st-critical", ""))
@@ -347,10 +507,11 @@ def to_html(s):
             if e is None:
                 return ("var(--st-none)", "", f"{joints[i]}, frame {ks[j]}: nothing stated",
                         "var(--st-none-ink)")
-            kind, side, val = e
+            kind, side, val, jk = e
             letter, role, _t = JOINT[kind]
-            what = (f"past its {_side(side)} limit by {val:.3g}" if kind == "past limit"
-                    else f"on its {_side(side)} stop, reaction {val:.3g}")
+            what = (f"past its {_side(side)} limit by {val:.3g}{LIMIT_UNIT.get(jk, '')}"
+                    if kind == "past limit" else
+                    f"on its {_side(side)} stop, reaction {val:.3g}{FORCE_UNIT.get(jk, '')}")
             return (f"var({role})", letter, f"{joints[i]}, frame {ks[j]}: {what}",
                     f"var({role}-ink)")
         body += ['<div class="card">',
@@ -363,9 +524,11 @@ def to_html(s):
              f'<div class="card"><pre>{report.esc(to_text(s))}</pre></div>']
     title = f"Which fingers and joints fail, and when: {s.get('hand_name') or s.get('hand')}"
     caveat = (f"Leader {s.get('leader')}, {len(ks)} frames. Read from the stored follow "
-              "result; nothing is re-checked. " + _naming(s) + " Hover a cell for its numbers. The torque left "
-              "unbalanced is per finger: a result does not say which joint of a finger "
-              "falls short.")
+              "result; nothing is re-checked. " + _naming(s) + " Hover a cell for its numbers. "
+              + (_NOT_NAMED if not s.get("has_joint_residuals") else
+                 "Where a finger is amber or red the joint carrying the largest residual "
+                 "is named; a torque test holds the norm of its rows to its bar, not each "
+                 "row."))
     return report.page(title, caveat, "".join(body))
 
 
