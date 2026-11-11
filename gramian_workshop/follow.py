@@ -179,6 +179,33 @@ exactly the old test. Motivation: the
 Shadow's J1/J2 share one tendon motor with no spring, so a pad load with
 J1 on its stop was red for torque the stop in fact carries.
 
+Which joint falls short, and which test a finger missed (10 Nov, issue
+29; reported only): each touching finger's record carries
+"joint_residuals", the joint balance left over by the test that judged
+it, row by row: {"finger": [...]} for the finger's own torque test (the
+C x - Tr f (- tau) of _hold_solve at the input use it found, one entry per
+free joint: "joint" (its name, as in "stops"), "kind" ("hinge" or
+"slide"), "residual" (N.m for a hinge, N for a slide, signed) and
+"tolerance", the bar the test held the norm of those rows to (UNACT_TOL
+of the joint torque, by joint type where the finger has both; the same
+bar on every row of a type, since the test reads the norm, not each row),
+and "redistribution": the same rows of the whole-hand torque stack when
+it ran at this frame (_redistribute's joint-balance rows at its solution,
+back in N.m or N; its "tolerance" is the stack's bar, RESID_TOL of the
+scaled object wrench or FEAS_REL, in the same units: the stack holds the
+norm of every row, wrench rows included, to it, so a row's residual
+compares to that bar only as a share of it). The norm of the "finger" rows
+is unbalanced_Nm (by type, unbalanced_Nm and unbalanced_N). "missed" lists
+the finger's own tests it did not pass at the green bar, in test order:
+"reach", "facing", "overlap", "friction cone", "torque" (empty for a green
+finger; for a red near miss its "reason" is the first of them past the
+amber bar); "cone_angle_deg" is the angle between the leader's force at
+its station and the inward normal at the actual contact, against
+"cone_half_angle_deg" (atan mu), the friction-cone test's two numbers.
+Each "beyond_limit" and "stops" entry carries the joint's "kind", so its
+"by" or "reaction" reads as rad or m, N.m or N. No verdict, reason, state
+or allowance reads any of these.
+
 Fingers with fewer inputs than joints (28 Oct, ruled on issue 21): a
 finger whose free joints all have springs in the model, and whose inputs
 are fewer than those joints (wall_x3_ring: one drive, a slide and three
@@ -1658,6 +1685,13 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 # this pose, and how far that force is from the leader's
                 item["equilibrium"] = dict(r_[8], force_departure_N=float(np.linalg.norm(
                     np.asarray(r_[8]["force_N"]) - leader.force(k, i, Rw))))
+            # which of its own tests it did not pass at the green bar
+            # (reported only, issue 29; nothing below reads it): the
+            # placement tests here, the two force tests added once run
+            missed = [name for name, failed in (
+                ("reach", res > REACH_GREEN_M + patch), ("facing", face > SIDE_GREEN_DEG),
+                ("overlap", o_rank != 0)) if failed]
+            item["missed"] = missed
             if not near:
                 item["state"] = "red"
                 item["reason"] = ("reach" if res > REACH_AMBER_M + patch else
@@ -1685,6 +1719,11 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             Jf = jacp[:, f.dof]
             fv = leader.force(k, i, Rw)
             in_cone = fv @ n_in >= math.cos(math.atan(mu)) * np.linalg.norm(fv) - 1e-12
+            # the two numbers of that test (reported only, issue 29)
+            nf = float(np.linalg.norm(fv))
+            item["cone_angle_deg"] = math.degrees(math.acos(
+                max(-1.0, min(1.0, float(fv @ n_in) / nf)))) if nf > 0 else 0.0
+            item["cone_half_angle_deg"] = math.degrees(math.atan(mu))
             torque_ok = True
             cols = None
             tau = None
@@ -1695,7 +1734,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             if M is not None:
                 cols = _finger_columns(hand, f, iks[a], M, lim, Jf, pw, kq, stops)
                 if stops:
-                    item["stops"] = [{"joint": m.joint(f.joints[jx]).name, "side": side}
+                    item["stops"] = [{"joint": m.joint(f.joints[jx]).name, "side": side,
+                                      "kind": _joint_kind(m, f.joints[jx])}
                                      for jx, side, _ in stops]
                 if stop_reactions:
                     beyond = _beyond_limits(hand, f, iks[a])
@@ -1724,9 +1764,14 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                 else:
                     item["unbalanced_Nm"] = un
                 xs_hold[a] = xh
+                # row by row, what that test judged (reported only, issue 29)
+                item["joint_residuals"] = {
+                    "finger": _own_residuals(hand, iks[a], cols, fv, tau, xh, kinds[a])}
             if item.get("state") != "red":
                 item["state"] = "green" if (exact and in_cone and torque_ok) else "amber?"
             item["torque_checked"] = M is not None
+            item["missed"] = missed + [name for name, failed in (
+                ("friction cone", not in_cone), ("torque", not torque_ok)) if failed]
             per.append(item)
             pts.append(cp)
             nrms.append(n_in)
@@ -1786,6 +1831,13 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         # hold test (NNLS gives one of the solutions, deterministic but
         # arbitrary among them)
         xs = _split_stack(Js, fingers_on, stack["x"]) if "x" in stack else xs_hold
+        if "joint_residual" in stack:
+            # the whole-hand torque stack's joint rows, per finger (issue 29)
+            for a, ra in _split_rows(Js, fingers_on, stack["joint_residual"]).items():
+                rec = per[[x["finger"] for x in per].index(hand.fingers[a].label)]
+                rec.setdefault("joint_residuals", {})["redistribution"] = [
+                    {**jk, "residual": float(r), "tolerance": stack["joint_tol"]}
+                    for jk, r in zip(_joint_rows(hand, iks[a]), ra)]
         for a, xa in xs.items():
             rec = per[[x["finger"] for x in per].index(hand.fingers[a].label)]
             if "stops" in rec:
@@ -1966,9 +2018,11 @@ def _beyond_limits(hand, finger, ik):
         q = float(ik.d.qpos[m.jnt_qposadr[j]])
         lo, hi = m.jnt_range[j]
         if q < lo - STOP_TOL:
-            out.append({"joint": m.joint(j).name, "side": "lo", "by": lo - q})
+            out.append({"joint": m.joint(j).name, "side": "lo", "by": lo - q,
+                        "kind": _joint_kind(m, j)})
         elif q > hi + STOP_TOL:
-            out.append({"joint": m.joint(j).name, "side": "hi", "by": q - hi})
+            out.append({"joint": m.joint(j).name, "side": "hi", "by": q - hi,
+                        "kind": _joint_kind(m, j)})
     return out
 
 
@@ -2297,6 +2351,56 @@ def _has_stop(h):
     return not bool(np.all(np.isfinite(np.asarray(h, float))))
 
 
+def _joint_kind(m, j):
+    """"hinge" or "slide" for joint j of model m (the only types a hand here
+    has)."""
+    return "slide" if int(m.jnt_type[j]) == int(_mj().mjtJoint.mjJNT_SLIDE) else "hinge"
+
+
+def _joint_rows(hand, ik):
+    """[{"joint", "kind"}] for the finger's joint-balance rows, one per free
+    joint, in the order of _finger_columns' Tr and C (a coupled dependant
+    has no row of its own: its torque passes to its master's)."""
+    m = hand.model
+    return [{"joint": m.joint(j).name, "kind": _joint_kind(m, j)} for j in ik.free]
+
+
+def _own_residuals(hand, ik, cols, fv, tau, x, kinds):
+    """The finger's own torque test row by row (issue 29): [{"joint", "kind",
+    "residual", "tolerance"}], residual = (C x - t)_row with t = Tr fv (+
+    tau), as _hold_solve formed it at the input use x it found (N.m on a
+    hinge, N on a slide), and tolerance the bar it held the norm of the
+    rows to: UNACT_TOL of |t| + 1e-9 over every row, or, for a finger with
+    both joint types (kinds given), over the rows of each type
+    (_hold_solve_by_kind). Reported only."""
+    Tr, C = cols
+    t = Tr @ fv
+    if tau is not None:
+        t = t + tau
+    r = C @ np.asarray(x, float) - t
+    rows = _joint_rows(hand, ik)
+    if kinds is not None and len(set(kinds)) > 1:
+        kd = np.asarray(kinds)
+        tol = {k: UNACT_TOL * float(np.linalg.norm(t[kd == k])) + 1e-9 for k in set(kinds)}
+        return [{**jk, "residual": float(ri), "tolerance": tol[k]}
+                for jk, ri, k in zip(rows, r, kinds)]
+    bar = UNACT_TOL * float(np.linalg.norm(t)) + 1e-9
+    return [{**jk, "residual": float(ri), "tolerance": bar} for jk, ri in zip(rows, r)]
+
+
+def _split_rows(Js, fingers_on, r):
+    """{finger index: its slice} of a vector over _torque_stack's joint rows
+    (one per row of each finger's Tr, as _split_stack cuts the inputs)."""
+    out, r0 = {}, 0
+    for cols, a in zip(Js, fingers_on):
+        if cols is None:
+            continue
+        n = cols[0].shape[0]
+        out[a] = r[r0:r0 + n]
+        r0 += n
+    return out
+
+
 def _stops_in(bounds):
     """True if any finger's box in bounds (as _redistribute takes it) has
     an unbounded column; False for None."""
@@ -2585,6 +2689,11 @@ def _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol=None, taus=None,
     if out is not None:
         ng = Gs.shape[1]
         out["x"] = _drive_first_stack(Js, bounds, low + np.where(ab, 0.0, xs[ng:ng + nx]))
+        # the joint-balance rows' residual at that solution, back in N.m
+        # (N on a slide), and the bar the stack's whole residual norm was
+        # held to, in the same units (issue 29; reported only)
+        out["joint_residual"] = ((Mx @ xs - rhs)[6:6 + nt] * L).tolist()
+        out["joint_tol"] = float(tol * L)
     return (True, None) if ok else (False, "torque")
 
 

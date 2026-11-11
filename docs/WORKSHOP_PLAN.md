@@ -152,7 +152,10 @@ hand follow a recorded manipulation, frame by frame?
   `outputs/follow.html` and `outputs/follow_respaced.html`. Which fingers
   and joints fail, and when, for one result: `gramian_workshop/failures.py`,
   `tools/report_failures.py` (`outputs/follow_*__failures.md` and `.html`;
-  `tools/run_follow.py` prints the short form after each hand).
+  `tools/run_follow.py` prints the short form after each hand). Since
+  10 Nov (issue 29) a follow result also names the joint that falls short
+  (`joint_residuals`, per free joint, with the test's bar) and the tests a
+  finger missed (`missed`); the reporter does not read them yet.
 - Why rigid hands reach badly: `tools/reach_ladder.py` (`outputs/ladder/`,
   `outputs/reach_ladder.log`), `tools/reach_checks.py`
   (`outputs/reach_only_*.json`, `outputs/wrist_shadow.log`), and re-scoring

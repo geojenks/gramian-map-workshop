@@ -204,6 +204,21 @@ How the follow check uses them (the module docstring of `follow.py`,
   own bodies that penetrate one another at that frame's pose (issue 27).
   It is reported only: no allowance applies to it and the verdict does
   not read it.
+- **Which joint falls short, and which test a finger missed.** Each
+  touching finger also carries `joint_residuals` (issue 29): under
+  `finger`, one row per free joint of the finger's own torque test
+  (`joint`, `kind` hinge or slide, `residual` in N.m or N, and
+  `tolerance`, the bar the test held the norm of those rows to), and
+  under `redistribution`, when the whole-hand torque stack ran at that
+  frame, the same joints' rows of that stack (its `tolerance` is the
+  stack's bar on its whole residual, in N.m). `missed` lists the finger's
+  own tests it did not pass at the green bar, in order: `reach`,
+  `facing`, `overlap`, `friction cone`, `torque` (empty for a green
+  finger; a red finger that carries nothing lists the first three only).
+  `cone_angle_deg` and `cone_half_angle_deg` are the friction-cone test's
+  two numbers. Each `beyond_limit` and `stops` entry carries the joint's
+  `kind`, which gives the unit of its `by` or `reaction`. All of it is
+  reported only: no verdict, state or reason reads it.
 
 `tools/run_follow.py --allowed-overlap-m`, `--other-overlap-m` and
 `--no-other-contact` override the file, as do the `allowed_overlap_m`
