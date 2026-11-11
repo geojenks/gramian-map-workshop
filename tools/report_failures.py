@@ -17,9 +17,9 @@ mujoco nor the hand models. An existing file is never overwritten (give a
 --tag). --print-only writes nothing.
 
 What it can and cannot say is in gramian_workshop/failures.py. For a result
-written since 10 Nov 2026 (issue 29) it also lists each finger's own tests
+that carries the keys of issue 29 it also lists each finger's own tests
 missed and, joint by joint, what a torque test left unbalanced, naming the
-joint that carries the largest residual. For an older result the torque left
+joint that carries the largest residual. For a result without them the torque left
 unbalanced is per finger and the joint is not named.
 """
 import argparse

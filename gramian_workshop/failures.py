@@ -20,7 +20,7 @@ and about a joint:
                 hinge, m for a slide)
   stops         resting on an end stop whose reaction is credited
 The torque left unbalanced is stated per finger (unbalanced_Nm, and
-unbalanced_N for slides). A result written since 10 Nov 2026 (issue 29)
+unbalanced_N for slides). A result that carries the keys of issue 29
 also says, per finger and frame:
   missed           which of the finger's own tests it did not pass at the
                    green bar
@@ -31,8 +31,8 @@ also says, per finger and frame:
 These are restated too. A test holds the norm of its rows to its bar, not
 each row, so the report names the joint carrying the largest residual and
 gives the bar as the bar on the norm; it never says a joint is over a bar.
-Hinges (N.m) and slides (N) are ranked apart. An older result has none of
-these keys and reads as before: the joint that falls short is not named.
+Hinges (N.m) and slides (N) are ranked apart. A result without
+these keys has none of this and reads as before: the joint that falls short is not named.
 """
 import collections
 import os
@@ -308,8 +308,9 @@ def _largest(x, which):
         what = (f"{rs[0]['joint']}, {rs[0]['residual']:.3g}{u}" if len(rs) == 1 else
                 " and ".join(r["joint"] for r in rs)
                 + f", equal in size, {abs(rs[0]['residual']):.3g}{u}")
+        # the whole-hand bar is one norm over rows of mixed units: no unit
         out.append(f"largest residual at {what} ({bar}: "
-                   f"{_r(_rng([t for r in rs for t in r['tolerance']]), u)})")
+                   f"{_r(_rng([t for r in rs for t in r['tolerance']]), u if which == 'finger' else '')})")
     return "; ".join(out)
 
 
@@ -425,7 +426,7 @@ def to_text(s):
               "slide) and the frame it is at. A test holds the norm of its rows to its bar, "
               "not each row. For the finger's own test the bar is on that finger's rows of "
               "one joint type. For the whole-hand test it is on all its rows, the object's "
-              "included, so a joint's residual is a share of it; that test has rows only "
+              "included, so a joint's residual is a share of it and the bar, one number over rows in N and N.m, is given without a unit; that test has rows only "
               "at frames where it reached its torque stage, so none at a frame red on "
               "direction or friction. Residuals equal in size share the last column (a "
               "coupled pair of joints carries equal and opposite ones); a residual that is "
@@ -442,7 +443,7 @@ def to_text(s):
                         u = FORCE_UNIT.get(r["joint_kind"], "")
                         L.append(f"| {name} | {_when(x)} | {TORQUE_TESTS[which]} | "
                                  f"{r['joint']} | {_res(r['residual'], u)} | {r['at']} | "
-                                 f"{_r(r['tolerance'], u)} | "
+                                 f"{_r(r['tolerance'], u if which == 'finger' else '')} | "
                                  f"{'yes' if r['largest_of_kind'] else ''} |")
     L += ["", "## Joints", "",
           "Past a limit: rad for a hinge, m for a slide. On a stop: the reaction the check "

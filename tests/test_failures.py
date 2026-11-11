@@ -97,7 +97,7 @@ class JointResiduals(unittest.TestCase):
         self.assertEqual(list(self.red["residuals"]), ["redistribution"])
         b = failures.brief(self.s)
         self.assertIn("in the whole-hand test, largest residual at a_j2, -0.006 N.m "
-                      "(the bar on that test's whole residual: 0.002 N.m)", b)
+                      "(the bar on that test's whole residual: 0.002)", b)
         self.assertIn("amber frames 0 to 1 (2): missed reach, torque; largest residual at "
                       "a_j2, -0.003 N.m (the bar on the norm of its rows: 0.0004 to "
                       "0.0005 N.m); largest residual at a_s, 0.2 N", b)
@@ -124,7 +124,7 @@ class JointResiduals(unittest.TestCase):
         self.assertIn("| a | frames 0 to 1 (2) | the finger's own torque test | a_j2 | "
                       "-0.003 N.m | 0 | 0.0004 to 0.0005 N.m | yes |", t)
         self.assertIn("| a | frame 2 | the whole-hand torque test | a_j1 | 0.004 N.m | 2 | "
-                      "0.002 N.m |  |", t)
+                      "0.002 |  |", t)
         self.assertNotIn("is not in this result file", t)
         self.assertNotIn("over its bar", t)
         page = failures.to_html(self.s)
