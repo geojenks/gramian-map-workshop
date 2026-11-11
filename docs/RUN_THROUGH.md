@@ -10,7 +10,7 @@ Every number on this page is copied from a file in
 `make_tables.py` in that folder writes from them. The paths of the machine
 it ran on are replaced by `<clone>`, `<hands env>` and `<analysis env>`.
 
-`outputs/walkthrough_11nov.html` is the same run as a page to step
+`outputs/walkthrough_11nov_b.html` is the same run as a page to step
 through, built by `tools/make_walkthrough.py` from that folder.
 
 ## The result

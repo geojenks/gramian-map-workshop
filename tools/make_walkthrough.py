@@ -1,7 +1,7 @@
 """One page that walks through a stored run of the whole chain: actuator in,
 record, hand, task, verdict.
 
-    python tools/make_walkthrough.py --out outputs/walkthrough_11nov.html
+    python tools/make_walkthrough.py --out outputs/walkthrough_11nov_b.html
     python tools/make_walkthrough.py --run outputs/run_through_11nov --out PAGE.html
 
 The page runs nothing. Every command, exit code, time and line of output on
@@ -17,7 +17,8 @@ browser opens it as it is. --out is never written over.
 
 The page for the run of 11 Nov is published at
 https://claude.ai/artifact/NErwUAEUktWKWvSaKcL9aB (private); a later build
-for the same reader should update that page, not start another.
+for the same reader should update that page, not start another. A rebuild
+needs a new file name.
 
 Standard library only.
 """
@@ -233,7 +234,10 @@ WAYS = [
     ("note", "Try 3: give a contact radius",
      "With `contact_radius_m` set in the hand file the build passes its fit "
      "check. That first build was run by hand and is not in a log; its "
-     "files are in `hands/mosadegh2014_fPN_from_curves_x3_ring/`. The "
+     "files are in `hands/mosadegh2014_fPN_from_curves_x3_ring/`. That "
+     "hand file names the record as `rt_out/mosadegh_from_curves.json`, "
+     "not the `rt_out/r0/` path the record was written to; the change of "
+     "path is not in a log either. The "
      "radius is a choice made for this run, not data."),
     ("step", "run", "add_mosadegh", "Add the built hand",
      "A record-built hand that is not in `gramian_workshop/hands.py` has no "
@@ -428,7 +432,15 @@ def build(run):
      'environment with the hands extra (MuJoCo), <code>&lt;analysis env&gt;</code> '
      'is one that has matplotlib, <code>&lt;clone&gt;</code> is the fresh clone, '
      'and <code>rt_out/</code> is the scratch folder the run wrote to. Run from '
-     'the clone\'s top folder. The laptop was shared with other jobs, so the '
+     'the clone\'s top folder.</p>'
+     '<p>The run\'s files are stored under other names than the commands '
+     'use: <code>rt_out/r0/*.json</code> records are in <code>records/</code>, '
+     '<code>rt_out/*.json</code> description files in '
+     '<code>hand_descriptions/</code>, <code>data/hands/&lt;name&gt;/</code> in '
+     '<code>hands/&lt;name&gt;/</code>, and <code>rt_out/leaders</code> and '
+     '<code>rt_out/results</code> in <code>leaders/</code> and '
+     '<code>results/</code>.</p>'
+     '<p>The laptop was shared with other jobs, so the '
      'times are a guide only. Simulated magnitudes are comparative, not '
      'predictive.</p></div>' % E(ctx["run_name"]))
     foot = ('<footer>Built by <code>tools/make_walkthrough.py</code> from '
