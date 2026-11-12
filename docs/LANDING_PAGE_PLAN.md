@@ -1,31 +1,40 @@
 # Plan for the landing page
 
-Written 12 Nov 2026. It sits beside `docs/MINIMAL_PRODUCT_PLAN.md`: that
-plan lists what must work for someone to bring an actuator or a hand and
-get a verdict; this one is the page they do it from. The first mock-up is
-`tools/make_landing_mockup.py` (pictures in `outputs/landing_mockup_12nov/`).
+Written 12 Nov 2026, and reworked the same day after the two-panel mock-up.
+It sits beside `docs/MINIMAL_PRODUCT_PLAN.md`: that plan lists what must
+work for someone to bring an actuator or a hand and get a verdict; this one
+is the page they do it from.
 
-Nothing here is approved work yet. Each line under "Order of work" starts
-when we say so.
+The mock-up is `tools/make_landing_mockup.py`. Its pictures come from
+`tools/render_landing_pictures.py` (`outputs/landing_pictures_12nov/`). The
+pages are in `outputs/landing_mockup_12nov_b/`; the first, one-column
+mock-up is kept in `outputs/landing_mockup_12nov/`.
+
+Nothing here is approved work yet. Each work package below starts when we
+say so.
 
 ## What the page is
 
 Two panels and an answer.
 
-- **Left: hands.** Scroll through the hands we have, each as a rendered
-  picture. The last card is "add a hand", with two ways in: load a model
-  file (URDF or MuJoCo XML), or make one in the hand builder below.
-- **Right: tasks.** Scroll through recorded renders of a simulated hand or
-  a human hand doing each task. The last card is "add a task", with
-  extraction from a human demonstration marked beta.
+- **Left: hands.** Scroll through the hands we have, each as a picture
+  drawn from its model. The last card is "add a hand", with two ways in:
+  load a model file (URDF or MuJoCo XML), or make one in the hand builder
+  below.
+- **Right: tasks.** Scroll through the tasks. Each card has a plain name
+  and, for now, a drawing made from the task file; a recorded render of a
+  hand doing the task is to come. Variants of one task share a card. The
+  last card is "add a task", with extraction from a human demonstration
+  marked beta.
 - **The answer.** Once a hand and a task are chosen: can this hand do this
   task by this method, frame by frame, and how much headroom is left. With
   a render of the pair where one is stored.
+- **Make your manipulator.** The hand builder, with the actuator map.
 - **Along the bottom: how this works under the hood.** The steps that go
-  into the verdict, in order, each with its worked example.
+  into the verdict, in order. Each is to get its worked example.
 
-The page should lead people to the hand builder. That is the part no one
-else offers.
+The page should lead people to the hand builder and the actuator map. That
+is the part no one else offers.
 
 ## The hand builder ("make your manipulator")
 
@@ -52,6 +61,39 @@ Where it stands in the tool:
 | Strength verdicts for a record-built hand | Provisional: the motor works in the record's drive level, not newtons, and waits on the units ruling (issues 31, 35) |
 | A form in the browser that writes the hand file | Not there (`forms/record_form.html` does this for a record) |
 
+## The actuator map
+
+The choice of each finger's actuator should, in the end, be made on the
+actuator map (the atlas of the actuator-map project): one point per
+characterised actuator, placed by how alike their capabilities are, with
+named capability axes. A visitor says what the finger has to do and the map
+shows which actuators can do it.
+
+People must also be able to put their own actuator on the map, including a
+new kind that fits none of the families there. That is how the map grows,
+and how a visitor finds out what their actuator is like.
+
+Where it stands:
+
+| Piece | Today |
+|---|---|
+| The atlas | A page in the actuator-map project (`gramian_map/presentation/actuator_atlas.html`). The mock-up shows a picture of it, not the live page |
+| Records the tool can build fingers from | The 27 records of `data/records/` here, which are the same, file for file, as the 27 records of the actuator-map project (checked 12 Nov, line endings aside) |
+| Choosing a finger's actuator from the map | Not there. Today the hand file names a record by hand |
+| A visitor's actuator as a record here | Works by command, from test curves, a table of joints or the form |
+| A visitor's actuator on the atlas | Not there. The atlas is built from the actuator-map project's own records |
+
+Two things need a ruling before this is work:
+
+- A record made here from a visitor's test curves has less in it than a
+  record the actuator-map project makes from its own simulations. Placing
+  it on the atlas means either a rule for what a lesser record may show, or
+  a change to that project's record format. That format changes only with
+  explicit sign-off.
+- Where a visitor's record lives: the records here are a copy of the
+  actuator-map project's, so a record added here is not on the atlas
+  until something carries it across.
+
 ## What the page can and cannot do by itself
 
 The page is static. It shows stored results and renders, and it writes
@@ -64,9 +106,10 @@ files. It does not run the check.
   the hand took 3260 s for the one stored example.
 - **Rendering their own.** MuJoCo is what the tool uses, so that route is
   `tools/render3d.py` on their result. SOFA is how the mesh records are
-  made, in the M-11 project, and is hours of compute. For any other solver
-  (COMSOL and the like) the way in is the record or the test-curve file,
-  not a backend we drive: we take what their solver gives, in our format.
+  made, in the actuator-map project, and is hours of compute. For any other
+  solver (COMSOL and the like) the way in is the record or the test-curve
+  file, not a backend we drive: we take what their solver gives, in our
+  format.
 
 A server that runs the check for visitors is a separate decision and is not
 planned here.
@@ -95,35 +138,131 @@ Two cautions before that goes on the page:
   and at least one of speed, inertia, torque at speed, impacts or the
   replay land (issues 12, 13, 14). Today each frame is checked on its own.
   Until then the honest wording is "a moving task, checked frame by frame".
+  The mock-up's test fails if the page says otherwise.
 - "First of its kind" needs a pass through `docs/LITERATURE_REVIEW.md`
   before it is written anywhere.
 
 And the trap we name ourselves: the answer is only as good as the finger
 model. We say so on the page, with the fit check of each finger shown.
 
-## Order of work
+## Work packages (draft)
 
-Each is a piece that can be judged by eye when it lands.
+Each is small enough for one agent, can be judged by eye or by a named
+check when it lands, and owns files no other package owns. None is started.
+For all of them: `gramian_workshop/follow.py` is not to be edited (changes
+it needs go to its owner as an issue); stored outputs are never written
+over; nothing is called dynamic; no hand-typed numbers.
 
-- Rework the mock-up to the two panels: cards with pictures, the two "add"
-  cards, the answer, the bottom strip. Pictures of the hands from their
-  models; plain names for the tasks.
-- A render for each task card, and for each stored pair, from
-  `tools/render3d.py`.
-- The "how this works" pages, built from the worked checks we have
-  (`docs/MARGINS_WORKED_CHECK.md`, the walkthrough).
-- The sample pairs (compute; on the box).
-- The hand builder as a form that writes a hand file and shows the
-  commands. Needs issues 32 and 33 closed first.
-- Swapping a finger on a model-file hand. New work in the tool.
-- Task from a video, beta. Today a demonstration comes in from
-  three-camera keypoints (`tools/import_demo_leader.py`); a single video is
-  not there.
+**The page itself.** One owner, who folds in what the others make.
+- Done when: the page shows whatever pictures, renders and worked examples
+  are stored, and says so plainly where one is missing.
+- Owns: `tools/make_landing_mockup.py`, `tools/render_landing_pictures.py`,
+  `tests/test_landing_mockup.py`, this plan.
+- Blocked by: nothing. Machine: laptop.
+- Check: `python -m unittest tests.test_landing_mockup`, and the page at
+  desktop and phone width.
+
+**A render for each task card and each stored pair.**
+- Done when: a new folder holds one short render or still per task and per
+  stored pair, with a list file the page tool can read, as the pictures
+  folder does.
+- Owns: a new tool `tools/render_landing_tasks.py`, its test, a new
+  `outputs/landing_renders_<date>/`.
+- Must not touch: `tools/render3d.py` (call it), the page tool.
+- Blocked by: nothing. Machine: laptop (needs MuJoCo).
+- Check: its test; the renders by eye.
+
+**The sample pairs.** Compute only, no code.
+- Done when: the stored results cover the list under "Samples the page
+  opens with" for the model-file hands, run with `--margins`, and
+  `tools/list_superseded_follow.py` has been re-run.
+- Owns: new `outputs/follow_*` files, `outputs/follow__superseded.md`.
+- Must not touch: any tool or test.
+- Blocked by: nothing for model-file hands; the units ruling for
+  record-built hands. Machine: the CPU box, one job at a time.
+- Check: the full test suite; the page's counts change and nothing else.
+
+**Worked examples for "how this works".**
+- Done when: each step on the page has one worked example read from a
+  stored result (one frame, one finger, the numbers that decided it).
+- Owns: a new tool `tools/make_how_it_works.py`, its test, a new
+  `outputs/how_it_works_<date>/`.
+- Must not touch: `docs/MARGINS_WORKED_CHECK.md`, the walkthrough tool.
+- Blocked by: nothing. Machine: laptop.
+- Check: its test, which compares every number shown with the result file.
+
+**Make the record-built hand work as documented** (issues 32 and 33).
+- Done when: someone following `docs/BRING_YOUR_HAND.md` builds a hand
+  from records without a choice the docs do not give, and a record from a
+  table of joints builds without a crash.
+- Owns: `tools/build_record_hand.py`, `tools/joint_table_to_record.py`,
+  `docs/BRING_YOUR_HAND.md`, their tests.
+- Blocked by: nothing. Machine: laptop.
+- Check: the full test suite; `tools/run_participant_script.py`.
+
+**The hand builder as a form.**
+- Done when: a page in the browser lays out a palm, names a record per
+  finger, and writes a hand file and the commands to run.
+- Owns: a new `forms/hand_form.html`, its test.
+- Must not touch: `forms/record_form.html`.
+- Blocked by: the package above. Machine: laptop.
+- Check: its test; a hand file it writes builds and passes its own hold.
+
+**Swap one finger of a model-file hand for a record.** New work in the tool.
+- Done when: a design note is agreed, then a command takes a hand of the
+  hands table, a finger and a record, and writes a new hand that passes
+  its own hold.
+- Owns: a new module and tool, their tests. The hands table itself changes
+  only by agreement.
+- Blocked by: the design note. Machine: laptop.
+- Check: the full test suite.
+
+**Choose an actuator from the records here.** The first step toward the
+map, inside this repository.
+- Done when: a static page lists the records of `data/records/` with their
+  stored capabilities, takes what a finger has to do (reach, force, number
+  of drives) and shortlists the records that meet it.
+- Owns: a new tool `tools/make_actuator_chooser.py`, its test, a new
+  output folder.
+- Must not touch: the records, `tools/check_record.py`.
+- Blocked by: nothing; force columns stay provisional until the units
+  ruling. Machine: laptop.
+- Check: its test, which recomputes the shortlist from the records.
+
+**A visitor's actuator on the atlas.** In the actuator-map project, not
+here. Not approved; needs the two rulings under "The actuator map".
+- Done when: a record made here (from test curves or a table of joints)
+  can be given to the atlas builder and appears as a point, marked as
+  visitor-supplied and with what it lacks stated.
+- Owns: a new import step in the actuator-map project and its report
+  there. No record of that project is edited.
+- Blocked by: sign-off on how a lesser record is shown. Machine: laptop.
+- Check: that project's `population_report.py`, and the atlas by eye.
+
+**The claim.**
+- Done when: a short note says, from `docs/LITERATURE_REVIEW.md` and a
+  fresh search, what the nearest published work does and what wording we
+  can defend.
+- Owns: a new `docs/LANDING_CLAIM_CHECK.md`.
+- Blocked by: nothing. Machine: any.
+- Check: every statement about a paper carries its reference.
+
+**A task from a single video, beta.** Last, and the least certain.
+- Done when: a design note says what a single camera can and cannot give
+  (contact points, timing; not forces), before any code.
+- Owns: the note. Machine: any.
+
+Order: the sample pairs and the renders make the page worth opening; the
+record-built hand and the form make the builder real; the chooser and the
+atlas package make the actuator map part of it. The first four packages
+share no files and can run side by side.
 
 ## Open rulings
 
 - Force units for record-built hands (issues 31, 35). Blocks headroom
   numbers for the hand builder.
+- How a visitor's lesser record is shown on the atlas, and where such a
+  record lives.
 - Whether the page may say "dynamic" before issue 15's bar is met.
 - Whether the hands carrying a person's name go on the page.
 - Whether we want a server that runs checks for visitors, or files and

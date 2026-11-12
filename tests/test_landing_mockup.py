@@ -51,11 +51,47 @@ class Page(unittest.TestCase):
                                    self.page, re.S).group(1).replace("<\\/", "</"))
         self.assertEqual(got, json.loads(json.dumps(self.d)))
         self.assertEqual(self.page.count('data-kind="hand"'), len(self.d["hands"]))
-        self.assertEqual(self.page.count('data-kind="task"'), len(self.d["tasks"]) + 1)
+        self.assertEqual(self.page.count('data-kind="task"'), len(self.d["cards"]) + 1)
+        on_cards = [v["id"] for c in self.d["cards"] for v in c["variants"]]
+        self.assertEqual(sorted(on_cards), sorted(t["id"] for t in self.d["tasks"]))
+        self.assertEqual(self.page.count('class="chip"'),
+                         sum(len(c["variants"]) for c in self.d["cards"] if len(c["variants"]) > 1))
+
+    def test_headroom_is_the_smallest_stored_margin(self):
+        seen = 0
+        for shown in self.d["results"].values():
+            for r in shown:
+                with io.open(os.path.join(ROOT, r["file"]), encoding="utf-8") as f:
+                    ms = [fr.get("scale_margin") for fr in json.load(f)["frames"]]
+                if any(x is None for x in ms):
+                    self.assertIsNone(r["headroom"])
+                else:
+                    seen += 1
+                    # the page's sentence holds only if every load up to the margin is held
+                    self.assertTrue(all(x["contiguous"] for x in ms), r["file"])
+                    self.assertEqual(r["headroom"]["least"], min(x["margin"] for x in ms))
+        self.assertTrue(seen)
+
+    def test_builds_without_pictures_and_shows_those_given(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bare = m.build(ROOT, pictures_folder=tmp)
+        self.assertIn("no picture yet", bare)
+        self.assertNotIn("data:image", bare)
+        folder = os.path.join(ROOT, m.PICTURES)
+        with io.open(os.path.join(folder, "pictures.json"), encoding="utf-8") as f:
+            listed = json.load(f)
+        self.assertEqual(self.page.count("data:image/png;base64,"),
+                         len(listed["hands"]) + (1 if listed.get("atlas") else 0))
+        with io.open(os.path.join(ROOT, "data", "records", "MANIFEST.json"), encoding="utf-8") as f:
+            self.assertEqual(self.d["records"], len(json.load(f)["records"]))
+        self.assertIn("There are %d records" % self.d["records"], self.page)
 
     def test_no_names_no_machine_paths_no_outside_scripts(self):
-        self.assertNotIn("Users", self.page)
-        self.assertNotIn("george", self.page.lower())
+        text = re.sub(r'data:image/png;base64,[A-Za-z0-9+/=]+', "", self.page)
+        self.assertNotIn("Users", text)
+        self.assertNotIn("george", text.lower())
+        for word in ("dynamic", "first of its kind"):
+            self.assertNotIn(word, text.lower())
         self.assertNotIn("<script src", self.page)
         self.assertNotIn("<html", self.page)
         self.assertIn("<title>", self.page[:2000])

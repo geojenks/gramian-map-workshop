@@ -1,0 +1,19 @@
+{
+ "atlas": {
+  "file": "actuator_map.png",
+  "note": "gramian_map/presentation/actuator_atlas.html of the M-11 project at commit 85512da"
+ },
+ "hands": {
+  "allegro": "hand_allegro.png",
+  "human_vc": "hand_human_vc.png",
+  "human_vc_arch": "hand_human_vc_arch.png",
+  "human_vc_arch_prop": "hand_human_vc_arch_prop.png",
+  "human_vc_prop": "hand_human_vc_prop.png",
+  "l20": "hand_l20.png",
+  "l20_public": "hand_l20_public.png",
+  "leap": "hand_leap.png",
+  "shadow": "hand_shadow.png",
+  "wall_x3_ring": "hand_wall_x3_ring.png"
+ },
+ "skipped": {}
+}
