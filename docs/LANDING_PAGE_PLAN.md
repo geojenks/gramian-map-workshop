@@ -6,9 +6,12 @@ work for someone to bring an actuator or a hand and get a verdict; this one
 is the page they do it from.
 
 The mock-up is `tools/make_landing_mockup.py`. Its pictures come from
-`tools/render_landing_pictures.py` (`outputs/landing_pictures_12nov/`). The
-pages are in `outputs/landing_mockup_12nov_b/`; the first, one-column
-mock-up is kept in `outputs/landing_mockup_12nov/`.
+`tools/render_landing_pictures.py` (`outputs/landing_pictures_12nov/`), and
+its views of the target beside the attempt from
+`tools/render_landing_tasks.py` (`outputs/landing_renders_12nov/`). The
+pages are in `outputs/landing_mockup_12nov_c/`; the pages before the views
+are kept in `outputs/landing_mockup_12nov_b/`, and the first, one-column
+mock-up in `outputs/landing_mockup_12nov/`.
 
 Nothing here is approved work yet. Each work package below starts when we
 say so.
@@ -150,8 +153,8 @@ model. We say so on the page, with the fit check of each finger shown.
 ## Work packages (draft)
 
 Each is small enough for one agent, can be judged by eye or by a named
-check when it lands, and owns files no other package owns. None is started.
-For all of them: `gramian_workshop/follow.py` is not to be edited (changes
+check when it lands, and owns files no other package owns. Only the view of
+the target beside the attempt is started (see its entry). For all of them: `gramian_workshop/follow.py` is not to be edited (changes
 it needs go to its owner as an issue); stored outputs are never written
 over; nothing is called dynamic; no hand-typed numbers.
 
@@ -180,6 +183,16 @@ over; nothing is called dynamic; no hand-typed numbers.
 - Must not touch: `tools/render3d.py` (call it), the page tool.
 - Blocked by: nothing. Machine: laptop (needs MuJoCo).
 - Check: its test; the renders by eye.
+- Built 12 Nov, for stored pairs: `tools/render_landing_tasks.py` writes one
+  page per stored result of a hand on a task, a still of it and
+  `renders.json`; the page tool shows the still and links the page.
+  `tests/test_render_landing_tasks.py` works every number shown out again
+  from the result and task files. One pair is stored today, so there is one
+  view. The supplied forces carry the result's own caution (drive level,
+  not newtons, until the units ruling). The sums are of the contact forces
+  drawn; the object's weight is not in them.
+- Still to do: a view per task card with no hand chosen, and the video
+  still as the target where the task has one.
 
 **The sample pairs.** Compute only, no code.
 - Done when: the stored results cover the list under "Samples the page

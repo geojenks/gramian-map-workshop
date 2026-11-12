@@ -28,6 +28,11 @@ command that would make one. Everything on it is read from the repository:
             read from --pictures, a folder that
             tools/render_landing_pictures.py wrote (that tool needs MuJoCo;
             this one does not). Where a picture is missing the card says so
+  renders   for a stored result of a hand on a task, the picture of the
+            target beside the attempt and the link to the page that steps
+            through every checked moment are read from --renders, a folder
+            that tools/render_landing_tasks.py wrote (it needs MuJoCo too).
+            Where there is none the answer says so
 
 Hands and results whose key or name holds a word of LEFT_OUT are left off
 the page. --hand and --task set the pair the page opens on (a task id, or
@@ -55,6 +60,7 @@ OWN = "own_hold"
 LEFT_OUT = ("george",)
 CURRENT = os.path.join("outputs", "follow__superseded.md")
 PICTURES = os.path.join("outputs", "landing_pictures_12nov")
+RENDERS = os.path.join("outputs", "landing_renders_12nov")
 
 # where a hand's model comes from (the `base` field of the HANDS table)
 SOURCES = {"menagerie": "fetched by the install step", "linker": "fetched by the install step",
@@ -345,6 +351,7 @@ padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0;overfl
 .green{background:var(--green)}.amber{background:var(--amber)}.red{background:var(--red)}
 .head{font-size:18px}
 .move{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:14px;align-items:start}
+.render{display:flex;flex-direction:column;gap:6px;min-width:0}.render img{display:block;width:100%;border:1px solid var(--line);border-radius:8px}
 .slot{display:flex;align-items:center;justify-content:center;text-align:center;min-height:120px;
 border:1px dashed var(--line);border-radius:8px;color:var(--muted);font-size:14px;padding:12px}
 .rows{display:flex;flex-direction:column;gap:8px;min-width:0}
@@ -374,6 +381,7 @@ footer{padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font
 # the page's own script: it only shows and hides what is in DATA
 JS = r"""
 (function(){
+var RENDERS=JSON.parse(document.getElementById('renders').textContent);
 var D=JSON.parse(document.getElementById('data').textContent),root=document.getElementById('chooser');
 var pick={hand:root.dataset.hand||null,task:root.dataset.task||null};
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -395,7 +403,11 @@ function room(r){
     ' and still be held (the smallest over the frames).':'none. The check fails at the task\'s own load.')+'</p>';
   return o+'<p class="note">Read at the check\'s default tolerance, where headroom reads higher than the hand answers (<code>docs/MARGINS_WORKED_CHECK.md</code>).</p>'}
 function move(r){
-  return '<h3>See it move</h3><div class="move"><div class="slot">No stored render of this pair yet.</div><div class="rows">'+
+  var v=RENDERS[r.file],slot='<div class="slot">No stored render of this pair yet.</div>';
+  if(v)slot='<div class="render">'+(v.still?'<a href="'+esc(v.view)+'"><img src="'+v.still+'" alt="The target beside the attempt, at one checked moment"></a>':'')+
+    '<span class="small">The target beside the attempt'+(v.still?', at moment '+v.shown+' of '+v.moments:'')+'. <a href="'+esc(v.view)+'">Step through all '+v.moments+
+    ' checked moments</a>, with the force at each contact and their sum on the object.</span></div>';
+  return '<h3>See it move</h3><div class="move">'+slot+'<div class="rows">'+
    '<div><span><b>MuJoCo</b> <span class="tag works">works by command</span></span><span class="small">On your own machine: <code>python tools/render3d.py '+esc(r.file)+'</code></span></div>'+
    '<div><span><b>SOFA</b> <span class="tag">not built</span></span><span class="small">SOFA is how the mesh records are made, in the actuator-map project. It is hours of compute.</span></div>'+
    '<div><span><b>Another solver</b> <span class="tag">not built</span></span><span class="small">We do not drive it. Its output comes in as a record or a test-curve file.</span></div></div></div>'}
@@ -449,6 +461,25 @@ show()})();
 """
 
 
+def renders(folder, link):
+    """What tools/render_landing_tasks.py wrote in `folder`, by result
+    file: the still as a data URI (None if there is none), the link to the
+    view (`link` is the way from the page to the folder), how many moments
+    the view has and which one the still shows."""
+    listed = os.path.join(folder, "renders.json")
+    if not os.path.isfile(listed):
+        return {}
+    out = {}
+    for v in read_json(listed)["views"]:
+        still = None
+        if v.get("still"):
+            with io.open(os.path.join(folder, v["still"]), "rb") as f:
+                still = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
+        out[v["result"]] = {"still": still, "view": link + v["view"], "moments": v["moments"],
+                            "shown": v["shown"]}
+    return out
+
+
 def stored(d, keys, part):
     """The card line that counts the stored results for a hand (part 0 of
     the pair) or for a card's tasks (part 1)."""
@@ -472,8 +503,11 @@ def task_card(key, name, draw, lines, chips=""):
             % (E(key), draw, E(name), "".join(lines), chips))
 
 
-def build(repo=REPO, hand=None, task=None, pictures_folder=None):
+def build(repo=REPO, hand=None, task=None, pictures_folder=None, renders_folder=None, renders_link=None):
     d = data(repo)
+    renders_folder = renders_folder or os.path.join(repo, RENDERS)
+    rendered = renders(renders_folder, renders_link if renders_link is not None
+                    else "../%s/" % os.path.basename(os.path.normpath(renders_folder)))
     if hand and hand not in [h["key"] for h in d["hands"]]:
         raise SystemExit("no hand %r on the page" % hand)
     if task and task != OWN and task not in [t["id"] for t in d["tasks"]]:
@@ -596,10 +630,12 @@ def build(repo=REPO, hand=None, task=None, pictures_folder=None):
             '<section class="panel tasks"><h2>Tasks</h2>'
             '<p class="small">%d tasks. Scroll, and choose one.</p><div class="scroll">%s</div></section></div>'
             '<section class="answer" id="answer" aria-live="polite"></section>%s%s%s</div>'
-            '<script type="application/json" id="data">%s</script><script>%s</script>\n'
+            '<script type="application/json" id="data">%s</script>'
+            '<script type="application/json" id="renders">%s</script><script>%s</script>\n'
             % (head, E(hand or ""), E(task or ""), top, len(d["hands"]), "".join(left),
                len(d["cards"]) + 1, "".join(right), builder, how, foot,
-               json.dumps(d, sort_keys=True).replace("</", "<\\/"), JS))
+               json.dumps(d, sort_keys=True).replace("</", "<\\/"),
+               json.dumps(rendered, sort_keys=True).replace("</", "<\\/"), JS))
 
 
 def main(argv=None):
@@ -608,9 +644,14 @@ def main(argv=None):
     ap.add_argument("--task", help="the task the page opens on (a task id, or %s)" % OWN)
     ap.add_argument("--pictures", help="the folder tools/render_landing_pictures.py wrote "
                     "(default: %s)" % PICTURES.replace(os.sep, "/"))
+    ap.add_argument("--renders", help="the folder tools/render_landing_tasks.py wrote "
+                    "(default: %s)" % RENDERS.replace(os.sep, "/"))
+    ap.add_argument("--renders-link", help="the way from the page to that folder, as the page's links "
+                    "should say it (default: ../<the folder's name>/, which is right for a page "
+                    "written to a folder beside it)")
     ap.add_argument("--out", required=True, help="the page to write (never written over)")
     a = ap.parse_args(argv)
-    page = build(REPO, a.hand, a.task, a.pictures)
+    page = build(REPO, a.hand, a.task, a.pictures, a.renders, a.renders_link)
     with io.open(a.out, "x", encoding="utf-8", newline="\n") as f:
         f.write(page)
     print("wrote", a.out, "(%d bytes)" % len(page.encode("utf-8")))
