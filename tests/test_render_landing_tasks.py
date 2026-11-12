@@ -209,6 +209,9 @@ class TaskViews(unittest.TestCase):
                 pair = json.loads(re.search(r'<script type="application/json" id="data">(.*?)</script>',
                                             f.read(), re.S).group(1).replace("<\\/", "</"))
             by_k = dict((f["k"], f) for f in alone[pair["task"]]["frames"])
+            # the moments of the task view are the ones the stored check looked at
+            self.assertEqual([f["k"] for f in pair["frames"]],
+                             [f["k"] for f in alone[pair["task"]]["frames"]])
             for f in pair["frames"]:
                 if f["k"] in by_k:
                     seen += 1
