@@ -1,0 +1,93 @@
+{
+ "name": "test_curve_hand",
+ "note": "Example for docs/PARTICIPANT_SCRIPT.md: three stand-in fingers of the record made from data/test_curves/mosadegh2014_fPN.csv, on a 30 mm ring. The contact radius (8 mm), the palm and the ring are choices, not data. The bend axis points outward because this record moves along -Y (issue 32).",
+ "palm": {
+  "size_m": [
+   0.045,
+   0.045,
+   0.005
+  ],
+  "pos_m": [
+   0,
+   0,
+   -0.005
+  ]
+ },
+ "fingers": [
+  {
+   "label": "f0",
+   "record": "my_actuator.json",
+   "hinges": 3,
+   "slide": null,
+   "contact_radius_m": 0.008,
+   "input_range": null,
+   "mount": {
+    "pos_m": [
+     0.0,
+     0.03,
+     0.0
+    ],
+    "length_axis": [
+     0,
+     0,
+     1
+    ],
+    "bend_axis": [
+     0.0,
+     1.0,
+     0
+    ]
+   }
+  },
+  {
+   "label": "f1",
+   "record": "my_actuator.json",
+   "hinges": 3,
+   "slide": null,
+   "contact_radius_m": 0.008,
+   "input_range": null,
+   "mount": {
+    "pos_m": [
+     -0.025980762,
+     -0.015,
+     0.0
+    ],
+    "length_axis": [
+     0,
+     0,
+     1
+    ],
+    "bend_axis": [
+     -0.866025404,
+     -0.5,
+     0
+    ]
+   }
+  },
+  {
+   "label": "f2",
+   "record": "my_actuator.json",
+   "hinges": 3,
+   "slide": null,
+   "contact_radius_m": 0.008,
+   "input_range": null,
+   "mount": {
+    "pos_m": [
+     0.025980762,
+     -0.015,
+     0.0
+    ],
+    "length_axis": [
+     0,
+     0,
+     1
+    ],
+    "bend_axis": [
+     0.866025404,
+     -0.5,
+     0
+    ]
+   }
+  }
+ ]
+}

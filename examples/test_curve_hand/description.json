@@ -1,0 +1,11 @@
+{
+ "schema": "gramian-workshop/hand-description@1",
+ "key": "test_curve_hand",
+ "name": "Three stand-in fingers of the record made from the Mosadegh 2014 test curves, on a ring",
+ "fingers": {
+  "f0": "f0_distal",
+  "f1": "f1_distal",
+  "f2": "f2_distal"
+ },
+ "caveat": "Example hand. The contact radius (8 mm) and the ring layout are choices, not data. The drive is in the record's units, not newtons, so the margins are provisional."
+}
