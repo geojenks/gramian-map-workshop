@@ -1,0 +1,10 @@
+=== gramians
+$ <analysis env>/Scripts/python.exe tools/figure_gramians.py --records data/records --out-dir outputs/day_view_12nov/gramians
+drawn 21, left out 6; wrote outputs/day_view_12nov/gramians\record_gramians_b.png/.svg/.json/.md
+  not drawn: abboodi2026_ossa5_bending: no stored Gramian and no free tip curve (holds: blocked curve)
+  not drawn: example_rigid_pneumatic_cylinder: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: ossa_axial_extend: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: ossa_differential_bend: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: ossa_vacuum_contract: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: shadow_hand_finger: no stored Gramian and no free tip curve (holds: headline numbers only)
+--- gramians: exit 0 in 5 s

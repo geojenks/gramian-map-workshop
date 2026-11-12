@@ -1,0 +1,113 @@
+=== add_allegro
+$ <hands env>/Scripts/python.exe tools/add_hand.py external/mujoco_menagerie/wonik_allegro/left_hand.xml outputs/run_through_11nov/hand_descriptions/allegro_left.json
+allegro_left: Allegro left hand (MuJoCo Menagerie)
+  model: <clone>\external\mujoco_menagerie\wonik_allegro\left_hand.xml
+  16 joints, 16 actuators, 0 joint couplings
+  joints every finger shares (read as a wrist, held at rest): none
+  palm (bodies of no finger that have collision geometry): palm
+  finger thumb: fingertip body th_tip; joints thj0, thj1, thj2, thj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 16.0 mm long, radius 12.0 mm
+  finger index: fingertip body ff_tip; joints ffj0, ffj1, ffj2, ffj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 20.0 mm long, radius 12.0 mm
+  finger middle: fingertip body mf_tip; joints mfj0, mfj1, mfj2, mfj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 20.0 mm long, radius 12.0 mm
+  finger ring: fingertip body rf_tip; joints rfj0, rfj1, rfj2, rfj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 20.0 mm long, radius 12.0 mm
+Added. The tools now know this hand as "allegro_left" (<added hands>\allegro_left\hand.json).
+The model is read from where it is: if you move it, add the hand again.
+Next, a hold this hand can do by construction, and the check on it:
+  python tools/make_hold_leader.py allegro_left
+  python tools/run_follow.py --hands allegro_left --leader-id hold_allegro_left__self__selfoverlapfix --placement-from outputs/hold_placement_allegro_left__selfoverlapfix.json --tag fixed
+--- add_allegro: exit 0 in 4 s
+=== add_mosadegh
+$ <hands env>/Scripts/python.exe tools/add_hand.py outputs/run_through_11nov/hands/mosadegh2014_fPN_from_curves_x3_ring/hand.xml outputs/run_through_11nov/hand_descriptions/mosadegh_x3_ring.json
+mosadegh_x3_ring: Three stand-ins of the record made from the Mosadegh 2014 test curves, on a ring (run-through example)
+  model: <clone>\outputs\run_through_11nov\hands\mosadegh2014_fPN_from_curves_x3_ring\hand.xml
+  9 joints, 3 actuators, 0 joint couplings
+  joints every finger shares (read as a wrist, held at rest): none
+  palm (bodies of no finger that have collision geometry): palm
+  finger f0: fingertip body f0_distal; joints f0_hinge0, f0_hinge1, f0_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+  finger f1: fingertip body f1_distal; joints f1_hinge0, f1_hinge1, f1_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+  finger f2: fingertip body f2_distal; joints f2_hinge0, f2_hinge1, f2_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+Added. The tools now know this hand as "mosadegh_x3_ring" (<added hands>\mosadegh_x3_ring\hand.json).
+The model is read from where it is: if you move it, add the hand again.
+Next, a hold this hand can do by construction, and the check on it:
+  python tools/make_hold_leader.py mosadegh_x3_ring
+  python tools/run_follow.py --hands mosadegh_x3_ring --leader-id hold_mosadegh_x3_ring__self__selfoverlapfix --placement-from outputs/hold_placement_mosadegh_x3_ring__selfoverlapfix.json --tag fixed
+--- add_mosadegh: exit 0 in 0 s
+=== add_flipped
+$ <hands env>/Scripts/python.exe tools/add_hand.py outputs/run_through_11nov/hands/mosadegh2014_fPN_from_curves_x3_ring_flipped/hand.xml outputs/run_through_11nov/hand_descriptions/mosadegh_x3_ring_flipped.json
+mosadegh_x3_ring_flipped: Three stand-ins of the record made from the Mosadegh 2014 test curves, on a ring, bend axis outward (run-through example)
+  model: <clone>\outputs\run_through_11nov\hands\mosadegh2014_fPN_from_curves_x3_ring_flipped\hand.xml
+  9 joints, 3 actuators, 0 joint couplings
+  joints every finger shares (read as a wrist, held at rest): none
+  palm (bodies of no finger that have collision geometry): palm
+  finger f0: fingertip body f0_distal; joints f0_hinge0, f0_hinge1, f0_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+  finger f1: fingertip body f1_distal; joints f1_hinge0, f1_hinge1, f1_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+  finger f2: fingertip body f2_distal; joints f2_hinge0, f2_hinge1, f2_hinge2; 1 inputs (model actuators); torque limits: actuator forcerange; contact pad 31.38 mm long, radius 8.0 mm
+Added. The tools now know this hand as "mosadegh_x3_ring_flipped" (<added hands>\mosadegh_x3_ring_flipped\hand.json).
+The model is read from where it is: if you move it, add the hand again.
+Next, a hold this hand can do by construction, and the check on it:
+  python tools/make_hold_leader.py mosadegh_x3_ring_flipped
+  python tools/run_follow.py --hands mosadegh_x3_ring_flipped --leader-id hold_mosadegh_x3_ring_flipped__self__selfoverlapfix --placement-from outputs/hold_placement_mosadegh_x3_ring_flipped__selfoverlapfix.json --tag fixed
+--- add_flipped: exit 0 in 1 s
+=== follow_allegro_left
+$ <hands env>/Scripts/python.exe tools/run_follow.py --hands allegro_left --leader-id hold_allegro_left__self__selfoverlapfix --placement-from outputs/run_through_11nov/results/hold_placement_allegro_left__selfoverlapfix.json --tag fixed --margins --out-dir outputs/day_view_12nov/results
+allegro_left: note: outputs/run_through_11nov/results/hold_placement_allegro_left__selfoverlapfix.json has no placement key; re-scoring its placement anyway
+allegro_left on hold_allegro_left__self__selfoverlapfix: {'green': 40}; red because {}; assignment {'thumb': 0, 'index': 1, 'middle': 2, 'ring': 3}; placement cost 0.00 mm; respaced by [0, 0, 0, 0] deg; 46.4 s
+   per finger: {('index', 'green'): 40, ('middle', 'green'): 40, ('ring', 'green'): 40, ('thumb', 'green'): 40}
+   overlap (deepest part of each posed finger, per frame): median 0.65 mm, max 0.75 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 217 (frame 0)
+   disturbance margin: smallest 59.11 (frame 0, worst direction -ty)
+    no finger is amber or red, no joint is past a limit
+--- follow_allegro_left: exit 0 in 47 s
+=== failures_allegro_left
+$ <analysis env>/Scripts/python.exe tools/report_failures.py outputs/day_view_12nov/results/follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed.json --out-dir outputs/day_view_12nov/results
+allegro_left on hold_allegro_left__self__selfoverlapfix: 40 frames, 40 green (frames numbered by position)
+  no finger is amber or red, no joint is past a limit
+  wrote outputs/day_view_12nov/results\follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed__failures.md
+  wrote outputs/day_view_12nov/results\follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed__failures.html
+--- failures_allegro_left: exit 0 in 0 s
+=== follow_mosadegh_x3_ring
+$ <hands env>/Scripts/python.exe tools/run_follow.py --hands mosadegh_x3_ring --leader-id hold_mosadegh_x3_ring__self__selfoverlapfix --placement-from outputs/run_through_11nov/results/hold_placement_mosadegh_x3_ring__selfoverlapfix.json --tag fixed --margins --out-dir outputs/day_view_12nov/results
+mosadegh_x3_ring: note: outputs/run_through_11nov/results/hold_placement_mosadegh_x3_ring__selfoverlapfix.json has no placement key; re-scoring its placement anyway
+mosadegh_x3_ring on hold_mosadegh_x3_ring__self__selfoverlapfix: {'red': 40}; red because {'no_contact': 40}; assignment {'f0': 0, 'f1': 1, 'f2': 2}; placement cost 0.00 mm; respaced by [0, 0, 0] deg; 19.7 s
+   per finger: {('f0', 'red'): 40, ('f1', 'red'): 40, ('f2', 'red'): 40}
+   overlap (deepest part of each posed finger, per frame): median -18.47 mm, max -18.47 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: none (no contact or no torque checked)
+   disturbance margin: none (no contact or no torque checked)
+    f0: red (reach) frames 0 to 39 (40)
+    f1: red (reach) frames 0 to 39 (40)
+    f2: red (reach) frames 0 to 39 (40)
+--- follow_mosadegh_x3_ring: exit 0 in 20 s
+=== failures_mosadegh_x3_ring
+$ <analysis env>/Scripts/python.exe tools/report_failures.py outputs/day_view_12nov/results/follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed.json --out-dir outputs/day_view_12nov/results
+mosadegh_x3_ring on hold_mosadegh_x3_ring__self__selfoverlapfix: 40 frames, 40 red (frames numbered by position)
+  f0: red (reach) frames 0 to 39 (40)
+  f1: red (reach) frames 0 to 39 (40)
+  f2: red (reach) frames 0 to 39 (40)
+  wrote outputs/day_view_12nov/results\follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed__failures.md
+  wrote outputs/day_view_12nov/results\follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed__failures.html
+--- failures_mosadegh_x3_ring: exit 0 in 0 s
+=== follow_mosadegh_x3_ring_flipped
+$ <hands env>/Scripts/python.exe tools/run_follow.py --hands mosadegh_x3_ring_flipped --leader-id hold_mosadegh_x3_ring_flipped__self__selfoverlapfix --placement-from outputs/run_through_11nov/results/hold_placement_mosadegh_x3_ring_flipped__selfoverlapfix.json --tag fixed --margins --out-dir outputs/day_view_12nov/results
+mosadegh_x3_ring_flipped: note: outputs/run_through_11nov/results/hold_placement_mosadegh_x3_ring_flipped__selfoverlapfix.json has no placement key; re-scoring its placement anyway
+mosadegh_x3_ring_flipped on hold_mosadegh_x3_ring_flipped__self__selfoverlapfix: {'green': 40}; red because {}; assignment {'f0': 0, 'f1': 1, 'f2': 2}; placement cost 0.00 mm; respaced by [0, 0, 0] deg; 91.4 s
+   per finger: {('f0', 'green'): 40, ('f1', 'green'): 40, ('f2', 'green'): 40}
+   overlap (deepest part of each posed finger, per frame): median -0.02 mm, max -0.02 mm; allowed 3 mm at the contact, other contact {'allowed': True, 'max_overlap_m': 0.003}
+   scale margin: smallest 5.76 (frame 0)
+   disturbance margin: smallest 0.4968 (frame 0, worst direction -tx)
+    f0_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+    f1_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+    f2_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+--- follow_mosadegh_x3_ring_flipped: exit 0 in 92 s
+=== failures_mosadegh_x3_ring_flipped
+$ <analysis env>/Scripts/python.exe tools/report_failures.py outputs/day_view_12nov/results/follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed.json --out-dir outputs/day_view_12nov/results
+mosadegh_x3_ring_flipped on hold_mosadegh_x3_ring_flipped__self__selfoverlapfix: 40 frames, 40 green (frames numbered by position)
+  f0_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+  f1_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+  f2_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+  wrote outputs/day_view_12nov/results\follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed__failures.md
+  wrote outputs/day_view_12nov/results\follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed__failures.html
+--- failures_mosadegh_x3_ring_flipped: exit 0 in 1 s
+=== view
+$ <analysis env>/Scripts/python.exe tools/view_follow.py outputs/day_view_12nov/results/follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed.json outputs/day_view_12nov/results/follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed.json outputs/day_view_12nov/results/follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed.json --out outputs/day_view_12nov/results/follow_today.html --table outputs/day_view_12nov/results/follow_today.md
+wrote outputs/day_view_12nov/results/follow_today.html
+wrote outputs/day_view_12nov/results/follow_today.md
+--- view: exit 0 in 0 s

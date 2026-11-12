@@ -1,0 +1,172 @@
+<title>Workshop day view</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&amp;family=Source+Sans+3:wght@400;600&amp;family=Source+Serif+4:wght@600&amp;display=swap"><style>
+/* layout: one column of framed screens in the order of the day, each
+   labelled by where the participant sees it */
+:root{--bg:#f6f5f1;--panel:#fffefb;--ink:#1d1f1c;--muted:#666a62;--line:#d9d6cc;
+--accent:#2f5d50;--bad:#a23b2a;--term:#1b1e1c;--termink:#dfe3da;--termdim:#8d9389;
+--termbad:#f0a090;--prompt:#9fd3bf}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;
+--bg:#161816;--panel:#1e211e;--ink:#e6e6df;--muted:#9a9e94;--line:#353a34;
+--accent:#8fc7b3;--bad:#ef9a8a;--term:#0e100f;--termink:#dfe3da;--termdim:#8d9389;
+--termbad:#f0a090;--prompt:#9fd3bf}}
+:root[data-theme="dark"]{color-scheme:dark;
+--bg:#161816;--panel:#1e211e;--ink:#e6e6df;--muted:#9a9e94;--line:#353a34;
+--accent:#8fc7b3;--bad:#ef9a8a;--term:#0e100f;--termink:#dfe3da;--termdim:#8d9389;
+--termbad:#f0a090;--prompt:#9fd3bf}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:16px/1.55 "Source Sans 3",system-ui,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding-block:32px 64px;
+padding-left:max(16px,env(safe-area-inset-left,0px));
+padding-right:max(16px,env(safe-area-inset-right,0px));
+display:flex;flex-direction:column;gap:18px}
+h1{font:600 30px/1.2 "Source Serif 4",Georgia,serif;margin:0;text-wrap:balance}
+h2{font:600 23px/1.25 "Source Serif 4",Georgia,serif;margin:22px 0 0;text-wrap:balance}
+h3{font-size:16px;font-weight:600;margin:0}
+p{margin:0;max-width:70ch}a{color:var(--accent)}
+.lede,.part{color:var(--muted)}
+code{font:13px "JetBrains Mono",ui-monospace,Consolas,monospace;overflow-wrap:anywhere}
+.count{display:flex;flex-wrap:wrap;gap:8px 22px;padding:12px 0;border-block:1px solid var(--line);
+font-variant-numeric:tabular-nums}
+.count b{font-weight:600}
+.screen{display:flex;flex-direction:column;gap:8px;min-width:0}
+.screen header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.where{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.term .where{color:var(--accent)}
+.win{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel);min-width:0}
+.win img{display:block;width:100%;height:auto}
+.bar{display:flex;align-items:center;gap:6px;padding:7px 10px;border-bottom:1px solid var(--line);
+font-size:12.5px;color:var(--muted)}
+.bar i{width:9px;height:9px;border-radius:50%;background:var(--line);flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.term .win{background:var(--term);border-color:var(--term)}
+.term pre{margin:0;padding:12px 14px;color:var(--termink);white-space:pre-wrap;overflow-wrap:anywhere;
+font:13px/1.5 "JetBrains Mono",ui-monospace,Consolas,monospace}
+.term .p{color:var(--prompt)}.term .cut{color:var(--termdim)}.term .bad{color:var(--termbad)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums;width:100%}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.src{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style><div class="wrap"><h1>What a participant sees on the day</h1><p class="lede">The screens of the workshop tool as it is now, in the order a participant meets them. Each is labelled by where it appears. Most of the day is a terminal; the pages come at the start and at the verdict.</p><div class="count"><span><b>13</b> terminal screens</span><span><b>6</b> browser pages</span><span><b>1</b> picture file</span><span><b>1</b> text table</span></div><h2>The quick start</h2><p class="part">After the install, the README&#x27;s first three commands run the demos on the stored records. Each prints a few lines and writes a page.</p><article class="screen page"><header><h3>The page a demo writes</h3><span class="where">browser page</span></header><p>One row per stored actuator, one column per number of fingers. Hovering a cell gives its numbers. This is the page stored in the repository; the demos were not run again for this view.</p><div class="win"><div class="bar"><i></i><i></i><i></i><span>cup_hold.html</span></div><img src="shots/cup_hold.png" alt="The page a demo writes" loading="lazy"></div><p class="src">Picture of outputs/cup_hold.html. Hovering does nothing in a picture.</p></article><h2>Bring an actuator</h2><p class="part">Three ways in: type datasheet numbers into a form, give test curves, or give a table of joints.</p><article class="screen page"><header><h3>The record form, as it opens</h3><span class="where">browser page</span></header><p>The values shown are the form&#x27;s own starting values. The button at the bottom downloads a record file. The picture shows the top of the form.</p><div class="win"><div class="bar"><i></i><i></i><i></i><span>record_form.html</span></div><img src="shots/record_form.png" alt="The record form, as it opens" loading="lazy"></div><p class="src">Picture of forms/record_form.html. Hovering does nothing in a picture.</p></article><article class="screen term"><header><h3>Test curves to a record, and what the tool reads from it</h3><span class="where">terminal</span></header><p>No page or picture is written at this step. The check says in words that this record has motion and no force.</p><div class="win"><pre><span class="p">$ python tools/curves_to_record.py data/test_curves/mosadegh2014_fPN.csv --out rt_out/r0/mosadegh_from_curves.json</span>
+<span class="o">wrote rt_out/r0/mosadegh_from_curves.json (tier 1); check it with python tools/check_record.py rt_out/r0/mosadegh_from_curves.json</span>
+<span class="p">$ python tools/check_record.py rt_out/r0/mosadegh_from_curves.json</span>
+<span class="o">== rt_out/r0/mosadegh_from_curves.json
+   id mosadegh2014_fPN_from_curves  name &#x27;Mosadegh 2014 fPN (fast pneu-net)&#x27;  tier 1
+   what the tool reads (canonical frame: X base-&gt;tip, +Y main sideways output):
+     push direction  -   from no force data: this actuator cannot push in the tool
+     push force      -   (comparative unless calibrated)
+     motion          [-0.539, -0.842, +0.000]   from scalars.free_direction
+     stroke          94.9 mm
+     stiffness       [+0.000, +0.000, +0.000] N/m (x, y, z)   no_stiffness_data</span></pre></div><p class="src">run0_log.txt, step curves_to_record (exit 0, 1 s); run0_log.txt, step check_curves_record (exit 0, 0 s)</p></article><article class="screen term"><header><h3>A joint table to a record</h3><span class="where">terminal</span></header><div class="win"><pre><span class="p">$ python tools/joint_table_to_record.py data/joint_tables/shadow_hand_finger.csv --out rt_out/r0/shadow_finger_from_table.json</span>
+<span class="o">note   blocked force limited by joint J3
+wrote rt_out/r0/shadow_finger_from_table.json (tier 1)</span>
+<span class="p">$ python tools/check_record.py rt_out/r0/shadow_finger_from_table.json</span>
+<span class="o">== rt_out/r0/shadow_finger_from_table.json
+   id shadow_hand_finger_from_joint_table  name &#x27;Shadow Hand finger from its joint table&#x27;  tier 1
+   what the tool reads (canonical frame: X base-&gt;tip, +Y main sideways output):
+     push direction  [+0.000, +1.000, +0.000]   from blocked.force_N (full force vector), highest input level
+     push force      10.42 N   (comparative unless calibrated)
+     motion          [-0.081, +0.997, +0.000]   from scalars.free_direction
+     stroke          129 mm
+     stiffness       [+0.000, +0.000, +0.000] N/m (x, y, z)   k_x missing -&gt; 0; k_z missing -&gt; 0
+     push vs motion  5 deg apart (a bender often pushes along X but moves along Y)</span></pre></div><p class="src">run0_log.txt, step table_to_record (exit 0, 0 s); run0_log.txt, step check_table_record (exit 0, 1 s)</p></article><h2>Look at the records&#x27; Gramians</h2><p class="part">One command draws every stored record&#x27;s Gramian in one figure.</p><article class="screen term"><header><h3>In the environment the install gives</h3><span class="where">terminal</span></header><p>It stops for want of matplotlib, which no install extra provides (<a href="https://github.com/geojenks/gramian-map-workshop/issues/36">issue 36</a>).</p><div class="win"><pre><span class="p">$ python tools/figure_gramians.py --records data/records --out-dir rt_out/r0/gramians</span>
+<span class="o bad">Traceback (most recent call last):
+  File &quot;&lt;clone&gt;\tools\figure_gramians.py&quot;, line 468, in &lt;module&gt;
+    sys.exit(main())
+             ^^^^^^
+  File &quot;&lt;clone&gt;\tools\figure_gramians.py&quot;, line 460, in main
+    draw(drawn, left_out, a.records, base + &quot;.png&quot;, base + &quot;.svg&quot;)
+  File &quot;&lt;clone&gt;\tools\figure_gramians.py&quot;, line 315, in draw
+    import matplotlib
+ModuleNotFoundError: No module named &#x27;matplotlib&#x27;</span></pre></div><p class="src">run0_log.txt, step gramians_mujoco_python (exit 1, 1 s)</p></article><article class="screen term"><header><h3>In an environment that has matplotlib</h3><span class="where">terminal</span></header><div class="win"><pre><span class="p">$ python tools/figure_gramians.py --records data/records --out-dir outputs/day_view_12nov/gramians</span>
+<span class="o">drawn 21, left out 6; wrote outputs/day_view_12nov/gramians\record_gramians_b.png/.svg/.json/.md
+  not drawn: abboodi2026_ossa5_bending: no stored Gramian and no free tip curve (holds: blocked curve)
+  not drawn: example_rigid_pneumatic_cylinder: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: ossa_axial_extend: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: ossa_differential_bend: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: ossa_vacuum_contract: no stored Gramian and no free tip curve (holds: headline numbers only)
+  not drawn: shadow_hand_finger: no stored Gramian and no free tip curve (holds: headline numbers only)</span></pre></div><p class="src">gramians_log.txt, step gramians (exit 0, 5 s)</p></article><article class="screen page"><header><h3>The figure it writes</h3><span class="where">picture file</span></header><div class="win"><img src="gramians/record_gramians_b.png" alt="The figure it writes" loading="lazy"></div><p class="src">outputs/day_view_12nov/gramians/record_gramians_b.png</p></article><h2>Make a hand</h2><p class="part">Either fingers built from a record, placed on a ring by a hand file the participant writes, or a hand they bring as a model file.</p><article class="screen term"><header><h3>Building a hand from the test-curve record: the first two tries</h3><span class="where">terminal</span></header><p>Both stop. The first needs the record named by its path, the second needs a contact radius in the hand file. Neither is in the docs (<a href="https://github.com/geojenks/gramian-map-workshop/issues/32">issue 32</a>).</p><div class="win"><pre><span class="p">$ python tools/build_record_hand.py data/hands/rt0_curves_by_id/hand.json</span>
+<span class="o bad">Traceback (most recent call last):
+  File &quot;&lt;clone&gt;\tools\build_record_hand.py&quot;, line 329, in &lt;module&gt;
+    main()
+  File &quot;&lt;clone&gt;\tools\build_record_hand.py&quot;, line 317, in main
+    rep = build(ap.parse_args().hand_file)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;&lt;clone&gt;\tools\build_record_hand.py&quot;, line 160, in build
+    ff, fit = fit_finger(spec)
+              ^^^^^^^^^^^^^^^^
+  File &quot;&lt;clone&gt;\tools\build_record_hand.py&quot;, line 83, in fit_finger
+    rec = load_record(spec[&quot;record&quot;])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;&lt;clone&gt;\gramian_workshop\finger.py&quot;, line 43, in load_record
+    load_manifest()[&quot;records&quot;][rid_or_path][&quot;file&quot;])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: &#x27;mosadegh2014_fPN_from_curves&#x27;</span>
+<span class="p">$ python tools/build_record_hand.py data/hands/rt0_curves_by_path/hand.json</span>
+<span class="o bad">cannot build: f0 (rt_out/r0/mosadegh_from_curves.json): no contact radius: record gives no material volume and length</span></pre></div><p class="src">run0_log.txt, step build_curves_record_by_id (exit 1, 0 s); run0_log.txt, step build_curves_record_by_path (exit 1, 1 s)</p></article><article class="screen term"><header><h3>The build once the hand file is right</h3><span class="where">terminal</span></header><p>The tool draws no picture of the hand it built. What the participant has is this text, a model file and a fit report.</p><div class="win"><pre><span class="p">$ python tools/build_record_hand.py data/hands/mosadegh2014_fPN_from_curves_x3_ring_flipped/hand.json</span>
+<span class="o">f0: rt_out/mosadegh_from_curves.json, fit check PASS, radius 8.00 mm (hand file)
+f1: rt_out/mosadegh_from_curves.json, fit check PASS, radius 8.00 mm (hand file)
+f2: rt_out/mosadegh_from_curves.json, fit check PASS, radius 8.00 mm (hand file)
+f0 round trip: {&quot;free_levels_checked&quot;: 5, &quot;tip_err_max_m&quot;: 0.0002789597328578172, &quot;fit_free_err_max_m&quot;: 0.00027895974356597963, &quot;tip_err_with_out_of_plane_max_m&quot;: 0.0002789597328578172, &quot;tip_err_with_out_of_plane_share_of_stroke&quot;: 0.002938459868970257, &quot;tip_err_note&quot;: &quot;tip_err is in the bending plane, as the fit check measures it, so it should equal the fit&#x27;s error; the second figure adds the record&#x27;s out-of-plane drift, which a planar chain cannot follow&quot;, &quot;drive_spring_balance_max&quot;: 2.7786412060137877e-10, &quot;loader_tip_offset_m&quot;: 0.0, &quot;model_file_tip_rule_offset_m&quot;: 0.013856406472954422, &quot;loader_tip_note&quot;: &quot;hands.Finger takes the chain&#x27;s end as the fingertip of a hand built from records (issue 16). The rule for model-file hands (the farthest bounding-box corner of the distal capsule) would sit about a capsule radius (and a corner) past it: model_file_tip_rule_offset_m&quot;}
+f1 round trip: {&quot;free_levels_checked&quot;: 5, &quot;tip_err_max_m&quot;: 0.00027895973285780716, &quot;fit_free_err_max_m&quot;: 0.00027895974356597963, &quot;tip_err_with_out_of_plane_max_m&quot;: 0.00027895973285780716, &quot;tip_err_with_out_of_plane_share_of_stroke&quot;: 0.002938459868970151, &quot;tip_err_note&quot;: &quot;tip_err is in the bending plane, as the fit check measures it, so it should equal the fit&#x27;s error; the second figure adds the record&#x27;s out-of-plane drift, which a planar chain cannot follow&quot;, &quot;drive_spring_balance_max&quot;: 2.7786412060137877e-10, &quot;loader_tip_offset_m&quot;: 0.0, &quot;model_file_tip_rule_offset_m&quot;: 0.013856406472954422, &quot;loader_tip_note&quot;: &quot;hands.Finger takes the chain&#x27;s end as the fingertip of a hand built from records (issue 16). The rule for model-file hands (the farthest bounding-box corner of the distal capsule) would sit about a capsule radius (and a corner) past it: model_file_tip_rule_offset_m&quot;}
+f2 round trip: {&quot;free_levels_checked&quot;: 5, &quot;tip_err_max_m&quot;: 0.00027895973285780716, &quot;fit_free_err_max_m&quot;: 0.00027895974356597963, &quot;tip_err_with_out_of_plane_max_m&quot;: 0.00027895973285780716, &quot;tip_err_with_out_of_plane_share_of_stroke&quot;: 0.002938459868970151, &quot;tip_err_note&quot;: &quot;tip_err is in the bending plane, as the fit check measures it, so it should equal the fit&#x27;s error; the second figure adds the record&#x27;s out-of-plane drift, which a planar chain cannot follow&quot;, &quot;drive_spring_balance_max&quot;: 2.7786412060137877e-10, &quot;loader_tip_offset_m&quot;: 0.0, &quot;model_file_tip_rule_offset_m&quot;: 0.013856406472954422, &quot;loader_tip_note&quot;: &quot;hands.Finger takes the chain&#x27;s end as the fingertip of a hand built from records (issue 16). The rule for model-file hands (the farthest bounding-box corner of the distal capsule) would sit about a capsule radius (and a corner) past it: model_file_tip_rule_offset_m&quot;}
+wrote data\hands\mosadegh2014_fPN_from_curves_x3_ring_flipped\hand.xml</span></pre></div><p class="src">run3_log.txt, step build (exit 0, 1 s)</p></article><article class="screen term"><header><h3>Building a hand from the joint-table record</h3><span class="where">terminal</span></header><p>It crashes, and this way in ends here (<a href="https://github.com/geojenks/gramian-map-workshop/issues/33">issue 33</a>).</p><div class="win"><pre><span class="p">$ python tools/build_record_hand.py data/hands/rt0_table_by_path/hand.json</span>
+<span class="cut">[18 earlier lines not shown]</span>
+<span class="o bad">  File &quot;&lt;hands env&gt;\Lib\site-packages\numpy\linalg\_linalg.py&quot;, line 463, in solve
+    r = gufunc(a, b, signature=signature)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;&lt;hands env&gt;\Lib\site-packages\numpy\linalg\_linalg.py&quot;, line 144, in _raise_linalgerror_singular
+    raise LinAlgError(&quot;Singular matrix&quot;)
+numpy.linalg.LinAlgError: Singular matrix</span></pre></div><p class="src">run0_log.txt, step build_table_record_by_path (exit 1, 0 s)</p></article><article class="screen term"><header><h3>A hand brought as a model file</h3><span class="where">terminal</span></header><p>The tool repeats back what it read from the model, then gives the next two commands.</p><div class="win"><pre><span class="p">$ python tools/add_hand.py external/mujoco_menagerie/wonik_allegro/left_hand.xml outputs/run_through_11nov/hand_descriptions/allegro_left.json</span>
+<span class="o">allegro_left: Allegro left hand (MuJoCo Menagerie)
+  model: &lt;clone&gt;\external\mujoco_menagerie\wonik_allegro\left_hand.xml
+  16 joints, 16 actuators, 0 joint couplings
+  joints every finger shares (read as a wrist, held at rest): none
+  palm (bodies of no finger that have collision geometry): palm
+  finger thumb: fingertip body th_tip; joints thj0, thj1, thj2, thj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 16.0 mm long, radius 12.0 mm
+  finger index: fingertip body ff_tip; joints ffj0, ffj1, ffj2, ffj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 20.0 mm long, radius 12.0 mm
+  finger middle: fingertip body mf_tip; joints mfj0, mfj1, mfj2, mfj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 20.0 mm long, radius 12.0 mm
+  finger ring: fingertip body rf_tip; joints rfj0, rfj1, rfj2, rfj3; 4 inputs (model actuators); torque limits: data sheet figure; contact pad 20.0 mm long, radius 12.0 mm
+Added. The tools now know this hand as &quot;allegro_left&quot; (&lt;added hands&gt;\allegro_left\hand.json).
+The model is read from where it is: if you move it, add the hand again.
+Next, a hold this hand can do by construction, and the check on it:
+  python tools/make_hold_leader.py allegro_left
+  python tools/run_follow.py --hands allegro_left --leader-id hold_allegro_left__self__selfoverlapfix --placement-from outputs/hold_placement_allegro_left__selfoverlapfix.json --tag fixed</span></pre></div><p class="src">verdicts_log.txt, step add_allegro (exit 0, 4 s)</p></article><h2>Give it a task</h2><p class="part">The simplest task is a hold made from the hand&#x27;s own kinematics.</p><article class="screen term"><header><h3>Make a hold for each hand</h3><span class="where">terminal</span></header><p>One line each. The second hand&#x27;s <code>facing</code> is the only sign, at this step, that its fingers curl away from the ball.</p><div class="win"><pre><span class="p">$ python tools/make_hold_leader.py allegro_left --out-dir rt_out/leaders --results-dir rt_out/results</span>
+<span class="o">allegro_left: curl [0.6, 0.6, 0.5, 0.6], sphere R = 30.00 mm at [6.14, -9.23, 94.96] mm, contact miss per finger [1.618, 4.167, 1.519, 2.493] mm, facing [58.4, 84.0, 14.2, 80.3] deg, palm penetration 0.00 mm, other-link overlap 0.00 mm, overlap with itself 0.00 mm, object mass 15.13 g
+wrote rt_out\leaders\hold_allegro_left__self__selfoverlapfix.json and rt_out\results\hold_placement_allegro_left__selfoverlapfix.json</span>
+<span class="p">$ python tools/make_hold_leader.py mosadegh_x3_ring --out-dir rt_out/leaders --results-dir rt_out/results</span>
+<span class="o">mosadegh_x3_ring: curl [0.0, 0.0, 0.0], sphere R = 30.00 mm at [0.0, 0.0, 117.48] mm, contact miss per finger [0.0, 0.0, 0.0] mm, facing [98.3, 98.3, 98.3] deg, palm penetration 0.00 mm, other-link overlap 0.00 mm, overlap with itself 0.00 mm, object mass 18.77 g
+wrote rt_out\leaders\hold_mosadegh_x3_ring__self__selfoverlapfix.json and rt_out\results\hold_placement_mosadegh_x3_ring__selfoverlapfix.json</span></pre></div><p class="src">run_log.txt, step hold_allegro (exit 0, 43 s); run_log.txt, step hold_mosadegh (exit 0, 14 s)</p></article><h2>The verdict</h2><p class="part">The check prints its verdict in the terminal. Two more commands turn the result into pages. These steps were run again on 12 Nov with the code as it is now.</p><article class="screen term"><header><h3>The check on the model-file hand</h3><span class="where">terminal</span></header><div class="win"><pre><span class="p">$ python tools/run_follow.py --hands allegro_left --leader-id hold_allegro_left__self__selfoverlapfix --placement-from outputs/run_through_11nov/results/hold_placement_allegro_left__selfoverlapfix.json --tag fixed --margins --out-dir outputs/day_view_12nov/results</span>
+<span class="o">allegro_left: note: outputs/run_through_11nov/results/hold_placement_allegro_left__selfoverlapfix.json has no placement key; re-scoring its placement anyway
+allegro_left on hold_allegro_left__self__selfoverlapfix: {&#x27;green&#x27;: 40}; red because {}; assignment {&#x27;thumb&#x27;: 0, &#x27;index&#x27;: 1, &#x27;middle&#x27;: 2, &#x27;ring&#x27;: 3}; placement cost 0.00 mm; respaced by [0, 0, 0, 0] deg; 46.4 s
+   per finger: {(&#x27;index&#x27;, &#x27;green&#x27;): 40, (&#x27;middle&#x27;, &#x27;green&#x27;): 40, (&#x27;ring&#x27;, &#x27;green&#x27;): 40, (&#x27;thumb&#x27;, &#x27;green&#x27;): 40}
+   overlap (deepest part of each posed finger, per frame): median 0.65 mm, max 0.75 mm; allowed 3 mm at the contact, other contact {&#x27;allowed&#x27;: True, &#x27;max_overlap_m&#x27;: 0.003}
+   scale margin: smallest 217 (frame 0)
+   disturbance margin: smallest 59.11 (frame 0, worst direction -ty)
+    no finger is amber or red, no joint is past a limit</span></pre></div><p class="src">verdicts_log.txt, step follow_allegro_left (exit 0, 47 s)</p></article><article class="screen term"><header><h3>The check on the test-curve hand: red</h3><span class="where">terminal</span></header><p>Every finger is red for reach. The fix is to reverse each finger&#x27;s <code>bend_axis</code> in the hand file; the tool does not say so.</p><div class="win"><pre><span class="p">$ python tools/run_follow.py --hands mosadegh_x3_ring --leader-id hold_mosadegh_x3_ring__self__selfoverlapfix --placement-from outputs/run_through_11nov/results/hold_placement_mosadegh_x3_ring__selfoverlapfix.json --tag fixed --margins --out-dir outputs/day_view_12nov/results</span>
+<span class="o">mosadegh_x3_ring: note: outputs/run_through_11nov/results/hold_placement_mosadegh_x3_ring__selfoverlapfix.json has no placement key; re-scoring its placement anyway
+mosadegh_x3_ring on hold_mosadegh_x3_ring__self__selfoverlapfix: {&#x27;red&#x27;: 40}; red because {&#x27;no_contact&#x27;: 40}; assignment {&#x27;f0&#x27;: 0, &#x27;f1&#x27;: 1, &#x27;f2&#x27;: 2}; placement cost 0.00 mm; respaced by [0, 0, 0] deg; 19.7 s
+   per finger: {(&#x27;f0&#x27;, &#x27;red&#x27;): 40, (&#x27;f1&#x27;, &#x27;red&#x27;): 40, (&#x27;f2&#x27;, &#x27;red&#x27;): 40}
+   overlap (deepest part of each posed finger, per frame): median -18.47 mm, max -18.47 mm; allowed 3 mm at the contact, other contact {&#x27;allowed&#x27;: True, &#x27;max_overlap_m&#x27;: 0.003}
+   scale margin: none (no contact or no torque checked)
+   disturbance margin: none (no contact or no torque checked)
+    f0: red (reach) frames 0 to 39 (40)
+    f1: red (reach) frames 0 to 39 (40)
+    f2: red (reach) frames 0 to 39 (40)</span></pre></div><p class="src">verdicts_log.txt, step follow_mosadegh_x3_ring (exit 0, 20 s)</p></article><article class="screen term"><header><h3>The same hand with the bend axis reversed: green</h3><span class="where">terminal</span></header><p>This green is not a strength result: the record has no force data (<a href="https://github.com/geojenks/gramian-map-workshop/issues/35">issue 35</a>). It also stands with a base hinge posed past its limit (<a href="https://github.com/geojenks/gramian-map-workshop/issues/34">issue 34</a>).</p><div class="win"><pre><span class="p">$ python tools/run_follow.py --hands mosadegh_x3_ring_flipped --leader-id hold_mosadegh_x3_ring_flipped__self__selfoverlapfix --placement-from outputs/run_through_11nov/results/hold_placement_mosadegh_x3_ring_flipped__selfoverlapfix.json --tag fixed --margins --out-dir outputs/day_view_12nov/results</span>
+<span class="o">mosadegh_x3_ring_flipped: note: outputs/run_through_11nov/results/hold_placement_mosadegh_x3_ring_flipped__selfoverlapfix.json has no placement key; re-scoring its placement anyway
+mosadegh_x3_ring_flipped on hold_mosadegh_x3_ring_flipped__self__selfoverlapfix: {&#x27;green&#x27;: 40}; red because {}; assignment {&#x27;f0&#x27;: 0, &#x27;f1&#x27;: 1, &#x27;f2&#x27;: 2}; placement cost 0.00 mm; respaced by [0, 0, 0] deg; 91.4 s
+   per finger: {(&#x27;f0&#x27;, &#x27;green&#x27;): 40, (&#x27;f1&#x27;, &#x27;green&#x27;): 40, (&#x27;f2&#x27;, &#x27;green&#x27;): 40}
+   overlap (deepest part of each posed finger, per frame): median -0.02 mm, max -0.02 mm; allowed 3 mm at the contact, other contact {&#x27;allowed&#x27;: True, &#x27;max_overlap_m&#x27;: 0.003}
+   scale margin: smallest 5.76 (frame 0)
+   disturbance margin: smallest 0.4968 (frame 0, worst direction -tx)
+    f0_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+    f1_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+    f2_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)</span></pre></div><p class="src">verdicts_log.txt, step follow_mosadegh_x3_ring_flipped (exit 0, 92 s)</p></article><article class="screen term"><header><h3>Which fingers and joints fail</h3><span class="where">terminal</span></header><p>It prints this and writes the page below.</p><div class="win"><pre><span class="p">$ python tools/report_failures.py outputs/day_view_12nov/results/follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed.json --out-dir outputs/day_view_12nov/results</span>
+<span class="o">mosadegh_x3_ring_flipped on hold_mosadegh_x3_ring_flipped__self__selfoverlapfix: 40 frames, 40 green (frames numbered by position)
+  f0_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+  f1_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+  f2_hinge0: past its upper limit by 0.115 rad, frames 0 to 39 (40)
+  wrote outputs/day_view_12nov/results\follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed__failures.md
+  wrote outputs/day_view_12nov/results\follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed__failures.html</span></pre></div><p class="src">verdicts_log.txt, step failures_mosadegh_x3_ring_flipped (exit 0, 1 s)</p></article><article class="screen page"><header><h3>The failures page: the model-file hand</h3><span class="where">browser page</span></header><p>Top of the page.</p><div class="win"><div class="bar"><i></i><i></i><i></i><span>follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed__failures.html</span></div><img src="shots/failures_allegro.png" alt="The failures page: the model-file hand" loading="lazy"></div><p class="src">Picture of outputs/day_view_12nov/results/follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed__failures.html. Hovering does nothing in a picture.</p></article><article class="screen page"><header><h3>The failures page: the red hand</h3><span class="where">browser page</span></header><p>Top of the page.</p><div class="win"><div class="bar"><i></i><i></i><i></i><span>follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed__failures.html</span></div><img src="shots/failures_red.png" alt="The failures page: the red hand" loading="lazy"></div><p class="src">Picture of outputs/day_view_12nov/results/follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed__failures.html. Hovering does nothing in a picture.</p></article><article class="screen page"><header><h3>The failures page: the hand that closes</h3><span class="where">browser page</span></header><p>Top of the page.</p><div class="win"><div class="bar"><i></i><i></i><i></i><span>follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed__failures.html</span></div><img src="shots/failures_green.png" alt="The failures page: the hand that closes" loading="lazy"></div><p class="src">Picture of outputs/day_view_12nov/results/follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed__failures.html. Hovering does nothing in a picture.</p></article><article class="screen page"><header><h3>The page for all three hands</h3><span class="where">browser page</span></header><p>Top of the page.</p><div class="win"><div class="bar"><i></i><i></i><i></i><span>follow_today.html</span></div><img src="shots/follow.png" alt="The page for all three hands" loading="lazy"></div><p class="src">Picture of outputs/day_view_12nov/results/follow_today.html. Hovering does nothing in a picture.</p></article><article class="screen file"><header><h3>The margins table</h3><span class="where">text file</span></header><div class="win scroll"><table><tr><th>Hand</th><th>Leader</th><th>Result</th><th>Verdicts</th><th>Scale margin</th><th>Disturbance margin</th></tr><tr><td>allegro_left</td><td><code>hold_allegro_left__self__selfoverlapfix</code></td><td><code>follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed.json</code></td><td>green 40/40</td><td>217, at frame 0</td><td>59.1 (-ty), at frame 0</td></tr><tr><td>mosadegh_x3_ring</td><td><code>hold_mosadegh_x3_ring__self__selfoverlapfix</code></td><td><code>follow_mosadegh_x3_ring__hold_mosadegh_x3_ring__self__selfoverlapfix__fixed.json</code></td><td>red 40/40</td><td>not computed (no contact or no torque checked)</td><td>not computed (no contact or no torque checked)</td></tr><tr><td>mosadegh_x3_ring_flipped</td><td><code>hold_mosadegh_x3_ring_flipped__self__selfoverlapfix</code></td><td><code>follow_mosadegh_x3_ring_flipped__hold_mosadegh_x3_ring_flipped__self__selfoverlapfix__fixed.json</code></td><td>green 40/40</td><td>5.76, at frame 0</td><td>0.497 (-tx), at frame 0</td></tr></table></div><p class="src">outputs/day_view_12nov/results/follow_today.md</p></article><footer><p>Made by <code>tools/make_day_view.py</code> from outputs/run_through_11nov and outputs/day_view_12nov. The commands behind every screen, with the files they read and wrote, are on the walkthrough page of the same run.</p></footer></div>
