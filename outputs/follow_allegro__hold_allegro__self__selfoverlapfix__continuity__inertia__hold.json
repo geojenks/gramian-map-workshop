@@ -1,0 +1,1203 @@
+{
+ "hand": "allegro",
+ "hand_name": "Allegro (Wonik)",
+ "leader": "hold_allegro__self__selfoverlapfix",
+ "placement_cost_mm": 0.0,
+ "self_overlap": {
+  "in_verdict": false,
+  "colliding_geoms": 21,
+  "contact_excludes": 5,
+  "rest_pairs": []
+ },
+ "resid_tol": 0.05,
+ "settings": {
+  "middle": true,
+  "ik_iters": 60,
+  "place": {
+   "n_frames": 10,
+   "n_samples": 80,
+   "iters": 4,
+   "pad_step": 6
+  },
+  "wrist": false,
+  "respace": false,
+  "reused_placement": true,
+  "strength": "input columns, one-sided where the model says (23 Oct); a joint on a range limit takes any moment into the stop (3 Nov, issue 26)",
+  "stop_reactions": {
+   "on": true,
+   "tol": 0.0001
+  },
+  "joint_stiffness_Nm_per_rad": 0.0,
+  "deflect_max_m": 0.002,
+  "scale_margin": false,
+  "disturbance_margin": false,
+  "apply_limit": false,
+  "apply_limit_free": false,
+  "inertia": true,
+  "fit_half_s": 0.1,
+  "inertia_weight": {
+   "applied": true,
+   "why_not": null,
+   "g_m_s2": 9.81,
+   "source": "the leader's frame.gravity string: along [v] is the stations' net force, which the object's weight balances, so gravity acts along -v",
+   "entry": "9.81 m/s^2 along [-0.8492, 0.4665, 0.2475] (the direction of the stations' net force, which the object's weight balances)",
+   "direction_leader": [
+    0.849191873272659,
+    -0.4664955356590855,
+    -0.24749763145900036
+   ],
+   "direction_hand": [
+    0.849191873272659,
+    -0.4664955356590855,
+    -0.24749763145900036
+   ],
+   "check": {
+    "mean_net_force_N": [
+     -0.1306640296026532,
+     0.07178798325721954,
+     0.03808045473573964
+    ],
+    "cos_with_up": 0.9999999985527335,
+    "size_over_mg": 1.0
+   },
+   "check_cos_min": 0.9,
+   "masses": "the model's own link masses, as its file sets them (explicit inertials, geom masses or a stated density), not a measurement"
+  },
+  "rate_limit_per_s": null,
+  "lag_s": null,
+  "continuity": {
+   "start": "the previous checked frame's pose and link when that solve is green, else the better by class, then by jump, of it and the fixed starts (12 Nov, issue 12)",
+   "speed_fit_half_s": 0.1,
+   "speed_min_points": 5,
+   "speed_limit_rad_s": null
+  },
+  "allowed_overlap_m": 0.003,
+  "other_contact": {
+   "allowed": true,
+   "max_overlap_m": 0.003
+  },
+  "overlap_source": {
+   "contact": "default",
+   "other": "default"
+  },
+  "push_out": {
+   "first": [
+    0.2,
+    0.0
+   ],
+   "second": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ "assignment": {
+  "index": 0,
+  "middle": 1,
+  "ring": 2,
+  "thumb": 3
+ },
+ "respace_deg": [
+  0.0,
+  0.0,
+  0.0,
+  0.0
+ ],
+ "placement": {
+  "rotation_matrix": [
+   [
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "translation_m": [
+   0.008997697167168781,
+   -0.004551426055989236,
+   0.09633844191910028
+  ]
+ },
+ "placement_key": null,
+ "placement_search_s": null,
+ "frames": [
+  {
+   "k": 0,
+   "verdict": "green",
+   "reason": null,
+   "ball_center": [
+    0.008997697167168781,
+    -0.004551426055989236,
+    0.09633844191910028
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -58.23527687135553,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 0,
+     "reach_mm": 0.007554916219885731,
+     "facing_deg": 64.09955024092595,
+     "phalanx": "distal",
+     "q": [
+      -0.020165272404334043,
+      0.7352227769077406,
+      1.2473750697122497,
+      0.16543595418553778
+     ],
+     "target": [
+      0.019646917952885243,
+      -0.03259120646260686,
+      0.09573444572231854
+     ],
+     "pad_world": [
+      0.019653784671797944,
+      -0.032588636794737814,
+      0.09573626828576222
+     ],
+     "pad_normal": [
+      -0.3552029168209721,
+      0.9345736912916193,
+      0.02007245444460191
+     ],
+     "penetration_mm": 0.07319338005024392,
+     "side_deg": 64.09955024092595,
+     "patch_mm": 7.171371656006362,
+     "overlap_mm": 0.07319338005024392,
+     "other_overlap_mm": -4.897438290748443,
+     "overlap_within_allowance": true,
+     "continuity": {
+      "start": "fresh",
+      "link_held": false,
+      "from_frame": null,
+      "dt_s": null,
+      "spans_off": false,
+      "link_changed": false,
+      "speed_points": 1,
+      "speed": null,
+      "max_hinge_rad_s": null,
+      "max_slide_m_s": null,
+      "limit_rad_s": null,
+      "within_limit": null
+     },
+     "missed": [],
+     "cone_angle_deg": 0.014428827174340835,
+     "cone_half_angle_deg": 45.0,
+     "inertia": {
+      "window_n": 1,
+      "window_step_max_rad": 0.0,
+      "weight_Nm": [
+       -0.010429119137130313,
+       0.027443592532768485,
+       0.008146854100765023,
+       0.0013789413070100292
+      ],
+      "weight_share": [
+       0.014898741624471877,
+       0.03920513218966927,
+       0.011638363001092892,
+       0.0019699161528714706
+      ],
+      "fitted": false,
+      "total_Nm": [
+       -0.010429119137130313,
+       0.027443592532768485,
+       0.008146854100765023,
+       0.0013789413070100292
+      ],
+      "total_share": [
+       0.014898741624471877,
+       0.03920513218966927,
+       0.011638363001092892,
+       0.0019699161528714706
+      ]
+     },
+     "unbalanced_Nm": 8.152300630327762e-16,
+     "joint_residuals": {
+      "finger": [
+       {
+        "joint": "ffj0",
+        "kind": "hinge",
+        "residual": 6.245004513516506e-17,
+        "tolerance": 0.001923947424847848
+       },
+       {
+        "joint": "ffj1",
+        "kind": "hinge",
+        "residual": -1.942890293094024e-16,
+        "tolerance": 0.001923947424847848
+       },
+       {
+        "joint": "ffj2",
+        "kind": "hinge",
+        "residual": 3.642919299551295e-17,
+        "tolerance": 0.001923947424847848
+       },
+       {
+        "joint": "ffj3",
+        "kind": "hinge",
+        "residual": 7.884318198314588e-16,
+        "tolerance": 0.001923947424847848
+       }
+      ]
+     },
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "middle",
+     "station": 1,
+     "reach_mm": 0.009801355898872084,
+     "facing_deg": 7.364619934234674,
+     "phalanx": "distal",
+     "q": [
+      -0.006616550610545826,
+      0.7702837113838704,
+      0.49372013094168676,
+      0.9347948925505369
+     ],
+     "target": [
+      0.038758033840353,
+      -0.0008399816666421396,
+      0.09707840248798902
+     ],
+     "pad_world": [
+      0.038758092643445034,
+      -0.000838533484119771,
+      0.09706870888767569
+     ],
+     "pad_normal": [
+      -0.9920131825425418,
+      -0.12376308572898216,
+      -0.024342232285846734
+     ],
+     "penetration_mm": 0.23641635767935806,
+     "side_deg": 7.364619934234674,
+     "patch_mm": 7.171371656006362,
+     "overlap_mm": 0.23641635767935806,
+     "other_overlap_mm": -14.284109107287453,
+     "overlap_within_allowance": true,
+     "continuity": {
+      "start": "fresh",
+      "link_held": false,
+      "from_frame": null,
+      "dt_s": null,
+      "spans_off": false,
+      "link_changed": false,
+      "speed_points": 1,
+      "speed": null,
+      "max_hinge_rad_s": null,
+      "max_slide_m_s": null,
+      "limit_rad_s": null,
+      "within_limit": null
+     },
+     "missed": [],
+     "cone_angle_deg": 0.018719210970520227,
+     "cone_half_angle_deg": 45.0,
+     "inertia": {
+      "window_n": 1,
+      "window_step_max_rad": 0.0,
+      "weight_Nm": [
+       -0.012988554523264055,
+       0.02862392401237038,
+       0.009644727762437407,
+       0.0012364388958036637
+      ],
+      "weight_share": [
+       0.018555077890377223,
+       0.04089132001767198,
+       0.013778182517767726,
+       0.0017663412797195197
+      ],
+      "fitted": false,
+      "total_Nm": [
+       -0.012988554523264055,
+       0.02862392401237038,
+       0.009644727762437407,
+       0.0012364388958036637
+      ],
+      "total_share": [
+       0.018555077890377223,
+       0.04089132001767198,
+       0.013778182517767726,
+       0.0017663412797195197
+      ]
+     },
+     "unbalanced_Nm": 7.539229768021941e-16,
+     "joint_residuals": {
+      "finger": [
+       {
+        "joint": "mfj0",
+        "kind": "hinge",
+        "residual": -2.5847379792054426e-16,
+        "tolerance": 0.0021527140785763447
+       },
+       {
+        "joint": "mfj1",
+        "kind": "hinge",
+        "residual": 5.204170427930421e-16,
+        "tolerance": 0.0021527140785763447
+       },
+       {
+        "joint": "mfj2",
+        "kind": "hinge",
+        "residual": -4.787836793695988e-16,
+        "tolerance": 0.0021527140785763447
+       },
+       {
+        "joint": "mfj3",
+        "kind": "hinge",
+        "residual": 3.903127820947816e-17,
+        "tolerance": 0.0021527140785763447
+       }
+      ]
+     },
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "ring",
+     "station": 2,
+     "reach_mm": 0.02159496343340884,
+     "facing_deg": 62.32177430128107,
+     "phalanx": "distal",
+     "q": [
+      0.1176052264471606,
+      0.7527039484475291,
+      1.347886204970455,
+      -0.12128397051167993
+     ],
+     "target": [
+      0.020025998787120546,
+      0.023341551240611946,
+      0.09573979268068057
+     ],
+     "pad_world": [
+      0.02004591042267556,
+      0.02333361398462052,
+      0.09573717176814081
+     ],
+     "pad_normal": [
+      -0.3682737751835594,
+      -0.9295013346869919,
+      0.020042338365315455
+     ],
+     "penetration_mm": 0.19984675160198903,
+     "side_deg": 62.32177430128107,
+     "patch_mm": 7.171371656006362,
+     "overlap_mm": 0.19984675160198903,
+     "other_overlap_mm": -5.486940874734877,
+     "overlap_within_allowance": true,
+     "continuity": {
+      "start": "fresh",
+      "link_held": false,
+      "from_frame": null,
+      "dt_s": null,
+      "spans_off": false,
+      "link_changed": false,
+      "speed_points": 1,
+      "speed": null,
+      "max_hinge_rad_s": null,
+      "max_slide_m_s": null,
+      "limit_rad_s": null,
+      "within_limit": null
+     },
+     "missed": [],
+     "cone_angle_deg": 0.0412433430048775,
+     "cone_half_angle_deg": 45.0,
+     "inertia": {
+      "window_n": 1,
+      "window_step_max_rad": 0.0,
+      "weight_Nm": [
+       -0.01525313533642764,
+       0.024084269494414053,
+       0.007256075477635944,
+       0.001511726783673555
+      ],
+      "weight_share": [
+       0.021790193337753772,
+       0.034406099277734366,
+       0.010365822110908491,
+       0.0021596096909622217
+      ],
+      "fitted": false,
+      "total_Nm": [
+       -0.01525313533642764,
+       0.024084269494414053,
+       0.007256075477635944,
+       0.001511726783673555
+      ],
+      "total_share": [
+       0.021790193337753772,
+       0.034406099277734366,
+       0.010365822110908491,
+       0.0021596096909622217
+      ]
+     },
+     "unbalanced_Nm": 6.127726522885701e-16,
+     "joint_residuals": {
+      "finger": [
+       {
+        "joint": "rfj0",
+        "kind": "hinge",
+        "residual": -3.400058012914542e-16,
+        "tolerance": 0.0015446584870393084
+       },
+       {
+        "joint": "rfj1",
+        "kind": "hinge",
+        "residual": 2.393918396847994e-16,
+        "tolerance": 0.0015446584870393084
+       },
+       {
+        "joint": "rfj2",
+        "kind": "hinge",
+        "residual": -2.7755575615628914e-16,
+        "tolerance": 0.0015446584870393084
+       },
+       {
+        "joint": "rfj3",
+        "kind": "hinge",
+        "residual": 3.5431726996826285e-16,
+        "tolerance": 0.0015446584870393084
+       }
+      ]
+     },
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "thumb",
+     "station": 3,
+     "reach_mm": 0.05210177417194388,
+     "facing_deg": 20.920786182537014,
+     "phalanx": "distal",
+     "q": [
+      0.6636879989894112,
+      0.7550374594841761,
+      1.4198994916398768,
+      -0.0723544230897547
+     ],
+     "target": [
+      -0.003240953030887712,
+      -0.029652462312485743,
+      0.08537699036469108
+     ],
+     "pad_world": [
+      -0.0031939399064603007,
+      -0.02967489847586702,
+      0.08537600062928928
+     ],
+     "pad_normal": [
+      0.40638790245430273,
+      0.8374490806625929,
+      0.3654147096603667
+     ],
+     "penetration_mm": 0.9037581935917132,
+     "side_deg": 20.920786182537014,
+     "patch_mm": 7.171371656006362,
+     "overlap_mm": 0.9037581935917132,
+     "other_overlap_mm": -12.986998038664655,
+     "overlap_within_allowance": true,
+     "continuity": {
+      "start": "fresh",
+      "link_held": false,
+      "from_frame": null,
+      "dt_s": null,
+      "spans_off": false,
+      "link_changed": false,
+      "speed_points": 1,
+      "speed": null,
+      "max_hinge_rad_s": null,
+      "max_slide_m_s": null,
+      "limit_rad_s": null,
+      "within_limit": null
+     },
+     "missed": [],
+     "cone_angle_deg": 0.09950707134960432,
+     "cone_half_angle_deg": 45.0,
+     "inertia": {
+      "window_n": 1,
+      "window_step_max_rad": 0.0,
+      "weight_Nm": [
+       0.01937984316351405,
+       0.019264686878371903,
+       0.0020052862719544835,
+       0.00036167143909438936
+      ],
+      "weight_share": [
+       0.027685490233591504,
+       0.027520981254817004,
+       0.0028646946742206907,
+       0.0005166734844205562
+      ],
+      "fitted": false,
+      "total_Nm": [
+       0.01937984316351405,
+       0.019264686878371903,
+       0.0020052862719544835,
+       0.00036167143909438936
+      ],
+      "total_share": [
+       0.027685490233591504,
+       0.027520981254817004,
+       0.0028646946742206907,
+       0.0005166734844205562
+      ]
+     },
+     "unbalanced_Nm": 2.8689226906470644e-16,
+     "joint_residuals": {
+      "finger": [
+       {
+        "joint": "thj0",
+        "kind": "hinge",
+        "residual": 1.3877787807814457e-16,
+        "tolerance": 0.0018697421682685384
+       },
+       {
+        "joint": "thj1",
+        "kind": "hinge",
+        "residual": -1.214306433183765e-16,
+        "tolerance": 0.0018697421682685384
+       },
+       {
+        "joint": "thj2",
+        "kind": "hinge",
+        "residual": -1.4137996329210978e-16,
+        "tolerance": 0.0018697421682685384
+       },
+       {
+        "joint": "thj3",
+        "kind": "hinge",
+        "residual": 1.682681771697503e-16,
+        "tolerance": 0.0018697421682685384
+       }
+      ]
+     },
+     "state": "green",
+     "torque_checked": true
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 0.8596122355420367,
+    "finger_palm_pair": [
+     "palm",
+     "th_medial"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "th_medial",
+      "kind": "finger-palm",
+      "depth_mm": 0.8596122355420367,
+      "rest_mm": 0.0
+     }
+    ]
+   }
+  },
+  {
+   "k": 1,
+   "verdict": "green",
+   "reason": null,
+   "ball_center": [
+    0.008997697167168781,
+    -0.004551426055989236,
+    0.09633844191910028
+   ],
+   "palm_penetration_mm": 0.0,
+   "palm_overlap_mm": -58.23527687135553,
+   "unserved": [],
+   "fingers": [
+    {
+     "finger": "index",
+     "station": 0,
+     "reach_mm": 0.0066060620596381184,
+     "facing_deg": 64.08989240522006,
+     "phalanx": "distal",
+     "q": [
+      -0.020222606736878992,
+      0.7345763624719784,
+      1.2654578330352266,
+      0.1253041120328062
+     ],
+     "target": [
+      0.019646917952885243,
+      -0.03259120646260686,
+      0.09573444572231854
+     ],
+     "pad_world": [
+      0.019653091556074656,
+      -0.03258885849114559,
+      0.09573432863426404
+     ],
+     "pad_normal": [
+      -0.3551798129635292,
+      0.9345810811718784,
+      0.02013710949454128
+     ],
+     "penetration_mm": 0.0938614162326358,
+     "side_deg": 64.08989240522006,
+     "patch_mm": 7.171371656006362,
+     "overlap_mm": 0.0938614162326358,
+     "other_overlap_mm": -4.672696946619509,
+     "overlap_within_allowance": true,
+     "continuity": {
+      "start": "carried",
+      "link_held": true,
+      "from_frame": 0,
+      "dt_s": 1.0,
+      "spans_off": false,
+      "link_changed": false,
+      "jump": [
+       {
+        "joint": "ffj0",
+        "kind": "hinge",
+        "dq": -5.7334332544949074e-05,
+        "rate": -5.7334332544949074e-05
+       },
+       {
+        "joint": "ffj1",
+        "kind": "hinge",
+        "dq": -0.0006464144357621882,
+        "rate": -0.0006464144357621882
+       },
+       {
+        "joint": "ffj2",
+        "kind": "hinge",
+        "dq": 0.01808276332297698,
+        "rate": 0.01808276332297698
+       },
+       {
+        "joint": "ffj3",
+        "kind": "hinge",
+        "dq": -0.04013184215273158,
+        "rate": -0.04013184215273158
+       }
+      ],
+      "speed_points": 1,
+      "speed": null,
+      "max_hinge_rad_s": null,
+      "max_slide_m_s": null,
+      "limit_rad_s": null,
+      "within_limit": null
+     },
+     "missed": [],
+     "cone_angle_deg": 0.01261664917534878,
+     "cone_half_angle_deg": 45.0,
+     "inertia": {
+      "window_n": 1,
+      "window_step_max_rad": 0.0,
+      "weight_Nm": [
+       -0.010408538271070699,
+       0.027372609169774284,
+       0.008083207873585251,
+       0.001413507194649491
+      ],
+      "weight_share": [
+       0.014869340387243857,
+       0.039103727385391834,
+       0.011547439819407503,
+       0.0020192959923564157
+      ],
+      "fitted": false,
+      "total_Nm": [
+       -0.010408538271070699,
+       0.027372609169774284,
+       0.008083207873585251,
+       0.001413507194649491
+      ],
+      "total_share": [
+       0.014869340387243857,
+       0.039103727385391834,
+       0.011547439819407503,
+       0.0020192959923564157
+      ]
+     },
+     "unbalanced_Nm": 7.288193776733519e-16,
+     "joint_residuals": {
+      "finger": [
+       {
+        "joint": "ffj0",
+        "kind": "hinge",
+        "residual": -2.8449465006019636e-16,
+        "tolerance": 0.0019198046436227746
+       },
+       {
+        "joint": "ffj1",
+        "kind": "hinge",
+        "residual": 4.3021142204224816e-16,
+        "tolerance": 0.0019198046436227746
+       },
+       {
+        "joint": "ffj2",
+        "kind": "hinge",
+        "residual": -4.597017211338539e-16,
+        "tolerance": 0.0019198046436227746
+       },
+       {
+        "joint": "ffj3",
+        "kind": "hinge",
+        "residual": 2.3201926491189795e-16,
+        "tolerance": 0.0019198046436227746
+       }
+      ]
+     },
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "middle",
+     "station": 1,
+     "reach_mm": 0.0036482320539161428,
+     "facing_deg": 7.130873925299064,
+     "phalanx": "distal",
+     "q": [
+      -0.0066240793531595,
+      0.7868483266744798,
+      0.44110065512851715,
+      0.9934576529965862
+     ],
+     "target": [
+      0.038758033840353,
+      -0.0008399816666421396,
+      0.09707840248798902
+     ],
+     "pad_world": [
+      0.03875801205567729,
+      -0.0008391028526639954,
+      0.0970748617523961
+     ],
+     "pad_normal": [
+      -0.9920104962836171,
+      -0.12374410677750802,
+      -0.02454732777652724
+     ],
+     "penetration_mm": 0.08583773383523743,
+     "side_deg": 7.130873925299064,
+     "patch_mm": 7.171371656006362,
+     "overlap_mm": 0.08583773383523743,
+     "other_overlap_mm": -14.830185275116841,
+     "overlap_within_allowance": true,
+     "continuity": {
+      "start": "carried",
+      "link_held": true,
+      "from_frame": 0,
+      "dt_s": 1.0,
+      "spans_off": false,
+      "link_changed": false,
+      "jump": [
+       {
+        "joint": "mfj0",
+        "kind": "hinge",
+        "dq": -7.528742613673381e-06,
+        "rate": -7.528742613673381e-06
+       },
+       {
+        "joint": "mfj1",
+        "kind": "hinge",
+        "dq": 0.016564615290609375,
+        "rate": 0.016564615290609375
+       },
+       {
+        "joint": "mfj2",
+        "kind": "hinge",
+        "dq": -0.052619475813169614,
+        "rate": -0.052619475813169614
+       },
+       {
+        "joint": "mfj3",
+        "kind": "hinge",
+        "dq": 0.058662760446049234,
+        "rate": 0.058662760446049234
+       }
+      ],
+      "speed_points": 1,
+      "speed": null,
+      "max_hinge_rad_s": null,
+      "max_slide_m_s": null,
+      "limit_rad_s": null,
+      "within_limit": null
+     },
+     "missed": [],
+     "cone_angle_deg": 0.006967609958625162,
+     "cone_half_angle_deg": 45.0,
+     "inertia": {
+      "window_n": 1,
+      "window_step_max_rad": 0.0,
+      "weight_Nm": [
+       -0.013058329220336878,
+       0.028750732310163,
+       0.009596755163302292,
+       0.0012010539820431335
+      ],
+      "weight_share": [
+       0.018654756029052682,
+       0.04107247472880429,
+       0.013709650233288989,
+       0.0017157914029187623
+      ],
+      "fitted": false,
+      "total_Nm": [
+       -0.013058329220336878,
+       0.028750732310163,
+       0.009596755163302292,
+       0.0012010539820431335
+      ],
+      "total_share": [
+       0.018654756029052682,
+       0.04107247472880429,
+       0.013709650233288989,
+       0.0017157914029187623
+      ]
+     },
+     "unbalanced_Nm": 6.314132821654487e-16,
+     "joint_residuals": {
+      "finger": [
+       {
+        "joint": "mfj0",
+        "kind": "hinge",
+        "residual": 1.3704315460216776e-16,
+        "tolerance": 0.0021570895104256966
+       },
+       {
+        "joint": "mfj1",
+        "kind": "hinge",
+        "residual": -1.1796119636642288e-16,
+        "tolerance": 0.0021570895104256966
+       },
+       {
+        "joint": "mfj2",
+        "kind": "hinge",
+        "residual": -3.191891195797325e-16,
+        "tolerance": 0.0021570895104256966
+       },
+       {
+        "joint": "mfj3",
+        "kind": "hinge",
+        "residual": 5.139118297581291e-16,
+        "tolerance": 0.0021570895104256966
+       }
+      ]
+     },
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "ring",
+     "station": 2,
+     "reach_mm": 0.020659847140260243,
+     "facing_deg": 62.29376693215902,
+     "phalanx": "distal",
+     "q": [
+      0.11769672465561895,
+      0.7579047957970402,
+      1.3687409118786784,
+      -0.18544424530434175
+     ],
+     "target": [
+      0.020025998787120546,
+      0.023341551240611946,
+      0.09573979268068057
+     ],
+     "pad_world": [
+      0.02004445394813322,
+      0.023334127078701833,
+      0.09573421431749882
+     ],
+     "pad_normal": [
+      -0.368225226032148,
+      -0.9295184378230357,
+      0.02014092005338189
+     ],
+     "penetration_mm": 0.2317087980928008,
+     "side_deg": 62.29376693215902,
+     "patch_mm": 7.171371656006362,
+     "overlap_mm": 0.2317087980928008,
+     "other_overlap_mm": -5.076393157727281,
+     "overlap_within_allowance": true,
+     "continuity": {
+      "start": "carried",
+      "link_held": true,
+      "from_frame": 0,
+      "dt_s": 1.0,
+      "spans_off": false,
+      "link_changed": false,
+      "jump": [
+       {
+        "joint": "rfj0",
+        "kind": "hinge",
+        "dq": 9.14982084583571e-05,
+        "rate": 9.14982084583571e-05
+       },
+       {
+        "joint": "rfj1",
+        "kind": "hinge",
+        "dq": 0.005200847349511095,
+        "rate": 0.005200847349511095
+       },
+       {
+        "joint": "rfj2",
+        "kind": "hinge",
+        "dq": 0.02085470690822344,
+        "rate": 0.02085470690822344
+       },
+       {
+        "joint": "rfj3",
+        "kind": "hinge",
+        "dq": -0.06416027479266183,
+        "rate": -0.06416027479266183
+       }
+      ],
+      "speed_points": 1,
+      "speed": null,
+      "max_hinge_rad_s": null,
+      "max_slide_m_s": null,
+      "limit_rad_s": null,
+      "within_limit": null
+     },
+     "missed": [],
+     "cone_angle_deg": 0.03945740230542688,
+     "cone_half_angle_deg": 45.0,
+     "inertia": {
+      "window_n": 1,
+      "window_step_max_rad": 0.0,
+      "weight_Nm": [
+       -0.015251996106036027,
+       0.024041089099041887,
+       0.007154791125820176,
+       0.0015512921254687497
+      ],
+      "weight_share": [
+       0.021788565865765754,
+       0.03434441299863127,
+       0.01022113017974311,
+       0.0022161316078124996
+      ],
+      "fitted": false,
+      "total_Nm": [
+       -0.015251996106036027,
+       0.024041089099041887,
+       0.007154791125820176,
+       0.0015512921254687497
+      ],
+      "total_share": [
+       0.021788565865765754,
+       0.03434441299863127,
+       0.01022113017974311,
+       0.0022161316078124996
+      ]
+     },
+     "unbalanced_Nm": 3.4525464449629623e-16,
+     "joint_residuals": {
+      "finger": [
+       {
+        "joint": "rfj0",
+        "kind": "hinge",
+        "residual": -3.157196726277789e-16,
+        "tolerance": 0.0015412663336052486
+       },
+       {
+        "joint": "rfj1",
+        "kind": "hinge",
+        "residual": 1.3877787807814457e-17,
+        "tolerance": 0.0015412663336052486
+       },
+       {
+        "joint": "rfj2",
+        "kind": "hinge",
+        "residual": 1.3704315460216776e-16,
+        "tolerance": 0.0015412663336052486
+       },
+       {
+        "joint": "rfj3",
+        "kind": "hinge",
+        "residual": 2.3418766925686896e-17,
+        "tolerance": 0.0015412663336052486
+       }
+      ]
+     },
+     "state": "green",
+     "torque_checked": true
+    },
+    {
+     "finger": "thumb",
+     "station": 3,
+     "reach_mm": 0.5071319714334699,
+     "facing_deg": 20.323113750312523,
+     "phalanx": "distal",
+     "q": [
+      0.6529383063931076,
+      0.7602713828666893,
+      1.4788215169902132,
+      -0.162
+     ],
+     "target": [
+      -0.003240953030887712,
+      -0.029652462312485743,
+      0.08537699036469108
+     ],
+     "pad_world": [
+      -0.003141146608286089,
+      -0.029490686940962726,
+      0.08490683055821455
+     ],
+     "pad_normal": [
+      0.40462812584849567,
+      0.8313086961657831,
+      0.3810537120295245
+     ],
+     "penetration_mm": 0.9400646657327129,
+     "side_deg": 20.323113750312523,
+     "patch_mm": 7.171371656006362,
+     "overlap_mm": 0.9400646657327129,
+     "other_overlap_mm": -12.866505076134537,
+     "overlap_within_allowance": true,
+     "continuity": {
+      "start": "carried",
+      "link_held": true,
+      "from_frame": 0,
+      "dt_s": 1.0,
+      "spans_off": false,
+      "link_changed": false,
+      "jump": [
+       {
+        "joint": "thj0",
+        "kind": "hinge",
+        "dq": -0.01074969259630365,
+        "rate": -0.01074969259630365
+       },
+       {
+        "joint": "thj1",
+        "kind": "hinge",
+        "dq": 0.0052339233825131615,
+        "rate": 0.0052339233825131615
+       },
+       {
+        "joint": "thj2",
+        "kind": "hinge",
+        "dq": 0.058922025350336416,
+        "rate": 0.058922025350336416
+       },
+       {
+        "joint": "thj3",
+        "kind": "hinge",
+        "dq": -0.0896455769102453,
+        "rate": -0.0896455769102453
+       }
+      ],
+      "speed_points": 1,
+      "speed": null,
+      "max_hinge_rad_s": null,
+      "max_slide_m_s": null,
+      "limit_rad_s": null,
+      "within_limit": null
+     },
+     "missed": [],
+     "cone_angle_deg": 0.9685622531725546,
+     "cone_half_angle_deg": 45.0,
+     "stops": [
+      {
+       "joint": "thj3",
+       "side": "lo",
+       "kind": "hinge",
+       "reaction": 0.0,
+       "decided_by": "finger"
+      }
+     ],
+     "inertia": {
+      "window_n": 1,
+      "window_step_max_rad": 0.0,
+      "weight_Nm": [
+       0.019079360713241924,
+       0.01935401943851171,
+       0.002407905431749106,
+       0.00033237877313126683
+      ],
+      "weight_share": [
+       0.027256229590345606,
+       0.027648599197873873,
+       0.0034398649024987233,
+       0.00047482681875895264
+      ],
+      "fitted": false,
+      "total_Nm": [
+       0.019079360713241924,
+       0.01935401943851171,
+       0.002407905431749106,
+       0.00033237877313126683
+      ],
+      "total_share": [
+       0.027256229590345606,
+       0.027648599197873873,
+       0.0034398649024987233,
+       0.00047482681875895264
+      ]
+     },
+     "unbalanced_Nm": 4.479598922971102e-15,
+     "joint_residuals": {
+      "finger": [
+       {
+        "joint": "thj0",
+        "kind": "hinge",
+        "residual": 1.1449174941446927e-16,
+        "tolerance": 0.0018625767110747678
+       },
+       {
+        "joint": "thj1",
+        "kind": "hinge",
+        "residual": 2.6020852139652106e-16,
+        "tolerance": 0.0018625767110747678
+       },
+       {
+        "joint": "thj2",
+        "kind": "hinge",
+        "residual": 2.8935187579293142e-15,
+        "tolerance": 0.0018625767110747678
+       },
+       {
+        "joint": "thj3",
+        "kind": "hinge",
+        "residual": 3.4078642685564375e-15,
+        "tolerance": 0.0018625767110747678
+       }
+      ]
+     },
+     "state": "green",
+     "torque_checked": true
+    }
+   ],
+   "self_overlap": {
+    "finger_finger_mm": 0.0,
+    "finger_finger_pair": null,
+    "finger_palm_mm": 1.0169042227711391,
+    "finger_palm_pair": [
+     "palm",
+     "th_medial"
+    ],
+    "pairs": [
+     {
+      "body1": "palm",
+      "body2": "th_medial",
+      "kind": "finger-palm",
+      "depth_mm": 1.0169042227711391,
+      "rest_mm": 0.0
+     }
+    ]
+   }
+  }
+ ],
+ "elapsed_s": 0.4,
+ "placement_reused_from": "outputs\\follow_allegro__hold_allegro__self__selfoverlapfix__fixed.json"
+}

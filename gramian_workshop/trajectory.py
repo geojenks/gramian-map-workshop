@@ -49,9 +49,10 @@ one (v = 1 as recorded, 0.5 half as fast). Every checked frame keeps its
 pose and the leader's forces; the time between frames becomes dt / v, so
 the rate and lag rows loosen as v falls, and each finger's own motion
 torque (follow(inertia=True), M qdd + C qd, homogeneous of degree two in
-the speed) becomes v^2 times its recorded value, the spring torque unchanged.
-At v = 0 there are no rate rows, the lag rows are each actuator's full
-range, and the motion torque is 0. The object's own inertia is not modelled
+the speed) becomes v^2 times its recorded value, the spring torque and the
+finger's own weight (also in follow(inertia=True), issue 13) unchanged. At
+v = 0 there are no rate rows, the lag rows are each actuator's full range,
+and the motion torque is 0. The object's own inertia is not modelled
 here, so the recorded contact forces are kept at every speed.
 
 Simulation only; comparative, not predictive."""

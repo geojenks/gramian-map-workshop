@@ -1287,6 +1287,18 @@ joint step. The limits, stated plainly:
   hand's own weight, and this keeps that. The weight term uses the model's
   own gravity: zero in our human-hand models, and in the robot models'
   frame, not the demo's orientation.
+  *12 Nov 2026 (issue 13): now added.* The weight g(q) is counted in the
+  torque tested, under the leader's own gravity (its `frame.gravity`
+  entry, or the hold leaders' "along [v]" string, read as gravity against
+  the stations' net force; a leader with neither is taken as gravity along
+  -z and the record says so) turned into the hand's frame by the placement
+  rotation, and only after a check against the leader's forces: the mean
+  net contact force must point against gravity (cosine at least 0.9) or the
+  weight is left out and `settings["inertia_weight"]` says why. It is also
+  left out for hands built from records, whose link masses are MuJoCo's
+  default density, not a measurement. The weight is counted even where the
+  motion could not be fitted. The trajectory scaling still scales the
+  motion torque alone, as the weight does not change with replay speed.
 - **One finger moves at a time.** The wrist, and the other fingers, are
   held at frame k's angles while a finger's path is solved.
 - **The path is re-solved, not recorded.** Where the solve changes branch

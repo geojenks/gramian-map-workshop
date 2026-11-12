@@ -140,6 +140,11 @@ def main():
                          "speed, from the stall limit at rest to 0 at the hand's published "
                          "no-load speed (follow(torque_speed=True)); hands with no published "
                          "speed are unchanged; the file name gets __torque_speed")
+    ap.add_argument("--inertia", action="store_true",
+                    help="each touching finger's joints must also supply the torque its own "
+                         "motion and its own weight need (follow(inertia=True); the weight "
+                         "under the leader's gravity, see follow.py 'Weight'); the file name "
+                         "gets __inertia")
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "outputs"),
                     help="where to write the results (default outputs/)")
     a = ap.parse_args()
@@ -184,13 +189,14 @@ def main():
                    allowed_overlap_m=a.allowed_overlap_m, other_contact=other,
                    margin=want_scale, disturbance=want_dist,
                    continuity=a.continuity, speed_limit=a.speed_limit,
-                   torque_speed=a.torque_speed)
+                   torque_speed=a.torque_speed, inertia=a.inertia)
         r["elapsed_s"] = round(time.time() - t0, 1)
         if src:
             r["placement_reused_from"] = os.path.relpath(src, ROOT)                 if os.path.abspath(src).startswith(ROOT) else os.path.abspath(src)
         out = os.path.join(a.out_dir, f"follow_{hk}__{lid}" + ("__respaced" if a.respace else "")
                            + ("__continuity" if a.continuity else "")
                            + ("__torque_speed" if a.torque_speed else "")
+                           + ("__inertia" if a.inertia else "")
                            + (f"__{a.tag}" if a.tag else "") + ".json")
         with open(out, "w", encoding="utf-8") as f:
             json.dump(r, f, indent=1, default=float)

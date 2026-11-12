@@ -75,11 +75,11 @@ axes (see _apply_limit; off by default, no change to the verdict).
 follow(apply_free=True) adds a second reading that lets the other five
 components take any value; it is far slower (see _apply_limit).
 With follow(inertia=True), each touching finger's joints must also supply
-the torque its own motion needs, M(q) qdd + C(q, qd) qd, on top of the
-contact load, in the per-finger torque test, the redistribution and the
-scale and disturbance margins (not the apply limit); see _finger_dynamics.
-Off by default, so earlier results reproduce exactly. The fingers' weight
-stays out, as before.
+the torque its own motion needs, M(q) qdd + C(q, qd) qd, and the torque
+its own weight needs, g(q), on top of the contact load, in the per-finger
+torque test, the redistribution and the scale and disturbance margins (not
+the apply limit); see _finger_dynamics and "Weight" below. Off by default,
+so earlier results reproduce exactly.
 With follow(rate_limit=r) and/or follow(lag_s=T), each actuator's net
 torque at a checked frame must be reachable from what it gave at the
 previous checked frame: within r times its limit per second of it, and/or
@@ -323,8 +323,41 @@ tools/run_follow.py --reuse-placement re-scores a stored placement whose
 key matches instead of searching, so a change to the check alone is
 re-run in seconds. A reused placement's result carries the stored key.
 
-Simulation only; comparative, not predictive. The hand's own weight is not
-counted.
+Simulation only; comparative, not predictive. The hand's own weight is
+counted only with follow(inertia=True) ("Weight" below); off, it is not.
+
+Weight (12 Nov, issue 13; part of follow(inertia=True)): the torque each
+touching finger's joints need to hold the finger's own links up, g(q), is
+added to the finger's torque in the same places as its motion torque. It
+is MuJoCo's recursive Newton-Euler at rest (mj_rne at (q, 0, 0)) with the
+model's own link masses and gravity set, for the call only, to the
+leader's. Where the leader's gravity points comes from the leader file
+(_leader_gravity): "frame"."gravity" as a direction (a list of three; the
+derived tennis leader) is the direction gravity acts in; as the hold
+leaders' string "9.81 m/s^2 along [v] (the direction of the stations' net
+force...)", v is the net contact force, which the object's weight
+balances, so gravity acts along -v; a leader with no gravity entry (the
+wave-manipulation leaders) is taken to have gravity along -z in its own
+frame. Each case is checked against the leader's own forces: the mean over
+frames of the stations' net force should be m g against gravity; the
+settings carry that check (its size as a share of m g, and the cosine
+between its direction and the assumed up), and the weight is not applied
+when the cosine is below GRAVITY_CHECK_COS or the gravity cannot be read
+("varies per frame", or none). The direction is carried into the hand's
+frame by the placement's rotation (Leader.force maps vectors the same
+way). The weight is not applied for a hand built from actuator records
+(its links carry MuJoCo's default density, not measured masses; the
+motion term leans on those masses too and is reported with the same
+caveat). What applied, why not, the direction in both frames and the check
+are in settings["inertia_weight"]; each finger's "inertia" record carries
+"weight_Nm" and "weight_share" where applied and "total_Nm", the torque
+added to its test (weight plus the motion torque where that was fitted;
+the weight alone where the window was too short, so the weight is counted
+even when the motion is not). Trajectory speed scaling (trajectory.py)
+scales the motion torque alone; the weight is the same at every speed.
+Fingers off the object carry no torque test, so their weight is not
+tested, as before. finger_actuator.py still runs its own sims with gravity
+off.
 
 Continuity (12 Nov, issue 12; follow(continuity=True), off by default so
 every stored result reproduces exactly): each touching finger's pose at a
@@ -398,6 +431,7 @@ import inspect
 import itertools
 import json
 import math
+import re
 import sys
 import time
 
@@ -463,6 +497,9 @@ FIT_HALF_S = 0.10          # finger inertia: joint velocity and acceleration fro
                            # local quadratic fit over +/- this (s), the fit and window
                            # tools/import_demo_leader.py uses for the object's motion
 FIT_MIN_POINTS = 5         # as that tool's local_fit
+GRAVITY_CHECK_COS = 0.9    # weight applied only when the leader's mean net contact force points
+                           # this closely against the gravity read for it (module docstring, "Weight")
+G_STANDARD = 9.81          # m/s^2, where a leader gives a direction but no size
 EQ_FORCE_WEIGHT_M = REACH_AMBER_M  # proposed: equilibrium pose search, metres of touch
                            # error per force scale (the leader's force, or EQ_FORCE_FLOOR_N)
                            # that the contact force departs from the leader's: departing by
@@ -1691,6 +1728,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         # the reused placement's own key and search time (None in results
         # from before keys were stored)
         key, t_search = placement.get("placement_key"), placement.get("placement_search_s")
+    # the hand's own weight (module docstring, "Weight"): the leader's
+    # gravity in the hand's frame, or None with the reason it is left out
+    weight_rec, g_hand = (_weight_plan(hand, leader_json, Rw) if inertia else (None, None))
     wrist = wrist and bool(hand.shared_joints)
     mu = float(leader_json.get("mu", 1.0))
     L = leader.R_obj
@@ -1837,7 +1877,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             cp = c + leader.R_obj * v / np.linalg.norm(v)
             n_in = (c - cp) / np.linalg.norm(c - cp)
             M, lim = lims[a]
-            dyn = _finger_dynamics(iks[a], leader, k, i, Rw, t, b, q) \
+            dyn = _finger_dynamics(iks[a], leader, k, i, Rw, t, b, q, g_hand) \
                 if inertia and M is not None else None
             iks[a].d.qpos[:] = hand.apply_coupling(_q_full(m, iks[a], q))
             mj.mj_kinematics(m, iks[a].d)
@@ -1872,8 +1912,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                     if beyond:
                         item["beyond_limit"] = beyond
                 if inertia:
-                    item["inertia"], tau = _inertia_item(hand, f, iks[a], M, lim, Jf, pw, dyn)
-                    tau_motion = tau
+                    item["inertia"], tau, tau_motion = _inertia_item(
+                        hand, f, iks[a], M, lim, Jf, pw, dyn, weight=g_hand is not None)
                 if springs[a] is not None:
                     item["spring"], spring = _spring_item(hand, f, iks[a], M, lim, Jf, pw,
                                                           springs[a])
@@ -2061,7 +2101,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "scale_margin": margin, "disturbance_margin": disturbance,
                          "apply_limit": apply, "apply_limit_free": apply_free,
                          "inertia": inertia,
-                         **({"fit_half_s": FIT_HALF_S} if inertia else {}),
+                         **({"fit_half_s": FIT_HALF_S, "inertia_weight": weight_rec}
+                            if inertia else {}),
                          "rate_limit_per_s": rate_limit, "lag_s": lag_s,
                          # off: no key, so earlier outputs reproduce exactly
                          **({"continuity": {
@@ -2364,37 +2405,139 @@ def _window_q(ik, leader, k, i, Rw, t, body, q_k, half=None):
     return dt, Q
 
 
-def _joint_dynamics(ik, q, qd, qdd):
+def _joint_dynamics(ik, q, qd, qdd, g_hand=None):
     """(motion, weight): joint torques (every dof) the hand needs at full
     pose q to move with velocity qd and acceleration qdd, M(q) qdd +
     C(q, qd) qd, from MuJoCo's recursive Newton-Euler (mj_rne at (q, qd,
     qdd) less mj_rne at (q, 0, 0)); and its weight alone, mj_rne at
-    (q, 0, 0). Contacts and passive forces are not in mj_rne."""
+    (q, 0, 0). g_hand: the gravity vector (m/s^2, in the hand's frame) to
+    take the weight under, set on the shared model for this call only and
+    restored after; None takes the model's own, as before. The motion term
+    does not depend on gravity. Contacts and passive forces are not in
+    mj_rne."""
     mj, m, d = ik.mj, ik.hand.model, ik.d
     out = []
-    for v, acc in ((np.zeros(m.nv), np.zeros(m.nv)), (qd, qdd)):
-        d.qpos[:] = q
-        d.qvel[:] = v
-        d.qacc[:] = acc
-        mj.mj_kinematics(m, d)
-        mj.mj_comPos(m, d)
-        mj.mj_comVel(m, d)
-        r = np.zeros(m.nv)
-        mj.mj_rne(m, d, 1, r)
-        out.append(r)
+    g_model = m.opt.gravity.copy()
+    try:
+        if g_hand is not None:
+            m.opt.gravity[:] = g_hand
+        for v, acc in ((np.zeros(m.nv), np.zeros(m.nv)), (qd, qdd)):
+            d.qpos[:] = q
+            d.qvel[:] = v
+            d.qacc[:] = acc
+            mj.mj_kinematics(m, d)
+            mj.mj_comPos(m, d)
+            mj.mj_comVel(m, d)
+            r = np.zeros(m.nv)
+            mj.mj_rne(m, d, 1, r)
+            out.append(r)
+    finally:
+        m.opt.gravity[:] = g_model
     d.qvel[:] = 0.0
     d.qacc[:] = 0.0
     return out[1] - out[0], out[0]
 
 
-def _finger_dynamics(ik, leader, k, i, Rw, t, body, q_k):
+def _leader_gravity(leader_json):
+    """Where gravity acts in a leader's frame, from the leader file alone
+    (module docstring, "Weight"): {g (m/s^2), dir (unit, or None), source,
+    entry}. "frame"."gravity" as a list is the direction gravity acts in
+    (size G_STANDARD); as the hold leaders' string "<g> m/s^2 along [v]
+    ...", v is the stations' net force, so gravity acts along -v; absent, -z
+    in the leader's frame is assumed; anything else ("varies per frame",
+    "none: ...") gives dir None."""
+    fr = leader_json.get("frame") or {}
+    e = fr.get("gravity") if isinstance(fr, dict) else None
+    if e is None:
+        return {"g": G_STANDARD, "dir": [0.0, 0.0, -1.0], "entry": None,
+                "source": "assumed: the leader carries no gravity entry, so gravity is taken "
+                          "along -z in its frame (checked against its net contact force)"}
+    if isinstance(e, (list, tuple)) and len(e) == 3:
+        v = np.asarray(e, dtype=float)
+        n = float(np.linalg.norm(v))
+        if n > 0:
+            return {"g": G_STANDARD, "dir": (v / n).tolist(), "entry": list(e),
+                    "source": "the leader's frame.gravity, a direction (gravity acts along it)"}
+    if isinstance(e, str):
+        mt = _GRAV_STRING.search(e)
+        if mt:
+            v = np.array([float(x) for x in mt.group(2).split(",")])
+            n = float(np.linalg.norm(v))
+            if n > 0:
+                return {"g": float(mt.group(1)), "dir": (-v / n).tolist(), "entry": e,
+                        "source": "the leader's frame.gravity string: along [v] is the stations' "
+                                  "net force, which the object's weight balances, so gravity "
+                                  "acts along -v"}
+    return {"g": G_STANDARD, "dir": None, "entry": e,
+            "source": "the leader's frame.gravity gives no single direction"}
+
+
+# the hold leaders' gravity string, e.g. "9.81 m/s^2 along [-0.79, 0.12, -0.61] (...)"
+_GRAV_STRING = re.compile(r"([0-9.]+)\s*m/s\^?2\s*along\s*\[([^\]]+)\]")
+
+
+def _gravity_check(leader_json, grav):
+    """The leader's own forces against the gravity read for it: the mean
+    over frames of the stations' net force on the object, as a share of
+    m g (the object's mass from the leader) and the cosine between its
+    direction and up (-grav["dir"]). None where the leader has no frames
+    or no direction."""
+    frames = leader_json.get("frames") or []
+    mass = (leader_json.get("object") or {}).get("mass_kg")
+    if not frames or grav["dir"] is None:
+        return None
+    F = np.zeros(3)
+    for fr in frames:
+        for f, on in zip(fr["force_on_object_N"], fr["contact"]):
+            if on:
+                F += np.asarray(f, dtype=float)
+    F /= len(frames)
+    nF = float(np.linalg.norm(F))
+    up = -np.asarray(grav["dir"])
+    return {"mean_net_force_N": F.tolist(),
+            "cos_with_up": float(F @ up / nF) if nF > 0 else None,
+            "size_over_mg": float(nF / (float(mass) * grav["g"])) if mass else None}
+
+
+def _weight_plan(hand, leader_json, Rw):
+    """(record, g_hand) for the hand's own weight (module docstring,
+    "Weight"): the leader's gravity read by _leader_gravity, checked by
+    _gravity_check, carried into the hand's frame by Rw (g_hand, m/s^2), or
+    g_hand None with the record saying why the weight is left out."""
+    grav = _leader_gravity(leader_json)
+    chk = _gravity_check(leader_json, grav)
+    rec = {"applied": False, "why_not": None, "g_m_s2": grav["g"], "source": grav["source"],
+           "entry": grav["entry"], "direction_leader": grav["dir"], "direction_hand": None,
+           "check": chk, "check_cos_min": GRAVITY_CHECK_COS,
+           "masses": "the model's own link masses, as its file sets them (explicit inertials, "
+                     "geom masses or a stated density), not a measurement"}
+    if hand.record is not None:
+        rec["why_not"] = ("the hand is built from actuator records: its links carry MuJoCo's "
+                          "default density, not measured masses")
+        rec["masses"] = "unsourced (MuJoCo's default density); the motion term uses them too"
+        return rec, None
+    if grav["dir"] is None:
+        rec["why_not"] = grav["source"]
+        return rec, None
+    if chk is not None and chk["cos_with_up"] is not None and chk["cos_with_up"] < GRAVITY_CHECK_COS:
+        rec["why_not"] = ("the leader's mean net contact force does not point against the gravity "
+                          f"read for it (cos {chk['cos_with_up']:.3f} < {GRAVITY_CHECK_COS})")
+        return rec, None
+    g_hand = grav["g"] * (np.asarray(Rw) @ np.asarray(grav["dir"]))
+    rec.update(applied=True, direction_hand=(g_hand / grav["g"]).tolist())
+    return rec, g_hand
+
+
+def _finger_dynamics(ik, leader, k, i, Rw, t, body, q_k, g_hand=None):
     """The finger's own motion at frame k while it follows station i: its
     joint path over +/- FIT_HALF_S (_window_q), velocity and acceleration
     from a local quadratic fit, and the joint torques that motion needs
     (_joint_dynamics). The other fingers and the wrist are held still (with
     wrist=True, at frame k's angles), so their motion is not counted.
     Returns {n, step_max_rad, motion, weight} (torques on every dof), with
-    motion None if the window has fewer than FIT_MIN_POINTS frames.
+    motion None if the window has fewer than FIT_MIN_POINTS frames; weight
+    is under g_hand (the leader's gravity in the hand's frame, _weight_plan;
+    None: the model's own gravity) and is given whatever the window.
     step_max_rad is the largest change of any of the finger's joints
     between neighbouring frames of the window, to show where the path still
     jumps. Leaves ik.d at an arbitrary pose."""
@@ -2405,10 +2548,10 @@ def _finger_dynamics(ik, leader, k, i, Rw, t, body, q_k):
     q = Q[int(np.argmin(np.abs(dt)))]
     if len(dt) < FIT_MIN_POINTS:
         out["motion"] = None
-        out["weight"] = _joint_dynamics(ik, q, np.zeros(len(q)), np.zeros(len(q)))[1]
+        out["weight"] = _joint_dynamics(ik, q, np.zeros(len(q)), np.zeros(len(q)), g_hand)[1]
         return out
     qd, qdd = _local_derivs(dt, Q)
-    out["motion"], out["weight"] = _joint_dynamics(ik, q, qd, qdd)
+    out["motion"], out["weight"] = _joint_dynamics(ik, q, qd, qdd, g_hand)
     out["qd_max_rad_s"] = float(np.abs(qd[dofs]).max())
     out["qdd_max_rad_s2"] = float(np.abs(qdd[dofs]).max())
     return out
@@ -2427,22 +2570,34 @@ def _input_share(C_in, tau):
     return out
 
 
-def _inertia_item(hand, finger, ik, M, lim, Jf, pw, dyn):
-    """(record, tau): the frame's inertia readout for one finger and the
-    torque its motion adds on its free joints (None when not fitted), from
-    _finger_dynamics' output; ik.d must be at the frame's pose."""
+def _inertia_item(hand, finger, ik, M, lim, Jf, pw, dyn, weight=True):
+    """(record, tau, tau_motion): the frame's inertia readout for one
+    finger, the torque added to its test on its free joints (its weight
+    where `weight`, plus its motion torque where fitted; None when neither)
+    and the motion torque alone (None when not fitted; the part a replay at
+    another speed scales, trajectory.py), from _finger_dynamics' output;
+    ik.d must be at the frame's pose. `weight` False (the weight left out,
+    _weight_plan) reports no weight and adds none."""
     E = _free_map(hand, finger, ik)
     C_in = _finger_columns(hand, finger, ik, M, lim, Jf, pw, 0.0)[1]
-    g = E.T @ dyn["weight"][finger.dof]
-    rec = {"window_n": dyn["n"], "window_step_max_rad": dyn["step_max_rad"],
-           "weight_Nm": g.tolist(), "weight_share": _input_share(C_in, g)}
+    rec = {"window_n": dyn["n"], "window_step_max_rad": dyn["step_max_rad"]}
+    tau = None
+    if weight:
+        g = E.T @ dyn["weight"][finger.dof]
+        rec.update(weight_Nm=g.tolist(), weight_share=_input_share(C_in, g))
+        tau = g
     if dyn["motion"] is None:
         rec["fitted"] = False
-        return rec, None
-    tau = E.T @ dyn["motion"][finger.dof]
-    rec.update(fitted=True, motion_Nm=tau.tolist(), motion_share=_input_share(C_in, tau),
-               qd_max_rad_s=dyn["qd_max_rad_s"], qdd_max_rad_s2=dyn["qdd_max_rad_s2"])
-    return rec, tau
+        tau_motion = None
+    else:
+        tau_motion = E.T @ dyn["motion"][finger.dof]
+        rec.update(fitted=True, motion_Nm=tau_motion.tolist(),
+                   motion_share=_input_share(C_in, tau_motion),
+                   qd_max_rad_s=dyn["qd_max_rad_s"], qdd_max_rad_s2=dyn["qdd_max_rad_s2"])
+        tau = tau_motion if tau is None else tau + tau_motion
+    if tau is not None:
+        rec.update(total_Nm=tau.tolist(), total_share=_input_share(C_in, tau))
+    return rec, tau, tau_motion
 
 
 def equilibrium_spec(hand, finger, ik):
