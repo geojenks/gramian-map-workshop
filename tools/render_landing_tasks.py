@@ -217,11 +217,11 @@ picture to turn both.</p></div>
 <div class="small">The object, the task's contact points and the force asked for at each.</div></header>
 <div class="gl" id="glT"></div><footer id="footT"></footer></section>
 <section class="pane"><header><h2 id="headA"></h2>
-<div class="small">The hand in the pose the check solved, where each finger touches, and the force it supplies.</div></header>
+<div class="small" id="subA">The hand in the pose the check solved, where each finger touches, and the force it supplies. Only its capsule and box shapes are drawn.</div></header>
 <div class="gl" id="glA"></div><footer id="footA"></footer></section>
 </div>
 <div class="key"><span><b style="background:var(--ask)"></b>force the task asks for at a contact</span>
-<span><b style="background:var(--give)"></b>force the finger supplies</span>
+<span id="keyGive"><b style="background:var(--give)"></b>force the finger supplies</span>
 <span><b style="background:var(--ink)"></b>sum of the forces drawn, at the object's centre</span>
 <span>finger colour: its verdict at this moment; grey is lifted</span></div>
 <p id="verdict"></p>
@@ -243,6 +243,10 @@ function css(n){return getComputedStyle(document.documentElement).getPropertyVal
 function V(a){return new THREE.Vector3(a[0],a[1],a[2])}
 $('title').textContent=D.task_name+', tried by '+D.hand_name;
 $('headA').textContent='Attempt: the hand chosen';
+// the check stores a supplied force only for a finger with fewer inputs than sprung joints
+var GIVES=D.frames.some(function(f){return f.hand_sum});
+if(!GIVES){$('keyGive').hidden=true;
+  $('subA').textContent='The hand in the pose the check solved, and where each finger touches. Only its capsule and box shapes are drawn. This result stores no supplied force.'}
 if(D.caveat){$('caveat').hidden=false;$('caveat').textContent=D.caveat+'. So read the supplied forces as comparative, not as newtons to rely on.'}
 $('source').innerHTML='Read from <code>'+esc(D.file)+'</code> and the task file <code>data/leaders/'+esc(D.task)+'.json</code>'+
   (D.task_caveat?' ('+esc(D.task_caveat)+')':'')+'. Made by <code>tools/render_landing_tasks.py</code>.';
@@ -292,7 +296,8 @@ function show(i){
   if(f.hand_sum)arrow(A.g,f.ball,f.hand_sum.force,ink,true);
   $('footT').innerHTML='Sum of the '+f.task_sum.of+' forces asked for: <b>'+n3(f.task_sum.force_N)+' N</b>';
   $('footA').innerHTML=f.hand_sum?'Sum of the '+f.hand_sum.of+' forces supplied: <b>'+n3(f.hand_sum.force_N)+' N</b>'
-    :'No supplied force is stored for this hand at this moment.';
+    :(GIVES?'No supplied force is stored for this hand at this moment.'
+      :'This result stores no supplied force: the check stores one only for a finger with fewer inputs than sprung joints.');
   $('when').textContent='moment '+(cur+1)+' of '+F.length+', at '+f.t.toFixed(2)+' s';
   $('verdict').innerHTML='<span class="dot '+esc(f.verdict)+'"></span>This moment: <b>'+esc(f.verdict)+'</b>'+
     (f.reason?' ('+esc(f.reason)+')':'')+(f.unserved.length?'. No finger serves contact '+f.unserved.join(', ')+'.':'.');
@@ -311,7 +316,9 @@ $('play').onclick=function(){if(timer){stop();return}$('play').textContent='Paus
 // one view for the whole task: look at the middle of everything drawn, from the side and above
 var lo=[1e9,1e9,1e9],hi=[-1e9,-1e9,-1e9];
 function grow(p,r){for(var a=0;a<3;a++){lo[a]=Math.min(lo[a],p[a]-r);hi[a]=Math.max(hi[a],p[a]+r)}}
-F.forEach(function(f){grow(f.ball,D.radius);f.caps.forEach(function(c){grow(c.a,c.r);grow(c.b,c.r)})});
+F.forEach(function(f){grow(f.ball,D.radius);f.caps.forEach(function(c){grow(c.a,c.r);grow(c.b,c.r)});
+  // a box is taken as the ball round it: its centre, and half its diagonal
+  f.boxes.forEach(function(b){grow(b.c,Math.sqrt(b.size[0]*b.size[0]+b.size[1]*b.size[1]+b.size[2]*b.size[2]))})});
 var mid=[0,1,2].map(function(a){return(lo[a]+hi[a])/2}),span=Math.max(hi[0]-lo[0],hi[1]-lo[1],hi[2]-lo[2]);
 [T,A].forEach(function(p){p.busy=true;p.o.target.set(mid[0],mid[1],mid[2]);
   p.c.position.set(mid[0]+1.7*span,mid[1]-1.7*span,mid[2]+0.25*span);p.o.update();p.busy=false});

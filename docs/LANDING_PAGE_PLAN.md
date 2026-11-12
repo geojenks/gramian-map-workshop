@@ -8,16 +8,20 @@ is the page they do it from.
 The mock-up is `tools/make_landing_mockup.py`. Its pictures come from
 `tools/render_landing_pictures.py` (`outputs/landing_pictures_12nov/`), and
 its views of the target beside the attempt from
-`tools/render_landing_tasks.py` (`outputs/landing_renders_12nov_b/`; the
-views made before the Allegro result on the cup wave came back are kept in
-`outputs/landing_renders_12nov/`). The
+`tools/render_landing_tasks.py` (`outputs/landing_renders_12nov_c/`; the
+views made before the LEAP result on the cup wave came back are kept in
+`outputs/landing_renders_12nov_b/`, and those before the Allegro result in
+`outputs/landing_renders_12nov/`). A view of a result that stores no
+supplied force says so; the check stores one only for a finger with fewer
+inputs than sprung joints. The
 same tool, run with `--tasks`, writes the view of each task on its own, with
 no hand chosen (`outputs/landing_task_views_12nov/`): one page for each task
 card, stepping through the moments the check looks at, and a picture for
 each task. Each task card links to its page, and the answer shows the
 picture while no hand is chosen or the pair has no stored result. The
-pages are in `outputs/landing_mockup_12nov_e/`; the pages before the
-Allegro result on the cup wave are kept in `outputs/landing_mockup_12nov_d/`,
+pages are in `outputs/landing_mockup_12nov_f/`; the pages before the
+LEAP result on the cup wave are kept in `outputs/landing_mockup_12nov_e/`,
+those before the Allegro result in `outputs/landing_mockup_12nov_d/`,
 those before the task views in `outputs/landing_mockup_12nov_c/`, those before any views
 in `outputs/landing_mockup_12nov_b/`, and the first, one-column mock-up in
 `outputs/landing_mockup_12nov/`.

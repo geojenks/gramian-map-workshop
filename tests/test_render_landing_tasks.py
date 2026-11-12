@@ -71,8 +71,8 @@ class Views(unittest.TestCase):
             self.assertEqual((d["hand"], d["task"], d["caveat"]), (src["hand"], src["leader"], src.get("caveat")))
             self.assertEqual(len(d["frames"]), len(src["frames"]))
             self.assertEqual(v["moments"], len(src["frames"]))
-            # a result for a hand of rigid joints stores no supplied force, only
-            # whether each finger passed; its view then shows none
+            # the check stores a supplied force only for a finger with fewer inputs
+            # than sprung joints; a view of any other hand shows none
             stored = sum(1 for fr in src["frames"] for x in fr["fingers"]
                          if (x.get("equilibrium") or {}).get("force_N") is not None)
             forces = 0
