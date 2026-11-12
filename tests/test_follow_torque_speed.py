@@ -98,6 +98,25 @@ class StraightLine(unittest.TestCase):
         self.assertTrue(np.all(ts["lo"] <= 0.0) and np.all(ts["hi"] >= 0.0))
         self.assertAlmostEqual(ts["hi"][2], 0.3 * 0.95)
 
+    def test_the_derated_side_is_the_motor_torque_in_the_sense_of_motion(self):
+        # one hinge, lim [-1, 1], turning positive at the no-load speed: its
+        # motor can push nothing positive but can still brake with the full
+        # negative torque. _hold_solve's t is the motor torque the contact
+        # force needs (E^T J^T f, f the finger's force on the object), so
+        # with Tr = I a positive t is a motor push in the sense of motion
+        lim = np.array([[-1.0, 1.0]])
+        ts = fo._speed_limits(lim, _speed([2.0]), 2.0)
+        lo, hi, _ = fo._speed_box(ts)
+        ncols = len(fo._input_senses(lim))
+        box = fo._input_box(lim, ncols, lo, hi)
+        cols = (np.eye(1), np.array([[1.0, -1.0]]))     # push column, pull column
+        ok_drive, _, _ = fo._hold_solve(cols, np.array([0.5]), None, box)
+        ok_brake, _, _ = fo._hold_solve(cols, np.array([-0.5]), None, box)
+        self.assertFalse(ok_drive)      # the driving side is spent at this speed
+        self.assertTrue(ok_brake)       # the braking side is untouched
+        box_rest = fo._input_box(lim, ncols, lim[:, 0], lim[:, 1])
+        self.assertTrue(fo._hold_solve(cols, np.array([0.5]), None, box_rest)[0])
+
     def test_a_slide_keeps_its_limits(self):
         ts = fo._speed_limits(self.lim, _speed([1.0, 1.0, 1.0], ["hinge", "slide", "hinge"]), 2.0)
         np.testing.assert_allclose(ts["hi"], [0.35, 0.5, 0.15])

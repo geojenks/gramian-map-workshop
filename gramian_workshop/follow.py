@@ -386,8 +386,12 @@ actuator-moment limits is refused) and a no-load speed is published:
 Allegro and LEAP here. Shadow, the L20s and the human hands have none, so
 with torque_speed=True their frames are unchanged and settings["torque_speed"]
 says why. Hinges only; a slide keeps its limits. Refused with
-top_speed=True, whose scaled speeds the derating does not follow (the
-trajectory check itself takes the derated boxes as it takes the link's).
+top_speed=True, whose scaled speeds the derating does not follow. The
+trajectory check is handed the derated boxes as it is handed the link's
+(trajectory.frame_record's bounds), but that path was not run with them
+(it needs scipy, which the checked environment lacks); the margins were:
+on five Allegro frames the scale margin fell a little where a finger was
+derated and the disturbance margin did not move (12 Nov).
 """
 import hashlib
 import inspect
@@ -2832,7 +2836,11 @@ def _speed_limits(lim, speed, w0):
     no-load speed, rad/s. On the side driving the motion (hi when the rate
     is positive, lo when negative) the limit is scaled by max(0, 1 -
     |rate| / w0); the other side, a joint at rest and a slide keep their
-    limits. Returns {"joints": [{joint, kind, rate_rad_s, no_load_rad_s,
+    limits. The sides are the motor's: _hold_solve's hi column is the
+    motor torque in the joint's positive sense, the torque that balances
+    J^T f for the force f the finger puts on the object (_energy), so a
+    joint turning positive while its motor pushes positive is driving, and
+    one turning positive while its motor pushes negative is braking. Returns {"joints": [{joint, kind, rate_rad_s, no_load_rad_s,
     speed_share, limit_rest, limit_at_speed}], "lo", "hi" (arrays),
     "derated": whether any limit changed}."""
     lim = np.asarray(lim, float)
