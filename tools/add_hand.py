@@ -19,6 +19,7 @@ DESCRIPTION  a small JSON file saying what the model cannot say for itself:
      "fingers": {"thumb": "thumb_tip_link",  one line per finger: a label, and
                  "index": "index_tip_link"}, the body that carries the fingertip
      "datasheet_torque_Nm": [0.7, "where it was published"],   optional
+     "datasheet_no_load_speed": [81, "rev/min", "where published"],   optional
      "caveat": "..."}                                          optional
 
 Everything else is worked out from the model by the same rules as for every
@@ -49,7 +50,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gramian_workshop import hands  # noqa: E402
 
 DESCRIPTION_SCHEMA = "gramian-workshop/hand-description@1"
-KEYS = {"schema", "key", "name", "fingers", "datasheet_torque_Nm", "caveat"}
+KEYS = {"schema", "key", "name", "fingers", "datasheet_torque_Nm", "datasheet_no_load_speed",
+        "caveat"}
 BUILT_MODEL = "hand.xml"          # a URDF built into a MuJoCo model, beside the entry
 CHECK_KEY = "__add_hand_check__"  # the hand's name in the table while it is checked
 PACKAGE_UP = 5                    # folders above a URDF searched for a package:// mesh
@@ -129,6 +131,17 @@ def check_description(d):
             out.append('"datasheet_torque_Nm" must be a list of two: the largest joint torque in '
                        'N.m (a number above 0) and where it was published, for example '
                        '[0.7, "maker\'s data sheet, 2024"]. Leave it out if no figure is published.')
+    sp = d.get("datasheet_no_load_speed")
+    if sp is not None:
+        ok = (isinstance(sp, list) and len(sp) == 3 and isinstance(sp[0], (int, float))
+              and not isinstance(sp[0], bool) and sp[0] > 0 and sp[1] in hands.SPEED_UNITS
+              and isinstance(sp[2], str) and sp[2].strip())
+        if not ok:
+            out.append('"datasheet_no_load_speed" must be a list of three: the joint motor\'s '
+                       'no-load speed (a number above 0), its unit (one of '
+                       + ", ".join(sorted(hands.SPEED_UNITS)) + ') and where it was published, '
+                       'for example [81, "rev/min", "maker\'s data sheet, 2024"]. It is used only '
+                       'by the torque-at-speed check. Leave it out if no figure is published.')
     if "caveat" in d and not isinstance(d["caveat"], str):
         out.append('"caveat" must be a sentence in quotes.')
     return out
@@ -407,6 +420,8 @@ def check_pair(model_xml, desc, fixed_links=None):
             "file": os.path.abspath(model_xml), "fingers": dict(desc["fingers"]), "added": True}
     if desc.get("datasheet_torque_Nm"):
         spec["datasheet_torque_Nm"] = tuple(desc["datasheet_torque_Nm"])
+    if desc.get("datasheet_no_load_speed"):
+        spec["datasheet_no_load_speed"] = tuple(desc["datasheet_no_load_speed"])
     from gramian_workshop import follow as fo
     import make_hold_leader as mh
     hands.HANDS[CHECK_KEY] = spec
@@ -535,7 +550,7 @@ def add(model, description, registry=None, replace=False, check_only=False, out=
              "source_model": os.path.abspath(model),
              "description_file": os.path.abspath(description),
              "written_by": "tools/add_hand.py"}
-        for k in ("datasheet_torque_Nm", "caveat"):
+        for k in ("datasheet_torque_Nm", "datasheet_no_load_speed", "caveat"):
             if desc.get(k):
                 e[k] = desc[k]
         tmp = entry + ".tmp"

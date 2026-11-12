@@ -62,7 +62,8 @@ TINY = 1e-9   # display only: an unbalanced torque below this is not printed
 TIE = 1e-6    # display only: residuals this close in size (relative) are called equal
 OWN = "the finger's own test"
 WHOLE = "the whole-hand force test"
-TESTS = ("reach", "facing", "overlap", "friction cone", "torque")   # follow.py's order
+TESTS = ("reach", "facing", "overlap", "friction cone", "torque",     # follow.py's order
+         "torque at speed")       # follow(torque_speed=True): "torque" at the derated limits
 # joint_residuals key -> what the report calls that test
 TORQUE_TESTS = collections.OrderedDict([
     ("finger", "the finger's own torque test"),
@@ -364,7 +365,8 @@ def brief(s):
                 if x["state"] == "amber" and _joint_detail(x):
                     d = "; ".join(b for b in (
                         "missed " + ", ".join(x["missed"]) if x.get("missed") else "",
-                        _largest(x, "finger") if "torque" in (x.get("missed") or ()) else "")
+                        _largest(x, "finger") if any(t in (x.get("missed") or ())
+                                                     for t in ("torque", "torque at speed")) else "")
                         if b)
                     if d:
                         bits.append(f"amber {_when(x)}: {d}")

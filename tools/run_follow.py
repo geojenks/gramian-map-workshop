@@ -135,6 +135,11 @@ def main():
     ap.add_argument("--speed-limit", type=float, default=None,
                     help="with --continuity: a hinge faster than this (rad/s) fails its finger "
                          "(follow(speed_limit=...)); none is sourced for any hand")
+    ap.add_argument("--torque-speed", action="store_true",
+                    help="with --continuity: derate each joint's torque limit by its fitted "
+                         "speed, from the stall limit at rest to 0 at the hand's published "
+                         "no-load speed (follow(torque_speed=True)); hands with no published "
+                         "speed are unchanged; the file name gets __torque_speed")
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "outputs"),
                     help="where to write the results (default outputs/)")
     a = ap.parse_args()
@@ -143,6 +148,9 @@ def main():
     other = False if a.no_other_contact else a.other_overlap_m
     if a.speed_limit is not None and not a.continuity:
         ap.error("--speed-limit goes with --continuity")
+    if a.torque_speed and not a.continuity:
+        ap.error("--torque-speed goes with --continuity (the speed it derates by is the "
+                 "continuity readout's)")
     want_scale = a.scale_margin or a.margins
     want_dist = a.disturbance_margin or a.margins
     fixed = None
@@ -175,12 +183,14 @@ def main():
         r = follow(hk, L, n_eval=a.frames, respace=a.respace, placement=placement,
                    allowed_overlap_m=a.allowed_overlap_m, other_contact=other,
                    margin=want_scale, disturbance=want_dist,
-                   continuity=a.continuity, speed_limit=a.speed_limit)
+                   continuity=a.continuity, speed_limit=a.speed_limit,
+                   torque_speed=a.torque_speed)
         r["elapsed_s"] = round(time.time() - t0, 1)
         if src:
             r["placement_reused_from"] = os.path.relpath(src, ROOT)                 if os.path.abspath(src).startswith(ROOT) else os.path.abspath(src)
         out = os.path.join(a.out_dir, f"follow_{hk}__{lid}" + ("__respaced" if a.respace else "")
                            + ("__continuity" if a.continuity else "")
+                           + ("__torque_speed" if a.torque_speed else "")
                            + (f"__{a.tag}" if a.tag else "") + ".json")
         with open(out, "w", encoding="utf-8") as f:
             json.dump(r, f, indent=1, default=float)

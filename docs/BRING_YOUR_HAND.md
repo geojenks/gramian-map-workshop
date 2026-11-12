@@ -69,6 +69,7 @@ What each line means:
 | `name` | no | A title in words, used in results. |
 | `fingers` | yes | One entry per finger: a label of your choice, then the name of the body that carries the fingertip. Two fingers or more. |
 | `datasheet_torque_Nm` | no | The largest joint torque in N.m and where it was published. It is used only when the model itself gives no torque limits. Leave it out if no figure is published. |
+| `datasheet_no_load_speed` | no | The joint motor's no-load speed, as published: the number, its unit (`rad/s`, `deg/s`, `rev/min` or `s/60deg`, seconds to turn 60 degrees) and where it was published, for example `[81, "rev/min", "maker's data sheet"]`. Used only by the torque-at-speed check (`run_follow.py --continuity --torque-speed`), which lowers each joint's torque limit as it moves faster, to nothing at this speed. Leave it out if no figure is published; the check then leaves the hand's limits as they are and says so. |
 | `caveat` | no | A sentence that should travel with the hand's results. |
 
 The label `thumb` is the one label with a meaning: the check lets the

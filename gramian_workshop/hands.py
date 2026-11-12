@@ -21,6 +21,10 @@ One rule for every hand, stated rather than tuned per hand:
                    actuator moment, or joint actuatorfrcrange; none if the
                    model gives none (the tool then says "strength not
                    checked", never an invented number)
+  no-load speed    never from the model: a published figure in its
+                   published unit, with its source ("datasheet_no_load_speed",
+                   read by no_load_rad_s; follow.py's torque at speed); none
+                   if none is published, and that check then says so
 """
 import os
 
@@ -40,7 +44,10 @@ HANDS = {
                     "thumb": "th_tip"},
         # the model has no torque limits; a reseller's V4 "max joint torque"
         # (Wonik publishes none): DATASHEET, used only where the model is silent
-        "datasheet_torque_Nm": (0.70, "Allegro V4 max joint torque (reseller page)")},
+        "datasheet_torque_Nm": (0.70, "Allegro V4 max joint torque (reseller page)"),
+        # the same page's "max joint speed", 0.11 s per 60 degrees; taken as
+        # the no-load speed (the page does not say at what load): DATASHEET
+        "datasheet_no_load_speed": (0.11, "s/60deg", "Allegro V4 max joint speed (reseller page)")},
     "shadow": {
         "name": "Shadow Dexterous Hand", "base": "menagerie",
         "file": "shadow_hand/right_hand.xml",
@@ -52,7 +59,11 @@ HANDS = {
         "file": "leap_hand/right_hand.xml",
         "fingers": {"index": "if_ds", "middle": "mf_ds", "ring": "rf_ds",
                     "thumb": "th_ds"},
-        "datasheet_torque_Nm": (0.93, "Dynamixel XC330-M288-T stall at 5 V (ROBOTIS e-manual)")},
+        "datasheet_torque_Nm": (0.93, "Dynamixel XC330-M288-T stall at 5 V (ROBOTIS e-manual)"),
+        # the same motor's no-load speed at the same voltage (the e-manual
+        # also gives 59 rev/min at 3.7 V and 97 at 6.0 V): DATASHEET
+        "datasheet_no_load_speed": (81.0, "rev/min",
+                                    "Dynamixel XC330-M288-T no-load speed at 5 V (ROBOTIS e-manual)")},
     "l20": {
         "name": "Linker L20", "base": "wave_manip",
         "file": "linker_l20_right/l20_right.xml",
@@ -139,6 +150,34 @@ HANDS = {
                    "level a(u), not newtons, and the simulated record's forces are "
                    "comparative; strength verdicts wait on the units ruling")},
 }
+
+
+# a published no-load speed's unit -> radians per second; the published
+# figure is stored as published and converted here, never by hand
+SPEED_UNITS = {
+    "rad/s": lambda v: v,
+    "deg/s": lambda v: np.radians(v),
+    "rev/min": lambda v: v * 2.0 * np.pi / 60.0,
+    "s/60deg": lambda v: (np.pi / 3.0) / v,       # seconds to turn 60 degrees
+}
+
+
+def no_load_rad_s(spec):
+    """The hand's published no-load joint speed in rad/s, with its record,
+    from spec["datasheet_no_load_speed"] = (value, unit, source): (rad/s,
+    {"value", "unit", "source", "rad_s"}); None when the spec has none.
+    ValueError for a unit not in SPEED_UNITS or a value not above 0."""
+    ds = spec.get("datasheet_no_load_speed")
+    if ds is None:
+        return None
+    value, unit, source = ds
+    if unit not in SPEED_UNITS:
+        raise ValueError(f'no-load speed unit "{unit}" is not one of {sorted(SPEED_UNITS)}')
+    value = float(value)
+    if not value > 0:
+        raise ValueError("no-load speed must be above 0")
+    w = float(SPEED_UNITS[unit](value))
+    return w, {"value": value, "unit": unit, "source": str(source), "rad_s": w}
 
 
 def model_path(key):
@@ -437,6 +476,14 @@ def added_entry(path):
         except (TypeError, ValueError, IndexError, KeyError):
             raise ValueError('"datasheet_torque_Nm" must be [a number in N.m, '
                              'where it was published]') from None
+    sp = e.get("datasheet_no_load_speed")
+    if sp is not None:
+        try:
+            spec["datasheet_no_load_speed"] = (float(sp[0]), str(sp[1]), str(sp[2]))
+            no_load_rad_s(spec)
+        except (TypeError, ValueError, IndexError, KeyError):
+            raise ValueError('"datasheet_no_load_speed" must be [a number above 0, its unit '
+                             f'(one of {sorted(SPEED_UNITS)}), where it was published]') from None
     if e.get("caveat"):
         spec["caveat"] = str(e["caveat"])
     return key, spec

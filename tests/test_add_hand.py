@@ -122,6 +122,8 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(add_hand.check_description(desc()), [])
         self.assertEqual(add_hand.check_description(
             desc(datasheet_torque_Nm=[0.7, "a data sheet"], caveat="early model")), [])
+        self.assertEqual(add_hand.check_description(
+            desc(datasheet_no_load_speed=[81, "rev/min", "a data sheet"])), [])
 
     def test_each_fault_is_said_in_words(self):
         for d, word in [
@@ -134,6 +136,9 @@ class TestDescription(unittest.TestCase):
             (desc(fingers={"thumb": 3, "index": "b_tip"}), "body name in quotes"),
             (desc(datasheet_torque_Nm=0.7), '"datasheet_torque_Nm"'),
             (desc(datasheet_torque_Nm=[-1, "x"]), '"datasheet_torque_Nm"'),
+            (desc(datasheet_no_load_speed=[81, "rev/min"]), '"datasheet_no_load_speed"'),
+            (desc(datasheet_no_load_speed=[81, "furlongs", "x"]), '"datasheet_no_load_speed"'),
+            (desc(datasheet_no_load_speed=[0, "rev/min", "x"]), '"datasheet_no_load_speed"'),
             (desc(colour="red"), '"colour" is not something'),
             ([1, 2], "one JSON object"),
         ]:
@@ -147,11 +152,14 @@ class TestDescription(unittest.TestCase):
 
 class TestAddedFolder(Folder):
     def test_an_entry_is_found_by_name_and_dropped_again(self):
-        self.entry("some_hand", datasheet_torque_Nm=[0.5, "a data sheet"])
+        self.entry("some_hand", datasheet_torque_Nm=[0.5, "a data sheet"],
+                   datasheet_no_load_speed=[60, "rev/min", "a data sheet"])
         self.assertEqual(hands.load_added(self.reg, warn=False), ["some_hand"])
         spec = hands.HANDS["some_hand"]
         self.assertEqual(spec["fingers"], {"thumb": "a_tip", "index": "b_tip"})
         self.assertEqual(spec["datasheet_torque_Nm"], (0.5, "a data sheet"))
+        self.assertEqual(spec["datasheet_no_load_speed"], (60.0, "rev/min", "a data sheet"))
+        self.assertAlmostEqual(hands.no_load_rad_s(spec)[0], 2.0 * 3.141592653589793)
         self.assertTrue(os.path.samefile(os.path.dirname(hands.model_path("some_hand")),
                                          os.path.join(self.reg, "some_hand")))
         os.remove(os.path.join(self.reg, "some_hand", hands.ADDED_ENTRY))

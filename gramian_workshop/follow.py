@@ -350,6 +350,44 @@ reason "speed" and carries no load (it is not at the contact in time), and
 set; without one, continuity changes which pose is found but fails
 nothing. The wrist search (wrist=True) re-chooses the shared joints every
 frame, so the two together are refused.
+
+Torque at speed (12 Nov; off by default, no new keys when off): a motor
+gives its full torque only at rest. follow(torque_speed=True) derates each
+joint's torque limit by the speed that joint is moving at, along a straight
+line from the stall torque (the limit the hand already carries, lim) at
+rest to zero at the hand's published no-load speed (hands.HANDS
+"datasheet_no_load_speed", stored as published and converted by
+hands.no_load_rad_s): the limit on the side driving the motion (torque in
+the sense of the velocity) becomes lim x max(0, 1 - |w| / w0); the braking
+side keeps its full limit; at or above the no-load speed the driving side
+is 0, never negative. The joint speed w is the continuity readout's fitted
+speed (follow(continuity=True) is required; the same +/- FIT_HALF_S window
+and quadratic fit as the inertia term), so a finger with no fit keeps its
+limits at rest. The derated limits tighten each actuator's net torque
+before _input_box, intersected with the rate_limit / lag_s box where that
+is on (where the two cannot both hold, the speed bound wins: the motor
+cannot give at this speed the torque it gave before, and the record says
+"link_overridden"), and so hold in the per-finger torque test, the
+redistribution and the scale and disturbance margins (not the apply limit),
+as that box does. Each finger whose torque test runs (it is in place and
+has a fitted speed) gets "torque_speed": per free joint, its speed, the
+no-load speed, the limit at rest and the limit at this speed; the bounds
+used ("u_lo", "u_hi"); and, where derated, "fails_only_at_speed": when its
+own torque test fails, whether it would have passed at the limits at rest
+(then "torque at speed" is in "missed" instead of "torque"; a finger that
+would have failed at rest too says "torque", as before). Each frame gets
+"torque_speed" with the derated fingers and "fails_only_at_speed", which
+covers the hand-wide redistribution alone: None where it passed or no
+finger was derated, else whether one more solve at the limits at rest
+would have held (a finger turned red by its own test is in its own
+record, not here). Applied only where every finger's limits are one per free joint
+(datasheet or joint-range limits; a hand with a speed figure but
+actuator-moment limits is refused) and a no-load speed is published:
+Allegro and LEAP here. Shadow, the L20s and the human hands have none, so
+with torque_speed=True their frames are unchanged and settings["torque_speed"]
+says why. Hinges only; a slide keeps its limits. Refused with
+top_speed=True, whose scaled speeds the derating does not follow (the
+trajectory check itself takes the derated boxes as it takes the link's).
 """
 import hashlib
 import inspect
@@ -361,7 +399,7 @@ import time
 
 import numpy as np
 
-from .hands import Hand, _mj
+from .hands import Hand, _mj, no_load_rad_s
 from .vendor import capability_core as cap
 
 REACH_GREEN_M = 0.002      # W20 readout (b)'s IK residual bar
@@ -1504,7 +1542,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            placement=None, joint_stiffness=None, margin=False, disturbance=False,
            apply=False, apply_free=False, inertia=False, rate_limit=None,
            lag_s=None, trajectory=False, allowed_overlap_m=None, other_contact=None,
-           top_speed=False, stop_reactions=None, continuity=False, speed_limit=None):
+           top_speed=False, stop_reactions=None, continuity=False, speed_limit=None,
+           torque_speed=False):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -1538,7 +1577,10 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     overlap"). continuity: carry each finger's pose from one checked frame
     to the next and report its jump and joint speed; speed_limit (rad/s):
     with continuity, fail a finger whose hinges move faster (module
-    docstring, "Continuity"). Both off by default."""
+    docstring, "Continuity"). Both off by default. torque_speed (needs
+    continuity): derate each joint's torque limit by its fitted speed, from
+    the stall limit at rest to zero at the hand's published no-load speed
+    (module docstring, "Torque at speed"); off by default."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -1553,7 +1595,8 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
                        top_speed,
                        STOP_REACTIONS if stop_reactions is None else bool(stop_reactions),
                        continuity=bool(continuity),
-                       speed_limit=None if speed_limit is None else float(speed_limit))
+                       speed_limit=None if speed_limit is None else float(speed_limit),
+                       torque_speed=bool(torque_speed))
     finally:
         IK_ITERS = old_iters
 
@@ -1596,19 +1639,37 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             respace, placement, kq, margin=True, disturbance=False, apply=False,
             apply_free=False, inertia=False, rate_limit=None, lag_s=None,
             trajectory=False, allow=None, top_speed=False, stop_reactions=True,
-            continuity=False, speed_limit=None):
+            continuity=False, speed_limit=None, torque_speed=False):
     allow = overlap_allowance(leader_json) if allow is None else allow
     a_c, a_o = allow["contact_m"], allow["other_m"]
     hand = Hand(hand_key)
     if continuity and wrist and hand.shared_joints:
         raise ValueError("continuity=True with wrist=True: the wrist is re-chosen at every "
                          "frame, so a carried finger pose is not continuous")
+    if torque_speed and not continuity:
+        raise ValueError("torque_speed=True needs continuity=True: the joint speed it derates "
+                         "by is the continuity readout's fitted speed")
+    if torque_speed and top_speed:
+        raise ValueError("torque_speed=True with top_speed=True: the derated limits are for "
+                         "the recorded speed and do not follow the scaled one")
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
     iks = [FingerIK(hand, f, allow) for f in hand.fingers]
     for ik in iks:
         ik.mu = float(leader_json.get("mu", 1.0))   # the cone of the equilibrium search
     posed_eq = any(ik.eq is not None for ik in iks)
+    # torque at speed (module docstring): the hand's published no-load speed
+    # in rad/s with its record, or None; applied only with a figure and
+    # limits one per free joint on every finger that has limits
+    ts_hand = no_load_rad_s(hand.spec) if torque_speed else None
+    ts_apply = torque_speed and ts_hand is not None
+    if ts_apply:
+        for f, ik in zip(hand.fingers, iks):
+            M = torque_limits(hand, f)[0]
+            if M is not None and not _one_per_joint(M, f, ik):
+                raise ValueError(f"torque_speed=True: {hand_key}'s {f.label} has limits on "
+                                 "actuator moments, not one per free joint; the no-load speed "
+                                 "cannot be applied joint by joint")
     if placement is None:
         # what this placement depends on, for reuse (placement_key); taken
         # before the search, so an edit to the code during a run is not in it
@@ -1677,6 +1738,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
         if link:
             dt = None if t_prev is None else tk - t_prev
         bounds = []             # each finger's input box (None: [0, 1]), with the stops' bound
+        bounds_rest = []        # the same before torque at speed derated it (equal when off)
         xs_hold = {}            # each finger's input use from its own hold test
         wq = _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made) if wrist else None
         c = leader.center(k, Rw, t)
@@ -1791,6 +1853,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             tau = None
             tau_motion = None
             box = None
+            box_rest = None         # the box before torque at speed derated it
+            ts = None               # this finger's torque-at-speed record, if any
             spring = None
             stops = _stops(hand, f, iks[a]) if stop_reactions and M is not None else []
             if M is not None:
@@ -1810,15 +1874,35 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                     item["spring"], spring = _spring_item(hand, f, iks[a], M, lim, Jf, pw,
                                                           springs[a])
                     tau = spring if tau is None else tau + spring
+                u_lo = u_hi = None
                 if dt is not None:
                     u_lo, u_hi = _reach(lim, u_state[a], dt, rate_limit, lag_s)
-                    box = _input_box(lim, cols[1].shape[1], u_lo, u_hi)
                     item["actuator_link"] = {
                         "u_prev": None if u_state[a] is None else u_state[a].tolist(),
                         "u_lo": u_lo.tolist(), "u_hi": u_hi.tolist()}
+                box_rest = _input_box(lim, cols[1].shape[1], u_lo, u_hi) if dt is not None else None
+                box = box_rest
+                if ts_apply and cont is not None and cont.get("speed") is not None:
+                    # torque at speed: the limits at this frame's fitted joint
+                    # speed, then the net-torque bounds the test may use
+                    ts = _speed_limits(lim, cont["speed"], ts_hand[0])
+                    s_lo, s_hi, over = _speed_box(ts, u_lo, u_hi)
+                    ts.pop("lo"), ts.pop("hi")      # arrays; "limit_at_speed" carries them
+                    ts["u_lo"], ts["u_hi"] = s_lo.tolist(), s_hi.tolist()
+                    ts["link_overridden"] = [ts["joints"][j]["joint"] for j in over]
+                    item["torque_speed"] = ts
+                    if ts["derated"]:
+                        box = _input_box(lim, cols[1].shape[1], s_lo, s_hi)
                 if stops:
                     box = _stop_box(cols[1].shape[1], len(stops), box)
+                    box_rest = _stop_box(cols[1].shape[1], len(stops), box_rest)
                 torque_ok, un, xh = _hold_solve(cols, fv, tau, box, kinds[a])
+                if ts is not None and ts["derated"]:
+                    # would it have held at the limits at rest? (a second
+                    # solve only where the derated one failed)
+                    ts["fails_only_at_speed"] = (False if torque_ok else
+                                                 bool(_hold_solve(cols, fv, tau, box_rest,
+                                                                  kinds[a])[0]))
                 if isinstance(un, dict):
                     # each joint type in its own unit (issue 21)
                     item["unbalanced_Nm"] = un["hinge"]
@@ -1832,8 +1916,10 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             if item.get("state") != "red":
                 item["state"] = "green" if (exact and in_cone and torque_ok) else "amber?"
             item["torque_checked"] = M is not None
+            at_speed = bool(item.get("torque_speed", {}).get("fails_only_at_speed"))
             item["missed"] = missed + [name for name, failed in (
-                ("friction cone", not in_cone), ("torque", not torque_ok)) if failed]
+                ("friction cone", not in_cone),
+                ("torque at speed" if at_speed else "torque", not torque_ok)) if failed]
             per.append(item)
             pts.append(cp)
             nrms.append(n_in)
@@ -1842,6 +1928,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             taus_motion.append(tau_motion)
             springs_on.append(spring)
             bounds.append(box)
+            bounds_rest.append(box_rest if ts is not None and ts["derated"] else box)
             # the apply limit counts inputs only: a spring resists but cannot
             # push, and a stop holds a joint but drives nothing (the
             # joint_stiffness and stop columns are dropped; the model's
@@ -1866,9 +1953,18 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             need_redistribute = True
         bnd = bounds if any(b is not None for b in bounds) else None
         stack = {}
+        derated = [x["finger"] for x in per if x.get("torque_speed", {}).get("derated")]
+        ts_frame = {"derated_fingers": derated, "fails_only_at_speed": None} if ts_apply else None
         if need_redistribute:
             ok, reason = _redistribute(pts, nrms, Js, c, W, mu, L, resid_tol,
                                        taus if use_taus else None, bnd, stack)
+            if not ok and derated:
+                # torque at speed: would the hand have held at the limits
+                # at rest? (one more solve, on failure only)
+                bnd_rest = bounds_rest if any(b is not None for b in bounds_rest) else None
+                ts_frame["fails_only_at_speed"] = bool(_redistribute(
+                    pts, nrms, Js, c, W, mu, L, resid_tol,
+                    taus if use_taus else None, bnd_rest, {})[0])
             # a red finger whose contact the force check could still use
             # makes the moment amber at best, not red, when the forces work
             verdict = ("green" if all_green else "amber") if ok else "red"
@@ -1934,6 +2030,7 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                        **({"disturbance_margin": dm} if disturbance else {}),
                        **({"apply_limit": al} if apply else {}),
                        **({"actuator_dt_s": dt} if link else {}),
+                       **({"torque_speed": ts_frame} if ts_frame is not None else {}),
                        **({"wrist_rad": wq} if wq is not None else {})})
     return {"hand": hand_key, "hand_name": hand.spec["name"],
             "leader": leader_json["id"], "placement_cost_mm": cost * 1e3,
@@ -1969,6 +2066,21 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                                       "jump, of it and the fixed starts (12 Nov, issue 12)",
                              "speed_fit_half_s": FIT_HALF_S, "speed_min_points": FIT_MIN_POINTS,
                              "speed_limit_rad_s": speed_limit}} if continuity else {}),
+                         # off: no key (module docstring, "Torque at speed")
+                         **({"torque_speed": {
+                             "applied": ts_apply,
+                             "curve": "each free joint's limit on the side driving its motion "
+                                      "falls on a straight line from the stall limit at rest "
+                                      "to 0 at the published no-load speed; the braking side "
+                                      "keeps its full limit (12 Nov)",
+                             "speed_from": "the continuity readout's fitted joint speed "
+                                           "(+/- FIT_HALF_S window)",
+                             "no_load": None if ts_hand is None else ts_hand[1],
+                             **({} if ts_apply else {
+                                 "why_not": "no no-load speed is published for this hand "
+                                            "(no datasheet_no_load_speed in its spec), so "
+                                            "every limit stays as at rest"})}}
+                            if torque_speed else {}),
                          # the task's allowed overlap, as used (module
                          # docstring, "Allowed overlap")
                          "allowed_overlap_m": a_c,
@@ -2695,6 +2807,73 @@ def _reach(lim, u_prev, dt, rate=None, lag=None):
         u_lo = np.maximum(u_lo, u * e + (1 - e) * lo)
         u_hi = np.minimum(u_hi, u * e + (1 - e) * hi)
     return u_lo, u_hi
+
+
+def _one_per_joint(M, finger, ik):
+    """True if torque_limits' M puts one actuator on each free joint, in
+    ik.free's order (a datasheet or joint-range limit), so a joint's speed
+    is its actuator's."""
+    M = np.asarray(M, float)
+    if M.shape != (len(ik.free), len(finger.joints)):
+        return False
+    for r, j in enumerate(ik.free):
+        row = np.zeros(len(finger.joints))
+        row[finger.joints.index(j)] = 1.0
+        if not np.array_equal(M[r], row):
+            return False
+    return True
+
+
+def _speed_limits(lim, speed, w0):
+    """Torque at speed (module docstring): each free joint's torque limits
+    at the speed it is moving. lim: rows [lo, hi] per free joint (lo <= 0
+    <= hi, the stall limits); speed: the continuity readout's "speed" rows
+    ({"joint", "kind", "rate"}, same order; rad/s for a hinge); w0: the
+    no-load speed, rad/s. On the side driving the motion (hi when the rate
+    is positive, lo when negative) the limit is scaled by max(0, 1 -
+    |rate| / w0); the other side, a joint at rest and a slide keep their
+    limits. Returns {"joints": [{joint, kind, rate_rad_s, no_load_rad_s,
+    speed_share, limit_rest, limit_at_speed}], "lo", "hi" (arrays),
+    "derated": whether any limit changed}."""
+    lim = np.asarray(lim, float)
+    lo, hi = lim[:, 0].copy(), lim[:, 1].copy()
+    rows = []
+    for a, (sp, (l0, h0)) in enumerate(zip(speed, lim)):
+        rate = float(sp["rate"])
+        share = None
+        if sp["kind"] == "hinge" and rate != 0.0:
+            share = abs(rate) / w0
+            f = max(0.0, 1.0 - share)
+            if rate > 0:
+                hi[a] = h0 * f
+            else:
+                lo[a] = l0 * f
+        rows.append({"joint": sp["joint"], "kind": sp["kind"], "rate_rad_s": rate,
+                     "no_load_rad_s": w0 if sp["kind"] == "hinge" else None,
+                     "speed_share": share, "limit_rest": [float(l0), float(h0)],
+                     "limit_at_speed": [float(lo[a]), float(hi[a])]})
+    return {"joints": rows, "lo": lo, "hi": hi,
+            "derated": bool(np.any(lo != lim[:, 0]) or np.any(hi != lim[:, 1]))}
+
+
+def _speed_box(ts, u_lo=None, u_hi=None):
+    """(u_lo, u_hi, overridden): the net-torque bounds the test may use, the
+    limits at speed (ts, from _speed_limits) intersected with the actuator
+    link's reachable range (u_lo, u_hi from _reach; None: none). Where the
+    two cannot both hold, the speed bound wins, since the motor cannot give
+    at this speed the torque the link would carry over; overridden lists
+    those actuators' indices."""
+    s_lo, s_hi = np.array(ts["lo"], float), np.array(ts["hi"], float)
+    if u_lo is None:
+        return s_lo, s_hi, []
+    lo, hi = np.maximum(s_lo, u_lo), np.minimum(s_hi, u_hi)
+    over = [int(a) for a in np.flatnonzero(lo > hi + 1e-12)]
+    for a in over:
+        if s_hi[a] < u_lo[a]:
+            lo[a] = hi[a] = s_hi[a]
+        else:
+            lo[a] = hi[a] = s_lo[a]
+    return lo, hi, over
 
 
 def _input_box(lim, ncols, u_lo, u_hi):
