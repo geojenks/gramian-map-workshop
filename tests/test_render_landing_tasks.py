@@ -48,11 +48,13 @@ class Views(unittest.TestCase):
                                      text, re.S).group(1).replace("<\\/", "</"))
             cls.views.append((v, text, d))
 
-    def test_every_task_result_on_the_page_has_a_view(self):
+    def test_every_view_is_of_a_task_result_on_the_page(self):
+        # a result stored after the folder was written has no view yet; the page says so
         shown = [r["file"] for pair, rs in m.data(ROOT)["results"].items()
                  if not pair.endswith("|" + m.OWN) for r in rs]
-        self.assertTrue(shown)
-        self.assertEqual(sorted(v["result"] for v in self.listed), sorted(shown))
+        self.assertTrue(self.listed)
+        for v in self.listed:
+            self.assertIn(v["result"], shown)
         for v in self.listed:
             if v.get("still"):
                 self.assertTrue(os.path.isfile(os.path.join(FOLDER, v["still"])))
