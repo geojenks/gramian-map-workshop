@@ -325,6 +325,31 @@ re-run in seconds. A reused placement's result carries the stored key.
 
 Simulation only; comparative, not predictive. The hand's own weight is not
 counted.
+
+Continuity (12 Nov, issue 12; follow(continuity=True), off by default so
+every stored result reproduces exactly): each touching finger's pose at a
+checked frame is solved from its own pose at the previous checked frame
+where it was solved, on the link it touched with then; that is the frame's
+pose when it ranks green, and otherwise the fixed starts are tried as well
+and the better kept, by class and then by the smaller jump
+(_carried_solve). The first touch starts from the fixed starts, as before.
+Each touching finger's record then gets "continuity": where the pose came
+from ("start": "carried" or "fresh", "link_changed"), the jump from the
+previous checked frame ("jump", per free joint, rad or m, and its average
+rate over "dt_s"; "spans_off" when the finger left the object between the
+two, so that jump is a lower bound on the motion it made), and its joint
+speed fitted to the leader's dense frames over +/- FIT_HALF_S with the link
+held, as the inertia fit does ("speed", per free joint, rad/s for a hinge
+and m/s for a slide; None with fewer than FIT_MIN_POINTS frames; see
+_continuity_item). The jump between checked frames depends on how dense
+they are (n_eval); the fitted speed does not, and it is the one tested.
+follow(speed_limit=w) (rad/s, hinges only; slides are reported, not
+tested) then fails a finger whose fitted speed exceeds it: it is red with
+reason "speed" and carries no load (it is not at the contact in time), and
+"speed" is in its "missed". No limit is sourced for any hand, so none is
+set; without one, continuity changes which pose is found but fails
+nothing. The wrist search (wrist=True) re-chooses the shared joints every
+frame, so the two together are refused.
 """
 import hashlib
 import inspect
@@ -1479,7 +1504,7 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
            placement=None, joint_stiffness=None, margin=False, disturbance=False,
            apply=False, apply_free=False, inertia=False, rate_limit=None,
            lag_s=None, trajectory=False, allowed_overlap_m=None, other_contact=None,
-           top_speed=False, stop_reactions=None):
+           top_speed=False, stop_reactions=None, continuity=False, speed_limit=None):
     """place: placement_search settings (n_frames, n_samples, iters,
     pad_step; default PLACE_FINE); ik_iters: IK iterations (default
     IK_ITERS); wrist: move the shared (wrist) joints at every moment;
@@ -1510,7 +1535,10 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
     has a "caveat" (record-built hands: the drive is not in newtons) passes
     it on in the result. allowed_overlap_m and other_contact override the
     leader's own (see overlap_allowance; module docstring, "Allowed
-    overlap")."""
+    overlap"). continuity: carry each finger's pose from one checked frame
+    to the next and report its jump and joint speed; speed_limit (rad/s):
+    with continuity, fail a finger whose hinges move faster (module
+    docstring, "Continuity"). Both off by default."""
     global IK_ITERS
     old_iters = IK_ITERS
     if ik_iters is not None:
@@ -1523,7 +1551,9 @@ def follow(hand_key, leader_json, middle=True, n_eval=None, seed=0,
                        rate_limit, lag_s, trajectory,
                        overlap_allowance(leader_json, allowed_overlap_m, other_contact),
                        top_speed,
-                       STOP_REACTIONS if stop_reactions is None else bool(stop_reactions))
+                       STOP_REACTIONS if stop_reactions is None else bool(stop_reactions),
+                       continuity=bool(continuity),
+                       speed_limit=None if speed_limit is None else float(speed_limit))
     finally:
         IK_ITERS = old_iters
 
@@ -1565,10 +1595,14 @@ def _wrist_search(hand, leader, cands, iks, assign, k, Rw, t, made, grid=5):
 def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist,
             respace, placement, kq, margin=True, disturbance=False, apply=False,
             apply_free=False, inertia=False, rate_limit=None, lag_s=None,
-            trajectory=False, allow=None, top_speed=False, stop_reactions=True):
+            trajectory=False, allow=None, top_speed=False, stop_reactions=True,
+            continuity=False, speed_limit=None):
     allow = overlap_allowance(leader_json) if allow is None else allow
     a_c, a_o = allow["contact_m"], allow["other_m"]
     hand = Hand(hand_key)
+    if continuity and wrist and hand.shared_joints:
+        raise ValueError("continuity=True with wrist=True: the wrist is re-chosen at every "
+                         "frame, so a carried finger pose is not continuous")
     leader = Leader(leader_json)
     cands = [pad_candidates(hand, f, middle) for f in hand.fingers]
     iks = [FingerIK(hand, f, allow) for f in hand.fingers]
@@ -1621,6 +1655,9 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
     # each finger's actuator torques at the previous checked frame (None: not
     # in the force check there, taken as 0), and that frame's time
     u_state, t_prev = [None] * len(hand.fingers), None
+    # continuity: each finger's last solved pose (frame, time, q, link) and
+    # whether it has been off the object since (None: not solved yet)
+    q_state = [None] * len(hand.fingers)
     frames = []
     # the hand against itself (reported only, issue 27): which finger each
     # body belongs to, the pairs already overlapping at the model's rest
@@ -1636,8 +1673,8 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
     for k in ks:
         made = leader.made(k)
         dt = None
+        tk = float(leader.frames[k]["t"])
         if link:
-            tk = float(leader.frames[k]["t"])
             dt = None if t_prev is None else tk - t_prev
         bounds = []             # each finger's input box (None: [0, 1]), with the stops' bound
         xs_hold = {}            # each finger's input use from its own hold test
@@ -1655,11 +1692,23 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             i = assign[a]
             if i not in made:
                 per.append({"finger": f.label, "station": i, "state": "off"})
+                if continuity and q_state[a] is not None:
+                    q_state[a]["off"] = True
                 continue
             p, nrm, _ = leader.station(k, i, Rw, t)
-            (b, pl, nl), r_ = iks[a].best_tangent(p, c, leader.R_obj, middle=middle,
-                                                  force=leader.force(k, i, Rw))
+            if continuity:
+                (b, pl, nl), r_, cont = _carried_solve(iks[a], q_state[a], p, c, leader.R_obj,
+                                                      middle, leader.force(k, i, Rw))
+            else:
+                (b, pl, nl), r_ = iks[a].best_tangent(p, c, leader.R_obj, middle=middle,
+                                                      force=leader.force(k, i, Rw))
+                cont = None
             q, res, face, pw, nw, pen, pc, po = r_[:8]
+            if continuity:
+                cont = _continuity_item(hand, iks[a], leader, k, i, Rw, t, b, q, tk,
+                                        q_state[a], cont, speed_limit)
+                q_state[a] = {"k": int(k), "t": tk, "q": np.asarray(q, float).copy(),
+                              "body": int(b), "off": False}
             # a soft pad pressed the allowed overlap into the object touches
             # over a patch, not a point (Hertz: radius sqrt(2 R_eff delta));
             # the leader's contact anywhere in it is reached (26 Oct)
@@ -1691,6 +1740,13 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
             missed = [name for name, failed in (
                 ("reach", res > REACH_GREEN_M + patch), ("facing", face > SIDE_GREEN_DEG),
                 ("overlap", o_rank != 0)) if failed]
+            # a hand too slow to be at this contact in time is not at it
+            # (continuity with speed_limit; module docstring, "Continuity")
+            too_fast = cont is not None and cont.get("within_limit") is False
+            if too_fast:
+                missed.append("speed")
+            if cont is not None:
+                item["continuity"] = cont
             item["missed"] = missed
             if not near:
                 item["state"] = "red"
@@ -1704,6 +1760,12 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                     per.append(item)
                     continue
                 item["used_in_force_check"] = True
+            if too_fast:
+                item["state"] = "red"
+                item["reason"] = item.get("reason", "speed")
+                item.pop("used_in_force_check", None)
+                per.append(item)
+                continue
             # actual contact: the pad point projected onto the object
             v = pw - c
             cp = c + leader.R_obj * v / np.linalg.norm(v)
@@ -1900,6 +1962,13 @@ def _follow(hand_key, leader_json, middle, n_eval, seed, resid_tol, place, wrist
                          "inertia": inertia,
                          **({"fit_half_s": FIT_HALF_S} if inertia else {}),
                          "rate_limit_per_s": rate_limit, "lag_s": lag_s,
+                         # off: no key, so earlier outputs reproduce exactly
+                         **({"continuity": {
+                             "start": "the previous checked frame's pose and link when that "
+                                      "solve is green, else the better by class, then by "
+                                      "jump, of it and the fixed starts (12 Nov, issue 12)",
+                             "speed_fit_half_s": FIT_HALF_S, "speed_min_points": FIT_MIN_POINTS,
+                             "speed_limit_rad_s": speed_limit}} if continuity else {}),
                          # the task's allowed overlap, as used (module
                          # docstring, "Allowed overlap")
                          "allowed_overlap_m": a_c,
@@ -2076,6 +2145,72 @@ def _free_map(hand, finger, ik):
             E[finger.joints.index(dep), ik.free.index(master)] = \
                 cf[1] + 2 * cf[2] * x + 3 * cf[3] * x ** 2 + 4 * cf[4] * x ** 3
     return E
+
+
+def _carried_solve(ik, st, p, c, R, middle, force):
+    """The frame's pose for a finger whose pose is carried (module
+    docstring, "Continuity"). st: the finger's state from its last solved
+    frame (None: none yet, so the fixed starts, as best_tangent). The
+    previous frame's link is solved first from the previous pose; that is
+    the pose when it ranks green. Otherwise the fixed starts are tried too
+    (best_tangent) and the better kept: by class (green, amber, red), then
+    by the jump from the previous pose (the carried one on a tie). Returns
+    ((body, None, None), result, note) with note = {"start": "carried" |
+    "fresh", "link_held": whether the previous link was solved}."""
+    if st is None:
+        bb, r = ik.best_tangent(p, c, R, middle=middle, force=force)
+        return bb, r, {"start": "fresh", "link_held": False}
+    q0 = np.asarray(st["q"], float)
+    held = st["body"] in ik.proxies(middle)
+    r0 = ik.solve_tangent(st["body"], p, c, R, q0=q0, force=force) if held else None
+    if r0 is not None and ik.rank(r0)[0] == 0:
+        return (st["body"], None, None), r0, {"start": "carried", "link_held": True}
+    bb, r1 = ik.best_tangent(p, c, R, middle=middle, force=force)
+    if r0 is not None:
+        k0 = (ik.rank(r0)[0], float(np.linalg.norm(np.asarray(r0[0], float) - q0)))
+        k1 = (ik.rank(r1)[0], float(np.linalg.norm(np.asarray(r1[0], float) - q0)))
+        if k0 <= k1:
+            return (st["body"], None, None), r0, {"start": "carried", "link_held": True}
+    return bb, r1, {"start": "fresh", "link_held": held}
+
+
+def _continuity_item(hand, ik, leader, k, i, Rw, t, body, q, tk, st, note, speed_limit):
+    """The finger's continuity readout at frame k (module docstring,
+    "Continuity"): where its pose came from (note, from _carried_solve),
+    the jump from its previous checked frame (st; None: none), and its
+    joint speed from the leader's dense frames (_window_q over +/-
+    FIT_HALF_S with the link held, as the inertia fit; None with fewer than
+    FIT_MIN_POINTS frames). A jump over an off spell is a lower bound on
+    the motion the finger made. speed_limit (rad/s): "within_limit" is
+    False when a hinge's fitted speed exceeds it (None with no limit or no
+    fit); slides are reported, never tested. Leaves ik.d at an arbitrary
+    pose."""
+    rows = _joint_rows(hand, ik)
+    out = {**note, "from_frame": None if st is None else int(st["k"]),
+           "dt_s": None if st is None else float(tk - st["t"]),
+           "spans_off": False if st is None else bool(st["off"]),
+           "link_changed": False if st is None else int(body) != int(st["body"])}
+    if st is not None:
+        dq = np.asarray(q, float) - np.asarray(st["q"], float)
+        dts = out["dt_s"]
+        out["jump"] = [{**r, "dq": float(d), "rate": None if not dts else float(d / dts)}
+                       for r, d in zip(rows, dq)]
+    dtw, Q = _window_q(ik, leader, k, i, Rw, t, body, q)
+    out["speed_points"] = int(len(dtw))
+    if len(dtw) >= FIT_MIN_POINTS:
+        qd = _local_derivs(dtw, Q)[0][ik.qadr]
+        out["speed"] = [{**r, "rate": float(v)} for r, v in zip(rows, qd)]
+        hinges = [abs(float(v)) for r, v in zip(rows, qd) if r["kind"] == "hinge"]
+        slides = [abs(float(v)) for r, v in zip(rows, qd) if r["kind"] == "slide"]
+        out["max_hinge_rad_s"] = max(hinges) if hinges else None
+        out["max_slide_m_s"] = max(slides) if slides else None
+    else:
+        out["speed"] = None
+        out["max_hinge_rad_s"] = out["max_slide_m_s"] = None
+    out["limit_rad_s"] = speed_limit
+    out["within_limit"] = (None if speed_limit is None or out["max_hinge_rad_s"] is None
+                           else bool(out["max_hinge_rad_s"] <= speed_limit))
+    return out
 
 
 def _local_derivs(dt, Q):

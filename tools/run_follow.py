@@ -128,12 +128,21 @@ def main():
                     help="give each frame its disturbance margin (follow(disturbance=True))")
     ap.add_argument("--margins", action="store_true",
                     help="both margins: --scale-margin and --disturbance-margin")
+    ap.add_argument("--continuity", action="store_true",
+                    help="carry each finger's pose from frame to frame and report its jump "
+                         "and joint speed (follow(continuity=True)); the file name gets "
+                         "__continuity")
+    ap.add_argument("--speed-limit", type=float, default=None,
+                    help="with --continuity: a hinge faster than this (rad/s) fails its finger "
+                         "(follow(speed_limit=...)); none is sourced for any hand")
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "outputs"),
                     help="where to write the results (default outputs/)")
     a = ap.parse_args()
     if a.no_other_contact and a.other_overlap_m is not None:
         ap.error("--no-other-contact and --other-overlap-m contradict each other")
     other = False if a.no_other_contact else a.other_overlap_m
+    if a.speed_limit is not None and not a.continuity:
+        ap.error("--speed-limit goes with --continuity")
     want_scale = a.scale_margin or a.margins
     want_dist = a.disturbance_margin or a.margins
     fixed = None
@@ -165,11 +174,14 @@ def main():
         t0 = time.time()
         r = follow(hk, L, n_eval=a.frames, respace=a.respace, placement=placement,
                    allowed_overlap_m=a.allowed_overlap_m, other_contact=other,
-                   margin=want_scale, disturbance=want_dist)
+                   margin=want_scale, disturbance=want_dist,
+                   continuity=a.continuity, speed_limit=a.speed_limit)
         r["elapsed_s"] = round(time.time() - t0, 1)
         if src:
             r["placement_reused_from"] = os.path.relpath(src, ROOT)                 if os.path.abspath(src).startswith(ROOT) else os.path.abspath(src)
-        out = os.path.join(a.out_dir, f"follow_{hk}__{lid}" + ("__respaced" if a.respace else "") + (f"__{a.tag}" if a.tag else "") + ".json")
+        out = os.path.join(a.out_dir, f"follow_{hk}__{lid}" + ("__respaced" if a.respace else "")
+                           + ("__continuity" if a.continuity else "")
+                           + (f"__{a.tag}" if a.tag else "") + ".json")
         with open(out, "w", encoding="utf-8") as f:
             json.dump(r, f, indent=1, default=float)
         v = collections.Counter(fr["verdict"] for fr in r["frames"])
