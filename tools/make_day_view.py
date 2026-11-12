@@ -12,7 +12,9 @@ the day folder's own logs (outputs/day_view_12nov/logs) for the verdict
 steps, which were run again on 12 Nov so that the pages are the ones the
 tool writes now. The pictures are of the real pages, taken by --capture
 with a headless Edge or Chrome into the day folder's shots/; --capture
-never writes over a picture. The prose is in SCREENS below and carries no
+never writes over a picture. The 12 Nov steps wrote to a scratch folder;
+their files were then copied into the day folder and the logs' paths
+rewritten to match (logs/verdicts.sh is the script that ran). The prose is in SCREENS below and carries no
 numbers of its own.
 
 To change the page, edit SCREENS. --inline puts the pictures inside the
@@ -313,7 +315,10 @@ def build(day=DAY, run=RUN, inline=False):
      '<h1>What a participant sees on the day</h1>'
      '<p class="lede">The screens of the workshop tool as it is now, in the order a '
      'participant meets them. Each is labelled by where it appears. Most of the day '
-     'is a terminal; the pages come at the start and at the verdict.</p>' + count)
+     'is a terminal; the pages come at the start and at the verdict.</p>'
+     '<p class="lede">The screens under The verdict, the Gramian figure and the '
+     'model-file hand were run on 12 Nov. The other terminal screens are the stored '
+     'run of 11 Nov; the code behind those steps has not changed since.</p>' + count)
     foot = ('<footer><p>Made by <code>tools/make_day_view.py</code> from %s and %s. '
             'The commands behind every screen, with the files they read and wrote, '
             'are on the walkthrough page of the same run.</p></footer>'
