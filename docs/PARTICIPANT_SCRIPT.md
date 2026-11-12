@@ -10,8 +10,16 @@ clone on 12 Nov 2026 by `tools/run_participant_script.py`, with one
 environment (the hands extra: numpy and MuJoCo, nothing else). What each
 printed is in `outputs/participant_script_12nov/log.txt`, and every line
 under "You should see" is copied from that log. The install commands of
-step 1 download from the internet and were not run for this page; the
-repository's install check runs them on clean machines.
+step 1 download from the internet and were not run for this page. The
+repository's install check runs the same two install lines on clean Linux
+and Windows machines, and that step passes there; it is the later steps of
+that check that fail (issue 37). The lines under "You should see" are from
+Windows, so paths in them have backslashes.
+
+Use a fresh clone, not a checkout you work in. The page can be followed
+once in a clone: the first demo writes over the tracked
+`outputs/cup_hold.*` files, and the hold tool of step 5 will not write
+over a hold that is already there.
 
 Some things on the way do not work as a newcomer would expect. They are
 marked where they come up and listed at the end.
@@ -248,7 +256,10 @@ python tools/add_hand.py --remove my_allegro_left
 ```
 
 The first lists the hands you added. The others take them out again; the
-task files and results stay where they are.
+task files and results stay where they are. To follow the page again,
+start from a new clone, or delete the `hold_*` files it wrote in
+`data/leaders/` and `outputs/` and run `git checkout outputs/cup_hold.html
+outputs/cup_hold.json outputs/cup_hold.txt`.
 
 ## What does not work today
 
