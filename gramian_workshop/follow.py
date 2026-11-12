@@ -322,6 +322,11 @@ per-frame check out), and how long the search took, "placement_search_s".
 tools/run_follow.py --reuse-placement re-scores a stored placement whose
 key matches instead of searching, so a change to the check alone is
 re-run in seconds. A reused placement's result carries the stored key.
+Keys are compared on the hand-entry fields the search reads
+(PLACEMENT_SPEC_FIELDS; 12 Nov, issue 40): a field added to the hand's
+entry for the per-frame check (the published no-load speed, say) leaves
+a stored placement reusable; placement_key_differences names the fields
+two keys differ in.
 
 Simulation only; comparative, not predictive. The hand's own weight is
 counted only with follow(inertia=True) ("Weight" below); off, it is not.
@@ -1515,7 +1520,13 @@ def placement_key(hand, leader_json, seed=0, respace=False, place=None, allow=No
     against), and its code version (a hash of _search_code, with the mujoco
     and numpy versions). hand: a Hand, or a hand key (the model is then
     loaded); place: as follow(place=...); allow: overlap_allowance(...)
-    (default: the leader's own)."""
+    (default: the leader's own).
+
+    The whole hand entry is stored, but same_placement_key compares only
+    the fields of it the search reads (PLACEMENT_SPEC_FIELDS). The model
+    hash is of the compiled model buffer, which holds the absolute paths
+    of the model's mesh files: the same files at another folder, or the
+    folder spelt with the other slash, give another hash."""
     mj = _mj()
     if not isinstance(hand, Hand):
         hand = Hand(hand)
@@ -1535,12 +1546,56 @@ def placement_key(hand, leader_json, seed=0, respace=False, place=None, allow=No
             "mujoco": getattr(mj, "__version__", None), "numpy": np.__version__}
 
 
+# the fields of a hand's entry (hands.HANDS[key]; placement_key's
+# "hand_spec") that the placement search reads: base and file name the
+# model (hands.model_path), fingers name the fingertip bodies (hands.Hand),
+# datasheet_torque_Nm is read by torque_limits through the IK's
+# equilibrium check. Every other field (name, caveat, the published
+# no-load speed, ...) serves the per-frame check or the reader, so a key
+# stored before such a field was added still matches. A new read of the
+# entry by the search changes _search_code's hash as well; the test
+# tests/test_follow_placement_reuse.py checks this list against that code.
+PLACEMENT_SPEC_FIELDS = ("base", "file", "fingers", "datasheet_torque_Nm")
+
+
+def _comparable_placement_key(k):
+    """`k` as same_placement_key compares it: through JSON (as a result
+    stores it), with hand_spec cut to PLACEMENT_SPEC_FIELDS."""
+    k = json.loads(json.dumps(k, default=float))
+    spec = k.get("hand_spec")
+    if isinstance(spec, dict):
+        k["hand_spec"] = {f: spec[f] for f in PLACEMENT_SPEC_FIELDS if f in spec}
+    return k
+
+
 def same_placement_key(a, b):
-    """Whether two placement keys (as results store them) match."""
+    """Whether two placement keys (as results store them) match: equal in
+    every field, with the hand entry compared on PLACEMENT_SPEC_FIELDS
+    alone."""
     if not a or not b:
         return False
-    return (json.dumps(a, sort_keys=True, default=float)
-            == json.dumps(b, sort_keys=True, default=float))
+    return (json.dumps(_comparable_placement_key(a), sort_keys=True)
+            == json.dumps(_comparable_placement_key(b), sort_keys=True))
+
+
+def placement_key_differences(stored, current):
+    """The fields two placement keys differ in, as same_placement_key sees
+    them: a sorted list of (field, stored value, current value), a missing
+    field's value None; "hand_spec.fingers", "place.n_samples" for the
+    parts of a dict-valued field. Empty when they match. A missing key
+    (None) counts as having no fields."""
+    a = _comparable_placement_key(stored or {})
+    b = _comparable_placement_key(current or {})
+    out = []
+    for f in sorted(set(a) | set(b)):
+        va, vb = a.get(f), b.get(f)
+        if isinstance(va, dict) and isinstance(vb, dict):
+            for g in sorted(set(va) | set(vb)):
+                if va.get(g) != vb.get(g):
+                    out.append((f"{f}.{g}", va.get(g), vb.get(g)))
+        elif va != vb:
+            out.append((f, va, vb))
+    return out
 
 
 # ----------------------------------------------------------------------

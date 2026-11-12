@@ -20,7 +20,9 @@ The placement is searched for afresh, unless:
                       is looked for in --placement-from (a result file or a
                       folder of them), else in --out-dir. Its placement and
                       assignment are then re-scored, which takes seconds;
-                      with no match, the search runs as usual
+                      with no match, the search runs as usual, and a stored
+                      result for the same hand and leader whose key differs
+                      is reported with the fields that differ first
   --placement-from    alone: that result's placement and assignment are
                       re-scored whatever its key (one hand only); a key
                       that differs from this run's is reported
@@ -47,7 +49,7 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from gramian_workshop.follow import (follow, overlap_allowance, placement_key,  # noqa: E402
-                                     same_placement_key)
+                                     placement_key_differences, same_placement_key)
 from gramian_workshop import failures  # noqa: E402
 from gramian_workshop.hands import HANDS  # noqa: E402
 
@@ -55,20 +57,81 @@ LEADERS = {"big": "w10_cup_physical_x0.3_a0.15_sl0.3t_n{n}",
            "tennis": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n{n}"}
 
 
-def stored_placement(where, hk, key):
-    """(path, result) of the first result file in `where` (a file or a
-    folder of follow_<hand>__*.json) whose placement key is `key`, or
-    (None, None)."""
-    paths = [where] if os.path.isfile(where) else         sorted(glob.glob(os.path.join(where, f"follow_{hk}__*.json")))
+def _stored_results(where, hk):
+    """(path, result) of each readable result file in `where` (a file or a
+    folder of follow_<hand>__*.json) for hand `hk`, in path order."""
+    paths = [where] if os.path.isfile(where) else sorted(
+        glob.glob(os.path.join(where, f"follow_{hk}__*.json")))
+    out = []
     for p in paths:
         try:
             with open(p, encoding="utf-8") as f:
                 r = json.load(f)
         except (OSError, ValueError):
             continue
-        if r.get("hand") == hk and same_placement_key(r.get("placement_key"), key):
+        if isinstance(r, dict) and r.get("hand") == hk:
+            out.append((p, r))
+    return out
+
+
+def stored_placement(where, hk, key):
+    """(path, result) of the first result file in `where` (a file or a
+    folder of follow_<hand>__*.json) whose placement key is `key`, or
+    (None, None)."""
+    for p, r in _stored_results(where, hk):
+        if same_placement_key(r.get("placement_key"), key):
             return p, r
     return None, None
+
+
+def stored_placement_mismatches(where, hk, leader_id, key):
+    """The stored results in `where` for hand `hk` on leader `leader_id`
+    whose placement key is not `key`: a list of (path, differences,
+    placement_search_s), differences as placement_key_differences gives
+    them (empty for a result with no key at all), in path order. What
+    --reuse-placement reports before it searches."""
+    out = []
+    for p, r in _stored_results(where, hk):
+        if r.get("leader") != leader_id or same_placement_key(r.get("placement_key"), key):
+            continue
+        k = r.get("placement_key")
+        out.append((p, placement_key_differences(k, key) if k else [],
+                    r.get("placement_search_s")))
+    return out
+
+
+def _show(v):
+    """A key field's value for a message: compact JSON, cut when long."""
+    if v is None:
+        return "absent"
+    t = json.dumps(v, default=float)
+    return t if len(t) <= 72 else t[:69] + "..."
+
+
+def report_mismatches(hk, misses):
+    """Print why each stored result in `misses` (stored_placement_mismatches)
+    is not reused: the key fields that differ, stored then current, once
+    per distinct set of differences; then how long its search took."""
+    seen = {}
+    for p, diffs, t_s in misses:
+        seen.setdefault(json.dumps(diffs, default=float), []).append((p, t_s))
+    for diffs_json, files in seen.items():
+        diffs = json.loads(diffs_json)
+        names = ", ".join(os.path.relpath(p, ROOT) if os.path.abspath(p).startswith(ROOT)
+                          else p for p, _ in files)
+        print(f"{hk}: {names}: a placement for this hand and leader, but "
+              + ("its placement key is missing" if not diffs else
+                 "its placement key differs in " + ", ".join(f for f, _, _ in diffs)),
+              flush=True)
+        for f, a, b in diffs:
+            print(f"{hk}:   {f}: stored {_show(a)}; now {_show(b)}", flush=True)
+            if f == "hand_model_sha256":
+                print(f"{hk}:   (the model hash covers the absolute paths of the model's mesh "
+                      "files: the same hand files at another folder, or the folder spelt "
+                      "with the other slash, hash differently)", flush=True)
+        took = [t for _, t in files if t is not None]
+        if took:
+            print(f"{hk}:   its search took {max(took):.0f} s", flush=True)
 
 
 def smallest_margin(frames, key):
@@ -176,14 +239,24 @@ def main():
             key = placement_key(hk, L, respace=a.respace,
                                 allow=overlap_allowance(L, a.allowed_overlap_m, other))
         if fixed is not None and not same_placement_key(fixed.get("placement_key"), key):
+            diffs = (placement_key_differences(fixed["placement_key"], key)
+                     if fixed.get("placement_key") else [])
             print(f"{hk}: note: {a.placement_from} "
-                  + ("has no placement key" if not fixed.get("placement_key") else
-                     "was placed by a different search, hand, leader or options")
+                  + ("has no placement key" if not diffs else
+                     "was placed by a different search, hand, leader or options (its key "
+                     "differs in " + ", ".join(f for f, _, _ in diffs) + ")")
                   + "; re-scoring its placement anyway", flush=True)
+            for f, s_, c_ in diffs:
+                print(f"{hk}:   {f}: stored {_show(s_)}; now {_show(c_)}", flush=True)
         if a.reuse_placement:
-            src, placement = stored_placement(a.placement_from or a.out_dir, hk, key)
-            print(f"{hk}: " + (f"reusing the placement in {src}" if src else
-                               "no stored placement matches; searching"), flush=True)
+            where = a.placement_from or a.out_dir
+            src, placement = stored_placement(where, hk, key)
+            if src:
+                print(f"{hk}: reusing the placement in {src}", flush=True)
+            else:
+                report_mismatches(hk, stored_placement_mismatches(where, hk, lid, key))
+                print(f"{hk}: no stored placement matches; starting a full placement search",
+                      flush=True)
         t0 = time.time()
         r = follow(hk, L, n_eval=a.frames, respace=a.respace, placement=placement,
                    allowed_overlap_m=a.allowed_overlap_m, other_contact=other,
