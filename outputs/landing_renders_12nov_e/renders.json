@@ -1,0 +1,49 @@
+{
+ "views": [
+  {
+   "hand": "allegro",
+   "moments": 40,
+   "result": "outputs/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json",
+   "shown": 1,
+   "still": "still_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.png",
+   "task": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix",
+   "view": "view_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.html"
+  },
+  {
+   "hand": "leap",
+   "moments": 40,
+   "result": "outputs/follow_leap__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json",
+   "shown": 1,
+   "still": "still_leap__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.png",
+   "task": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix",
+   "view": "view_leap__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.html"
+  },
+  {
+   "hand": "shadow",
+   "moments": 40,
+   "result": "outputs/follow_shadow__tennis_new_cup_take3_derived__nframesfix.json",
+   "shown": 1,
+   "still": "still_shadow__tennis_new_cup_take3_derived__nframesfix.png",
+   "task": "tennis_new_cup_take3_derived__nframesfix",
+   "view": "view_shadow__tennis_new_cup_take3_derived__nframesfix.html"
+  },
+  {
+   "hand": "shadow",
+   "moments": 40,
+   "result": "outputs/follow_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix.json",
+   "shown": 1,
+   "still": "still_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix.png",
+   "task": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix",
+   "view": "view_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix.html"
+  },
+  {
+   "hand": "wall_x3_ring",
+   "moments": 40,
+   "result": "outputs/follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json",
+   "shown": 1,
+   "still": "still_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.png",
+   "task": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix",
+   "view": "view_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.html"
+  }
+ ]
+}

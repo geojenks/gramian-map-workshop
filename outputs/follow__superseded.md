@@ -43,8 +43,9 @@ Superseded, need a fresh placement search: 39
 - `outputs/follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__provisional.json`: stored w10 cup leader, not a __contactfix copy; provisional (before equilibrium posing)
 - `outputs/follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__provisional.json`: stored w10 cup leader, not a __contactfix copy; provisional (before equilibrium posing)
 
-Not superseded by these rules: 40
+Not superseded by these rules: 42
 - `outputs/follow_allegro__hold_allegro__self__fixed.json`
+- `outputs/follow_allegro__hold_allegro__self__selfoverlapfix__continuity__inertia__hold.json`
 - `outputs/follow_allegro__hold_allegro__self__selfoverlapfix__fixed.json`
 - `outputs/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json`
 - `outputs/follow_allegro_left__hold_allegro_left__self__selfoverlapfix__fixed.json`
@@ -80,6 +81,7 @@ Not superseded by these rules: 40
 - `outputs/follow_leap__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json`
 - `outputs/follow_shadow__hold_shadow__self__fixed.json`
 - `outputs/follow_shadow__hold_shadow__self__selfoverlapfix__fixed.json`
+- `outputs/follow_shadow__tennis_new_cup_take3_derived__nframesfix.json`
 - `outputs/follow_shadow__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix.json`
 - `outputs/follow_wall_x3_ring__hold_wall_x3_ring__self__fixed.json`
 - `outputs/follow_wall_x3_ring__hold_wall_x3_ring__self__selfoverlapfix__fixed.json`

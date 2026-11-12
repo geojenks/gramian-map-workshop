@@ -67,7 +67,7 @@ OWN = "own_hold"
 LEFT_OUT = ("george",)
 CURRENT = os.path.join("outputs", "follow__superseded.md")
 PICTURES = os.path.join("outputs", "landing_pictures_12nov")
-RENDERS = os.path.join("outputs", "landing_renders_12nov_d")
+RENDERS = os.path.join("outputs", "landing_renders_12nov_e")
 TASK_VIEWS = os.path.join("outputs", "landing_task_views_12nov")
 
 # where a hand's model comes from (the `base` field of the HANDS table)

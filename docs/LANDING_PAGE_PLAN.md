@@ -8,9 +8,10 @@ is the page they do it from.
 The mock-up is `tools/make_landing_mockup.py`. Its pictures come from
 `tools/render_landing_pictures.py` (`outputs/landing_pictures_12nov/`), and
 its views of the target beside the attempt from
-`tools/render_landing_tasks.py` (`outputs/landing_renders_12nov_d/`; the
-views made before the Shadow result on the five-point cup wave came back
-are kept in `outputs/landing_renders_12nov_c/`, those before the LEAP
+`tools/render_landing_tasks.py` (`outputs/landing_renders_12nov_e/`; the
+views made before the Shadow result on the tennis task came back are kept
+in `outputs/landing_renders_12nov_d/`, those before the Shadow result on
+the five-point cup wave in `outputs/landing_renders_12nov_c/`, those before the LEAP
 result in `outputs/landing_renders_12nov_b/`, and those before the Allegro
 result in `outputs/landing_renders_12nov/`). A view of a result that stores no
 supplied force says so; the check stores one only for a finger with fewer
@@ -20,8 +21,10 @@ no hand chosen (`outputs/landing_task_views_12nov/`): one page for each task
 card, stepping through the moments the check looks at, and a picture for
 each task. Each task card links to its page, and the answer shows the
 picture while no hand is chosen or the pair has no stored result. The
-pages are in `outputs/landing_mockup_12nov_g/`; the pages before the
-Shadow result on the five-point cup wave are kept in
+pages are in `outputs/landing_mockup_12nov_h/`; the pages before the
+Shadow result on the tennis task are kept in
+`outputs/landing_mockup_12nov_g/`, those before the
+Shadow result on the five-point cup wave in
 `outputs/landing_mockup_12nov_f/`, those before the
 LEAP result on the cup wave in `outputs/landing_mockup_12nov_e/`,
 those before the Allegro result in `outputs/landing_mockup_12nov_d/`,
