@@ -74,15 +74,18 @@ class Page(unittest.TestCase):
 
     def test_builds_without_pictures_and_shows_those_given(self):
         with tempfile.TemporaryDirectory() as tmp:
-            bare = m.build(ROOT, pictures_folder=tmp, renders_folder=tmp)
+            bare = m.build(ROOT, pictures_folder=tmp, renders_folder=tmp, task_views_folder=tmp)
         self.assertIn("no picture yet", bare)
         self.assertNotIn("data:image", bare)
         self.assertIn('<script type="application/json" id="renders">{}</script>', bare)
+        self.assertIn('<script type="application/json" id="taskviews">{}</script>', bare)
+        self.assertNotIn('class="tview"', bare)
         folder = os.path.join(ROOT, m.PICTURES)
         with io.open(os.path.join(folder, "pictures.json"), encoding="utf-8") as f:
             listed = json.load(f)
         self.assertEqual(self.page.count("data:image/png;base64,"),
-                         len(listed["hands"]) + (1 if listed.get("atlas") else 0) + len(self.stills()))
+                         len(listed["hands"]) + (1 if listed.get("atlas") else 0) + len(self.stills())
+                         + len([v for c in self.task_views() for v in c["variants"] if v.get("still")]))
         with io.open(os.path.join(ROOT, "data", "records", "MANIFEST.json"), encoding="utf-8") as f:
             self.assertEqual(self.d["records"], len(json.load(f)["records"]))
         self.assertIn("There are %d records" % self.d["records"], self.page)
@@ -90,6 +93,24 @@ class Page(unittest.TestCase):
     def stills(self):
         with io.open(os.path.join(ROOT, m.RENDERS, "renders.json"), encoding="utf-8") as f:
             return [v for v in json.load(f)["views"] if v.get("still")]
+
+    def task_views(self):
+        with io.open(os.path.join(ROOT, m.TASK_VIEWS, "tasks.json"), encoding="utf-8") as f:
+            return json.load(f)["cards"]
+
+    def test_every_task_card_links_to_its_task_on_its_own(self):
+        got = json.loads(re.search(r'<script type="application/json" id="taskviews">(.*?)</script>',
+                                   self.page, re.S).group(1).replace("<\\/", "</"))
+        self.assertEqual(sorted(got), sorted(t["id"] for t in self.d["tasks"]))
+        self.assertEqual(self.page.count('class="tview"'), len(self.d["cards"]))
+        listed = dict((c["card"], c) for c in self.task_views())
+        for c in self.d["cards"]:
+            self.assertEqual([v["task"] for v in listed[c["key"]]["variants"]],
+                             [v["id"] for v in c["variants"]])
+            self.assertTrue(os.path.isfile(os.path.join(ROOT, m.TASK_VIEWS, listed[c["key"]]["view"])))
+            for n, v in enumerate(c["variants"]):
+                self.assertEqual(got[v["id"]]["view"], "../%s/%s#variant-%d" % (
+                    os.path.basename(m.TASK_VIEWS), listed[c["key"]]["view"], n + 1))
 
     def test_a_render_shown_is_of_a_result_shown(self):
         got = json.loads(re.search(r'<script type="application/json" id="renders">(.*?)</script>',

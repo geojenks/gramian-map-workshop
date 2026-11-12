@@ -1,7 +1,8 @@
 """The views of the target beside the attempt (tools/render_landing_tasks.py):
 every number a stored view shows is what the result file and the task file
 say, worked out again here without the tool. Where MuJoCo is installed, the
-tool is also run again and must give the stored view's data."""
+tool is also run again and must give the stored view's data. The same holds
+for the views of a task on its own, with no hand chosen."""
 import io
 import json
 import math
@@ -16,6 +17,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 import make_landing_mockup as m  # noqa: E402
 
 FOLDER = os.path.join(ROOT, m.RENDERS)
+ALONE = os.path.join(ROOT, m.TASK_VIEWS)
 
 
 def read(path):
@@ -132,6 +134,108 @@ class Views(unittest.TestCase):
         for v, _, d in self.views:
             again = t.view_data(ROOT, v["result"], *pairs[v["result"]])
             self.assertEqual(json.loads(json.dumps(again)), d)
+
+
+class TaskViews(unittest.TestCase):
+    """A task on its own: the moments are the ones the check looks at, and
+    the forces are the task file's, as written there."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.listed = read(os.path.join(ALONE, "tasks.json"))["cards"]
+        cls.views = []
+        for c in cls.listed:
+            with io.open(os.path.join(ALONE, c["view"]), encoding="utf-8") as f:
+                text = f.read()
+            d = json.loads(re.search(r'<script type="application/json" id="data">(.*?)</script>',
+                                     text, re.S).group(1).replace("<\\/", "</"))
+            cls.views.append((c, text, d))
+
+    def test_one_view_for_each_task_card_and_a_still_for_each_task(self):
+        cards = m.data(ROOT)["cards"]
+        self.assertEqual([c["card"] for c in self.listed], [c["key"] for c in cards])
+        for (c, _, d), card in zip(self.views, cards):
+            self.assertEqual((d["card"], d["name"]), (card["key"], card["name"]))
+            self.assertEqual([(v["task"], v["label"]) for v in d["variants"]],
+                             [(v["id"], v["label"]) for v in card["variants"]])
+            self.assertEqual([v["task"] for v in c["variants"]], [v["id"] for v in card["variants"]])
+            for row, v in zip(c["variants"], d["variants"]):
+                self.assertEqual(row["moments"], len(v["frames"]))
+                most = max(f["task_sum"]["of"] for f in v["frames"])
+                self.assertEqual(v["frames"][row["shown"] - 1]["task_sum"]["of"], most)
+                if row.get("still"):
+                    self.assertTrue(os.path.isfile(os.path.join(ALONE, row["still"])))
+
+    def test_what_a_task_view_shows_is_what_the_task_file_says(self):
+        for _, _, d in self.views:
+            for v in d["variants"]:
+                L = read(os.path.join(ROOT, "data", "leaders", v["task"] + ".json"))
+                n = len(L["frames"])
+                # 40 frames spread evenly from the first to the last, as the check takes them
+                ks = [int(j * (n - 1) / 39.0 + 1e-9) for j in range(40)]
+                self.assertEqual([f["k"] for f in v["frames"]], ks)
+                self.assertEqual((v["caveat"], v["all_frames"], v["points"]),
+                                 (L.get("caveat"), n, L["n_stations"]))
+                self.assertEqual(v["radius"], L["object"]["radius_m"])
+                self.assertEqual(v["mass_kg"], L["object"].get("mass_kg"))
+                c0, largest = L["frames"][0]["obj_pos"], 0.0
+                for shown in v["frames"]:
+                    lf = L["frames"][shown["k"]]
+                    self.assertAlmostEqual(shown["t"], lf["t"], places=3)
+                    for a in range(3):
+                        self.assertAlmostEqual(shown["ball"][a], lf["obj_pos"][a] - c0[a], places=4)
+                    total = [0.0, 0.0, 0.0]
+                    for c in shown["contacts"]:
+                        F = lf["force_on_object_N"][c["i"]]
+                        self.assertEqual(c["touch"], bool(lf["contact"][c["i"]]))
+                        for a in range(3):
+                            self.assertAlmostEqual(c["force"][a], F[a], places=4)
+                        self.assertAlmostEqual(c["force_N"], norm(F), places=3)
+                        if c["touch"]:
+                            total = [total[a] + F[a] for a in range(3)]
+                            largest = max(largest, c["force_N"])
+                    touching = [i for i in range(L["n_stations"]) if lf["contact"][i]]
+                    self.assertEqual([c["i"] for c in shown["contacts"] if c["touch"]], touching)
+                    self.assertEqual(shown["task_sum"]["of"], len(touching))
+                    self.assertAlmostEqual(shown["task_sum"]["force_N"], norm(total), places=3)
+                self.assertAlmostEqual(v["largest_contact_N"], largest, places=4)
+
+    def test_a_task_view_and_a_pair_view_agree_on_the_task(self):
+        # placing the hand turns the forces, it does not change their size
+        alone = dict((v["task"], v) for _, _, d in self.views for v in d["variants"])
+        seen = 0
+        for row in read(os.path.join(FOLDER, "renders.json"))["views"]:
+            with io.open(os.path.join(FOLDER, row["view"]), encoding="utf-8") as f:
+                pair = json.loads(re.search(r'<script type="application/json" id="data">(.*?)</script>',
+                                            f.read(), re.S).group(1).replace("<\\/", "</"))
+            by_k = dict((f["k"], f) for f in alone[pair["task"]]["frames"])
+            for f in pair["frames"]:
+                if f["k"] in by_k:
+                    seen += 1
+                    self.assertEqual(f["task_sum"]["of"], by_k[f["k"]]["task_sum"]["of"])
+                    self.assertAlmostEqual(f["task_sum"]["force_N"], by_k[f["k"]]["task_sum"]["force_N"],
+                                           places=3)
+        self.assertTrue(seen)
+
+    def test_no_names_no_machine_paths_no_outside_scripts(self):
+        for _, text, _ in self.views:
+            own = text.split("<script>")[0] + text.split("<script>")[-1]   # the libraries are not our words
+            self.assertNotIn("Users", own)
+            self.assertNotIn("george", own.lower())
+            for word in ("dynamic", "first of its kind"):
+                self.assertNotIn(word, own.lower())
+            self.assertNotIn("<script src", text)
+            self.assertNotIn("<html", text[:3000])
+            self.assertIn("<title>", text[:2000])
+
+    def test_the_tool_gives_the_stored_task_view_again(self):
+        try:
+            import mujoco  # noqa: F401
+        except ImportError:
+            self.skipTest("MuJoCo is not installed")
+        import render_landing_tasks as t
+        for (_, _, d), card in zip(self.views, m.data(ROOT)["cards"]):
+            self.assertEqual(json.loads(json.dumps(t.card_data(ROOT, card))), d)
 
 
 if __name__ == "__main__":

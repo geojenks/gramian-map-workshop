@@ -1,0 +1,88 @@
+{
+ "cards": [
+  {
+   "card": "tennis_new_cup_",
+   "variants": [
+    {
+     "moments": 40,
+     "shown": 22,
+     "still": "still_task_tennis_new_cup_take3_derived__nframesfix.png",
+     "task": "tennis_new_cup_take3_derived__nframesfix"
+    },
+    {
+     "moments": 40,
+     "shown": 3,
+     "still": "still_task_tennis_new_cup_take3_handframe__nframesfix.png",
+     "task": "tennis_new_cup_take3_handframe__nframesfix"
+    }
+   ],
+   "view": "task_tennis_new_cup.html"
+  },
+  {
+   "card": "w10_cup_physical_",
+   "variants": [
+    {
+     "moments": 40,
+     "shown": 1,
+     "still": "still_task_w10_cup_physical_x0.1_a0.15_n4__contactfix.png",
+     "task": "w10_cup_physical_x0.1_a0.15_n4__contactfix"
+    },
+    {
+     "moments": 40,
+     "shown": 1,
+     "still": "still_task_w10_cup_physical_x0.1_a0.15_n5__contactfix.png",
+     "task": "w10_cup_physical_x0.1_a0.15_n5__contactfix"
+    },
+    {
+     "moments": 40,
+     "shown": 1,
+     "still": "still_task_w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.png",
+     "task": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix"
+    },
+    {
+     "moments": 40,
+     "shown": 1,
+     "still": "still_task_w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix.png",
+     "task": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix"
+    },
+    {
+     "moments": 40,
+     "shown": 5,
+     "still": "still_task_w10_cup_physical_x0.3_a0.15_n4__contactfix.png",
+     "task": "w10_cup_physical_x0.3_a0.15_n4__contactfix"
+    },
+    {
+     "moments": 40,
+     "shown": 1,
+     "still": "still_task_w10_cup_physical_x0.3_a0.15_n5__contactfix.png",
+     "task": "w10_cup_physical_x0.3_a0.15_n5__contactfix"
+    },
+    {
+     "moments": 40,
+     "shown": 28,
+     "still": "still_task_w10_cup_physical_x0.3_a0.15_sl0.3t_n4__contactfix.png",
+     "task": "w10_cup_physical_x0.3_a0.15_sl0.3t_n4__contactfix"
+    },
+    {
+     "moments": 40,
+     "shown": 1,
+     "still": "still_task_w10_cup_physical_x0.3_a0.15_sl0.3t_n5__contactfix.png",
+     "task": "w10_cup_physical_x0.3_a0.15_sl0.3t_n5__contactfix"
+    }
+   ],
+   "view": "task_w10_cup_physical.html"
+  },
+  {
+   "card": "w12c_cup_analytic_lock",
+   "variants": [
+    {
+     "moments": 40,
+     "shown": 1,
+     "still": "still_task_w12c_cup_analytic_lock.png",
+     "task": "w12c_cup_analytic_lock"
+    }
+   ],
+   "view": "task_w12c_cup_analytic_lock.html"
+  }
+ ]
+}

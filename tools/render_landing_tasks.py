@@ -27,6 +27,17 @@ page taken by the browser given (a Chromium browser, run headless), for the
 landing page to show. renders.json lists what was written. Nothing is ever
 written over: the folder must be new. Needs MuJoCo and numpy (the hands
 extra).
+
+    python tools/render_landing_tasks.py --tasks --out outputs/NEW_FOLDER
+
+With --tasks it writes instead the view of each task on its own, with no
+hand chosen: task_<card>.html, one page for each task card of the landing
+page, with the card's variants inside. It shows the target only, at the
+moments the check looks at by default (40 of them, spread evenly over the
+task's frames), in the task's own frame: the object, the contact points
+and the force asked for at each, with their sum. With --browser it also
+writes still_task_<task>.png for every variant. tasks.json lists what was
+written.
 """
 import argparse
 import io
@@ -46,8 +57,53 @@ from gramian_workshop.follow import Leader  # noqa: E402
 from gramian_workshop.hands import Hand  # noqa: E402
 
 
+MOMENTS = 40          # how many moments tools/run_follow.py checks by default (its --frames)
+
+
 def r5(v):
     return [round(float(x), 5) for x in v]
+
+
+def moments(n_frames, n=MOMENTS):
+    """The frames of a task that the check looks at: `n` spread evenly."""
+    return [int(k) for k in np.linspace(0, n_frames - 1, n).astype(int)]
+
+
+def task_data(repo, task_id, label):
+    """What the view of one task on its own shows, in the task's own frame
+    (the object's centre at the first frame is the origin)."""
+    L = page.read_json(os.path.join(repo, "data", "leaders", task_id + ".json"))
+    leader = Leader(L)
+    c0 = np.array(L["frames"][0]["obj_pos"], dtype=float)
+    frames, largest = [], 0.0
+    for k in moments(len(L["frames"])):
+        lf = L["frames"][k]
+        contacts, total = [], np.zeros(3)
+        for i in range(leader.n):
+            if not (lf["contact_point"][i] or lf["station_pos"][i]):
+                continue
+            p, _, _ = leader.station(k, i, np.eye(3), np.zeros(3))
+            F = np.array(lf["force_on_object_N"][i], dtype=float)
+            touch = bool(lf["contact"][i])
+            if touch:
+                total = total + F
+            contacts.append({"i": i, "pos": r5(p), "touch": touch, "force": r5(F),
+                             "force_N": round(float(np.linalg.norm(F)), 4)})
+        largest = max([largest] + [c["force_N"] for c in contacts if c["touch"]])
+        frames.append({"k": k, "t": round(float(lf["t"]), 3),
+                       "ball": r5(np.array(lf["obj_pos"], dtype=float) - c0), "contacts": contacts,
+                       "task_sum": {"force": r5(total), "force_N": round(float(np.linalg.norm(total)), 4),
+                                    "of": sum(1 for c in contacts if c["touch"])}})
+    return {"task": task_id, "label": label, "caveat": L.get("caveat"),
+            "radius": float(L["object"]["radius_m"]), "mass_kg": L["object"].get("mass_kg"),
+            "points": leader.n, "all_frames": len(L["frames"]),
+            "largest_contact_N": round(largest, 4), "frames": frames}
+
+
+def card_data(repo, card):
+    """What the page for one task card of the landing page shows."""
+    return {"card": card["key"], "name": card["name"],
+            "variants": [task_data(repo, v["id"], v["label"]) for v in card["variants"]]}
 
 
 def view_data(repo, rel, hand_name, task_name):
@@ -269,6 +325,116 @@ fit();show(cur);
 """
 
 
+# the view of a task on its own: the styles are PAGE's
+TASK_BODY = r"""<main>
+<div><h1 id="title"></h1>
+<p class="muted">A moving task, checked frame by frame, shown with no hand chosen. Each bar of the strip is one of
+the moments the check looks at. Drag the picture to turn it.</p></div>
+<div class="bar" id="variants" hidden></div>
+<p class="caveat" id="caveat" hidden></p>
+<div class="bar"><button id="prev">Back</button><button id="play">Play</button><button id="next">Next</button>
+<div id="strip"></div><span id="when" class="muted"></span></div>
+<section class="pane"><header><h2>Target: what the task asks</h2>
+<div class="small" id="what"></div></header>
+<div class="gl" id="glT"></div><footer id="footT"></footer></section>
+<div class="key"><span><b style="background:var(--ask)"></b>force the task asks for at a contact</span>
+<span><b style="background:var(--ink)"></b>sum of the forces drawn, at the object's centre</span>
+<span>grey point: a contact point that is lifted at this moment</span></div>
+<div class="scroll"><table id="table"></table></div>
+<p class="muted">Every arrow is a force on the object, with its head at the point it acts on. The sum is of
+contact forces only: the object's weight is not in it. The picture is in the task's own frame; a check first
+places the task in a hand.</p>
+<p class="muted" id="source"></p>
+</main>
+<script>__THREE__</script>
+<script>__ORBIT__</script>
+<script type="application/json" id="data">__DATA__</script>
+<script>
+(function(){
+var D=JSON.parse(document.getElementById('data').textContent),W,F,cur=0,timer=null,perN=0;
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+function V(a){return new THREE.Vector3(a[0],a[1],a[2])}
+$('title').textContent=D.name+', on its own';
+var el=$('glT'),R=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
+R.setPixelRatio(window.devicePixelRatio||1);el.appendChild(R.domElement);
+var S=new THREE.Scene(),C=new THREE.PerspectiveCamera(35,1,0.001,5);C.up.set(0,0,1);
+S.add(new THREE.AmbientLight(0xffffff,0.75));var l=new THREE.DirectionalLight(0xffffff,0.6);l.position.set(0.3,-0.5,1);S.add(l);
+var G=new THREE.Group();S.add(G);
+var O=new THREE.OrbitControls(C,R.domElement);O.enablePan=false;
+function draw(){R.render(S,C)}
+O.addEventListener('change',draw);
+function mat(col,op,top){return new THREE.MeshLambertMaterial({color:new THREE.Color(col),transparent:op<1||!!top,opacity:op,depthWrite:op>=1&&!top,depthTest:!top})}
+function ball(c,r,col,op,top){var m=new THREE.Mesh(new THREE.SphereGeometry(r,32,20),mat(col,op,top));m.position.copy(V(c));if(top)m.renderOrder=5;G.add(m)}
+function rod(a,b,r,col){var d=b.clone().sub(a),n=d.length();if(n<1e-7)return;
+  var m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,n,14),mat(col,1,true));m.renderOrder=5;
+  m.position.copy(a.clone().add(b).multiplyScalar(0.5));m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());G.add(m)}
+function arrow(at,f,col,fromAt){ // head at `at`, or tail at `at` when fromAt
+  var v=V(f).multiplyScalar(perN),n=v.length();if(n<1e-4)return;
+  var p=V(at),a=fromAt?p:p.clone().sub(v),b=fromAt?p.clone().add(v):p,h=Math.min(0.006,0.45*n),u=v.clone().normalize();
+  var e=b.clone().sub(u.clone().multiplyScalar(h));rod(a,e,0.0009,col);
+  var m=new THREE.Mesh(new THREE.ConeGeometry(0.0024,h,14),mat(col,1,true));m.renderOrder=6;
+  m.position.copy(e.clone().add(u.clone().multiplyScalar(h/2)));m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),u);G.add(m)}
+function clear(){while(G.children.length){var m=G.children.pop();if(m.geometry)m.geometry.dispose();if(m.material)m.material.dispose()}}
+function show(i){
+  cur=(i+F.length)%F.length;var f=F[cur],ask=css('--ask'),ink=css('--ink'),soft=css('--off');
+  clear();ball(f.ball,W.radius,soft,0.28);
+  f.contacts.forEach(function(c){ball(c.pos,0.0022,c.touch?ask:soft,c.touch?1:0.6,true);if(c.touch)arrow(c.pos,c.force,ask)});
+  arrow(f.ball,f.task_sum.force,ink,true);
+  $('footT').innerHTML='Sum of the '+f.task_sum.of+' forces asked for: <b>'+f.task_sum.force_N.toFixed(3)+' N</b>';
+  $('when').textContent='moment '+(cur+1)+' of '+F.length+', at '+f.t.toFixed(2)+' s (frame '+f.k+' of the task file)';
+  var h='<tr><th>Contact point</th><th>At this moment</th><th>Force asked</th></tr>';
+  f.contacts.forEach(function(c){h+='<tr><td>'+c.i+'</td><td>'+(c.touch?'touching':'lifted')+'</td><td>'+(c.touch?c.force_N.toFixed(3)+' N':'')+'</td></tr>'});
+  $('table').innerHTML=h;
+  [].forEach.call($('strip').children,function(b,j){b.className='ask'+(j===cur?' on':'')});
+  draw()}
+function stop(){if(timer){clearInterval(timer);timer=null;$('play').textContent='Play'}}
+function size(){var w=el.clientWidth,h=el.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix()}
+function choose(v){
+  stop();W=D.variants[v];F=W.frames;perN=W.largest_contact_N>0?0.8*W.radius/W.largest_contact_N:0;
+  [].forEach.call($('variants').querySelectorAll('button'),function(b,j){b.setAttribute('aria-pressed',String(j===v))});
+  $('caveat').hidden=!W.caveat;$('caveat').textContent=W.caveat?'Caution carried by the task: '+W.caveat:'';
+  $('what').textContent='The object ('+(2000*W.radius).toFixed(0)+' mm across'+(W.mass_kg==null?'':', '+(1000*W.mass_kg).toFixed(0)+' g')+
+    '), its '+W.points+' contact points and the force asked for at each.';
+  $('source').innerHTML='Read from the task file <code>data/leaders/'+esc(W.task)+'.json</code>: '+F.length+' of its '+W.all_frames+
+    ' frames, spread evenly. Made by <code>tools/render_landing_tasks.py</code>.';
+  $('strip').innerHTML='';
+  F.forEach(function(f,j){var b=document.createElement('i');b.title='moment '+(j+1)+': '+f.task_sum.of+' touching';
+    b.onclick=function(){stop();show(j)};$('strip').appendChild(b)});
+  // one view for the whole task: look at the middle of everything drawn, from the side and above
+  var lo=[1e9,1e9,1e9],hi=[-1e9,-1e9,-1e9];
+  F.forEach(function(f){for(var a=0;a<3;a++){lo[a]=Math.min(lo[a],f.ball[a]-1.6*W.radius);hi[a]=Math.max(hi[a],f.ball[a]+1.6*W.radius)}});
+  var mid=[0,1,2].map(function(a){return(lo[a]+hi[a])/2}),span=Math.max(hi[0]-lo[0],hi[1]-lo[1],hi[2]-lo[2]);
+  O.target.set(mid[0],mid[1],mid[2]);C.position.set(mid[0]+1.15*span,mid[1]-1.15*span,mid[2]+0.6*span);O.update();
+  show(0)}
+if(D.variants.length>1){$('variants').hidden=false;
+  $('variants').innerHTML='<span class="muted">Variant:</span>'+D.variants.map(function(v,j){
+    return '<button type="button" data-v="'+j+'" aria-pressed="false">'+esc(v.label)+'</button>'}).join('');
+  $('variants').onclick=function(e){var b=e.target.closest('button');if(b)choose(+b.dataset.v)}}
+$('prev').onclick=function(){stop();show(cur-1)};$('next').onclick=function(){stop();show(cur+1)};
+$('play').onclick=function(){if(timer){stop();return}$('play').textContent='Pause';timer=setInterval(function(){show(cur+1)},450)};
+window.addEventListener('resize',function(){size();draw()});
+if(window.matchMedia)window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){show(cur)});
+function fromHash(){var m=/^#variant-(\d+)(?:-moment-(\d+))?$/.exec(location.hash||'');
+  choose(m&&+m[1]>=1&&+m[1]<=D.variants.length?+m[1]-1:0);if(m&&m[2]&&+m[2]>=1&&+m[2]<=F.length)show(+m[2]-1)}
+window.addEventListener('hashchange',fromHash);
+size();fromHash();
+})();
+</script>
+"""
+TASK_STYLE = ('.ask{background:var(--ask)}button[aria-pressed="true"]{border-color:var(--accent);'
+              'color:var(--accent);font-weight:600}.pane{max-width:760px}.gl{height:400px}\n</style>')
+
+
+def build_task(d):
+    head = PAGE.split("<main>")[0].replace("<title>Target beside attempt</title>", "<title>Task on its own</title>")
+    return (head.replace("</style>", TASK_STYLE) + TASK_BODY
+            .replace("__THREE__", render3d.js("three.min.js"))
+            .replace("__ORBIT__", render3d.js("OrbitControls.js"))
+            .replace("__DATA__", json.dumps(d, separators=(",", ":")).replace("</", "<\\/")))
+
+
 def build(d):
     return (PAGE.replace("__THREE__", render3d.js("three.min.js"))
             .replace("__ORBIT__", render3d.js("OrbitControls.js"))
@@ -290,13 +456,53 @@ def stored_pairs(repo):
     return out
 
 
+def shoot(browser, window, shot, url):
+    subprocess.run([browser, "--headless=new", "--hide-scrollbars", "--enable-unsafe-swiftshader",
+                    "--window-size=" + window, "--virtual-time-budget=4000", "--screenshot=" + shot, url],
+                   check=True, timeout=180)
+    if not os.path.isfile(shot):
+        raise SystemExit("the browser wrote no picture")
+
+
+def write_tasks(a):
+    listed = {"cards": []}
+    for card in page.data(ROOT)["cards"]:
+        d = card_data(ROOT, card)
+        view = "task_%s.html" % d["card"].strip("_")
+        with io.open(os.path.join(a.out, view), "x", encoding="utf-8", newline="\n") as f:
+            f.write(build_task(d))
+        print("wrote", view)
+        entry = {"card": d["card"], "view": view, "variants": []}
+        for n, v in enumerate(d["variants"]):
+            most = max(f["task_sum"]["of"] for f in v["frames"])      # the still: the first moment
+            row = {"task": v["task"], "moments": len(v["frames"]),    # with the most contacts touching
+                   "shown": 1 + next(j for j, f in enumerate(v["frames"]) if f["task_sum"]["of"] == most)}
+            if a.browser:
+                row["still"] = "still_task_%s.png" % v["task"]
+                shoot(a.browser, a.window or "760,880", os.path.abspath(os.path.join(a.out, row["still"])),
+                      "file:///" + os.path.abspath(os.path.join(a.out, view)).replace(os.sep, "/")
+                      + "#variant-%d-moment-%d" % (n + 1, row["shown"]))
+                print("wrote", row["still"])
+            entry["variants"].append(row)
+        listed["cards"].append(entry)
+    with io.open(os.path.join(a.out, "tasks.json"), "x", encoding="utf-8", newline="\n") as f:
+        json.dump(listed, f, indent=1, sort_keys=True)
+        f.write("\n")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--out", required=True, help="a new folder for the views")
+    ap.add_argument("--tasks", action="store_true", help="write the view of each task on its own, "
+                    "with no hand chosen, instead of the views of the stored results")
     ap.add_argument("--browser", help="a Chromium browser to take the still pictures with")
-    ap.add_argument("--window", default="1180,700", help="the browser window for a still, as WIDTH,HEIGHT")
+    ap.add_argument("--window", help="the browser window for a still, as WIDTH,HEIGHT "
+                    "(default: 1180,700, or 760,880 with --tasks)")
     a = ap.parse_args(argv)
     os.makedirs(a.out)                       # fails if it is there: nothing is written over
+    if a.tasks:
+        return write_tasks(a)
+    a.window = a.window or "1180,700"
     listed = {"views": []}
     for rel, hand_name, task_name in stored_pairs(ROOT):
         d = view_data(ROOT, rel, hand_name, task_name)
@@ -307,13 +513,8 @@ def main(argv=None):
                  "moments": len(d["frames"]), "shown": d["start"] + 1}
         print("wrote", entry["view"])
         if a.browser:
-            shot = os.path.abspath(os.path.join(a.out, "still_%s.png" % stem))
-            subprocess.run([a.browser, "--headless=new", "--hide-scrollbars", "--enable-unsafe-swiftshader",
-                            "--window-size=" + a.window, "--virtual-time-budget=4000", "--screenshot=" + shot,
-                            "file:///" + os.path.abspath(os.path.join(a.out, entry["view"])).replace(os.sep, "/")],
-                           check=True, timeout=180)
-            if not os.path.isfile(shot):
-                raise SystemExit("the browser wrote no picture")
+            shoot(a.browser, a.window, os.path.abspath(os.path.join(a.out, "still_%s.png" % stem)),
+                  "file:///" + os.path.abspath(os.path.join(a.out, entry["view"])).replace(os.sep, "/"))
             entry["still"] = "still_%s.png" % stem
             print("wrote", entry["still"])
         listed["views"].append(entry)

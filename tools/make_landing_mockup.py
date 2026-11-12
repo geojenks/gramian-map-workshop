@@ -33,6 +33,13 @@ command that would make one. Everything on it is read from the repository:
             through every checked moment are read from --renders, a folder
             that tools/render_landing_tasks.py wrote (it needs MuJoCo too).
             Where there is none the answer says so
+  task views
+            for a task on its own, with no hand chosen, the picture of what
+            the task asks and the link to the page that steps through the
+            moments the check looks at are read from --task-views, a folder
+            that tools/render_landing_tasks.py --tasks wrote. Each task card
+            links to it, and the answer shows it while no hand is chosen or
+            the pair has no stored result
 
 Hands and results whose key or name holds a word of LEFT_OUT are left off
 the page. --hand and --task set the pair the page opens on (a task id, or
@@ -61,6 +68,7 @@ LEFT_OUT = ("george",)
 CURRENT = os.path.join("outputs", "follow__superseded.md")
 PICTURES = os.path.join("outputs", "landing_pictures_12nov")
 RENDERS = os.path.join("outputs", "landing_renders_12nov")
+TASK_VIEWS = os.path.join("outputs", "landing_task_views_12nov")
 
 # where a hand's model comes from (the `base` field of the HANDS table)
 SOURCES = {"menagerie": "fetched by the install step", "linker": "fetched by the install step",
@@ -351,6 +359,7 @@ padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0;overfl
 .green{background:var(--green)}.amber{background:var(--amber)}.red{background:var(--red)}
 .head{font-size:18px}
 .move{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:14px;align-items:start}
+.render.alone img{max-width:420px}.tview{padding:0 12px 10px;font-size:12.5px}
 .render{display:flex;flex-direction:column;gap:6px;min-width:0}.render img{display:block;width:100%;border:1px solid var(--line);border-radius:8px}
 .slot{display:flex;align-items:center;justify-content:center;text-align:center;min-height:120px;
 border:1px dashed var(--line);border-radius:8px;color:var(--muted);font-size:14px;padding:12px}
@@ -382,6 +391,12 @@ footer{padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font
 JS = r"""
 (function(){
 var RENDERS=JSON.parse(document.getElementById('renders').textContent);
+var ALONE=JSON.parse(document.getElementById('taskviews').textContent);
+function alone(id){
+  var v=ALONE[id];if(!v)return '';
+  return '<div class="render alone">'+(v.still?'<a href="'+esc(v.view)+'"><img src="'+v.still+'" alt="What the task asks, at one of the moments the check looks at"></a>':'')+
+    '<span class="small">The task on its own, with no hand chosen'+(v.still?', at moment '+v.shown+' of '+v.moments:'')+'. <a href="'+esc(v.view)+'">Step through all '+v.moments+
+    ' moments the check looks at</a>, with the force asked for at each contact and their sum on the object.</span></div>'}
 var D=JSON.parse(document.getElementById('data').textContent),root=document.getElementById('chooser');
 var pick={hand:root.dataset.hand||null,task:root.dataset.task||null};
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -426,7 +441,8 @@ function answer(){
   var el=document.getElementById('answer'),h=find(D.hands,'key',pick.hand),
       t=pick.task===D.own?{id:D.own}:find(D.tasks,'id',pick.task);
   if(!h||!t){el.innerHTML='<h2>What the stored check says</h2><p class="lede">'+
-    (h?'Now choose a task.':t?'Now choose a hand.':'Choose a hand and a task.')+'</p>';return}
+    (h?'Now choose a task.':t?'Now choose a hand.':'Choose a hand and a task.')+'</p>'+
+    (t&&t.id!==D.own?'<div class="pair"><b>'+esc(cardOf(t.id).name)+'</b><code>'+esc(t.id)+'</code></div>'+alone(t.id):'');return}
   var own=t.id===D.own,hold=D.holds[h.key],c=own?null:cardOf(t.id),o='<h2>What the stored check says</h2><div class="pair"><b>'+esc(h.name)+
     '</b><span>on</span><b>'+(own?'its own hold'+(hold?' ('+esc(hold.object)+')':''):esc(c.name))+'</b>'+
     (own?'':'<code>'+esc(t.id)+'</code>')+'</div>';
@@ -435,7 +451,7 @@ function answer(){
     var cav=own?(hold||{}).caveat:t.caveat;if(cav)o+='<p class="note">Caution carried by the task: '+esc(cav)+'</p>'}
   else{o+='<p>No stored result for this pair. This page runs nothing; the command'+(commands(h,t.id).length>1?'s':'')+
     ' that would make one:</p><pre class="cmd">'+commands(h,t.id).map(esc).join('\n')+'</pre>'+
-    (own?'':'<p class="note">For a task that is not the hand\'s own hold, the run first searches for where to place the hand, which is a long run.</p>')}
+    (own?'':'<p class="note">For a task that is not the hand\'s own hold, the run first searches for where to place the hand, which is a long run.</p>'+alone(t.id))}
   el.innerHTML=o}
 function show(){
   Array.prototype.forEach.call(root.querySelectorAll('.card[data-kind]'),function(c){
@@ -445,6 +461,10 @@ function show(){
   Array.prototype.forEach.call(root.querySelectorAll('.chip'),function(b){
     b.setAttribute('aria-pressed',String(pick.task===b.dataset.task));
     b.classList.toggle('has',!!pick.hand&&has(pick.hand,b.dataset.task))});
+  Array.prototype.forEach.call(root.querySelectorAll('.tview a'),function(a){
+    var c=find(D.cards,'key',a.closest('.card').dataset.key),
+        id=pick.task&&find(c.variants,'id',pick.task)?pick.task:c.variants[0].id;
+    if(ALONE[id])a.setAttribute('href',ALONE[id].view)});
   answer()}
 root.addEventListener('click',function(e){
   var chip=e.target.closest('.chip');
@@ -480,6 +500,26 @@ def renders(folder, link):
     return out
 
 
+def task_views(folder, link):
+    """What tools/render_landing_tasks.py --tasks wrote in `folder`, by
+    task: the still as a data URI (None if there is none), the link to the
+    card's view opened on that task (`link` is the way from the page to the
+    folder), how many moments the view has and which one the still shows."""
+    listed = os.path.join(folder, "tasks.json")
+    if not os.path.isfile(listed):
+        return {}
+    out = {}
+    for c in read_json(listed)["cards"]:
+        for n, v in enumerate(c["variants"]):
+            still = None
+            if v.get("still"):
+                with io.open(os.path.join(folder, v["still"]), "rb") as f:
+                    still = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
+            out[v["task"]] = {"still": still, "view": "%s%s#variant-%d" % (link, c["view"], n + 1),
+                              "moments": v["moments"], "shown": v["shown"]}
+    return out
+
+
 def stored(d, keys, part):
     """The card line that counts the stored results for a hand (part 0 of
     the pair) or for a card's tasks (part 1)."""
@@ -503,8 +543,12 @@ def task_card(key, name, draw, lines, chips=""):
             % (E(key), draw, E(name), "".join(lines), chips))
 
 
-def build(repo=REPO, hand=None, task=None, pictures_folder=None, renders_folder=None, renders_link=None):
+def build(repo=REPO, hand=None, task=None, pictures_folder=None, renders_folder=None, renders_link=None,
+          task_views_folder=None, task_views_link=None):
     d = data(repo)
+    task_views_folder = task_views_folder or os.path.join(repo, TASK_VIEWS)
+    alone = task_views(task_views_folder, task_views_link if task_views_link is not None
+                       else "../%s/" % os.path.basename(os.path.normpath(task_views_folder)))
     renders_folder = renders_folder or os.path.join(repo, RENDERS)
     rendered = renders(renders_folder, renders_link if renders_link is not None
                     else "../%s/" % os.path.basename(os.path.normpath(renders_folder)))
@@ -552,6 +596,9 @@ def build(repo=REPO, hand=None, task=None, pictures_folder=None, renders_folder=
         chips = ('<div class="chips">%s</div>' % "".join(
             '<button type="button" class="chip" data-task="%s" aria-pressed="false">%s</button>'
             % (E(v["id"]), E(v["label"])) for v in c["variants"])) if len(ts) > 1 else ""
+        if t["id"] in alone:
+            chips += ('<span class="tview"><a href="%s">See this task on its own</a>, with no hand '
+                      'chosen</span>' % E(alone[t["id"]]["view"]))
         right.append(task_card(c["key"], c["name"], drawing(all_leaders[t["id"]]), lines, chips))
     right.append(
         '<div class="card add" id="add-task"><b>+ Add a task</b>'
@@ -631,11 +678,13 @@ def build(repo=REPO, hand=None, task=None, pictures_folder=None, renders_folder=
             '<p class="small">%d tasks. Scroll, and choose one.</p><div class="scroll">%s</div></section></div>'
             '<section class="answer" id="answer" aria-live="polite"></section>%s%s%s</div>'
             '<script type="application/json" id="data">%s</script>'
-            '<script type="application/json" id="renders">%s</script><script>%s</script>\n'
+            '<script type="application/json" id="renders">%s</script>'
+            '<script type="application/json" id="taskviews">%s</script><script>%s</script>\n'
             % (head, E(hand or ""), E(task or ""), top, len(d["hands"]), "".join(left),
                len(d["cards"]) + 1, "".join(right), builder, how, foot,
                json.dumps(d, sort_keys=True).replace("</", "<\\/"),
-               json.dumps(rendered, sort_keys=True).replace("</", "<\\/"), JS))
+               json.dumps(rendered, sort_keys=True).replace("</", "<\\/"),
+               json.dumps(alone, sort_keys=True).replace("</", "<\\/"), JS))
 
 
 def main(argv=None):
@@ -649,9 +698,14 @@ def main(argv=None):
     ap.add_argument("--renders-link", help="the way from the page to that folder, as the page's links "
                     "should say it (default: ../<the folder's name>/, which is right for a page "
                     "written to a folder beside it)")
+    ap.add_argument("--task-views", help="the folder tools/render_landing_tasks.py --tasks wrote "
+                    "(default: %s)" % TASK_VIEWS.replace(os.sep, "/"))
+    ap.add_argument("--task-views-link", help="the way from the page to that folder "
+                    "(default: ../<the folder's name>/)")
     ap.add_argument("--out", required=True, help="the page to write (never written over)")
     a = ap.parse_args(argv)
-    page = build(REPO, a.hand, a.task, a.pictures, a.renders, a.renders_link)
+    page = build(REPO, a.hand, a.task, a.pictures, a.renders, a.renders_link, a.task_views,
+                 a.task_views_link)
     with io.open(a.out, "x", encoding="utf-8", newline="\n") as f:
         f.write(page)
     print("wrote", a.out, "(%d bytes)" % len(page.encode("utf-8")))

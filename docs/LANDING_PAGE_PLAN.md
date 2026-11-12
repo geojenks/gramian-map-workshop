@@ -9,9 +9,15 @@ The mock-up is `tools/make_landing_mockup.py`. Its pictures come from
 `tools/render_landing_pictures.py` (`outputs/landing_pictures_12nov/`), and
 its views of the target beside the attempt from
 `tools/render_landing_tasks.py` (`outputs/landing_renders_12nov/`). The
-pages are in `outputs/landing_mockup_12nov_c/`; the pages before the views
-are kept in `outputs/landing_mockup_12nov_b/`, and the first, one-column
-mock-up in `outputs/landing_mockup_12nov/`.
+same tool, run with `--tasks`, writes the view of each task on its own, with
+no hand chosen (`outputs/landing_task_views_12nov/`): one page for each task
+card, stepping through the moments the check looks at, and a picture for
+each task. Each task card links to its page, and the answer shows the
+picture while no hand is chosen or the pair has no stored result. The
+pages are in `outputs/landing_mockup_12nov_d/`; the pages before the task
+views are kept in `outputs/landing_mockup_12nov_c/`, those before any views
+in `outputs/landing_mockup_12nov_b/`, and the first, one-column mock-up in
+`outputs/landing_mockup_12nov/`.
 
 Nothing here is approved work yet. Each work package below starts when we
 say so.
