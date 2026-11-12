@@ -62,6 +62,7 @@ class Views(unittest.TestCase):
                 self.assertTrue(os.path.isfile(os.path.join(FOLDER, v["still"])))
 
     def test_what_a_view_shows_is_what_the_files_say(self):
+        seen = 0
         for v, _, d in self.views:
             src = read(os.path.join(ROOT, v["result"]))
             L = read(os.path.join(ROOT, "data", "leaders", src["leader"] + ".json"))
@@ -70,6 +71,10 @@ class Views(unittest.TestCase):
             self.assertEqual((d["hand"], d["task"], d["caveat"]), (src["hand"], src["leader"], src.get("caveat")))
             self.assertEqual(len(d["frames"]), len(src["frames"]))
             self.assertEqual(v["moments"], len(src["frames"]))
+            # a result for a hand of rigid joints stores no supplied force, only
+            # whether each finger passed; its view then shows none
+            stored = sum(1 for fr in src["frames"] for x in fr["fingers"]
+                         if (x.get("equilibrium") or {}).get("force_N") is not None)
             forces = 0
             for shown, fr in zip(d["frames"], src["frames"]):
                 lf = L["frames"][fr["k"]]
@@ -111,7 +116,9 @@ class Views(unittest.TestCase):
                                            norm([sum(F[a] for F in given) for a in range(3)]), places=3)
                 else:
                     self.assertIsNone(shown["hand_sum"])
-            self.assertTrue(forces, v["result"])
+            self.assertEqual(forces, stored, v["result"])
+            seen += forces
+        self.assertTrue(seen)
 
     def test_no_names_no_machine_paths_no_outside_scripts(self):
         for _, text, _ in self.views:

@@ -1,0 +1,22 @@
+{
+ "views": [
+  {
+   "hand": "allegro",
+   "moments": 40,
+   "result": "outputs/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json",
+   "shown": 1,
+   "still": "still_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.png",
+   "task": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix",
+   "view": "view_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.html"
+  },
+  {
+   "hand": "wall_x3_ring",
+   "moments": 40,
+   "result": "outputs/follow_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.json",
+   "shown": 1,
+   "still": "still_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.png",
+   "task": "w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix",
+   "view": "view_wall_x3_ring__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix.html"
+  }
+ ]
+}
