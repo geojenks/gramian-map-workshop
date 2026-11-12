@@ -111,8 +111,10 @@ files. It does not run the check.
   file, not a backend we drive: we take what their solver gives, in our
   format.
 
-A server that runs the check for visitors is a separate decision and is not
-planned here.
+Later (ruled 12 Nov): the page is to run from a local server on the
+visitor's machine, which runs the check, feeds the static page, and, if the
+visitor chooses, sends their hand to the repository as a merge request. Not
+a work package yet.
 
 ## Samples the page opens with
 
@@ -162,10 +164,17 @@ over; nothing is called dynamic; no hand-typed numbers.
 - Check: `python -m unittest tests.test_landing_mockup`, and the page at
   desktop and phone width.
 
-**A render for each task card and each stored pair.**
-- Done when: a new folder holds one short render or still per task and per
-  stored pair, with a list file the page tool can read, as the pictures
-  folder does.
+**Target beside attempt, for each task card and each stored pair.**
+- What it shows: the task is checked at a set of still moments. For each,
+  the target on one side (the video still where the task has one, else the
+  task's contacts drawn on its object) and on the other the chosen hand in
+  the pose the check solved, with how far each finger is from its contact,
+  the force at each contact and the resultant on the object. All of this is
+  in the task file and the stored result already; `tools/render3d.py`
+  draws the hand, the contacts and the video still today, not yet the
+  forces.
+- Done when: a new folder holds that view per task and per stored pair,
+  with a list file the page tool can read, as the pictures folder does.
 - Owns: a new tool `tools/render_landing_tasks.py`, its test, a new
   `outputs/landing_renders_<date>/`.
 - Must not touch: `tools/render3d.py` (call it), the page tool.
@@ -263,7 +272,6 @@ share no files and can run side by side.
   numbers for the hand builder.
 - How a visitor's lesser record is shown on the atlas, and where such a
   record lives.
-- Whether the page may say "dynamic" before issue 15's bar is met.
+- Ruled 12 Nov: the page says "a moving task, checked frame by frame" for
+  now. Issues 12, 13 and 14, which would lift this, are open and unstarted.
 - Whether the hands carrying a person's name go on the page.
-- Whether we want a server that runs checks for visitors, or files and
-  commands only.
