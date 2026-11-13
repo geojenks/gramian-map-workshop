@@ -725,6 +725,8 @@
      "sink_median_m": 0.00022024138273101998,
      "force_median_N": 0.3049087665159761,
      "pad_radius_m": 0.008,
+     "stations_at_surface_share": 0.0,
+     "stations_at_surface_note": "share of the contacts whose station lies on the object's surface (sink = the whole pad radius): a leader that recorded contact points, not pad centres, for which this stiffness is force over the pad radius",
      "derivation": "median over the leader's contacts of force / (pad radius + object radius - |station - centre|), the leader's recorded station positions and forces"
     }
    }
@@ -45285,6 +45287,8 @@
     0.007779631678345875,
     0.007780028258226768
    ],
+   "stations_at_surface": false,
+   "stations_at_surface_note": null,
    "leader_station_surface_distance_note": "median |station - object centre| - R while on; the pad radius less the leader's own penetration",
    "friction": "MuJoCo contact friction mu (condim 3) in place of the leader's analytic kernel; its stations were condim 1",
    "contact_options": {

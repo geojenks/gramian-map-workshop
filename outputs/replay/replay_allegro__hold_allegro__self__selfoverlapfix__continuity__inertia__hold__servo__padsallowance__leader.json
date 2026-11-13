@@ -1,0 +1,958 @@
+{
+ "schema": "gramian-workshop/replay@1",
+ "hand": "allegro",
+ "leader": "hold_allegro__self__selfoverlapfix",
+ "result_frames": 2,
+ "leader_frames": 2,
+ "placement": {
+  "rotation_matrix": [
+   [
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "translation_m": [
+   0.008997697167168781,
+   -0.004551426055989236,
+   0.09633844191910028
+  ]
+ },
+ "assignment": {
+  "index": 0,
+  "middle": 1,
+  "ring": 2,
+  "thumb": 3
+ },
+ "settings": {
+  "drive": {
+   "drive": "servo",
+   "actuators": 16,
+   "kp_Nm_per_rad": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "kv_Nm_s_per_rad": [
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0
+   ],
+   "joint_damping_Nm_s_per_rad": [
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1
+   ],
+   "ctrl_qpos": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "unserved_joints": [],
+   "armature_added_kg_m2": 0.0,
+   "gravity_compensation": 0.0,
+   "feedforward": {
+    "setting": "all",
+    "parts": {
+     "contact": true,
+     "motion": true,
+     "weight": true,
+     "damping": true
+    }
+   },
+   "collisions": "hand-object pairs only",
+   "hand_collision_geoms": 21,
+   "feedforward_notes": {
+    "contact_items": 8,
+    "motion_items": 0,
+    "motion_left_out": 0,
+    "motion_note": null,
+    "contact_Nm_max": 0.009573978639324313,
+    "motion_Nm_max": 0.0
+   }
+  },
+  "lift": {
+   "lift": "leader",
+   "checked_frames": 2,
+   "off_frames": {
+    "index": 0,
+    "middle": 0,
+    "ring": 0,
+    "thumb": 0
+   },
+   "lifts_m": {}
+  },
+  "centre_tol_m": 0.003,
+  "contact_options": {
+   "cone": "mjCONE_ELLIPTIC",
+   "impratio": 10.0,
+   "noslip_iterations": 0,
+   "solver": "mjSOL_NEWTON",
+   "iterations": 100,
+   "integrator": "mjINT_EULER",
+   "timestep_s": 0.002
+  },
+  "centre_tol_source": "the task's allowed overlap at the contact (default)",
+  "turn_share_min": 0.9,
+  "turn_min_deg": 5.0,
+  "window_s": 0.32,
+  "timestep_s": 0.002,
+  "integrator": 0,
+  "object": {
+   "radius_m": 0.03,
+   "mass_kg": 0.01568526282831447,
+   "friction_mu": 1.0,
+   "friction_source": "follow.py default",
+   "condim": 3,
+   "pad_contact": {
+    "asked_N_m": 33.333333333333336,
+    "reached_N_m": 33.3332697666415,
+    "first_setting_N_m": 35.08607663464254,
+    "solref": [
+     -106.26182774777105,
+     -4.852548303962287
+    ],
+    "solimp": [
+     0.95,
+     0.95,
+     0.001,
+     0.5,
+     2
+    ],
+    "damping_ratio": 1.0,
+    "impedance": 0.95,
+    "calibration": "sphere of the object's mass on a plane under the leader's g",
+    "pads": "allowance",
+    "derivation": "the leader's median contact force 0.1000 N over the allowed overlap 0.003 m (default)"
+   }
+  },
+  "gravity": {
+   "hand_frame_m_s2": [
+    8.330572276804785,
+    -4.576321204815629,
+    -2.4279517646127937
+   ],
+   "leader": {
+    "g": 9.81,
+    "dir": [
+     0.849191873272659,
+     -0.4664955356590855,
+     -0.24749763145900036
+    ],
+    "entry": "9.81 m/s^2 along [-0.8492, 0.4665, 0.2475] (the direction of the stations' net force, which the object's weight balances)",
+    "source": "the leader's frame.gravity string: along [v] is the stations' net force, which the object's weight balances, so gravity acts along -v"
+   }
+  },
+  "turn_axis_hand": null,
+  "leader_turn_total_deg": null
+ },
+ "geometry_check": {
+  "ball_center_vs_leader_max_m": 0.0,
+  "pad_world_vs_model_nearest_max_m": 0.0011738744543394822,
+  "pad_world_vs_model_nearest_median_m": 0.0003770964629746368,
+  "touching_sink_max_m": 0.0009400646657327198,
+  "touching_sink_median_m": 0.00021577777484739838,
+  "touching_sink_min_m": 7.319338005024392e-05,
+  "lifted_clearance_min_m": null,
+  "lifted_clearance_median_m": null
+ },
+ "path_jumps": {
+  "no_load_speed": {
+   "value": 0.11,
+   "unit": "s/60deg",
+   "source": "Allegro V4 max joint speed (reseller page)",
+   "rad_s": 9.519977738150887
+  },
+  "n_checked_with_jump_readout": 4,
+  "fastest_rate_rad_s": 0.0896455769102453,
+  "link_changes": [],
+  "above_no_load": [],
+  "first_link_change_k": null,
+  "first_above_no_load_k": null,
+  "note": "rates are the stored joint change over the leader step between checked frames (follow's continuity readout); the replay drives them as stored"
+ },
+ "track": {
+  "frames": 2,
+  "joint_err_max_rad": 1.4551061622292139e-07,
+  "joint_err_median_rad": 7.275530811146069e-08,
+  "tip_err_max_m": 1.3459156475096075e-08,
+  "tip_err_median_m": 5.667697839650467e-10,
+  "tip_err_max_by_finger_m": {
+   "index": 2.4162305613219803e-09,
+   "middle": 1.1335395679300934e-09,
+   "ring": 5.23474590461801e-09,
+   "thumb": 1.3459156475096075e-08
+  }
+ },
+ "frozen": {
+  "summary": {
+   "verdict": "lost",
+   "centre_tol_m": 0.003,
+   "frames": 2,
+   "centre_err_max_m": 0.005084559521270076,
+   "centre_err_end_m": 0.005084559521270076,
+   "offset_mean_m": [
+    0.0021546194917846564,
+    -0.0007995981116195846,
+    -0.001086942540730912
+   ],
+   "offset_mean_size_m": 0.002542279760635038,
+   "centre_err_about_mean_max_m": 0.002542279760635038,
+   "centre_err_about_mean_end_m": 0.002542279760635038,
+   "first_over_tol_t": 1.0,
+   "first_over_tol_k": 1,
+   "dropped_t": null,
+   "turn_sim_deg": null,
+   "turn_leader_deg": null,
+   "turn_share": null,
+   "turn_share_min": 0.9,
+   "turn_min_deg": 5.0,
+   "orient_err_end_deg": 3.667445612109105,
+   "orient_err_max_deg": 3.667445612109105,
+   "frames_with_no_contact": 0,
+   "mean_contacts": 4.0,
+   "forces_vs_leader": {
+    "index": {
+     "frames_leader_on": 2,
+     "ratio_median": 0.8093038497608394,
+     "ratio_max": 0.9315916614206478,
+     "angle_median_deg": 3.05191895808706,
+     "touching_share": 1.0
+    },
+    "middle": {
+     "frames_leader_on": 2,
+     "ratio_median": 0.9247645167336772,
+     "ratio_max": 0.9310774647912493,
+     "angle_median_deg": 2.6398605223596894,
+     "touching_share": 1.0
+    },
+    "ring": {
+     "frames_leader_on": 2,
+     "ratio_median": 0.5923759457123071,
+     "ratio_max": 0.9006211780297974,
+     "angle_median_deg": 20.115604675554273,
+     "touching_share": 1.0
+    },
+    "thumb": {
+     "frames_leader_on": 2,
+     "ratio_median": 0.6476433326574321,
+     "ratio_max": 0.8914040845317401,
+     "angle_median_deg": 11.46573683237074,
+     "touching_share": 1.0
+    }
+   }
+  },
+  "rows": [
+   {
+    "k": 0,
+    "t": 0.0,
+    "centre_sim_m": [
+     0.008997697167168781,
+     -0.004551426055989236,
+     0.09633844191910028
+    ],
+    "centre_leader_m": [
+     0.008997697167168781,
+     -0.004551426055989236,
+     0.09633844191910028
+    ],
+    "centre_err_m": 0.0,
+    "orient_err_deg": 0.0,
+    "turn_sim_deg": null,
+    "turn_leader_deg": null,
+    "contacts": [
+     "index",
+     "middle",
+     "ring",
+     "thumb"
+    ],
+    "n_contacts": 4,
+    "net_force_sim_N": [
+     -0.13062014015157525,
+     0.07048925076921665,
+     0.034217647651976546
+    ],
+    "net_force_leader_N": [
+     -0.1306640296026532,
+     0.07178798325721952,
+     0.03808045473573964
+    ],
+    "force_sim_N": {
+     "index": [
+      -0.03540272058346922,
+      0.08608781637315042,
+      0.0037637061091916092
+     ],
+     "middle": [
+      -0.0925274933060124,
+      -0.009648194905524344,
+      -0.0038246270395744094
+     ],
+     "ring": [
+      -0.03551181366671038,
+      -0.08270995953112996,
+      0.0030263422835970825
+     ],
+     "thumb": [
+      0.03282188740461674,
+      0.07675958883272054,
+      0.031252226298762266
+     ]
+    },
+    "force_leader_N": {
+     "index": [
+      -0.035497402619054874,
+      0.09346593468872542,
+      0.002013320655939127
+     ],
+     "middle": [
+      -0.0992011222439474,
+      -0.012371481297823655,
+      -0.0024665352296291392
+     ],
+     "ring": [
+      -0.03676100539983922,
+      -0.09297659098867062,
+      0.0019954974613990133
+     ],
+     "thumb": [
+      0.04079550066018831,
+      0.08367012085498837,
+      0.03653817184803064
+     ]
+    },
+    "leader_on": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   {
+    "k": 1,
+    "t": 1.0,
+    "centre_sim_m": [
+     0.013306936150738094,
+     -0.006150622279228405,
+     0.09416455683763846
+    ],
+    "centre_leader_m": [
+     0.008997697167168781,
+     -0.004551426055989236,
+     0.09633844191910028
+    ],
+    "centre_err_m": 0.005084559521270076,
+    "orient_err_deg": 3.667445612109105,
+    "turn_sim_deg": null,
+    "turn_leader_deg": null,
+    "contacts": [
+     "index",
+     "middle",
+     "ring",
+     "thumb"
+    ],
+    "n_contacts": 4,
+    "net_force_sim_N": [
+     -0.1306724783014879,
+     0.07182373403324879,
+     0.038054807666326074
+    ],
+    "net_force_leader_N": [
+     -0.1306640296026532,
+     0.07178798325721952,
+     0.03808045473573964
+    ],
+    "force_sim_N": {
+     "index": [
+      -0.027960774847928367,
+      0.06259531151138724,
+      0.004464573078830744
+     ],
+     "middle": [
+      -0.09148266419310555,
+      -0.006146289321075603,
+      -0.005355195584579383
+     ],
+     "ring": [
+      -0.016713783631325724,
+      -0.017011600098096054,
+      0.01544530743527503
+     ],
+     "thumb": [
+      0.005484744370871725,
+      0.03238631194103322,
+      0.023500122736799682
+     ]
+    },
+    "force_leader_N": {
+     "index": [
+      -0.035497402619054874,
+      0.09346593468872542,
+      0.002013320655939127
+     ],
+     "middle": [
+      -0.0992011222439474,
+      -0.012371481297823655,
+      -0.0024665352296291392
+     ],
+     "ring": [
+      -0.03676100539983922,
+      -0.09297659098867062,
+      0.0019954974613990133
+     ],
+     "thumb": [
+      0.04079550066018831,
+      0.08367012085498837,
+      0.03653817184803064
+     ]
+    },
+    "leader_on": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
+  ],
+  "seated": "at rest"
+ },
+ "windows": {
+  "window_s": 0.32,
+  "n": 0,
+  "by_verdict": {},
+  "by_path_continuity": {},
+  "rows": []
+ },
+ "free": {
+  "summary": {
+   "verdict": "lost",
+   "centre_tol_m": 0.003,
+   "frames": 2,
+   "centre_err_max_m": 0.007254871789486256,
+   "centre_err_end_m": 0.007254871789486256,
+   "offset_mean_m": [
+    0.0027850740704094693,
+    -0.0007361085170860295,
+    -0.002204494918088294
+   ],
+   "offset_mean_size_m": 0.003627435894743128,
+   "centre_err_about_mean_max_m": 0.003627435894743128,
+   "centre_err_about_mean_end_m": 0.003627435894743128,
+   "first_over_tol_t": 1.0,
+   "first_over_tol_k": 1,
+   "dropped_t": null,
+   "turn_sim_deg": null,
+   "turn_leader_deg": null,
+   "turn_share": null,
+   "turn_share_min": 0.9,
+   "turn_min_deg": 5.0,
+   "orient_err_end_deg": 38.09517129981559,
+   "orient_err_max_deg": 38.09517129981559,
+   "frames_with_no_contact": 0,
+   "mean_contacts": 4.5,
+   "forces_vs_leader": {
+    "index": {
+     "frames_leader_on": 2,
+     "ratio_median": 1.2913853098999262,
+     "ratio_max": 1.5724773849630713,
+     "angle_median_deg": 40.32293540606821,
+     "touching_share": 1.0
+    },
+    "middle": {
+     "frames_leader_on": 2,
+     "ratio_median": 1.4762094971283937,
+     "ratio_max": 1.5552246740426359,
+     "angle_median_deg": 42.62374622623532,
+     "touching_share": 1.0
+    },
+    "ring": {
+     "frames_leader_on": 2,
+     "ratio_median": 1.424018044253382,
+     "ratio_max": 1.5085809408516697,
+     "angle_median_deg": 43.664623891975594,
+     "touching_share": 1.0
+    },
+    "thumb": {
+     "frames_leader_on": 2,
+     "ratio_median": 1.148650020497112,
+     "ratio_max": 2.2276431235438774,
+     "angle_median_deg": 25.76349180309042,
+     "touching_share": 1.0
+    }
+   }
+  },
+  "rows": [
+   {
+    "k": 0,
+    "t": 0.0,
+    "centre_sim_m": [
+     0.008997697167168781,
+     -0.004551426055989236,
+     0.09633844191910028
+    ],
+    "centre_leader_m": [
+     0.008997697167168781,
+     -0.004551426055989236,
+     0.09633844191910028
+    ],
+    "centre_err_m": 0.0,
+    "orient_err_deg": 0.0,
+    "turn_sim_deg": null,
+    "turn_leader_deg": null,
+    "contacts": [
+     "index",
+     "middle",
+     "ring",
+     "thumb"
+    ],
+    "n_contacts": 4,
+    "net_force_sim_N": [
+     -0.1060926103528282,
+     0.033755332821433615,
+     0.06869065826449718
+    ],
+    "net_force_leader_N": [
+     -0.1306640296026532,
+     0.07178798325721952,
+     0.03808045473573964
+    ],
+    "force_sim_N": {
+     "index": [
+      -0.01624763116691054,
+      0.1327097337121462,
+      0.08277072140387733
+     ],
+     "middle": [
+      -0.1098542332977268,
+      0.0195810893086058,
+      -0.10833220313261999
+     ],
+     "ring": [
+      0.018787757064335345,
+      -0.12114772479563322,
+      0.08791139580476538
+     ],
+     "thumb": [
+      0.001221497047473785,
+      0.0026122345963148393,
+      0.0063407441884744484
+     ]
+    },
+    "force_leader_N": {
+     "index": [
+      -0.035497402619054874,
+      0.09346593468872542,
+      0.002013320655939127
+     ],
+     "middle": [
+      -0.0992011222439474,
+      -0.012371481297823655,
+      -0.0024665352296291392
+     ],
+     "ring": [
+      -0.03676100539983922,
+      -0.09297659098867062,
+      0.0019954974613990133
+     ],
+     "thumb": [
+      0.04079550066018831,
+      0.08367012085498837,
+      0.03653817184803064
+     ]
+    },
+    "leader_on": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   {
+    "k": 1,
+    "t": 1.0,
+    "centre_sim_m": [
+     0.01456784530798772,
+     -0.006023643090161295,
+     0.09192945208292369
+    ],
+    "centre_leader_m": [
+     0.008997697167168781,
+     -0.004551426055989236,
+     0.09633844191910028
+    ],
+    "centre_err_m": 0.007254871789486256,
+    "orient_err_deg": 38.09517129981559,
+    "turn_sim_deg": null,
+    "turn_leader_deg": null,
+    "contacts": [
+     "index",
+     "middle",
+     "ring",
+     "thumb"
+    ],
+    "n_contacts": 5,
+    "net_force_sim_N": [
+     -0.13899298980682842,
+     0.10065535150841765,
+     0.03203700953510534
+    ],
+    "net_force_leader_N": [
+     -0.1306640296026532,
+     0.07178798325721952,
+     0.03808045473573964
+    ],
+    "force_sim_N": {
+     "index": [
+      -0.05453663291916533,
+      0.053904510360636815,
+      -0.06577981176766842
+     ],
+     "middle": [
+      -0.10307051200712852,
+      -0.05562199623409805,
+      0.07618518736545311
+     ],
+     "ring": [
+      -0.09664074105117643,
+      -0.06888152337134756,
+      -0.06210719630541442
+     ],
+     "thumb": [
+      0.11525489617064186,
+      0.17125436075322645,
+      0.08373883024273507
+     ]
+    },
+    "force_leader_N": {
+     "index": [
+      -0.035497402619054874,
+      0.09346593468872542,
+      0.002013320655939127
+     ],
+     "middle": [
+      -0.0992011222439474,
+      -0.012371481297823655,
+      -0.0024665352296291392
+     ],
+     "ring": [
+      -0.03676100539983922,
+      -0.09297659098867062,
+      0.0019954974613990133
+     ],
+     "thumb": [
+      0.04079550066018831,
+      0.08367012085498837,
+      0.03653817184803064
+     ]
+    },
+    "leader_on": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
+  ]
+ },
+ "stations_control": {
+  "summary": {
+   "verdict": "dropped",
+   "centre_tol_m": 0.003,
+   "frames": 2,
+   "centre_err_max_m": 2.6716235045351784,
+   "centre_err_end_m": 2.6716235045351784,
+   "offset_mean_m": [
+    1.149715849992194,
+    -0.6436600338139677,
+    -0.2196548716590092
+   ],
+   "offset_mean_size_m": 1.3358117522675892,
+   "centre_err_about_mean_max_m": 1.3358117522675892,
+   "centre_err_about_mean_end_m": 1.3358117522675892,
+   "first_over_tol_t": 1.0,
+   "first_over_tol_k": 1,
+   "dropped_t": 1.0,
+   "turn_sim_deg": null,
+   "turn_leader_deg": null,
+   "turn_share": null,
+   "turn_share_min": 0.9,
+   "turn_min_deg": 5.0,
+   "orient_err_end_deg": 52.256636274545855,
+   "orient_err_max_deg": 52.256636274545855,
+   "frames_with_no_contact": 1,
+   "mean_contacts": 2.0,
+   "forces_vs_leader": {
+    "station0": {
+     "frames_leader_on": 2,
+     "ratio_median": 0.41938351768250104,
+     "ratio_max": 0.8387670353650021,
+     "angle_median_deg": 9.114377123783562,
+     "touching_share": 0.5
+    },
+    "station1": {
+     "frames_leader_on": 2,
+     "ratio_median": 0.41465782650409333,
+     "ratio_max": 0.8293156530081867,
+     "angle_median_deg": 8.605656983001428,
+     "touching_share": 0.5
+    },
+    "station2": {
+     "frames_leader_on": 2,
+     "ratio_median": 0.513711686629759,
+     "ratio_max": 1.027423373259518,
+     "angle_median_deg": 11.046008285804882,
+     "touching_share": 0.5
+    },
+    "station3": {
+     "frames_leader_on": 2,
+     "ratio_median": 0.4880933894154452,
+     "ratio_max": 0.9761867788308904,
+     "angle_median_deg": 11.594039438139333,
+     "touching_share": 0.5
+    }
+   }
+  },
+  "settings": {
+   "pad_radius_m": 0.008,
+   "pad_radius_source": "Wave_manip sim/run_wave_unified.py finger_geom_radius, the leader's mocap finger spheres",
+   "station_servo": {
+    "kp_N_m": 5000.0,
+    "kv_N_s_m": 10.0,
+    "mass_kg": 0.005,
+    "force_limit_N": 50.0
+   },
+   "station_servo_source": "Wave_manip unified_v6/bridge/server.py SCENE_DEFAULTS servo_kp, station_mass, force_limit; critically damped (servo_kv None); the leader itself used mocap stations, which cannot turn an object here",
+   "leader_station_surface_distance_m": [
+    0.0,
+    -3.469446951953614e-18,
+    3.469446951953614e-18,
+    3.469446951953614e-18
+   ],
+   "stations_at_surface": true,
+   "stations_at_surface_note": "the leader's stations lie on the object's surface (contact points, not pad centres): the pad spheres start buried by their radius and this control does not apply to it",
+   "leader_station_surface_distance_note": "median |station - object centre| - R while on; the pad radius less the leader's own penetration",
+   "friction": "MuJoCo contact friction mu (condim 3) in place of the leader's analytic kernel; its stations were condim 1",
+   "contact_options": {
+    "cone": "mjCONE_PYRAMIDAL",
+    "impratio": 1.0,
+    "noslip_iterations": 0,
+    "solver": "mjSOL_NEWTON",
+    "iterations": 100,
+    "integrator": "mjINT_IMPLICIT",
+    "timestep_s": 0.002
+   },
+   "integrator_source": "Wave_manip sim/run_wave_unified.py integrator=\"implicit\" at timestep 0.002; the station servo is unstable under Euler at that step (STATION_INTEGRATOR)",
+   "object_contact": "MuJoCo defaults (solref 0.02 s)"
+  },
+  "rows": [
+   {
+    "k": 0,
+    "t": 0.0,
+    "centre_sim_m": [
+     0.008997697167168781,
+     -0.004551426055989236,
+     0.09633844191910028
+    ],
+    "centre_leader_m": [
+     0.008997697167168781,
+     -0.004551426055989236,
+     0.09633844191910028
+    ],
+    "centre_err_m": 0.0,
+    "orient_err_deg": 0.0,
+    "turn_sim_deg": null,
+    "turn_leader_deg": null,
+    "contacts": [
+     "station0",
+     "station1",
+     "station2",
+     "station3"
+    ],
+    "n_contacts": 4,
+    "net_force_sim_N": [
+     -0.06010820614689952,
+     0.032832532353218064,
+     0.017675124593922828
+    ],
+    "net_force_leader_N": [
+     -0.1306640296026532,
+     0.07178798325721952,
+     0.03808045473573964
+    ],
+    "force_sim_N": {
+     "station0": [
+      -0.017789910484849222,
+      0.0819147808475392,
+      -0.0029646517148944323
+     ],
+     "station1": [
+      -0.07982493751031906,
+      -0.02125688831672767,
+      -0.0073327057630708835
+     ],
+     "station2": [
+      -0.01940009099834352,
+      -0.1008499212661699,
+      -0.0029862566974378398
+     ],
+     "station3": [
+      0.056906732846612296,
+      0.07302456108857644,
+      0.030958738769325984
+     ]
+    },
+    "force_leader_N": {
+     "station0": [
+      -0.035497402619054874,
+      0.09346593468872542,
+      0.002013320655939127
+     ],
+     "station1": [
+      -0.0992011222439474,
+      -0.012371481297823655,
+      -0.0024665352296291392
+     ],
+     "station2": [
+      -0.03676100539983922,
+      -0.09297659098867062,
+      0.0019954974613990133
+     ],
+     "station3": [
+      0.04079550066018831,
+      0.08367012085498837,
+      0.03653817184803064
+     ]
+    },
+    "leader_on": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   {
+    "k": 1,
+    "t": 1.0,
+    "centre_sim_m": [
+     2.308429397151557,
+     -1.2918714936839246,
+     -0.3429713013989181
+    ],
+    "centre_leader_m": [
+     0.008997697167168781,
+     -0.004551426055989236,
+     0.09633844191910028
+    ],
+    "centre_err_m": 2.6716235045351784,
+    "orient_err_deg": 52.256636274545855,
+    "turn_sim_deg": null,
+    "turn_leader_deg": null,
+    "contacts": [],
+    "n_contacts": 0,
+    "net_force_sim_N": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "net_force_leader_N": [
+     -0.1306640296026532,
+     0.07178798325721952,
+     0.03808045473573964
+    ],
+    "force_sim_N": {},
+    "force_leader_N": {
+     "station0": [
+      -0.035497402619054874,
+      0.09346593468872542,
+      0.002013320655939127
+     ],
+     "station1": [
+      -0.0992011222439474,
+      -0.012371481297823655,
+      -0.0024665352296291392
+     ],
+     "station2": [
+      -0.03676100539983922,
+      -0.09297659098867062,
+      0.0019954974613990133
+     ],
+     "station3": [
+      0.04079550066018831,
+      0.08367012085498837,
+      0.03653817184803064
+     ]
+    },
+    "leader_on": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
+  ]
+ },
+ "elapsed_s": 0.2,
+ "result_file": "outputs/follow_allegro__hold_allegro__self__selfoverlapfix__continuity__inertia__hold.json"
+}

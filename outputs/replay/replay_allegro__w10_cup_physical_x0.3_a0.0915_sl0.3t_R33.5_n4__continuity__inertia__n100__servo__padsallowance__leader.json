@@ -44841,6 +44841,8 @@
     0.007779631678345875,
     0.007780028258226768
    ],
+   "stations_at_surface": false,
+   "stations_at_surface_note": null,
    "leader_station_surface_distance_note": "median |station - object centre| - R while on; the pad radius less the leader's own penetration",
    "friction": "MuJoCo contact friction mu (condim 3) in place of the leader's analytic kernel; its stations were condim 1",
    "contact_options": {
@@ -68276,6 +68278,6 @@
    }
   ]
  },
- "elapsed_s": 1.9,
+ "elapsed_s": 2.0,
  "result_file": "outputs/continuity/follow_allegro__w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__continuity__inertia__n100.json"
 }
