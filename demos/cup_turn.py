@@ -45,7 +45,15 @@ def main():
     ap.add_argument("--record", action="append", default=[],
                     help="add your own actuator record (JSON, gramian_map "
                          "schema); repeatable")
+    ap.add_argument("--tag", default="",
+                    help="suffix for the output names (outputs/cup_turn_<tag>.*); "
+                         "a tagged run refuses to overwrite existing files")
     a = ap.parse_args()
+    stem = "cup_turn" + (f"_{a.tag}" if a.tag else "")
+    if a.tag:
+        for ext in ("txt", "json", "html"):
+            if os.path.exists(os.path.join(ROOT, "outputs", f"{stem}.{ext}")):
+                sys.exit(f"outputs/{stem}.{ext} exists; pick another --tag")
     task = load_task("cup_turn")
     duties = [task["wave"]["duty"]] + list(task["wave"]["duty_sensitivity"])
     fingers = all_fingers(a.record)
@@ -121,7 +129,7 @@ def main():
         lines.append(f"  P{k}: {'HIT' if v else 'MISS'}  {detail[k]}")
     txt = "\n".join(lines) + "\n"
     os.makedirs(os.path.join(ROOT, "outputs"), exist_ok=True)
-    with open(os.path.join(ROOT, "outputs", "cup_turn.txt"), "w", encoding="utf-8") as fo:
+    with open(os.path.join(ROOT, "outputs", f"{stem}.txt"), "w", encoding="utf-8") as fo:
         fo.write(txt)
     js = {"task": "cup_turn", "caveat": CAVEAT, "duties": duties,
           "predictions": P, "prediction_detail": detail,
@@ -131,7 +139,7 @@ def main():
                                    "made_count", "drive_azimuth",
                                    "drive_offaxis", "turn_per_stroke_deg")}
               for k, v in res.items()}}
-    with open(os.path.join(ROOT, "outputs", "cup_turn.json"), "w", encoding="utf-8") as fo:
+    with open(os.path.join(ROOT, "outputs", f"{stem}.json"), "w", encoding="utf-8") as fo:
         json.dump(js, fo, indent=1, default=str)
 
     body = ['<p class="note">Each cell is the fraction of the wave cycle on '
@@ -176,7 +184,7 @@ def main():
     body.append("<details><summary>Table view and prediction scores"
                 f'</summary><div class="card"><pre>{report.esc(txt)}</pre>'
                 "</div></details>")
-    with open(os.path.join(ROOT, "outputs", "cup_turn.html"), "w", encoding="utf-8") as fo:
+    with open(os.path.join(ROOT, "outputs", f"{stem}.html"), "w", encoding="utf-8") as fo:
         fo.write(report.page("Cup turn readout", CAVEAT, "".join(body)))
     print(txt)
 
