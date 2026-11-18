@@ -1,0 +1,19 @@
+# Digitised from Yang et al. 2016 (Adv. Mater. Technol., doi:10.1002/admt.201600055; Harvard DASH accepted manuscript) Fig 2C: VAMP in Elastosil M4601 (E = 520 kPa), loaded by a hung weight at dP = 90 kPa (Fig 2 caption)
+# sigma_kPa = loading stress T/A (left axis); T_N = total loading force (right axis, read directly)
+# strain = actuation strain s(dP,sigma) = (L(dP,sigma) - L(0,sigma)) / L(0,0) (paper Eq 3), bottom axis: relative to the length under the SAME load with no vacuum; dL_mm = L(dP,sigma) - L(0,sigma), top axis (Fig 2 caption)
+# strain_sd / dL_sd_mm = half-width of the published horizontal error bar (SD over n = 7 samples); blank unless sd_status is read
+# sd_status: read = both caps found; hidden_in_marker = no bar ink outside the marker, sd_upper_bound_strain = half a marker; unreadable = bar ink leaves the marker but a cap is missing or hidden (one-sided whisker, or behind the frame): SD and bound left blank
+# bar_mid_minus_marker_px: diagnostic
+# Published measurements digitised by digitize_yang2016_fig2.py; not our measurements
+sigma_kPa,T_N,strain,dL_mm,strain_sd,dL_sd_mm,sd_upper_bound_strain,sd_status,bar_mid_minus_marker_px,marker_x_px,marker_y_px
+0,0.0025259,-0.42899,-19.953,0.0057971,0.26959,,read,0,926,435
+1.037,0.98968,-0.4558,-21.2,0.0057971,0.26959,,read,0,907.5,407
+2.0556,1.9592,-0.47681,-22.177,0.01087,0.50549,,read,0,893,379.5
+3.0926,2.9464,-0.48986,-22.784,0.01087,0.50549,,read,0,884,351.5
+4.1111,3.9159,-0.4558,-21.2,0.010145,0.47179,,read,0,907.5,324
+5.1481,4.903,-0.42826,-19.919,0.014855,0.69083,,read,0.25,926.5,296
+6.1852,5.8902,-0.34058,-15.842,0.042029,1.9546,,read,0,987,268
+7.2037,6.8597,-0.24203,-11.259,0.047101,2.1904,,read,0,1055,240.5
+8.2407,7.8469,-0.18116,-8.428,0.021014,0.97728,,read,0,1097,212.5
+9.2593,8.8164,-0.068841,-3.2046,0.0072464,0.33699,,read,0,1174.5,185
+10.296,9.8036,-0.05942,-2.7666,0.0061594,0.28644,,read,-0.25,1181,157

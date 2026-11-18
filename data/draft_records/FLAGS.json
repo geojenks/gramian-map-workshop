@@ -1,0 +1,9 @@
+{
+ "about": "Flags carried by demos/backwards_lookup.py --drafts for draft records in this folder, beyond the 'draft' flag every one of them gets. Keyed by record id. Reasons are in each folder's PROVENANCE.md.",
+ "flags": {
+  "chandler2020_pha_a0_C1": {"frame": "shared_three_chamber_frame_not_canonical"},
+  "chandler2020_pha_a0_C2": {"frame": "shared_three_chamber_frame_not_canonical"},
+  "chandler2020_pha_a0_C3": {"frame": "shared_three_chamber_frame_not_canonical"},
+  "cherubini2015_RC_datasetC": {"stroke": "read_under_preload_tension_not_free"}
+ }
+}

@@ -1,0 +1,17 @@
+# Digitised from Kubler et al. 2023 (arXiv:2305.00967v3) Fig 7, row 3 (force output), fPAM W40 mm
+# Series: lateral force (perpendicular to the growing axis) with the vine tip fixed to a 6-axis force-torque sensor, vine body at 1.75 kPa; mean of five runs
+# force_sd_N = half-height of the published error bar (the paper's standard deviation), not reading error
+# force_N = centre of the error bar (stems crossed by other series' lines are bridged over gaps up to 10 px)
+# line_check_N = dashed mean line (fitted 12-30 px either side) minus force_N at the bar; diagnostic only, blank if the line is not visible on both sides
+# Published measurements digitised by digitize_kubler2023_fig7.py; not our measurements
+pressure_kPa,force_N,force_sd_N,line_check_N,series
+3.749,0.2503,0.0462,-0.0061,data_mean
+7.539,0.4735,0.0539,-0.0016,data_mean
+11.372,0.6774,0.0423,-0.0057,data_mean
+15.204,0.8660,0.0462,-0.0057,data_mean
+18.868,1.0353,0.0385,-0.0051,data_mean
+22.658,1.2046,0.0385,-0.0036,data_mean
+26.490,1.3431,0.0462,0.0017,data_mean
+30.154,1.4585,0.0539,-0.0006,data_mean
+33.986,1.5817,0.0539,-0.0009,data_mean
+37.861,1.6817,0.0539,,data_mean

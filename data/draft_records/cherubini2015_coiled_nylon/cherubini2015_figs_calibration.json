@@ -1,0 +1,207 @@
+{
+ "pdf": "cherubini2015_aipadv067158.pdf",
+ "pdf_sha256": "3e41788601c5fecb0a434c23ef849d54cdbeb53316c8a70c51a38a30325e0b90",
+ "fig7": {
+  "page_index": 8,
+  "xref": 161,
+  "image_size_px": [
+   951,
+   735
+  ]
+ },
+ "fig9": {
+  "page_index": 9,
+  "xref": 189,
+  "image_size_px": [
+   1500,
+   584
+  ]
+ },
+ "panels": {
+  "fig7": {
+   "panel": "Fig 7",
+   "frame_px": {
+    "left_col": 112.1523788390575,
+    "right_col": 915.4725412445498,
+    "top_row": 15.30291140611648,
+    "bottom_row": 630.2648887371375
+   },
+   "x_ticks_px": [
+    112.15,
+    245.82,
+    379.65,
+    513.59,
+    647.48,
+    781.45,
+    915.47
+   ],
+   "x_ticks_value": [
+    20.0,
+    40.0,
+    60.0,
+    80.0,
+    100.0,
+    120.0,
+    140.0
+   ],
+   "y_ticks_px": [
+    630.26,
+    168.62,
+    322.58,
+    476.5,
+    15.3
+   ],
+   "y_ticks_value": [
+    10.0,
+    40.0,
+    30.0,
+    20.0,
+    50.0
+   ],
+   "x_fit_unit_per_px": 0.14937128085092413,
+   "x_fit_offset": 3.2741393219995354,
+   "y_fit_unit_per_px": -0.06502796125158088,
+   "y_fit_offset": 50.981554100555584,
+   "x_max_residual_px": 0.17730181810561874,
+   "y_max_residual_px": 0.2496350810678507,
+   "legend_box_px": [
+    120.0,
+    22,
+    689.0,
+    207
+   ]
+  },
+  "Fig 9 left (loading/unloading average)": {
+   "panel": "Fig 9 left (loading/unloading average)",
+   "frame_px": {
+    "left_col": 82.39662769701042,
+    "right_col": 696.5486141343781,
+    "top_row": 51.64539313092149,
+    "bottom_row": 496.53985142090164
+   },
+   "x_ticks_px": [
+    82.4,
+    205.0,
+    328.0,
+    451.0,
+    573.74,
+    696.55
+   ],
+   "x_ticks_value": [
+    0.0,
+    0.1,
+    0.2,
+    0.30000000000000004,
+    0.4,
+    0.5
+   ],
+   "y_ticks_px": [
+    496.54,
+    163.0,
+    274.0,
+    385.0,
+    51.65
+   ],
+   "y_ticks_value": [
+    0.0,
+    60.0,
+    40.0,
+    20.0,
+    80.0
+   ],
+   "x_fit_unit_per_px": 0.0008139585287913963,
+   "x_fit_offset": -0.06699381195852802,
+   "y_fit_unit_per_px": -0.17989013103969864,
+   "y_fit_offset": 89.29656063821777,
+   "x_max_residual_px": 0.16255564824444946,
+   "y_max_residual_px": 0.21602178901753177,
+   "legend_box_px": [
+    90.0,
+    59,
+    260.0,
+    229
+   ]
+  },
+  "Fig 9 right (unloading)": {
+   "panel": "Fig 9 right (unloading)",
+   "frame_px": {
+    "left_col": 865.1846859958147,
+    "right_col": 1479.347581905453,
+    "top_row": 51.34571866516896,
+    "bottom_row": 496.2980779072932
+   },
+   "x_ticks_px": [
+    865.18,
+    988.0,
+    1111.0,
+    1233.69,
+    1356.55,
+    1479.35
+   ],
+   "x_ticks_value": [
+    0.0,
+    0.1,
+    0.2,
+    0.30000000000000004,
+    0.4,
+    0.5
+   ],
+   "y_ticks_px": [
+    496.3,
+    162.65,
+    274.0,
+    385.0,
+    51.35
+   ],
+   "y_ticks_value": [
+    0.0,
+    60.0,
+    40.0,
+    20.0,
+    80.0
+   ],
+   "x_fit_unit_per_px": 0.0008141166679422236,
+   "x_fit_offset": -0.7043840350645821,
+   "y_fit_unit_per_px": -0.1798146621719467,
+   "y_fit_offset": 89.24377169040659,
+   "x_max_residual_px": 0.12232032968927342,
+   "y_max_residual_px": 0.14151095577773276,
+   "legend_box_px": [
+    873.0,
+    59,
+    1043.0,
+    229
+   ]
+  }
+ },
+ "fig7_templates": {
+  "asterisk_px": [
+   27,
+   26
+  ],
+  "asterisk_origin_px": [
+   43,
+   163.0
+  ],
+  "asterisk_pixels": 204,
+  "circle_px": [
+   28,
+   29
+  ],
+  "circle_origin_px": [
+   101,
+   162.0
+  ],
+  "circle_pixels": 171,
+  "peak_minus_bbox_centre_px": {
+   "asterisk": [
+    -1.0,
+    0.5
+   ],
+   "circle": [
+    -0.5,
+    0.0
+   ]
+  }
+ }
+}

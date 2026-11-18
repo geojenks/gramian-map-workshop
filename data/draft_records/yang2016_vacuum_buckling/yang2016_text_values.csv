@@ -1,0 +1,11 @@
+# Values quoted in the text of Yang et al. 2016 (Harvard DASH accepted manuscript, source/yang2016_admt201600055_dash.pdf).
+# Each row cites where it is stated. "pdf_page" is the 1-based page of the PDF file (page 1 is the DASH cover sheet); "printed_page" is the manuscript's own page number.
+# The scripts read these; nothing here is typed into a record by hand. Lengths are cross-checked against the figure's own axes by digitize_yang2016_fig2.py.
+quantity,value,unit,pdf_page,printed_page,quote
+device_width,34,mm,6,5,"We characterized two mechanical relationships for VAMPs (with dimension 34 mm x 28 mm x 46.5 mm) under quasistatic conditions"
+device_depth,28,mm,6,5,"We characterized two mechanical relationships for VAMPs (with dimension 34 mm x 28 mm x 46.5 mm) under quasistatic conditions"
+device_length,46.5,mm,6,5,"We characterized two mechanical relationships for VAMPs (with dimension 34 mm x 28 mm x 46.5 mm) under quasistatic conditions"
+load_test_dP,90,kPa,20,19,"Figure 2 caption: (C, D) Loading stress vs. actuation strain curves ... when a differential pressure of dP = 90 kPa is applied"
+E_ecoflex,43,kPa,7,6,"For Ecoflex 00-30 (Young's modulus E = 43 kPa), dPcrit is about 1 kPa"
+E_elastosil,520,kPa,7,6,"for Elastosil M4601 (E = 520 kPa), dPcrit is about 10 kPa"
+n_samples_static,7,count,20,19,"Figure 2 caption: Reported values for static characteristics are mean +/- S.D. (n = 7 different samples)"

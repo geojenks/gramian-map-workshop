@@ -1,0 +1,271 @@
+{
+ "schema_version": "0.2",
+ "id": "chandler2020_pha_a0_C3",
+ "name": "Chandler 2020 parallel helix actuator, thread angle 0 deg, chamber C3 alone (DRAFT)",
+ "source": {
+  "kind": "literature",
+  "detail": "digitized: Chandler et al. 2020 Fig 7C (3D tip trajectory, blue squares) with its x-y polar inset; volume per marker counted back from the end of the 8 ml up-sweep in 0.2 ml steps (assumption, see PROVENANCE.md). DRAFT: not in the manifest.",
+  "date": "2026-11-12",
+  "reference": "doi:10.3389/frobt.2020.00119"
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": null,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "Three-chamber parallel helix actuator (helical chambers round a core), single silicone material; this record is one chamber driven alone, the other two at zero injected volume. Geometry and material are given in the paper's Table 1 and Fig 4 but are not entered here (no hand-typed numbers). INPUT: syringe-displaced air volume (compressible), not chamber volume; stored in m^3 with unit null because the schema's SI unit list has no volume unit. Up-sweep of a linear volume ramp to 8 ml; the paper reports up/down hysteresis that grows with volume rate (its Fig 9). VOLUME UNCERTAINTY: about +-0.3 ml from 5 ml up, up to about 1.3 ml below 5 ml (C1 check, PROVENANCE.md). FRAME: one common frame for all three chamber records: X base->tip (= -z of the paper's Fig 7, which plots the rise of the tip toward the base), Y = paper y, Z = paper x (inset 0 deg); right-handed. Each chamber bends in its own direction in Y-Z (paper Table 3 gives the measured bending planes); no chamber was rotated onto +Y. READING ERROR (from the digitiser): x/y up to 4.4 mm (inset stroke half-width), z up to 1.6 mm; free.uncertainty = worst 3D reading error / free stroke = 0.08. Per-point errors are in the source CSV (xy_err_mm, z_err_mm). VOLUMES are inferred, not read off an axis: Fig 7C carries no volume; see PROVENANCE.md for the counting rule and its check against the paper's Eq 11 fit. Low-volume markers merged at the origin are omitted. Bending device: polarity_axial left null. BLOCKED: null -- the paper has no blocked-force or tip-force measurement; its Fig 11 shows only the workspace with small tip masses (2.5-7.5 g) hung on, which is not a blocked force."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "injected air volume, chamber C3 (m^3; syringe displacement)",
+    "unit": null,
+    "range": [
+     0.0,
+     8e-06
+    ],
+    "rated": null
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "free-end centroid"
+ },
+ "free": {
+  "u": [
+   [
+    0.0
+   ],
+   [
+    3.2e-06
+   ],
+   [
+    3.6e-06
+   ],
+   [
+    3.7999999999999996e-06
+   ],
+   [
+    4e-06
+   ],
+   [
+    4.2e-06
+   ],
+   [
+    4.4e-06
+   ],
+   [
+    4.599999999999999e-06
+   ],
+   [
+    4.8e-06
+   ],
+   [
+    4.9999999999999996e-06
+   ],
+   [
+    5.2e-06
+   ],
+   [
+    5.4e-06
+   ],
+   [
+    5.6e-06
+   ],
+   [
+    5.7999999999999995e-06
+   ],
+   [
+    6e-06
+   ],
+   [
+    6.2e-06
+   ],
+   [
+    6.4e-06
+   ],
+   [
+    6.5999999999999995e-06
+   ],
+   [
+    6.799999999999999e-06
+   ],
+   [
+    7e-06
+   ],
+   [
+    7.4e-06
+   ],
+   [
+    7.599999999999999e-06
+   ],
+   [
+    7.8e-06
+   ],
+   [
+    8e-06
+   ]
+  ],
+  "tip_displacement_m": [
+   [
+    -0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.00032,
+    0.0036360000000000003,
+    -0.0022210000000000003
+   ],
+   [
+    0.000128,
+    0.0069960000000000005,
+    -0.003814
+   ],
+   [
+    -0.000177,
+    0.008561000000000001,
+    -0.0044480000000000006
+   ],
+   [
+    -0.000751,
+    0.010343999999999999,
+    -0.005455
+   ],
+   [
+    -0.00138,
+    0.012497,
+    -0.0065450000000000005
+   ],
+   [
+    -0.002659,
+    0.015371000000000001,
+    -0.007932
+   ],
+   [
+    -0.004444,
+    0.018328,
+    -0.009253
+   ],
+   [
+    -0.006699,
+    0.02163,
+    -0.010565
+   ],
+   [
+    -0.009615,
+    0.02452,
+    -0.011563
+   ],
+   [
+    -0.012505,
+    0.02707,
+    -0.012515
+   ],
+   [
+    -0.015364000000000001,
+    0.029119,
+    -0.013295
+   ],
+   [
+    -0.017419,
+    0.032409999999999994,
+    -0.011685000000000001
+   ],
+   [
+    -0.022015,
+    0.033218000000000004,
+    -0.012512
+   ],
+   [
+    -0.025811,
+    0.034364,
+    -0.012577
+   ],
+   [
+    -0.030074000000000004,
+    0.034723,
+    -0.012815
+   ],
+   [
+    -0.033839,
+    0.034723,
+    -0.012815
+   ],
+   [
+    -0.037225,
+    0.03438,
+    -0.012651
+   ],
+   [
+    -0.040714,
+    0.033732,
+    -0.012453
+   ],
+   [
+    -0.043848,
+    0.032933000000000004,
+    -0.012023
+   ],
+   [
+    -0.047904,
+    0.032689,
+    -0.008477
+   ],
+   [
+    -0.049879,
+    0.031617,
+    -0.007479
+   ],
+   [
+    -0.051814,
+    0.030563,
+    -0.006776
+   ],
+   [
+    -0.053967,
+    0.028996,
+    -0.005605000000000001
+   ]
+  ],
+  "uncertainty": 0.07557569099246571
+ },
+ "blocked": null,
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.06151927445931072,
+  "free_direction": [
+   0.07489456334667795,
+   0.8509894760266282,
+   -0.5198150787280367
+  ],
+  "polarity_axial": null,
+  "blocked_force_N": null,
+  "stiffness_N_per_m": null,
+  "effective_dof": null
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.1
+ },
+ "data_completeness": "curves_only",
+ "provenance": {
+  "data_dir": "data/draft_records/chandler2020_parallel_helix",
+  "digitizer_script": "digitize_chandler2020_fig7.py",
+  "source_csvs": [
+   {
+    "file": "chandler2020_fig7C_a0_tip_C3.csv",
+    "sha256": "dd1f3a2302ae93c6afe691f4d9cda6954e02f4c1ec1891ccdace3bec854e12c5"
+   },
+   {
+    "file": "chandler2020_fig7C_a0_calibration.csv",
+    "sha256": "c9d0a3d955d8796701b8e4fc874081cc0ae21547aca0d479de17e0c541eb03d8"
+   }
+  ],
+  "citation": "Chandler, J. H., Chauhan, M., Garbin, N., Obstein, K. L., and Valdastri, P. \"Parallel Helix Actuators for Soft Robotic Applications.\" Front. Robot. AI 7:119, 2020. doi:10.3389/frobt.2020.00119 (CC BY 4.0)"
+ }
+}

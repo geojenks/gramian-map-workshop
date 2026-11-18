@@ -1,0 +1,19 @@
+# Digitised from Kubler et al. 2023 (arXiv:2305.00967v3) Fig 7, row 1 (quasi-static bending), cPAM W40 x L40 mm
+# Series: experimental mean (dashed line; shaded band = +/-1 SD over five runs), horizontal configuration, vine body at 1.75 kPa
+# bend_deg_per_cm = bending angle per nominal length as published (deg/cm); band_lo/band_hi = shaded band edges
+# Sampled every 2 kPa (median of pixel columns within +/-0.5 kPa, kept only if columns cover both halves of the window; pressure_kPa = mean of the columns used); last row = end of the plotted curve (last 0.5 kPa of columns)
+# Published measurements digitised by digitize_kubler2023_fig7.py; not our measurements
+pressure_kPa,bend_deg_per_cm,band_lo_deg_per_cm,band_hi_deg_per_cm,n_columns,series
+5.989,0.3347,0.3121,0.3573,24,data_mean
+7.997,0.5590,0.5364,0.5816,23,data_mean
+10.004,0.7418,0.7079,0.7757,24,data_mean
+11.991,0.8879,0.8492,0.9265,24,data_mean
+13.998,1.0188,0.9887,1.0490,23,data_mean
+16.006,1.1310,1.0999,1.1621,24,data_mean
+17.992,1.2346,1.2129,1.2563,24,data_mean
+20.000,1.3166,1.2940,1.3392,23,data_mean
+22.008,1.4042,1.3844,1.4240,24,data_mean
+23.994,1.4777,1.4598,1.4956,24,data_mean
+26.002,1.5201,1.5050,1.5352,23,data_mean
+28.009,1.5701,1.5390,1.6012,24,data_mean
+30.080,1.6068,1.5578,1.6558,12,data_mean

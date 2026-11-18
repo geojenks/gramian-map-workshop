@@ -1,0 +1,279 @@
+{
+ "schema_version": "0.2",
+ "id": "kubler2023_fPAM_W40",
+ "name": "DRAFT Kubler 2023 vine robot fPAM W40",
+ "source": {
+  "kind": "literature",
+  "detail": "digitized: Kubler et al. 2023 (arXiv:2305.00967v3) Fig 7, fPAM W40: top row quasi-static bending (data mean) + bottom row lateral force with tip fixed",
+  "date": "2026-11-12",
+  "reference": "arXiv:2305.00967v3"
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": 0.36,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "DRAFT -- not reviewed, not in the manifest. fPAM W40 mm actuator line on a soft growing (everting) vine robot. Measured MOUNTED ON AN INFLATED VINE BODY (diameter 80 mm, body length 420 mm, body pressure 1.75 kPa), not as a free-standing actuator: the curves describe actuator plus inflated beam. Materials: 30 denier ripstop nylon with two-sided silicone coating, pre-stretched, one cylindrical tube glued along the vine body with SilPoxy (fPAMs vary by width only). Free motion: the paper reports bending angle per nominal length (deg/cm; data mean of five runs, horizontal configuration, Fig 7 top row). Converted here to tip displacement ASSUMING one circular arc of constant curvature over the actuated length L = 360 mm (paper Table 1), inextensible centreline, the remaining 60 mm of body ignored. That unactuated part is at the tip end (paper Fig 3 side view), so the port here is the end of the actuated length: the vine's physical tip lies a further 60 mm along the final tangent and moves more than this port, and the force sensor held that physical tip. Frame X base->tip, bending toward +Y. At the last level (37.1 kPa) b = 0.722 deg/cm, i.e. 26.0 deg total turn. Free levels start at 2 kPa: below that the curve runs under other series and could not be traced. free_direction is rest -> lowest digitised level. Blocked force: the front (tip) of the vine robot was fixed to an ATI Nano-17 six-axis force-torque sensor and the lateral force (perpendicular to the growing axis) reported, mean of five runs at ten pressures (Fig 7 bottom row); recorded as force_transverse_N. The paper does not report the axial component, so force_axial_N is null; the workshop loader then reads no push force from this record (same as the Mosadegh records). Reading error (kubler2023_fig7_reading_error.json): about 0.0039 deg/cm on bend (about 0.41 mm of tip Y at the last level) and 0.0094 N on force; the paper's own run-to-run SD is larger (CSV columns band_lo/band_hi and force_sd_N). Polarity_axial null: bender, not an axial actuator."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "actuator pressure",
+    "unit": "Pa",
+    "range": [
+     0.0,
+     37861.0
+    ],
+    "rated": null
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "end of the actuated length (vine robot tip region)"
+ },
+ "free": {
+  "u": [
+   [
+    1990.0
+   ],
+   [
+    3997.0
+   ],
+   [
+    6007.0
+   ],
+   [
+    8007.999999999999
+   ],
+   [
+    9992.0
+   ],
+   [
+    11997.0
+   ],
+   [
+    14002.0
+   ],
+   [
+    15986.0
+   ],
+   [
+    18012.0
+   ],
+   [
+    20035.0
+   ],
+   [
+    22007.0
+   ],
+   [
+    24006.0
+   ],
+   [
+    25990.0
+   ],
+   [
+    27995.0
+   ],
+   [
+    30000.0
+   ],
+   [
+    32005.000000000004
+   ],
+   [
+    34010.0
+   ],
+   [
+    35994.0
+   ],
+   [
+    37092.0
+   ]
+  ],
+  "tip_displacement_m": [
+   [
+    -0.0001321613160194879,
+    0.008446820146227383,
+    0.0
+   ],
+   [
+    -0.0008162800211005772,
+    0.02097835917075884,
+    0.0
+   ],
+   [
+    -0.0016003379991627086,
+    0.029351203786110558,
+    0.0
+   ],
+   [
+    -0.0022312300952892095,
+    0.03463576688068241,
+    0.0
+   ],
+   [
+    -0.0032374932997760106,
+    0.041680200632868224,
+    0.0
+   ],
+   [
+    -0.004449121721996012,
+    0.048803038473401,
+    0.0
+   ],
+   [
+    -0.0052097011718020125,
+    0.05277056913742385,
+    0.0
+   ],
+   [
+    -0.006005717711019427,
+    0.05661451919960837,
+    0.0
+   ],
+   [
+    -0.007002168185240522,
+    0.061071027253757536,
+    0.0
+   ],
+   [
+    -0.007490225513602659,
+    0.06313311631780737,
+    0.0
+   ],
+   [
+    -0.008125703622751215,
+    0.06571546601393481,
+    0.0
+   ],
+   [
+    -0.009108925460640158,
+    0.06951012581685471,
+    0.0
+   ],
+   [
+    -0.009606182023472755,
+    0.07134702160173947,
+    0.0
+   ],
+   [
+    -0.010291277566740665,
+    0.07379718648890506,
+    0.0
+   ],
+   [
+    -0.010938918738787601,
+    0.07603487339517447,
+    0.0
+   ],
+   [
+    -0.011300563770102929,
+    0.07725372490852889,
+    0.0
+   ],
+   [
+    -0.011977843633203422,
+    0.07948144290557048,
+    0.0
+   ],
+   [
+    -0.012355624101397006,
+    0.08069473142092641,
+    0.0
+   ],
+   [
+    -0.01223130050310587,
+    0.08029768114851689,
+    0.0
+   ]
+  ],
+  "uncertainty": null
+ },
+ "blocked": {
+  "u": [
+   [
+    3749.0
+   ],
+   [
+    7539.0
+   ],
+   [
+    11372.0
+   ],
+   [
+    15204.0
+   ],
+   [
+    18868.0
+   ],
+   [
+    22658.0
+   ],
+   [
+    26490.0
+   ],
+   [
+    30154.0
+   ],
+   [
+    33986.0
+   ],
+   [
+    37861.0
+   ]
+  ],
+  "force_axial_N": null,
+  "force_transverse_N": [
+   0.2503,
+   0.4735,
+   0.6774,
+   0.866,
+   1.0353,
+   1.2046,
+   1.3431,
+   1.4585,
+   1.5817,
+   1.6817
+  ],
+  "method": "digitized Kubler 2023 Fig 7 bottom row: front of the vine robot fixed to an ATI Nano-17 6-axis force-torque sensor, lateral force (perpendicular to the growing axis) reported; actuator mounted on the inflated vine body at 1.75 kPa; mean of five runs",
+  "uncertainty": null
+ },
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.08122390233069428,
+  "free_direction": [
+   -0.01564436554277114,
+   0.9998776194248796,
+   0.0
+  ],
+  "polarity_axial": null,
+  "blocked_force_N": 1.6817,
+  "stiffness_N_per_m": null,
+  "effective_dof": null
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.1
+ },
+ "data_completeness": "curves_only",
+ "provenance": {
+  "data_dir": "data/draft_records/kubler2023_vine_actuators",
+  "digitizer_script": "digitize_kubler2023_fig7.py",
+  "source_csvs": [
+   {
+    "file": "kubler2023_fig7_bend_fPAM_W40.csv",
+    "sha256": "35e3ad3d0bf65c5c189b9572c21c7c6d47791b2336851d57c6f7dc4bf4a03b1b"
+   },
+   {
+    "file": "kubler2023_fig7_force_fPAM_W40.csv",
+    "sha256": "6577317af0d11238de8740445dc745c2577112b4a7cd093cd7f9e4400ae1fa97"
+   }
+  ],
+  "citation": "Kubler, A. M., du Pasquier, C., Low, A., Djambazi, B., Aymon, N., Forster, J., Agharese, N., Siegwart, R. and Okamura, A. M. \"A Comparison of Pneumatic Actuators for Soft Growing Vine Robots.\" Soft Robotics 11(5), 857-868, 2024. doi:10.1089/soro.2023.0169 (journal version not checked). Digitised from the arXiv preprint arXiv:2305.00967v3 (15 Sep 2023), Fig 7."
+ }
+}

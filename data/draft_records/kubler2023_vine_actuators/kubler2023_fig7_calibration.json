@@ -1,0 +1,325 @@
+{
+ "pdf": "kubler2023_arxiv2305.00967.pdf",
+ "pdf_sha256": "495c299ad6b08341e0127616caa6bd894de3fec171c0cfc95e8834ab7cadca51",
+ "page_index": 9,
+ "image_size_px": [
+  3558,
+  2390
+ ],
+ "panels": {
+  "bend_pouch_W40xL40": {
+   "panel": "bend col 0",
+   "axes": {
+    "yaxis_col": 215,
+    "yaxis_top_row": 71.0,
+    "xaxis_row": 734,
+    "xaxis_right_col": 1162.0
+   },
+   "legend_box": [
+    231.0,
+    87,
+    472.0,
+    372
+   ],
+   "x_ticks_px": [
+    215.0,
+    688.0,
+    925.0,
+    1162.0
+   ],
+   "x_ticks_kPa": [
+    0.0,
+    20.0,
+    30.0,
+    40.0
+   ],
+   "y_ticks_px": [
+    734.0,
+    71.0,
+    203.5,
+    336.5,
+    469.0,
+    602.0
+   ],
+   "y_ticks_value": [
+    0.0,
+    2.5,
+    2.0,
+    1.5,
+    1.0,
+    0.5
+   ],
+   "x_fit_kPa_per_px": 0.042239907995913636,
+   "x_fit_offset": -9.074331226945459,
+   "y_fit_unit_per_px": -0.0037691114162214916,
+   "y_fit_offset": 2.7676955302651876,
+   "x_max_residual_px": 0.314265025344298,
+   "y_max_residual_px": 0.3474405915713987,
+   "x_axis_end_value": 40.008441864306185,
+   "y_axis_top_value": 2.5000886197134617
+  },
+  "force_pouch_W40xL40": {
+   "panel": "force col 0",
+   "axes": {
+    "yaxis_col": 215,
+    "yaxis_top_row": 1636.0,
+    "xaxis_row": 2284,
+    "xaxis_right_col": 1162.0
+   },
+   "legend_box": [
+    231.0,
+    1652,
+    472.0,
+    1936
+   ],
+   "x_ticks_px": [
+    215.0,
+    451.5,
+    688.5,
+    925.5,
+    1162.5
+   ],
+   "x_ticks_kPa": [
+    0.0,
+    10.0,
+    20.0,
+    30.0,
+    40.0
+   ],
+   "y_ticks_px": [
+    2284.0,
+    1635.5,
+    1764.0,
+    1895.0,
+    2025.5,
+    2154.0
+   ],
+   "y_ticks_value": [
+    0.0,
+    5.0,
+    4.0,
+    3.0,
+    2.0,
+    1.0
+   ],
+   "x_fit_kPa_per_px": 0.04221189623535457,
+   "x_fit_offset": -9.067111747665152,
+   "y_fit_unit_per_px": -0.007704104503133591,
+   "y_fit_offset": 17.59747679130746,
+   "x_max_residual_px": 0.20008442380768088,
+   "y_max_residual_px": 0.9652579059359141,
+   "x_axis_end_value": 39.98311167781686,
+   "y_axis_top_value": 4.993561824180906
+  },
+  "bend_cPAM_W40xL40": {
+   "panel": "bend col 1",
+   "axes": {
+    "yaxis_col": 1355,
+    "yaxis_top_row": 71.0,
+    "xaxis_row": 734,
+    "xaxis_right_col": 2301.0
+   },
+   "legend_box": [
+    1371.0,
+    87,
+    1612.0,
+    333
+   ],
+   "x_ticks_px": [
+    1355.0,
+    1591.0,
+    1828.0,
+    2065.0,
+    2301.0
+   ],
+   "x_ticks_kPa": [
+    0.0,
+    10.0,
+    20.0,
+    30.0,
+    40.0
+   ],
+   "y_ticks_px": [
+    734.0,
+    71.0,
+    203.5,
+    336.5,
+    469.0,
+    602.0
+   ],
+   "y_ticks_value": [
+    0.0,
+    2.5,
+    2.0,
+    1.5,
+    1.0,
+    0.5
+   ],
+   "x_fit_kPa_per_px": 0.04226539668021922,
+   "x_fit_offset": -57.261145131440756,
+   "y_fit_unit_per_px": -0.0037691114162214916,
+   "y_fit_offset": 2.7676955302651876,
+   "x_max_residual_px": 0.3998309382930074,
+   "y_max_residual_px": 0.3474405915713987,
+   "x_axis_end_value": 39.99153262974366,
+   "y_axis_top_value": 2.5000886197134617
+  },
+  "force_cPAM_W40xL40": {
+   "panel": "force col 1",
+   "axes": {
+    "yaxis_col": 1354,
+    "yaxis_top_row": 1637.0,
+    "xaxis_row": 2285,
+    "xaxis_right_col": 2300.0
+   },
+   "legend_box": [
+    1371.0,
+    1652,
+    1612.0,
+    1897
+   ],
+   "x_ticks_px": [
+    1354.0,
+    1591.5,
+    1827.5,
+    2064.5,
+    2301.5
+   ],
+   "x_ticks_kPa": [
+    0.0,
+    10.0,
+    20.0,
+    30.0,
+    40.0
+   ],
+   "y_ticks_px": [
+    2285.0,
+    1635.5,
+    1764.5,
+    1894.5,
+    2025.5,
+    2153.5
+   ],
+   "y_ticks_value": [
+    0.0,
+    5.0,
+    4.0,
+    3.0,
+    2.0,
+    1.0
+   ],
+   "x_fit_kPa_per_px": 0.04222969960559462,
+   "x_fit_offset": -57.18744493910588,
+   "y_fit_unit_per_px": -0.007699855548304508,
+   "y_fit_offset": 17.589791910789756,
+   "x_max_residual_px": 0.5001689189177796,
+   "y_max_residual_px": 1.0588494115054345,
+   "x_axis_end_value": 39.940864153761744,
+   "y_axis_top_value": 4.985128378215277
+  },
+  "bend_fPAM_W40": {
+   "panel": "bend col 2",
+   "axes": {
+    "yaxis_col": 2491,
+    "yaxis_top_row": 71.0,
+    "xaxis_row": 735,
+    "xaxis_right_col": 3437.0
+   },
+   "legend_box": [
+    2507.0,
+    87,
+    2659.0,
+    212
+   ],
+   "x_ticks_px": [
+    2491.0,
+    2727.5,
+    2964.5,
+    3201.5,
+    3438.5
+   ],
+   "x_ticks_kPa": [
+    0.0,
+    10.0,
+    20.0,
+    30.0,
+    40.0
+   ],
+   "y_ticks_px": [
+    735.0,
+    71.0,
+    203.5,
+    336.5,
+    469.0,
+    602.0
+   ],
+   "y_ticks_value": [
+    0.0,
+    2.5,
+    2.0,
+    1.5,
+    1.0,
+    0.5
+   ],
+   "x_fit_kPa_per_px": 0.042211896235354575,
+   "x_fit_offset": -105.14138757933215,
+   "y_fit_unit_per_px": -0.00376505861438067,
+   "y_fit_offset": 2.7666911118263453,
+   "x_max_residual_px": 0.2000844238082209,
+   "y_max_residual_px": 0.2333620195062167,
+   "x_axis_end_value": 39.940899781581535,
+   "y_axis_top_value": 2.4993719502053175
+  },
+  "force_fPAM_W40": {
+   "panel": "force col 2",
+   "axes": {
+    "yaxis_col": 2490,
+    "yaxis_top_row": 1636.0,
+    "xaxis_row": 2285,
+    "xaxis_right_col": 3439.0
+   },
+   "legend_box": [
+    2507.0,
+    1652,
+    2659.0,
+    1778
+   ],
+   "x_ticks_px": [
+    2490.0,
+    2965.0,
+    3202.0,
+    3440.0
+   ],
+   "x_ticks_kPa": [
+    0.0,
+    20.0,
+    30.0,
+    40.0
+   ],
+   "y_ticks_px": [
+    2285.0,
+    1635.0,
+    1765.0,
+    1894.0,
+    2025.0,
+    2154.0
+   ],
+   "y_ticks_value": [
+    0.0,
+    5.0,
+    4.0,
+    3.0,
+    2.0,
+    1.0
+   ],
+   "x_fit_kPa_per_px": 0.04211284783889797,
+   "x_fit_offset": -104.85978007678719,
+   "y_fit_unit_per_px": -0.007695657176634623,
+   "y_fit_offset": 17.580922847144976,
+   "x_max_residual_px": 0.34291902298173227,
+   "y_max_residual_px": 0.6949574904710971,
+   "x_axis_end_value": 39.96630364118292,
+   "y_axis_top_value": 4.990827706170734
+  }
+ }
+}

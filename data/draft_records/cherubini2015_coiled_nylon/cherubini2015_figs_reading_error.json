@@ -1,0 +1,186 @@
+{
+ "method": "per-point reading error = sqrt(calibration max residual^2 + 1.0 px pick-off^2) x |units per px|, per axis. For the free strain at sigma0 the stress error is carried through the curve slope; the displacement error is that of a difference of two strains, times L0. These are lower bounds: the paper states +/-5 degC on temperature.",
+ "panels": {
+  "fig7": {
+   "x_units_per_px": 0.14937128085092413,
+   "y_units_per_px": 0.06502796125158088,
+   "reading_error_x": 0.15170092678649336,
+   "reading_error_y": 0.06702353681401987
+  },
+  "Fig 9 left (loading/unloading average)": {
+   "x_units_per_px": 0.0008139585287913963,
+   "y_units_per_px": 0.17989013103969864,
+   "reading_error_x": 0.0008246425672804148,
+   "reading_error_y": 0.18403959751023619
+  },
+  "Fig 9 right (unloading)": {
+   "x_units_per_px": 0.0008141166679422236,
+   "y_units_per_px": 0.1798146621719467,
+   "reading_error_x": 0.0008201845687038728,
+   "reading_error_y": 0.18160616359500323
+  }
+ },
+ "blocked_force_N": 0.013160040679533119,
+ "temperature_degC": 0.15170092678649336,
+ "sigma0_fit_standard_error_MPa": 0.20980050224802882,
+ "sigma0_force_equivalent_N": 0.04119423228636602,
+ "free_displacement": [
+  {
+   "T_degC": 25.0,
+   "strain_reading_error": 0.0015531628048086807,
+   "displacement_reading_error_m": 0.0,
+   "method_spread_m": 2.792130742989563e-06
+  },
+  {
+   "T_degC": 60.0,
+   "strain_reading_error": 0.001956781167568299,
+   "displacement_reading_error_m": 0.0001748782589585009,
+   "method_spread_m": 0.00013789850359575447
+  },
+  {
+   "T_degC": 88.0,
+   "strain_reading_error": 0.0021115179164518452,
+   "displacement_reading_error_m": 0.0001834857781620083,
+   "method_spread_m": 0.00012172420550768838
+  },
+  {
+   "T_degC": 122.0,
+   "strain_reading_error": 0.0027295664717175133,
+   "displacement_reading_error_m": 0.00021983619885417247,
+   "method_spread_m": 0.00018054797884902707
+  }
+ ],
+ "checks": {
+  "cross_section_m2": 1.9634954084936208e-07,
+  "fabrication_stress_from_area_MPa": 24.972429162754164,
+  "fig7_rising_C_fit_slope_MPa_per_degC": 0.19102338433588906,
+  "fig7_rising_C_fit_intercept_MPa": 15.562147815492517,
+  "fig7_rising_C_fit_max_residual_MPa": 0.798858274014588,
+  "fig7_descending_C_fit_slope_MPa_per_degC": 0.17850498656076996,
+  "fig7_descending_C_fit_intercept_MPa": 16.080979089902005,
+  "tableI_C_alpha_beta": [
+   0.187,
+   15.73
+  ],
+  "T_ref_degC": 25.0,
+  "sigma0_MPa": 20.337732423889744,
+  "sigma0_tableI_MPa": 20.405,
+  "fig9_triangles_at_dataset_C_strain_MPa": {
+   "Fig 9 left (loading/unloading average) 25 degC": 22.287,
+   "Fig 9 left (loading/unloading average) 60 degC": 27.145,
+   "Fig 9 left (loading/unloading average) 88 degC": 32.361,
+   "Fig 9 left (loading/unloading average) 122 degC": 38.478,
+   "Fig 9 right (unloading) 25 degC": 22.622,
+   "Fig 9 right (unloading) 60 degC": 27.118,
+   "Fig 9 right (unloading) 88 degC": 32.512,
+   "Fig 9 right (unloading) 122 degC": 38.536
+  },
+  "held_strain_C": 0.28600000000000003,
+  "strain_at_sigma0": {
+   "unloading": [
+    {
+     "T_degC": 25.0,
+     "strain": 0.2604587369712952,
+     "strain_bracket": 0.2604986245533379,
+     "bracket_gap_MPa": 0.17989999999999995,
+     "rows_used": 17,
+     "dstrain_dstress_per_MPa": 0.0072626582693792645,
+     "fit_se_strain": 4.5809175768994785e-05,
+     "fit_max_residual_strain": 0.0003660839837062446
+    },
+    {
+     "T_degC": 60.0,
+     "strain": 0.21215367359523332,
+     "strain_bracket": 0.21412365221802981,
+     "bracket_gap_MPa": 0.7193000000000005,
+     "rows_used": 14,
+     "dstrain_dstress_per_MPa": 0.00978268011179491,
+     "fit_se_strain": 0.0005096395135899345,
+     "fit_max_residual_strain": 0.004144780281059718
+    },
+    {
+     "T_degC": 88.0,
+     "strain": 0.16400212551103296,
+     "strain_bracket": 0.16574104273257137,
+     "bracket_gap_MPa": 0.17989999999999995,
+     "rows_used": 17,
+     "dstrain_dstress_per_MPa": 0.010713923639336582,
+     "fit_se_strain": 0.0006616812292812971,
+     "fit_max_residual_strain": 0.004815466357904169
+    },
+    {
+     "T_degC": 122.0,
+     "strain": 0.0899762645255853,
+     "strain_bracket": 0.09255552136628568,
+     "bracket_gap_MPa": 0.17989999999999995,
+     "rows_used": 17,
+     "dstrain_dstress_per_MPa": 0.01433556335776109,
+     "fit_se_strain": 0.0008170094414975714,
+     "fit_max_residual_strain": 0.00533182270984639
+    }
+   ],
+   "average": [
+    {
+     "T_degC": 25.0,
+     "strain": 0.20474007397319063,
+     "strain_bracket": 0.2047281971687446,
+     "bracket_gap_MPa": 0.17979999999999663,
+     "rows_used": 16,
+     "dstrain_dstress_per_MPa": 0.007817086649482226,
+     "fit_se_strain": 4.7747121243127716e-05,
+     "fit_max_residual_strain": 0.0003526494690022641
+    },
+    {
+     "T_degC": 60.0,
+     "strain": 0.15993495330806312,
+     "strain_bracket": 0.1604559535993543,
+     "bracket_gap_MPa": 0.17979999999999663,
+     "rows_used": 16,
+     "dstrain_dstress_per_MPa": 0.009212227993045776,
+     "fit_se_strain": 0.0005804001524053003,
+     "fit_max_residual_strain": 0.004839320703425243
+    },
+    {
+     "T_degC": 88.0,
+     "strain": 0.12446753050663847,
+     "strain_bracket": 0.12116240593765068,
+     "bracket_gap_MPa": 0.17979999999999663,
+     "rows_used": 16,
+     "dstrain_dstress_per_MPa": 0.011518346105318619,
+     "fit_se_strain": 0.000612513147291312,
+     "fit_max_residual_strain": 0.003919376636602356
+    },
+    {
+     "T_degC": 122.0,
+     "strain": 0.06888566891594358,
+     "strain_bracket": 0.07037715656817964,
+     "bracket_gap_MPa": 0.17979999999999663,
+     "rows_used": 16,
+     "dstrain_dstress_per_MPa": 0.01311185443520604,
+     "fit_se_strain": 0.0007570953632387097,
+     "fit_max_residual_strain": 0.004136244286274932
+    }
+   ]
+  },
+  "free_dx_mm_by_family": {
+   "unloading": [
+    0.0,
+    -3.3813544363243304,
+    -6.7519628022183555,
+    -11.933773071199694
+   ],
+   "average": [
+    0.0,
+    -3.1363584465589263,
+    -5.619078042658651,
+    -9.509808354007294
+   ]
+  },
+  "free_dx_mm_if_referenced_to_held_strain": [
+   -1.78788841200934,
+   -5.16924284833367,
+   -8.539851214227696,
+   -13.721661483209033
+  ]
+ }
+}

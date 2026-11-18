@@ -1,0 +1,171 @@
+{
+ "schema_version": "0.2",
+ "id": "yang2016_vamp_elastosil",
+ "name": "DRAFT Yang 2016 VAMP Elastosil M4601",
+ "source": {
+  "kind": "literature",
+  "detail": "digitized: Yang et al. 2016 (doi:10.1002/admt.201600055) Fig 2B quasi-static free contraction vs vacuum + Fig 2C hung-weight loading at dP 90 kPa, Elastosil M4601",
+  "date": "2026-11-12",
+  "reference": "Harvard DASH accepted manuscript, http://nrs.harvard.edu/urn-3:HUL.InstRepos:29951794"
+ },
+ "metadata": {
+  "actuation_physics": "pneumatic",
+  "length_m": 0.0465,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "DRAFT -- not reviewed, not in the manifest. Vacuum-actuated muscle-inspired pneumatic actuator (VAMP) cast in Elastosil M4601 (E = 520 kPa, paper text): an elastomer block of 34 x 28 x 46.5 mm with rows of internal cavities whose beams buckle under vacuum, so the actuator contracts along its length. Input: the paper's differential pressure dP = P_ext - P_int; stored as u = -dP (Pa, negative gauge pressure, as the abboodi2026 vacuum-contract record). Free motion: Fig 2B, no load, mean of n = 7 samples; tip displacement = L(dP,0) - L(0,0) read off the figure's top axis (mm), along -X (frame X base->tip; the base is taken as fixed and the free end as the tip). The first level is the digitised rest point as read, not forced to zero. free_direction is the first level that moves more than 2% of the stroke. Blocked force: none. The paper quotes no blocked force for these devices. Fig 2C hangs weights T on the actuator at dP = 90 kPa (Fig 2 caption) and reports the actuation strain (L(dP,T) - L(0,T))/L(0,0) (paper Eq 3), measured from the length under the same load with no vacuum, not from the rest length; the passive stretch L(0,T) - L(0,0) is not given in this copy (the SI is missing). So no point of Fig 2C has the tip held at its rest position, and blocked is left null. At the heaviest load, T = 9.804 N, the actuation strain is still -0.0594 (beyond SD plus reading error, 0.0076): the vacuum still lifts it, so the largest liftable load at 90 kPa is above 9.804 N and was not reached. How this relates to the force with the tip held at rest length is unknown. The load-strain curve (CSV yang2016_fig2C_load_elastosil.csv) has no place in schema v0.2 and is kept in the CSV only. Reading error (yang2016_fig2_reading_error.json): about 0.065 mm on displacement and 0.1345 kPa on dP; 0.0357 N on load. The paper's SD between samples (CSV column strain_sd) is larger. No stiffness data."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "chamber vacuum",
+    "unit": "Pa",
+    "range": [
+     -34523.0,
+     0.0
+    ],
+    "rated": null
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "free end of the actuator (end face opposite the fixed base)"
+ },
+ "free": {
+  "u": [
+   [
+    -51.646
+   ],
+   [
+    -3466.6
+   ],
+   [
+    -6945.9
+   ],
+   [
+    -10361.0
+   ],
+   [
+    -13840.0
+   ],
+   [
+    -17255.0
+   ],
+   [
+    -20734.0
+   ],
+   [
+    -24149.0
+   ],
+   [
+    -27629.0
+   ],
+   [
+    -31044.0
+   ],
+   [
+    -34523.0
+   ]
+  ],
+  "tip_displacement_m": [
+   [
+    -3.2467999999999995e-05,
+    0.0,
+    0.0
+   ],
+   [
+    -0.0034091,
+    0.0,
+    0.0
+   ],
+   [
+    -0.009967499999999999,
+    0.0,
+    0.0
+   ],
+   [
+    -0.015390000000000001,
+    0.0,
+    0.0
+   ],
+   [
+    -0.01763,
+    0.0,
+    0.0
+   ],
+   [
+    -0.018247,
+    0.0,
+    0.0
+   ],
+   [
+    -0.018636,
+    0.0,
+    0.0
+   ],
+   [
+    -0.018831,
+    0.0,
+    0.0
+   ],
+   [
+    -0.019026,
+    0.0,
+    0.0
+   ],
+   [
+    -0.019156,
+    0.0,
+    0.0
+   ],
+   [
+    -0.019286,
+    0.0,
+    0.0
+   ]
+  ],
+  "uncertainty": null
+ },
+ "blocked": null,
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.019286,
+  "free_direction": [
+   -1.0,
+   0.0,
+   0.0
+  ],
+  "polarity_axial": -1,
+  "blocked_force_N": null,
+  "stiffness_N_per_m": null,
+  "effective_dof": null
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.1
+ },
+ "data_completeness": "curves_only",
+ "provenance": {
+  "data_dir": "data/draft_records/yang2016_vacuum_buckling",
+  "digitizer_script": "digitize_yang2016_fig2.py",
+  "source_csvs": [
+   {
+    "file": "yang2016_fig2B_free_elastosil.csv",
+    "sha256": "5e6db05a8d0baee0cdb762b7df666fdffe99cdbaccadbe691b13b600ddb38f7e"
+   },
+   {
+    "file": "yang2016_fig2C_load_elastosil.csv",
+    "sha256": "579fcddfaadb4d4a75d2c033f5be4903636f9d75d6f6ff962205b4a4784bb252"
+   },
+   {
+    "file": "yang2016_text_values.csv",
+    "sha256": "a2ccba7080ec9251ec93c7c0a3e5d7c12d9e57b56bc9a41ada896a6ad3fa2de4"
+   }
+  ],
+  "citation": "Yang, D., Verma, M. S., So, J.-H., Mosadegh, B., Keplinger, C., Lee, B., Khashai, F., Lossner, E., Suo, Z. and Whitesides, G. M. \"Buckling Pneumatic Linear Actuators Inspired by Muscle.\" Advanced Materials Technologies 1(3), 1600055, 2016. doi:10.1002/admt.201600055. Digitised from the Harvard DASH accepted manuscript (http://nrs.harvard.edu/urn-3:HUL.InstRepos:29951794), Fig 2; the published version was not checked."
+ }
+}

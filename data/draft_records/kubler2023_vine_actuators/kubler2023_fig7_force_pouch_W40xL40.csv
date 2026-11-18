@@ -1,0 +1,17 @@
+# Digitised from Kubler et al. 2023 (arXiv:2305.00967v3) Fig 7, row 3 (force output), pouch motor W40 x L40 mm
+# Series: lateral force (perpendicular to the growing axis) with the vine tip fixed to a 6-axis force-torque sensor, vine body at 1.75 kPa; mean of five runs
+# force_sd_N = half-height of the published error bar (the paper's standard deviation), not reading error
+# force_N = centre of the error bar (stems crossed by other series' lines are bridged over gaps up to 10 px)
+# line_check_N = dashed mean line (fitted 12-30 px either side) minus force_N at the bar; diagnostic only, blank if the line is not visible on both sides
+# Published measurements digitised by digitize_kubler2023_fig7.py; not our measurements
+pressure_kPa,force_N,force_sd_N,line_check_N,series
+3.343,0.2825,0.1810,-0.0090,data_mean
+6.678,0.6099,0.0847,-0.0013,data_mean
+9.970,0.8025,0.0693,,data_mean
+13.136,0.9566,0.0847,-0.0081,data_mean
+16.724,1.0799,0.1002,0.0143,data_mean
+19.848,1.2494,0.1387,0.0037,data_mean
+23.183,1.4651,0.1387,0.0023,data_mean
+26.560,1.6577,0.1541,-0.0083,data_mean
+29.810,1.8195,0.1464,-0.0186,data_mean
+33.187,1.9543,0.1579,,data_mean

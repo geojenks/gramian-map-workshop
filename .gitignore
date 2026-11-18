@@ -6,3 +6,8 @@ dist/
 external/
 # Shadow copies written per machine by tools/make_shadow_spring_hand.py
 data/hands/shadow_spring/
+# literature draft records: source PDFs and figure scans stay local (re-downloadable; hashes are in each PROVENANCE.md)
+data/draft_records/*/source/
+# figures lifted from papers without a reuse licence (arXiv non-exclusive, DASH terms)
+data/draft_records/kubler2023_vine_actuators/*.png
+data/draft_records/yang2016_vacuum_buckling/*.png

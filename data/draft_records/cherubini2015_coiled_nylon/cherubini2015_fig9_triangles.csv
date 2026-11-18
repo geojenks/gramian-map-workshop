@@ -1,0 +1,28 @@
+# Digitised from Cherubini et al. 2015, AIP Advances 5:067158, Fig 9 (printed page 067158-9): filled triangles = isometric stress interpolated by the authors at 25-60-88-122 degC
+# Triangle centre = centre of its bounding box (after a 7 x 7 opening); used only as a check, no record value comes from this file
+# Published measurements digitised by digitize_cherubini2015_figs.py; not our measurements
+panel,T_degC,colour,strain,stress_MPa,x_px,y_px,h_px,w_px
+Fig 9 left (loading/unloading average),88,maroon,0.1426,19.049,257.5,390.5,10,10
+Fig 9 left (loading/unloading average),25,blue,0.1430,10.415,258.0,438.5,10,11
+Fig 9 left (loading/unloading average),60,purple,0.1430,14.912,258.0,413.5,10,11
+Fig 9 left (loading/unloading average),122,red,0.1430,24.176,258.0,362.0,11,11
+Fig 9 left (loading/unloading average),25,blue,0.2142,15.092,345.5,412.5,10,12
+Fig 9 left (loading/unloading average),60,purple,0.2142,19.319,345.5,389.0,9,10
+Fig 9 left (loading/unloading average),88,maroon,0.2142,24.446,345.5,360.5,10,10
+Fig 9 left (loading/unloading average),122,red,0.2150,29.753,346.5,331.0,9,12
+Fig 9 left (loading/unloading average),25,blue,0.2855,22.287,433.0,372.5,10,11
+Fig 9 left (loading/unloading average),88,maroon,0.2855,32.361,433.0,316.5,12,11
+Fig 9 left (loading/unloading average),60,purple,0.2859,27.145,433.5,345.5,10,10
+Fig 9 left (loading/unloading average),122,red,0.2867,38.478,434.5,282.5,10,14
+Fig 9 right (unloading),25,blue,0.1431,10.395,1041.0,438.5,10,11
+Fig 9 right (unloading),122,red,0.1431,24.151,1041.0,362.0,11,13
+Fig 9 right (unloading),60,purple,0.1435,14.711,1041.5,414.5,12,12
+Fig 9 right (unloading),88,maroon,0.1439,19.026,1042.0,390.5,10,13
+Fig 9 right (unloading),88,maroon,0.2127,24.600,1126.5,359.5,12,14
+Fig 9 right (unloading),122,red,0.2131,29.995,1127.0,329.5,12,13
+Fig 9 right (unloading),60,purple,0.2143,19.386,1128.5,388.5,10,10
+Fig 9 right (unloading),25,blue,0.2148,14.980,1129.0,413.0,13,15
+Fig 9 right (unloading),88,maroon,0.2844,32.512,1214.5,315.5,10,14
+Fig 9 right (unloading),25,blue,0.2856,22.622,1216.0,370.5,14,11
+Fig 9 right (unloading),60,purple,0.2856,27.118,1216.0,345.5,10,11
+Fig 9 right (unloading),122,red,0.2868,38.536,1217.5,282.0,11,14

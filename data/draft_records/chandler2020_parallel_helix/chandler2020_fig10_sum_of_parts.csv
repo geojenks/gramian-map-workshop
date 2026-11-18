@@ -1,0 +1,10 @@
+# Sum-of-parts test: Fig 10 start dots (combined inputs) vs Fig 7C single-chamber moves. Paper frame, mm.
+# Assumes Fig 7 and Fig 10 share one frame (same axis labels and orientation). Fig 7 is a 1.6 ml/s
+# up-sweep; Fig 10 is quasi-static (2 s settle), so rate effects are mixed into any leftover.
+V_peak_ml,combined_x_mm,combined_y_mm,combined_z_mm,combined_move_mm,C1_alone_mm,C2_alone_mm,C3_alone_mm,leftover_mm,leftover_fraction,combined_minus_resolved_parts_mm,leftover_bound_mm,unresolved_chambers
+7.0,31.59,-28.53,39.55,58.1,34.59 -12.46 41.06,not resolved at 3.52 ml (Fig 7C resolves 4.0-8.0),not resolved at 0.47 ml (Fig 7C resolves 3.2-8.0),not obtainable,not obtainable,16.41,0.0 to 39.2 (assumes monotone single-chamber magnitude),C2 C3
+6.5,31.69,-25.62,36.35,54.61,35.26 -12.81 33.89,not resolved at 3.27 ml (Fig 7C resolves 4.0-8.0),not resolved at 0.44 ml (Fig 7C resolves 3.2-8.0),not obtainable,not obtainable,13.53,0.0 to 36.3 (assumes monotone single-chamber magnitude),C2 C3
+6.0,31.76,-22.61,29.93,49.15,34.60 -12.33 26.31,not resolved at 3.02 ml (Fig 7C resolves 4.0-8.0),not resolved at 0.41 ml (Fig 7C resolves 3.2-8.0),not obtainable,not obtainable,11.26,0.0 to 34.1 (assumes monotone single-chamber magnitude),C2 C3
+5.5,31.17,-19.99,24.88,44.61,30.37 -11.18 18.42,not resolved at 2.77 ml (Fig 7C resolves 4.0-8.0),not resolved at 0.37 ml (Fig 7C resolves 3.2-8.0),not obtainable,not obtainable,10.95,0.0 to 33.8 (assumes monotone single-chamber magnitude),C2 C3
+5.0,30.13,-17.99,17.49,39.21,23.11 -9.38 8.14,not resolved at 2.52 ml (Fig 7C resolves 4.0-8.0),not resolved at 0.34 ml (Fig 7C resolves 3.2-8.0),not obtainable,not obtainable,14.52,0.0 to 37.3 (assumes monotone single-chamber magnitude),C2 C3
+4.5,25.34,-14.93,7.19,30.28,15.91 -4.63 1.22,not resolved at 2.26 ml (Fig 7C resolves 4.0-8.0),not resolved at 0.30 ml (Fig 7C resolves 3.2-8.0),not obtainable,not obtainable,15.19,0.0 to 38.0 (assumes monotone single-chamber magnitude),C2 C3

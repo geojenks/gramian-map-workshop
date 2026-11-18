@@ -1,0 +1,13 @@
+# Digitised from Chandler et al. 2020, Front. Robot. AI 7:119, Fig 10 (alpha = 0). Published data, not ours.
+# Source image source/chandler2020_fig10.jpeg sha256 a43ae00e479db8000b6777e4ae794ab2e81ec3bd29cbaa8d8e2007c3e01d2de0
+# Paper frame of Fig 10 (X up and Y left in the x-y view, Z = rise of the tip), see PROVENANCE.md.
+# Reading error: dot centre about +-1.0 mm (dots partly covered by traces; 0.097 mm/px); merged dots near the origin not read.
+# Y and Z from Fig 10D; X from the Fig 10C dot chain at that Y (see script docstring).
+V_peak_ml,V_C1_ml,V_C2_ml,V_C3_ml,X_mm,Y_mm,Z_mm,X_err_mm,Y_err_mm,Z_err_mm,status,u_D_px,v_D_px,ring_rgb_D
+7.0,6.5373,3.5231,0.4732,31.59,-28.53,39.55,1.0,1.0,1.0,ok,2662.0,4581.0,114 182 64
+6.5,6.0703,3.2714,0.4394,31.69,-25.62,36.35,1.0,1.0,1.0,ok,2632.0,4614.0,124 100 57
+6.0,5.6034,3.0198,0.4056,31.76,-22.61,29.93,1.0,1.0,1.0,ok,2601.0,4680.0,123 167 82
+5.5,5.1364,2.7681,0.3718,31.17,-19.99,24.88,1.0,1.0,1.0,ok,2574.0,4732.0,127 49 142
+5.0,4.6695,2.5165,0.338,30.13,-17.99,17.49,1.0,1.0,1.0,ok,2553.5,4808.0,154 94 102
+4.5,4.2025,2.2649,0.3042,25.34,-14.93,7.19,1.59,1.0,1.0,ok,2522.0,4914.0,170 103 79
+,,,,,-1.38,-1.38,,,,merged_near_origin_not_read,2382.5,5002.2,17 92 130

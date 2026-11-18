@@ -1,0 +1,63 @@
+{
+ "method": "per-point reading error on each axis = sqrt(axis calibration max residual^2 + 1.0 px pick-off^2) x |axis units per px|. Axis units: bottom = strain, top = mm, left = kPa, right = N. This is our reading error only; the paper's sample-to-sample SD (n = 7) is in the CSV column strain_sd and is larger.",
+ "panels": {
+  "A": {
+   "bottom_units_per_px": 0.0013977582280176844,
+   "bottom_reading_error": 0.001465337275459032,
+   "top_units_per_px": 0.06493506493506494,
+   "top_reading_error": 0.06493506493506494,
+   "left_units_per_px": 0.012878268026361878,
+   "left_reading_error": 0.013133551994429407,
+   "right_units_per_px": 0.01226993865030676,
+   "right_reading_error": 0.01226993865030676
+  },
+  "B": {
+   "bottom_units_per_px": 0.0013977582280176844,
+   "bottom_reading_error": 0.001465337275459032,
+   "top_units_per_px": 0.06493506493506494,
+   "top_reading_error": 0.06493506493506494,
+   "left_units_per_px": 0.12886512338503442,
+   "left_reading_error": 0.13454868599337988,
+   "right_units_per_px": 0.12254828342294181,
+   "right_reading_error": 0.12795279822192385
+  },
+  "C": {
+   "bottom_units_per_px": 0.0014492753623188438,
+   "bottom_reading_error": 0.0014492753623188438,
+   "top_units_per_px": 0.06739834763945708,
+   "top_reading_error": 0.06867244042400777,
+   "left_units_per_px": 0.037037037037037035,
+   "left_reading_error": 0.037037037037037035,
+   "right_units_per_px": 0.0352555494640863,
+   "right_reading_error": 0.03568748442716052,
+   "heaviest_load_test": {
+    "panel": "C",
+    "heaviest_load_T_N": 9.8036,
+    "strain_at_heaviest": -0.05942,
+    "strain_tolerance": 0.007608675362318844,
+    "tolerance_source": "published SD",
+    "actuation_strain_zero_within_tolerance": false,
+    "used_as_blocked_force": false
+   }
+  },
+  "D": {
+   "bottom_units_per_px": 0.0014492753623188438,
+   "bottom_reading_error": 0.0014492753623188438,
+   "top_units_per_px": 0.06739834763945708,
+   "top_reading_error": 0.06867244042400777,
+   "left_units_per_px": 0.003703703703703698,
+   "left_reading_error": 0.003703703703703698,
+   "right_units_per_px": 0.003524651261846456,
+   "right_reading_error": 0.0037601396255941464,
+   "heaviest_load_test": {
+    "panel": "D",
+    "heaviest_load_T_N": 0.98111,
+    "strain_at_heaviest": -0.00072464,
+    "strain_tolerance": 0.016666275362318843,
+    "tolerance_source": "published SD",
+    "actuation_strain_zero_within_tolerance": true,
+    "used_as_blocked_force": false
+   }
+  }
+ }
+}

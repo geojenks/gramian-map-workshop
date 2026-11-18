@@ -1,0 +1,26 @@
+Finger swap - cup_turn, N=4, mount aimed, yaw 90 deg, duty 0.82 (the task's banked duty)
+SIMULATION AND RECORDS ONLY: comparative, not predictive. A kinematic make/break schedule read for capability; nothing is stepped.
+
+After: the backwards lookup's top-ranked record with no flags is wall_0.0020m (rank 1), first-third share 0.986 over input 2 to 168 Pa.
+
+Before: Two-body McKibben, braid 40 deg (mckibben_v2_40deg)
+  holds: yes; carries the ball's weight on all 360 ticks of the wave
+  ticks by reason: met 360
+  turn: does not drive the turn: azimuthal share 0.004 is not above 0.9; off-axis 0.9664 is not below 0.01
+  turn per stroke: 0.0 deg
+  verdict: holds the cup but cannot turn it
+  stored result (mckibben_v2_40deg|aimed_yaw90|0.82|4 in outputs/cup_turn.json): holds on every tick yes (agrees); azimuthal share 0.004, off-axis 0.9664 (differences 0.0e+00, 0.0e+00)
+  stored turner verdict: not a turner (agrees)
+
+After: Pneunet bender, wall 0.0020 m (wall_0.0020m)
+  holds: yes; carries the ball's weight on all 360 ticks of the wave
+  ticks by reason: met 104, held; short on comparative strength (not scored) 256
+  turn: drives the turn: azimuthal share 0.977 (needs above 0.9), off-axis 0.0005 (needs below 0.01)
+  turn per stroke: 97.3 deg
+  verdict: holds the cup and turns it
+  stored result (wall_0.0020m|aimed_yaw90|0.82|4 in outputs/cup_turn.json): holds on every tick yes (agrees); azimuthal share 0.977, off-axis 0.0005 (differences 0.0e+00, 3.0e-18)
+  stored turner verdict: turner (agrees)
+
+Only the hold has a result per tick (the reason ladder). The turner verdict is one result for the whole hand: demos/cup_turn.py compares the azimuthal share and off-axis fraction with its thresholds inline, and the same comparison is repeated here with its thresholds imported.
+
+Pictures: outputs/finger_swap/finger_swap.png (tick 26, the first tick on which a finger is lifted off) and outputs/finger_swap/finger_swap.mp4 (360 frames, one per 1 tick of the wave, 30 frames a second).

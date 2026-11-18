@@ -1,0 +1,7 @@
+# Digitised from Chandler et al. 2020, Front. Robot. AI 7:119, Fig 10 (alpha = 0). Published data, not ours.
+# Source image source/chandler2020_fig10.jpeg sha256 a43ae00e479db8000b6777e4ae794ab2e81ec3bd29cbaa8d8e2007c3e01d2de0
+# Relative input of each chamber at cycle position 0 (left frame edge of Fig 10A).
+chamber,relative_input_at_cycle_start,n_px
+1,0.9339,12
+2,0.5033,16
+3,0.0676,13

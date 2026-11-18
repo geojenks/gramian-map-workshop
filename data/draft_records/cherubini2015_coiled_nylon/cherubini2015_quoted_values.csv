@@ -1,0 +1,33 @@
+# Values quoted from Cherubini, Moretti, Vertechy, Fontana 2015, AIP Advances 5:067158 (doi:10.1063/1.4923315).
+# Typed from the paper's text layer (source/cherubini2015_aipadv067158.pdf), not our measurements.
+# printed_page is the journal page number (067158-N); pdf_page_index is the 0-based page in the PDF
+# (index 0 is the publisher's cover page, so pdf_page_index = N).
+# All values describe the one specimen tested, the "Reference Coil" (RC).
+key,value,unit,printed_page,pdf_page_index,where
+precursor_diameter,0.5,mm,067158-4,4,Sec IV: nylon 6 monofilament precursor fibre diameter
+fabrication_load,0.5,kg,067158-4,4,Sec IV: load used to make the RC
+fabrication_nominal_stress,25,MPa,067158-4,4,Sec IV: load over the cross section of the untwisted precursor fibre
+temperature_uncertainty,5,degC,067158-4,4,Sec III: test bench temperature uncertainty (plus or minus)
+nominal_length_L0,70,mm,067158-5,5,Sec IV: no load on the coil ends at ambient temperature
+mass,75.6,mg,067158-5,5,Sec IV: RC mass
+coil_index,1.4,1,067158-5,5,Sec IV: measured after heat treatment in the unstretched configuration
+bias_angle,18,deg,067158-5,5,Sec IV: measured after heat treatment in the unstretched configuration
+anneal_temperature,150,degC,067158-5,5,Sec IV: 1 hour on-frame annealing in air
+isothermal_temperature_1,25,degC,067158-6,6,Sec IV A: ambient; the 25 degC isothermal test
+isothermal_temperature_2,60,degC,067158-9,9,Sec IV C: the four reference temperatures 25-60-88-122 degC
+isothermal_temperature_3,88,degC,067158-9,9,Sec IV C: the four reference temperatures 25-60-88-122 degC
+isothermal_temperature_4,122,degC,067158-9,9,Sec IV C: the four reference temperatures 25-60-88-122 degC
+isometric_ambient_temperature,24,degC,067158-7,7,Sec IV B: thermal cycles start from ambient temperature
+isometric_max_temperature,120,degC,067158-7,7,Sec IV B: thermal cycles run up to this temperature
+isometric_elongation_A,10,mm,067158-7,7,Sec IV B: dataset A constant elongation
+isometric_elongation_B,15,mm,067158-7,7,Sec IV B: dataset B constant elongation
+isometric_elongation_C,20,mm,067158-7,7,Sec IV B: dataset C constant elongation
+isometric_deformation_A,14.3,%,067158-8,8,Table I: dataset A elongation
+isometric_deformation_B,21.4,%,067158-8,8,Table I: dataset B elongation
+isometric_deformation_C,28.6,%,067158-8,8,Table I: dataset C elongation
+tableI_alpha_A,0.148,MPa/degC,067158-8,8,Table I: sigma = alpha T + beta; printed 1.48e-1
+tableI_beta_A,6.02,MPa,067158-8,8,Table I
+tableI_alpha_B,0.165,MPa/degC,067158-8,8,Table I: printed 1.65e-1
+tableI_beta_B,9.47,MPa,067158-8,8,Table I
+tableI_alpha_C,0.187,MPa/degC,067158-8,8,Table I: printed 1.87e-1
+tableI_beta_C,15.73,MPa,067158-8,8,Table I

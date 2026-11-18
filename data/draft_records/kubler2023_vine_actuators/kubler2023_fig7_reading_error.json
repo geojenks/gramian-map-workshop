@@ -1,0 +1,47 @@
+{
+ "method": "per-point reading error = sqrt(y calibration max residual^2 + 1.0 px pick-off^2) x |units per px|; for force panels the largest |line_check_N| (bar centre vs dashed mean line) is also given as an empirical check",
+ "panels": {
+  "bend_pouch_W40xL40": {
+   "units_per_px": 0.0037691114162214916,
+   "kPa_per_px": 0.042239907995913636,
+   "reading_error_deg_per_cm": 0.0039901255498761765,
+   "reading_error_kPa": 0.04427666271946464,
+   "reading_error_tip_y_m_at_end": 0.0004188179264225239
+  },
+  "force_pouch_W40xL40": {
+   "units_per_px": 0.007704104503133591,
+   "kPa_per_px": 0.04221189623535457,
+   "reading_error_N": 0.0107076599580388,
+   "reading_error_kPa": 0.04304855556071387,
+   "max_abs_line_check_N": 0.0186
+  },
+  "bend_cPAM_W40xL40": {
+   "units_per_px": 0.0037691114162214916,
+   "kPa_per_px": 0.04226539668021922,
+   "reading_error_deg_per_cm": 0.0039901255498761765,
+   "reading_error_kPa": 0.04551857207860215,
+   "reading_error_tip_y_m_at_end": 0.0003423752409311698
+  },
+  "force_cPAM_W40xL40": {
+   "units_per_px": 0.007699855548304508,
+   "kPa_per_px": 0.04222969960559462,
+   "reading_error_N": 0.011214231177427753,
+   "reading_error_kPa": 0.04721743007612084,
+   "max_abs_line_check_N": 0.0572
+  },
+  "bend_fPAM_W40": {
+   "units_per_px": 0.00376505861438067,
+   "kPa_per_px": 0.042211896235354575,
+   "reading_error_deg_per_cm": 0.0038662181042293446,
+   "reading_error_kPa": 0.04304855556071836,
+   "reading_error_tip_y_m_at_end": 0.0004148822037355615
+  },
+  "force_fPAM_W40": {
+   "units_per_px": 0.007695657176634623,
+   "kPa_per_px": 0.04211284783889797,
+   "reading_error_N": 0.00937154720390884,
+   "reading_error_kPa": 0.04452014152749332,
+   "max_abs_line_check_N": 0.0061
+  }
+ }
+}

@@ -1,0 +1,13 @@
+# Digitised from Chandler et al. 2020, Front. Robot. AI 7:119, Fig 10 (alpha = 0). Published data, not ours.
+# Source image source/chandler2020_fig10.jpeg sha256 a43ae00e479db8000b6777e4ae794ab2e81ec3bd29cbaa8d8e2007c3e01d2de0
+# Dark-blob centres found in Fig 10C (x-y view); outer ones overlap.
+u_C_px,v_C_px,Y_C_mm,X_C_mm,ring_rgb_C
+1110.0,4403.0,-21.17,31.79,133 45 134
+1155.0,4404.0,-25.53,31.69,123 26 42
+1181.0,4405.0,-28.06,31.59,120 170 48
+1076.5,4420.5,-17.91,30.09,197 123 43
+1036.0,4485.0,-13.98,23.82,219 84 25
+976.0,4588.0,-8.16,13.82,2 114 191
+944.0,4656.7,-5.05,7.15,165 20 46
+935.0,4682.0,-4.17,4.69,161 76 98
+903.0,4713.0,-1.07,1.68,131 160 81

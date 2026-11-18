@@ -1,0 +1,437 @@
+{
+ "n": 4,
+ "duty": 0.82,
+ "mount": "aimed_yaw90",
+ "rows": [
+  {
+   "id": "wall_0.0020m",
+   "flags": [],
+   "stored_turner": true,
+   "levels": 250,
+   "share_first_third": 0.9861962990881404,
+   "share_first_half": 0.9881300319277254,
+   "share_whole": 0.9098408336636018,
+   "normal_whole": 0.0901563743676355,
+   "other_tangent_whole": 2.79196876269705e-06,
+   "best_window_share": 0.9942644645250717,
+   "best_window_u": [
+    62.0,
+    228.0
+   ],
+   "drive_azimuth_now": 0.9768575039672599,
+   "drive_offaxis_now": 0.00046808568405896505,
+   "drive_azimuth_stored": 0.9768575039672599,
+   "drive_offaxis_stored": 0.0004680856840589741
+  },
+  {
+   "id": "wall_0.0015m",
+   "flags": [],
+   "stored_turner": true,
+   "levels": 250,
+   "share_first_third": 0.9845613724124122,
+   "share_first_half": 0.9715643772639676,
+   "share_whole": 0.6339746720132097,
+   "normal_whole": 0.36598375311997056,
+   "other_tangent_whole": 4.1574866819771295e-05,
+   "best_window_share": 0.9865960813001836,
+   "best_window_u": [
+    28.0,
+    194.0
+   ],
+   "drive_azimuth_now": 0.9749684231516409,
+   "drive_offaxis_now": 0.00034939640886036177,
+   "drive_azimuth_stored": 0.9749684231516409,
+   "drive_offaxis_stored": 0.0003493964088603725
+  },
+  {
+   "id": "wall_0.0010m",
+   "flags": [],
+   "stored_turner": true,
+   "levels": 199,
+   "share_first_third": 0.9835311652826645,
+   "share_first_half": 0.9303232290860386,
+   "share_whole": 0.34243949591692907,
+   "normal_whole": 0.657502551893811,
+   "other_tangent_whole": 5.795218925996881e-05,
+   "best_window_share": 0.9835311652826645,
+   "best_window_u": [
+    2.0,
+    134.0
+   ],
+   "drive_azimuth_now": 0.9701613088892708,
+   "drive_offaxis_now": 0.0006119630125657082,
+   "drive_azimuth_stored": 0.9701613088892708,
+   "drive_offaxis_stored": 0.0006119630125657252
+  },
+  {
+   "id": "mosadegh2014_sPN",
+   "flags": [
+    "no_force_data"
+   ],
+   "stored_turner": false,
+   "levels": 5,
+   "share_first_third": 0.979961189665357,
+   "share_first_half": 0.9478397267877525,
+   "share_whole": 0.9261096839272999,
+   "normal_whole": 0.07389031607270014,
+   "other_tangent_whole": 0.0,
+   "best_window_share": 0.979961189665357,
+   "best_window_u": [
+    0.0,
+    15000.0
+   ],
+   "drive_azimuth_now": -0.9899298912879422,
+   "drive_offaxis_now": 7.549441143381403e-17,
+   "drive_azimuth_stored": null,
+   "drive_offaxis_stored": null
+  },
+  {
+   "id": "wall_0.0005m",
+   "flags": [],
+   "stored_turner": true,
+   "levels": 106,
+   "share_first_third": 0.9789129023886021,
+   "share_first_half": 0.9765052407694789,
+   "share_whole": 0.6515908311877039,
+   "normal_whole": 0.34836654611190027,
+   "other_tangent_whole": 4.262270039584459e-05,
+   "best_window_share": 0.9921873066424101,
+   "best_window_u": [
+    22.0,
+    92.0
+   ],
+   "drive_azimuth_now": 0.9628982088294535,
+   "drive_offaxis_now": 0.0032872099182472978,
+   "drive_azimuth_stored": 0.9628982088294535,
+   "drive_offaxis_stored": 0.0032872099182473056
+  },
+  {
+   "id": "cable_finger",
+   "flags": [],
+   "stored_turner": true,
+   "levels": 8,
+   "share_first_third": 0.9705963380927173,
+   "share_first_half": 0.9476589485680091,
+   "share_whole": 0.6366602026192425,
+   "normal_whole": 0.04380569014009842,
+   "other_tangent_whole": 0.31953410724065906,
+   "best_window_share": 0.9705963380927173,
+   "best_window_u": [
+    0.000375,
+    0.0011250000000000001
+   ],
+   "drive_azimuth_now": 0.987813609814373,
+   "drive_offaxis_now": 3.661566872608549e-06,
+   "drive_azimuth_stored": 0.9878136098143729,
+   "drive_offaxis_stored": 3.6615668726172913e-06
+  },
+  {
+   "id": "mckibben_v2_20deg",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 8,
+   "share_first_third": 0.017743627579932194,
+   "share_first_half": 0.015688204863952664,
+   "share_whole": 0.001691361853947315,
+   "normal_whole": 0.9969752759942389,
+   "other_tangent_whole": 0.0013333621518137884,
+   "best_window_share": 0.034122455368488416,
+   "best_window_u": [
+    10.0,
+    20.0
+   ],
+   "drive_azimuth_now": 0.0850167214382849,
+   "drive_offaxis_now": 0.20695757911130527,
+   "drive_azimuth_stored": 0.0850167214382849,
+   "drive_offaxis_stored": 0.20695757911130538
+  },
+  {
+   "id": "bellows_seg7",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 8,
+   "share_first_third": 0.014988503294668687,
+   "share_first_half": 0.01370891610751912,
+   "share_whole": 0.007988667969935758,
+   "normal_whole": 0.9919671315156224,
+   "other_tangent_whole": 4.420051444176121e-05,
+   "best_window_share": 0.014988503294668687,
+   "best_window_u": [
+    50.0,
+    150.0
+   ],
+   "drive_azimuth_now": 0.12787353115368424,
+   "drive_offaxis_now": 0.0,
+   "drive_azimuth_stored": 0.12787353115368424,
+   "drive_offaxis_stored": 1.2278478935541136e-15
+  },
+  {
+   "id": "bellows_seg9",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 8,
+   "share_first_third": 0.01328724215341701,
+   "share_first_half": 0.013410751156788137,
+   "share_whole": 0.012128099139386141,
+   "normal_whole": 0.9878706792101551,
+   "other_tangent_whole": 1.2216504586826105e-06,
+   "best_window_share": 0.013597732332650424,
+   "best_window_u": [
+    100.0,
+    200.0
+   ],
+   "drive_azimuth_now": 0.1142379106571136,
+   "drive_offaxis_now": 9.71851654357986e-16,
+   "drive_azimuth_stored": 0.1142379106571136,
+   "drive_offaxis_stored": 2.1731263631900866e-15
+  },
+  {
+   "id": "mckibben_v2_30deg",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 8,
+   "share_first_third": 0.011319055686305495,
+   "share_first_half": 0.007739005647454678,
+   "share_whole": 0.00495826229065469,
+   "normal_whole": 0.9850020580055596,
+   "other_tangent_whole": 0.01003967970378572,
+   "best_window_share": 0.011319055686305495,
+   "best_window_u": [
+    5.0,
+    15.0
+   ],
+   "drive_azimuth_now": 0.14975636017836275,
+   "drive_offaxis_now": 7.413528369031267e-16,
+   "drive_azimuth_stored": 0.14975636017836275,
+   "drive_offaxis_stored": 1.657715338627706e-15
+  },
+  {
+   "id": "mckibben_v2_55deg",
+   "flags": [
+    "blocked_force:floor_noise",
+    "free_expansion:floor_noise"
+   ],
+   "stored_turner": false,
+   "levels": 6,
+   "share_first_third": 0.004817732553969255,
+   "share_first_half": 0.01973680949664806,
+   "share_whole": 0.054037718523507035,
+   "normal_whole": 0.775152287354533,
+   "other_tangent_whole": 0.17080999412195996,
+   "best_window_share": 0.23511235631675706,
+   "best_window_u": [
+    13.333333333333334,
+    20.0
+   ],
+   "drive_azimuth_now": -0.06940988801294269,
+   "drive_offaxis_now": 2.2620587694810918e-15,
+   "drive_azimuth_stored": -0.06940988801294269,
+   "drive_offaxis_stored": 1.8369701987210297e-16
+  },
+  {
+   "id": "mosadegh2014_fPN",
+   "flags": [
+    "no_force_data"
+   ],
+   "stored_turner": false,
+   "levels": 5,
+   "share_first_third": 0.0024410999921760743,
+   "share_first_half": 0.190991841720152,
+   "share_whole": 0.2833796594007236,
+   "normal_whole": 0.7166203405992764,
+   "other_tangent_whole": 0.0,
+   "best_window_share": 0.999753300698674,
+   "best_window_u": [
+    45000.0,
+    60000.0
+   ],
+   "drive_azimuth_now": 0.049407489231654694,
+   "drive_offaxis_now": 2.2470743644140736e-15,
+   "drive_azimuth_stored": null,
+   "drive_offaxis_stored": null
+  },
+  {
+   "id": "bellows_seg3",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 8,
+   "share_first_third": 0.0017158167790173855,
+   "share_first_half": 0.0015726756240443719,
+   "share_whole": 0.0011526457980700726,
+   "normal_whole": 0.9977824563015043,
+   "other_tangent_whole": 0.001064897900425632,
+   "best_window_share": 0.0017158167790173855,
+   "best_window_u": [
+    50.0,
+    150.0
+   ],
+   "drive_azimuth_now": -0.04343448872328627,
+   "drive_offaxis_now": 0.768653472978202,
+   "drive_azimuth_stored": -0.04343448872328627,
+   "drive_offaxis_stored": 0.768653472978202
+  },
+  {
+   "id": "bellows1",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 9,
+   "share_first_third": 0.0005349995850058021,
+   "share_first_half": 0.0005231084200384429,
+   "share_whole": 0.0006599722562864379,
+   "normal_whole": 0.9982601176143914,
+   "other_tangent_whole": 0.0010799101293221813,
+   "best_window_share": 0.0008071006627906665,
+   "best_window_u": [
+    300.0,
+    400.0
+   ],
+   "drive_azimuth_now": -0.02429313112816552,
+   "drive_offaxis_now": 0.8495223175730683,
+   "drive_azimuth_stored": -0.02429313112816552,
+   "drive_offaxis_stored": 0.8495223175730684
+  },
+  {
+   "id": "bellows_tendon1",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 17,
+   "share_first_third": 0.0004328184096231748,
+   "share_first_half": 0.0013772551273691027,
+   "share_whole": 0.6249903546834062,
+   "normal_whole": 0.3738880506845558,
+   "other_tangent_whole": 0.001121594632037981,
+   "best_window_share": 0.8388063849151964,
+   "best_window_u": [
+    275.0,
+    400.0
+   ],
+   "drive_azimuth_now": 0.042838111531398444,
+   "drive_offaxis_now": 0.6545488808517377,
+   "drive_azimuth_stored": 0.042838111531398444,
+   "drive_offaxis_stored": 0.6545488808517378
+  },
+  {
+   "id": "bellows_seg5",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 8,
+   "share_first_third": 0.00021258115674383982,
+   "share_first_half": 0.0002511832316751245,
+   "share_whole": 0.00042725477400143045,
+   "normal_whole": 0.9981478985466928,
+   "other_tangent_whole": 0.001424846679305758,
+   "best_window_share": 0.0005236873755295559,
+   "best_window_u": [
+    300.0,
+    400.0
+   ],
+   "drive_azimuth_now": -0.013309320813295994,
+   "drive_offaxis_now": 0.9656044216089303,
+   "drive_azimuth_stored": -0.013309320813295994,
+   "drive_offaxis_stored": 0.9656044216089303
+  },
+  {
+   "id": "mckibben_v2_60deg",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 6,
+   "share_first_third": 0.00021253225799365704,
+   "share_first_half": 0.002728416869330892,
+   "share_whole": 0.003239123019821831,
+   "normal_whole": 0.991230349102398,
+   "other_tangent_whole": 0.005530527877780078,
+   "best_window_share": 0.007047569057783125,
+   "best_window_u": [
+    33.333333333333336,
+    40.0
+   ],
+   "drive_azimuth_now": -0.014578486135180747,
+   "drive_offaxis_now": 0.038244988760375895,
+   "drive_azimuth_stored": -0.014578486135180747,
+   "drive_offaxis_stored": 0.03824498876037601
+  },
+  {
+   "id": "mckibben_v2_40deg",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 8,
+   "share_first_third": 0.00012095505434805023,
+   "share_first_half": 8.889718683405024e-05,
+   "share_whole": 0.002343246756905526,
+   "normal_whole": 0.9924228042415347,
+   "other_tangent_whole": 0.005233949001559712,
+   "best_window_share": 0.0052443254646008155,
+   "best_window_u": [
+    30.0,
+    40.0
+   ],
+   "drive_azimuth_now": 0.004038120127380016,
+   "drive_offaxis_now": 0.9664148754505163,
+   "drive_azimuth_stored": 0.004038120127380016,
+   "drive_offaxis_stored": 0.9664148754505163
+  },
+  {
+   "id": "mckibben_v2_70deg",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 6,
+   "share_first_third": 1.178251111097228e-05,
+   "share_first_half": 1.8798432812488034e-05,
+   "share_whole": 0.00016023121650087538,
+   "normal_whole": 0.9995250845506349,
+   "other_tangent_whole": 0.0003146842328641819,
+   "best_window_share": 0.00043719205721611345,
+   "best_window_u": [
+    26.666666666666668,
+    33.333333333333336
+   ],
+   "drive_azimuth_now": 0.003432566257331725,
+   "drive_offaxis_now": 0.28056193959750664,
+   "drive_azimuth_stored": 0.003432566257331725,
+   "drive_offaxis_stored": 0.28056193959750664
+  },
+  {
+   "id": "abboodi2026_ossa5_axial_extend",
+   "flags": [],
+   "stored_turner": false,
+   "levels": 45,
+   "share_first_third": 0.0,
+   "share_first_half": 0.0,
+   "share_whole": 0.0,
+   "normal_whole": 1.0,
+   "other_tangent_whole": 0.0,
+   "best_window_share": 0.0,
+   "best_window_u": [
+    11360.0,
+    56540.0
+   ],
+   "drive_azimuth_now": 0.0,
+   "drive_offaxis_now": 1.0,
+   "drive_azimuth_stored": null,
+   "drive_offaxis_stored": null
+  },
+  {
+   "id": "abboodi2026_ossa5_vacuum_contract",
+   "flags": [
+    "no_force_data",
+    "no_motion_direction"
+   ],
+   "stored_turner": false,
+   "levels": 39,
+   "share_first_third": 0.0,
+   "share_first_half": 0.0,
+   "share_whole": 0.0,
+   "normal_whole": 1.0,
+   "other_tangent_whole": 0.0,
+   "best_window_share": 0.0,
+   "best_window_u": [
+    -16420.0,
+    -38020.0
+   ],
+   "drive_azimuth_now": 0.0,
+   "drive_offaxis_now": 1.0,
+   "drive_azimuth_stored": null,
+   "drive_offaxis_stored": null
+  }
+ ]
+}

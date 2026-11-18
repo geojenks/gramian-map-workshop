@@ -1,0 +1,40 @@
+# Calibration of Fig 7C found by digitize_chandler2020_fig7.py (pixels of source/chandler2020_fig7.jpeg)
+quantity,value
+ax,7.29685
+ay,-10.42620
+cu,1143.11487
+bx,-3.56407
+by,-2.49192
+bz,-11.95250
+cv,3160.31403
+Zf,-10.24448
+res_u_px,0.82474
+res_v_px,0.41390
+edge_fit_sd_px,0.59805
+x_left,434.50000
+x_right,1851.00000
+Y_left,39.93994
+Y_front,-40.25228
+X_front,-40.10287
+X_right,39.75986
+Z_floor,-10.31911
+inset_cx,1789.54857
+inset_cy,2316.82543
+inset_r25_px,142.38937
+inset_outer_px,255.72398
+inset_mm_per_px,0.17557
+inset_outer_mm,44.89871
+inset_centre_spread_px,0.78169
+calpoint X=-40 Y=20 Z=floor,642.00;3375.43
+calpoint X=-40 Y=0 Z=floor,850.00;3425.17
+calpoint X=-40 Y=-20 Z=floor,1058.25;3474.97
+calpoint X=-20 Y=-40 Z=floor,1415.50;3453.57
+calpoint X=0 Y=-40 Z=floor,1560.25;3382.63
+calpoint X=20 Y=-40 Z=floor,1707.00;3310.72
+calpoint X=-40 Y=40 Z=60,434.50;2485.50
+calpoint X=-40 Y=40 Z=40,434.50;2725.50
+calpoint X=-40 Y=40 Z=20,434.50;2965.00
+calpoint X=-40 Y=40 Z=0,434.50;3202.50
+calpoint X=-40 Y=40 Z=floor,434.50;3325.81
+calpoint X=-40 Y=-40 Z=floor,1269.00;3525.36
+calpoint X=40 Y=-40 Z=floor,1851.00;3240.15

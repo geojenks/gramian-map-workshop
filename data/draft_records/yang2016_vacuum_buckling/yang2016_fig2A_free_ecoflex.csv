@@ -1,0 +1,19 @@
+# Digitised from Yang et al. 2016 (Adv. Mater. Technol., doi:10.1002/admt.201600055; Harvard DASH accepted manuscript) Fig 2A: VAMP in Ecoflex 00-30 (E = 43 kPa), no load
+# dP_kPa = applied differential pressure P_ext - P_int (vacuum depth), left axis; F_N = right axis, which is dP times the cross-section (a rescaled pressure, NOT an output force)
+# strain = actuation strain s(dP,0), bottom axis; dL_mm = L(dP,0) - L(0,0), top axis (read directly)
+# strain_sd / dL_sd_mm = half-width of the published horizontal error bar (SD over n = 7 samples), not reading error; blank unless sd_status is read
+# sd_status: read = both caps found; hidden_in_marker = no bar ink outside the marker, sd_upper_bound_strain = half a marker; unreadable = bar ink leaves the marker but a cap is missing or hidden (one-sided whisker, or behind the frame): SD and bound left blank
+# bar_mid_minus_marker_px: diagnostic, centre of the bar caps minus the marker centroid
+# Published measurements digitised by digitize_yang2016_fig2.py; not our measurements
+dP_kPa,F_N,strain,dL_mm,strain_sd,dL_sd_mm,sd_upper_bound_strain,sd_status,bar_mid_minus_marker_px,marker_x_px,marker_y_px
+0.0012916,-1.7764e-15,-0.00050016,-0.032468,,,0.0094349,hidden_in_marker,,520.5,429
+0.34257,0.32515,-0.069689,-3.2468,0.0097843,0.45455,,read,0,471,402.5
+0.69028,0.65644,-0.1899,-8.8312,0.030052,1.3961,,read,0.5,385,375.5
+1.0316,0.9816,-0.33037,-15.357,0.030052,1.3961,,read,0,284.5,349
+1.3793,1.3129,-0.36042,-16.753,0.020267,0.94156,,read,0.5,263,322
+1.7205,1.638,-0.39047,-18.149,0.019569,0.90909,,read,0.5,241.5,295.5
+2.0683,1.9693,-0.40026,-18.604,0.020267,0.94156,,read,0,234.5,268.5
+2.4095,2.2945,-0.41004,-19.058,0.020267,0.94156,,read,0,227.5,242
+2.7572,2.6258,-0.41004,-19.058,0.030052,1.3961,,read,0,227.5,215
+3.0985,2.9509,-0.41004,-19.058,0.030052,1.3961,,read,0,227.5,188.5
+3.4462,3.2822,-0.42053,-19.545,0.030052,1.3961,,read,0.5,220,161.5

@@ -1,0 +1,58 @@
+Backwards lookup - cup_turn, N=4, mount aimed, yaw 90 deg
+SIMULATION AND RECORDS ONLY: comparative, not predictive. Shares are read from each record's free tip curve; nothing is simulated.
+
+The turn needs each fingertip to move along the azimuth at its contact. At contact 0 that direction is turned into the finger's own frame by the mount rotation.
+For each record, the steps of its free tip curve are summed as dy dy^T / |du| over part of its input range; the share is the part of that sum along the needed direction (1 = all of it).
+Parts of the range: the first third of the steps, the first half, the whole sweep, and the best run of steps at least a third of the sweep long.
+Along normal and other tangent: whole-sweep shares along the contact normal and the remaining tangent; with the whole-sweep share they add to one.
+Ranked by the first-third share, highest first.
+Draft records (flag source:draft_from_published_figures) are digitised from published figures, not reviewed and not in the manifest. Flag frame:shared_three_chamber_frame_not_canonical: the record is not in the canonical frame, so its share reflects the frame, not the actuator. Flag stroke:read_under_preload_tension_not_free: the tip curve was read with the actuator under a steady load.
+
+record                             levels  first  first  whole   best  best window input range       along   other  stored
+                                           third   half  sweep window                               normal tangent  turner
+kubler2023_fPAM_W40                    19  0.988  0.985  0.979  0.988  1990 to 1.4e+04 Pa            0.021   0.000  -       [source:draft_from_published_figures no_force_data]
+wall_0.0020m                          250  0.986  0.988  0.910  0.994  62 to 228 Pa                  0.090   0.000  yes
+wall_0.0015m                          250  0.985  0.972  0.634  0.987  28 to 194 Pa                  0.366   0.000  yes
+wall_0.0010m                          199  0.984  0.930  0.342  0.984  2 to 134 Pa                   0.658   0.000  yes
+mosadegh2014_sPN                        5  0.980  0.948  0.926  0.980  0 to 1.5e+04 Pa               0.074   0.000  -       [no_force_data]
+wall_0.0005m                          106  0.979  0.977  0.652  0.992  22 to 92 Pa                   0.348   0.000  yes
+cable_finger                            8  0.971  0.948  0.637  0.971  0.000375 to 0.001125 m        0.044   0.320  yes
+kubler2023_pouch_W40xL40               13  0.957  0.952  0.942  0.957  8012 to 1.6e+04 Pa            0.058   0.000  -       [source:draft_from_published_figures no_force_data]
+kubler2023_cPAM_W40xL40                13  0.925  0.904  0.874  0.925  5989 to 1.4e+04 Pa            0.126   0.000  -       [source:draft_from_published_figures no_force_data]
+chandler2020_pha_a0_C3                 24  0.714  0.571  0.307  0.714  0 to 4.6e-06 (no unit)        0.601   0.092  -       [frame:shared_three_chamber_frame_not_canonical source:draft_from_published_figures no_force_data]
+chandler2020_pha_a0_C2                 21  0.282  0.200  0.218  0.344  6.2e-06 to 7.4e-06 (no unit)  0.562   0.219  -       [frame:shared_three_chamber_frame_not_canonical source:draft_from_published_figures no_force_data]
+chandler2020_pha_a0_C1                 22  0.108  0.082  0.060  0.108  0 to 5e-06 (no unit)          0.596   0.344  -       [frame:shared_three_chamber_frame_not_canonical source:draft_from_published_figures no_force_data]
+mckibben_v2_20deg                       8  0.018  0.016  0.002  0.034  10 to 20 Pa                   0.997   0.001  no
+bellows_seg7                            8  0.015  0.014  0.008  0.015  50 to 150 Pa                  0.992   0.000  no
+bellows_seg9                            8  0.013  0.013  0.012  0.014  100 to 200 Pa                 0.988   0.000  no
+mckibben_v2_30deg                       8  0.011  0.008  0.005  0.011  5 to 15 Pa                    0.985   0.010  no
+mckibben_v2_55deg                       6  0.005  0.020  0.054  0.235  13.33 to 20 Pa                0.775   0.171  -       [blocked_force:floor_noise free_expansion:floor_noise]
+mosadegh2014_fPN                        5  0.002  0.191  0.283  1.000  4.5e+04 to 6e+04 Pa           0.717   0.000  -       [no_force_data]
+bellows_seg3                            8  0.002  0.002  0.001  0.002  50 to 150 Pa                  0.998   0.001  no
+bellows1                                9  0.001  0.001  0.001  0.001  300 to 400 Pa                 0.998   0.001  no
+bellows_tendon1                        17  0.000  0.001  0.625  0.839  275 to 400 Pa                 0.374   0.001  no
+bellows_seg5                            8  0.000  0.000  0.000  0.001  300 to 400 Pa                 0.998   0.001  no
+mckibben_v2_60deg                       6  0.000  0.003  0.003  0.007  33.33 to 40 Pa                0.991   0.006  no
+mckibben_v2_40deg                       8  0.000  0.000  0.002  0.005  30 to 40 Pa                   0.992   0.005  no
+mckibben_v2_70deg                       6  0.000  0.000  0.000  0.000  26.67 to 33.33 Pa             1.000   0.000  no
+abboodi2026_ossa5_axial_extend         45  0.000  0.000  0.000  0.000  1.136e+04 to 5.654e+04 Pa     1.000   0.000  -
+abboodi2026_ossa5_vacuum_contract      39  0.000  0.000  0.000  0.000  -1.642e+04 to -3.802e+04 Pa   1.000   0.000  -       [no_force_data no_motion_direction]
+cherubini2015_RC_datasetC               3  0.000  0.000  0.000  0.000  35 to 63 (no unit)            1.000   0.000  -       [source:draft_from_published_figures stroke:read_under_preload_tension_not_free]
+yang2016_vamp_ecoflex                  11  0.000  0.000  0.000  0.000  -1.292 to -1032 Pa            1.000   0.000  -       [source:draft_from_published_figures no_force_data]
+yang2016_vamp_elastosil                11  0.000  0.000  0.000  0.000  -51.65 to -1.036e+04 Pa       1.000   0.000  -       [source:draft_from_published_figures no_force_data]
+
+stored turner: yes or no from outputs/cup_turn.json; - where the record has no stored verdict there, or carries a flag, so it is not compared.
+
+left out (6 of 36 records):
+  abboodi2026_ossa5_bending: no free tip curve (holds: blocked curve)
+  example_rigid_pneumatic_cylinder: no free tip curve (holds: headline numbers only)
+  ossa_axial_extend: no free tip curve (holds: headline numbers only)
+  ossa_differential_bend: no free tip curve (holds: headline numbers only)
+  ossa_vacuum_contract: no free tip curve (holds: headline numbers only)
+  shadow_hand_finger: no free tip curve (holds: headline numbers only)
+
+Does the lookup separate the stored turners from the rest? Compared: the 16 ranked records with a stored verdict and no flags at all (so force data, a motion direction and no quality flags), 5 of them stored turners.
+  first third : lowest stored turner 0.971 (cable_finger), highest other 0.018 (mckibben_v2_20deg) -> separated
+  first half  : lowest stored turner 0.930 (wall_0.0010m), highest other 0.016 (mckibben_v2_20deg) -> separated
+  whole sweep : lowest stored turner 0.342 (wall_0.0010m), highest other 0.625 (bellows_tendon1) -> NOT separated
+  best window : lowest stored turner 0.971 (cable_finger), highest other 0.839 (bellows_tendon1) -> separated

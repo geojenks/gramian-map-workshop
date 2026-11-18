@@ -1,0 +1,183 @@
+{
+ "schema_version": "0.2",
+ "id": "cherubini2015_RC_datasetC",
+ "name": "DRAFT Cherubini 2015 coiled nylon Reference Coil, held at dataset C stretch",
+ "source": {
+  "kind": "literature",
+  "detail": "digitized: Cherubini et al. 2015 (AIP Advances 5:067158) Fig 7 dataset C rising temperature (isometric) + Fig 9 right isothermal unloading curves read at the reference stress",
+  "date": "2026-11-12",
+  "reference": "doi:10.1063/1.4923315"
+ },
+ "metadata": {
+  "actuation_physics": "thermal",
+  "length_m": 0.07,
+  "mass_kg": 7.56e-05,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "DRAFT -- not reviewed, not in the manifest. Coiled nylon 6 fishing line (homochiral 'Reference Coil'; precursor monofilament d = 0.5 mm; made under 0.5 kg; coil index 1.4, bias angle 18 deg; annealed at 150 degC), heated by hot air in a test chamber. One specimen. REFERENCE STATE: the coil held at dataset C's elongation (20 mm, 28.6 % of L0 = 70 mm) at 25 degC under sigma0 = 20.34 MPa (our linear fit of the digitised rising-temperature points of Fig 7 dataset C, extrapolated from the first plotted point at 36.2 degC; Table I gives 20.41 MPa). At zero load the coil is coil-bound and barely shortens on heating (paper: 'preload knee'), so this record describes the pre-loaded operating point, not the unloaded coil. INPUT: chamber air temperature RISE above 25 degC (the paper's ambient isothermal test); the isometric cycles started at 24 degC. Bench temperature uncertainty +/-5 degC. BLOCKED: Fig 7 dataset C, rising temperature (red asterisks), second thermal cycle, length held; force_axial_N = -(sigma(T) - sigma0) x A, the rise in tension above the reference preload, negative = pulls toward the base. A = pi d^2/4 = 1.9635e-07 m^2 from the quoted precursor diameter, which is the paper's own definition of nominal stress (check: 0.5 kg gives 24.97 MPa; paper says 25). The paper gives no area directly. The descending-temperature circles agree (fit slope 0.1785 against 0.1910 MPa/degC rising). FREE: strain change at constant tension sigma0 read across the isothermal UNLOADING curves (Fig 9 right) at 25, 60, 88, 122 degC, times L0; contraction along -X, frame X base->tip. These are separate isothermal tensile tests, not an isotonic heating test; isotonic tests are not in this paper (it cites its Ref. 11 for them). The 60 degC curve has a gap in the trace right at sigma0, where a Fig 9 triangle was masked out. The 25 degC unloading curve reaches sigma0 at strain 0.2605, not the held 0.286; the isometric triangle at 0.286 and 25 degC in Fig 9 sits at 22.6 MPa. Referenced to the held strain instead, the free displacements would be -5.17, -8.54, -13.72 mm; read from the loading/unloading AVERAGE curves (Fig 9 left) they would be -3.14, -5.62, -9.51 mm. Reading error (cherubini2015_figs_reading_error.json): about 0.013 N on force, 0.15 degC on temperature, 0.22 mm on free displacement, plus up to 0.18 mm between the line-fit and nearest-row readings; sigma0 fit standard error 0.21 MPa (0.041 N). length_m is L0 (unloaded, ambient); the coil works at 1.286 L0. Polarity_axial -1: contracts on heating."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "chamber air temperature rise above 25 degC (degC)",
+    "unit": null,
+    "range": [
+     0.0,
+     97.0
+    ],
+    "rated": null
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "moving end of the coil; the other end fixed"
+ },
+ "free": {
+  "u": [
+   [
+    35.0
+   ],
+   [
+    63.0
+   ],
+   [
+    97.0
+   ]
+  ],
+  "tip_displacement_m": [
+   [
+    -0.0033813544363243304,
+    0.0,
+    0.0
+   ],
+   [
+    -0.006751962802218355,
+    0.0,
+    0.0
+   ],
+   [
+    -0.011933773071199694,
+    0.0,
+    0.0
+   ]
+  ],
+  "uncertainty": null
+ },
+ "blocked": {
+  "u": [
+   [
+    11.216999999999999
+   ],
+   [
+    16.442
+   ],
+   [
+    21.674999999999997
+   ],
+   [
+    26.898000000000003
+   ],
+   [
+    32.122
+   ],
+   [
+    37.347
+   ],
+   [
+    42.57599999999999
+   ],
+   [
+    47.664
+   ],
+   [
+    53.03
+   ],
+   [
+    58.122
+   ],
+   [
+    63.482
+   ],
+   [
+    68.576
+   ],
+   [
+    73.803
+   ],
+   [
+    79.028
+   ],
+   [
+    84.257
+   ],
+   [
+    89.477
+   ],
+   [
+    94.707
+   ]
+  ],
+  "force_axial_N": [
+   -0.5775754429466196,
+   -0.6537786997502573,
+   -0.794816574942354,
+   -0.9865126316735859,
+   -1.2027327460569037,
+   -1.3312042506346413,
+   -1.4963734843971248,
+   -1.841575612164388,
+   -1.9184464574069136,
+   -2.148685929006875,
+   -2.3269516771440113,
+   -2.582127540431842,
+   -2.747925092725043,
+   -2.875866453542488,
+   -3.1951308069635505,
+   -3.4766371436792807,
+   -3.6161434924527533
+  ],
+  "force_transverse_N": null,
+  "method": "digitized Cherubini 2015 Fig 7: isometric test, coil held at 20 mm elongation, load cell, rising chamber temperature, second thermal cycle; force = rise in nominal stress above sigma0 at 25 degC times the precursor cross-section",
+  "uncertainty": null
+ },
+ "stiffness": null,
+ "scalars": {
+  "free_stroke_m": 0.011933773071199694,
+  "free_direction": [
+   -1.0,
+   0.0,
+   0.0
+  ],
+  "polarity_axial": -1,
+  "blocked_force_N": 3.6161434924527533,
+  "stiffness_N_per_m": null,
+  "effective_dof": null
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.1
+ },
+ "data_completeness": "curves_only",
+ "provenance": {
+  "data_dir": "data/draft_records/cherubini2015_coiled_nylon",
+  "digitizer_script": "digitize_cherubini2015_figs.py",
+  "source_csvs": [
+   {
+    "file": "cherubini2015_fig7_isometric.csv",
+    "sha256": "47d80f5df329d225e409268b8dcac3637c813fbd61430dbd585854b4e65be449"
+   },
+   {
+    "file": "cherubini2015_fig9_curves_unloading.csv",
+    "sha256": "673b55cb83907bab616a135f3547fac11359130d3f73b9a72df39e5521dc3922"
+   },
+   {
+    "file": "cherubini2015_quoted_values.csv",
+    "sha256": "b33ef38fda5e916f476e714d5c28d17e6bd62ebfcf34547462676f0c81785977"
+   }
+  ],
+  "citation": "Cherubini, A., Moretti, G., Vertechy, R. and Fontana, M. \"Experimental characterization of thermally-activated artificial muscles based on coiled nylon fishing lines.\" AIP Advances 5, 067158 (2015). doi:10.1063/1.4923315. CC BY 3.0. Digitised from Fig 7 (isometric stress against temperature) and Fig 9 right (isothermal unloading curves)."
+ }
+}

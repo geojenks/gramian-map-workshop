@@ -1,0 +1,19 @@
+# Digitised from Kubler et al. 2023 (arXiv:2305.00967v3) Fig 7, row 1 (quasi-static bending), pouch motor W40 x L40 mm
+# Series: experimental mean (dashed line; shaded band = +/-1 SD over five runs), horizontal configuration, vine body at 1.75 kPa
+# bend_deg_per_cm = bending angle per nominal length as published (deg/cm); band_lo/band_hi = shaded band edges
+# Sampled every 2 kPa (median of pixel columns within +/-0.5 kPa, kept only if columns cover both halves of the window; pressure_kPa = mean of the columns used); last row = end of the plotted curve (last 0.5 kPa of columns)
+# Published measurements digitised by digitize_kubler2023_fig7.py; not our measurements
+pressure_kPa,bend_deg_per_cm,band_lo_deg_per_cm,band_hi_deg_per_cm,n_columns,series
+8.012,0.3602,0.3310,0.3913,24,data_mean
+9.997,0.4459,0.4271,0.4648,24,data_mean
+12.003,0.5270,0.4987,0.5552,23,data_mean
+14.010,0.5967,0.5609,0.6325,24,data_mean
+15.995,0.6466,0.6268,0.6721,24,data_mean
+18.001,0.6966,0.6683,0.7248,23,data_mean
+20.008,0.7324,0.6985,0.7663,24,data_mean
+21.993,0.7597,0.7305,0.7889,24,data_mean
+24.000,0.7908,0.7588,0.8228,23,data_mean
+26.006,0.8049,0.7833,0.8266,24,data_mean
+27.991,0.8520,0.8247,0.8794,24,data_mean
+30.040,0.8436,0.8341,0.8530,21,data_mean
+30.948,0.8586,0.8379,0.8775,12,data_mean
