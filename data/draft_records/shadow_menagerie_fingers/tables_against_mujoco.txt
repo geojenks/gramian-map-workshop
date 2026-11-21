@@ -1,0 +1,2 @@
+shadow_e3m5_first_finger: table tip against MuJoCo 3.6.0 at 200 random poses within the joint ranges: largest difference 2.987e-08 m (pass, limit 1e-06 m); table sha256 6046001ce1a058592db4a9c4a136df463af4dd40c5eddd0b515104760a7df2a4
+shadow_dexee_finger: table tip against MuJoCo 3.6.0 at 200 random poses within the joint ranges: largest difference 1.196e-16 m (pass, limit 1e-06 m); table sha256 5fdb2a93e8abc645da50a0dfdf275756de051d0389de97e1968cdeb8f26882c6

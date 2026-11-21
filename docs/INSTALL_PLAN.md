@@ -30,6 +30,7 @@ plan as first written; where it differs, this paragraph wins.
 | Allegro | MuJoCo Menagerie, `wonik_allegro` | BSD (SimLab, 2016) | `fetch_hands.py`, no change |
 | Shadow | MuJoCo Menagerie, `shadow_hand` | Apache-2.0 | `fetch_hands.py`, no change |
 | LEAP | MuJoCo Menagerie, `leap_hand` | MIT | `fetch_hands.py`, no change |
+| Shadow DEX-EE | MuJoCo Menagerie, `shadow_dexee` | Apache-2.0 | `fetch_hands.py` (added 21 Nov 2026; an existing checkout gains the folder on the next run) |
 | Human-finger hands | ours, `data/hands/` | our licence | in the repo already |
 | Linker L20 (the lab's hand) | vendor folder that came with the hardware | none stated | not available; see below |
 

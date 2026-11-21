@@ -1,0 +1,23 @@
+# Joint table for one jointed finger: docs/JOINT_TABLE_FORMAT.md. Written by data/draft_records/shadow_menagerie_fingers/build_shadow_finger_drafts.py; do not edit by hand.
+# Every number is read from MuJoCo Menagerie shadow_dexee/shadow_dexee.xml at commit b846dd12bc459d776cccb3dee0b1d02acbf7a9c7 (sha256 7d7ad518b01451f58d3e5f3e59e58719741efead2d7730c9cf800f7d766f267a), Apache-2.0.
+# Axes and positions: each joint's axis and anchor at the model's zero pose, in the finger's own frame: origin at the first joint, X along the line from the first joint to the last, Y the side the tip moves to when F0/J1 turns positive, Z right-handed.
+# Tip: the model's site F0/fingertip_site.
+# Ranges: the model's joint ranges. torque_Nm: the upper end of the force range of the joint's actuator (named in driven_by), which turns the joint towards max; reverse_torque_Nm: the size of the lower end. Joints with the same driven_by share one actuator through a tendon with coefficient 1 each.
+# stiffness: the joint's spring stiffness in the model (0: the model gives the joints no spring; the stiffness a position controller adds is not in the table).
+# tools/joint_table_to_record.py ignores the last two columns.
+id,shadow_dexee_finger_all_joints_together
+name,"Shadow DEX-EE finger, every joint driven together"
+source,literature
+detail,"joint table read from MuJoCo Menagerie shadow_dexee/shadow_dexee.xml at commit b846dd12bc459d776cccb3dee0b1d02acbf7a9c7 (sha256 7d7ad518b01451f58d3e5f3e59e58719741efead2d7730c9cf800f7d766f267a), Apache-2.0. One input drives every joint to the upper end of its range in proportion, which is one arbitrary line through a finger that has several independent inputs. DRAFT: not in the manifest."
+reference,"https://github.com/google-deepmind/mujoco_menagerie at b846dd12bc459d776cccb3dee0b1d02acbf7a9c7, shadow_dexee/shadow_dexee.xml"
+date,2026-11-21
+actuation,electric
+levels,21
+notes,Rigid jointed finger; actuation 'electric': the model gives each joint a position actuator and does not say how the real hand transmits it.
+
+joint,axis_x,axis_y,axis_z,pos_x_mm,pos_y_mm,pos_z_mm,min_rad,max_rad,torque_Nm,stiffness_Nm_per_rad,reverse_torque_Nm,driven_by
+F0_J0,-0.000000,1.000000,0.000000,0.0000,0.0000,0.0000,-0.8727,0.8727,0.53,0.0,0.9,F0_J0_actuator
+F0_J1,0.000000,0.000000,1.000000,30.0000,0.0000,0.0000,-1.3963,0.7854,1.2,0.0,0.35,F0_J1_actuator
+F0_J2,0.000000,0.000000,1.000000,80.0000,0.0000,0.0000,0.0,1.3963,0.7,0.0,0.52,F0_J2_actuator
+F0_J3,0.000000,0.000000,1.000000,115.0000,0.0000,0.0000,-0.5236,1.4835,0.3,0.0,0.3,F0_J3_actuator
+tip,,,,155.0000,-6.2500,0.0000,,,,,,

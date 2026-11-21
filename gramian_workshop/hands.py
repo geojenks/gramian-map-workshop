@@ -64,6 +64,13 @@ HANDS = {
         # also gives 59 rev/min at 3.7 V and 97 at 6.0 V): DATASHEET
         "datasheet_no_load_speed": (81.0, "rev/min",
                                     "Dynamixel XC330-M288-T no-load speed at 5 V (ROBOTIS e-manual)")},
+    "dexee": {
+        # three identical four-joint fingers, each joint with its own actuator;
+        # the model gives position actuators with force ranges and no speed
+        "name": "Shadow DEX-EE", "base": "menagerie",
+        "file": "shadow_dexee/shadow_dexee.xml",
+        "fingers": {"f0": "F0/finger_distal", "f1": "F1/finger_distal",
+                    "f2": "F2/finger_distal"}},
     "l20": {
         "name": "Linker L20", "base": "wave_manip",
         "file": "linker_l20_right/l20_right.xml",

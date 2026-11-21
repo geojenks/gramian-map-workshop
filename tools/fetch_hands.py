@@ -24,7 +24,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EXT = os.path.join(ROOT, "external")
 MENAGERIE = "https://github.com/google-deepmind/mujoco_menagerie"
 MENAGERIE_COMMIT = "b846dd12bc459d776cccb3dee0b1d02acbf7a9c7"   # Wave_manip's sim, 20 May 2026
-DIRS = ["wonik_allegro", "shadow_hand", "leap_hand"]
+DIRS = ["wonik_allegro", "shadow_hand", "leap_hand", "shadow_dexee"]
 LINKER = "https://github.com/linker-bot/linkerhand-urdf"
 LINKER_COMMIT = "49f26021b0a91ff5c33150df22970c07bb548672"
 LINKER_DIR = "L20/right"
@@ -39,7 +39,18 @@ def run(*cmd, cwd=None):
 def sparse_clone(url, commit, dirs, dst):
     """Just `dirs` of `url` at `commit`, history depth 1."""
     if os.path.exists(os.path.join(dst, ".git")):
-        print(f"{dst} exists; leaving it")
+        # an existing checkout keeps what it has; folders added to `dirs`
+        # since it was made are added at the commit it is already on
+        missing = [d for d in dirs if not os.path.isdir(os.path.join(dst, *d.split("/")))]
+        if not missing:
+            print(f"{dst} exists; leaving it")
+            return
+        head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=dst, check=True,
+                              capture_output=True, text=True).stdout.strip()
+        if head != commit:
+            raise SystemExit(f"{dst} is at {head}, not {commit}: not adding {missing}")
+        print(f"{dst} exists; adding {missing}")
+        run("git", "sparse-checkout", "add", *missing, cwd=dst)
         return
     os.makedirs(dst)
     run("git", "init", "-q", cwd=dst)

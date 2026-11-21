@@ -1,0 +1,544 @@
+{
+ "schema_version": "0.1",
+ "id": "shadow_e3m5_first_finger_rh_A_FFJ0_alone",
+ "name": "Shadow Hand E3M5 first finger, rh_A_FFJ0 alone (bending, in the bending plane)",
+ "source": {
+  "kind": "literature",
+  "detail": "one input of the joint table data/joint_tables/shadow_e3m5_first_finger.csv: actuator rh_A_FFJ0 drives rh_FFJ2 0 to 1.5708 rad, rh_FFJ1 0 to 1.5708 rad; rh_FFJ4, rh_FFJ3 held at 0. DRAFT: not in the manifest.",
+  "date": "2026-11-21",
+  "reference": "https://github.com/google-deepmind/mujoco_menagerie at b846dd12bc459d776cccb3dee0b1d02acbf7a9c7, shadow_hand/right_hand.xml"
+ },
+ "metadata": {
+  "actuation_physics": "cable",
+  "length_m": 0.10201690000000001,
+  "mass_kg": null,
+  "material_volume_m3": null,
+  "materials": {},
+  "notes": "Rigid jointed finger; actuation 'cable' as the stored shadow_hand_finger record has it. One of the finger's 3 independent inputs, taken alone. The model fixes only the sum of these joints' angles; the equal split along the way is an assumption (the end, every one at its upper limit, is not). Blocked force limited by joint rh_FFJ3. Made with data/draft_records/shadow_menagerie_fingers/build_shadow_finger_drafts.py from data/joint_tables/shadow_e3m5_first_finger.csv (sha256 6046001ce1a058592db4a9c4a136df463af4dd40c5eddd0b515104760a7df2a4)."
+ },
+ "input": {
+  "channels": [
+   {
+    "name": "rh_A_FFJ0 (fraction of the upper range end of rh_FFJ2 and rh_FFJ1, and of the torque limits)",
+    "unit": null,
+    "range": [
+     0.0,
+     1.0
+    ],
+    "rated": 1.0
+   }
+  ],
+  "energy_convention": "mechanical work delivered at the input port (J)",
+  "work_J": null
+ },
+ "port": {
+  "name": "tip",
+  "description": "the table's tip point"
+ },
+ "free": {
+  "u": [
+   [
+    0.0
+   ],
+   [
+    0.05
+   ],
+   [
+    0.1
+   ],
+   [
+    0.15000000000000002
+   ],
+   [
+    0.2
+   ],
+   [
+    0.25
+   ],
+   [
+    0.30000000000000004
+   ],
+   [
+    0.35000000000000003
+   ],
+   [
+    0.4
+   ],
+   [
+    0.45
+   ],
+   [
+    0.5
+   ],
+   [
+    0.55
+   ],
+   [
+    0.6000000000000001
+   ],
+   [
+    0.65
+   ],
+   [
+    0.7000000000000001
+   ],
+   [
+    0.75
+   ],
+   [
+    0.8
+   ],
+   [
+    0.8500000000000001
+   ],
+   [
+    0.9
+   ],
+   [
+    0.9500000000000001
+   ],
+   [
+    1.0
+   ]
+  ],
+  "tip_displacement_m": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    -0.0004712500246612239,
+    0.0069700402099678385,
+    0.0
+   ],
+   [
+    -0.0018748188134673216,
+    0.01380465927289266,
+    0.0
+   ],
+   [
+    -0.004180404438807031,
+    0.020371547357377673,
+    0.0
+   ],
+   [
+    -0.007338304211375615,
+    0.026544542028263514,
+    0.0
+   ],
+   [
+    -0.011280594949680658,
+    0.032206515701169836,
+    0.0
+   ],
+   [
+    -0.015922744844720463,
+    0.037252044722758934,
+    0.0
+   ],
+   [
+    -0.021165617604042078,
+    0.04158979568037211,
+    0.0
+   ],
+   [
+    -0.026897820002973236,
+    0.04514457147405434,
+    0.0
+   ],
+   [
+    -0.03299833561486869,
+    0.04785896802041677,
+    0.0
+   ],
+   [
+    -0.039339380541859564,
+    0.049694601996270855,
+    0.0
+   ],
+   [
+    -0.04578941159338691,
+    0.050632880535936814,
+    0.0
+   ],
+   [
+    -0.05221621369350291,
+    0.05067529501123686,
+    0.0
+   ],
+   [
+    -0.0584899914292722,
+    0.04984323267166792,
+    0.0
+   ],
+   [
+    -0.06448638962710673,
+    0.04817731171771761,
+    0.0
+   ],
+   [
+    -0.07008936966167667,
+    0.04573625703276562,
+    0.0
+   ],
+   [
+    -0.07519387181796582,
+    0.042595345022085666,
+    0.0
+   ],
+   [
+    -0.0797081993516491,
+    0.03884445652531777,
+    0.0
+   ],
+   [
+    -0.08355606679481059,
+    0.03458578632300031,
+    0.0
+   ],
+   [
+    -0.08667826336283595,
+    0.029931266113673215,
+    0.0
+   ],
+   [
+    -0.0890338918292636,
+    0.024999764790550407,
+    0.0
+   ]
+  ],
+  "uncertainty": null
+ },
+ "blocked": {
+  "u": [
+   [
+    0.0
+   ],
+   [
+    0.05
+   ],
+   [
+    0.1
+   ],
+   [
+    0.15000000000000002
+   ],
+   [
+    0.2
+   ],
+   [
+    0.25
+   ],
+   [
+    0.30000000000000004
+   ],
+   [
+    0.35000000000000003
+   ],
+   [
+    0.4
+   ],
+   [
+    0.45
+   ],
+   [
+    0.5
+   ],
+   [
+    0.55
+   ],
+   [
+    0.6000000000000001
+   ],
+   [
+    0.65
+   ],
+   [
+    0.7000000000000001
+   ],
+   [
+    0.75
+   ],
+   [
+    0.8
+   ],
+   [
+    0.8500000000000001
+   ],
+   [
+    0.9
+   ],
+   [
+    0.9500000000000001
+   ],
+   [
+    1.0
+   ]
+  ],
+  "force_axial_N": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "force_transverse_N": [
+   0.0,
+   0.49011487312396285,
+   0.9802297462479257,
+   1.4703446193718885,
+   1.9604594924958514,
+   2.450574365619814,
+   2.940689238743777,
+   3.43080411186774,
+   3.9209189849917028,
+   4.411033858115665,
+   4.901148731239628,
+   5.3912636043635915,
+   5.881378477487554,
+   6.371493350611517,
+   6.86160822373548,
+   7.351723096859442,
+   7.8418379699834055,
+   8.331952843107368,
+   8.82206771623133,
+   9.312182589355293,
+   9.802297462479256
+  ],
+  "force_N": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.49011487312396285,
+    0.0
+   ],
+   [
+    0.0,
+    0.9802297462479257,
+    0.0
+   ],
+   [
+    0.0,
+    1.4703446193718885,
+    0.0
+   ],
+   [
+    0.0,
+    1.9604594924958514,
+    0.0
+   ],
+   [
+    0.0,
+    2.450574365619814,
+    0.0
+   ],
+   [
+    0.0,
+    2.940689238743777,
+    0.0
+   ],
+   [
+    0.0,
+    3.43080411186774,
+    0.0
+   ],
+   [
+    0.0,
+    3.9209189849917028,
+    0.0
+   ],
+   [
+    0.0,
+    4.411033858115665,
+    0.0
+   ],
+   [
+    0.0,
+    4.901148731239628,
+    0.0
+   ],
+   [
+    0.0,
+    5.3912636043635915,
+    0.0
+   ],
+   [
+    0.0,
+    5.881378477487554,
+    0.0
+   ],
+   [
+    0.0,
+    6.371493350611517,
+    0.0
+   ],
+   [
+    0.0,
+    6.86160822373548,
+    0.0
+   ],
+   [
+    0.0,
+    7.351723096859442,
+    0.0
+   ],
+   [
+    0.0,
+    7.8418379699834055,
+    0.0
+   ],
+   [
+    0.0,
+    8.331952843107368,
+    0.0
+   ],
+   [
+    0.0,
+    8.82206771623133,
+    0.0
+   ],
+   [
+    0.0,
+    9.312182589355293,
+    0.0
+   ],
+   [
+    0.0,
+    9.802297462479256,
+    0.0
+   ]
+  ],
+  "method": "from the joint table: tip pinned at rest; the largest push along this input's first motion direction that every joint of the finger holds within the torque limit of its own actuator, scaled by the input; joints that share an actuator are each read on their own (the rule of tools/joint_table_to_record.py)",
+  "uncertainty": null
+ },
+ "stiffness": {
+  "u": [
+   [
+    0.0
+   ],
+   [
+    0.05
+   ],
+   [
+    0.1
+   ],
+   [
+    0.15000000000000002
+   ],
+   [
+    0.2
+   ],
+   [
+    0.25
+   ],
+   [
+    0.30000000000000004
+   ],
+   [
+    0.35000000000000003
+   ],
+   [
+    0.4
+   ],
+   [
+    0.45
+   ],
+   [
+    0.5
+   ],
+   [
+    0.55
+   ],
+   [
+    0.6000000000000001
+   ],
+   [
+    0.65
+   ],
+   [
+    0.7000000000000001
+   ],
+   [
+    0.75
+   ],
+   [
+    0.8
+   ],
+   [
+    0.8500000000000001
+   ],
+   [
+    0.9
+   ],
+   [
+    0.9500000000000001
+   ],
+   [
+    1.0
+   ]
+  ],
+  "k_N_per_m": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "direction": "transverse (+Y canonical)",
+  "method": "from the joint table: 1 / C_yy from the spring of the driven joint alone, the held joints rigid; the model gives the joint no spring, so this is 0 (the tip has no passive stiffness; a position controller's stiffness is not in the record)",
+  "uncertainty": null
+ },
+ "scalars": {
+  "free_stroke_m": 0.0924771438456436,
+  "free_direction": [
+   -0.06745680013903746,
+   0.9977221958616547,
+   0.0
+  ],
+  "polarity_axial": 0,
+  "blocked_force_N": 9.802297462479256,
+  "stiffness_N_per_m": 0.0,
+  "effective_dof": 1
+ },
+ "shape": null,
+ "uncertainty": {
+  "default_fraction": 0.1
+ }
+}

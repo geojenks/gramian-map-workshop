@@ -180,7 +180,7 @@ def main(argv=None):
                          mfc="white", label="motion only (no force data)")]
     if a.drafts:
         hands += [plt.Line2D([], [], marker="o", ls="none", ms=14, mec="#16233B",
-                             mfc="none", label="draft, from published figures")]
+                             mfc="none", label="draft, not yet reviewed")]
     ax.legend(handles=hands, loc="lower right", fontsize=10, frameon=False)
     fig.text(0.01, 0.01, "Records only: comparative, not predictive. Tip path: "
              "up the page is away from the base, across is distance from the "
