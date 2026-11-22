@@ -140,6 +140,13 @@ def read_curve_file(path):
                         continue
                     sp = _split_column(name)
                     if sp is None:
+                        if name.lower().startswith("input"):
+                            raise CurveFileError(
+                                f"line {n}: column '{name}' looks like a "
+                                f"second input. A record has one input per "
+                                f"actuator: give one file per input, with "
+                                f"the other inputs held fixed and said so "
+                                f"in 'detail'")
                         ignored.append(name)
                         continue
                     if sp[0] in [c[0] for c in cols.values()]:

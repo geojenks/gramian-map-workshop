@@ -121,6 +121,12 @@ The hand can do this hold by construction, so the answer to the check is
 known before the check runs. It can take a few minutes. It will not write
 over files that are already there.
 
+The files for this worked example ship with the repository, so on a fresh
+clone the command above stops and says they are already there. To run the
+example yourself, use a name of your own: `examples/my_allegro_left.json` is
+the same description under the key `my_allegro_left`. Give that file in
+step 3 and write `my_allegro_left` for `allegro_left` in steps 4 and 5.
+
 ## Step 5: run the check
 
 ```bash
