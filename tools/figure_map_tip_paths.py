@@ -2,6 +2,12 @@
 
     python tools/figure_map_tip_paths.py [--drafts] [--out outputs/map_tip_paths]
                                          [--tag v2] [--arrow FROM_ID,TO_ID]
+                                         [--record my_actuator.json]
+
+--record adds a record file of your own to the picture (give it once per
+file). It is drawn with a square outline and its label ends "(yours)". The
+file is read where it is; nothing is added to data/records/. Needs
+matplotlib: pip install -e ".[figures]".
 
 --tag adds a suffix to the output names (outputs are never overwritten).
 --arrow draws an arrow from one record's mark to another's, e.g. from the
@@ -87,7 +93,19 @@ def main(argv=None):
     ap.add_argument("--out", default=os.path.join("outputs", "map_tip_paths"))
     ap.add_argument("--tag", default="")
     ap.add_argument("--arrow", default="")
+    ap.add_argument("--record", action="append", default=[],
+                    help="a record file of your own to add (repeatable)")
     a = ap.parse_args(argv)
+    try:
+        import matplotlib
+    except ImportError:
+        print('ERROR: this picture needs matplotlib, which the core install '
+              'leaves out. Install it with: pip install -e ".[figures]"')
+        return 1
+    for path in a.record:
+        if not os.path.isfile(path):
+            print("ERROR: --record %s: no such file" % path)
+            return 1
     stem = os.path.join(ROOT, a.out, "map_tip_paths"
                         + ("_with_drafts" if a.drafts else "")
                         + ("_" + a.tag if a.tag else ""))
@@ -102,6 +120,18 @@ def main(argv=None):
         for path, q in draft_records().items():
             rec = load_record(path)
             pairs.append((Finger(rec, q), rec, True))
+    known = {f.id for f, _, _ in pairs}
+    own = []
+    for path in a.record:
+        rec = load_record(path)
+        f = Finger(rec)
+        if f.id in known:
+            print("ERROR: --record %s: its id '%s' is already on the map; "
+                  "give your record an id of its own" % (path, f.id))
+            return 1
+        known.add(f.id)
+        own.append(f.id)
+        pairs.append((f, rec, False))
     rows, left_out = [], []
     for f, rec, draft in pairs:
         row, why = place(f, rec)
@@ -109,9 +139,9 @@ def main(argv=None):
             left_out.append({"id": f.id, "reason": why})
         else:
             row["draft"] = draft
+            row["own"] = f.id in own
             rows.append(row)
 
-    import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
@@ -143,6 +173,9 @@ def main(argv=None):
         if r["draft"]:
             ax.plot([cx], [cy], marker="o", ms=14, mew=1.0, mec=c, mfc="none",
                     transform=ax.transAxes, zorder=3, ls="none")
+        if r["own"]:
+            ax.plot([cx], [cy], marker="s", ms=17, mew=1.8, mec="#16233B",
+                    mfc="none", transform=ax.transAxes, zorder=3, ls="none")
     # labels: to the right of each mark (left for marks near the right edge),
     # pushed apart up the page where they would collide, with a leader line
     GAP, WIDE = 0.019, 0.17
@@ -158,7 +191,9 @@ def main(argv=None):
         placed.append((lx, ly))
         ax.plot([cx, lx], [cy, ly], color="#A0AEC0", lw=0.5,
                 transform=ax.transAxes, zorder=1)
-        ax.text(lx, ly, r["id"], transform=ax.transAxes, fontsize=7,
+        ax.text(lx, ly, r["id"] + (" (yours)" if r["own"] else ""),
+                transform=ax.transAxes, fontsize=9 if r["own"] else 7,
+                fontweight="bold" if r["own"] else "normal",
                 color="#16233B", va="center", ha="right" if left else "left",
                 bbox=dict(fc="white", ec="none", pad=0.6, alpha=0.8), zorder=4)
     if a.arrow:
@@ -181,6 +216,9 @@ def main(argv=None):
     if a.drafts:
         hands += [plt.Line2D([], [], marker="o", ls="none", ms=14, mec="#16233B",
                              mfc="none", label="draft, not yet reviewed")]
+    if own:
+        hands += [plt.Line2D([], [], marker="s", ls="none", ms=14, mec="#16233B",
+                             mfc="none", label="your record (--record)")]
     ax.legend(handles=hands, loc="lower right", fontsize=10, frameon=False)
     fig.text(0.01, 0.01, "Records only: comparative, not predictive. Tip path: "
              "up the page is away from the base, across is distance from the "
@@ -192,6 +230,7 @@ def main(argv=None):
     fig.savefig(stem + ".png")
     with open(stem + ".json", "w", encoding="utf-8") as fo:
         json.dump({"made_by": "tools/figure_map_tip_paths.py", "drafts": a.drafts, "arrow": a.arrow or None,
+                   "own_records": own,
                    "rows": rows, "left_out": left_out}, fo, indent=1)
     print("wrote", stem + ".png")
     print("wrote", stem + ".json")

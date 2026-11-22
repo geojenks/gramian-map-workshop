@@ -3,7 +3,8 @@
 **Can N copies of your actuator hold, and turn, a ball in a cup?**
 
 A small, numpy-only tool for the ARIA workshop. It pairs soft-actuator
-**records** (from the Gramian capability map, `geojenks/Gramain_extraction`)
+**records** (from the Gramian capability map, `geojenks/Gramain_extraction`,
+not public)
 with manipulation **tasks** (from the wave-manipulation work,
 `geojenks/Wave_manip`). It then says, for each arrangement of fingers, whether
 the task can be done and, if not, **why**.
@@ -24,6 +25,26 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e .                 # the core: numpy only
 ```
 
+On Windows, in PowerShell, the same steps are:
+
+```powershell
+git clone https://github.com/geojenks/gramian-map-workshop
+cd gramian-map-workshop
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -e .
+```
+
+If PowerShell refuses to run `Activate.ps1`, skip that line and put
+`.venv\Scripts\python.exe` in place of `python` (and
+`.venv\Scripts\python.exe -m pip` in place of `pip`) in every command.
+Check `python --version` first: with Python 3.8 or older, `pip install -e .`
+stops with `File "setup.py" or "setup.cfg" not found`.
+The clone downloads about 80 MB.
+Clone into a short folder such as `C:\work`: some file names here are long,
+and under a folder path of more than about 90 characters git on Windows
+stops with `Filename too long`.
+
 That is enough for the three demos, the record form and the record checker.
 To check rigid robot hands as well, add MuJoCo and fetch the hand models
 (about 70 MB, downloaded from GitHub into `external/`, which is not
@@ -36,6 +57,8 @@ python tools/fetch_hands.py
 
 The whole-motion check, `follow(trajectory=True)`, also needs scipy:
 `pip install -e ".[trajectory]"`.
+The tools that draw pictures (`tools/figure_map_tip_paths.py` and the other
+figure tools) need matplotlib: `pip install -e ".[figures]"`.
 Its speed search, `tools/trajectory_top_speed.py`, finds how fast a hand
 could do a stored motion and writes a retimed copy of the leader to
 `outputs/retimed_leaders/` (never over a stored one).
@@ -93,7 +116,31 @@ Then run:
 ```bash
 python demos/cup_hold.py --record my_actuator.json
 python demos/cup_turn.py --record my_actuator.json
+python tools/figure_map_tip_paths.py --record my_actuator.json --tag mine
 ```
+
+The last line draws your actuator on the picture of the roster
+(`outputs/map_tip_paths/`); it needs the `figures` extra.
+
+**What you can bring today.**
+
+- An actuator, as numbers: datasheet values typed into the form, or measured
+  or simulated curves in a CSV file (`docs/TEST_CURVE_FORMAT.md`), or a table
+  of joints for a rigid finger (`docs/JOINT_TABLE_FORMAT.md`). One input per
+  actuator. To push in the tool, the record needs a blocked force with a
+  direction; a force given only as a size leaves it able to move but not
+  push.
+- A hand made of copies of your actuator, if it bends: a short file that
+  says where each finger is mounted (`docs/PARTICIPANT_SCRIPT.md`, steps 4
+  to 6). A record that only extends is refused unless it carries stiffness.
+  Needs the `hands` extra.
+- A hand you have as a MuJoCo model (`docs/BRING_YOUR_HAND.md`, which also
+  describes URDF). Needs the `hands` extra, and a recent git to fetch the
+  example models.
+- Not an actuator as a mesh or CAD file. Turning a mesh into a record needs a
+  material, a labelled pressure face and a finite-element simulation. That
+  runs in a separate project that is not public, so it is not part of
+  this repository.
 
 A datasheet-level (Tier 0) record needs only `scalars`: stroke, motion
 direction, polarity and blocked force. Richer records (blocked force vectors
