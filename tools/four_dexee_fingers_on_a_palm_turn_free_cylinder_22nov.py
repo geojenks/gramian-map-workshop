@@ -92,6 +92,19 @@ PLATE_EDGE = 0.06                                # m, the drawn plate reaches th
 EARLIER = D.EARLIER
 THREE = os.path.join(G.ROOT, "outputs", "dexee_turns_free_cylinder_lookahead_22nov_three_seeds")
 STEM = "four_dexee_fingers_on_a_palm_22nov"
+N, LOG, WORD = 4, [0, 1, 2, 3], "four"            # finger count; the log finger each follows
+TOOL = "four_dexee_fingers_on_a_palm_turn_free_cylinder_22nov.py"
+OUT_STEM = "four_dexee_fingers_on_a_palm_turn_free_cylinder_22nov_"
+
+
+def set_fingers(log, word, tool, out_stem, stem):
+    """Added after the four-finger result (see tools/three_dexee_fingers_on_a_palm_turn_free_cylinder_22nov.py):
+    the same tool with fewer fingers, each following the log finger listed. Not called for four."""
+    global N, LOG, WORD, TOOL, OUT_STEM, STEM, WRAP, PRE, NAMES, STEP
+    all_names = ["first", "middle", "ring", "thumb"]
+    N, LOG, WORD, TOOL, OUT_STEM, STEM = len(log), list(log), word, tool, out_stem, stem
+    WRAP, PRE, NAMES = WRAP[:N], PRE[:N], [all_names[j] for j in log]
+    STEP = [0.1, 0.1, 0.02] + [0.02, 0.02, 0.3] * N
 
 
 def rot(w):
@@ -115,7 +128,8 @@ def palm_build(hand, base_R, base_t, support, tied, L, xml_path=None):
         spec.delete(k)
     spec.delete(spec.body("hand_base"))
     child = mujoco.MjSpec.from_file(DEX_PATH)          # kept alive until compile
-    spec.worldbody.add_body(name="F3/").add_frame().attach_body(child.body("F0/finger_base"), "F3/", "")
+    if N == 4:
+        spec.worldbody.add_body(name="F3/").add_frame().attach_body(child.body("F0/finger_base"), "F3/", "")
     mounts = hand["mounts"]
     for k, name in enumerate(WRAP):
         b = spec.body(name)
@@ -145,7 +159,7 @@ def palm_build(hand, base_R, base_t, support, tied, L, xml_path=None):
     m = spec.compile()
     del child
     if support != "none":
-        assert m.joint("obj_free").qposadr[0] == 16, "finger joints must come first"
+        assert m.joint("obj_free").qposadr[0] == 4 * N, "finger joints must come first"
     if xml_path:
         with open(xml_path, "x", encoding="utf-8") as fo:
             fo.write(spec.to_xml())
@@ -166,7 +180,7 @@ def copy_check(L, say):
     """Is every finger of the four-finger model the stock finger? Numbers, then one command stepped
     on each with contacts off (the fingers stand in different places, so contacts would differ)."""
     stock = mujoco.MjModel.from_xml_path(DEX_PATH)
-    four = palm_build(palm_hand([[0.1 * np.cos(a), 0.1 * np.sin(a), a] for a in np.arange(4) * np.pi / 2]),
+    four = palm_build(palm_hand([[0.1 * np.cos(a), 0.1 * np.sin(a), a] for a in np.arange(N) * 2 * np.pi / N]),
                       np.eye(3), np.zeros(3), "none", False, L)
     mu0 = stock.geom_friction[:, 0].copy()
 
@@ -202,9 +216,9 @@ def copy_check(L, say):
     f0, t0 = fields(stock, "F0/"), trace(stock, "F0/")
     same = all(len(fields(four, p)) == len(f0) and np.array_equal(fields(four, p), f0) for p in PRE)
     worst = max(float(np.abs(trace(four, p) - t0).max()) for p in PRE)
-    ok = bool(same and worst < 1e-9 and four.nu == 16 and four.na == 32
+    ok = bool(same and worst < 1e-9 and four.nu == 4 * N and four.na == 8 * N
               and np.allclose(four.geom_friction[:, 0], L["mu"]) and len(mu0))
-    say(f"Copy check: four-finger model has {four.nu} inputs and {four.na} controller states (stock {stock.nu} and "
+    say(f"Copy check: {WORD}-finger model has {four.nu} inputs and {four.na} controller states (stock {stock.nu} and "
         f"{stock.na}); joint, actuator, body and contact numbers of every finger "
         f"{'equal' if same else 'DIFFER FROM'} the stock finger's; one 3 s command, contacts off, largest "
         f"difference from the stock finger in joint angle (rad) or actuator force (N.m) {worst:.1e}; swing of the "
@@ -245,12 +259,12 @@ class PalmIK(G.ShadowIK):
         self.obj_geom = m.geom("obj").id
         self.base_geom = [m.geom(p + "base_geom_col").id for p in PRE]
         self.col = [[g for g in range(m.ngeom) if self.module.get(int(m.geom_bodyid[g])) == k and m.geom_contype[g]]
-                    for k in range(4)]
+                    for k in range(N)]
         self.c0 = np.array([*L["op"].mean(0)[:2], 0.0])
 
     def pose(self, p):
         """Palm rotation and position, and the four mounts, from the 15 numbers."""
-        return rot([p[0], p[1], 0.0]), self.c0 + np.array([0, 0, p[2]]), np.reshape(p[3:], (4, 3))
+        return rot([p[0], p[1], 0.0]), self.c0 + np.array([0, 0, p[2]]), np.reshape(p[3:], (N, 3))
 
     def place(self, p):
         R, t, mounts = self.pose(p)
@@ -261,19 +275,19 @@ class PalmIK(G.ShadowIK):
     def base_gap(self):
         mujoco.mj_kinematics(self.m, self.d)
         return min(mujoco.mj_geomDistance(self.m, self.d, self.base_geom[a], self.base_geom[b], 0.05, None)
-                   for a in range(4) for b in range(a + 1, 4))
+                   for a in range(N) for b in range(a + 1, N))
 
     def track(self, targets, idx):
         """Follow the targets at the moments idx. Returns joint targets, fingertip miss, and how far
         inside CLEAR other parts come to the cylinder and fingers come to each other."""
         L, m, d = self.L, self.m, self.d
         d.qpos[:] = 0
-        x = [self.neutral(k) for k in range(4)]
+        x = [self.neutral(k) for k in range(N)]
         step = REF_SPEED * float(np.mean(np.diff(L["t"]))) if len(idx) == len(L["t"]) else None
-        X = [np.zeros((len(idx), 4)) for _ in range(4)]
-        miss = np.zeros((len(idx), 4)); near_obj = np.zeros(len(idx)); near_ff = np.zeros(len(idx))
+        X = [np.zeros((len(idx), 4)) for _ in range(N)]
+        miss = np.zeros((len(idx), N)); near_obj = np.zeros(len(idx)); near_ff = np.zeros(len(idx))
         for n, i in enumerate(idx):
-            for k in range(4):
+            for k in range(N):
                 new, miss[n, k] = self.solve(k, targets[i, k], x[k])
                 if step is not None and n > 0:
                     new = np.clip(new, x[k] - step, x[k] + step)
@@ -312,7 +326,7 @@ class PalmIK(G.ShadowIK):
         keep = m.geom_margin.copy()
         m.geom_margin[:] = 0.025
         for n, i in enumerate(idx):
-            for k in range(4):
+            for k in range(N):
                 for a_, v_ in zip(self.f[k]["qadr"], X[k][i]):
                     d.qpos[a_] = v_
             G.set_obj(m, d, "free", L["op"][i], L["oq"][i])
@@ -335,16 +349,16 @@ def palm_reference(L, al, say):
     say("DEX-EE proportional gains read from the model file, joints 0 to 3: " + ", ".join(f"{v:g}" for v in kp))
     ik = PalmIK(L)
     m, d = ik.m, ik.d
-    out = np.zeros((n, 4, 3)); targets = np.zeros((n, 4, 3))
+    out = np.zeros((n, N, 3)); targets = np.zeros((n, N, 3))
     for i in range(n):
         Ro = G.qmat(L["oq"][i])
-        for k in range(4):
-            out[i, k] = Ro @ G.cyl_out(Ro.T @ (al["tips"][i, k] - L["op"][i]), L["R"], L["half"])
-            targets[i, k] = al["tips"][i, k] + (ik.f[k]["r"] - G.ALLEGRO["tips"][k][2]) * out[i, k]
+        for k in range(N):
+            out[i, k] = Ro @ G.cyl_out(Ro.T @ (al["tips"][i, LOG[k]] - L["op"][i]), L["R"], L["half"])
+            targets[i, k] = al["tips"][i, LOG[k]] + (ik.f[k]["r"] - G.ALLEGRO["tips"][LOG[k]][2]) * out[i, k]
     # fingertip of a finger standing on an unturned mount at the origin, joints at their neutral angles
     d.qpos[:] = 0
     d.mocap_pos[:] = 0; d.mocap_quat[:] = [1, 0, 0, 0]
-    for k in range(4):
+    for k in range(N):
         for a, v in zip(ik.f[k]["qadr"], ik.neutral(k)):
             d.qpos[a] = v
     mujoco.mj_kinematics(m, d)
@@ -357,7 +371,7 @@ def palm_reference(L, al, say):
         # palm level; each finger placed so its neutral fingertip is on its mean target, curling
         # toward the cylinder's axis (the finger curls toward its own -y), then turned by `turn`
         p0 = [0.0, 0.0, float(goal[:, 2].mean() - tip0[2])]
-        for k in range(4):
+        for k in range(N):
             u = goal[k, :2] - ik.c0[:2]
             yaw = float(np.arctan2(u[1], u[0]) - np.pi / 2 + turn)
             xy = goal[k, :2] - ik.c0[:2] - (rot([0, 0, yaw]) @ tip0)[:2]
@@ -376,7 +390,7 @@ def palm_reference(L, al, say):
         f"moments); palm tilted {np.degrees(np.arccos(np.clip(R[2, 2], -1, 1))):.1f} deg from level, "
         f"{1e3 * (L['op'].mean(0)[2] - tr[2]):.0f} mm below the cylinder's mean centre; fingertip ball radius "
         f"{1e3 * ik.f[0]['r']:.1f} mm")
-    for k in range(4):
+    for k in range(N):
         say(f"  mount of the finger following the {NAMES[k]} finger: {1e3 * mounts[k][0]:+.0f}, "
             f"{1e3 * mounts[k][1]:+.0f} mm on the palm, turned {np.degrees(mounts[k][2]) % 360:.0f} deg")
     X, miss, near_obj, near_ff = ik.track(targets, np.arange(n))
@@ -386,7 +400,7 @@ def palm_reference(L, al, say):
         f"the logged cylinder; two fingers come no nearer than {1e3 * ff:+.1f} mm to each other (distances beyond "
         f"50 mm print as 50)")
     reach = {}
-    for k in range(4):
+    for k in range(N):
         f = ik.f[k]
         at = float(np.mean(np.any((X[k] <= f["lo"] + 1e-4) | (X[k] >= f["hi"] - 1e-4), axis=1)))
         reach[NAMES[k]] = {"mean_mm": float(1e3 * miss[:, k].mean()), "max_mm": float(1e3 * miss[:, k].max()),
@@ -408,9 +422,9 @@ def palm_reference(L, al, say):
         for k, f in enumerate(hand["fingers"]):
             b = m.body(f["body"]).id
             tau = np.zeros(m.nv)
-            if L["N"][i, k] > 0:
+            if L["N"][i, LOG[k]] > 0:
                 cpt = d.xpos[b] + d.xmat[b].reshape(3, 3) @ np.array(f["loc"])
-                tau = G.point_jac(m, d, b, cpt - f["r"] * out[i, k]).T @ L["f"][i, k]
+                tau = G.point_jac(m, d, b, cpt - f["r"] * out[i, k]).T @ L["f"][i, LOG[k]]
             if i == 0:                                 # the fixed-mount model puts the fingertip where the search model did
                 tip = d.xpos[b] + d.xmat[b].reshape(3, 3) @ np.array(f["loc"])
                 assert np.linalg.norm(tip - targets[0, k]) < miss[0, k] + 1e-6, "fixed-mount model differs from the search model"
@@ -436,7 +450,7 @@ def main():
     ap.add_argument("--refs", default="")                    # a references.pkl from an earlier run of this tool
     ap.add_argument("--no-film", action="store_true")
     a = ap.parse_args()
-    out = os.path.join(G.ROOT, "outputs", "four_dexee_fingers_on_a_palm_turn_free_cylinder_22nov_" + a.tag)
+    out = os.path.join(G.ROOT, "outputs", OUT_STEM + a.tag)
     if os.path.exists(out):
         print("REFUSING to overwrite:", out)
         return 1
@@ -449,10 +463,10 @@ def main():
 
     def report():
         with open(os.path.join(out, "report.md"), "x", encoding="utf-8") as fo:
-            fo.write("# Four Shadow DEX-EE fingers on a palm turning a free cylinder (22 Nov 2026)\n\n"
+            fo.write(f"# {WORD.capitalize()} Shadow DEX-EE fingers on a palm turning a free cylinder (22 Nov 2026)\n\n"
                      "Simulation only: comparative, not predictive. Not a product hand: the layout is ours. The "
                      "controller knows the full state and plans with the same model. Printed by "
-                     "`tools/four_dexee_fingers_on_a_palm_turn_free_cylinder_22nov.py`; what is assumed, the layout "
+                     f"`tools/{TOOL}`; what is assumed, the layout "
                      "rule and what was expected before the run are in its header, and the pass test is in the "
                      "header of `tools/hands_turn_free_cylinder_lookahead_21nov.py`.\n\n"
                      + "\n".join("- " + s.strip() for s in lines) + "\n")
@@ -472,6 +486,10 @@ def main():
     c4 = (L["N"] > 0).sum(1)
     say(f"Recording: all four fingers touch {100 * (c4 == 4).mean():.0f} % of the time, three "
         f"{100 * (c4 == 3).mean():.0f} %, fewer {100 * (c4 < 3).mean():.1f} %")
+    if N < 4:
+        cn = (L["N"][:, LOG] > 0).sum(1)
+        say(f"Of the {N} log fingers followed ({', '.join(NAMES)}), all touch {100 * (cn == N).mean():.0f} % of "
+            f"the time, all but one {100 * (cn == N - 1).mean():.0f} %, fewer {100 * (cn < N - 1).mean():.1f} %")
     if not copy_check(L, say):
         say("Stopped: the copy check failed.")
         report()
@@ -493,7 +511,7 @@ def main():
         return 1
     hand = ref["hand"]
     tips = [(f["body"], f["loc"]) for f in hand["fingers"]]
-    xml = os.path.join(out, "model_four_dexee_fingers.xml")
+    xml = os.path.join(out, f"model_{WORD}_dexee_fingers.xml")
     res, panels, keep = {}, [], {}
     for label, fb, seeds in (("no feedback", False, [0]), ("feedback", True, [int(x) for x in a.seeds.split(",")])):
         for seed in seeds:
@@ -506,7 +524,7 @@ def main():
             v = np.linalg.norm(np.diff(rec["op"][early], axis=0), axis=1) / np.diff(rec["t"][early])
             ms["centre_speed_first_0p1_s_max_m_s"] = float(v.max()) if len(v) else None
             ms["largest_share_of_force_range_at_release"] = float(rec["act"][0].max())
-            key = f"four dexee fingers, {label}" + (f", seed {seed}" if fb else "")
+            key = f"{WORD} dexee fingers, {label}" + (f", seed {seed}" if fb else "")
             res[key] = ms; keep[key] = rec
             say(f"{key}: {'PASS' if ms['passes'] else 'FAIL'}; held until {ms['held_until_s']:.2f} s; turned "
                 f"{ms['turn_deg']:+.0f} deg (recording {ms['logged_turn_deg_same_time']:+.0f}); centre moved at most "
@@ -524,11 +542,11 @@ def main():
                 + f"; cylinder's largest speed in the first 0.1 s {ms['centre_speed_first_0p1_s_max_m_s']:.3f} m/s; "
                 f"hardest-pressed actuator at release {100 * ms['largest_share_of_force_range_at_release']:.0f} % of range")
             if (not fb) or seed == seeds[0]:
-                panels.append(("Four DEX-EE fingers on a palm" + (", no feedback" if not fb else ", with feedback"), xml, rec,
+                panels.append((f"{WORD.capitalize()} DEX-EE fingers on a palm" + (", no feedback" if not fb else ", with feedback"), xml, rec,
                                "no feedback: the reference commands as they are" if not fb else f"feedback, sampler seed {seed}"))
     np.savez(os.path.join(out, "runs.npz"), **{f"{k}|{n}": v for k, r in keep.items() for n, v in r.items()})
     with open(os.path.join(out, "results.json"), "x", encoding="utf-8") as fo:
-        json.dump({"made_by": "tools/four_dexee_fingers_on_a_palm_turn_free_cylinder_22nov.py",
+        json.dump({"made_by": "tools/" + TOOL,
                    "settings": {"hold_s": K.HOLD_S, "horizon_s": K.HORIZON_S, "replan_s": K.REPLAN_S, "knots": K.KNOTS,
                                 "samples": K.SAMPLES, "spread_rad": K.SPREAD_RAD, "turn_tol_rad": K.TURN_TOL,
                                 "pos_tol_m": K.POS_TOL, "tilt_tol_rad": K.TILT_TOL, "change_weight": K.CHANGE_WEIGHT,

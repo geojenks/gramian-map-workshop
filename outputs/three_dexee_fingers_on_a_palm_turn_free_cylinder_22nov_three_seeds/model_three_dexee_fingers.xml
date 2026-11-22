@@ -1,0 +1,303 @@
+<mujoco model="shadow_dexee">
+  <compiler angle="radian" meshdir="C:\Users\geo\Documents\Projects\gramian-map-workshop\external\mujoco_menagerie\shadow_dexee\assets/"/>
+
+  <option noslip_tolerance="0" integrator="implicitfast" cone="elliptic" noslip_iterations="5"/>
+
+  <default>
+    <site size="0.001 0.005 0.005" group="3" rgba="1 0 0 1"/>
+    <default class="finger/visual">
+      <geom type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="finger/collision">
+      <geom type="mesh" group="3" material="collision"/>
+      <default class="finger/collision_soft">
+        <geom condim="6" solref="-2500 -100"/>
+      </default>
+      <default class="finger/collision_hard">
+        <geom condim="4" friction="1 0.001 2e-05" solref="-7000 -167"/>
+      </default>
+    </default>
+  </default>
+
+  <extension>
+    <plugin plugin="mujoco.pid">
+      <instance name="actuator_J0">
+        <config key="kp" value="2.8"/>
+        <config key="ki" value="4.0"/>
+        <config key="kd" value="0.03"/>
+        <config key="imax" value="0.1"/>
+        <config key="slewmax" value="3.14159"/>
+      </instance>
+      <instance name="actuator_J1">
+        <config key="kp" value="2.5"/>
+        <config key="ki" value="3.0"/>
+        <config key="kd" value="0.02"/>
+        <config key="imax" value="0.2"/>
+        <config key="slewmax" value="3.14159"/>
+      </instance>
+      <instance name="actuator_J2">
+        <config key="kp" value="1.1"/>
+        <config key="ki" value="3.0"/>
+        <config key="kd" value="0.01"/>
+        <config key="imax" value="0.2"/>
+        <config key="slewmax" value="3.14159"/>
+      </instance>
+      <instance name="actuator_J3">
+        <config key="kp" value="0.6"/>
+        <config key="ki" value="3.0"/>
+        <config key="kd" value="0.008"/>
+        <config key="imax" value="0.1"/>
+        <config key="slewmax" value="3.14159"/>
+      </instance>
+    </plugin>
+  </extension>
+
+  <asset>
+    <material name="white_aluminium" rgba="0.6313 0.6313 0.62745 1"/>
+    <material name="graphite_black" rgba="0.1529 0.16078 0.16862 1"/>
+    <material name="jet_black" rgba="0.0549 0.0549 0.06274 1"/>
+    <material name="collision" rgba="1 0.6 0.6 1"/>
+    <mesh name="r3_config1_base" file="Asm-MRH-HB1-Visual,00-Plastic.stl"/>
+    <mesh name="r3_config1_base_col" file="Asm-MRH-HB1-Visual,00-Plastic.stl"/>
+    <mesh name="r3_config1_base_puck" file="Asm-MRH-HB1-Visual,00-Puck.stl"/>
+    <mesh name="r3_config1_base_puck_col" file="Asm-MRH-HB1-Visual,00-Puck.stl"/>
+    <mesh name="r3_finger_base" file="MRH-FB-MainALU-Visual,00.stl"/>
+    <mesh name="r3_finger_base_tb" file="MRH-FB-TB-Main-Visual,00.stl"/>
+    <mesh name="r3_finger_cover" file="MRH-FB-Main-Cover-Visual,00.stl"/>
+    <mesh name="r3_finger_pulley_block" file="MRH-FB-PulleyBlock1-Visual,00.stl"/>
+    <mesh name="r3_finger_lid_white" file="MRH-FB-TB-Lid-White-Visual,00.stl"/>
+    <mesh name="r3_finger_lid_logo" file="MRH-FB-TB-Lid-Logo-Visual,00.stl"/>
+    <mesh name="r3_finger_cover_small_left" file="MRH-FB-S-Cover-L-Visual,00.stl"/>
+    <mesh name="r3_finger_cover_small_right" file="MRH-FB-S-Cover-R-Visual,00.stl"/>
+    <mesh name="r3_finger_base_col" file="r3_finger_base_col.stl"/>
+    <mesh name="r3_finger_knuckle" file="MRH-F-J0Link-Visual,00.stl" refquat="1 -1 0 0"/>
+    <mesh name="r3_finger_knuckle_col" file="MRH-F-J0Link-Visual,00.stl" refquat="1 -1 0 0"/>
+    <mesh name="r3_finger_proximal" file="MRH-F-Prox-Visual,00-Main.stl" refquat="1 -1 0 0"/>
+    <mesh name="r3_finger_proximal_lid" file="MRH-F-Prox-Visual,00-Lid.stl" refquat="1 -1 0 0"/>
+    <mesh name="r3_finger_proximal_magtac" file="MRH-F-Prox-MagTac-Sensor-Visual,00.stl" refquat="1 -1 0 0"/>
+    <mesh name="r3_finger_proximal_col" file="Asm-MRH-F-Prox-Visual,00+Magtac,00.stl" refquat="1 -1 0 0"/>
+    <mesh name="r3_finger_middle" file="MRH-F-Mid-Visual,00.stl" refquat="1 -1 0 0"/>
+    <mesh name="r3_finger_middle_magtac" file="MRH-F-Mid-MagTac-Sensor-Visual,00.stl" refquat="1 -1 0 0"/>
+    <mesh name="r3_finger_middle_col" file="Asm-MRH-F-Mid-Visual,00+MagTac,00.stl" refquat="1 -1 0 0"/>
+    <mesh name="r3_finger_distal" file="MRH-F-Distal-Visual,00.stl" refquat="0 0 0 1"/>
+    <mesh name="r3_finger_distal_sensor" file="MRH-F-Distal-Sensor-Visual,00.stl" refquat="0 -1 0 0"/>
+    <mesh name="r3_finger_distal_col" content_type="model/stl" file="MRH-F-Distal-Visual,00.stl" refquat="0 0 0 1"/>
+    <mesh name="r3_finger_distal_tip_col" content_type="model/stl" file="MRH-F-Distal-Sensor-Visual,00.stl" refquat="0 -1 0 0"/>
+  </asset>
+
+  <worldbody>
+    <site name="tcp" pos="0 0 0.3" rgba="1 0.5 0 0.2"/>
+    <site name="attachment_site" pos="0 0 0"/>
+    <light pos="0 0 2" dir="0 0 -1"/>
+    <body name="F0/" pos="-0.0804705 -0.0228995 0.357732" quat="0.780144 0.0325988 0.0152917 0.624564">
+      <body name="F0/finger_base" gravcomp="1">
+        <geom name="F0/base_geom" class="finger/visual" friction="0.721185" mass="0.899378" mesh="r3_finger_base"/>
+        <geom name="F0/base_tb_geom" class="finger/visual" friction="0.721185" mass="0" mesh="r3_finger_base_tb"/>
+        <geom name="F0/base_cover_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_cover"/>
+        <geom name="F0/base_pulley_block_geom" class="finger/visual" friction="0.721185" mass="0" mesh="r3_finger_pulley_block"/>
+        <geom name="F0/base_lid_white_geom" class="finger/visual" friction="0.721185" mass="0" material="white_aluminium" mesh="r3_finger_lid_white"/>
+        <geom name="F0/base_lid_logo_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_lid_logo"/>
+        <geom name="F0/base_cover_small_left_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_cover_small_left"/>
+        <geom name="F0/base_cover_small_right_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_cover_small_right"/>
+        <geom name="F0/base_geom_col" class="finger/collision_hard" pos="0 0 0" quat="0.707107 -0.707107 0 0" friction="0.721185" mass="0" mesh="r3_finger_base_col"/>
+        <geom name="F0/finger_base_CollisionGeom_1" size="0.05 0.1" pos="0 0 0.095" quat="0 1 0 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+        <site name="F0/attachment_site" pos="0 0 0"/>
+        <body name="F0/finger_knuckle" pos="0 0.015 0.17902" quat="0.866025 -0.500001 0 0" gravcomp="1">
+          <joint name="F0/J0" pos="0 0 0" axis="0 0 -1" range="-0.8727 0.8727" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+          <geom name="F0/knuckle_geom" class="finger/visual" friction="0.721185" mass="0.13078" material="jet_black" mesh="r3_finger_knuckle"/>
+          <geom name="F0/knuckle_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_knuckle_col"/>
+          <geom name="F0/finger_knuckle_CollisionGeom_1" size="0.027 0.0275" pos="0 0 -0.0195" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+          <geom name="F0/finger_knuckle_CollisionGeom_2" size="0.018 0.018" pos="0 -0.03 0" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+          <geom name="F0/finger_knuckle_CollisionGeom_3" size="0.025 0.005" pos="-0.0015 -0.02 -0.015" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+          <site name="F0/j0_site" pos="0 0 0"/>
+          <body name="F0/finger_proximal" pos="0 -0.03 0" gravcomp="1">
+            <joint name="F0/J1" pos="0 0 0" axis="1 0 0" range="-1.3963 0.7854" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+            <geom name="F0/proximal_geom" class="finger/visual" friction="0.721185" mass="0.0961433" mesh="r3_finger_proximal"/>
+            <geom name="F0/proximal_lid_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_proximal_lid"/>
+            <geom name="F0/proximal_magtac_geom" class="finger/visual" friction="0.721185" mass="0" material="graphite_black" mesh="r3_finger_proximal_magtac"/>
+            <geom name="F0/proximal_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_proximal_col"/>
+            <geom name="F0/finger_proximal_CollisionGeom_1" size="0.02 0.0215" pos="-0.0015 0 0" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+            <geom name="F0/finger_proximal_CollisionGeom_2" size="0.025 0.015" pos="0 -0.025 0.003" quat="0.707107 -0.707107 0 0" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+            <site name="F0/j1_site" pos="0 0 0"/>
+            <body name="F0/finger_middle" pos="0 -0.05 0" gravcomp="1">
+              <joint name="F0/J2" pos="0 0 0" axis="1 0 0" range="0 1.3963" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+              <geom name="F0/middle_geom" class="finger/visual" friction="0.721185" mass="0.055859" material="jet_black" mesh="r3_finger_middle"/>
+              <geom name="F0/middle_magtac_geom" class="finger/visual" friction="0.721185" mass="0" material="graphite_black" mesh="r3_finger_middle_magtac"/>
+              <geom name="F0/middle_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_middle_col"/>
+              <geom name="F0/finger_middle_CollisionGeom_1" size="0.014 0.015" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+              <geom name="F0/finger_middle_CollisionGeom_2" size="0.02 0.008" pos="0 -0.018 0" quat="0.707107 0.707107 0 0" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+              <geom name="F0/finger_middle_CollisionGeom_3" size="0.014 0.015" pos="0 -0.035 0" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+              <site name="F0/j2_site" pos="0 0 0"/>
+              <body name="F0/finger_distal" pos="0 -0.035 0" quat="0 0 -0.707107 0.707107" gravcomp="1">
+                <joint name="F0/J3" pos="0 0 0" axis="-1 0 0" range="-0.5236 1.4835" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+                <geom name="F0/distal_geom" class="finger/visual" friction="0.721185" mass="0.0276637" mesh="r3_finger_distal"/>
+                <geom name="F0/distal_sensor_geom" class="finger/visual" friction="0.721185" mass="0" material="graphite_black" mesh="r3_finger_distal_sensor"/>
+                <geom name="F0/distal_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_distal_col"/>
+                <geom name="F0/distal_geom_tip_col" class="finger/collision_soft" friction="0.721185" mass="0" mesh="r3_finger_distal_tip_col"/>
+                <geom name="F0/finger_distal_CollisionGeom_1" size="0.018 0.0125" pos="0 0 0.0125" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+                <site name="F0/j3_site" pos="0 0 0"/>
+                <site name="F0/fingertip_site" pos="0 -0.00625 0.04"/>
+                <site name="F0/distal_site" pos="0 0.007 0.03"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    <body name="F1/" pos="0.0360051 -0.00143259 0.350874" quat="0.592007 -0.0166172 0.0319435 -0.805128">
+      <body name="F1/finger_base" gravcomp="1">
+        <geom name="F1/base_geom" class="finger/visual" friction="0.721185" mass="0.899378" mesh="r3_finger_base"/>
+        <geom name="F1/base_tb_geom" class="finger/visual" friction="0.721185" mass="0" mesh="r3_finger_base_tb"/>
+        <geom name="F1/base_cover_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_cover"/>
+        <geom name="F1/base_pulley_block_geom" class="finger/visual" friction="0.721185" mass="0" mesh="r3_finger_pulley_block"/>
+        <geom name="F1/base_lid_white_geom" class="finger/visual" friction="0.721185" mass="0" material="white_aluminium" mesh="r3_finger_lid_white"/>
+        <geom name="F1/base_lid_logo_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_lid_logo"/>
+        <geom name="F1/base_cover_small_left_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_cover_small_left"/>
+        <geom name="F1/base_cover_small_right_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_cover_small_right"/>
+        <geom name="F1/base_geom_col" class="finger/collision_hard" pos="0 0 0" quat="0.707107 -0.707107 0 0" friction="0.721185" mass="0" mesh="r3_finger_base_col"/>
+        <geom name="F1/finger_base_CollisionGeom_1" size="0.05 0.1" pos="0 0 0.095" quat="0 1 0 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+        <site name="F1/attachment_site" pos="0 0 0"/>
+        <body name="F1/finger_knuckle" pos="0 0.015 0.17902" quat="0.866025 -0.500001 0 0" gravcomp="1">
+          <joint name="F1/J0" pos="0 0 0" axis="0 0 -1" range="-0.8727 0.8727" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+          <geom name="F1/knuckle_geom" class="finger/visual" friction="0.721185" mass="0.13078" material="jet_black" mesh="r3_finger_knuckle"/>
+          <geom name="F1/knuckle_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_knuckle_col"/>
+          <geom name="F1/finger_knuckle_CollisionGeom_1" size="0.027 0.0275" pos="0 0 -0.0195" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+          <geom name="F1/finger_knuckle_CollisionGeom_2" size="0.018 0.018" pos="0 -0.03 0" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+          <geom name="F1/finger_knuckle_CollisionGeom_3" size="0.025 0.005" pos="-0.0015 -0.02 -0.015" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+          <site name="F1/j0_site" pos="0 0 0"/>
+          <body name="F1/finger_proximal" pos="0 -0.03 0" gravcomp="1">
+            <joint name="F1/J1" pos="0 0 0" axis="1 0 0" range="-1.3963 0.7854" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+            <geom name="F1/proximal_geom" class="finger/visual" friction="0.721185" mass="0.0961433" mesh="r3_finger_proximal"/>
+            <geom name="F1/proximal_lid_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_proximal_lid"/>
+            <geom name="F1/proximal_magtac_geom" class="finger/visual" friction="0.721185" mass="0" material="graphite_black" mesh="r3_finger_proximal_magtac"/>
+            <geom name="F1/proximal_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_proximal_col"/>
+            <geom name="F1/finger_proximal_CollisionGeom_1" size="0.02 0.0215" pos="-0.0015 0 0" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+            <geom name="F1/finger_proximal_CollisionGeom_2" size="0.025 0.015" pos="0 -0.025 0.003" quat="0.707107 -0.707107 0 0" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+            <site name="F1/j1_site" pos="0 0 0"/>
+            <body name="F1/finger_middle" pos="0 -0.05 0" gravcomp="1">
+              <joint name="F1/J2" pos="0 0 0" axis="1 0 0" range="0 1.3963" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+              <geom name="F1/middle_geom" class="finger/visual" friction="0.721185" mass="0.055859" material="jet_black" mesh="r3_finger_middle"/>
+              <geom name="F1/middle_magtac_geom" class="finger/visual" friction="0.721185" mass="0" material="graphite_black" mesh="r3_finger_middle_magtac"/>
+              <geom name="F1/middle_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_middle_col"/>
+              <geom name="F1/finger_middle_CollisionGeom_1" size="0.014 0.015" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+              <geom name="F1/finger_middle_CollisionGeom_2" size="0.02 0.008" pos="0 -0.018 0" quat="0.707107 0.707107 0 0" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+              <geom name="F1/finger_middle_CollisionGeom_3" size="0.014 0.015" pos="0 -0.035 0" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+              <site name="F1/j2_site" pos="0 0 0"/>
+              <body name="F1/finger_distal" pos="0 -0.035 0" quat="0 0 -0.707107 0.707107" gravcomp="1">
+                <joint name="F1/J3" pos="0 0 0" axis="-1 0 0" range="-0.5236 1.4835" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+                <geom name="F1/distal_geom" class="finger/visual" friction="0.721185" mass="0.0276637" mesh="r3_finger_distal"/>
+                <geom name="F1/distal_sensor_geom" class="finger/visual" friction="0.721185" mass="0" material="graphite_black" mesh="r3_finger_distal_sensor"/>
+                <geom name="F1/distal_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_distal_col"/>
+                <geom name="F1/distal_geom_tip_col" class="finger/collision_soft" friction="0.721185" mass="0" mesh="r3_finger_distal_tip_col"/>
+                <geom name="F1/finger_distal_CollisionGeom_1" size="0.018 0.0125" pos="0 0 0.0125" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+                <site name="F1/j3_site" pos="0 0 0"/>
+                <site name="F1/fingertip_site" pos="0 -0.00625 0.04"/>
+                <site name="F1/distal_site" pos="0 0.007 0.03"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    <body name="F2/" pos="-0.0100005 0.075702 0.356309" quat="0.986233 0.0104648 0.0344529 -0.161392">
+      <body name="F2/finger_base" gravcomp="1">
+        <geom name="F2/base_geom" class="finger/visual" friction="0.721185" mass="0.899378" mesh="r3_finger_base"/>
+        <geom name="F2/base_tb_geom" class="finger/visual" friction="0.721185" mass="0" mesh="r3_finger_base_tb"/>
+        <geom name="F2/base_cover_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_cover"/>
+        <geom name="F2/base_pulley_block_geom" class="finger/visual" friction="0.721185" mass="0" mesh="r3_finger_pulley_block"/>
+        <geom name="F2/base_lid_white_geom" class="finger/visual" friction="0.721185" mass="0" material="white_aluminium" mesh="r3_finger_lid_white"/>
+        <geom name="F2/base_lid_logo_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_lid_logo"/>
+        <geom name="F2/base_cover_small_left_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_cover_small_left"/>
+        <geom name="F2/base_cover_small_right_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_cover_small_right"/>
+        <geom name="F2/base_geom_col" class="finger/collision_hard" pos="0 0 0" quat="0.707107 -0.707107 0 0" friction="0.721185" mass="0" mesh="r3_finger_base_col"/>
+        <geom name="F2/finger_base_CollisionGeom_1" size="0.05 0.1" pos="0 0 0.095" quat="0 1 0 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+        <site name="F2/attachment_site" pos="0 0 0"/>
+        <body name="F2/finger_knuckle" pos="0 0.015 0.17902" quat="0.866025 -0.500001 0 0" gravcomp="1">
+          <joint name="F2/J0" pos="0 0 0" axis="0 0 -1" range="-0.8727 0.8727" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+          <geom name="F2/knuckle_geom" class="finger/visual" friction="0.721185" mass="0.13078" material="jet_black" mesh="r3_finger_knuckle"/>
+          <geom name="F2/knuckle_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_knuckle_col"/>
+          <geom name="F2/finger_knuckle_CollisionGeom_1" size="0.027 0.0275" pos="0 0 -0.0195" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+          <geom name="F2/finger_knuckle_CollisionGeom_2" size="0.018 0.018" pos="0 -0.03 0" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+          <geom name="F2/finger_knuckle_CollisionGeom_3" size="0.025 0.005" pos="-0.0015 -0.02 -0.015" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+          <site name="F2/j0_site" pos="0 0 0"/>
+          <body name="F2/finger_proximal" pos="0 -0.03 0" gravcomp="1">
+            <joint name="F2/J1" pos="0 0 0" axis="1 0 0" range="-1.3963 0.7854" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+            <geom name="F2/proximal_geom" class="finger/visual" friction="0.721185" mass="0.0961433" mesh="r3_finger_proximal"/>
+            <geom name="F2/proximal_lid_geom" class="finger/visual" friction="0.721185" mass="0" material="jet_black" mesh="r3_finger_proximal_lid"/>
+            <geom name="F2/proximal_magtac_geom" class="finger/visual" friction="0.721185" mass="0" material="graphite_black" mesh="r3_finger_proximal_magtac"/>
+            <geom name="F2/proximal_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_proximal_col"/>
+            <geom name="F2/finger_proximal_CollisionGeom_1" size="0.02 0.0215" pos="-0.0015 0 0" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+            <geom name="F2/finger_proximal_CollisionGeom_2" size="0.025 0.015" pos="0 -0.025 0.003" quat="0.707107 -0.707107 0 0" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+            <site name="F2/j1_site" pos="0 0 0"/>
+            <body name="F2/finger_middle" pos="0 -0.05 0" gravcomp="1">
+              <joint name="F2/J2" pos="0 0 0" axis="1 0 0" range="0 1.3963" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+              <geom name="F2/middle_geom" class="finger/visual" friction="0.721185" mass="0.055859" material="jet_black" mesh="r3_finger_middle"/>
+              <geom name="F2/middle_magtac_geom" class="finger/visual" friction="0.721185" mass="0" material="graphite_black" mesh="r3_finger_middle_magtac"/>
+              <geom name="F2/middle_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_middle_col"/>
+              <geom name="F2/finger_middle_CollisionGeom_1" size="0.014 0.015" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+              <geom name="F2/finger_middle_CollisionGeom_2" size="0.02 0.008" pos="0 -0.018 0" quat="0.707107 0.707107 0 0" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+              <geom name="F2/finger_middle_CollisionGeom_3" size="0.014 0.015" pos="0 -0.035 0" quat="0.707107 0 0.707107 0" type="cylinder" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+              <site name="F2/j2_site" pos="0 0 0"/>
+              <body name="F2/finger_distal" pos="0 -0.035 0" quat="0 0 -0.707107 0.707107" gravcomp="1">
+                <joint name="F2/J3" pos="0 0 0" axis="-1 0 0" range="-0.5236 1.4835" armature="8e-05" damping="0.009" frictionloss="0.009"/>
+                <geom name="F2/distal_geom" class="finger/visual" friction="0.721185" mass="0.0276637" mesh="r3_finger_distal"/>
+                <geom name="F2/distal_sensor_geom" class="finger/visual" friction="0.721185" mass="0" material="graphite_black" mesh="r3_finger_distal_sensor"/>
+                <geom name="F2/distal_geom_col" class="finger/collision_hard" friction="0.721185" mass="0" mesh="r3_finger_distal_col"/>
+                <geom name="F2/distal_geom_tip_col" class="finger/collision_soft" friction="0.721185" mass="0" mesh="r3_finger_distal_tip_col"/>
+                <geom name="F2/finger_distal_CollisionGeom_1" size="0.018 0.0125" pos="0 0 0.0125" type="capsule" contype="0" conaffinity="0" group="5" friction="0.721185" mass="0" rgba="1 1 1 0.3"/>
+                <site name="F2/j3_site" pos="0 0 0"/>
+                <site name="F2/fingertip_site" pos="0 -0.00625 0.04"/>
+                <site name="F2/distal_site" pos="0 0.007 0.03"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    <body name="palm_plate" pos="-0.00279291 -0.00813139 0.353173" quat="0.999352 0.0158914 0.0323107 0">
+      <geom name="palm_plate" size="0.144201 0.004" pos="0 0 -0.004" type="cylinder" contype="0" conaffinity="0" friction="0.721185" mass="0" rgba="0.55 0.57 0.6 1"/>
+    </body>
+    <body name="obj">
+      <joint name="obj_free" type="free"/>
+      <geom name="obj" size="0.0329014 0.0263211" type="cylinder" friction="0.721185" mass="0.0239401" rgba="0.85 0.75 0.45 1"/>
+      <geom name="mark0" size="0.0332304 0.003 0.0268476" type="box" contype="0" conaffinity="0" mass="0" rgba="0.75 0.2 0.15 1"/>
+      <geom name="mark1" size="0.0332304 0.003 0.0268476" quat="0.707107 0 0 0.707107" type="box" contype="0" conaffinity="0" mass="0" rgba="0.2 0.3 0.6 1"/>
+    </body>
+  </worldbody>
+
+  <contact>
+    <exclude name="F0/base:knuckle" body1="F0/finger_base" body2="F0/finger_knuckle"/>
+    <exclude name="F1/base:knuckle" body1="F1/finger_base" body2="F1/finger_knuckle"/>
+    <exclude name="F2/base:knuckle" body1="F2/finger_base" body2="F2/finger_knuckle"/>
+  </contact>
+
+  <actuator>
+    <plugin name="F0/J0_actuator" joint="F0/J0" ctrlrange="-0.8727 0.8727" forcerange="-0.9 0.53" actdim="2" instance="actuator_J0"/>
+    <plugin name="F0/J1_actuator" joint="F0/J1" ctrlrange="-1.3963 0.7854" forcerange="-0.35 1.2" actdim="2" instance="actuator_J1"/>
+    <plugin name="F0/J2_actuator" joint="F0/J2" ctrlrange="0 1.3963" forcerange="-0.52 0.7" actdim="2" instance="actuator_J2"/>
+    <plugin name="F0/J3_actuator" joint="F0/J3" ctrlrange="-0.5236 1.4835" forcerange="-0.3 0.3" actdim="2" instance="actuator_J3"/>
+    <plugin name="F1/J0_actuator" joint="F1/J0" ctrlrange="-0.8727 0.8727" forcerange="-0.9 0.53" actdim="2" instance="actuator_J0"/>
+    <plugin name="F1/J1_actuator" joint="F1/J1" ctrlrange="-1.3963 0.7854" forcerange="-0.35 1.2" actdim="2" instance="actuator_J1"/>
+    <plugin name="F1/J2_actuator" joint="F1/J2" ctrlrange="0 1.3963" forcerange="-0.52 0.7" actdim="2" instance="actuator_J2"/>
+    <plugin name="F1/J3_actuator" joint="F1/J3" ctrlrange="-0.5236 1.4835" forcerange="-0.3 0.3" actdim="2" instance="actuator_J3"/>
+    <plugin name="F2/J0_actuator" joint="F2/J0" ctrlrange="-0.8727 0.8727" forcerange="-0.9 0.53" actdim="2" instance="actuator_J0"/>
+    <plugin name="F2/J1_actuator" joint="F2/J1" ctrlrange="-1.3963 0.7854" forcerange="-0.35 1.2" actdim="2" instance="actuator_J1"/>
+    <plugin name="F2/J2_actuator" joint="F2/J2" ctrlrange="0 1.3963" forcerange="-0.52 0.7" actdim="2" instance="actuator_J2"/>
+    <plugin name="F2/J3_actuator" joint="F2/J3" ctrlrange="-0.5236 1.4835" forcerange="-0.3 0.3" actdim="2" instance="actuator_J3"/>
+  </actuator>
+
+  <sensor>
+    <jointactuatorfrc joint="F0/J0" name="F0/j0_torque"/>
+    <jointactuatorfrc joint="F0/J1" name="F0/j1_torque"/>
+    <jointactuatorfrc joint="F0/J2" name="F0/j2_torque"/>
+    <jointactuatorfrc joint="F0/J3" name="F0/j3_torque"/>
+    <jointactuatorfrc joint="F1/J0" name="F1/j0_torque"/>
+    <jointactuatorfrc joint="F1/J1" name="F1/j1_torque"/>
+    <jointactuatorfrc joint="F1/J2" name="F1/j2_torque"/>
+    <jointactuatorfrc joint="F1/J3" name="F1/j3_torque"/>
+    <jointactuatorfrc joint="F2/J0" name="F2/j0_torque"/>
+    <jointactuatorfrc joint="F2/J1" name="F2/j1_torque"/>
+    <jointactuatorfrc joint="F2/J2" name="F2/j2_torque"/>
+    <jointactuatorfrc joint="F2/J3" name="F2/j3_torque"/>
+  </sensor>
+</mujoco>

@@ -1,0 +1,43 @@
+# Three Shadow DEX-EE fingers on a palm turning a free cylinder (22 Nov 2026)
+
+Simulation only: comparative, not predictive. Not a product hand: the layout is ours. The controller knows the full state and plans with the same model. Printed by `tools/three_dexee_fingers_on_a_palm_turn_free_cylinder_22nov.py`; what is assumed, the layout rule and what was expected before the run are in its header, and the pass test is in the header of `tools/hands_turn_free_cylinder_lookahead_21nov.py`.
+
+- Score settings: turn 0.2 rad, centre 0.01 m, tilt 0.2 rad, change weight 0.2, speed 0.1 m/s, wobble 2.0 rad/s
+- Look-ahead 0.5 s, new choice every 0.02 s, 100 sampled changes, offsets spread 0.03 rad, 4 knots; hold 0.5 s before release; 10.0 s run; logged turn in that time -353 deg
+- Recording: all four fingers touch 10 % of the time, three 90 %, fewer 0.2 %
+- Of the 3 log fingers followed (first, ring, thumb), all touch 37 % of the time, all but one 63 %, fewer 0.1 %
+- Copy check: three-finger model has 12 inputs and 24 controller states (stock 12 and 24); joint, actuator, body and contact numbers of every finger equal the stock finger's; one 3 s command, contacts off, largest difference from the stock finger in joint angle (rad) or actuator force (N.m) 5.4e-16; swing of the joints in that test 0.61 to 1.10 rad: PASS
+- Allegro base fit to the logged link positions: mean miss 0.00 mm, largest 0.00 mm (40 moments, 17 links)
+- Allegro ball fingertip against the logged cylinder, whenever the log has that finger touching: gap median -0.15 mm, from -0.44 to +2.12 mm (3715 samples; negative is overlap)
+- Allegro commands rebuilt from logged torque; logged torque at its 0.5 N.m cap in 0.0 % of joint samples
+- DEX-EE proportional gains read from the model file, joints 0 to 3: 2.8, 2.5, 1.1, 0.6
+- layout search, every finger started turned +0 deg from facing the cylinder: cost 2.422e-14
+- layout search, every finger started turned +34 deg from facing the cylinder: cost 2.194e-14
+- layout search, every finger started turned -34 deg from facing the cylinder: cost 9.967e-15
+- Palm layout: cost 9.967e-15 after the scouting search, 4.032e-14 after the fine one (30 moments); palm tilted 4.1 deg from level, 308 mm below the cylinder's mean centre; fingertip ball radius 10.5 mm
+- mount of the finger following the first finger: -78, -15 mm on the palm, turned 77 deg
+- mount of the finger following the ring finger: +39, +7 mm on the palm, turned 253 deg
+- mount of the finger following the thumb finger: -7, +84 mm on the palm, turned 341 deg
+- smallest distance between two finger bases +3.8 mm (negative is overlap)
+- along the reference, every tenth sample: other hand parts come no nearer than +10.6 mm to the logged cylinder; two fingers come no nearer than +3.2 mm to each other (distances beyond 50 mm print as 50)
+- reach, finger following the first finger: mean miss 0.0 mm, largest 0.3 mm; at a joint limit 0 % of the time
+- reach, finger following the ring finger: mean miss 0.0 mm, largest 0.0 mm; at a joint limit 0 % of the time
+- reach, finger following the thumb finger: mean miss 0.0 mm, largest 0.0 mm; at a joint limit 0 % of the time
+- reference commands outside the input range (clipped when played): 0.0 % of input samples; largest push beyond the joint target 0.15 rad
+- reference took 87 s to make
+- three dexee fingers, no feedback: FAIL; held until 0.71 s; turned -10 deg (recording -353); centre moved at most 147 mm, axis tilted at most 113 deg; most time any actuator spent at its limit 0.0 %; other hand parts pressing 3 % of the time; controller's mean change to the commands 0.000 rad; took 0 s to compute
+- failed: centre stays within 30 mm; axis stays within 30 deg; turn is 0.5 to 1.5 times the logged turn
+- hardest-worked actuators: F1/J0_actuator largest 22 %, mean 5 % of range; F2/J0_actuator largest 16 %, mean 3 % of range; F1/J1_actuator largest 15 %, mean 8 % of range; F1/J2_actuator largest 13 %, mean 6 % of range
+- fingertips touching, share of time: first 77 %, ring 70 %, thumb 78 %; cylinder's largest speed in the first 0.1 s 0.070 m/s; hardest-pressed actuator at release 13 % of range
+- three dexee fingers, feedback, seed 0: FAIL; held until 8.18 s; turned -314 deg (recording -353); centre moved at most 39 mm, axis tilted at most 19 deg; most time any actuator spent at its limit 62.4 %; other hand parts pressing 45 % of the time; controller's mean change to the commands 0.103 rad; took 383 s to compute
+- failed: centre stays within 30 mm; no actuator at its limit over 5 % of the time
+- hardest-worked actuators: F0/J0_actuator largest 100 %, mean 73 % of range; F1/J0_actuator largest 100 %, mean 72 % of range; F2/J0_actuator largest 84 %, mean 14 % of range; F2/J3_actuator largest 64 %, mean 12 % of range
+- fingertips touching, share of time: first 99 %, ring 74 %, thumb 62 %; cylinder's largest speed in the first 0.1 s 0.056 m/s; hardest-pressed actuator at release 13 % of range
+- three dexee fingers, feedback, seed 1: FAIL; held until 7.80 s; turned -318 deg (recording -353); centre moved at most 37 mm, axis tilted at most 23 deg; most time any actuator spent at its limit 58.2 %; other hand parts pressing 56 % of the time; controller's mean change to the commands 0.109 rad; took 406 s to compute
+- failed: centre stays within 30 mm; no actuator at its limit over 5 % of the time
+- hardest-worked actuators: F0/J0_actuator largest 100 %, mean 68 % of range; F1/J0_actuator largest 100 %, mean 64 % of range; F2/J0_actuator largest 58 %, mean 13 % of range; F1/J2_actuator largest 57 %, mean 26 % of range
+- fingertips touching, share of time: first 98 %, ring 90 %, thumb 66 %; cylinder's largest speed in the first 0.1 s 0.056 m/s; hardest-pressed actuator at release 13 % of range
+- three dexee fingers, feedback, seed 2: FAIL; held until 8.43 s; turned -319 deg (recording -353); centre moved at most 49 mm, axis tilted at most 20 deg; most time any actuator spent at its limit 59.5 %; other hand parts pressing 49 % of the time; controller's mean change to the commands 0.101 rad; took 335 s to compute
+- failed: centre stays within 30 mm; no actuator at its limit over 5 % of the time
+- hardest-worked actuators: F0/J0_actuator largest 100 %, mean 35 % of range; F1/J0_actuator largest 100 %, mean 70 % of range; F1/J1_actuator largest 69 %, mean 22 % of range; F2/J0_actuator largest 67 %, mean 13 % of range
+- fingertips touching, share of time: first 67 %, ring 76 %, thumb 76 %; cylinder's largest speed in the first 0.1 s 0.053 m/s; hardest-pressed actuator at release 13 % of range
