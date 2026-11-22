@@ -1,0 +1,41 @@
+Pneu-net fingers on a palm turning a ball: two sets of fingers on two inputs, one closed cycle of the inputs. SIMULATION ONLY, comparative. Slip ignored.
+script: tools/pneunet_palm_two_input_cycle_20nov.py
+cycle: first set out alone; second set out alone; both back together
+
+=== wall_0.0005m ===  (1470 mounts whose tip enters and leaves contact clear of the ball; need bodies 10.4 mm apart)
+  one shared input, 3 fingers: ring moves 50.4 mm for 45.0 mm of tip travel in contact, 12% more
+  one shared input, 4 fingers: ring moves 50.4 mm for 45.0 mm of tip travel in contact, 12% more
+  one shared input, 6 fingers: ring moves 50.4 mm for 45.0 mm of tip travel in contact, 12% more
+  two sets of 3 (6 fingers, 2 inputs): mount number 1143 by size of turn; contact from 192 to 208 Pa, deepest push-out 0.7 mm
+     first set out +19.6 deg, second set out +19.6 deg, both back -19.6 deg: net 19.6 deg per cycle of the inputs (3 cycles 58.7 deg); the same mount on one shared input: net 0.0 deg
+     checked at every level: bodies of the two sets at least 11.5 mm apart, within a set 46.7 mm; the waiting set's tip at least 0.58 mm clear of the ball and its body 0.87 mm clear
+  two sets of 4: no mount passes the cycle (1470 tried; failed on bodies of the two sets 1470, bodies within a set 0, waiting set touching the ball 0)
+  two sets of 6: no mount passes the cycle (1470 tried; failed on bodies of the two sets 1470, bodies within a set 0, waiting set touching the ball 0)
+
+=== wall_0.0010m ===  (1193 mounts whose tip enters and leaves contact clear of the ball; need bodies 12.9 mm apart)
+  one shared input, 3 fingers: ring moves 52.9 mm for 47.1 mm of tip travel in contact, 12% more
+  one shared input, 4 fingers: ring moves 52.9 mm for 47.1 mm of tip travel in contact, 12% more
+  one shared input, 6 fingers: ring moves 51.5 mm for 46.3 mm of tip travel in contact, 11% more
+  two sets of 3: no mount passes the cycle (1193 tried; failed on bodies of the two sets 1193, bodies within a set 0, waiting set touching the ball 0)
+  two sets of 4: no mount passes the cycle (1193 tried; failed on bodies of the two sets 1193, bodies within a set 0, waiting set touching the ball 0)
+  two sets of 6: no mount passes the cycle (1193 tried; failed on bodies of the two sets 1193, bodies within a set 0, waiting set touching the ball 0)
+
+=== wall_0.0015m ===  (1427 mounts whose tip enters and leaves contact clear of the ball; need bodies 14.7 mm apart)
+  one shared input, 3 fingers: ring moves 53.7 mm for 48.0 mm of tip travel in contact, 12% more
+  one shared input, 4 fingers: ring moves 53.7 mm for 48.0 mm of tip travel in contact, 12% more
+  one shared input, 6 fingers: ring moves 49.7 mm for 45.2 mm of tip travel in contact, 10% more
+  two sets of 3 (6 fingers, 2 inputs): mount number 1267 by size of turn; contact from 468 to 492 Pa, deepest push-out 0.2 mm
+     first set out +10.0 deg, second set out +10.0 deg, both back -10.0 deg: net 10.0 deg per cycle of the inputs (3 cycles 30.1 deg); the same mount on one shared input: net 0.0 deg
+     checked at every level: bodies of the two sets at least 14.9 mm apart, within a set 50.5 mm; the waiting set's tip at least 0.33 mm clear of the ball and its body 0.72 mm clear
+  two sets of 4: no mount passes the cycle (1427 tried; failed on bodies of the two sets 1427, bodies within a set 0, waiting set touching the ball 0)
+  two sets of 6: no mount passes the cycle (1427 tried; failed on bodies of the two sets 1427, bodies within a set 0, waiting set touching the ball 0)
+
+=== wall_0.0020m ===  (1432 mounts whose tip enters and leaves contact clear of the ball; need bodies 16.2 mm apart)
+  one shared input, 3 fingers: ring moves 45.4 mm for 42.2 mm of tip travel in contact, 8% more
+  one shared input, 4 fingers: ring moves 45.4 mm for 42.2 mm of tip travel in contact, 8% more
+  one shared input, 6 fingers: ring moves 45.4 mm for 42.2 mm of tip travel in contact, 8% more
+  two sets of 3 (6 fingers, 2 inputs): mount number 1193 by size of turn; contact from 444 to 492 Pa, deepest push-out 0.2 mm
+     first set out +9.7 deg, second set out +9.7 deg, both back -9.7 deg: net 9.7 deg per cycle of the inputs (3 cycles 29.1 deg); the same mount on one shared input: net 0.0 deg
+     checked at every level: bodies of the two sets at least 16.2 mm apart, within a set 51.1 mm; the waiting set's tip at least 0.14 mm clear of the ball and its body 0.24 mm clear
+  two sets of 4: no mount passes the cycle (1432 tried; failed on bodies of the two sets 1432, bodies within a set 0, waiting set touching the ball 0)
+  two sets of 6: no mount passes the cycle (1432 tried; failed on bodies of the two sets 1432, bodies within a set 0, waiting set touching the ball 0)

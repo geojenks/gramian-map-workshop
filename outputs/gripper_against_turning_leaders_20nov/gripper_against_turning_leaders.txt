@@ -1,0 +1,33 @@
+Gripper contact paths against banked turning records
+SIMULATION ONLY -- comparative, not predictive.
+
+Columns: fewest contacts touching at once | mean touching | % of time nothing touches |
+  object's turn over the record (deg) | of that, turn while nothing touches (deg) |
+  whole strokes | then medians over strokes: turn touch-down to lift-off (deg) |
+  largest turn within the stroke (deg) | contact moved round the axis in the world (deg) |
+  contact moved round the axis on the object (deg) | contact latitude about the turning axis (deg; + is above the equator for the authored waves and the gripper, whose axis points up; sign not fixed for the human record) |
+  fewest other contacts still touching at a lift-off |
+  contact's movement on the object per degree the object turned (0 = carried with it, 1 = object turns past it)
+
+Banked turning records
+w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4__contactfix   2    3.0   0.0     386.1      0.0   26    39.2    39.2    41.0     2.4   -51.7   2   0.06
+    authored wave (Wave_manip unified_v6 preset); object radius 33.5 mm; 4 stations; record 9.5 s; rotation off the turning axis 8.9% of the turn
+w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n5__contactfix   2    3.5   0.0     387.2      0.0   69    16.2    16.2    16.9     4.7   -51.8   2   0.28
+    authored wave (Wave_manip unified_v6 preset); object radius 33.5 mm; 5 stations; record 9.5 s; rotation off the turning axis 8.1% of the turn
+tennis_new_cup_take3_derived__nframesfix                    1    3.4   0.0    4876.5      0.0  274    49.7    49.7    35.8    15.6   -11.9   1   0.37
+    human demonstration, three-camera keypoints (Wave_manip human_demo); object radius 36.9 mm; 5 stations; record 33.7 s; rotation off the turning axis 53.3% of the turn
+
+Hanging three-finger gripper (two pressure cycles each)
+wall_0.0020m_tips_level_turned_+60deg                       0    2.4  19.8      -5.9     -3.0   12     0.3    29.4    20.4    10.9     2.5   0   0.36
+    turn when the input is back at zero, each cycle (deg): -3.0, -5.9; at the end of the log: -5.9; largest turn from the start: 59.2
+wall_0.0020m_tips_level_turned_+60deg_ramp_40s              0    2.5  15.9      -1.6     -0.0    6    -0.8    56.4    40.3    18.9     5.6   0   0.33
+    turn when the input is back at zero, each cycle (deg): -0.8, -1.6; at the end of the log: -1.6; largest turn from the start: 56.4
+wall_0.0020m_tips_level_turned_+45deg                       0    2.5  15.8      -0.0      0.0    6    -0.0     3.5     4.1     0.6    -5.3   0   0.17
+    turn when the input is back at zero, each cycle (deg): -0.0, -0.0; at the end of the log: -0.0; largest turn from the start: 3.5
+wall_0.0020m_tips_low_turned_+60deg                         0    1.9  35.2      -0.0      0.0    6    -0.0     4.4     4.5     0.1    -6.0   0   0.01
+    turn when the input is back at zero, each cycle (deg): -0.0, -0.0; at the end of the log: -0.0; largest turn from the start: 4.4
+wall_0.0015m_tips_low_turned_+60deg                         0    2.3  23.3       7.6     -0.0    6     3.8    16.2     8.8    12.0    -7.0   0   0.74
+    turn when the input is back at zero, each cycle (deg): 3.8, 7.6; at the end of the log: 7.6; largest turn from the start: 20.0
+wall_0.0015m_tips_low_turned_+60deg_ramp_40s                0    2.4  19.8       7.2     -0.0    6     3.6    21.1     7.7    17.2    -7.0   0   0.82
+    turn when the input is back at zero, each cycle (deg): 3.6, 7.2; at the end of the log: 7.2; largest turn from the start: 24.7
+

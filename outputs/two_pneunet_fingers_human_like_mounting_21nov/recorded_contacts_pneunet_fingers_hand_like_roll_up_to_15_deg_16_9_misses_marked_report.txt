@@ -1,0 +1,23 @@
+Clip of four two-pneu-net fingers on the recorded contacts: mounting "hand-like, roll up to 15 deg"
+GEOMETRY ONLY, nothing simulated. Comparative, not predictive.
+
+Camera azimuth 35 deg, elevation -25 deg; 406 frames, log 2.56 to 7.06 s, shown 3 times slower.
+Drawing check: MuJoCo's mesh against the supplied skin, largest difference 0.080 micrometres.
+
+Measures on the frames of the clip:
+  index  tip face centre from the logged contact while touching: median 6.60 mm, largest 18.69 mm (308 frames); deepest cut of any skin node into the replayed cylinder 4.28 mm
+         by third of each touching stretch (first, middle, last), median: 4.30, 3.29, 10.30 mm
+  middle tip face centre from the logged contact while touching: median 0.87 mm, largest 5.45 mm (307 frames); deepest cut of any skin node into the replayed cylinder 2.47 mm
+         by third of each touching stretch (first, middle, last), median: 1.23, 0.60, 0.87 mm
+  ring   tip face centre from the logged contact while touching: median 4.98 mm, largest 20.07 mm (308 frames); deepest cut of any skin node into the replayed cylinder 3.58 mm
+         by third of each touching stretch (first, middle, last), median: 3.67, 3.31, 9.66 mm
+  thumb  tip face centre from the logged contact while touching: median 2.65 mm, largest 13.95 mm (329 frames); deepest cut of any skin node into the replayed cylinder 2.69 mm
+         by third of each touching stretch (first, middle, last), median: 3.57, 2.59, 2.38 mm
+  Smallest distance between skin nodes of different fingers (every third node, every third frame): 14.92 mm.
+  Lowest skin node above the palm plate's top: -0.43 mm.
+
+Files:
+  outputs\two_pneunet_fingers_human_like_mounting_21nov\recorded_contacts_pneunet_fingers_hand_like_roll_up_to_15_deg_16_9_misses_marked.mp4
+  outputs\two_pneunet_fingers_human_like_mounting_21nov\recorded_contacts_pneunet_fingers_hand_like_roll_up_to_15_deg_16_9_misses_marked_start.png
+  outputs\two_pneunet_fingers_human_like_mounting_21nov\recorded_contacts_pneunet_fingers_hand_like_roll_up_to_15_deg_16_9_misses_marked_middle.png
+  outputs\two_pneunet_fingers_human_like_mounting_21nov\recorded_contacts_pneunet_fingers_hand_like_roll_up_to_15_deg_16_9_misses_marked_end.png

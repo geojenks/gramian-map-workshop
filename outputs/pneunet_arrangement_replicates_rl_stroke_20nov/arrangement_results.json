@@ -1,0 +1,569 @@
+{
+ "recording": {
+  "turn_deg": -16.419832647241293,
+  "duration_s": 0.5249979151412845,
+  "tilt_change_max_deg": 4.7285299000185095,
+  "centre_moved_max_mm": 5.860178073740053,
+  "fingers": {
+   "middle": {
+    "normal_force_mean_N": 1.022154507227242,
+    "contact_moved_in_world_mm": 11.498156638009737,
+    "contact_moved_on_object_mm": 4.040886634370199
+   },
+   "ring": {
+    "normal_force_mean_N": 1.0565748773515224,
+    "contact_moved_in_world_mm": 2.224032200208902,
+    "contact_moved_on_object_mm": 2.8569656200997815
+   },
+   "thumb": {
+    "normal_force_mean_N": 1.0770342778414488,
+    "contact_moved_in_world_mm": 9.487172961519528,
+    "contact_moved_on_object_mm": 2.8910544967887137
+   }
+  },
+  "turn0": 0.0
+ },
+ "section": {
+  "s": 421,
+  "e": 484,
+  "t0": 3.5083194011822343,
+  "t1": 4.033317316323519,
+  "turn_deg": -16.419832647241293,
+  "tilt_mean_deg": 8.694497838717089,
+  "tilt_range_deg": 4.173856437439186,
+  "drift_m": 0.005860178073740053
+ },
+ "finger_record": "wall_0.0020m",
+ "squeeze_assumed_N": 0.21709824523450594,
+ "fits": [
+  {
+   "finger": "middle",
+   "j": 1,
+   "k_normal_N_per_m": 41.33628644644858,
+   "k_along_surface_N_per_m": 13.727082910207839,
+   "friction_can_hold_back_tip_m": 0.011405776743143173,
+   "b": [
+    -0.055828397654539334,
+    -0.0991256764498208
+   ],
+   "psi": 0.6216178901138607,
+   "mirror": 1.0,
+   "u0": 279.9749943426423,
+   "u1": 352.3328029730857,
+   "h": -0.01257300566072776,
+   "misfit_rms_m": 0.0004388458079578825,
+   "misfit_max_m": 0.0006924657543127752,
+   "off_plane_rms_m": 0.00015939756694894036,
+   "path_length_m": 0.013913507972105341,
+   "body_inside_cylinder_max_m": 0.0,
+   "normal_mean": [
+    -0.22441732021942853,
+    -0.9651439313337794,
+    -0.1346627572683242
+   ]
+  },
+  {
+   "finger": "ring",
+   "j": 2,
+   "k_normal_N_per_m": 17.77712886344506,
+   "k_along_surface_N_per_m": 23.977771770124523,
+   "friction_can_hold_back_tip_m": 0.006529716126647142,
+   "b": [
+    0.09013546477802559,
+    -0.05702215101478561
+   ],
+   "psi": 2.1022135092258165,
+   "mirror": 1.0,
+   "u0": 319.09867320336025,
+   "u1": 297.5680291639901,
+   "h": -0.017867273103003706,
+   "misfit_rms_m": 0.0004160836729711938,
+   "misfit_max_m": 0.0007213154413445861,
+   "off_plane_rms_m": 0.00037622006302318414,
+   "path_length_m": 0.004238192401295169,
+   "body_inside_cylinder_max_m": 0.0,
+   "normal_mean": [
+    0.9956880844442387,
+    0.09127063251817237,
+    -0.01658041421362238
+   ]
+  },
+  {
+   "finger": "thumb",
+   "j": 3,
+   "k_normal_N_per_m": 37.58414338121282,
+   "k_along_surface_N_per_m": 14.263596473422474,
+   "friction_can_hold_back_tip_m": 0.010976757741301904,
+   "b": [
+    -0.07900201168142117,
+    0.07434933827226496
+   ],
+   "psi": 5.30926705897885,
+   "mirror": 1.0,
+   "u0": 267.53328865207527,
+   "u1": 346.6914243944299,
+   "h": -0.019808710170099896,
+   "misfit_rms_m": 0.00045577430900080345,
+   "misfit_max_m": 0.0007262863551124869,
+   "off_plane_rms_m": 0.0004260720734074002,
+   "path_length_m": 0.010505267189335813,
+   "body_inside_cylinder_max_m": 0.0,
+   "normal_mean": [
+    -0.349676746167678,
+    0.9253161011012437,
+    0.14668430806455787
+   ]
+  }
+ ],
+ "runs": {
+  "cylinder_free": {
+   "stopped": null,
+   "contacts_before_fingers_brought_in": 0,
+   "turn_let_go_deg": 3.693642370220868,
+   "turn_stroke_deg": -10.68516503727297,
+   "turn_final_hold_deg": -5.976279965111846,
+   "fingers": {
+    "middle": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.20511715958083876,
+     "normal_force_start_end_N": [
+      0.23935565254699706,
+      0.1815421030219248
+     ],
+     "input_first_last": [
+      279.9749943426423,
+      352.3328029730857
+     ],
+     "recorded_contact_moved_in_world_mm": 11.498156638009737,
+     "contact_off_recorded_at_stroke_start_mm": 3.83475189209753,
+     "contact_off_recorded_at_stroke_end_mm": 1.6148608672442353,
+     "contact_off_recorded_in_world_median_mm": 1.8143180497698477,
+     "contact_off_recorded_in_world_max_mm": 3.83475189209753,
+     "contact_off_recorded_on_object_median_mm": 12.157127057142555,
+     "contact_off_recorded_on_object_max_mm": 12.496607889853625,
+     "contact_moved_in_world_mm": 6.129632702688199,
+     "contact_moved_on_object_mm": 4.325752070661377
+    },
+    "ring": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.2692451689188961,
+     "normal_force_start_end_N": [
+      0.22167881846034598,
+      0.29477899633652166
+     ],
+     "input_first_last": [
+      319.09867320336025,
+      297.5680291639901
+     ],
+     "recorded_contact_moved_in_world_mm": 2.224032200208902,
+     "contact_off_recorded_at_stroke_start_mm": 5.921206661969718,
+     "contact_off_recorded_at_stroke_end_mm": 7.445526632362093,
+     "contact_off_recorded_in_world_median_mm": 7.32105886925779,
+     "contact_off_recorded_in_world_max_mm": 8.00481270887272,
+     "contact_off_recorded_on_object_median_mm": 2.469449852196681,
+     "contact_off_recorded_on_object_max_mm": 3.8937186760118796,
+     "contact_moved_in_world_mm": 0.29039214999187907,
+     "contact_moved_on_object_mm": 4.404850113916534
+    },
+    "thumb": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.24827425765769356,
+     "normal_force_start_end_N": [
+      0.14141899880488623,
+      0.2873039479758329
+     ],
+     "input_first_last": [
+      267.53328865207527,
+      346.6914243944299
+     ],
+     "recorded_contact_moved_in_world_mm": 9.487172961519528,
+     "contact_off_recorded_at_stroke_start_mm": 6.071426170146155,
+     "contact_off_recorded_at_stroke_end_mm": 8.158147852593743,
+     "contact_off_recorded_in_world_median_mm": 9.131734478440077,
+     "contact_off_recorded_in_world_max_mm": 9.570667069498448,
+     "contact_off_recorded_on_object_median_mm": 10.059467442420495,
+     "contact_off_recorded_on_object_max_mm": 10.44672344460959,
+     "contact_moved_in_world_mm": 7.2829729954198905,
+     "contact_moved_on_object_mm": 2.509461621641522
+    }
+   },
+   "tilt_change_max_deg": 1.3667005993092993,
+   "centre_moved_max_mm": 8.905512323500206,
+   "centre_drop_max_mm": 6.577272787733901,
+   "centre_drop_at_stroke_start_mm": 2.6115998316196265,
+   "share_of_recorded_turn": 0.6507474994922188
+  },
+  "weight_carried": {
+   "stopped": null,
+   "contacts_before_fingers_brought_in": 0,
+   "turn_let_go_deg": 3.2269258748800866,
+   "turn_stroke_deg": -17.28137246635388,
+   "turn_final_hold_deg": -0.7632436632510657,
+   "fingers": {
+    "middle": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.2131185859815972,
+     "normal_force_start_end_N": [
+      0.2186308673350894,
+      0.20636163519090914
+     ],
+     "input_first_last": [
+      279.9749943426423,
+      352.3328029730857
+     ],
+     "recorded_contact_moved_in_world_mm": 11.498156638009737,
+     "contact_off_recorded_at_stroke_start_mm": 1.5184840107854702,
+     "contact_off_recorded_at_stroke_end_mm": 0.9095789904603422,
+     "contact_off_recorded_in_world_median_mm": 1.0827129601997252,
+     "contact_off_recorded_in_world_max_mm": 1.9136208966211574,
+     "contact_off_recorded_on_object_median_mm": 3.3970518509520113,
+     "contact_off_recorded_on_object_max_mm": 4.382279089925903,
+     "contact_moved_in_world_mm": 11.31605259037556,
+     "contact_moved_on_object_mm": 4.742810069909839
+    },
+    "ring": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.19649218275994473,
+     "normal_force_start_end_N": [
+      0.1858077214717688,
+      0.14378605344863285
+     ],
+     "input_first_last": [
+      319.09867320336025,
+      297.5680291639901
+     ],
+     "recorded_contact_moved_in_world_mm": 2.224032200208902,
+     "contact_off_recorded_at_stroke_start_mm": 1.280676602702266,
+     "contact_off_recorded_at_stroke_end_mm": 1.1887883801200576,
+     "contact_off_recorded_in_world_median_mm": 1.9283990621111318,
+     "contact_off_recorded_in_world_max_mm": 2.588847489230459,
+     "contact_off_recorded_on_object_median_mm": 1.994164087851216,
+     "contact_off_recorded_on_object_max_mm": 2.2982558449239963,
+     "contact_moved_in_world_mm": 2.552665105432053,
+     "contact_moved_on_object_mm": 2.6987061912129517
+    },
+    "thumb": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.22117821664202464,
+     "normal_force_start_end_N": [
+      0.19969389363120638,
+      0.1767562618693006
+     ],
+     "input_first_last": [
+      267.53328865207527,
+      346.6914243944299
+     ],
+     "recorded_contact_moved_in_world_mm": 9.487172961519528,
+     "contact_off_recorded_at_stroke_start_mm": 3.1290270553672364,
+     "contact_off_recorded_at_stroke_end_mm": 2.4436809348806894,
+     "contact_off_recorded_in_world_median_mm": 2.814706241117697,
+     "contact_off_recorded_in_world_max_mm": 3.6649098273693723,
+     "contact_off_recorded_on_object_median_mm": 3.4587371892301606,
+     "contact_off_recorded_on_object_max_mm": 3.8594019196007334,
+     "contact_moved_in_world_mm": 10.312322249693004,
+     "contact_moved_on_object_mm": 2.4457780811163587
+    }
+   },
+   "tilt_change_max_deg": 0.4699443500765728,
+   "centre_moved_max_mm": 7.101497538219126,
+   "centre_drop_max_mm": 0.0,
+   "centre_drop_at_stroke_start_mm": 0.0,
+   "share_of_recorded_turn": 1.0524694640695582
+  },
+  "weight_carried_inputs_constant": {
+   "stopped": null,
+   "contacts_before_fingers_brought_in": 0,
+   "turn_let_go_deg": 3.2269258748800866,
+   "turn_stroke_deg": -0.27921742691572593,
+   "turn_final_hold_deg": -0.27044422121902123,
+   "fingers": {
+    "middle": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.21705822213464188,
+     "normal_force_start_end_N": [
+      0.2186308673350894,
+      0.2158657890087198
+     ],
+     "input_first_last": [
+      279.9749943426423,
+      352.3328029730857
+     ],
+     "recorded_contact_moved_in_world_mm": 11.498156638009737,
+     "contact_off_recorded_at_stroke_start_mm": 1.5184840107854702,
+     "contact_off_recorded_at_stroke_end_mm": 10.976193077405073,
+     "contact_off_recorded_in_world_median_mm": 5.946963329278602,
+     "contact_off_recorded_in_world_max_mm": 10.976193077405073,
+     "contact_off_recorded_on_object_median_mm": 5.373989390392461,
+     "contact_off_recorded_on_object_max_mm": 6.8305847399988115,
+     "contact_moved_in_world_mm": 0.3248632026007396,
+     "contact_moved_on_object_mm": 1.128247774845728
+    },
+    "ring": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.18313108808706027,
+     "normal_force_start_end_N": [
+      0.1858077214717688,
+      0.17899109561308388
+     ],
+     "input_first_last": [
+      319.09867320336025,
+      297.5680291639901
+     ],
+     "recorded_contact_moved_in_world_mm": 2.224032200208902,
+     "contact_off_recorded_at_stroke_start_mm": 1.280676602702266,
+     "contact_off_recorded_at_stroke_end_mm": 2.512001057769208,
+     "contact_off_recorded_in_world_median_mm": 2.2643199162049985,
+     "contact_off_recorded_in_world_max_mm": 2.762555682576337,
+     "contact_off_recorded_on_object_median_mm": 3.6525958119178035,
+     "contact_off_recorded_on_object_max_mm": 4.929911026200591,
+     "contact_moved_in_world_mm": 0.9354242446720263,
+     "contact_moved_on_object_mm": 0.2082857462931561
+    },
+    "thumb": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.2023984731504764,
+     "normal_force_start_end_N": [
+      0.19969389363120638,
+      0.2029589952126008
+     ],
+     "input_first_last": [
+      267.53328865207527,
+      346.6914243944299
+     ],
+     "recorded_contact_moved_in_world_mm": 9.487172961519528,
+     "contact_off_recorded_at_stroke_start_mm": 3.1290270553672364,
+     "contact_off_recorded_at_stroke_end_mm": 12.024125399936645,
+     "contact_off_recorded_in_world_median_mm": 8.292187736340432,
+     "contact_off_recorded_in_world_max_mm": 12.07672639788136,
+     "contact_off_recorded_on_object_median_mm": 2.0794793540371765,
+     "contact_off_recorded_on_object_max_mm": 2.935373150665963,
+     "contact_moved_in_world_mm": 0.24379737909537263,
+     "contact_moved_on_object_mm": 0.7753765964571901
+    }
+   },
+   "tilt_change_max_deg": 0.2129249863530803,
+   "centre_moved_max_mm": 1.374943218900367,
+   "centre_drop_max_mm": 0.0,
+   "centre_drop_at_stroke_start_mm": 0.0,
+   "share_of_recorded_turn": 0.01700488871685531
+  },
+  "cylinder_driven_along_logged_motion": {
+   "stopped": null,
+   "contacts_before_fingers_brought_in": 0,
+   "turn_let_go_deg": 0.0,
+   "turn_stroke_deg": -16.37190504166749,
+   "turn_final_hold_deg": 0.0,
+   "fingers": {
+    "middle": {
+     "share_of_stroke_touching": 0.985,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.07127233052011557,
+     "normal_force_start_end_N": [
+      0.3563701738156801,
+      0.10144999917730133
+     ],
+     "input_first_last": [
+      279.9749943426423,
+      352.3328029730857
+     ],
+     "recorded_contact_moved_in_world_mm": 11.498156638009737,
+     "contact_off_recorded_at_stroke_start_mm": 2.4781825808978044,
+     "contact_off_recorded_at_stroke_end_mm": 0.4261342875127848,
+     "contact_off_recorded_in_world_median_mm": 0.5023992527533507,
+     "contact_off_recorded_in_world_max_mm": 2.4781825808978044,
+     "contact_off_recorded_on_object_median_mm": 0.5647395212766955,
+     "contact_off_recorded_on_object_max_mm": 2.478180805855376,
+     "contact_moved_in_world_mm": 9.750825607589395,
+     "contact_moved_on_object_mm": 5.969753349424571
+    },
+    "ring": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.14632949809515922,
+     "normal_force_start_end_N": [
+      0.1900159433420511,
+      0.08573412354569371
+     ],
+     "input_first_last": [
+      319.09867320336025,
+      297.5680291639901
+     ],
+     "recorded_contact_moved_in_world_mm": 2.224032200208902,
+     "contact_off_recorded_at_stroke_start_mm": 1.0466870653399236,
+     "contact_off_recorded_at_stroke_end_mm": 1.1950848203160604,
+     "contact_off_recorded_in_world_median_mm": 1.2642765765192827,
+     "contact_off_recorded_in_world_max_mm": 1.5358235682516812,
+     "contact_off_recorded_on_object_median_mm": 1.2533198591422015,
+     "contact_off_recorded_on_object_max_mm": 1.5275964697820268,
+     "contact_moved_in_world_mm": 2.352497704120875,
+     "contact_moved_on_object_mm": 3.047228690964632
+    },
+    "thumb": {
+     "share_of_stroke_touching": 1.0,
+     "share_of_touching_on_the_tip_link": 1.0,
+     "normal_force_mean_N": 0.6334453814604195,
+     "normal_force_start_end_N": [
+      0.3964252512158738,
+      0.35514661064956765
+     ],
+     "input_first_last": [
+      267.53328865207527,
+      346.6914243944299
+     ],
+     "recorded_contact_moved_in_world_mm": 9.487172961519528,
+     "contact_off_recorded_at_stroke_start_mm": 2.7236417326467697,
+     "contact_off_recorded_at_stroke_end_mm": 2.4792205212575755,
+     "contact_off_recorded_in_world_median_mm": 2.8828287165754585,
+     "contact_off_recorded_in_world_max_mm": 3.1807209901252587,
+     "contact_off_recorded_on_object_median_mm": 2.9467294112619484,
+     "contact_off_recorded_on_object_max_mm": 3.3633398515500312,
+     "contact_moved_in_world_mm": 10.125873377235528,
+     "contact_moved_on_object_mm": 3.6327653193535085
+    }
+   },
+   "tilt_change_max_deg": 4.72852936862454,
+   "centre_moved_max_mm": 5.86017804590389,
+   "centre_drop_max_mm": 1.6094969801372372e-07,
+   "centre_drop_at_stroke_start_mm": 1.6094969801372372e-07,
+   "share_of_recorded_turn": 0.9970811148564381
+  }
+ },
+ "candidates": [
+  {
+   "t0": 8.008301530964673,
+   "t1": 8.59996584802866,
+   "record": "wall_0.0020m",
+   "worst_misfit_rms_m": 0.0005449906786632803,
+   "gap_m": 0.04288939683480945
+  },
+  {
+   "t0": 8.008301530964673,
+   "t1": 8.59996584802866,
+   "record": "wall_0.0015m",
+   "worst_misfit_rms_m": 0.0005225571107371887,
+   "gap_m": 0.04162782243363742
+  },
+  {
+   "t0": 8.008301530964673,
+   "t1": 8.59996584802866,
+   "record": "wall_0.0010m",
+   "worst_misfit_rms_m": 0.0006653874018292994,
+   "gap_m": 0.036619326753872306
+  },
+  {
+   "t0": 5.758310466073453,
+   "t1": 6.283308381214738,
+   "record": "wall_0.0020m",
+   "worst_misfit_rms_m": 0.001092710898909944,
+   "gap_m": 0.046100599380983896
+  },
+  {
+   "t0": 5.758310466073453,
+   "t1": 6.283308381214738,
+   "record": "wall_0.0015m",
+   "worst_misfit_rms_m": 0.0014415579721578971,
+   "gap_m": 0.046751376967962395
+  },
+  {
+   "t0": 5.758310466073453,
+   "t1": 6.283308381214738,
+   "record": "wall_0.0010m",
+   "worst_misfit_rms_m": 0.0017297358033895784,
+   "gap_m": 0.024186614440888664
+  },
+  {
+   "t0": 2.5583231737837195,
+   "t1": 3.0583211882039905,
+   "record": "wall_0.0020m",
+   "worst_misfit_rms_m": 0.0013701797277103308,
+   "gap_m": 0.03484302246639526
+  },
+  {
+   "t0": 2.5583231737837195,
+   "t1": 3.0583211882039905,
+   "record": "wall_0.0015m",
+   "worst_misfit_rms_m": 0.001351841585805377,
+   "gap_m": 0.031406242471496336
+  },
+  {
+   "t0": 2.5583231737837195,
+   "t1": 3.0583211882039905,
+   "record": "wall_0.0010m",
+   "worst_misfit_rms_m": 0.0015429014944185221,
+   "gap_m": 0.021134728995302162
+  },
+  {
+   "t0": 10.408292000181973,
+   "t1": 10.941623215563595,
+   "record": "wall_0.0020m",
+   "worst_misfit_rms_m": 0.0006099812639718838,
+   "gap_m": 0.04146682801776079
+  },
+  {
+   "t0": 10.408292000181973,
+   "t1": 10.941623215563595,
+   "record": "wall_0.0015m",
+   "worst_misfit_rms_m": 0.0007261110370718301,
+   "gap_m": 0.042248843688224416
+  },
+  {
+   "t0": 10.408292000181973,
+   "t1": 10.941623215563595,
+   "record": "wall_0.0010m",
+   "worst_misfit_rms_m": 0.000912253960106539,
+   "gap_m": 0.038553215417162126
+  },
+  {
+   "t0": 3.5083194011822343,
+   "t1": 4.033317316323519,
+   "record": "wall_0.0020m",
+   "worst_misfit_rms_m": 0.00045577430900080345,
+   "gap_m": 0.03515830796696191
+  },
+  {
+   "t0": 3.5083194011822343,
+   "t1": 4.033317316323519,
+   "record": "wall_0.0015m",
+   "worst_misfit_rms_m": 0.0005889356776984521,
+   "gap_m": 0.026041404946598228
+  },
+  {
+   "t0": 3.5083194011822343,
+   "t1": 4.033317316323519,
+   "record": "wall_0.0010m",
+   "worst_misfit_rms_m": 0.0008874923904356326,
+   "gap_m": 0.022701530175069953
+  },
+  {
+   "t0": 1.4083277406170964,
+   "t1": 1.8583259535953403,
+   "record": "wall_0.0020m",
+   "worst_misfit_rms_m": 0.0006015485803634445,
+   "gap_m": 0.029585734372577846
+  },
+  {
+   "t0": 1.4083277406170964,
+   "t1": 1.8583259535953403,
+   "record": "wall_0.0015m",
+   "worst_misfit_rms_m": 0.0005969478659405553,
+   "gap_m": 0.02635125560848315
+  },
+  {
+   "t0": 1.4083277406170964,
+   "t1": 1.8583259535953403,
+   "record": "wall_0.0010m",
+   "worst_misfit_rms_m": 0.0007068510508731679,
+   "gap_m": 0.021170177940615504
+  }
+ ],
+ "weight_carried_turn_less_control_deg": -17.002155039438154
+}

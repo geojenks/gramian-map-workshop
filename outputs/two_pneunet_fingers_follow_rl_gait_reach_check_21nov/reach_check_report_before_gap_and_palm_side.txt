@@ -1,0 +1,53 @@
+Four two-pneu-net fingers against one round of a recorded learned rotation: reach check
+GEOMETRY ONLY, no simulation. Comparative, not predictive.
+
+Recording: data/rl_logs/hora_seed42_30s*.npz. Cylinder radius 32.9 mm, half length 26.3 mm.
+Round: log 2.56 to 4.71 s (2.15 s), cylinder turn -77.0 deg. It ends when index+middle+thumb next touch alone for at least 0.3 s.
+Sets of touching fingertips in the round (lifts and landings as logged):
+  2.56 to 3.06 s (0.50 s)  index+middle+thumb           turn -16.8 deg
+  3.07 to 3.07 s (0.00 s)  index+middle+ring            turn +0.0 deg
+  3.07 to 3.10 s (0.02 s)  index+middle+ring+thumb      turn -1.3 deg
+  3.11 to 3.45 s (0.34 s)  index+middle+ring            turn -13.1 deg
+  3.46 to 3.50 s (0.04 s)  index+middle+ring+thumb      turn -1.4 deg
+  3.51 to 4.03 s (0.52 s)  middle+ring+thumb            turn -16.4 deg
+  4.04 to 4.10 s (0.06 s)  index+middle+ring+thumb      turn -2.1 deg
+  4.11 to 4.65 s (0.54 s)  index+ring+thumb             turn -20.7 deg
+  4.66 to 4.66 s (0.00 s)  index+middle+thumb           turn +0.0 deg
+  4.67 to 4.70 s (0.03 s)  index+middle+ring+thumb      turn -1.4 deg
+
+Finger: C:/Users/geo/Documents/Projects/ARIA/Gramain_extraction/gramian_map\experiments\pneunet_tandem\knuckle_analysis_20nov\tip_surface_points.csv
+  27 of 49 input pairs measured, the rest filled in by that analysis; refined 4 times between levels here.
+  Length 73.0 mm, depth 23.0 mm. Inputs 0 to 120 (first pneu-net) and 0 to 120 (second), simulation units.
+  Tip centre travel: first input alone 26.9 mm, second alone 11.6 mm, furthest two reachable points 30.5 mm apart.
+
+What each recorded fingertip does in the round (a lift shorter than 0.05 s is not counted, ASSUMED):
+  index  touching 2.56 to 3.49 s (0.93 s): contact moves 19.6 mm in the world (start to end 19.6 mm), cylinder turns -34.3 deg
+  index  off      3.52 to 4.02 s (0.50 s): lands 29.0 mm from where it lifted
+  index  touching 4.06 to 4.69 s (0.63 s): contact moves 21.2 mm in the world (start to end 19.8 mm), cylinder turns -24.5 deg
+  middle touching 2.56 to 4.09 s (1.53 s): contact moves 15.9 mm in the world (start to end 13.3 mm), cylinder turns -53.3 deg
+  middle off      4.12 to 4.62 s (0.50 s): lands 17.8 mm from where it lifted
+  middle touching 4.66 to 4.69 s (0.03 s): contact moves 0.7 mm in the world (start to end 0.7 mm), cylinder turns -1.4 deg
+  ring   off      2.56 to 3.06 s (0.50 s): cut by the end of the round
+  ring   touching 3.09 to 4.69 s (1.60 s): contact moves 26.4 mm in the world (start to end 26.4 mm), cylinder turns -57.6 deg
+  thumb  touching 2.56 to 3.09 s (0.53 s): contact moves 11.8 mm in the world (start to end 11.8 mm), cylinder turns -18.7 deg
+  thumb  off      3.12 to 3.42 s (0.30 s): lands 24.7 mm from where it lifted
+  thumb  touching 3.46 to 4.69 s (1.23 s): contact moves 13.5 mm in the world (start to end 10.3 mm), cylinder turns -43.2 deg
+
+Pass rule (fixed before the fit): median distance from the logged contact <= 3.8 mm; clearance on every return >= 2.06 mm.
+The tip centre is asked to sit half the finger's depth off the logged contact point along the surface normal (ASSUMED; tip tilt ignored).
+
+Two-pneu-net finger, both inputs free:
+  index  contact error median 2.02 mm, rms 3.17, max 9.77; return clearance 3.52-4.02 s: 8.1 mm; inputs first 0 to 120, second 0 to 120; finger at 12 deg to the cylinder's axis: PASS
+  middle contact error median 0.37 mm, rms 0.43, max 0.93; return clearance 4.12-4.62 s: 7.9 mm; inputs first 0 to 120, second 0 to 120; finger at 18 deg to the cylinder's axis: PASS
+  ring   contact error median 0.59 mm, rms 1.30, max 6.27; return clearance 2.56-3.06 s: 10.4 mm (cut by the round); inputs first 0 to 120, second 0 to 120; finger at 170 deg to the cylinder's axis: PASS
+  thumb  contact error median 0.94 mm, rms 1.42, max 5.04; return clearance 3.12-3.42 s: 3.1 mm; inputs first 0 to 120, second 10 to 120; finger at 169 deg to the cylinder's axis: PASS
+  Passing: 4 of 4.
+
+Control, the same finger with one input held constant (best level of each input, by the fit's cost):
+  index  contact error median 4.82 mm, rms 6.69, max 17.45; return clearance 3.52-4.02 s: 8.4 mm; inputs first 0 to 120, second 60 to 60; finger at 122 deg to the cylinder's axis: FAIL  (second input held at 60)
+  middle contact error median 2.86 mm, rms 3.65, max 7.55; return clearance 4.12-4.62 s: 3.1 mm; inputs first 0 to 120, second 80 to 80; finger at 44 deg to the cylinder's axis: PASS  (second input held at 80)
+  ring   contact error median 3.29 mm, rms 4.50, max 14.40; return clearance 2.56-3.06 s: 8.6 mm (cut by the round); inputs first 0 to 120, second 120 to 120; finger at 91 deg to the cylinder's axis: PASS  (second input held at 120)
+  thumb  contact error median 2.14 mm, rms 4.60, max 11.86; return clearance 3.12-3.42 s: 3.2 mm; inputs first 10 to 120, second 120 to 120; finger at 160 deg to the cylinder's axis: PASS  (second input held at 120)
+  Passing: 3 of 4.
+
+Not checked: finger bodies against the cylinder and each other; tip tilt; forces; speed.

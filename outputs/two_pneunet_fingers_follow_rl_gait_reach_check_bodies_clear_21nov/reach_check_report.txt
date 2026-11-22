@@ -1,0 +1,54 @@
+Four two-pneu-net fingers against a recorded learned rotation: reach check refitted with the drawn finger bodies kept clear
+GEOMETRY ONLY, no simulation. Comparative, not predictive.
+
+Recording: data/rl_logs/hora_seed42_30s*.npz. Cylinder radius 32.9 mm, half length 26.3 mm. Window: log 2.56 to 7.06 s, the same as the reach check's.
+Finger: C:/Users/geo/Documents/Projects/ARIA/Gramain_extraction/gramian_map\experiments\pneunet_tandem\knuckle_analysis_20nov\tip_surface_points.csv; length 73.0 mm, depth 23.0 mm.
+Rules (fixed before the first run, see the header): median distance from the logged contact <= 3.8 mm; clearance on every return >= 2.06 mm (second rule: less the largest gap in the stays either side). Added here: the drawn body (clamped end, measured junction, tip; half depth each side; more than one depth back from the tip) is kept out of the logged cylinder: weight 10 on its cut while touching (ASSUMED), and no return may pass through an input pair whose body cuts in. The verdict on the bodies over the whole window is the clip tool's.
+
+Two-pneu-net finger, both inputs free:
+  index  contact error median 2.44 mm, rms 4.85, max 17.03; return clearance 3.52-4.02 s: 14.0 mm, tip 6.7 mm from the logged contact at lift-off and 12.5 mm at landing; 5.76-6.26 s: 21.3 mm, tip 5.0 mm from the logged contact at lift-off and 17.0 mm at landing; inputs first 0 to 120, second 0 to 120; finger at 9 deg to the cylinder's axis, clamped end 91 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median +0.03 mm, range -7.24 to +11.47 (negative = pressed in), over 1 mm in 17% of samples; offset along the surface median 1.71 mm, max 14.16
+         worst return clearance less the largest gap either side 9.4 mm: second rule PASS
+         drawn body while the log says touching: deepest cut into the cylinder 0.00 mm, cutting in 0% of samples; returns with no route that keeps the body clear: 0 of 2
+         before the refit (reach check): contact error median 1.84 mm, worst return clearance 13.3 mm, less the gap 9.6 mm; the clamped end has moved 15 mm
+  middle contact error median 0.84 mm, rms 1.63, max 8.06; return clearance 4.12-4.62 s: 12.4 mm, tip 2.2 mm from the logged contact at lift-off and 4.0 mm at landing; 6.52-6.99 s: 17.4 mm, tip 8.1 mm from the logged contact at lift-off and 2.5 mm at landing; inputs first 0 to 105, second 0 to 120; finger at 15 deg to the cylinder's axis, clamped end 88 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median -0.23 mm, range -4.24 to +1.82 (negative = pressed in), over 1 mm in 7% of samples; offset along the surface median 0.66 mm, max 8.06
+         worst return clearance less the largest gap either side 10.6 mm: second rule PASS
+         drawn body while the log says touching: deepest cut into the cylinder 0.00 mm, cutting in 0% of samples; returns with no route that keeps the body clear: 0 of 2
+         before the refit (reach check): contact error median 0.55 mm, worst return clearance 12.1 mm, less the gap 9.9 mm; the clamped end has moved 46 mm
+  ring   contact error median 2.69 mm, rms 3.73, max 13.26; return clearance 2.56-3.06 s: 12.5 mm (cut by the window), tip nan mm from the logged contact at lift-off and 5.7 mm at landing; 4.72-5.19 s: 8.2 mm, tip 5.5 mm from the logged contact at lift-off and 13.3 mm at landing; 7.02-7.06 s: 25.4 mm (cut by the window), tip 5.4 mm from the logged contact at lift-off and nan mm at landing; inputs first 0 to 120, second 0 to 120; finger at 18 deg to the cylinder's axis, clamped end 93 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median -0.26 mm, range -3.34 to +3.54 (negative = pressed in), over 1 mm in 25% of samples; offset along the surface median 1.65 mm, max 13.23
+         worst return clearance less the largest gap either side 4.6 mm: second rule PASS
+         drawn body while the log says touching: deepest cut into the cylinder 0.00 mm, cutting in 0% of samples; returns with no route that keeps the body clear: 0 of 3
+         before the refit (reach check): contact error median 2.69 mm, worst return clearance 8.2 mm, less the gap 4.6 mm; the clamped end has moved 0 mm
+  thumb  contact error median 1.54 mm, rms 3.63, max 14.16; return clearance 3.12-3.42 s: 12.5 mm, tip 14.2 mm from the logged contact at lift-off and 6.4 mm at landing; 5.22-5.66 s: 12.4 mm, tip 8.5 mm from the logged contact at lift-off and 7.0 mm at landing; inputs first 0 to 120, second 0 to 120; finger at 14 deg to the cylinder's axis, clamped end 87 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median -0.25 mm, range -6.16 to +2.32 (negative = pressed in), over 1 mm in 12% of samples; offset along the surface median 1.22 mm, max 11.67
+         worst return clearance less the largest gap either side 10.1 mm: second rule PASS
+         drawn body while the log says touching: deepest cut into the cylinder 0.00 mm, cutting in 0% of samples; returns with no route that keeps the body clear: 0 of 2
+         before the refit (reach check): contact error median 1.47 mm, worst return clearance 12.4 mm, less the gap 10.0 mm; the clamped end has moved 33 mm
+  Passing: first rule 4 of 4, second rule 4 of 4; body clear at every touching sample 4 of 4.
+
+Control, the same finger with one input held constant (best level of each input, by the fit's cost), same body rule:
+  index  contact error median 5.24 mm, rms 9.17, max 25.95; return clearance 3.52-4.02 s: 17.2 mm, tip 9.9 mm from the logged contact at lift-off and 22.9 mm at landing; 5.76-6.26 s: 24.4 mm, tip 4.9 mm from the logged contact at lift-off and 25.9 mm at landing; inputs first 0 to 120, second 120 to 120; finger at 66 deg to the cylinder's axis, clamped end 59 mm below the cylinder's centre: first rule FAIL
+         while the log says touching: gap to the surface median -0.26 mm, range -11.44 to +9.72 (negative = pressed in), over 1 mm in 28% of samples; offset along the surface median 4.89 mm, max 25.80
+         worst return clearance less the largest gap either side 10.0 mm: second rule FAIL
+         drawn body while the log says touching: deepest cut into the cylinder 0.00 mm, cutting in 0% of samples; returns with no route that keeps the body clear: 0 of 2  (second input held at 120)
+         before the refit (reach check): contact error median 5.24 mm, worst return clearance 17.2 mm, less the gap 10.0 mm; the clamped end has moved 0 mm
+  middle contact error median 4.30 mm, rms 5.36, max 15.03; return clearance 4.12-4.62 s: 14.6 mm, tip 9.3 mm from the logged contact at lift-off and 9.6 mm at landing; 6.52-6.99 s: 21.3 mm, tip 15.0 mm from the logged contact at lift-off and 7.7 mm at landing; inputs first 50 to 120, second 100 to 100; finger at 67 deg to the cylinder's axis, clamped end 67 mm below the cylinder's centre: first rule FAIL
+         while the log says touching: gap to the surface median +0.24 mm, range -7.52 to +4.86 (negative = pressed in), over 1 mm in 31% of samples; offset along the surface median 2.00 mm, max 14.37
+         worst return clearance less the largest gap either side 9.8 mm: second rule FAIL
+         drawn body while the log says touching: deepest cut into the cylinder 0.00 mm, cutting in 0% of samples; returns with no route that keeps the body clear: 0 of 2  (second input held at 100)
+         before the refit (reach check): contact error median 4.30 mm, worst return clearance 14.6 mm, less the gap 9.8 mm; the clamped end has moved 0 mm
+  ring   contact error median 6.44 mm, rms 7.91, max 23.07; return clearance 2.56-3.06 s: 13.1 mm (cut by the window), tip nan mm from the logged contact at lift-off and 14.8 mm at landing; 4.72-5.19 s: 8.9 mm, tip 13.2 mm from the logged contact at lift-off and 23.1 mm at landing; 7.02-7.06 s: 25.9 mm (cut by the window), tip 7.9 mm from the logged contact at lift-off and nan mm at landing; inputs first 0 to 120, second 100 to 100; finger at 25 deg to the cylinder's axis, clamped end 91 mm below the cylinder's centre: first rule FAIL
+         while the log says touching: gap to the surface median -0.37 mm, range -7.09 to +7.21 (negative = pressed in), over 1 mm in 38% of samples; offset along the surface median 4.85 mm, max 23.07
+         worst return clearance less the largest gap either side 1.7 mm: second rule FAIL
+         drawn body while the log says touching: deepest cut into the cylinder 0.00 mm, cutting in 0% of samples; returns with no route that keeps the body clear: 0 of 3  (second input held at 100)
+         before the refit (reach check): contact error median 6.32 mm, worst return clearance 7.8 mm, less the gap 0.4 mm; the clamped end has moved 21 mm
+  thumb  contact error median 3.11 mm, rms 5.25, max 16.32; return clearance 3.12-3.42 s: 6.3 mm, tip 16.3 mm from the logged contact at lift-off and 10.1 mm at landing; 5.22-5.66 s: 6.2 mm, tip 10.8 mm from the logged contact at lift-off and 10.3 mm at landing; inputs first 0 to 120, second 120 to 120; finger at 22 deg to the cylinder's axis, clamped end 83 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median -1.25 mm, range -7.49 to +7.23 (negative = pressed in), over 1 mm in 23% of samples; offset along the surface median 1.95 mm, max 12.99
+         worst return clearance less the largest gap either side -1.0 mm: second rule FAIL
+         drawn body while the log says touching: deepest cut into the cylinder 0.00 mm, cutting in 0% of samples; returns with no route that keeps the body clear: 0 of 2  (second input held at 120)
+         before the refit (reach check): contact error median 3.21 mm, worst return clearance 7.1 mm, less the gap 0.5 mm; the clamped end has moved 64 mm
+  Passing: first rule 1 of 4, second rule 0 of 4; body clear at every touching sample 4 of 4.
+
+Not checked here: the bodies over the returns and against each other (the clip tool's body check, run on these placements, gives the verdict); tip tilt; forces; speed; the palm.

@@ -1,0 +1,25 @@
+Typical spacing of neighbouring nodes, mm: {'tip nodes the search sees': 2.24, 'every tip node': 1.26, 'nodes the search sees over the whole finger': 5.09, 'every skin node': 1.25}
+Process SpawnPoolWorker-4:
+Traceback (most recent call last):
+  File "C:\Users\geo\anaconda3\Lib\multiprocessing\process.py", line 313, in _bootstrap
+    self.run()
+    ~~~~~~~~^^
+  File "C:\Users\geo\anaconda3\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\geo\anaconda3\Lib\multiprocessing\pool.py", line 109, in worker
+    initializer(*initargs)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\geo\Documents\Projects\gramian-map-workshop\tools\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_reach_check_21nov.py", line 289, in setup
+    _W["sets"] = node_sets(W["sh"])
+                 ~~~~~~~~~^^^^^^^^^
+  File "C:\Users\geo\Documents\Projects\gramian-map-workshop\tools\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_reach_check_21nov.py", line 127, in node_sets
+    "nodes the search sees over the whole finger": spacing(sk), "every skin node": spacing(allk)}}
+                                                                                   ~~~~~~~^^^^^^
+  File "C:\Users\geo\Documents\Projects\gramian-map-workshop\tools\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_reach_check_21nov.py", line 119, in spacing
+    D = np.linalg.norm(p[:, None] - p[None], axis=-1) + 1e9 * np.eye(len(p))
+        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\geo\Documents\Projects\ARIA\Wave_manip\inhand\Lib\site-packages\numpy\linalg\_linalg.py", line 2803, in norm
+    s = (x.conj() * x).real
+         ~~~~~~~~~^~~
+numpy._core._exceptions._ArrayMemoryError: Unable to allocate 544. MiB for an array with shape (4875, 4875, 3) and data type float64

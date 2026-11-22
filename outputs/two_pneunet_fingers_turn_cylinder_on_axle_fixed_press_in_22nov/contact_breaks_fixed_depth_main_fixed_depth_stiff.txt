@@ -1,0 +1,27 @@
+Where each tip's touching mark switches on and off in the fixed press-in runs (22 Nov).
+Read from outputs/two_pneunet_fingers_turn_cylinder_on_axle_fixed_press_in_22nov
+
+Run 'fixed_depth_main':
+  From clip frames (405 rows of the gait); first turn -0.214 deg, last -96.328 deg, at log time 7.053 s:
+    index: 3 touching stretches, 0 shorter than 0.1 s of log time: 2.57 to 3.49 s (0.92 s); 4.06 to 5.72 s (1.67 s); 6.30 to 7.05 s (0.75 s)
+    middle: 3 touching stretches, 1 shorter than 0.1 s of log time: 2.57 to 4.11 s (1.54 s); 4.64 to 6.50 s (1.85 s); 7.01 to 7.05 s (0.04 s)
+    ring: 4 touching stretches, 1 shorter than 0.1 s of log time: 3.08 to 4.70 s (1.62 s); 5.21 to 5.55 s (0.34 s); 5.63 to 5.67 s (0.03 s); 5.88 to 6.99 s (1.11 s)
+    thumb: 3 touching stretches, 0 shorter than 0.1 s of log time: 2.57 to 3.10 s (0.53 s); 3.46 to 5.20 s (1.74 s); 5.69 to 7.05 s (1.37 s)
+  From every logged simulation sample (2250 rows of the gait); first turn -0.000 deg, last -96.082 deg, at log time 7.056 s:
+    index: 4 touching stretches, 0 shorter than 0.1 s of log time: 2.56 to 3.50 s (0.94 s); 4.05 to 5.73 s (1.68 s); 6.29 to 6.66 s (0.37 s); 6.66 to 7.06 s (0.40 s)
+    middle: 5 touching stretches, 3 shorter than 0.1 s of log time: 2.56 to 4.11 s (1.55 s); 4.11 to 4.11 s (0.00 s); 4.64 to 6.50 s (1.86 s); 6.50 to 6.50 s (0.00 s); 7.01 to 7.06 s (0.05 s)
+    ring: 14 touching stretches, 11 shorter than 0.1 s of log time: 3.07 to 4.70 s (1.63 s); 4.71 to 4.71 s (0.00 s); 5.21 to 5.54 s (0.33 s); 5.55 to 5.55 s (0.01 s); 5.56 to 5.56 s (0.00 s); 5.56 to 5.56 s (0.00 s); 5.60 to 5.60 s (0.00 s); 5.61 to 5.61 s (0.00 s); 5.62 to 5.62 s (0.00 s); 5.62 to 5.62 s (0.00 s); 5.63 to 5.65 s (0.02 s); 5.66 to 5.66 s (0.00 s); 5.67 to 5.67 s (0.00 s); 5.87 to 6.99 s (1.12 s)
+    thumb: 6 touching stretches, 3 shorter than 0.1 s of log time: 2.56 to 3.10 s (0.54 s); 3.10 to 3.10 s (0.00 s); 3.11 to 3.11 s (0.00 s); 3.45 to 5.21 s (1.76 s); 5.21 to 5.21 s (0.00 s); 5.68 to 7.06 s (1.38 s)
+
+Run 'fixed_depth_stiff':
+  From clip frames (405 rows of the gait); first turn -0.350 deg, last -88.980 deg, at log time 7.053 s:
+    index: 3 touching stretches, 0 shorter than 0.1 s of log time: 2.57 to 3.50 s (0.93 s); 4.06 to 5.73 s (1.68 s); 6.29 to 7.05 s (0.77 s)
+    middle: 3 touching stretches, 1 shorter than 0.1 s of log time: 2.57 to 4.11 s (1.54 s); 4.64 to 6.51 s (1.86 s); 7.01 to 7.05 s (0.04 s)
+    ring: 4 touching stretches, 1 shorter than 0.1 s of log time: 3.08 to 4.71 s (1.63 s); 5.21 to 5.55 s (0.34 s); 5.61 to 5.68 s (0.07 s); 5.82 to 6.99 s (1.17 s)
+    thumb: 3 touching stretches, 0 shorter than 0.1 s of log time: 2.57 to 3.10 s (0.53 s); 3.45 to 5.21 s (1.76 s); 5.68 to 7.05 s (1.38 s)
+  From every logged simulation sample (2250 rows of the gait); first turn 0.000 deg, last -88.816 deg, at log time 7.056 s:
+    index: 3 touching stretches, 0 shorter than 0.1 s of log time: 2.56 to 3.50 s (0.94 s); 4.05 to 5.73 s (1.68 s); 6.29 to 7.06 s (0.77 s)
+    middle: 3 touching stretches, 1 shorter than 0.1 s of log time: 2.56 to 4.11 s (1.55 s); 4.64 to 6.51 s (1.87 s); 7.01 to 7.06 s (0.05 s)
+    ring: 6 touching stretches, 3 shorter than 0.1 s of log time: 3.07 to 4.71 s (1.64 s); 5.21 to 5.57 s (0.36 s); 5.61 to 5.62 s (0.01 s); 5.62 to 5.67 s (0.05 s); 5.68 to 5.68 s (0.00 s); 5.81 to 7.00 s (1.18 s)
+    thumb: 3 touching stretches, 0 shorter than 0.1 s of log time: 2.56 to 3.11 s (0.55 s); 3.45 to 5.21 s (1.76 s); 5.68 to 7.06 s (1.38 s)
+

@@ -1,0 +1,382 @@
+{
+ "window_s": [
+  2.5583231737837195,
+  7.058305303566158
+ ],
+ "recorded_turn_deg": -161.60419087017016,
+ "finger_record": "wall_0.0015m",
+ "near_limit_mm": 2.06,
+ "fingers": {
+  "index": {
+   "contact_error_median_mm": 5.905928922118329,
+   "contact_error_max_mm": 24.870331985318735,
+   "touching_samples": 103,
+   "input_range": [
+    204.16666666666669,
+    408.33333333333337
+   ],
+   "recorded_fingertip_point_in": "link_3",
+   "recorded_contacts_scatter_about_that_point_mm": 3.550973777324626,
+   "recorded_fingertip_clearance_while_touching_median_mm": 1.122097661209978,
+   "pneunet_tip_clearance_while_touching_median_mm": -0.0702803686363461,
+   "links_below_tip_cut_max_mm": 6.9500623226159375,
+   "returns": [
+    {
+     "from_s": 3.52498600166291,
+     "to_s": 4.024984016083181,
+     "complete": true,
+     "recorded_clearance_max_mm": 12.934222883530522,
+     "recorded_clearance_median_mm": 10.909233788889363,
+     "pneunet_clearance_max_mm": 12.058627877369169,
+     "pneunet_clearance_median_mm": 5.185120036971501,
+     "pneunet_clearance_min_mm": 3.6186849654225064,
+     "share_of_return_under_limit": 0.0,
+     "pneunet_tip_travel_mm": 31.27946774393251,
+     "input_from_to": [
+      408.33333333333337,
+      208.33333333333334
+     ]
+    },
+    {
+     "from_s": 5.758310466073453,
+     "to_s": 6.258308480493724,
+     "complete": true,
+     "recorded_clearance_max_mm": 13.774982008457782,
+     "recorded_clearance_median_mm": 11.396295260090172,
+     "pneunet_clearance_max_mm": 16.447692191622874,
+     "pneunet_clearance_median_mm": 12.556151219131472,
+     "pneunet_clearance_min_mm": 9.135964192036074,
+     "share_of_return_under_limit": 0.0,
+     "pneunet_tip_travel_mm": 20.68456851662445,
+     "input_from_to": [
+      379.1666666666667,
+      250.00000000000003
+     ]
+    }
+   ],
+   "complete_returns": 2,
+   "complete_returns_mostly_under_limit": 0
+  },
+  "middle": {
+   "contact_error_median_mm": 2.824669490338514,
+   "contact_error_max_mm": 11.090628384178846,
+   "touching_samples": 104,
+   "input_range": [
+    133.33333333333334,
+    345.83333333333337
+   ],
+   "recorded_fingertip_point_in": "link_7",
+   "recorded_contacts_scatter_about_that_point_mm": 2.807222435636874,
+   "recorded_fingertip_clearance_while_touching_median_mm": 0.5804657338160275,
+   "pneunet_tip_clearance_while_touching_median_mm": 1.0841654746409009,
+   "links_below_tip_cut_max_mm": 6.065578135003583,
+   "returns": [
+    {
+     "from_s": 4.124983618967235,
+     "to_s": 4.624981633387506,
+     "complete": true,
+     "recorded_clearance_max_mm": 13.066399333552935,
+     "recorded_clearance_median_mm": 8.182991409212804,
+     "pneunet_clearance_max_mm": 5.121669374797942,
+     "pneunet_clearance_median_mm": 3.935791368049255,
+     "pneunet_clearance_min_mm": 3.580522041916851,
+     "share_of_return_under_limit": 0.0,
+     "pneunet_tip_travel_mm": 23.649158412682812,
+     "input_from_to": [
+      166.66666666666669,
+      345.83333333333337
+     ]
+    },
+    {
+     "from_s": 6.5249740881845355,
+     "to_s": 6.991638901643455,
+     "complete": true,
+     "recorded_clearance_max_mm": 7.709460125989156,
+     "recorded_clearance_median_mm": 4.946410681754615,
+     "pneunet_clearance_max_mm": 8.611078408386357,
+     "pneunet_clearance_median_mm": 8.007453344614435,
+     "pneunet_clearance_min_mm": 4.273969097108362,
+     "share_of_return_under_limit": 0.0,
+     "pneunet_tip_travel_mm": 17.726339834501715,
+     "input_from_to": [
+      133.33333333333334,
+      275.0
+     ]
+    }
+   ],
+   "complete_returns": 2,
+   "complete_returns_mostly_under_limit": 0
+  },
+  "ring": {
+   "contact_error_median_mm": 5.452512908574905,
+   "contact_error_max_mm": 20.226480693999324,
+   "touching_samples": 102,
+   "input_range": [
+    112.50000000000001,
+    358.33333333333337
+   ],
+   "recorded_fingertip_point_in": "link_11",
+   "recorded_contacts_scatter_about_that_point_mm": 3.335806865785604,
+   "recorded_fingertip_clearance_while_touching_median_mm": 3.0531816398065263,
+   "pneunet_tip_clearance_while_touching_median_mm": 0.6445814033166639,
+   "links_below_tip_cut_max_mm": 3.3102595012254903,
+   "returns": [
+    {
+     "from_s": 2.5583231737837195,
+     "to_s": 3.0583211882039905,
+     "complete": false,
+     "recorded_clearance_max_mm": 17.943295078650884,
+     "recorded_clearance_median_mm": 12.683785624058288,
+     "pneunet_clearance_max_mm": 12.235027103556746,
+     "pneunet_clearance_median_mm": 11.5991693857537,
+     "pneunet_clearance_min_mm": 6.699698015867148,
+     "share_of_return_under_limit": 0.0,
+     "pneunet_tip_travel_mm": 0.0,
+     "input_from_to": [
+      162.5,
+      162.5
+     ]
+    },
+    {
+     "from_s": 4.72498123627156,
+     "to_s": 5.19164604973048,
+     "complete": true,
+     "recorded_clearance_max_mm": 9.399926789860848,
+     "recorded_clearance_median_mm": 8.115630272637134,
+     "pneunet_clearance_max_mm": 5.613535908116611,
+     "pneunet_clearance_median_mm": 3.2184739370590583,
+     "pneunet_clearance_min_mm": -5.455905426224979,
+     "share_of_return_under_limit": 0.4,
+     "pneunet_tip_travel_mm": 29.581835786867106,
+     "input_from_to": [
+      341.6666666666667,
+      125.00000000000001
+     ]
+    },
+    {
+     "from_s": 7.024972102604806,
+     "to_s": 7.058305303566158,
+     "complete": false,
+     "recorded_clearance_max_mm": 2.9518790754967927,
+     "recorded_clearance_median_mm": 2.603044319128323,
+     "pneunet_clearance_max_mm": 1.7644428329851043,
+     "pneunet_clearance_median_mm": 1.4497229118696282,
+     "pneunet_clearance_min_mm": 1.135002990754152,
+     "share_of_return_under_limit": 1.0,
+     "pneunet_tip_travel_mm": 0.0,
+     "input_from_to": [
+      358.33333333333337,
+      358.33333333333337
+     ]
+    }
+   ],
+   "complete_returns": 1,
+   "complete_returns_mostly_under_limit": 0
+  },
+  "thumb": {
+   "contact_error_median_mm": 2.2132780172253574,
+   "contact_error_max_mm": 9.986193789863812,
+   "touching_samples": 111,
+   "input_range": [
+    54.16666666666667,
+    366.6666666666667
+   ],
+   "recorded_fingertip_point_in": "link_15",
+   "recorded_contacts_scatter_about_that_point_mm": 4.795206171398255,
+   "recorded_fingertip_clearance_while_touching_median_mm": 1.5244965983758283,
+   "pneunet_tip_clearance_while_touching_median_mm": -0.6844262692228299,
+   "links_below_tip_cut_max_mm": 3.3918623606971168,
+   "returns": [
+    {
+     "from_s": 3.1249875901266932,
+     "to_s": 3.424986398778856,
+     "complete": true,
+     "recorded_clearance_max_mm": 10.090529280028612,
+     "recorded_clearance_median_mm": 7.908359602524516,
+     "pneunet_clearance_max_mm": 7.983927710790016,
+     "pneunet_clearance_median_mm": 4.469242315070902,
+     "pneunet_clearance_min_mm": -1.7932495321934008,
+     "share_of_return_under_limit": 0.4,
+     "pneunet_tip_travel_mm": 27.946029916335092,
+     "input_from_to": [
+      366.6666666666667,
+      162.5
+     ]
+    },
+    {
+     "from_s": 5.224979250691831,
+     "to_s": 5.658310863189399,
+     "complete": true,
+     "recorded_clearance_max_mm": 13.51507228822093,
+     "recorded_clearance_median_mm": 7.98808861220248,
+     "pneunet_clearance_max_mm": 7.025878272095911,
+     "pneunet_clearance_median_mm": 1.2513313530728398,
+     "pneunet_clearance_min_mm": -4.4495143955680625,
+     "share_of_return_under_limit": 0.5714285714285714,
+     "pneunet_tip_travel_mm": 24.934208163368684,
+     "input_from_to": [
+      333.33333333333337,
+      145.83333333333334
+     ]
+    }
+   ],
+   "complete_returns": 2,
+   "complete_returns_mostly_under_limit": 1
+  }
+ },
+ "least_gap_between_pneunet_bodies_mm": 19.872116711170193,
+ "fits": [
+  {
+   "finger": "index",
+   "x": [
+    -3.518227968472769,
+    0.6916708911030156,
+    0.09000726231907932,
+    0.4387360032676514,
+    -1.8435676352896389,
+    0.4929111172194163
+   ],
+   "mirror": -1.0,
+   "base": [
+    -0.04859184361854257,
+    -0.007958738109100251,
+    0.564276199022683
+   ],
+   "X": [
+    -0.13537342086640103,
+    -0.5243084384749309,
+    0.8406989343795482
+   ],
+   "Y": [
+    0.344445528430366,
+    0.7706805334265731,
+    0.536105207344285
+   ],
+   "back": [
+    -0.9291650488144197,
+    0.36942159435110783,
+    -0.013416321730737615
+   ],
+   "base_height_m": -0.09180525107324662,
+   "plane_touches_at_deg": -201.57961395837532,
+   "plane_leans_out_deg": 5.157036256410132,
+   "lean_in_plane_deg": 28.24172669175075,
+   "cost": 7.513764857816728e-05,
+   "links_below_tip_cut_max_mm": 6.9500623226159375
+  },
+  {
+   "finger": "middle",
+   "x": [
+    -1.3407463552663725,
+    0.7843018262226333,
+    0.08997844446880653,
+    -0.39710921534970445,
+    -1.8460064065273505,
+    -0.2601085039693067
+   ],
+   "mirror": 1.0,
+   "base": [
+    -0.009185068474224184,
+    -0.054109330283197046,
+    0.5627584305655542
+   ],
+   "X": [
+    -0.30844453089648716,
+    -0.03531285581757204,
+    0.9505866470627775
+   ],
+   "Y": [
+    0.9246537158624388,
+    0.22348785760820852,
+    0.30833209895091657
+   ],
+   "back": [
+    0.22784414232374084,
+    -0.9722248189110184,
+    -0.05353455241427292
+   ],
+   "base_height_m": -0.09192693508635447,
+   "plane_touches_at_deg": -76.81910755431082,
+   "plane_leans_out_deg": 5.155385115214861,
+   "lean_in_plane_deg": -14.903119492903095,
+   "cost": 2.0680436977025262e-05,
+   "links_below_tip_cut_max_mm": 6.065578135003583
+  },
+  {
+   "finger": "ring",
+   "x": [
+    -0.7982473165317088,
+    0.4563005130784492,
+    0.06797037650651652,
+    0.47175252368304843,
+    -1.9650353713919313,
+    0.5000015265051581
+   ],
+   "mirror": -1.0,
+   "base": [
+    0.03699442810098752,
+    -0.007800338403235615,
+    0.5614778699921726
+   ],
+   "X": [
+    0.2665135048770849,
+    0.31947918922962676,
+    0.9093423994114166
+   ],
+   "Y": [
+    -0.6697819232176593,
+    -0.6170485851520233,
+    0.4130898436087964
+   ],
+   "back": [
+    0.6974057430711148,
+    -0.7164444742497028,
+    -0.018235812252078883
+   ],
+   "base_height_m": -0.09802489572137488,
+   "plane_touches_at_deg": -45.73620224491042,
+   "plane_leans_out_deg": 3.8944157057385613,
+   "lean_in_plane_deg": 28.647977218844122,
+   "cost": 4.939146013464705e-05,
+   "links_below_tip_cut_max_mm": 3.3102595012254903
+  },
+  {
+   "finger": "thumb",
+   "x": [
+    1.3850415468574901,
+    0.7309489894053516,
+    0.09000541279878305,
+    0.6093221189583464,
+    -1.799021455604091,
+    0.07505521128077519
+   ],
+   "mirror": -1.0,
+   "base": [
+    -0.022467800533698894,
+    0.04584296719524581,
+    0.5710152045162358
+   ],
+   "X": [
+    -0.12985267953767526,
+    -0.13768265240975,
+    0.9819275782064082
+   ],
+   "Y": [
+    0.9750205735038009,
+    -0.19771204124788527,
+    0.10121674757624811
+   ],
+   "back": [
+    0.18454094227470352,
+    0.9802875210064134,
+    0.07057631885742857
+   ],
+   "base_height_m": -0.08958697301079081,
+   "plane_touches_at_deg": 79.35703508520524,
+   "plane_leans_out_deg": 5.156930286703031,
+   "lean_in_plane_deg": 4.300346836851104,
+   "cost": 1.3712530138489885e-05,
+   "links_below_tip_cut_max_mm": 3.3918623606971168
+  }
+ ]
+}

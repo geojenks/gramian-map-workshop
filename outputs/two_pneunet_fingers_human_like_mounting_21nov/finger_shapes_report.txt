@@ -1,0 +1,11 @@
+Settled free shapes of the two-pneu-net finger (twist_90deg), exported from the 20 Nov shape model
+No simulation run here. Comparative, not predictive.
+
+Mesh: 8813 nodes, 27784 tetrahedra. Boundary pieces (triangles, box volume m^3): [(3692, 7.866e-06), (9746, 3.8617e-05), (3694, 7.866000000000002e-06)].
+Outer skin kept: 4875 nodes, 9746 triangles. Rest box 73.0 x 23.0 x 23.0 mm; rest x from -0.00 to 73.00 mm (clamped end at the low end).
+Input pairs: 25 x 25, each input 0 to 120 in steps of 5.
+Tip centre at rest [70.99, -0.07, -0.71] mm; first input alone moves it [-2.35, -26.75, -0.59] mm, second input alone [2.36, -0.45, -11.37] mm.
+Direction of the second input's tip travel (the curl), unit: [0.203, -0.039, -0.978]; of the first input's (the wag): [-0.087, -0.996, -0.022].
+Tip face: 144 triangles, area 122.6 mm^2, within 30 deg of the curl direction (ASSUMED); centre at rest [70.33000183105469, 0.009999999776482582, -8.0] mm, outward normal [0.0, 0.0, -1.0]; it sits 7.32 mm from the tip centre.
+Body nodes: 32 skin nodes, farthest-point sampling (ASSUMED number).
+File: outputs\two_pneunet_fingers_human_like_mounting_21nov\finger_shapes.npz (33.0 MB).

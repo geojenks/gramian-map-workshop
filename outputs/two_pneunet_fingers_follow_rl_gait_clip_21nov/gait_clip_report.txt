@@ -1,0 +1,117 @@
+Four two-pneu-net fingers follow a recorded learned gait, lifting and landing: simulation with contact
+SIMULATION ONLY. Comparative, not predictive.
+
+Recording: cylinder radius 32.9 mm, half length 26.3 mm, mass 23.9 g, friction 0.72. Window: log 2.56 to 7.06 s; the cylinder turns -161.6 deg in it, -77.0 deg in the first round of the gait (to 4.71 s).
+Finger stand-in: a tip ball of radius 11.5 mm and 5 g (ASSUMED) on a spring to the measured free tip position for the commanded inputs. Only the tip ball touches. See the script's header.
+Tip stiffness (ASSUMED, same in all directions; from the one-pneu-net stand-in of the 21 Nov upright arrangement): soft 7.9 N/m, main 56.1 N/m, stiff 399.7 N/m. The two-pneu-net finger's own has not been measured.
+Timeline (ASSUMED): tips brought in 0.2 to 1 s with the cylinder held; let go at 1.5 s; gait from 2.5 s, run 5 times slower than the recording (22.5 s); then 1 s held.
+Friction tip to cylinder 0.72 (ASSUMED: the log's value). Elliptic cone, impratio 10, time step 0.0005 s.
+
+Check that a tip on a moving spring drags what it presses on (a block of the cylinder's mass, free to slide; the spring's rest position moves 20 mm sideways while pressing 3 mm in):
+  soft: block follows 100% of the 20 mm (press force 0.02 N)
+  main: block follows 100% of the 20 mm (press force 0.17 N)
+  stiff: block follows 100% of the 20 mm (press force 1.20 N)
+
+Inputs: largest change between consecutive touching samples (log step 33 ms; full range is 120), and largest rate anywhere including lifts (per second of log time; the simulation is run slower):
+  two inputs, index : first input 10, second 45 per sample; rates 485 and 1350 per s; returns: 3.49-4.06 s through 73 input pairs, tip path 52 mm, clearance 13.3 mm; 5.72-6.29 s through 72 input pairs, tip path 50 mm, clearance 20.6 mm
+  two inputs, middle: first input 20, second 25 per sample; rates 600 and 1501 per s; returns: 4.09-4.66 s through 56 input pairs, tip path 47 mm, clearance 12.1 mm; 6.49-7.02 s through 67 input pairs, tip path 60 mm, clearance 17.4 mm
+  two inputs, ring  : first input 20, second 35 per sample; rates 2658 and 4773 per s; returns: 2.56-3.09 s through 29 input pairs, tip path 16 mm, clearance 12.5 mm; 4.69-5.22 s through 49 input pairs, tip path 40 mm, clearance 8.2 mm; 6.99-7.06 s through 34 input pairs, tip path 33 mm, clearance 25.4 mm
+  two inputs, thumb : first input 10, second 15 per sample; rates 830 and 2088 per s; returns: 3.09-3.46 s through 65 input pairs, tip path 57 mm, clearance 12.8 mm; 5.19-5.69 s through 63 input pairs, tip path 55 mm, clearance 12.4 mm
+  one input, index : first input 15, second 0 per sample; rates 450 and 0 per s; returns: 3.49-4.06 s through 36 input pairs, tip path 40 mm, clearance 17.2 mm; 5.72-6.29 s through 40 input pairs, tip path 44 mm, clearance 24.4 mm
+  one input, middle: first input 20, second 0 per sample; rates 600 and 0 per s; returns: 4.09-4.66 s through 38 input pairs, tip path 42 mm, clearance 14.6 mm; 6.49-7.02 s through 47 input pairs, tip path 54 mm, clearance 21.3 mm
+  one input, ring  : first input 20, second 0 per sample; rates 2313 and 0 per s; returns: 2.56-3.09 s through 5 input pairs, tip path 6 mm, clearance 12.1 mm; 4.69-5.22 s through 25 input pairs, tip path 28 mm, clearance 7.8 mm; 6.99-7.06 s through 25 input pairs, tip path 28 mm, clearance 24.9 mm
+  one input, thumb : first input 10, second 0 per sample; rates 607 and 0 per s; returns: 3.09-3.46 s through 38 input pairs, tip path 42 mm, clearance 7.1 mm; 5.19-5.69 s through 36 input pairs, tip path 40 mm, clearance 7.1 mm
+
+Finger bodies, drawn pieces at the finger's half depth, more than one depth back from the tip, against the LOGGED cylinder motion with the tips at their targets (no simulation). Positive = cutting into the cylinder:
+  two inputs: deepest cut index +3.8 mm (51% of the time), middle +6.6 mm (37% of the time), ring -1.6 mm (0% of the time), thumb +3.4 mm (12% of the time); smallest gap between different fingers' pieces +13.1 mm (negative = overlapping).
+  one input: deepest cut index -5.3 mm (0% of the time), middle -8.8 mm (0% of the time), ring +1.4 mm (5% of the time), thumb -11.5 mm (0% of the time); smallest gap between different fingers' pieces +31.9 mm (negative = overlapping).
+  The junction's height in the finger's own frame is taken as zero (ASSUMED); the pieces are straight, the real finger curves.
+
+four two-pneu-net fingers, both inputs driven; tip stiffness 56.1 N/m; weight carried: ran to the end
+  cylinder turn in the gait -94.3 deg (recorded -161.6; 58% of it); first round -51.2 deg (recorded -77.0); in the wait before +1.70 deg. Tilt changed by at most 52.2 deg; centre moved at most 21.2 mm, dropped at most 0.0 mm. Tip-to-tip contacts logged: 0.
+  index : touching or not agrees with the log 75% of the gait (touching 53%, log 76%); whole lifts 9 (log 2); normal force 0.105 N (log 1.179 N), along the surface 0.041 N; tip at most 4.9 mm from its target.
+  middle: touching or not agrees with the log 64% of the gait (touching 49%, log 77%); whole lifts 16 (log 2); normal force 0.083 N (log 1.040 N), along the surface 0.032 N; tip at most 4.5 mm from its target.
+  ring  : touching or not agrees with the log 51% of the gait (touching 32%, log 76%); whole lifts 10 (log 1); normal force 0.099 N (log 1.345 N), along the surface 0.048 N; tip at most 4.5 mm from its target.
+  thumb : touching or not agrees with the log 59% of the gait (touching 44%, log 82%); whole lifts 12 (log 2); normal force 0.111 N (log 1.149 N), along the surface 0.053 N; tip at most 4.6 mm from its target.
+  drawn finger pieces against the simulated cylinder: deepest cut index +6.0 mm (68%), middle +6.1 mm (70%), ring -6.6 mm (0%), thumb -0.7 mm (0%); smallest gap between fingers +13.1 mm.
+
+the same fingers with one input held constant (control); tip stiffness 56.1 N/m; weight carried: ran to the end
+  cylinder turn in the gait +71.4 deg (recorded -161.6; -44% of it); first round -31.0 deg (recorded -77.0); in the wait before +0.13 deg. Tilt changed by at most 46.2 deg; centre moved at most 22.9 mm, dropped at most 0.0 mm. Tip-to-tip contacts logged: 0.
+  index : touching or not agrees with the log 58% of the gait (touching 40%, log 76%); whole lifts 17 (log 2); normal force 0.168 N (log 1.179 N), along the surface 0.066 N; tip at most 7.4 mm from its target.
+  middle: touching or not agrees with the log 59% of the gait (touching 52%, log 77%); whole lifts 39 (log 2); normal force 0.160 N (log 1.040 N), along the surface 0.072 N; tip at most 12.5 mm from its target.
+  ring  : touching or not agrees with the log 55% of the gait (touching 39%, log 76%); whole lifts 13 (log 1); normal force 0.169 N (log 1.345 N), along the surface 0.084 N; tip at most 12.6 mm from its target.
+  thumb : touching or not agrees with the log 51% of the gait (touching 40%, log 82%); whole lifts 26 (log 2); normal force 0.154 N (log 1.149 N), along the surface 0.078 N; tip at most 7.4 mm from its target.
+  drawn finger pieces against the simulated cylinder: deepest cut index -11.6 mm (0%), middle -8.5 mm (0%), ring +6.1 mm (45%), thumb -16.0 mm (0%); smallest gap between fingers +32.0 mm.
+
+REFERENCE, not a finger: tip targets at the logged contacts themselves; tip stiffness 56.1 N/m; weight carried: ran to the end
+  cylinder turn in the gait -146.5 deg (recorded -161.6; 91% of it); first round -69.7 deg (recorded -77.0); in the wait before +1.93 deg. Tilt changed by at most 38.1 deg; centre moved at most 21.1 mm, dropped at most 0.0 mm. Tip-to-tip contacts logged: 0.
+  index : touching or not agrees with the log 86% of the gait (touching 68%, log 76%); whole lifts 22 (log 2); normal force 0.050 N (log 1.179 N), along the surface 0.024 N; tip at most 1.8 mm from its target.
+  middle: touching or not agrees with the log 77% of the gait (touching 59%, log 77%); whole lifts 32 (log 2); normal force 0.046 N (log 1.040 N), along the surface 0.023 N; tip at most 3.3 mm from its target.
+  ring  : touching or not agrees with the log 76% of the gait (touching 53%, log 76%); whole lifts 21 (log 1); normal force 0.055 N (log 1.345 N), along the surface 0.022 N; tip at most 1.8 mm from its target.
+  thumb : touching or not agrees with the log 87% of the gait (touching 71%, log 82%); whole lifts 17 (log 2); normal force 0.046 N (log 1.149 N), along the surface 0.024 N; tip at most 3.3 mm from its target.
+
+four two-pneu-net fingers, both inputs driven; tip stiffness 7.9 N/m; weight carried: ran to the end
+  cylinder turn in the gait -81.1 deg (recorded -161.6; 50% of it); first round -42.4 deg (recorded -77.0); in the wait before +5.68 deg. Tilt changed by at most 45.1 deg; centre moved at most 19.2 mm, dropped at most 0.0 mm. Tip-to-tip contacts logged: 0.
+  index : touching or not agrees with the log 38% of the gait (touching 14%, log 76%); whole lifts 20 (log 2); normal force 0.023 N (log 1.179 N), along the surface 0.008 N; tip at most 4.4 mm from its target.
+  middle: touching or not agrees with the log 42% of the gait (touching 22%, log 77%); whole lifts 33 (log 2); normal force 0.029 N (log 1.040 N), along the surface 0.009 N; tip at most 6.6 mm from its target.
+  ring  : touching or not agrees with the log 25% of the gait (touching 1%, log 76%); whole lifts 11 (log 1); normal force 0.027 N (log 1.345 N), along the surface 0.019 N; tip at most 5.0 mm from its target.
+  thumb : touching or not agrees with the log 33% of the gait (touching 17%, log 82%); whole lifts 41 (log 2); normal force 0.027 N (log 1.149 N), along the surface 0.007 N; tip at most 4.0 mm from its target.
+  drawn finger pieces against the simulated cylinder: deepest cut index +8.9 mm (41%), middle +2.3 mm (22%), ring -5.9 mm (0%), thumb -7.3 mm (0%); smallest gap between fingers +13.1 mm.
+
+the same fingers with one input held constant (control); tip stiffness 7.9 N/m; weight carried: ran to the end
+  cylinder turn in the gait +18.4 deg (recorded -161.6; -11% of it); first round -0.1 deg (recorded -77.0); in the wait before +0.96 deg. Tilt changed by at most 42.8 deg; centre moved at most 20.2 mm, dropped at most 0.0 mm. Tip-to-tip contacts logged: 0.
+  index : touching or not agrees with the log 40% of the gait (touching 19%, log 76%); whole lifts 18 (log 2); normal force 0.042 N (log 1.179 N), along the surface 0.018 N; tip at most 10.5 mm from its target.
+  middle: touching or not agrees with the log 40% of the gait (touching 24%, log 77%); whole lifts 27 (log 2); normal force 0.029 N (log 1.040 N), along the surface 0.010 N; tip at most 5.0 mm from its target.
+  ring  : touching or not agrees with the log 35% of the gait (touching 11%, log 76%); whole lifts 21 (log 1); normal force 0.029 N (log 1.345 N), along the surface 0.016 N; tip at most 6.3 mm from its target.
+  thumb : touching or not agrees with the log 38% of the gait (touching 28%, log 82%); whole lifts 27 (log 2); normal force 0.035 N (log 1.149 N), along the surface 0.019 N; tip at most 11.2 mm from its target.
+  drawn finger pieces against the simulated cylinder: deepest cut index -8.7 mm (0%), middle -15.8 mm (0%), ring +7.2 mm (66%), thumb -16.4 mm (0%); smallest gap between fingers +32.0 mm.
+
+REFERENCE, not a finger: tip targets at the logged contacts themselves; tip stiffness 7.9 N/m; weight carried: ran to the end
+  cylinder turn in the gait -100.3 deg (recorded -161.6; 62% of it); first round -60.3 deg (recorded -77.0); in the wait before +5.44 deg. Tilt changed by at most 48.7 deg; centre moved at most 22.5 mm, dropped at most 0.0 mm. Tip-to-tip contacts logged: 0.
+  index : touching or not agrees with the log 35% of the gait (touching 20%, log 76%); whole lifts 71 (log 2); normal force 0.029 N (log 1.179 N), along the surface 0.013 N; tip at most 5.2 mm from its target.
+  middle: touching or not agrees with the log 37% of the gait (touching 18%, log 77%); whole lifts 7 (log 2); normal force 0.033 N (log 1.040 N), along the surface 0.012 N; tip at most 6.3 mm from its target.
+  ring  : touching or not agrees with the log 37% of the gait (touching 14%, log 76%); whole lifts 10 (log 1); normal force 0.025 N (log 1.345 N), along the surface 0.009 N; tip at most 4.7 mm from its target.
+  thumb : touching or not agrees with the log 23% of the gait (touching 6%, log 82%); whole lifts 29 (log 2); normal force 0.028 N (log 1.149 N), along the surface 0.014 N; tip at most 5.8 mm from its target.
+
+four two-pneu-net fingers, both inputs driven; tip stiffness 399.7 N/m; weight carried: ran to the end
+  cylinder turn in the gait -84.8 deg (recorded -161.6; 52% of it); first round -45.8 deg (recorded -77.0); in the wait before +0.06 deg. Tilt changed by at most 52.9 deg; centre moved at most 18.7 mm, dropped at most 0.0 mm. Tip-to-tip contacts logged: 0.
+  index : touching or not agrees with the log 75% of the gait (touching 53%, log 76%); whole lifts 18 (log 2); normal force 0.341 N (log 1.179 N), along the surface 0.163 N; tip at most 3.2 mm from its target.
+  middle: touching or not agrees with the log 74% of the gait (touching 56%, log 77%); whole lifts 13 (log 2); normal force 0.294 N (log 1.040 N), along the surface 0.103 N; tip at most 2.7 mm from its target.
+  ring  : touching or not agrees with the log 44% of the gait (touching 22%, log 76%); whole lifts 12 (log 1); normal force 0.273 N (log 1.345 N), along the surface 0.099 N; tip at most 1.6 mm from its target.
+  thumb : touching or not agrees with the log 68% of the gait (touching 54%, log 82%); whole lifts 13 (log 2); normal force 0.369 N (log 1.149 N), along the surface 0.141 N; tip at most 3.2 mm from its target.
+  drawn finger pieces against the simulated cylinder: deepest cut index +7.0 mm (69%), middle +6.4 mm (77%), ring -1.9 mm (0%), thumb +1.5 mm (11%); smallest gap between fingers +13.1 mm.
+
+the same fingers with one input held constant (control); tip stiffness 399.7 N/m; weight carried: ran to the end
+  cylinder turn in the gait -16.2 deg (recorded -161.6; 10% of it); first round -29.8 deg (recorded -77.0); in the wait before -0.04 deg. Tilt changed by at most 48.8 deg; centre moved at most 16.2 mm, dropped at most 0.0 mm. Tip-to-tip contacts logged: 0.
+  index : touching or not agrees with the log 70% of the gait (touching 52%, log 76%); whole lifts 5 (log 2); normal force 0.647 N (log 1.179 N), along the surface 0.189 N; tip at most 4.9 mm from its target.
+  middle: touching or not agrees with the log 85% of the gait (touching 70%, log 77%); whole lifts 24 (log 2); normal force 0.458 N (log 1.040 N), along the surface 0.151 N; tip at most 3.7 mm from its target.
+  ring  : touching or not agrees with the log 55% of the gait (touching 36%, log 76%); whole lifts 10 (log 1); normal force 0.479 N (log 1.345 N), along the surface 0.134 N; tip at most 3.6 mm from its target.
+  thumb : touching or not agrees with the log 65% of the gait (touching 59%, log 82%); whole lifts 43 (log 2); normal force 0.512 N (log 1.149 N), along the surface 0.195 N; tip at most 5.1 mm from its target.
+  drawn finger pieces against the simulated cylinder: deepest cut index -9.6 mm (0%), middle -12.4 mm (0%), ring +4.5 mm (43%), thumb -17.1 mm (0%); smallest gap between fingers +32.0 mm.
+
+REFERENCE, not a finger: tip targets at the logged contacts themselves; tip stiffness 399.7 N/m; weight carried: ran to the end
+  cylinder turn in the gait -153.2 deg (recorded -161.6; 95% of it); first round -75.2 deg (recorded -77.0); in the wait before +0.06 deg. Tilt changed by at most 18.4 deg; centre moved at most 18.7 mm, dropped at most 0.0 mm. Tip-to-tip contacts logged: 0.
+  index : touching or not agrees with the log 92% of the gait (touching 70%, log 76%); whole lifts 7 (log 2); normal force 0.111 N (log 1.179 N), along the surface 0.051 N; tip at most 0.8 mm from its target.
+  middle: touching or not agrees with the log 87% of the gait (touching 67%, log 77%); whole lifts 7 (log 2); normal force 0.122 N (log 1.040 N), along the surface 0.052 N; tip at most 3.0 mm from its target.
+  ring  : touching or not agrees with the log 88% of the gait (touching 65%, log 76%); whole lifts 8 (log 1); normal force 0.106 N (log 1.345 N), along the surface 0.057 N; tip at most 0.8 mm from its target.
+  thumb : touching or not agrees with the log 92% of the gait (touching 76%, log 82%); whole lifts 9 (log 2); normal force 0.117 N (log 1.149 N), along the surface 0.054 N; tip at most 3.0 mm from its target.
+
+four two-pneu-net fingers, both inputs driven; tip stiffness 56.1 N/m; cylinder free: STOPPED, the cylinder had dropped 30 mm at 1.60 s
+
+the same fingers with one input held constant (control); tip stiffness 56.1 N/m; cylinder free: STOPPED, the cylinder had dropped 30 mm at 1.62 s
+
+REFERENCE, not a finger: tip targets at the logged contacts themselves; tip stiffness 56.1 N/m; cylinder free: STOPPED, the cylinder had dropped 30 mm at 1.60 s
+
+Clips: three columns of 640 x 720, same camera (azimuth 35 deg, elevation -25 deg). Main stiffness, weight carried.
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_two_inputs.mp4
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_two_inputs_start.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_two_inputs_middle.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_two_inputs_end.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_one_input.mp4
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_one_input_start.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_one_input_middle.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_one_input_end.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_logged_path.mp4
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_logged_path_start.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_logged_path_middle.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\two_pneunet_fingers_follow_rl_gait_clip_21nov\recorded_contacts_simulation_logged_path_end.png

@@ -1,0 +1,102 @@
+Pneu-net fingers on a palm turning a ball, MuJoCo with contact and friction. SIMULATION ONLY, comparative. A different model from the kinematic scripts: fitted hinge-chain fingers with joint springs, free ball.
+script: tools/pneunet_palm_turn_ball_mujoco_20nov.py
+mujoco 3.6.0; timestep 0.5 ms; one input ramp 10 s, hold 1 s; joint limits off; damping critical per joint; seat points 10 mm from the axis (assumed)
+
+=== wall_0.0020m_x3: three 2 mm wall fingers, one shared input ===
+  ball radius 32.9 mm, 50 g, friction 1.0; tip radius 8.08 mm; joint springs 916.3, 0.08576, 0.08576, 0.08576 (slide N/m, hinges N m/rad)
+  mount check, posed model against the kinematic script at every level: tip gap differs by at most 0.000 um from the kinematic stand-in and 0.09 mm from the record path (the fit error); kinematic gap +0.32 mm before contact, -12.39 mm deepest; sweep sense -1 (kinematic -1)
+  at zero input: 0 finger-ball contacts, 0 finger-finger contacts
+  ramp check, ball contact off: driven tip stays within 0.222 mm of its posed path
+  kinematic script, slip ignored: 87.7 deg in one stroke, 0.0 left after the return; contact from 8 to 500 Pa
+  -- rest: smooth --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.524 mm, ball speed at most 7.9 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -121.5, -121.5, -0.4, -0.4, -121.9, -122.0, -0.8, -0.8
+     largest turn 122.0 deg; left at the end -0.8 deg; tips swept +0.0 deg round the axis while touching the ball (net)
+     ball tilt at most 1.1 deg, sideways 0.09 mm, lifted 8.63 mm, dropped 0.37 mm; most fingers touching at once 3
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0020m_x3_smooth_rest.mp4
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0020m_x3_smooth_rest.png
+  -- rest: seat --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.524 mm, ball speed at most 7.7 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -121.7, -121.8, -2.4, -2.4, -124.2, -124.2, -4.9, -4.9
+     largest turn 124.2 deg; left at the end -4.9 deg; tips swept -0.1 deg round the axis while touching the ball (net)
+     ball tilt at most 1.1 deg, sideways 0.09 mm, lifted 8.63 mm, dropped 0.15 mm; most fingers touching at once 3
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0020m_x3_seat_rest.mp4
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0020m_x3_seat_rest.png
+  ramp check at 20 s per ramp, ball contact off: driven tip stays within 0.111 mm of its posed path
+  -- rest: seat, half speed (20 s per ramp) --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.506 mm, ball speed at most 4.9 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -120.7, -120.7, -1.3, -1.3, -122.0, -122.1, -2.7, -2.7
+     largest turn 122.1 deg; left at the end -2.7 deg; tips swept -0.0 deg round the axis while touching the ball (net)
+     ball tilt at most 0.0 deg, sideways 0.00 mm, lifted 8.40 mm, dropped 0.15 mm; most fingers touching at once 3
+  ramp check at 40 s per ramp, ball contact off: driven tip stays within 0.056 mm of its posed path
+  -- rest: seat, quarter speed (40 s per ramp) --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.497 mm, ball speed at most 4.9 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -120.5, -120.5, -0.8, -0.8, -121.4, -121.4, -1.7, -1.7
+     largest turn 121.4 deg; left at the end -1.7 deg; tips swept -0.0 deg round the axis while touching the ball (net)
+     ball tilt at most 0.0 deg, sideways 0.00 mm, lifted 8.34 mm, dropped 0.15 mm; most fingers touching at once 3
+
+=== wall_0.0010m_x4: four 1 mm wall fingers, one shared input ===
+  ball radius 32.9 mm, 50 g, friction 1.0; tip radius 6.44 mm; joint springs 322.8, 0.04177, 0.04177, 0.04177 (slide N/m, hinges N m/rad)
+  mount check, posed model against the kinematic script at every level: tip gap differs by at most 0.000 um from the kinematic stand-in and 0.58 mm from the record path (the fit error); kinematic gap +0.77 mm before contact, -16.60 mm deepest; sweep sense -1 (kinematic -1)
+  at zero input: 0 finger-ball contacts, 0 finger-finger contacts
+  ramp check, ball contact off: driven tip stays within 5.731 mm of its posed path
+  kinematic script, slip ignored: 106.4 deg in one stroke, 0.0 left after the return; contact from 6 to 222 Pa
+  -- rest: smooth --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.545 mm, ball speed at most 112.5 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -150.5, -154.5, -12.7, -14.9, -165.7, -169.7, -27.9, -30.1
+     largest turn 187.6 deg; left at the end -30.1 deg; tips swept +13.1 deg round the axis while touching the ball (net)
+     ball tilt at most 0.0 deg, sideways 0.00 mm, lifted 11.01 mm, dropped 0.46 mm; most fingers touching at once 4
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0010m_x4_smooth_rest.mp4
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0010m_x4_smooth_rest.png
+  -- rest: seat --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.545 mm, ball speed at most 112.7 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -141.8, -141.8, +15.5, +15.5, -125.8, -125.8, +31.5, +31.5
+     largest turn 141.8 deg; left at the end +31.5 deg; tips swept +16.0 deg round the axis while touching the ball (net)
+     ball tilt at most 29.3 deg, sideways 1.45 mm, lifted 11.01 mm, dropped 0.34 mm; most fingers touching at once 4
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0010m_x4_seat_rest.mp4
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0010m_x4_seat_rest.png
+  ramp check at 20 s per ramp, ball contact off: driven tip stays within 3.653 mm of its posed path
+  -- rest: seat, half speed (20 s per ramp) --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.524 mm, ball speed at most 42.2 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -147.9, -147.9, -6.6, -6.6, -154.5, -154.5, -13.2, -13.2
+     largest turn 154.5 deg; left at the end -13.2 deg; tips swept +5.7 deg round the axis while touching the ball (net)
+     ball tilt at most 0.9 deg, sideways 0.15 mm, lifted 10.41 mm, dropped 0.15 mm; most fingers touching at once 4
+  ramp check at 40 s per ramp, ball contact off: driven tip stays within 1.899 mm of its posed path
+  -- rest: seat, quarter speed (40 s per ramp) --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.511 mm, ball speed at most 11.4 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -140.5, -140.5, -4.2, -4.2, -144.7, -144.7, -8.5, -8.5
+     largest turn 144.7 deg; left at the end -8.5 deg; tips swept -0.1 deg round the axis while touching the ball (net)
+     ball tilt at most 0.0 deg, sideways 0.00 mm, lifted 10.14 mm, dropped 0.15 mm; most fingers touching at once 4
+
+=== wall_0.0005m_2x3: two sets of three 0.5 mm wall fingers, two inputs ===
+  ball radius 32.9 mm, 50 g, friction 1.0; tip radius 5.21 mm; joint springs 169.5, 0.02869, 0.02869, 0.02869 (slide N/m, hinges N m/rad)
+  mount check, posed model against the kinematic script at every level: tip gap differs by at most 0.000 um from the kinematic stand-in and 0.30 mm from the record path (the fit error); kinematic gap +57.25 mm before contact, -0.69 mm deepest; sweep sense -1 (kinematic -1)
+  at zero input: 0 finger-ball contacts, 0 finger-finger contacts
+  ramp check, ball contact off: driven tip stays within 0.969 mm of its posed path
+  kinematic script, slip ignored: net 19.6 deg per cycle (58.7 over 3 cycles); contact from 192 to 208 Pa
+  -- rest: smooth --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.445 mm, ball speed at most 12.6 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -30.1, -41.4, -173.2, -184.6, -37.5, -23.8, +44.0, +32.7, -94.2, -105.5, +41.8, +55.6, +122.4, +111.0, -21.4, -33.0, +113.4, +127.0
+     largest turn 186.7 deg; left at the end +127.0 deg; tips swept -7.0 deg round the axis while touching the ball (net)
+     ball tilt at most 21.8 deg, sideways 8.02 mm, lifted -0.00 mm, dropped 0.37 mm; most fingers touching at once 6
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0005m_2x3_smooth_rest.mp4
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0005m_2x3_smooth_rest.png
+  -- rest: seat --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.501 mm, ball speed at most 4.9 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -10.5, -15.6, -26.1, -31.2, -16.7, -16.7, -27.2, -32.3, -42.8, -47.9, -33.5, -33.5, -43.9, -49.1, -59.5, -64.7, -50.2, -50.2
+     largest turn 64.7 deg; left at the end -50.2 deg; tips swept -10.8 deg round the axis while touching the ball (net)
+     ball tilt at most 0.4 deg, sideways 0.02 mm, lifted -0.00 mm, dropped 0.15 mm; most fingers touching at once 6
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0005m_2x3_seat_rest.mp4
+     wrote outputs\pneunet_palm_turn_ball_20nov\mujoco\mujoco_wall_0.0005m_2x3_seat_rest.png
+  ramp check at 20 s per ramp, ball contact off: driven tip stays within 0.487 mm of its posed path
+  -- rest: seat, half speed (20 s per ramp) --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.471 mm, ball speed at most 4.9 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -13.5, -14.1, -27.6, -28.2, -12.1, -12.1, -25.6, -26.2, -39.7, -40.3, -24.2, -24.2, -37.8, -38.3, -51.9, -52.4, -36.3, -36.3
+     largest turn 52.4 deg; left at the end -36.3 deg; tips swept -5.2 deg round the axis while touching the ball (net)
+     ball tilt at most 0.4 deg, sideways 0.01 mm, lifted -0.00 mm, dropped 0.15 mm; most fingers touching at once 6
+  ramp check at 40 s per ramp, ball contact off: driven tip stays within 0.244 mm of its posed path
+  -- rest: seat, quarter speed (40 s per ramp) --
+     stable to the end: no MuJoCo warning, deepest contact overlap 0.424 mm, ball speed at most 4.9 mm/s
+     ball turned (deg) at the end of each ramp or hold: +0.0, -13.9, -13.9, -27.7, -27.7, -10.5, -10.5, -24.4, -24.4, -38.2, -38.2, -21.0, -21.0, -34.9, -34.9, -48.7, -48.7, -31.6, -31.6
+     largest turn 48.7 deg; left at the end -31.6 deg; tips swept -2.0 deg round the axis while touching the ball (net)
+     ball tilt at most 0.0 deg, sideways 0.00 mm, lifted -0.00 mm, dropped 0.15 mm; most fingers touching at once 6

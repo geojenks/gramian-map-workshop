@@ -1,0 +1,1627 @@
+{
+ "wall_0.0020m": {
+  "checks": {
+   "posed_tip_err_max_m": 4.377612855543944e-12,
+   "finger_ball_contacts_at_zero": 0,
+   "k_model_axial_inplane_outofplane_N_per_m": [
+    916.2617000000001,
+    11.443900003168153,
+    473.80189992030853
+   ],
+   "k_record_axial_inplane_outofplane_N_per_m": [
+    916.2617,
+    11.4439,
+    473.8019
+   ],
+   "free_ramps": {
+    "10": {
+     "no_gravity_tip_off_free_shape_max_m": 0.00013710999465661435,
+     "gravity_tip_off_free_shape_max_m": 0.0027348288524556073,
+     "sag_at_zero_input_m": 8.81081996006311e-05,
+     "sag_at_full_input_m": 0.0026413400766326766,
+     "unstable": false
+    },
+    "40": {
+     "no_gravity_tip_off_free_shape_max_m": 3.431560500434327e-05,
+     "gravity_tip_off_free_shape_max_m": 0.0026646871874678357,
+     "sag_at_zero_input_m": 8.81081996006311e-05,
+     "sag_at_full_input_m": 0.002641340076629848,
+     "unstable": false
+    }
+   }
+  },
+  "tips_low": {
+   "+0deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     -1.5043262854642628e-07,
+     -1.5043262854642628e-07,
+     -3.052304974031808e-05,
+     -3.052304974031808e-05,
+     -3.06734943277501e-05,
+     -3.06734943277501e-05,
+     -6.104609869185858e-05,
+     -6.104609869185858e-05
+    ],
+    "deepest_overlap_m": 0.00020826983436494917,
+    "ball_tilt_max_deg": 0.000633013138387211,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015643209960634896,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.4877113053118547,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": -1.5043262854642628e-07,
+     "sliding_at_contact_mm": 3.024827443551882,
+     "ball_surface_travel_at_contact_mm": 0.12540017018679997
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+30deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     1.1924844949147173,
+     1.1950670443397946,
+     0.00033845150641614657,
+     0.00033845150641614657,
+     1.1928229464278255,
+     1.1954054958528262,
+     0.0006769030129086265,
+     0.0006769030129086265
+    ],
+    "deepest_overlap_m": 0.0002567043993094431,
+    "ball_tilt_max_deg": 0.000688273955210844,
+    "ball_drift_max_m": 3.6851471651100033e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015645026698819092,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.7343917057142242,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 1.1924844949147173,
+     "sliding_at_contact_mm": 3.02179484856792,
+     "ball_surface_travel_at_contact_mm": 0.6891901318420487
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+30deg_ramp_40s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     1.1963183561549993,
+     1.1969633963361737,
+     7.901170767970435e-05,
+     7.901170767970435e-05,
+     1.1963973678764697,
+     1.1970424080575934,
+     0.00015802341632629733,
+     0.00015802341632629733
+    ],
+    "deepest_overlap_m": 0.00025670439913486054,
+    "ball_tilt_max_deg": 0.0006439440217900717,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015530594881498633,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.7333711626241441,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 1.1963183561549993,
+     "sliding_at_contact_mm": 3.0328464874710677,
+     "ball_surface_travel_at_contact_mm": 0.690534402103951
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "-30deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     -1.1922875798058437,
+     -1.1948701292308699,
+     -0.00015606613231276107,
+     -0.00015606613231276107,
+     -1.1924436459445173,
+     -1.1950261953695436,
+     -0.00031213226454918883,
+     -0.00031213226454918883
+    ],
+    "deepest_overlap_m": 0.00025670627998093665,
+    "ball_tilt_max_deg": 0.000665502181502996,
+    "ball_drift_max_m": 3.594228892030339e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015644999166268547,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.734391705714238,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": -1.1922875798058437,
+     "sliding_at_contact_mm": 3.021768013536024,
+     "ball_surface_travel_at_contact_mm": 0.6891650814338841
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+45deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     2.0853293614828643,
+     2.0896354506559778,
+     0.0015038139215902949,
+     0.0015038139215902949,
+     2.0868331754042764,
+     2.09113926457739,
+     0.003007627843791256,
+     0.003007627843791256
+    ],
+    "deepest_overlap_m": 0.0003192976584841245,
+    "ball_tilt_max_deg": 0.0007531696703500819,
+    "ball_drift_max_m": 3.8402814312595207e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015651451450953563,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.1545070893825473,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 2.0853293614828643,
+     "sliding_at_contact_mm": 2.9148631072277214,
+     "ball_surface_travel_at_contact_mm": 1.1906921967418036
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+50deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     2.6107440083378175,
+     2.616090550182679,
+     0.0016078615364826477,
+     0.0016078615364826477,
+     2.6123518699156474,
+     2.6176984117597963,
+     0.003215723072685407,
+     0.003215723072685407
+    ],
+    "deepest_overlap_m": 0.0003382247022022597,
+    "ball_tilt_max_deg": 0.0007125010914486506,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015648531824453277,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.392169938908697,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 2.6107440083378175,
+     "sliding_at_contact_mm": 2.8140702096356893,
+     "ball_surface_travel_at_contact_mm": 1.487452066235165
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+55deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     3.3221859773246956,
+     3.3294824383490935,
+     0.0015694515560657346,
+     0.0015694515560657346,
+     3.3237554289080125,
+     3.3310518899316977,
+     0.003138903113581802,
+     0.003138903113581802
+    ],
+    "deepest_overlap_m": 0.0003635172401375078,
+    "ball_tilt_max_deg": 0.000721225508762456,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015648729189213229,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.697263874680595,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 3.3221859773246956,
+     "sliding_at_contact_mm": 2.650211708077411,
+     "ball_surface_travel_at_contact_mm": 1.8910456896065886
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+60deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     4.41071806170413,
+     4.422206344693937,
+     -0.008112779609359851,
+     -0.008112779609359851,
+     4.402605282125965,
+     4.414093565114754,
+     -0.016225559218643368,
+     -0.016225559218643368
+    ],
+    "deepest_overlap_m": 0.0003950215553390965,
+    "ball_tilt_max_deg": 0.0007051012563867095,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.0001563770643647766,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 3.0954145886164746,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 4.41071806170413,
+     "sliding_at_contact_mm": 2.374185521596813,
+     "ball_surface_travel_at_contact_mm": 2.5116990123044594
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+60deg_ramp_40s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     4.425469650258936,
+     4.428343268685541,
+     -0.0020019331453030678,
+     -0.0020019331453030678,
+     4.423467717121596,
+     4.426341335548202,
+     -0.004003866289791914,
+     -0.004003866289791914
+    ],
+    "deepest_overlap_m": 0.0003947315031055179,
+    "ball_tilt_max_deg": 0.000689387723919408,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015529954922833406,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 3.092497734536731,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 4.425469650258936,
+     "sliding_at_contact_mm": 2.382109994570416,
+     "ball_surface_travel_at_contact_mm": 2.519971176990786
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "-60deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     -4.410718550304324,
+     -4.4222068332947675,
+     0.008112282729698295,
+     0.008112282729698295,
+     -4.402606267584752,
+     -4.41409455057517,
+     0.016224565459701922,
+     0.016224565459701922
+    ],
+    "deepest_overlap_m": 0.0003950216398328765,
+    "ball_tilt_max_deg": 0.0007001355156239906,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.000156377112130561,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 3.09541458861654,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": -4.410718550304324,
+     "sliding_at_contact_mm": 2.3741894284868605,
+     "ball_surface_travel_at_contact_mm": 2.511696207965715
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+65deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     7.129887338312574,
+     7.206038870210847,
+     -0.013800198540413365,
+     -0.013800198540413365,
+     7.116087139827451,
+     7.19223867172407,
+     -0.02760039708209895,
+     -0.02760039708209895
+    ],
+    "deepest_overlap_m": 0.00040523830135724,
+    "ball_tilt_max_deg": 0.0006915777339774656,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015622724610715732,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 3.6044431495026927,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 7.129887338312574,
+     "sliding_at_contact_mm": 1.8122695638657564,
+     "ball_surface_travel_at_contact_mm": 4.0659796628578215
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+70deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     11.876415008333787,
+     12.424826626236474,
+     -0.028170207967070152,
+     -0.028170207967070152,
+     11.848244800181023,
+     12.396656418081674,
+     -0.0563404159345983,
+     -0.0563404159345983
+    ],
+    "deepest_overlap_m": 0.00024258366261999814,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.5258694580082443e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00016313000613846218,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.881217973138948,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 11.876415008333787,
+     "sliding_at_contact_mm": 1.6743877692039992,
+     "ball_surface_travel_at_contact_mm": 6.798320535662078
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+75deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "deepest_overlap_m": 0.00014812027209824136,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015492408644973699,
+    "fingers_touching_max": 0,
+    "normal_force_total_max_N": 0.0,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 0.0,
+     "sliding_at_contact_mm": 0.0,
+     "ball_surface_travel_at_contact_mm": 0.0
+    },
+    "finger_ball_contacts_at_zero": 0
+   }
+  },
+  "tips_level": {
+   "+0deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     2.1384039567602003e-08,
+     2.1384039567602003e-08,
+     -3.2456274308022004e-06,
+     -3.2456274308022004e-06,
+     -3.2242445871231586e-06,
+     -3.2242445871231586e-06,
+     -6.491254581715589e-06,
+     -6.491254581715589e-06
+    ],
+    "deepest_overlap_m": 0.0003636260959757262,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015716533510612418,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.2060915955342968,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 2.1384039567602003e-08,
+     "sliding_at_contact_mm": 4.4738220381094616,
+     "ball_surface_travel_at_contact_mm": 0.06125256277440641
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+30deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     1.558719625505367,
+     1.560757995740906,
+     -0.0025532208991083096,
+     -0.0025532208991083096,
+     1.5561664046070984,
+     1.5582047748426118,
+     -0.005106441798343841,
+     -0.005106441798343841
+    ],
+    "deepest_overlap_m": 0.0004053612180353952,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015724209697273034,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.4055901026506332,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 1.558719625505367,
+     "sliding_at_contact_mm": 4.646434194050342,
+     "ball_surface_travel_at_contact_mm": 0.8928352797033782
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+30deg_ramp_40s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     1.5639590939017398,
+     1.5644680011416283,
+     -0.0005886800427771738,
+     -0.0005886800427771738,
+     1.5633704138594715,
+     1.5638793210992838,
+     -0.0011773600859614586,
+     -0.0011773600859614586
+    ],
+    "deepest_overlap_m": 0.000405339938002347,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015549814173469734,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.4054577166145523,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 1.5639590939017398,
+     "sliding_at_contact_mm": 4.654441168586623,
+     "ball_surface_travel_at_contact_mm": 0.8937054994977007
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "-30deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     -1.558719275361817,
+     -1.5607576455972796,
+     0.002566288237481761,
+     0.002566288237481761,
+     -1.5561529871256075,
+     -1.5581913573611719,
+     0.005132576474734522,
+     0.005132576474734522
+    ],
+    "deepest_overlap_m": 0.0004053617593581457,
+    "ball_tilt_max_deg": 0.000617333844939369,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.0001572420970777852,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.405590102650641,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": -1.558719275361817,
+     "sliding_at_contact_mm": 4.646434167975795,
+     "ball_surface_travel_at_contact_mm": 0.8928353560540493
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+45deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     3.5249185789458766,
+     3.532556820707571,
+     -0.00504929056790858,
+     -0.00504929056790858,
+     3.519869288380792,
+     3.5275075301423593,
+     -0.010098581135588161,
+     -0.010098581135588161
+    ],
+    "deepest_overlap_m": 0.00047275933913909496,
+    "ball_tilt_max_deg": 0.0006705955851541372,
+    "ball_drift_max_m": 3.7211890476673377e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.0001572797761717204,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.7870848321548944,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 3.5249185789458766,
+     "sliding_at_contact_mm": 4.779463047482045,
+     "ball_surface_travel_at_contact_mm": 2.007440233437195
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+50deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     4.943329796186911,
+     4.959167464441679,
+     -0.006634363607777049,
+     -0.006634363607777049,
+     4.936695432575877,
+     4.952533100827897,
+     -0.013268727213493097,
+     -0.013268727213493097
+    ],
+    "deepest_overlap_m": 0.0005108300166134019,
+    "ball_tilt_max_deg": 0.0007978138991080939,
+    "ball_drift_max_m": 4.4334253080287195e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015732856752143087,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.044555706468825,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 4.943329796186911,
+     "sliding_at_contact_mm": 4.784645371071912,
+     "ball_surface_travel_at_contact_mm": 2.811910792965699
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+55deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     7.650600091470324,
+     7.705080474838637,
+     -0.008250028231367446,
+     -0.008250028231367446,
+     7.642350063252696,
+     7.696830446634622,
+     -0.01650005646258222,
+     -0.01650005646258222
+    ],
+    "deepest_overlap_m": 0.0005758485139909578,
+    "ball_tilt_max_deg": 0.001575947284236127,
+    "ball_drift_max_m": 9.140169155590016e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015730794795212194,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.538235005293346,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 7.650600091470324,
+     "sliding_at_contact_mm": 4.6734358790277755,
+     "ball_surface_travel_at_contact_mm": 4.35027920558356
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+60deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     53.06287598849668,
+     53.134834567548666,
+     -2.961744067696752,
+     -2.961744067696752,
+     50.101137925258016,
+     50.17310810187585,
+     -5.923491816632147,
+     -5.923491816632147
+    ],
+    "deepest_overlap_m": 0.0007597425700495639,
+    "ball_tilt_max_deg": 0.2578900453136658,
+    "ball_drift_max_m": 0.00013401472280945843,
+    "ball_lift_max_m": 0.00614044848359805,
+    "ball_drop_max_m": 0.0003756271257566515,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 4.760704421323423,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 53.06287598849668,
+     "sliding_at_contact_mm": 13.965358507720468,
+     "ball_surface_travel_at_contact_mm": 44.649723850013416
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+60deg_ramp_40s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     52.88422415943154,
+     52.89338336864894,
+     -0.8027898081428757,
+     -0.8027898081428757,
+     52.0815896086016,
+     52.090749271306585,
+     -1.6055808372828317,
+     -1.6055808372828317
+    ],
+    "deepest_overlap_m": 0.0007453154806402323,
+    "ball_tilt_max_deg": 0.21757226504580782,
+    "ball_drift_max_m": 9.757444687139239e-05,
+    "ball_lift_max_m": 0.0050502458232939,
+    "ball_drop_max_m": 0.000367594331823623,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 4.69488414416752,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 52.88422415943154,
+     "sliding_at_contact_mm": 14.234167868646347,
+     "ball_surface_travel_at_contact_mm": 42.23978167893474
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "-60deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     -53.05743281206798,
+     -53.129270260210866,
+     3.5377977786628882,
+     3.5377977786628882,
+     -49.51919130038813,
+     -49.59094675832077,
+     7.075679486570879,
+     7.075679486570879
+    ],
+    "deepest_overlap_m": 0.0007599325186109507,
+    "ball_tilt_max_deg": 0.8050165320910648,
+    "ball_drift_max_m": 0.00013179620713897692,
+    "ball_lift_max_m": 0.006139409553770535,
+    "ball_drop_max_m": 0.0003796283973848749,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 4.7613444189043514,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": -53.05743281206798,
+     "sliding_at_contact_mm": 13.96585546991127,
+     "ball_surface_travel_at_contact_mm": 44.647798494755456
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+65deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     37.209113433176746,
+     37.209113433176746,
+     -0.01851622458098485,
+     -0.01851622458098485,
+     37.190487025341405,
+     37.190487025341405,
+     -0.0370324597467539,
+     -0.0370324597467539
+    ],
+    "deepest_overlap_m": 0.0005218571083421344,
+    "ball_tilt_max_deg": 0.22852146423213449,
+    "ball_drift_max_m": 1.413869344244732e-05,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00022601083421035922,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.2711327514186364,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 37.209113433176746,
+     "sliding_at_contact_mm": 8.641314184117501,
+     "ball_surface_travel_at_contact_mm": 21.14940902586668
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+70deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     17.95748269708649,
+     17.95748269708649,
+     -0.023527044677786917,
+     -0.023527044677786917,
+     17.933955652340334,
+     17.933955652340334,
+     -0.04705408935727861,
+     -0.04705408935727861
+    ],
+    "deepest_overlap_m": 0.0001926427924645105,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.528710967368882e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.0001626064825682172,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 0.5637672619905914,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 17.95748269708649,
+     "sliding_at_contact_mm": 4.501278478897583,
+     "ball_surface_travel_at_contact_mm": 10.25899978428919
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+75deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "deepest_overlap_m": 0.00014812027209824136,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015492408644973699,
+    "fingers_touching_max": 0,
+    "normal_force_total_max_N": 0.0,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 0.0,
+     "sliding_at_contact_mm": 0.0,
+     "ball_surface_travel_at_contact_mm": 0.0
+    },
+    "finger_ball_contacts_at_zero": 0
+   }
+  }
+ },
+ "wall_0.0015m": {
+  "checks": {
+   "posed_tip_err_max_m": 6.544355335424967e-12,
+   "finger_ball_contacts_at_zero": 0,
+   "k_model_axial_inplane_outofplane_N_per_m": [
+    741.6128000000001,
+    8.08810000658002,
+    423.22009977262366
+   ],
+   "k_record_axial_inplane_outofplane_N_per_m": [
+    741.6128,
+    8.0881,
+    423.2201
+   ],
+   "free_ramps": {
+    "10": {
+     "no_gravity_tip_off_free_shape_max_m": 0.00030073610098391016,
+     "gravity_tip_off_free_shape_max_m": 0.005055904684540824,
+     "sag_at_zero_input_m": 9.046909991305453e-05,
+     "sag_at_full_input_m": 0.004836148097090131,
+     "unstable": false
+    },
+    "40": {
+     "no_gravity_tip_off_free_shape_max_m": 7.52147529804052e-05,
+     "gravity_tip_off_free_shape_max_m": 0.00489102245800746,
+     "sag_at_zero_input_m": 9.046909991305453e-05,
+     "sag_at_full_input_m": 0.004836148097095951,
+     "unstable": false
+    }
+   }
+  },
+  "tips_low": {
+   "+0deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     1.8257299871348846e-08,
+     1.842581838059151e-08,
+     9.805726416264377e-09,
+     9.805726416264377e-09,
+     2.8118317050195787e-08,
+     2.8286861003875903e-08,
+     1.9608501277784356e-08,
+     1.9608501277784356e-08
+    ],
+    "deepest_overlap_m": 0.000287677230336336,
+    "ball_tilt_max_deg": 0.0008668527427535567,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": 0.022327762651005327,
+    "ball_drop_max_m": 0.00015732925149838928,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.0293056598996433,
+    "ball_touched_plate": true,
+    "first_stroke": {
+     "ball_turn_deg": 1.8257299871348846e-08,
+     "sliding_at_contact_mm": 13.15439825405419,
+     "ball_surface_travel_at_contact_mm": 9.044210729249306
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+30deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     6.001427327354776,
+     10.485373080922887,
+     5.045718401185377,
+     5.045718401185377,
+     11.047145728632238,
+     15.531091457916583,
+     10.09143680494301,
+     10.09143680494301
+    ],
+    "deepest_overlap_m": 0.0003523637767984559,
+    "ball_tilt_max_deg": 0.005192175769007771,
+    "ball_drift_max_m": 3.820765008412299e-06,
+    "ball_lift_max_m": 0.022570563084429278,
+    "ball_drop_max_m": 0.0001573718911811739,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.6100553516599443,
+    "ball_touched_plate": true,
+    "first_stroke": {
+     "ball_turn_deg": 6.001427327354776,
+     "sliding_at_contact_mm": 13.089631207773696,
+     "ball_surface_travel_at_contact_mm": 10.635965974118795
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+30deg_ramp_40s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     9.877195475489286,
+     9.877634491862226,
+     2.6880072080656205,
+     2.6880072080656205,
+     12.565202680681313,
+     12.565641697054101,
+     5.376014417378884,
+     5.376014417378884
+    ],
+    "deepest_overlap_m": 0.0003547961527415487,
+    "ball_tilt_max_deg": 0.0055005989724445726,
+    "ball_drift_max_m": 1.4349495976861454e-06,
+    "ball_lift_max_m": 0.02263664664191757,
+    "ball_drop_max_m": 0.00015554596791175074,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.5989451558994503,
+    "ball_touched_plate": true,
+    "first_stroke": {
+     "ball_turn_deg": 9.877195475489286,
+     "sliding_at_contact_mm": 24.26162392089616,
+     "ball_surface_travel_at_contact_mm": 22.756493964692403
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "-30deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     -6.001426051180543,
+     -10.48537173646731,
+     -5.045716050833073,
+     -5.045716050833073,
+     -11.047142101589788,
+     -15.531087763363885,
+     -10.091432104852121,
+     -10.091432104852121
+    ],
+    "deepest_overlap_m": 0.0003523637769085276,
+    "ball_tilt_max_deg": 0.005099679684072699,
+    "ball_drift_max_m": 3.823003729283087e-06,
+    "ball_lift_max_m": 0.022570563049484904,
+    "ball_drop_max_m": 0.00015737189931336326,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.610055316872523,
+    "ball_touched_plate": true,
+    "first_stroke": {
+     "ball_turn_deg": -6.001426051180543,
+     "sliding_at_contact_mm": 13.089636874250576,
+     "ball_surface_travel_at_contact_mm": 10.635965803133919
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+45deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     8.24747880200134,
+     13.281369421915548,
+     5.715552824460403,
+     5.715552824460403,
+     13.96303161778328,
+     18.996922232578754,
+     11.431105655128434,
+     11.431105655128434
+    ],
+    "deepest_overlap_m": 0.0004285826473809191,
+    "ball_tilt_max_deg": 0.007503804148189363,
+    "ball_drift_max_m": 2.12889406689329e-06,
+    "ball_lift_max_m": 0.022480960203915025,
+    "ball_drop_max_m": 0.00015740679997603563,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 3.3506874186323268,
+    "ball_touched_plate": true,
+    "first_stroke": {
+     "ball_turn_deg": 8.24747880200134,
+     "sliding_at_contact_mm": 11.70427033693609,
+     "ball_surface_travel_at_contact_mm": 10.489562734018701
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+50deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     9.170479493846965,
+     14.252814138540774,
+     5.81595343640795,
+     5.81595343640795,
+     14.986432928781326,
+     20.068767567508722,
+     11.631906872971188,
+     11.631906872971188
+    ],
+    "deepest_overlap_m": 0.00046351631530230485,
+    "ball_tilt_max_deg": 0.003389646105262115,
+    "ball_drift_max_m": 1.6812103251823668e-06,
+    "ball_lift_max_m": 0.022416654229505117,
+    "ball_drop_max_m": 0.00015741577561455278,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 3.7475386378367963,
+    "ball_touched_plate": true,
+    "first_stroke": {
+     "ball_turn_deg": 9.170479493846965,
+     "sliding_at_contact_mm": 10.99868171183663,
+     "ball_surface_travel_at_contact_mm": 10.44913784608703
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+55deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     10.151148958442816,
+     15.019272565360316,
+     5.379396560401318,
+     5.379396560401318,
+     15.530545517096634,
+     20.39866912159335,
+     10.758793121042169,
+     10.758793121042169
+    ],
+    "deepest_overlap_m": 0.0005058353281321799,
+    "ball_tilt_max_deg": 0.002884141397063987,
+    "ball_drift_max_m": 1.2402773686182537e-06,
+    "ball_lift_max_m": 0.020416527372505704,
+    "ball_drop_max_m": 0.00015741727508355313,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 4.314477081871313,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 10.151148958442816,
+     "sliding_at_contact_mm": 9.715645938878893,
+     "ball_surface_travel_at_contact_mm": 10.06843963742515
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+60deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     11.817303000658832,
+     14.837264551125207,
+     3.8167696040024115,
+     3.8167696040024115,
+     15.634072606391289,
+     18.654034168047847,
+     7.6335392106962345,
+     7.6335392106962345
+    ],
+    "deepest_overlap_m": 0.0005738312108741926,
+    "ball_tilt_max_deg": 0.005776105327427438,
+    "ball_drift_max_m": 1.03782190395034e-06,
+    "ball_lift_max_m": 0.014930119938294614,
+    "ball_drop_max_m": 0.00015730655669533855,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 5.550497888620068,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 11.817303000658832,
+     "sliding_at_contact_mm": 7.0503812497061205,
+     "ball_surface_travel_at_contact_mm": 9.203716562013492
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+60deg_ramp_40s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     18.229474187539743,
+     21.09745347771882,
+     3.577913066942176,
+     3.577913066942176,
+     21.807387252478605,
+     24.675366549621238,
+     7.155826135063879,
+     7.155826135063879
+    ],
+    "deepest_overlap_m": 0.0005374166903017131,
+    "ball_tilt_max_deg": 0.004363727561681227,
+    "ball_drift_max_m": 1.0869234498253006e-06,
+    "ball_lift_max_m": 0.022478224440358657,
+    "ball_drop_max_m": 0.0001555305503805962,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 4.797192203386379,
+    "ball_touched_plate": true,
+    "first_stroke": {
+     "ball_turn_deg": 18.229474187539743,
+     "sliding_at_contact_mm": 18.464778528854822,
+     "ball_surface_travel_at_contact_mm": 22.425180662393824
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "-60deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     -11.816808115352893,
+     -14.836754342228659,
+     -3.816334263389315,
+     -3.816334263389315,
+     -15.63314238011491,
+     -18.65308860509018,
+     -7.632668527434613,
+     -7.632668527434613
+    ],
+    "deepest_overlap_m": 0.0005738306275086908,
+    "ball_tilt_max_deg": 0.003677704779202716,
+    "ball_drift_max_m": 1.0920914969076218e-06,
+    "ball_lift_max_m": 0.014930208572870293,
+    "ball_drop_max_m": 0.00015730747952246577,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 5.550499982761584,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": -11.816808115352893,
+     "sliding_at_contact_mm": 7.0502212460837255,
+     "ball_surface_travel_at_contact_mm": 9.20339198255337
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+65deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     36.797942804200865,
+     36.902051329149586,
+     0.6595628498598419,
+     0.6595628498598419,
+     37.45750924993054,
+     37.5616177613628,
+     1.3191279260882416,
+     1.3191279260882416
+    ],
+    "deepest_overlap_m": 0.0006280780358648734,
+    "ball_tilt_max_deg": 0.3051477754135066,
+    "ball_drift_max_m": 7.27823345751068e-06,
+    "ball_lift_max_m": 0.0002960017705980478,
+    "ball_drop_max_m": 0.000348378347195942,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 6.349087016802434,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 36.797942804200865,
+     "sliding_at_contact_mm": 10.866775281569184,
+     "ball_surface_travel_at_contact_mm": 20.935738909478168
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+70deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     20.73445350497983,
+     20.73445350497983,
+     -0.02125716183118402,
+     -0.02125716183118402,
+     20.71319634343263,
+     20.71319634343263,
+     -0.042514323661986375,
+     -0.042514323661986375
+    ],
+    "deepest_overlap_m": 0.0002297585351470231,
+    "ball_tilt_max_deg": 0.0009523216440678662,
+    "ball_drift_max_m": 5.071075635024796e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00017509578050243363,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.5111764079763306,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 20.73445350497983,
+     "sliding_at_contact_mm": 3.9697629652896094,
+     "ball_surface_travel_at_contact_mm": 11.841590019573545
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+75deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "deepest_overlap_m": 0.00014812027209824136,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015492408644973699,
+    "fingers_touching_max": 0,
+    "normal_force_total_max_N": 0.0,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 0.0,
+     "sliding_at_contact_mm": 0.0,
+     "ball_surface_travel_at_contact_mm": 0.0
+    },
+    "finger_ball_contacts_at_zero": 0
+   }
+  },
+  "tips_level": {
+   "+0deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     2.607011616864564e-09,
+     2.607011616864564e-09,
+     -1.338535549683054e-05,
+     -1.338535549683054e-05,
+     -1.3382748841435799e-05,
+     -1.3382748841435799e-05,
+     -2.677071081555002e-05,
+     -2.677071081555002e-05
+    ],
+    "deepest_overlap_m": 0.0004761060169856347,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015833840365223756,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.5346640729807097,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 2.607011616864564e-09,
+     "sliding_at_contact_mm": 6.408983017949658,
+     "ball_surface_travel_at_contact_mm": 0.11261971441269421
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+30deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     2.2406605622590186,
+     2.2368499836801927,
+     -0.0025258433580263085,
+     -0.0025258433580263085,
+     2.2381347189125442,
+     2.2343241403348633,
+     -0.005051686714195173,
+     -0.005051686714195173
+    ],
+    "deepest_overlap_m": 0.0005244479356195956,
+    "ball_tilt_max_deg": 0.0007907561911916484,
+    "ball_drift_max_m": 4.234780147763971e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015843114316466123,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.8187577685506326,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 2.2406605622590186,
+     "sliding_at_contact_mm": 6.634255882731769,
+     "ball_surface_travel_at_contact_mm": 1.2770385002919504
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+30deg_ramp_40s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     2.242530598350187,
+     2.24153607927355,
+     -0.0007386979844721214,
+     -0.0007386979844721214,
+     2.241791900364977,
+     2.240797381288365,
+     -0.0014773959681045764,
+     -0.0014773959681045764
+    ],
+    "deepest_overlap_m": 0.0005244479358430488,
+    "ball_tilt_max_deg": 0.0006371325520520182,
+    "ball_drift_max_m": 3.6619464488127704e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015580717063524985,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.818757768550891,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 2.242530598350187,
+     "sliding_at_contact_mm": 6.656242471215244,
+     "ball_surface_travel_at_contact_mm": 1.274406606219908
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "-30deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     -2.240659814135053,
+     -2.2368492355554133,
+     0.002454578959837904,
+     0.002454578959837904,
+     -2.238205235186156,
+     -2.2343946566073307,
+     0.004909157918556253,
+     0.004909157918556253
+    ],
+    "deepest_overlap_m": 0.0005244478761815647,
+    "ball_tilt_max_deg": 0.0008823890037256326,
+    "ball_drift_max_m": 4.7682552397233535e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.0001584311433048477,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.8187577685506218,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": -2.240659814135053,
+     "sliding_at_contact_mm": 6.634256013632514,
+     "ball_surface_travel_at_contact_mm": 1.2770387322841565
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+45deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     5.891184469664408,
+     12.264808306281747,
+     6.140429754280544,
+     6.140429754280544,
+     12.031614290894126,
+     18.405238462074266,
+     12.280859547330726,
+     12.280859547330726
+    ],
+    "deepest_overlap_m": 0.0006294210400308057,
+    "ball_tilt_max_deg": 0.01515581019776477,
+    "ball_drift_max_m": 9.927831672955947e-06,
+    "ball_lift_max_m": 0.020867526326554107,
+    "ball_drop_max_m": 0.00019699980513776527,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 2.617104300944266,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 5.891184469664408,
+     "sliding_at_contact_mm": 7.037349129713061,
+     "ball_surface_travel_at_contact_mm": 3.656131588214886
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+50deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     11.962175240656816,
+     18.752601838488598,
+     8.094286942163684,
+     8.094286942163684,
+     20.056462262372282,
+     26.846889487510687,
+     16.188573917974914,
+     16.188573917974914
+    ],
+    "deepest_overlap_m": 0.0006593853873388148,
+    "ball_tilt_max_deg": 0.04199240159249843,
+    "ball_drift_max_m": 2.474778692468019e-05,
+    "ball_lift_max_m": 0.02400447880670819,
+    "ball_drop_max_m": 0.00020686297831958023,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 3.262490676704784,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 11.962175240656816,
+     "sliding_at_contact_mm": 10.848491686409464,
+     "ball_surface_travel_at_contact_mm": 10.023230407060192
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+55deg_ramp_10s": {
+    "unstable": true,
+    "why": "contact overlap over half the finger radius",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     87.76543431324043
+    ],
+    "deepest_overlap_m": 0.003726401185996313,
+    "ball_tilt_max_deg": 0.09132347594162754,
+    "ball_drift_max_m": 2.587029529510238e-05,
+    "ball_lift_max_m": 0.018554413343812512,
+    "ball_drop_max_m": 0.003949638519855574,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 7.929552988968323,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 87.76543431324043,
+     "sliding_at_contact_mm": 13.079346520670965,
+     "ball_surface_travel_at_contact_mm": 52.030472911207085
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+60deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     76.17590221696153,
+     76.17590221696153,
+     12.673087678319206,
+     12.673086139035139,
+     88.84796615808746,
+     88.84796615808746,
+     25.347897614384827,
+     25.347894001309136
+    ],
+    "deepest_overlap_m": 0.002582881898445556,
+    "ball_tilt_max_deg": 2.194954234080422,
+    "ball_drift_max_m": 0.0004207877539211346,
+    "ball_lift_max_m": 0.0076265407885020495,
+    "ball_drop_max_m": 0.0026135246900285507,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 4.211838230222602,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 76.17590221696153,
+     "sliding_at_contact_mm": 10.134006301645378,
+     "ball_surface_travel_at_contact_mm": 37.13026935012393
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+60deg_ramp_40s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     66.52140737355882,
+     66.52140737355882,
+     6.920377492387692,
+     6.920377492387692,
+     73.4413585463034,
+     73.4413585463034,
+     13.841266551926994,
+     13.841266551926994
+    ],
+    "deepest_overlap_m": 0.0024066844875757776,
+    "ball_tilt_max_deg": 1.3940317798374788,
+    "ball_drift_max_m": 0.00023069561695938115,
+    "ball_lift_max_m": 0.006466351668120658,
+    "ball_drop_max_m": 0.0024935177203647303,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 4.147579049933998,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 66.52140737355882,
+     "sliding_at_contact_mm": 11.547569055764967,
+     "ball_surface_travel_at_contact_mm": 36.49922297547459
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "-60deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     -76.29180938706469,
+     -76.29180938706469,
+     -11.8838089539476,
+     -11.883809098998553,
+     -88.17812944521172,
+     -88.17812944521172,
+     -23.769557190954018,
+     -23.76955703620367
+    ],
+    "deepest_overlap_m": 0.002532102749650253,
+    "ball_tilt_max_deg": 2.3114393604429777,
+    "ball_drift_max_m": 0.0003692821044689266,
+    "ball_lift_max_m": 0.007618737991461323,
+    "ball_drop_max_m": 0.0025525531899161617,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 4.211945176079581,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": -76.29180938706469,
+     "sliding_at_contact_mm": 10.119796496786698,
+     "ball_surface_travel_at_contact_mm": 37.10993221248671
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+65deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     36.08270204566805,
+     36.08270204566805,
+     -0.10669788148081816,
+     -0.10669788148081816,
+     35.976033959083175,
+     35.976033959083175,
+     -0.2133959609123879,
+     -0.2133959609123879
+    ],
+    "deepest_overlap_m": 0.0005229335167587874,
+    "ball_tilt_max_deg": 0.22718008703126924,
+    "ball_drift_max_m": 2.210358303140843e-05,
+    "ball_lift_max_m": 1.2509559699086514e-06,
+    "ball_drop_max_m": 0.00021124560260767783,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 1.9783527367580578,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 36.08270204566805,
+     "sliding_at_contact_mm": 8.932792163895591,
+     "ball_surface_travel_at_contact_mm": 20.519254773345697
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+70deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     16.364486039352244,
+     16.364486039352244,
+     -0.04566972513007803,
+     -0.04566972513007803,
+     16.318816314360177,
+     16.318816314360177,
+     -0.0913394502616064,
+     -0.0913394502616064
+    ],
+    "deepest_overlap_m": 0.0001855897767768606,
+    "ball_tilt_max_deg": 0.0008120020274934631,
+    "ball_drift_max_m": 3.534635346010597e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00016129094729418897,
+    "fingers_touching_max": 3,
+    "normal_force_total_max_N": 0.4594873728154247,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 16.364486039352244,
+     "sliding_at_contact_mm": 4.831451283251093,
+     "ball_surface_travel_at_contact_mm": 9.354715595666455
+    },
+    "finger_ball_contacts_at_zero": 0
+   },
+   "+75deg_ramp_10s": {
+    "unstable": false,
+    "why": "",
+    "ball_turn_deg_at_knots": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "deepest_overlap_m": 0.00014812027209824136,
+    "ball_tilt_max_deg": 0.0006138840316104447,
+    "ball_drift_max_m": 3.5197610557983716e-07,
+    "ball_lift_max_m": -2.4524999999997465e-06,
+    "ball_drop_max_m": 0.00015492408644973699,
+    "fingers_touching_max": 0,
+    "normal_force_total_max_N": 0.0,
+    "ball_touched_plate": false,
+    "first_stroke": {
+     "ball_turn_deg": 0.0,
+     "sliding_at_contact_mm": 0.0,
+     "ball_surface_travel_at_contact_mm": 0.0
+    },
+    "finger_ball_contacts_at_zero": 0
+   }
+  }
+ }
+}

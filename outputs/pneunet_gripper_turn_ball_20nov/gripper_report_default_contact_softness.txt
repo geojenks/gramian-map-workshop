@@ -1,0 +1,259 @@
+Pneu-net fingers hanging from a plate, turning a ball. MuJoCo with contact and friction. SIMULATION ONLY, comparative.
+script: tools/pneunet_gripper_turn_ball_mujoco_20nov.py
+mujoco 3.6.0; timestep 0.5 ms; one input ramp 10 s, hold 1 s, 2 out-and-back cycles
+3 fingers, one shared input; 10 links each, even bend and stretch along the finger ASSUMED
+assumed layout: gap 2 mm between a hanging finger and the ball; rest points 10 mm from the axis
+angle: each finger turned about its own long axis; 0 bends straight at the ball's axis; positive is anticlockwise from above
+
+=== wall_0.0020m ===
+  length 73.0 mm, contact radius 8.08 mm (cylinder of the record's material volume over its length); free stroke 41.4 mm
+  free shape at full input: each link bends 5.8 deg (total 58 deg) and stretches 0.70 mm (most 0.70 mm of 7.30 mm)
+  springs: bend 0.2348, out of plane 9.721 N m/rad, stretch 9163 N/m
+  finger mass 14.96 g (record's material volume at an assumed 1000 kg/m^3)
+  posed model against the record's free path, every level: tip off by at most 0.000 um (record's own out-of-plane drift, not modelled: 0.038 mm)
+  tip stiffness of the built model at zero input, N/m (record): along 916.3 (916.3), in the bending plane 11.44 (11.44), out of plane 473.8 (473.8)
+  no ball, 10 s ramp: tip stays within 0.137 mm of the free shape with gravity off, 2.735 mm with gravity on (sag 0.088 mm at zero input, 2.641 mm held at full input, 6.4% of the free stroke; the repository's tolerance for a free path is 5%)
+     wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_free_turned_+30deg.mp4
+     wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_free_turned_+30deg.png
+  no ball, 40 s ramp: tip stays within 0.034 mm of the free shape with gravity off, 2.665 mm with gravity on (sag 0.088 mm at zero input, 2.641 mm held at full input, 6.4% of the free stroke; the repository's tolerance for a free path is 5%)
+  -- tips below the ball's centre (tip centre 4.6 mm above the ball's lowest point; bases 77.6 mm) --
+     turned +0 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0
+        first stroke: ball -0.0 deg; sliding at the contacts 3.0 mm while the ball's surface there moved 0.1 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.059 mm; total normal force at most 1.390 N; ball touched the plate: no
+     turned +30 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +1.8, +1.8, +0.0, +0.0, +1.8, +1.8, +0.0, +0.0
+        first stroke: ball +1.8 deg; sliding at the contacts 2.9 mm while the ball's surface there moved 1.0 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.158 mm; total normal force at most 1.621 N; ball touched the plate: no
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_tips_low_turned_+30deg.mp4
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_tips_low_turned_+30deg.png
+     turned +30 deg, 40 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +1.8, +1.8, +0.0, +0.0, +1.8, +1.8, +0.0, +0.0
+        first stroke: ball +1.8 deg; sliding at the contacts 2.9 mm while the ball's surface there moved 1.0 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.15 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.158 mm; total normal force at most 1.620 N; ball touched the plate: no
+     turned -30 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -1.8, -1.8, -0.0, -0.0, -1.8, -1.8, -0.0, -0.0
+        first stroke: ball -1.8 deg; sliding at the contacts 2.9 mm while the ball's surface there moved 1.0 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.158 mm; total normal force at most 1.621 N; ball touched the plate: no
+     turned +45 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +3.6, +3.6, -0.0, -0.0, +3.6, +3.6, -0.0, -0.0
+        first stroke: ball +3.6 deg; sliding at the contacts 2.8 mm while the ball's surface there moved 2.0 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.374 mm; total normal force at most 1.959 N; ball touched the plate: no
+     turned +50 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +4.7, +4.8, -0.0, -0.0, +4.7, +4.8, -0.0, -0.0
+        first stroke: ball +4.7 deg; sliding at the contacts 2.6 mm while the ball's surface there moved 2.7 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.486 mm; total normal force at most 2.107 N; ball touched the plate: no
+     turned +55 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +6.4, +6.5, -0.0, -0.0, +6.4, +6.4, -0.0, -0.0
+        first stroke: ball +6.4 deg; sliding at the contacts 2.4 mm while the ball's surface there moved 3.6 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.610 mm; total normal force at most 2.276 N; ball touched the plate: no
+     turned +60 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +9.0, +9.2, -0.0, -0.0, +9.0, +9.2, -0.0, -0.0
+        first stroke: ball +9.0 deg; sliding at the contacts 2.2 mm while the ball's surface there moved 5.1 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.681 mm; total normal force at most 2.426 N; ball touched the plate: no
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_tips_low_turned_+60deg.mp4
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_tips_low_turned_+60deg.png
+     turned +60 deg, 40 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +9.2, +9.2, -0.0, -0.0, +9.2, +9.2, -0.0, -0.0
+        first stroke: ball +9.2 deg; sliding at the contacts 2.2 mm while the ball's surface there moved 5.2 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.15 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.681 mm; total normal force at most 2.426 N; ball touched the plate: no
+     turned -60 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -9.0, -9.2, +0.0, +0.0, -9.0, -9.2, +0.0, +0.0
+        first stroke: ball -9.0 deg; sliding at the contacts 2.2 mm while the ball's surface there moved 5.1 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.681 mm; total normal force at most 2.426 N; ball touched the plate: no
+     turned +65 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +12.5, +13.0, -0.0, -0.0, +12.5, +13.0, -0.1, -0.1
+        first stroke: ball +12.5 deg; sliding at the contacts 2.4 mm while the ball's surface there moved 7.1 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.441 mm; total normal force at most 1.977 N; ball touched the plate: no
+     turned +70 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +9.0, +9.2, +0.0, +0.0, +9.0, +9.2, +0.0, +0.0
+        first stroke: ball +9.0 deg; sliding at the contacts 3.0 mm while the ball's surface there moved 5.1 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 0.525 mm; total normal force at most 0.357 N; ball touched the plate: no
+     turned +75 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0
+        first stroke: ball +0.0 deg; sliding at the contacts 0.0 mm while the ball's surface there moved 0.0 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.15 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 0; deepest overlap 0.148 mm; total normal force at most 0.000 N; ball touched the plate: no
+  -- tips level with the ball's centre (tip centre 32.9 mm above the ball's lowest point; bases 105.9 mm) --
+     turned +0 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -0.0, -0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0
+        first stroke: ball -0.0 deg; sliding at the contacts 4.2 mm while the ball's surface there moved 0.0 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 2.530 mm; total normal force at most 1.163 N; ball touched the plate: no
+     turned +30 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +2.4, +2.5, -0.0, -0.0, +2.4, +2.5, -0.0, -0.0
+        first stroke: ball +2.4 deg; sliding at the contacts 4.4 mm while the ball's surface there moved 1.4 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 2.579 mm; total normal force at most 1.388 N; ball touched the plate: no
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_tips_level_turned_+30deg.mp4
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_tips_level_turned_+30deg.png
+     turned +30 deg, 40 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +2.5, +2.5, -0.0, -0.0, +2.5, +2.5, -0.0, -0.0
+        first stroke: ball +2.5 deg; sliding at the contacts 4.4 mm while the ball's surface there moved 1.4 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 2.579 mm; total normal force at most 1.388 N; ball touched the plate: no
+     turned -30 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -2.4, -2.5, +0.0, +0.0, -2.4, -2.5, +0.0, +0.0
+        first stroke: ball -2.4 deg; sliding at the contacts 4.4 mm while the ball's surface there moved 1.4 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 2.579 mm; total normal force at most 1.388 N; ball touched the plate: no
+     turned +45 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +5.9, +5.9, -0.0, -0.0, +5.8, +5.9, -0.0, -0.0
+        first stroke: ball +5.9 deg; sliding at the contacts 4.8 mm while the ball's surface there moved 3.3 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 2.895 mm; total normal force at most 1.830 N; ball touched the plate: no
+     turned +50 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +9.1, +9.4, -0.0, -0.0, +9.1, +9.3, -0.0, -0.0
+        first stroke: ball +9.1 deg; sliding at the contacts 5.3 mm while the ball's surface there moved 5.1 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 3.246 mm; total normal force at most 2.216 N; ball touched the plate: no
+     turned +55 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +53.3, +53.3, +3.3, +3.3, +56.6, +56.6, +6.5, +6.5
+        first stroke: ball +53.3 deg; sliding at the contacts 18.8 mm while the ball's surface there moved 28.9 mm (mean over fingers)
+        ball lifted 0.02 mm, dropped 0.35 mm, tilt at most 1.2 deg, sideways 0.13 mm; most fingers touching 3; deepest overlap 3.853 mm; total normal force at most 3.446 N; ball touched the plate: no
+     turned +60 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +40.2, +40.3, +0.4, +0.4, +40.5, +40.6, +0.7, +0.7
+        first stroke: ball +40.2 deg; sliding at the contacts 14.8 mm while the ball's surface there moved 22.2 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.25 mm, tilt at most 0.2 deg, sideways 0.02 mm; most fingers touching 3; deepest overlap 2.538 mm; total normal force at most 1.890 N; ball touched the plate: no
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_tips_level_turned_+60deg.mp4
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0020m_tips_level_turned_+60deg.png
+     turned +60 deg, 40 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +40.1, +40.1, +0.4, +0.4, +40.5, +40.5, +0.7, +0.7
+        first stroke: ball +40.1 deg; sliding at the contacts 14.9 mm while the ball's surface there moved 22.2 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.24 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 2.526 mm; total normal force at most 1.865 N; ball touched the plate: no
+     turned -60 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -40.2, -40.3, -0.4, -0.4, -40.5, -40.6, -0.7, -0.7
+        first stroke: ball -40.2 deg; sliding at the contacts 14.8 mm while the ball's surface there moved 22.2 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.25 mm, tilt at most 0.2 deg, sideways 0.02 mm; most fingers touching 3; deepest overlap 2.538 mm; total normal force at most 1.890 N; ball touched the plate: no
+     turned +65 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +29.2, +29.2, +0.1, +0.1, +29.3, +29.3, +0.2, +0.2
+        first stroke: ball +29.2 deg; sliding at the contacts 11.1 mm while the ball's surface there moved 16.4 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.19 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.414 mm; total normal force at most 0.942 N; ball touched the plate: no
+     turned +70 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +11.4, +11.4, +0.3, +0.3, +11.7, +11.7, +0.5, +0.5
+        first stroke: ball +11.4 deg; sliding at the contacts 8.0 mm while the ball's surface there moved 6.5 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 0.503 mm; total normal force at most 0.129 N; ball touched the plate: no
+     turned +75 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0
+        first stroke: ball +0.0 deg; sliding at the contacts 0.0 mm while the ball's surface there moved 0.0 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.15 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 0; deepest overlap 0.148 mm; total normal force at most 0.000 N; ball touched the plate: no
+
+=== wall_0.0015m ===
+  length 73.0 mm, contact radius 7.36 mm (cylinder of the record's material volume over its length); free stroke 69.7 mm
+  free shape at full input: each link bends 10.4 deg (total 104 deg) and stretches 1.00 mm (most 1.00 mm of 7.30 mm)
+  springs: bend 0.1659, out of plane 8.683 N m/rad, stretch 7416 N/m
+  finger mass 12.43 g (record's material volume at an assumed 1000 kg/m^3)
+  posed model against the record's free path, every level: tip off by at most 0.000 um (record's own out-of-plane drift, not modelled: 0.415 mm)
+  tip stiffness of the built model at zero input, N/m (record): along 741.6 (741.6), in the bending plane 8.09 (8.09), out of plane 423.2 (423.2)
+  no ball, 10 s ramp: tip stays within 0.301 mm of the free shape with gravity off, 5.056 mm with gravity on (sag 0.090 mm at zero input, 4.836 mm held at full input, 6.9% of the free stroke; the repository's tolerance for a free path is 5%)
+     wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_free_turned_+30deg.mp4
+     wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_free_turned_+30deg.png
+  no ball, 40 s ramp: tip stays within 0.075 mm of the free shape with gravity off, 4.891 mm with gravity on (sag 0.090 mm at zero input, 4.836 mm held at full input, 6.9% of the free stroke; the repository's tolerance for a free path is 5%)
+  -- tips below the ball's centre (tip centre 5.1 mm above the ball's lowest point; bases 78.1 mm) --
+     turned +0 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0
+        first stroke: ball -0.0 deg; sliding at the contacts 16.2 mm while the ball's surface there moved 11.9 mm (mean over fingers)
+        ball lifted 21.20 mm, dropped 0.16 mm, tilt at most 0.1 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.502 mm; total normal force at most 1.820 N; ball touched the plate: no
+     turned +30 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +9.2, +13.8, +5.4, +5.4, +14.5, +19.2, +10.8, +10.8
+        first stroke: ball +9.2 deg; sliding at the contacts 15.8 mm while the ball's surface there moved 14.0 mm (mean over fingers)
+        ball lifted 22.62 mm, dropped 0.16 mm, tilt at most 0.1 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.468 mm; total normal force at most 2.268 N; ball touched the plate: yes
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_tips_low_turned_+30deg.mp4
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_tips_low_turned_+30deg.png
+     turned +30 deg, 40 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +12.2, +12.3, +2.7, +2.7, +14.9, +14.9, +5.3, +5.3
+        first stroke: ball +12.2 deg; sliding at the contacts 24.2 mm while the ball's surface there moved 23.0 mm (mean over fingers)
+        ball lifted 22.62 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.405 mm; total normal force at most 2.168 N; ball touched the plate: yes
+     turned -30 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -9.2, -13.8, -5.4, -5.4, -14.5, -19.2, -10.8, -10.8
+        first stroke: ball -9.2 deg; sliding at the contacts 15.8 mm while the ball's surface there moved 14.0 mm (mean over fingers)
+        ball lifted 22.62 mm, dropped 0.16 mm, tilt at most 0.1 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.468 mm; total normal force at most 2.268 N; ball touched the plate: yes
+     turned +45 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +14.2, +20.7, +6.3, +6.3, +20.6, +27.1, +12.7, +12.7
+        first stroke: ball +14.2 deg; sliding at the contacts 14.4 mm while the ball's surface there moved 15.4 mm (mean over fingers)
+        ball lifted 22.55 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.908 mm; total normal force at most 2.946 N; ball touched the plate: yes
+     turned +50 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +16.4, +23.1, +6.4, +6.4, +22.8, +29.5, +12.8, +12.8
+        first stroke: ball +16.4 deg; sliding at the contacts 12.8 mm while the ball's surface there moved 15.5 mm (mean over fingers)
+        ball lifted 22.43 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 2.152 mm; total normal force at most 3.352 N; ball touched the plate: yes
+     turned +55 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +19.5, +23.4, +5.1, +5.1, +24.6, +28.4, +10.1, +10.1
+        first stroke: ball +19.5 deg; sliding at the contacts 8.3 mm while the ball's surface there moved 14.2 mm (mean over fingers)
+        ball lifted 17.76 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 2.689 mm; total normal force at most 4.199 N; ball touched the plate: no
+     turned +60 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +39.5, +39.9, +0.1, +0.1, +39.7, +40.0, +0.3, +0.3
+        first stroke: ball +39.5 deg; sliding at the contacts 14.2 mm while the ball's surface there moved 21.8 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.32 mm, tilt at most 0.4 deg, sideways 0.01 mm; most fingers touching 3; deepest overlap 2.766 mm; total normal force at most 4.031 N; ball touched the plate: no
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_tips_low_turned_+60deg.mp4
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_tips_low_turned_+60deg.png
+     turned +60 deg, 40 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +39.4, +39.5, -0.0, -0.0, +39.4, +39.4, -0.1, -0.1
+        first stroke: ball +39.4 deg; sliding at the contacts 14.3 mm while the ball's surface there moved 21.7 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.31 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 2.764 mm; total normal force at most 4.028 N; ball touched the plate: no
+     turned -60 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -39.5, -39.9, -0.1, -0.1, -39.7, -40.0, -0.3, -0.3
+        first stroke: ball -39.5 deg; sliding at the contacts 14.2 mm while the ball's surface there moved 21.8 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.32 mm, tilt at most 0.4 deg, sideways 0.01 mm; most fingers touching 3; deepest overlap 2.767 mm; total normal force at most 4.031 N; ball touched the plate: no
+     turned +65 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +31.1, +31.3, -0.1, -0.1, +31.1, +31.3, -0.1, -0.1
+        first stroke: ball +31.1 deg; sliding at the contacts 9.2 mm while the ball's surface there moved 17.5 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.22 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.564 mm; total normal force at most 1.828 N; ball touched the plate: no
+     turned +70 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +14.8, +14.8, -0.0, -0.0, +14.7, +14.7, -0.0, -0.0
+        first stroke: ball +14.8 deg; sliding at the contacts 6.5 mm while the ball's surface there moved 8.4 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 0.491 mm; total normal force at most 0.271 N; ball touched the plate: no
+     turned +75 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0
+        first stroke: ball +0.0 deg; sliding at the contacts 0.0 mm while the ball's surface there moved 0.0 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.15 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 0; deepest overlap 0.148 mm; total normal force at most 0.000 N; ball touched the plate: no
+  -- tips level with the ball's centre (tip centre 32.9 mm above the ball's lowest point; bases 105.9 mm) --
+     turned +0 deg, 10 s ramp: UNSTABLE (contact overlap over half the finger radius) at 10.73 s; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0
+        first stroke: ball +nan deg; sliding at the contacts nan mm while the ball's surface there moved nan mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 3.682 mm; total normal force at most 1.427 N; ball touched the plate: no
+     turned +30 deg, 10 s ramp: UNSTABLE (contact overlap over half the finger radius) at 10.54 s; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0
+        first stroke: ball +nan deg; sliding at the contacts nan mm while the ball's surface there moved nan mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 3.682 mm; total normal force at most 1.700 N; ball touched the plate: no
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_tips_level_turned_+30deg.mp4
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_tips_level_turned_+30deg.png
+     turned +30 deg, 40 s ramp: UNSTABLE (contact overlap over half the finger radius) at 39.03 s; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0
+        first stroke: ball +nan deg; sliding at the contacts nan mm while the ball's surface there moved nan mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 3.682 mm; total normal force at most 1.693 N; ball touched the plate: no
+     turned -30 deg, 10 s ramp: UNSTABLE (contact overlap over half the finger radius) at 10.54 s; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0
+        first stroke: ball +nan deg; sliding at the contacts nan mm while the ball's surface there moved nan mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 3.682 mm; total normal force at most 1.700 N; ball touched the plate: no
+     turned +45 deg, 10 s ramp: UNSTABLE (contact overlap over half the finger radius) at 9.66 s; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0
+        first stroke: ball +nan deg; sliding at the contacts nan mm while the ball's surface there moved nan mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 3.682 mm; total normal force at most 2.074 N; ball touched the plate: no
+     turned +50 deg, 10 s ramp: UNSTABLE (contact overlap over half the finger radius) at 8.97 s; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0
+        first stroke: ball +nan deg; sliding at the contacts nan mm while the ball's surface there moved nan mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 3.682 mm; total normal force at most 2.334 N; ball touched the plate: no
+     turned +55 deg, 10 s ramp: UNSTABLE (contact overlap over half the finger radius) at 20.03 s; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +57.6, +57.6
+        first stroke: ball +57.6 deg; sliding at the contacts 21.3 mm while the ball's surface there moved 32.0 mm (mean over fingers)
+        ball lifted 0.95 mm, dropped 0.59 mm, tilt at most 0.3 deg, sideways 0.07 mm; most fingers touching 3; deepest overlap 3.683 mm; total normal force at most 3.053 N; ball touched the plate: no
+     turned +60 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +40.0, +40.0, +1.0, +1.0, +41.0, +41.0, +2.0, +2.0
+        first stroke: ball +40.0 deg; sliding at the contacts 15.9 mm while the ball's surface there moved 22.1 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.23 mm, tilt at most 0.4 deg, sideways 0.02 mm; most fingers touching 3; deepest overlap 2.531 mm; total normal force at most 1.638 N; ball touched the plate: no
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_tips_level_turned_+60deg.mp4
+        wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_gripper_turn_ball_20nov\gripper_wall_0.0015m_tips_level_turned_+60deg.png
+     turned +60 deg, 40 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +38.7, +38.7, +0.4, +0.4, +39.1, +39.1, +0.9, +0.9
+        first stroke: ball +38.7 deg; sliding at the contacts 16.3 mm while the ball's surface there moved 21.4 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.23 mm, tilt at most 0.1 deg, sideways 0.01 mm; most fingers touching 3; deepest overlap 2.514 mm; total normal force at most 1.602 N; ball touched the plate: no
+     turned -60 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, -40.0, -40.0, -1.0, -1.0, -41.0, -41.0, -2.0, -2.0
+        first stroke: ball -40.0 deg; sliding at the contacts 15.9 mm while the ball's surface there moved 22.1 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.23 mm, tilt at most 0.4 deg, sideways 0.02 mm; most fingers touching 3; deepest overlap 2.531 mm; total normal force at most 1.638 N; ball touched the plate: no
+     turned +65 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +27.0, +27.0, +0.2, +0.2, +27.2, +27.2, +0.4, +0.4
+        first stroke: ball +27.0 deg; sliding at the contacts 11.7 mm while the ball's surface there moved 15.2 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.18 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 1.402 mm; total normal force at most 0.792 N; ball touched the plate: no
+     turned +70 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +9.5, +9.5, +0.6, +0.6, +10.1, +10.1, +1.1, +1.1
+        first stroke: ball +9.5 deg; sliding at the contacts 8.5 mm while the ball's surface there moved 5.4 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.16 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 3; deepest overlap 0.473 mm; total normal force at most 0.100 N; ball touched the plate: no
+     turned +75 deg, 10 s ramp: stable to the end; contacts at zero input 0
+        ball turned (deg) at the end of each ramp or hold: +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0, +0.0
+        first stroke: ball +0.0 deg; sliding at the contacts 0.0 mm while the ball's surface there moved 0.0 mm (mean over fingers)
+        ball lifted -0.00 mm, dropped 0.15 mm, tilt at most 0.0 deg, sideways 0.00 mm; most fingers touching 0; deepest overlap 0.148 mm; total normal force at most 0.000 N; ball touched the plate: no
+

@@ -1,0 +1,40 @@
+Four two-pneu-net fingers, tips aimed a fixed depth inside the surface, cylinder off the axle; its mass swept downward
+SIMULATION ONLY. Comparative, not predictive.
+
+Cylinder free to slide, tip, fall and turn (the 21 Nov contact simulation's 'cylinder free' model); held at the recorded start until let go at 1.5 s. No palm, no floor.
+Tips: ball of radius 11.5 mm on a spring of 56.1 N/m (ASSUMED, main value only), aimed at the RECORDED cylinder, 3.8 mm (ASSUMED, fixed beforehand) inside its side while the recording has the finger touching. A tip held that far back pushes with 0.21 N; with friction 1.00 it can carry up to 0.21 N along the surface.
+Recording: mass 23.9 g (weight 0.235 N), radius 32.9 mm, half length 26.3 mm. Window: log 2.56 to 7.06 s; the cylinder turns -161.6 deg in it. Gait run 5 times slower.
+HELD: not dropped 30 mm and centre within 30 mm of the recorded centre through the gait. TURNS: the recording's sign and more than 28% of the recorded turn. Both fixed in the header before the first run.
+
+GATE, no gravity, recorded mass: HELD, TURNS.
+  Turn over the gait -72.3 deg, 45% of the recorded -161.6 deg (gait reached log time 7.06 of 7.06 s). Centre from the recorded centre: largest 15.7 mm, at the end 8.9 mm; largest drop below the start 2.3 mm. Axis from the recorded axis: largest 32.0 deg, at the end 27.9 deg. Tip-to-tip contacts seen: 0.
+  Touching share of the gait: index 75%, middle 76%, ring 76%, thumb 75%. Mean normal force while touching: index 0.195 N, middle 0.168 N, ring 0.168 N, thumb 0.202 N.
+  Logged touching stretches:
+    index: 3 logged touching stretches; touching runs in each [1, 2, 1]; exactly one run in 2; share of each stretch touching 100%, 100%, 100%; touching for 0% of the logged return time; rest position moved from the finger's own by a median 4.7 mm, largest 18.3 mm; own position beyond the flat ends for 8% of touching time.
+    middle: 3 logged touching stretches; touching runs in each [6, 8, 1]; exactly one run in 1; share of each stretch touching 99%, 96%, 100%; touching for 3% of the logged return time; rest position moved from the finger's own by a median 4.1 mm, largest 5.5 mm; own position beyond the flat ends for 1% of touching time.
+    ring: 2 logged touching stretches; touching runs in each [1, 1]; exactly one run in 2; share of each stretch touching 100%, 100%; touching for 0% of the logged return time; rest position moved from the finger's own by a median 4.2 mm, largest 16.8 mm; own position beyond the flat ends for 52% of touching time.
+    thumb: 3 logged touching stretches; touching runs in each [1, 1, 4]; exactly one run in 2; share of each stretch touching 100%, 100%, 74%; touching for 4% of the logged return time; rest position moved from the finger's own by a median 3.6 mm, largest 6.4 mm; own position beyond the flat ends for 0% of touching time.
+
+Mass 23.94 g (1 of the recorded; weight 0.235 N): NOT HELD, TURNS. STOPPED: ('the cylinder had dropped 30 mm', 23.599).
+  Turn over the gait -61.8 deg, 38% of the recorded -161.6 deg (gait reached log time 6.78 of 7.06 s). Centre from the recorded centre: largest 39.8 mm, at the end 39.8 mm; largest drop below the start 30.0 mm. Axis from the recorded axis: largest 18.1 deg, at the end 13.1 deg. Tip-to-tip contacts seen: 0.
+  Touching share of the gait: index 73%, middle 81%, ring 75%, thumb 77%. Mean normal force while touching: index 0.224 N, middle 0.212 N, ring 0.168 N, thumb 0.177 N.
+  Logged touching stretches:
+    index: 3 logged touching stretches; touching runs in each [1, 14, 1]; exactly one run in 2; share of each stretch touching 100%, 98%, 100%; touching for 0% of the logged return time; rest position moved from the finger's own by a median 5.4 mm, largest 18.3 mm; own position beyond the flat ends for 2% of touching time.
+    middle: 2 logged touching stretches; touching runs in each [1, 6]; exactly one run in 1; share of each stretch touching 100%, 99%; touching for 2% of the logged return time; rest position moved from the finger's own by a median 4.1 mm, largest 5.5 mm; own position beyond the flat ends for 0% of touching time.
+    ring: 2 logged touching stretches; touching runs in each [1, 1]; exactly one run in 2; share of each stretch touching 100%, 100%; touching for 0% of the logged return time; rest position moved from the finger's own by a median 4.0 mm, largest 16.8 mm; own position beyond the flat ends for 49% of touching time.
+    thumb: 3 logged touching stretches; touching runs in each [1, 1, 6]; exactly one run in 2; share of each stretch touching 100%, 100%, 84%; touching for 1% of the logged return time; rest position moved from the finger's own by a median 3.7 mm, largest 6.4 mm; own position beyond the flat ends for 0% of touching time.
+
+Mass 11.97 g (0.5 of the recorded; weight 0.117 N): NOT HELD, TURNS.
+  Turn over the gait -65.2 deg, 40% of the recorded -161.6 deg (gait reached log time 7.06 of 7.06 s). Centre from the recorded centre: largest 32.4 mm, at the end 30.2 mm; largest drop below the start 22.5 mm. Axis from the recorded axis: largest 30.9 deg, at the end 7.8 deg. Tip-to-tip contacts seen: 0.
+  Touching share of the gait: index 75%, middle 77%, ring 76%, thumb 77%. Mean normal force while touching: index 0.222 N, middle 0.196 N, ring 0.167 N, thumb 0.183 N.
+  Logged touching stretches:
+    index: 3 logged touching stretches; touching runs in each [1, 3, 1]; exactly one run in 2; share of each stretch touching 100%, 99%, 100%; touching for 0% of the logged return time; rest position moved from the finger's own by a median 4.7 mm, largest 18.3 mm; own position beyond the flat ends for 8% of touching time.
+    middle: 3 logged touching stretches; touching runs in each [1, 8, 1]; exactly one run in 2; share of each stretch touching 100%, 99%, 100%; touching for 3% of the logged return time; rest position moved from the finger's own by a median 4.1 mm, largest 5.5 mm; own position beyond the flat ends for 1% of touching time.
+    ring: 2 logged touching stretches; touching runs in each [3, 1]; exactly one run in 1; share of each stretch touching 100%, 100%; touching for 0% of the logged return time; rest position moved from the finger's own by a median 4.2 mm, largest 16.8 mm; own position beyond the flat ends for 52% of touching time.
+    thumb: 3 logged touching stretches; touching runs in each [1, 1, 7]; exactly one run in 2; share of each stretch touching 100%, 100%, 82%; touching for 2% of the logged return time; rest position moved from the finger's own by a median 3.6 mm, largest 6.4 mm; own position beyond the flat ends for 0% of touching time.
+
+RESULT (rules fixed in the header before the first run):
+  Gate with no gravity: held and turned.
+  No mass in this list was both held and turned.
+
+Not modelled: the finger's body and its bending under load; the palm; pressure dynamics. The tips are aimed at the recorded cylinder and do not react to the simulated one. The finger's own radial reach is replaced by the assumed depth while touching.

@@ -1,0 +1,166 @@
+hand-like, no roll 
+  index  contact error median 5.49 mm, rms 8.42, max 16.75; return clearance 3.52-4.02 s: 19.7 mm; 5.76-6.26 s: 24.4 mm; first rule FAIL, second rule (less the gap either side, worst 4.0 mm) FAIL
+         mounting: axis 24.6 deg from the cylinder's axis, roll +0.0 deg towards the biased side; -6% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 87 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +1.47 mm, range -0.25 to +15.72; tip face normal 20 deg from the inward normal (median, max 35)
+         body nodes while touching: deepest cut 0.03 mm, cutting in 7% of samples; whole skin deepest cut 3.80 mm (median 0.01); returns with no body-clear route 0 of 2
+hand-like, no roll 
+  middle contact error median 1.48 mm, rms 2.40, max 10.74; return clearance 4.12-4.62 s: 13.1 mm; 6.52-6.99 s: 20.9 mm; first rule PASS, second rule (less the gap either side, worst 9.6 mm) PASS
+         mounting: axis 12.4 deg from the cylinder's axis, roll +0.0 deg towards the biased side; -2% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 87 mm below the cylinder's centre
+         inputs first 0 to 80, second 0 to 120; gap to the surface while touching median +0.63 mm, range +0.02 to +3.56; tip face normal 24 deg from the inward normal (median, max 45)
+         body nodes while touching: deepest cut 0.02 mm, cutting in 2% of samples; whole skin deepest cut 2.20 mm (median 0.80); returns with no body-clear route 0 of 2
+hand-like, roll up to 15 deg 
+  index  contact error median 6.47 mm, rms 8.49, max 18.77; return clearance 3.52-4.02 s: 20.1 mm; 5.76-6.26 s: 28.2 mm; first rule FAIL, second rule (less the gap either side, worst 6.5 mm) FAIL
+         mounting: axis 8.9 deg from the cylinder's axis, roll +12.3 deg towards the biased side; +18% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 88 mm below the cylinder's centre
+         inputs first 0 to 115, second 0 to 120; gap to the surface while touching median +2.76 mm, range +0.01 to +15.74; tip face normal 25 deg from the inward normal (median, max 37)
+         body nodes while touching: deepest cut 0.01 mm, cutting in 4% of samples; whole skin deepest cut 4.35 mm (median 0.25); returns with no body-clear route 0 of 2
+hand-like, roll up to 15 deg 
+  middle contact error median 0.94 mm, rms 1.64, max 7.77; return clearance 4.12-4.62 s: 12.0 mm; 6.52-6.99 s: 19.0 mm; first rule PASS, second rule (less the gap either side, worst 9.4 mm) PASS
+         mounting: axis 16.1 deg from the cylinder's axis, roll +11.4 deg towards the biased side; +14% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 89 mm below the cylinder's centre
+         inputs first 0 to 105, second 0 to 120; gap to the surface while touching median +0.55 mm, range -0.13 to +2.62; tip face normal 13 deg from the inward normal (median, max 31)
+         body nodes while touching: deepest cut 0.01 mm, cutting in 1% of samples; whole skin deepest cut 2.42 mm (median 0.59); returns with no body-clear route 0 of 2
+hand-like, no roll 
+  ring   contact error median 5.08 mm, rms 7.37, max 15.24; return clearance 2.56-3.06 s: 9.6 mm (cut by the window); 4.72-5.19 s: 6.4 mm; 7.02-7.06 s: 20.6 mm (cut by the window); first rule FAIL, second rule (less the gap either side, worst -8.9 mm) FAIL
+         mounting: axis 8.5 deg from the cylinder's axis, roll +0.0 deg towards the biased side; -3% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 94 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +2.17 mm, range -0.04 to +15.29; tip face normal 19 deg from the inward normal (median, max 38)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 2% of samples; whole skin deepest cut 2.54 mm (median 0.36); returns with no body-clear route 0 of 3
+hand-like, roll up to 15 deg 
+  ring   contact error median 4.88 mm, rms 6.80, max 13.74; return clearance 2.56-3.06 s: 13.9 mm (cut by the window); 4.72-5.19 s: 10.3 mm; 7.02-7.06 s: 26.3 mm (cut by the window); first rule FAIL, second rule (less the gap either side, worst -3.9 mm) FAIL
+         mounting: axis 14.3 deg from the cylinder's axis, roll +14.5 deg towards the biased side; +20% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 94 mm below the cylinder's centre
+         inputs first 0 to 115, second 0 to 120; gap to the surface while touching median +3.10 mm, range -0.10 to +14.24; tip face normal 24 deg from the inward normal (median, max 43)
+         body nodes while touching: deepest cut 0.01 mm, cutting in 7% of samples; whole skin deepest cut 3.59 mm (median 1.45); returns with no body-clear route 0 of 3
+hand-like, roll up to 30 deg 
+  middle contact error median 1.21 mm, rms 1.83, max 7.23; return clearance 4.12-4.62 s: 12.7 mm; 6.52-6.99 s: 20.1 mm; first rule PASS, second rule (less the gap either side, worst 9.9 mm) PASS
+         mounting: axis 9.6 deg from the cylinder's axis, roll +12.3 deg towards the biased side; +18% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 91 mm below the cylinder's centre
+         inputs first 0 to 100, second 0 to 120; gap to the surface while touching median +0.63 mm, range -0.04 to +3.37; tip face normal 19 deg from the inward normal (median, max 37)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 2% of samples; whole skin deepest cut 2.63 mm (median 0.71); returns with no body-clear route 0 of 2
+hand-like, roll up to 30 deg 
+  index  contact error median 6.84 mm, rms 8.08, max 20.58; return clearance 3.52-4.02 s: 21.6 mm; 5.76-6.26 s: 29.4 mm; first rule FAIL, second rule (less the gap either side, worst 10.0 mm) FAIL
+         mounting: axis 16.2 deg from the cylinder's axis, roll +26.0 deg towards the biased side; +38% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 89 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +3.40 mm, range +0.03 to +15.87; tip face normal 28 deg from the inward normal (median, max 48)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 3% of samples; whole skin deepest cut 4.32 mm (median 0.69); returns with no body-clear route 0 of 2
+hand-like, roll up to 30 deg 
+  ring   contact error median 4.78 mm, rms 6.32, max 13.18; return clearance 2.56-3.06 s: 14.9 mm (cut by the window); 4.72-5.19 s: 11.3 mm; 7.02-7.06 s: 27.7 mm (cut by the window); first rule FAIL, second rule (less the gap either side, worst -2.5 mm) FAIL
+         mounting: axis 24.0 deg from the cylinder's axis, roll +28.5 deg towards the biased side; +42% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 92 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +2.48 mm, range -0.07 to +13.79; tip face normal 32 deg from the inward normal (median, max 53)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 1% of samples; whole skin deepest cut 3.85 mm (median 2.00); returns with no body-clear route 0 of 3
+hand-like, no roll 
+  thumb  contact error median 2.46 mm, rms 3.18, max 10.48; return clearance 3.12-3.42 s: 5.9 mm; 5.22-5.66 s: 8.1 mm; first rule PASS, second rule (less the gap either side, worst 1.6 mm) FAIL
+         mounting: axis 6.0 deg from the cylinder's axis, roll -0.0 deg towards the biased side; -2% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 84 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +0.61 mm, range +0.05 to +4.26; tip face normal 27 deg from the inward normal (median, max 46)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 2% of samples; whole skin deepest cut 2.73 mm (median 0.99); returns with no body-clear route 0 of 2
+hand-like, roll up to 30 deg 
+  thumb  contact error median 2.45 mm, rms 3.28, max 11.21; return clearance 3.12-3.42 s: 11.6 mm; 5.22-5.66 s: 11.9 mm; first rule PASS, second rule (less the gap either side, worst 7.3 mm) PASS
+         mounting: axis 15.6 deg from the cylinder's axis, roll +16.4 deg towards the biased side; +25% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 86 mm below the cylinder's centre
+         inputs first 0 to 120, second 20 to 120; gap to the surface while touching median +0.48 mm, range +0.04 to +4.61; tip face normal 22 deg from the inward normal (median, max 47)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 0% of samples; whole skin deepest cut 2.70 mm (median 1.01); returns with no body-clear route 0 of 2
+hand-like, roll up to 15 deg 
+  thumb  contact error median 2.73 mm, rms 3.69, max 12.83; return clearance 3.12-3.42 s: 12.8 mm; 5.22-5.66 s: 13.0 mm; first rule PASS, second rule (less the gap either side, worst 7.6 mm) PASS
+         mounting: axis 11.5 deg from the cylinder's axis, roll +13.5 deg towards the biased side; +22% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 83 mm below the cylinder's centre
+         inputs first 0 to 120, second 30 to 120; gap to the surface while touching median +0.72 mm, range +0.24 to +5.35; tip face normal 32 deg from the inward normal (median, max 53)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 0% of samples; whole skin deepest cut 2.69 mm (median 1.24); returns with no body-clear route 0 of 2
+any mounting on the palm 
+  ring   contact error median 4.21 mm, rms 6.51, max 14.18; return clearance 2.56-3.06 s: 13.5 mm (cut by the window); 4.72-5.19 s: 10.2 mm; 7.02-7.06 s: 26.1 mm (cut by the window); first rule FAIL, second rule (less the gap either side, worst -4.6 mm) FAIL
+         mounting: axis 15.7 deg from the cylinder's axis, roll +14.0 deg towards the biased side; +19% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 94 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +3.84 mm, range -0.06 to +14.81; tip face normal 24 deg from the inward normal (median, max 44)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 2% of samples; whole skin deepest cut 3.33 mm (median 1.27); returns with no body-clear route 0 of 3
+any mounting on the palm 
+  index  contact error median 6.25 mm, rms 7.89, max 20.45; return clearance 3.52-4.02 s: 22.9 mm; 5.76-6.26 s: 30.3 mm; first rule FAIL, second rule (less the gap either side, worst 12.0 mm) FAIL
+         mounting: axis 26.4 deg from the cylinder's axis, roll +33.1 deg towards the biased side; +49% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 89 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +2.54 mm, range -0.12 to +13.49; tip face normal 34 deg from the inward normal (median, max 58)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 4% of samples; whole skin deepest cut 4.66 mm (median 2.25); returns with no body-clear route 0 of 2
+any mounting on the palm 
+  thumb  contact error median 2.31 mm, rms 2.75, max 10.14; return clearance 3.12-3.42 s: 4.6 mm; 5.22-5.66 s: 8.1 mm; first rule PASS, second rule (less the gap either side, worst 0.9 mm) FAIL
+         mounting: axis 16.3 deg from the cylinder's axis, roll +4.0 deg towards the biased side; +4% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 86 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +0.46 mm, range +0.09 to +3.65; tip face normal 22 deg from the inward normal (median, max 40)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 1% of samples; whole skin deepest cut 2.71 mm (median 0.85); returns with no body-clear route 0 of 2
+any mounting on the palm 
+  middle contact error median 1.28 mm, rms 1.97, max 7.90; return clearance 4.12-4.62 s: 12.7 mm; 6.52-6.99 s: 19.9 mm; first rule PASS, second rule (less the gap either side, worst 10.0 mm) PASS
+         mounting: axis 9.1 deg from the cylinder's axis, roll +9.7 deg towards the biased side; +14% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 88 mm below the cylinder's centre
+         inputs first 0 to 95, second 0 to 120; gap to the surface while touching median +0.57 mm, range -0.00 to +2.73; tip face normal 22 deg from the inward normal (median, max 34)
+         body nodes while touching: deepest cut 0.02 mm, cutting in 7% of samples; whole skin deepest cut 2.68 mm (median 0.97); returns with no body-clear route 0 of 2
+Four two-pneu-net fingers mounted like the fingers of a hand, against a recorded learned rotation: reach check
+GEOMETRY ONLY, no simulation. Comparative, not predictive.
+
+Recording: data/rl_logs/hora_seed42_30s*.npz. Cylinder radius 32.9 mm, half length 26.3 mm. Window: log 2.56 to 7.06 s, the same as the reach check's.
+Finger: real settled shapes, outputs\two_pneunet_fingers_human_like_mounting_21nov\finger_shapes.npz (see finger_shapes_report.txt). The tip face's centre is put on the logged contact point; the body is 32 skin nodes.
+Rules (fixed before the first run, see the header): median distance from the logged contact <= 3.8 mm; clearance on every return >= 2.06 mm (second rule: less the largest gap either side); body weight 10. Hand-like mounting: axis within 25 deg of the cylinder's axis, tip face towards the cylinder's axis, roll only towards the biased side and no more than the limit.
+
+hand-like, no roll:
+  index  contact error median 5.49 mm, rms 8.42, max 16.75; return clearance 3.52-4.02 s: 19.7 mm; 5.76-6.26 s: 24.4 mm; first rule FAIL, second rule (less the gap either side, worst 4.0 mm) FAIL
+         mounting: axis 24.6 deg from the cylinder's axis, roll +0.0 deg towards the biased side; -6% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 87 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +1.47 mm, range -0.25 to +15.72; tip face normal 20 deg from the inward normal (median, max 35)
+         body nodes while touching: deepest cut 0.03 mm, cutting in 7% of samples; whole skin deepest cut 3.80 mm (median 0.01); returns with no body-clear route 0 of 2
+  middle contact error median 1.48 mm, rms 2.40, max 10.74; return clearance 4.12-4.62 s: 13.1 mm; 6.52-6.99 s: 20.9 mm; first rule PASS, second rule (less the gap either side, worst 9.6 mm) PASS
+         mounting: axis 12.4 deg from the cylinder's axis, roll +0.0 deg towards the biased side; -2% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 87 mm below the cylinder's centre
+         inputs first 0 to 80, second 0 to 120; gap to the surface while touching median +0.63 mm, range +0.02 to +3.56; tip face normal 24 deg from the inward normal (median, max 45)
+         body nodes while touching: deepest cut 0.02 mm, cutting in 2% of samples; whole skin deepest cut 2.20 mm (median 0.80); returns with no body-clear route 0 of 2
+  ring   contact error median 5.08 mm, rms 7.37, max 15.24; return clearance 2.56-3.06 s: 9.6 mm (cut by the window); 4.72-5.19 s: 6.4 mm; 7.02-7.06 s: 20.6 mm (cut by the window); first rule FAIL, second rule (less the gap either side, worst -8.9 mm) FAIL
+         mounting: axis 8.5 deg from the cylinder's axis, roll +0.0 deg towards the biased side; -3% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 94 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +2.17 mm, range -0.04 to +15.29; tip face normal 19 deg from the inward normal (median, max 38)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 2% of samples; whole skin deepest cut 2.54 mm (median 0.36); returns with no body-clear route 0 of 3
+  thumb  contact error median 2.46 mm, rms 3.18, max 10.48; return clearance 3.12-3.42 s: 5.9 mm; 5.22-5.66 s: 8.1 mm; first rule PASS, second rule (less the gap either side, worst 1.6 mm) FAIL
+         mounting: axis 6.0 deg from the cylinder's axis, roll -0.0 deg towards the biased side; -2% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 84 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +0.61 mm, range +0.05 to +4.26; tip face normal 27 deg from the inward normal (median, max 46)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 2% of samples; whole skin deepest cut 2.73 mm (median 0.99); returns with no body-clear route 0 of 2
+  Passing: first rule 2 of 4, second rule 1 of 4, both rules with body nodes clear at every touching sample 0 of 4. Mean of the median contact errors 3.63 mm.
+
+hand-like, roll up to 15 deg:
+  index  contact error median 6.47 mm, rms 8.49, max 18.77; return clearance 3.52-4.02 s: 20.1 mm; 5.76-6.26 s: 28.2 mm; first rule FAIL, second rule (less the gap either side, worst 6.5 mm) FAIL
+         mounting: axis 8.9 deg from the cylinder's axis, roll +12.3 deg towards the biased side; +18% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 88 mm below the cylinder's centre
+         inputs first 0 to 115, second 0 to 120; gap to the surface while touching median +2.76 mm, range +0.01 to +15.74; tip face normal 25 deg from the inward normal (median, max 37)
+         body nodes while touching: deepest cut 0.01 mm, cutting in 4% of samples; whole skin deepest cut 4.35 mm (median 0.25); returns with no body-clear route 0 of 2
+  middle contact error median 0.94 mm, rms 1.64, max 7.77; return clearance 4.12-4.62 s: 12.0 mm; 6.52-6.99 s: 19.0 mm; first rule PASS, second rule (less the gap either side, worst 9.4 mm) PASS
+         mounting: axis 16.1 deg from the cylinder's axis, roll +11.4 deg towards the biased side; +14% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 89 mm below the cylinder's centre
+         inputs first 0 to 105, second 0 to 120; gap to the surface while touching median +0.55 mm, range -0.13 to +2.62; tip face normal 13 deg from the inward normal (median, max 31)
+         body nodes while touching: deepest cut 0.01 mm, cutting in 1% of samples; whole skin deepest cut 2.42 mm (median 0.59); returns with no body-clear route 0 of 2
+  ring   contact error median 4.88 mm, rms 6.80, max 13.74; return clearance 2.56-3.06 s: 13.9 mm (cut by the window); 4.72-5.19 s: 10.3 mm; 7.02-7.06 s: 26.3 mm (cut by the window); first rule FAIL, second rule (less the gap either side, worst -3.9 mm) FAIL
+         mounting: axis 14.3 deg from the cylinder's axis, roll +14.5 deg towards the biased side; +20% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 94 mm below the cylinder's centre
+         inputs first 0 to 115, second 0 to 120; gap to the surface while touching median +3.10 mm, range -0.10 to +14.24; tip face normal 24 deg from the inward normal (median, max 43)
+         body nodes while touching: deepest cut 0.01 mm, cutting in 7% of samples; whole skin deepest cut 3.59 mm (median 1.45); returns with no body-clear route 0 of 3
+  thumb  contact error median 2.73 mm, rms 3.69, max 12.83; return clearance 3.12-3.42 s: 12.8 mm; 5.22-5.66 s: 13.0 mm; first rule PASS, second rule (less the gap either side, worst 7.6 mm) PASS
+         mounting: axis 11.5 deg from the cylinder's axis, roll +13.5 deg towards the biased side; +22% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 83 mm below the cylinder's centre
+         inputs first 0 to 120, second 30 to 120; gap to the surface while touching median +0.72 mm, range +0.24 to +5.35; tip face normal 32 deg from the inward normal (median, max 53)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 0% of samples; whole skin deepest cut 2.69 mm (median 1.24); returns with no body-clear route 0 of 2
+  Passing: first rule 2 of 4, second rule 2 of 4, both rules with body nodes clear at every touching sample 1 of 4. Mean of the median contact errors 3.75 mm.
+
+hand-like, roll up to 30 deg:
+  index  contact error median 6.84 mm, rms 8.08, max 20.58; return clearance 3.52-4.02 s: 21.6 mm; 5.76-6.26 s: 29.4 mm; first rule FAIL, second rule (less the gap either side, worst 10.0 mm) FAIL
+         mounting: axis 16.2 deg from the cylinder's axis, roll +26.0 deg towards the biased side; +38% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 89 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +3.40 mm, range +0.03 to +15.87; tip face normal 28 deg from the inward normal (median, max 48)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 3% of samples; whole skin deepest cut 4.32 mm (median 0.69); returns with no body-clear route 0 of 2
+  middle contact error median 1.21 mm, rms 1.83, max 7.23; return clearance 4.12-4.62 s: 12.7 mm; 6.52-6.99 s: 20.1 mm; first rule PASS, second rule (less the gap either side, worst 9.9 mm) PASS
+         mounting: axis 9.6 deg from the cylinder's axis, roll +12.3 deg towards the biased side; +18% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 91 mm below the cylinder's centre
+         inputs first 0 to 100, second 0 to 120; gap to the surface while touching median +0.63 mm, range -0.04 to +3.37; tip face normal 19 deg from the inward normal (median, max 37)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 2% of samples; whole skin deepest cut 2.63 mm (median 0.71); returns with no body-clear route 0 of 2
+  ring   contact error median 4.78 mm, rms 6.32, max 13.18; return clearance 2.56-3.06 s: 14.9 mm (cut by the window); 4.72-5.19 s: 11.3 mm; 7.02-7.06 s: 27.7 mm (cut by the window); first rule FAIL, second rule (less the gap either side, worst -2.5 mm) FAIL
+         mounting: axis 24.0 deg from the cylinder's axis, roll +28.5 deg towards the biased side; +42% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 92 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +2.48 mm, range -0.07 to +13.79; tip face normal 32 deg from the inward normal (median, max 53)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 1% of samples; whole skin deepest cut 3.85 mm (median 2.00); returns with no body-clear route 0 of 3
+  thumb  contact error median 2.45 mm, rms 3.28, max 11.21; return clearance 3.12-3.42 s: 11.6 mm; 5.22-5.66 s: 11.9 mm; first rule PASS, second rule (less the gap either side, worst 7.3 mm) PASS
+         mounting: axis 15.6 deg from the cylinder's axis, roll +16.4 deg towards the biased side; +25% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 86 mm below the cylinder's centre
+         inputs first 0 to 120, second 20 to 120; gap to the surface while touching median +0.48 mm, range +0.04 to +4.61; tip face normal 22 deg from the inward normal (median, max 47)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 0% of samples; whole skin deepest cut 2.70 mm (median 1.01); returns with no body-clear route 0 of 2
+  Passing: first rule 2 of 4, second rule 2 of 4, both rules with body nodes clear at every touching sample 1 of 4. Mean of the median contact errors 3.82 mm.
+
+any mounting on the palm:
+  index  contact error median 6.25 mm, rms 7.89, max 20.45; return clearance 3.52-4.02 s: 22.9 mm; 5.76-6.26 s: 30.3 mm; first rule FAIL, second rule (less the gap either side, worst 12.0 mm) FAIL
+         mounting: axis 26.4 deg from the cylinder's axis, roll +33.1 deg towards the biased side; +49% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 89 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +2.54 mm, range -0.12 to +13.49; tip face normal 34 deg from the inward normal (median, max 58)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 4% of samples; whole skin deepest cut 4.66 mm (median 2.25); returns with no body-clear route 0 of 2
+  middle contact error median 1.28 mm, rms 1.97, max 7.90; return clearance 4.12-4.62 s: 12.7 mm; 6.52-6.99 s: 19.9 mm; first rule PASS, second rule (less the gap either side, worst 10.0 mm) PASS
+         mounting: axis 9.1 deg from the cylinder's axis, roll +9.7 deg towards the biased side; +14% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 88 mm below the cylinder's centre
+         inputs first 0 to 95, second 0 to 120; gap to the surface while touching median +0.57 mm, range -0.00 to +2.73; tip face normal 22 deg from the inward normal (median, max 34)
+         body nodes while touching: deepest cut 0.02 mm, cutting in 7% of samples; whole skin deepest cut 2.68 mm (median 0.97); returns with no body-clear route 0 of 2
+  ring   contact error median 4.21 mm, rms 6.51, max 14.18; return clearance 2.56-3.06 s: 13.5 mm (cut by the window); 4.72-5.19 s: 10.2 mm; 7.02-7.06 s: 26.1 mm (cut by the window); first rule FAIL, second rule (less the gap either side, worst -4.6 mm) FAIL
+         mounting: axis 15.7 deg from the cylinder's axis, roll +14.0 deg towards the biased side; +19% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 94 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +3.84 mm, range -0.06 to +14.81; tip face normal 24 deg from the inward normal (median, max 44)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 2% of samples; whole skin deepest cut 3.33 mm (median 1.27); returns with no body-clear route 0 of 3
+  thumb  contact error median 2.31 mm, rms 2.75, max 10.14; return clearance 3.12-3.42 s: 4.6 mm; 5.22-5.66 s: 8.1 mm; first rule PASS, second rule (less the gap either side, worst 0.9 mm) FAIL
+         mounting: axis 16.3 deg from the cylinder's axis, roll +4.0 deg towards the biased side; +4% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; clamped end 86 mm below the cylinder's centre
+         inputs first 0 to 120, second 0 to 120; gap to the surface while touching median +0.46 mm, range +0.09 to +3.65; tip face normal 22 deg from the inward normal (median, max 40)
+         body nodes while touching: deepest cut 0.00 mm, cutting in 1% of samples; whole skin deepest cut 2.71 mm (median 0.85); returns with no body-clear route 0 of 2
+  Passing: first rule 2 of 4, second rule 1 of 4, both rules with body nodes clear at every touching sample 0 of 4. Mean of the median contact errors 3.51 mm.
+
+Mounting that goes on to the clips, by the rule fixed in the header: hand-like, roll up to 15 deg.
+
+Not checked here: forces; speed; the palm; fingers against each other; the bodies over the returns with every skin node (the clip tool reports these).

@@ -1,0 +1,159 @@
+Pneu-net fingers on a palm turning a ball: one stroke, and the return. SIMULATION ONLY, comparative.
+script: tools/pneunet_palm_turn_ball_20nov.py   task file: data/tasks/cup_turn.json
+ball radius 32.9 mm, mass 50 g, friction 1, contact ring 43.63 deg below the centre
+
+=== wall_0.0005m ===
+  free path: 106 input levels to 212 Pa, length along the path 76.2 mm, straight-line stroke 68.8 mm, out of plane at most 0.40 mm
+  tip radius 5.21 mm (cylinder of the record's material volume over its length); tip centre on the ring is 27.6 mm from the axis, 26.3 mm below the ball centre
+  stand-in body fit: PASS, worst free-path error 0.33 mm
+  tip stiffness at zero input 3.85 N/m in plane (294 N/m out of plane); largest blocked force in the record 0.233 N -> record depth 60.6 mm
+  if the whole path lay on the ring: 76.2 mm / 27.6 mm = 158.2 deg
+  mounts kept before the neighbour check: 1539 of 4032 tried
+  widest turn by condition: tip path alone 214.4 deg (push-out 27.4 mm); body clear of the ball on the approach 214.4 deg; and the tip nearest the axis in contact 104.7 deg
+  -- 3 fingers: 1539 mounts with neighbours clear; hold depth 21.7 mm
+     turn against the largest push-out allowed: 1 mm 27 deg, 2 mm 38 deg, 3 mm 46 deg, 5 mm 58 deg, 8 mm 73 deg, 12 mm 91 deg, 16 mm 105 deg, 20 mm 105 deg
+     record depth (60.6 mm): one stroke turns the ball 104.7 deg
+        contact from 6 to 148 Pa; tip travels 45.0 mm of its 76.2 mm path in contact (59%); the ring moves 50.4 mm; deepest push-out 15.4 mm
+        bases 86.0 mm from the axis; neighbouring bodies at least 21.5 mm apart (need 10.4); limited by: nothing found
+        weight: never carried (needs 21.7 mm push-out, has at most 15.4)
+        return: between the two crossings the tip's gap to the ball is -15.36 to -0.71 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is up to 29.1 mm clear; before the near crossing up to 1.4 mm clear
+     no cap: the same mount
+     relay, two sets of 3 (6 fingers): one set turns 23.3 deg and leaves by its far crossing, the second takes over: 46.6 deg in one pass with the ball untouched at the hand-over; with the weight carried throughout: not possible. To go again every finger must come back through its own contact stretch, which turns the ball back.
+  -- 4 fingers: 1539 mounts with neighbours clear; hold depth 16.3 mm
+     turn against the largest push-out allowed: 1 mm 27 deg, 2 mm 38 deg, 3 mm 46 deg, 5 mm 58 deg, 8 mm 73 deg, 12 mm 91 deg, 16 mm 105 deg, 20 mm 105 deg
+     record depth (60.6 mm): one stroke turns the ball 104.7 deg
+        contact from 6 to 148 Pa; tip travels 45.0 mm of its 76.2 mm path in contact (59%); the ring moves 50.4 mm; deepest push-out 15.4 mm
+        bases 86.0 mm from the axis; neighbouring bodies at least 17.5 mm apart (need 10.4); limited by: nothing found
+        weight: never carried (needs 16.3 mm push-out, has at most 15.4)
+        return: between the two crossings the tip's gap to the ball is -15.36 to -0.71 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is up to 29.1 mm clear; before the near crossing up to 1.4 mm clear
+     no cap: the same mount
+     relay, two sets of 4: no mount found whose 8 bodies stay clear of each other at all pairs of input levels (1470 tried)
+  -- 6 fingers: 1539 mounts with neighbours clear; hold depth 10.9 mm
+     turn against the largest push-out allowed: 1 mm 27 deg, 2 mm 38 deg, 3 mm 46 deg, 5 mm 58 deg, 8 mm 73 deg, 12 mm 91 deg, 16 mm 105 deg, 20 mm 105 deg
+     record depth (60.6 mm): one stroke turns the ball 104.7 deg
+        contact from 6 to 148 Pa; tip travels 45.0 mm of its 76.2 mm path in contact (59%); the ring moves 50.4 mm; deepest push-out 15.4 mm
+        bases 86.0 mm from the axis; neighbouring bodies at least 12.4 mm apart (need 10.4); limited by: nothing found
+        weight carried only between 16.5 and 89.7 deg of the stroke (73.2 deg)
+        return: between the two crossings the tip's gap to the ball is -15.36 to -0.71 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is up to 29.1 mm clear; before the near crossing up to 1.4 mm clear
+     no cap: the same mount
+     relay, two sets of 6: no mount found whose 12 bodies stay clear of each other at all pairs of input levels (1470 tried)
+
+=== wall_0.0010m ===
+  free path: 199 input levels to 398 Pa, length along the path 110.0 mm, straight-line stroke 85.2 mm, out of plane at most 0.16 mm
+  tip radius 6.44 mm (cylinder of the record's material volume over its length); tip centre on the ring is 28.5 mm from the axis, 27.1 mm below the ball centre
+  stand-in body fit: PASS, worst free-path error 0.69 mm
+  tip stiffness at zero input 5.51 N/m in plane (372 N/m out of plane); largest blocked force in the record 0.242 N -> record depth 44.0 mm
+  if the whole path lay on the ring: 110.0 mm / 28.5 mm = 221.2 deg
+  mounts kept before the neighbour check: 1256 of 4032 tried
+  widest turn by condition: tip path alone 219.3 deg (push-out 27.7 mm); body clear of the ball on the approach 219.3 deg; and the tip nearest the axis in contact 106.4 deg
+  -- 3 fingers: 1256 mounts with neighbours clear; hold depth 15.2 mm
+     turn against the largest push-out allowed: 1 mm 26 deg, 2 mm 35 deg, 3 mm 44 deg, 5 mm 56 deg, 8 mm 72 deg, 12 mm 88 deg, 16 mm 104 deg, 20 mm 106 deg
+     record depth (44.0 mm): one stroke turns the ball 106.4 deg
+        contact from 6 to 222 Pa; tip travels 47.1 mm of its 110.0 mm path in contact (43%); the ring moves 52.9 mm; deepest push-out 16.6 mm
+        bases 85.8 mm from the axis; neighbouring bodies at least 21.3 mm apart (need 12.9); limited by: nothing found
+        weight carried only between 31.5 and 76.4 deg of the stroke (44.9 deg)
+        return: between the two crossings the tip's gap to the ball is -16.60 to -0.39 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is up to 53.5 mm clear; before the near crossing up to 0.8 mm clear
+     no cap: the same mount
+     relay, two sets of 3: no mount found whose 6 bodies stay clear of each other at all pairs of input levels (1193 tried)
+  -- 4 fingers: 1256 mounts with neighbours clear; hold depth 11.4 mm
+     turn against the largest push-out allowed: 1 mm 26 deg, 2 mm 35 deg, 3 mm 44 deg, 5 mm 56 deg, 8 mm 72 deg, 12 mm 88 deg, 16 mm 104 deg, 20 mm 106 deg
+     record depth (44.0 mm): one stroke turns the ball 106.4 deg
+        contact from 6 to 222 Pa; tip travels 47.1 mm of its 110.0 mm path in contact (43%); the ring moves 52.9 mm; deepest push-out 16.6 mm
+        bases 85.8 mm from the axis; neighbouring bodies at least 17.4 mm apart (need 12.9); limited by: nothing found
+        weight carried only between 14.6 and 92.8 deg of the stroke (78.2 deg)
+        return: between the two crossings the tip's gap to the ball is -16.60 to -0.39 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is up to 53.5 mm clear; before the near crossing up to 0.8 mm clear
+     no cap: the same mount
+     relay, two sets of 4: no mount found whose 8 bodies stay clear of each other at all pairs of input levels (1193 tried)
+  -- 6 fingers: 1232 mounts with neighbours clear; hold depth 7.6 mm
+     turn against the largest push-out allowed: 1 mm 26 deg, 2 mm 35 deg, 3 mm 44 deg, 5 mm 56 deg, 8 mm 72 deg, 12 mm 88 deg, 16 mm 104 deg, 20 mm 104 deg
+     record depth (44.0 mm): one stroke turns the ball 103.7 deg
+        contact from 18 to 228 Pa; tip travels 46.3 mm of its 110.0 mm path in contact (42%); the ring moves 51.5 mm; deepest push-out 15.9 mm
+        bases 86.7 mm from the axis; neighbouring bodies at least 13.0 mm apart (need 12.9); limited by: neighbouring fingers' bodies (without that check 106.4 deg)
+        weight carried only between 7.2 and 96.7 deg of the stroke (89.4 deg)
+        return: between the two crossings the tip's gap to the ball is -15.93 to -0.43 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is up to 52.7 mm clear; before the near crossing up to 3.2 mm clear
+     no cap: the same mount
+     relay, two sets of 6: no mount found whose 12 bodies stay clear of each other at all pairs of input levels (1177 tried)
+
+=== wall_0.0015m ===
+  free path: 250 input levels to 500 Pa, length along the path 76.5 mm, straight-line stroke 69.7 mm, out of plane at most 0.42 mm
+  tip radius 7.36 mm (cylinder of the record's material volume over its length); tip centre on the ring is 29.1 mm from the axis, 27.8 mm below the ball centre
+  stand-in body fit: PASS, worst free-path error 0.41 mm
+  tip stiffness at zero input 8.09 N/m in plane (423 N/m out of plane); largest blocked force in the record 0.207 N -> record depth 25.5 mm
+  if the whole path lay on the ring: 76.5 mm / 29.1 mm = 150.3 deg
+  mounts kept before the neighbour check: 1544 of 4032 tried
+  widest turn by condition: tip path alone 213.0 deg (push-out 28.9 mm); body clear of the ball on the approach 213.0 deg; and the tip nearest the axis in contact 105.6 deg
+  -- 3 fingers: 1544 mounts with neighbours clear; hold depth 10.3 mm
+     turn against the largest push-out allowed: 1 mm 25 deg, 2 mm 35 deg, 3 mm 43 deg, 5 mm 55 deg, 8 mm 70 deg, 12 mm 87 deg, 16 mm 102 deg, 20 mm 106 deg
+     record depth (25.5 mm): one stroke turns the ball 105.6 deg
+        contact from 8 to 358 Pa; tip travels 48.0 mm of its 76.5 mm path in contact (63%); the ring moves 53.7 mm; deepest push-out 16.7 mm
+        bases 85.7 mm from the axis; neighbouring bodies at least 21.7 mm apart (need 14.7); limited by: nothing found
+        weight carried only between 10.7 and 95.0 deg of the stroke (84.3 deg)
+        return: between the two crossings the tip's gap to the ball is -16.73 to -0.22 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is up to 27.4 mm clear; before the near crossing up to 0.6 mm clear
+     no cap: the same mount
+     relay, two sets of 3 (6 fingers): one set turns 10.0 deg and leaves by its far crossing, the second takes over: 20.1 deg in one pass with the ball untouched at the hand-over; with the weight carried throughout: not possible. To go again every finger must come back through its own contact stretch, which turns the ball back.
+  -- 4 fingers: 1544 mounts with neighbours clear; hold depth 7.8 mm
+     turn against the largest push-out allowed: 1 mm 25 deg, 2 mm 35 deg, 3 mm 43 deg, 5 mm 55 deg, 8 mm 70 deg, 12 mm 87 deg, 16 mm 102 deg, 20 mm 106 deg
+     record depth (25.5 mm): one stroke turns the ball 105.6 deg
+        contact from 8 to 358 Pa; tip travels 48.0 mm of its 76.5 mm path in contact (63%); the ring moves 53.7 mm; deepest push-out 16.7 mm
+        bases 85.7 mm from the axis; neighbouring bodies at least 17.7 mm apart (need 14.7); limited by: nothing found
+        weight carried only between 6.2 and 99.5 deg of the stroke (93.3 deg)
+        return: between the two crossings the tip's gap to the ball is -16.73 to -0.22 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is up to 27.4 mm clear; before the near crossing up to 0.6 mm clear
+     no cap: the same mount
+     relay, two sets of 4: no mount found whose 8 bodies stay clear of each other at all pairs of input levels (1427 tried)
+  -- 6 fingers: 1491 mounts with neighbours clear; hold depth 5.2 mm
+     turn against the largest push-out allowed: 1 mm 25 deg, 2 mm 35 deg, 3 mm 43 deg, 5 mm 55 deg, 8 mm 70 deg, 12 mm 87 deg, 16 mm 98 deg, 20 mm 98 deg
+     record depth (25.5 mm): one stroke turns the ball 97.7 deg
+        contact from 32 to 358 Pa; tip travels 45.2 mm of its 76.5 mm path in contact (59%); the ring moves 49.7 mm; deepest push-out 14.6 mm
+        bases 88.0 mm from the axis; neighbouring bodies at least 14.7 mm apart (need 14.7); limited by: neighbouring fingers' bodies (without that check 105.6 deg)
+        weight carried only between 4.8 and 93.0 deg of the stroke (88.3 deg)
+        return: between the two crossings the tip's gap to the ball is -14.62 to -0.23 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is up to 27.4 mm clear; before the near crossing up to 3.3 mm clear
+     no cap: the same mount
+     relay, two sets of 6: no mount found whose 12 bodies stay clear of each other at all pairs of input levels (1376 tried)
+
+=== wall_0.0020m ===
+  free path: 250 input levels to 500 Pa, length along the path 42.5 mm, straight-line stroke 41.4 mm, out of plane at most 0.04 mm
+  tip radius 8.08 mm (cylinder of the record's material volume over its length); tip centre on the ring is 29.7 mm from the axis, 28.3 mm below the ball centre
+  stand-in body fit: PASS, worst free-path error 0.11 mm
+  tip stiffness at zero input 11.44 N/m in plane (474 N/m out of plane); largest blocked force in the record 0.183 N -> record depth 16.0 mm
+  if the whole path lay on the ring: 42.5 mm / 29.7 mm = 82.2 deg
+  mounts kept before the neighbour check: 1681 of 4032 tried
+  widest turn by condition: tip path alone 87.7 deg (push-out 4.1 mm); body clear of the ball on the approach 87.7 deg; and the tip nearest the axis in contact 87.7 deg
+  -- 3 fingers: 1681 mounts with neighbours clear; hold depth 7.3 mm
+     turn against the largest push-out allowed: 1 mm 24 deg, 2 mm 34 deg, 3 mm 42 deg, 5 mm 54 deg, 8 mm 69 deg, 12 mm 86 deg, 16 mm 88 deg, 20 mm 88 deg
+     record depth (16.0 mm): one stroke turns the ball 87.7 deg
+        contact from 8 to 500 Pa; tip travels 42.2 mm of its 42.5 mm path in contact (99%); the ring moves 45.4 mm; deepest push-out 12.4 mm
+        bases 89.9 mm from the axis; neighbouring bodies at least 29.9 mm apart (need 16.2); limited by: contact ends at the last input level
+        weight carried only between 10.8 and 77.0 deg of the stroke (66.2 deg)
+        return: between the two crossings the tip's gap to the ball is -12.39 to -0.11 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is at the last level, no room; before the near crossing up to 0.3 mm clear
+     no cap: the same mount
+     relay, two sets of 3 (6 fingers): one set turns 9.7 deg and leaves by its far crossing, the second takes over: 19.4 deg in one pass with the ball untouched at the hand-over; with the weight carried throughout: not possible. To go again every finger must come back through its own contact stretch, which turns the ball back.
+  -- 4 fingers: 1681 mounts with neighbours clear; hold depth 5.5 mm
+     turn against the largest push-out allowed: 1 mm 24 deg, 2 mm 34 deg, 3 mm 42 deg, 5 mm 54 deg, 8 mm 69 deg, 12 mm 86 deg, 16 mm 88 deg, 20 mm 88 deg
+     record depth (16.0 mm): one stroke turns the ball 87.7 deg
+        contact from 8 to 500 Pa; tip travels 42.2 mm of its 42.5 mm path in contact (99%); the ring moves 45.4 mm; deepest push-out 12.4 mm
+        bases 89.9 mm from the axis; neighbouring bodies at least 24.4 mm apart (need 16.2); limited by: contact ends at the last input level
+        weight carried only between 6.8 and 80.8 deg of the stroke (74.0 deg)
+        return: between the two crossings the tip's gap to the ball is -12.39 to -0.11 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is at the last level, no room; before the near crossing up to 0.3 mm clear
+     no cap: the same mount
+     relay, two sets of 4: no mount found whose 8 bodies stay clear of each other at all pairs of input levels (1432 tried)
+  -- 6 fingers: 1681 mounts with neighbours clear; hold depth 3.7 mm
+     turn against the largest push-out allowed: 1 mm 24 deg, 2 mm 34 deg, 3 mm 42 deg, 5 mm 54 deg, 8 mm 69 deg, 12 mm 86 deg, 16 mm 88 deg, 20 mm 88 deg
+     record depth (16.0 mm): one stroke turns the ball 87.7 deg
+        contact from 8 to 500 Pa; tip travels 42.2 mm of its 42.5 mm path in contact (99%); the ring moves 45.4 mm; deepest push-out 12.4 mm
+        bases 89.9 mm from the axis; neighbouring bodies at least 17.2 mm apart (need 16.2); limited by: contact ends at the last input level
+        weight carried only between 3.9 and 83.6 deg of the stroke (79.7 deg)
+        return: between the two crossings the tip's gap to the ball is -12.39 to -0.11 mm (negative = pressed in) at every level, whichever way the input moves; a return clear of the ball needs a gap above 0 at each of those levels: none exists
+        breaking contact: past the far crossing the tip is at the last level, no room; before the near crossing up to 0.3 mm clear
+     no cap: the same mount
+     relay, two sets of 6: no mount found whose 12 bodies stay clear of each other at all pairs of input levels (1432 tried)

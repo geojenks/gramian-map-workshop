@@ -1,0 +1,318 @@
+{
+ "window_log_s": [
+  2.5583231737837195,
+  7.058305303566158
+ ],
+ "recorded_turn_deg": -161.60419087017016,
+ "tip_ball_radius_m": 0.0115,
+ "stiffness_N_per_m": 56.07028131945023,
+ "press_in_depth_m": 0.0038,
+ "recorded_mass_kg": 0.0239400677382946,
+ "turn_share_to_beat": 0.2775225155726572,
+ "mounting": "hand-like, roll up to 15 deg",
+ "runs": {
+  "no_gravity_recorded_mass": {
+   "mass_kg": 0.0239400677382946,
+   "gravity": false,
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_gait_deg": -72.35884705780775,
+   "share_of_recorded_turn": 0.44775353082235053,
+   "gait_log_time_reached_s": 7.05632317378372,
+   "centre_from_recorded_largest_mm": 15.647821559167014,
+   "centre_from_recorded_at_end_mm": 8.834786565467088,
+   "axis_from_recorded_largest_deg": 30.711825514329195,
+   "axis_from_recorded_at_end_deg": 26.712846941321594,
+   "centre_drop_largest_mm": 2.3105699341247066,
+   "share_touching": {
+    "index": 0.7551111111111111,
+    "middle": 0.7515555555555555,
+    "ring": 0.7591111111111111,
+    "thumb": 0.7435555555555555
+   },
+   "normal_force_mean_N": {
+    "index": 0.19682179173458858,
+    "middle": 0.1670573987347519,
+    "ring": 0.16516229571909596,
+    "thumb": 0.20424808562310423
+   },
+   "stretches": {
+    "index": {
+     "logged_touching_stretches": 3,
+     "touching_runs_in_each_stretch": [
+      1,
+      1,
+      1
+     ],
+     "stretches_with_exactly_one_touching_run": 3,
+     "share_of_each_stretch_touching": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "share_of_logged_return_time_touching": 0.0,
+     "rest_position_moved_from_own_median_mm": 4.699608609629054,
+     "rest_position_moved_from_own_max_mm": 18.28300739277459,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.0755813953488372
+    },
+    "middle": {
+     "logged_touching_stretches": 3,
+     "touching_runs_in_each_stretch": [
+      2,
+      8,
+      1
+     ],
+     "stretches_with_exactly_one_touching_run": 1,
+     "share_of_each_stretch_touching": [
+      0.9986962190352021,
+      0.9422028353326063,
+      1.0
+     ],
+     "share_of_logged_return_time_touching": 0.029013539651837523,
+     "rest_position_moved_from_own_median_mm": 4.093468675370218,
+     "rest_position_moved_from_own_max_mm": 5.455510890127691,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.01440922190201729
+    },
+    "ring": {
+     "logged_touching_stretches": 2,
+     "touching_runs_in_each_stretch": [
+      1,
+      1
+     ],
+     "stretches_with_exactly_one_touching_run": 2,
+     "share_of_each_stretch_touching": [
+      1.0,
+      1.0
+     ],
+     "share_of_logged_return_time_touching": 0.003745318352059925,
+     "rest_position_moved_from_own_median_mm": 4.156809012871541,
+     "rest_position_moved_from_own_max_mm": 16.805446698466596,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.5232558139534884
+    },
+    "thumb": {
+     "logged_touching_stretches": 3,
+     "touching_runs_in_each_stretch": [
+      1,
+      1,
+      4
+     ],
+     "stretches_with_exactly_one_touching_run": 2,
+     "share_of_each_stretch_touching": [
+      1.0,
+      1.0,
+      0.7247437774524158
+     ],
+     "share_of_logged_return_time_touching": 0.029925187032418952,
+     "rest_position_moved_from_own_median_mm": 3.6428824898854515,
+     "rest_position_moved_from_own_max_mm": 6.375841909003538,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.0
+    }
+   },
+   "held": true,
+   "turns": true
+  },
+  "mass_23p94_g": {
+   "mass_kg": 0.0239400677382946,
+   "gravity": true,
+   "stopped": [
+    "the cylinder had dropped 30 mm",
+    22.9235
+   ],
+   "tip_tip_contacts_logged": 0,
+   "turn_gait_deg": -66.30542714976332,
+   "share_of_recorded_turn": 0.4102952206420926,
+   "gait_log_time_reached_s": 6.64232317378372,
+   "centre_from_recorded_largest_mm": 38.52366019334833,
+   "centre_from_recorded_at_end_mm": 38.52366019334833,
+   "axis_from_recorded_largest_deg": 31.200032960898135,
+   "axis_from_recorded_at_end_deg": 11.956615708620442,
+   "centre_drop_largest_mm": 29.974253008767437,
+   "share_touching": {
+    "index": 0.7278511992168379,
+    "middle": 0.8325991189427313,
+    "ring": 0.7420460107684778,
+    "thumb": 0.7973568281938326
+   },
+   "normal_force_mean_N": {
+    "index": 0.2177010394158265,
+    "middle": 0.2047566734066335,
+    "ring": 0.15404681806112872,
+    "thumb": 0.190423375824693
+   },
+   "stretches": {
+    "index": {
+     "logged_touching_stretches": 3,
+     "touching_runs_in_each_stretch": [
+      1,
+      5,
+      1
+     ],
+     "stretches_with_exactly_one_touching_run": 2,
+     "share_of_each_stretch_touching": [
+      1.0,
+      0.9904076738609112,
+      1.0
+     ],
+     "share_of_logged_return_time_touching": 0.0,
+     "rest_position_moved_from_own_median_mm": 5.945005240796172,
+     "rest_position_moved_from_own_max_mm": 18.28300739277459,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.0
+    },
+    "middle": {
+     "logged_touching_stretches": 2,
+     "touching_runs_in_each_stretch": [
+      1,
+      9
+     ],
+     "stretches_with_exactly_one_touching_run": 1,
+     "share_of_each_stretch_touching": [
+      1.0,
+      0.9880043620501636
+     ],
+     "share_of_logged_return_time_touching": 0.01791044776119403,
+     "rest_position_moved_from_own_median_mm": 4.097158749541182,
+     "rest_position_moved_from_own_max_mm": 5.455510890127691,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.0
+    },
+    "ring": {
+     "logged_touching_stretches": 2,
+     "touching_runs_in_each_stretch": [
+      5,
+      1
+     ],
+     "stretches_with_exactly_one_touching_run": 1,
+     "share_of_each_stretch_touching": [
+      0.9875,
+      1.0
+     ],
+     "share_of_logged_return_time_touching": 0.0019646365422396855,
+     "rest_position_moved_from_own_median_mm": 3.867015110149979,
+     "rest_position_moved_from_own_max_mm": 14.465297116767744,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.46579804560260585
+    },
+    "thumb": {
+     "logged_touching_stretches": 3,
+     "touching_runs_in_each_stretch": [
+      1,
+      1,
+      3
+     ],
+     "stretches_with_exactly_one_touching_run": 2,
+     "share_of_each_stretch_touching": [
+      1.0,
+      1.0,
+      0.957983193277311
+     ],
+     "share_of_logged_return_time_touching": 0.02743142144638404,
+     "rest_position_moved_from_own_median_mm": 3.7084181642928757,
+     "rest_position_moved_from_own_max_mm": 6.375841909003538,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.0
+    }
+   },
+   "held": false,
+   "turns": true
+  },
+  "mass_11p97_g": {
+   "mass_kg": 0.0119700338691473,
+   "gravity": true,
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_gait_deg": -65.67898650430705,
+   "share_of_recorded_turn": 0.4064188320281393,
+   "gait_log_time_reached_s": 7.05632317378372,
+   "centre_from_recorded_largest_mm": 31.676655211163133,
+   "centre_from_recorded_at_end_mm": 29.437104233812974,
+   "axis_from_recorded_largest_deg": 30.98986746893479,
+   "axis_from_recorded_at_end_deg": 7.467584931864605,
+   "centre_drop_largest_mm": 21.85260321233895,
+   "share_touching": {
+    "index": 0.7515555555555555,
+    "middle": 0.7697777777777778,
+    "ring": 0.7555555555555555,
+    "thumb": 0.7711111111111111
+   },
+   "normal_force_mean_N": {
+    "index": 0.2241969393115763,
+    "middle": 0.19100589344130128,
+    "ring": 0.15939965054114538,
+    "thumb": 0.18364758246457474
+   },
+   "stretches": {
+    "index": {
+     "logged_touching_stretches": 3,
+     "touching_runs_in_each_stretch": [
+      1,
+      3,
+      1
+     ],
+     "stretches_with_exactly_one_touching_run": 2,
+     "share_of_each_stretch_touching": [
+      1.0,
+      0.9892086330935251,
+      1.0
+     ],
+     "share_of_logged_return_time_touching": 0.0,
+     "rest_position_moved_from_own_median_mm": 4.699608609629054,
+     "rest_position_moved_from_own_max_mm": 18.28300739277459,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.0755813953488372
+    },
+    "middle": {
+     "logged_touching_stretches": 3,
+     "touching_runs_in_each_stretch": [
+      2,
+      9,
+      1
+     ],
+     "stretches_with_exactly_one_touching_run": 1,
+     "share_of_each_stretch_touching": [
+      0.9986962190352021,
+      0.9890948745910578,
+      1.0
+     ],
+     "share_of_logged_return_time_touching": 0.025145067698259187,
+     "rest_position_moved_from_own_median_mm": 4.093468675370218,
+     "rest_position_moved_from_own_max_mm": 5.455510890127691,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.01440922190201729
+    },
+    "ring": {
+     "logged_touching_stretches": 2,
+     "touching_runs_in_each_stretch": [
+      2,
+      1
+     ],
+     "stretches_with_exactly_one_touching_run": 1,
+     "share_of_each_stretch_touching": [
+      0.99375,
+      1.0
+     ],
+     "share_of_logged_return_time_touching": 0.0056179775280898875,
+     "rest_position_moved_from_own_median_mm": 4.156809012871541,
+     "rest_position_moved_from_own_max_mm": 16.805446698466596,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.5232558139534884
+    },
+    "thumb": {
+     "logged_touching_stretches": 3,
+     "touching_runs_in_each_stretch": [
+      1,
+      1,
+      5
+     ],
+     "stretches_with_exactly_one_touching_run": 2,
+     "share_of_each_stretch_touching": [
+      1.0,
+      1.0,
+      0.821376281112738
+     ],
+     "share_of_logged_return_time_touching": 0.02743142144638404,
+     "rest_position_moved_from_own_median_mm": 3.6428824898854515,
+     "rest_position_moved_from_own_max_mm": 6.375841909003538,
+     "share_of_touching_time_own_position_beyond_the_flat_ends": 0.0
+    }
+   },
+   "held": false,
+   "turns": true
+  }
+ },
+ "gate_held_and_turns": true,
+ "heaviest_mass_held_and_turned_kg": null
+}

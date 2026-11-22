@@ -1,0 +1,62 @@
+{
+ "mounting": "contact anywhere on the tip",
+ "frames": 406,
+ "fingers": {
+  "index": {
+   "contact_error_median_by_third_of_stretch_mm": [
+    3.2454783426304648,
+    1.3815697109305694,
+    7.398022210006407
+   ],
+   "contact_error_median_mm": 4.507359965865622,
+   "contact_error_max_mm": 15.018440690174819,
+   "frames_touching": 308,
+   "frames_marked_as_misses": 165,
+   "deepest_skin_cut_mm": 0.39031897113318836
+  },
+  "middle": {
+   "contact_error_median_by_third_of_stretch_mm": [
+    0.7589384313500762,
+    0.7976054484812924,
+    0.9181209371723524
+   ],
+   "contact_error_median_mm": 0.8178577880348228,
+   "contact_error_max_mm": 2.6028261217343323,
+   "frames_touching": 307,
+   "frames_marked_as_misses": 0,
+   "deepest_skin_cut_mm": 0.20421420086384062
+  },
+  "ring": {
+   "contact_error_median_by_third_of_stretch_mm": [
+    1.8065987147619,
+    0.7228072354577618,
+    5.21464492067597
+   ],
+   "contact_error_median_mm": 2.4228177750323066,
+   "contact_error_max_mm": 18.041288080682282,
+   "frames_touching": 308,
+   "frames_marked_as_misses": 142,
+   "deepest_skin_cut_mm": 2.3107406257606744
+  },
+  "thumb": {
+   "contact_error_median_by_third_of_stretch_mm": [
+    1.2289149157021968,
+    0.9452012560662875,
+    1.0498575261224878
+   ],
+   "contact_error_median_mm": 1.0566235525346777,
+   "contact_error_max_mm": 9.596096035689188,
+   "frames_touching": 329,
+   "frames_marked_as_misses": 14,
+   "deepest_skin_cut_mm": 0.2938721705267183
+  }
+ },
+ "smallest_distance_between_fingers_mm": 16.481793921639756,
+ "lowest_skin_node_above_plate_mm": -0.7827697812730072,
+ "files": [
+  "outputs\\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_21nov\\recorded_contacts_pneunet_fingers_contact_anywhere_on_the_tip_nearest_tip_node.mp4",
+  "outputs\\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_21nov\\recorded_contacts_pneunet_fingers_contact_anywhere_on_the_tip_nearest_tip_node_start.png",
+  "outputs\\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_21nov\\recorded_contacts_pneunet_fingers_contact_anywhere_on_the_tip_nearest_tip_node_middle.png",
+  "outputs\\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_21nov\\recorded_contacts_pneunet_fingers_contact_anywhere_on_the_tip_nearest_tip_node_end.png"
+ ]
+}

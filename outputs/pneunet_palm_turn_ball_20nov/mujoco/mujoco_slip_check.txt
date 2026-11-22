@@ -1,0 +1,94 @@
+Slip check on the MuJoCo logs. SIMULATION ONLY, comparative.
+Per ramp: ball turn, mean tip sweep round the axis while touching, fingers touching (fewest to most).
+
+log_wall_0.0005m_2x3_seat.csv
+     1.0 to   11.0 s, input set 0 out: ball   -10.5 deg, tips while touching    -6.6 deg, touching 0 to 3
+    12.0 to   22.0 s, input set 1 out: ball   -10.5 deg, tips while touching    -6.6 deg, touching 0 to 3
+    23.0 to   33.0 s, input set 0+1 back: ball   +14.4 deg, tips while touching   +17.4 deg, touching 0 to 6
+    34.0 to   44.0 s, input set 0 out: ball   -10.5 deg, tips while touching    -6.6 deg, touching 0 to 3
+    45.0 to   55.0 s, input set 1 out: ball   -10.5 deg, tips while touching    -6.6 deg, touching 0 to 3
+    56.0 to   66.0 s, input set 0+1 back: ball   +14.4 deg, tips while touching   +17.4 deg, touching 0 to 6
+    67.0 to   77.0 s, input set 0 out: ball   -10.5 deg, tips while touching    -6.6 deg, touching 0 to 3
+    78.0 to   88.0 s, input set 1 out: ball   -10.5 deg, tips while touching    -6.6 deg, touching 0 to 3
+    89.0 to   99.0 s, input set 0+1 back: ball   +14.4 deg, tips while touching   +17.4 deg, touching 0 to 6
+
+log_wall_0.0005m_2x3_seat_half_speed.csv
+     1.0 to   21.0 s, input set 0 out: ball   -13.5 deg, tips while touching    -9.9 deg, touching 0 to 3
+    22.0 to   42.0 s, input set 1 out: ball   -13.5 deg, tips while touching    -9.9 deg, touching 0 to 3
+    43.0 to   63.0 s, input set 0+1 back: ball   +16.1 deg, tips while touching   +19.1 deg, touching 0 to 6
+    64.0 to   84.0 s, input set 0 out: ball   -13.5 deg, tips while touching    -9.9 deg, touching 0 to 3
+    85.0 to  105.0 s, input set 1 out: ball   -13.5 deg, tips while touching    -9.9 deg, touching 0 to 3
+   106.0 to  126.0 s, input set 0+1 back: ball   +16.1 deg, tips while touching   +19.1 deg, touching 0 to 6
+   127.0 to  147.0 s, input set 0 out: ball   -13.5 deg, tips while touching    -9.9 deg, touching 0 to 3
+   148.0 to  168.0 s, input set 1 out: ball   -13.5 deg, tips while touching    -9.9 deg, touching 0 to 3
+   169.0 to  189.0 s, input set 0+1 back: ball   +16.1 deg, tips while touching   +19.1 deg, touching 0 to 6
+
+log_wall_0.0005m_2x3_seat_quarter_speed.csv
+     1.0 to   41.0 s, input set 0 out: ball   -13.9 deg, tips while touching   -10.4 deg, touching 0 to 3
+    42.0 to   82.0 s, input set 1 out: ball   -13.9 deg, tips while touching   -10.4 deg, touching 0 to 3
+    83.0 to  123.0 s, input set 0+1 back: ball   +17.2 deg, tips while touching   +20.1 deg, touching 0 to 6
+   124.0 to  164.0 s, input set 0 out: ball   -13.9 deg, tips while touching   -10.4 deg, touching 0 to 3
+   165.0 to  205.0 s, input set 1 out: ball   -13.9 deg, tips while touching   -10.4 deg, touching 0 to 3
+   206.0 to  246.0 s, input set 0+1 back: ball   +17.2 deg, tips while touching   +20.1 deg, touching 0 to 6
+   247.0 to  287.0 s, input set 0 out: ball   -13.9 deg, tips while touching   -10.4 deg, touching 0 to 3
+   288.0 to  328.0 s, input set 1 out: ball   -13.9 deg, tips while touching   -10.4 deg, touching 0 to 3
+   329.0 to  369.0 s, input set 0+1 back: ball   +17.2 deg, tips while touching   +20.1 deg, touching 0 to 6
+
+log_wall_0.0005m_2x3_smooth.csv
+     1.0 to   11.0 s, input set 0 out: ball   -30.1 deg, tips while touching   -11.7 deg, touching 0 to 3
+    12.0 to   22.0 s, input set 1 out: ball  -131.8 deg, tips while touching   -11.7 deg, touching 0 to 3
+    23.0 to   33.0 s, input set 0+1 back: ball  +147.0 deg, tips while touching   +22.7 deg, touching 0 to 6
+    34.0 to   44.0 s, input set 0 out: ball   +67.9 deg, tips while touching   -14.0 deg, touching 0 to 3
+    45.0 to   55.0 s, input set 1 out: ball  -126.9 deg, tips while touching   -12.1 deg, touching 0 to 3
+    56.0 to   66.0 s, input set 0+1 back: ball  +147.4 deg, tips while touching   +22.8 deg, touching 0 to 6
+    67.0 to   77.0 s, input set 0 out: ball   +66.8 deg, tips while touching   -13.7 deg, touching 0 to 3
+    78.0 to   88.0 s, input set 1 out: ball  -132.4 deg, tips while touching   -12.1 deg, touching 0 to 3
+    89.0 to   99.0 s, input set 0+1 back: ball  +146.3 deg, tips while touching   +22.9 deg, touching 0 to 6
+
+log_wall_0.0010m_x4_seat.csv
+     1.0 to   11.0 s, input set 0+1 out: ball  -141.8 deg, tips while touching   -84.5 deg, touching 0 to 4
+    12.0 to   22.0 s, input set 0+1 back: ball  +157.3 deg, tips while touching   +92.4 deg, touching 0 to 4
+    23.0 to   33.0 s, input set 0+1 out: ball  -141.3 deg, tips while touching   -84.5 deg, touching 0 to 4
+    34.0 to   44.0 s, input set 0+1 back: ball  +157.3 deg, tips while touching   +92.4 deg, touching 0 to 4
+
+log_wall_0.0010m_x4_seat_half_speed.csv
+     1.0 to   21.0 s, input set 0+1 out: ball  -147.9 deg, tips while touching   -99.6 deg, touching 0 to 4
+    22.0 to   42.0 s, input set 0+1 back: ball  +141.2 deg, tips while touching  +102.5 deg, touching 0 to 4
+    43.0 to   63.0 s, input set 0+1 out: ball  -147.9 deg, tips while touching   -99.6 deg, touching 0 to 4
+    64.0 to   84.0 s, input set 0+1 back: ball  +141.2 deg, tips while touching  +102.5 deg, touching 0 to 4
+
+log_wall_0.0010m_x4_seat_quarter_speed.csv
+     1.0 to   41.0 s, input set 0+1 out: ball  -140.5 deg, tips while touching  -106.5 deg, touching 0 to 4
+    42.0 to   82.0 s, input set 0+1 back: ball  +136.2 deg, tips while touching  +106.5 deg, touching 0 to 4
+    83.0 to  123.0 s, input set 0+1 out: ball  -140.5 deg, tips while touching  -106.5 deg, touching 0 to 4
+   124.0 to  164.0 s, input set 0+1 back: ball  +136.2 deg, tips while touching  +106.5 deg, touching 0 to 4
+
+log_wall_0.0010m_x4_smooth.csv
+     1.0 to   11.0 s, input set 0+1 out: ball  -150.5 deg, tips while touching   -86.5 deg, touching 0 to 4
+    12.0 to   22.0 s, input set 0+1 back: ball  +141.8 deg, tips while touching   +93.1 deg, touching 0 to 4
+    23.0 to   33.0 s, input set 0+1 out: ball  -150.8 deg, tips while touching   -86.5 deg, touching 0 to 4
+    34.0 to   44.0 s, input set 0+1 back: ball  +141.8 deg, tips while touching   +93.1 deg, touching 0 to 4
+
+log_wall_0.0020m_x3_seat.csv
+     1.0 to   11.0 s, input set 0+1 out: ball  -121.7 deg, tips while touching   -87.7 deg, touching 0 to 3
+    12.0 to   22.0 s, input set 0+1 back: ball  +119.3 deg, tips while touching   +87.6 deg, touching 0 to 3
+    23.0 to   33.0 s, input set 0+1 out: ball  -121.7 deg, tips while touching   -87.7 deg, touching 0 to 3
+    34.0 to   44.0 s, input set 0+1 back: ball  +119.3 deg, tips while touching   +87.6 deg, touching 0 to 3
+
+log_wall_0.0020m_x3_seat_half_speed.csv
+     1.0 to   21.0 s, input set 0+1 out: ball  -120.7 deg, tips while touching   -87.6 deg, touching 0 to 3
+    22.0 to   42.0 s, input set 0+1 back: ball  +119.4 deg, tips while touching   +87.6 deg, touching 0 to 3
+    43.0 to   63.0 s, input set 0+1 out: ball  -120.7 deg, tips while touching   -87.6 deg, touching 0 to 3
+    64.0 to   84.0 s, input set 0+1 back: ball  +119.4 deg, tips while touching   +87.6 deg, touching 0 to 3
+
+log_wall_0.0020m_x3_seat_quarter_speed.csv
+     1.0 to   41.0 s, input set 0+1 out: ball  -120.5 deg, tips while touching   -87.6 deg, touching 0 to 3
+    42.0 to   82.0 s, input set 0+1 back: ball  +119.7 deg, tips while touching   +87.6 deg, touching 0 to 3
+    83.0 to  123.0 s, input set 0+1 out: ball  -120.5 deg, tips while touching   -87.6 deg, touching 0 to 3
+   124.0 to  164.0 s, input set 0+1 back: ball  +119.7 deg, tips while touching   +87.6 deg, touching 0 to 3
+
+log_wall_0.0020m_x3_smooth.csv
+     1.0 to   11.0 s, input set 0+1 out: ball  -121.6 deg, tips while touching   -87.9 deg, touching 3 to 3
+    12.0 to   22.0 s, input set 0+1 back: ball  +121.2 deg, tips while touching   +87.9 deg, touching 3 to 3
+    23.0 to   33.0 s, input set 0+1 out: ball  -121.6 deg, tips while touching   -87.9 deg, touching 3 to 3
+    34.0 to   44.0 s, input set 0+1 back: ball  +121.2 deg, tips while touching   +87.9 deg, touching 3 to 3

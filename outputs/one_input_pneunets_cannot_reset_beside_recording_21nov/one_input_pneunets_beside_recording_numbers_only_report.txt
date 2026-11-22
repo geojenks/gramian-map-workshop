@@ -1,0 +1,37 @@
+A recorded learned rotation beside four one-input pneu-net fingers placed on the same contacts
+GEOMETRY ONLY, no simulation. Comparative, not predictive.
+
+Recording: data/rl_logs/hora_seed42_30s*.npz. Cylinder radius 32.9 mm, half length 26.3 mm. Window: log 2.56 to 7.06 s (541 samples; touching judged on every 4th, 136 samples). Recorded turn of the cylinder about its own axis over the window: -161.6 deg.
+Finger: one-input pneu-net record wall_0.0015m, length 73 mm, contact radius 7.36 mm, input 0 to 500 (simulation units), free shapes only.
+A pneu-net counts as going back along the surface on a return sample where its tip is under 2.06 mm from the logged cylinder (the 21 Nov reach check's limit for a return).
+
+index: plane touches the cylinder at -201.6 deg round it, leans outward 5.2 deg, finger leans +28.2 deg within the plane; input used 204 to 408.
+  while touching (103 samples): tip centre off its place on the logged contact by median 5.91 mm, largest 24.87 mm; links below the tip cut into the cylinder by at most 6.95 mm; tip clearance median -0.07 mm.
+  recorded fingertip point: fixed in link_3; the logged contacts lie a mean 3.6 mm from it; its clearance while touching, median +1.12 mm.
+  return 3.52 to 4.02 s: recorded fingertip clears the cylinder by up to 12.9 mm (median 10.9); pneu-net tip by up to 12.1 mm (median 5.2, least +3.6); under 2.06 mm for 0% of the return; its tip travels 31.3 mm, input 408 to 208.
+  return 5.76 to 6.26 s: recorded fingertip clears the cylinder by up to 13.8 mm (median 11.4); pneu-net tip by up to 16.4 mm (median 12.6, least +9.1); under 2.06 mm for 0% of the return; its tip travels 20.7 mm, input 379 to 250.
+  complete returns: 2; of those, the pneu-net tip is under the limit for more than half the return in 0.
+middle: plane touches the cylinder at -76.8 deg round it, leans outward 5.2 deg, finger leans -14.9 deg within the plane; input used 133 to 346.
+  while touching (104 samples): tip centre off its place on the logged contact by median 2.82 mm, largest 11.09 mm; links below the tip cut into the cylinder by at most 6.07 mm; tip clearance median +1.08 mm.
+  recorded fingertip point: fixed in link_7; the logged contacts lie a mean 2.8 mm from it; its clearance while touching, median +0.58 mm.
+  return 4.12 to 4.62 s: recorded fingertip clears the cylinder by up to 13.1 mm (median 8.2); pneu-net tip by up to 5.1 mm (median 3.9, least +3.6); under 2.06 mm for 0% of the return; its tip travels 23.6 mm, input 167 to 346.
+  return 6.52 to 6.99 s: recorded fingertip clears the cylinder by up to 7.7 mm (median 4.9); pneu-net tip by up to 8.6 mm (median 8.0, least +4.3); under 2.06 mm for 0% of the return; its tip travels 17.7 mm, input 133 to 275.
+  complete returns: 2; of those, the pneu-net tip is under the limit for more than half the return in 0.
+ring: plane touches the cylinder at -45.7 deg round it, leans outward 3.9 deg, finger leans +28.6 deg within the plane; input used 113 to 358.
+  while touching (102 samples): tip centre off its place on the logged contact by median 5.45 mm, largest 20.23 mm; links below the tip cut into the cylinder by at most 3.31 mm; tip clearance median +0.64 mm.
+  recorded fingertip point: fixed in link_11; the logged contacts lie a mean 3.3 mm from it; its clearance while touching, median +3.05 mm.
+  return 2.56 to 3.06 s (cut by the window): recorded fingertip clears the cylinder by up to 17.9 mm (median 12.7); pneu-net tip by up to 12.2 mm (median 11.6, least +6.7); under 2.06 mm for 0% of the return; its tip travels 0.0 mm, input 162 to 162.
+  return 4.72 to 5.19 s: recorded fingertip clears the cylinder by up to 9.4 mm (median 8.1); pneu-net tip by up to 5.6 mm (median 3.2, least -5.5); under 2.06 mm for 40% of the return; its tip travels 29.6 mm, input 342 to 125.
+  return 7.02 to 7.06 s (cut by the window): recorded fingertip clears the cylinder by up to 3.0 mm (median 2.6); pneu-net tip by up to 1.8 mm (median 1.4, least +1.1); under 2.06 mm for 100% of the return; its tip travels 0.0 mm, input 358 to 358.
+  complete returns: 1; of those, the pneu-net tip is under the limit for more than half the return in 0.
+thumb: plane touches the cylinder at +79.4 deg round it, leans outward 5.2 deg, finger leans +4.3 deg within the plane; input used 54 to 367.
+  while touching (111 samples): tip centre off its place on the logged contact by median 2.21 mm, largest 9.99 mm; links below the tip cut into the cylinder by at most 3.39 mm; tip clearance median -0.68 mm.
+  recorded fingertip point: fixed in link_15; the logged contacts lie a mean 4.8 mm from it; its clearance while touching, median +1.52 mm.
+  return 3.12 to 3.42 s: recorded fingertip clears the cylinder by up to 10.1 mm (median 7.9); pneu-net tip by up to 8.0 mm (median 4.5, least -1.8); under 2.06 mm for 40% of the return; its tip travels 27.9 mm, input 367 to 162.
+  return 5.22 to 5.66 s: recorded fingertip clears the cylinder by up to 13.5 mm (median 8.0); pneu-net tip by up to 7.0 mm (median 1.3, least -4.4); under 2.06 mm for 57% of the return; its tip travels 24.9 mm, input 333 to 146.
+  complete returns: 2; of those, the pneu-net tip is under the limit for more than half the return in 1.
+
+Least gap between two pneu-net bodies at the same moment: +19.9 mm.
+
+Simplified: free shapes only (no squeeze, weight or contact force); the cylinder is the logged one in both pictures, so nothing here says what the pneu-nets would do to it; the finger is drawn as a ten-link stand-in; the palm plate and posts are drawn only.
+No turn is claimed for the pneu-nets.

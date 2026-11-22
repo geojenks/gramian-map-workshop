@@ -1,0 +1,684 @@
+{
+ "window_log_s": [
+  2.5583231737837195,
+  7.058305303566158
+ ],
+ "first_round_ends_log_s": 4.7083146357908845,
+ "recorded_turn_deg": -161.60419087017016,
+ "recorded_turn_first_round_deg": -76.97873586011599,
+ "stiffness_N_per_m": {
+  "soft": 7.865569396558513,
+  "main": 56.07028131945023,
+  "stiff": 399.7010627886464
+ },
+ "drag_check": {
+  "soft": [
+   1.0004934919122601,
+   0.02359670818967554
+  ],
+  "main": [
+   1.0000005578775262,
+   0.1682108439583507
+  ],
+  "stiff": [
+   0.9999999999998005,
+   1.1991031883659393
+  ]
+ },
+ "runs": {
+  "two_inputs_main_weight_carried": {
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_in_wait_deg": 0.8626722093761343,
+   "turn_gait_deg": -44.848801577373465,
+   "gait_completed_to_log_s": 7.05632317378372,
+   "turn_first_round_deg": -46.29369845444563,
+   "tilt_change_max_deg": 47.49285547536337,
+   "centre_moved_max_mm": 15.942065008062597,
+   "centre_drop_max_mm": 0.0,
+   "fingers": {
+    "index": {
+     "share_of_gait_agreeing_with_log": 0.9257777777777778,
+     "share_touching": 0.7222222222222222,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 47,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.11584485872261749,
+     "tangential_force_mean_N": 0.05580325642261763,
+     "log_normal_force_mean_N": 1.1791664113118812,
+     "tip_from_target_max_mm": 6.0098030433983
+    },
+    "middle": {
+     "share_of_gait_agreeing_with_log": 0.72,
+     "share_touching": 0.5435555555555556,
+     "log_share_touching": 0.7702222222222223,
+     "whole_lifts": 34,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.1065914619839581,
+     "tangential_force_mean_N": 0.028692640660435708,
+     "log_normal_force_mean_N": 1.039975963604565,
+     "tip_from_target_max_mm": 4.038756320160527
+    },
+    "ring": {
+     "share_of_gait_agreeing_with_log": 0.5875555555555556,
+     "share_touching": 0.39022222222222225,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 18,
+     "log_whole_lifts": 1,
+     "normal_force_mean_N": 0.11490122233824025,
+     "tangential_force_mean_N": 0.041301945379330005,
+     "log_normal_force_mean_N": 1.3448798662307215,
+     "tip_from_target_max_mm": 3.8364785280109004
+    },
+    "thumb": {
+     "share_of_gait_agreeing_with_log": 0.6591111111111111,
+     "share_touching": 0.6817777777777778,
+     "log_share_touching": 0.8217777777777778,
+     "whole_lifts": 22,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.12557626660503002,
+     "tangential_force_mean_N": 0.07187982916488773,
+     "log_normal_force_mean_N": 1.1487313514357214,
+     "tip_from_target_max_mm": 5.996113996858531
+    }
+   },
+   "bodies": {
+    "deepest_cut_mm": [
+     2.451838122198997,
+     -1.185612351549195,
+     -6.371200886970196,
+     0.39011271897419764
+    ],
+    "share_of_time_cutting_in": [
+     0.3377777777777778,
+     0.0,
+     0.0,
+     0.013333333333333334
+    ],
+    "smallest_gap_between_fingers_mm": 12.044306800057969
+   }
+  },
+  "one_input_main_weight_carried": {
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_in_wait_deg": 0.11546979043006862,
+   "turn_gait_deg": 36.604272470126865,
+   "gait_completed_to_log_s": 7.05632317378372,
+   "turn_first_round_deg": -28.353322243721273,
+   "tilt_change_max_deg": 44.359939395586984,
+   "centre_moved_max_mm": 27.995865371368048,
+   "centre_drop_max_mm": 0.0,
+   "fingers": {
+    "index": {
+     "share_of_gait_agreeing_with_log": 0.5746666666666667,
+     "share_touching": 0.388,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 10,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.15890867654583127,
+     "tangential_force_mean_N": 0.06063126048365043,
+     "log_normal_force_mean_N": 1.1791664113118812,
+     "tip_from_target_max_mm": 7.383611505369317
+    },
+    "middle": {
+     "share_of_gait_agreeing_with_log": 0.5182222222222223,
+     "share_touching": 0.5533333333333333,
+     "log_share_touching": 0.7702222222222223,
+     "whole_lifts": 33,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.1950220635853095,
+     "tangential_force_mean_N": 0.1024725649127526,
+     "log_normal_force_mean_N": 1.039975963604565,
+     "tip_from_target_max_mm": 12.914732406956388
+    },
+    "ring": {
+     "share_of_gait_agreeing_with_log": 0.6493333333333333,
+     "share_touching": 0.4706666666666667,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 7,
+     "log_whole_lifts": 1,
+     "normal_force_mean_N": 0.2074257483153755,
+     "tangential_force_mean_N": 0.11280754292057489,
+     "log_normal_force_mean_N": 1.3448798662307215,
+     "tip_from_target_max_mm": 13.078606934040458
+    },
+    "thumb": {
+     "share_of_gait_agreeing_with_log": 0.47688888888888886,
+     "share_touching": 0.3422222222222222,
+     "log_share_touching": 0.8217777777777778,
+     "whole_lifts": 32,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.15337427323432826,
+     "tangential_force_mean_N": 0.08124563348383794,
+     "log_normal_force_mean_N": 1.1487313514357214,
+     "tip_from_target_max_mm": 7.368423206802218
+    }
+   },
+   "bodies": {
+    "deepest_cut_mm": [
+     -10.474146201743444,
+     -6.737416746867158,
+     3.1431788118574198,
+     -2.661482648926133
+    ],
+    "share_of_time_cutting_in": [
+     0.0,
+     0.0,
+     0.3377777777777778,
+     0.0
+    ],
+    "smallest_gap_between_fingers_mm": 32.55441339440651
+   }
+  },
+  "logged_path_main_weight_carried": {
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_in_wait_deg": 1.9289736515794793,
+   "turn_gait_deg": -146.52930428765902,
+   "gait_completed_to_log_s": 7.05632317378372,
+   "turn_first_round_deg": -69.71760294061622,
+   "tilt_change_max_deg": 38.108139147323904,
+   "centre_moved_max_mm": 21.08211899959143,
+   "centre_drop_max_mm": 0.0,
+   "fingers": {
+    "index": {
+     "share_of_gait_agreeing_with_log": 0.8573333333333333,
+     "share_touching": 0.6831111111111111,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 22,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.05030944297658191,
+     "tangential_force_mean_N": 0.023698355951733845,
+     "log_normal_force_mean_N": 1.1791664113118812,
+     "tip_from_target_max_mm": 1.7786804142394976
+    },
+    "middle": {
+     "share_of_gait_agreeing_with_log": 0.7711111111111111,
+     "share_touching": 0.5928888888888889,
+     "log_share_touching": 0.7702222222222223,
+     "whole_lifts": 32,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.04601771863966091,
+     "tangential_force_mean_N": 0.023284639446426888,
+     "log_normal_force_mean_N": 1.039975963604565,
+     "tip_from_target_max_mm": 3.25033109723791
+    },
+    "ring": {
+     "share_of_gait_agreeing_with_log": 0.7591111111111111,
+     "share_touching": 0.5333333333333333,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 21,
+     "log_whole_lifts": 1,
+     "normal_force_mean_N": 0.05490954157939577,
+     "tangential_force_mean_N": 0.022479641720923822,
+     "log_normal_force_mean_N": 1.3448798662307215,
+     "tip_from_target_max_mm": 1.8251802255324552
+    },
+    "thumb": {
+     "share_of_gait_agreeing_with_log": 0.8666666666666667,
+     "share_touching": 0.7106666666666667,
+     "log_share_touching": 0.8217777777777778,
+     "whole_lifts": 17,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.045639285853283314,
+     "tangential_force_mean_N": 0.023999208253645633,
+     "log_normal_force_mean_N": 1.1487313514357214,
+     "tip_from_target_max_mm": 3.277501486242963
+    }
+   }
+  },
+  "two_inputs_soft_weight_carried": {
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_in_wait_deg": 3.82277087025352,
+   "turn_gait_deg": -54.766506994821604,
+   "gait_completed_to_log_s": 7.05632317378372,
+   "turn_first_round_deg": -42.58773431326863,
+   "tilt_change_max_deg": 43.86294845677929,
+   "centre_moved_max_mm": 13.86240828784837,
+   "centre_drop_max_mm": 0.0,
+   "fingers": {
+    "index": {
+     "share_of_gait_agreeing_with_log": 0.49244444444444446,
+     "share_touching": 0.2551111111111111,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 14,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.02973855706389497,
+     "tangential_force_mean_N": 0.010019557146295967,
+     "log_normal_force_mean_N": 1.1791664113118812,
+     "tip_from_target_max_mm": 7.594867781617784
+    },
+    "middle": {
+     "share_of_gait_agreeing_with_log": 0.5173333333333333,
+     "share_touching": 0.33644444444444443,
+     "log_share_touching": 0.7702222222222223,
+     "whole_lifts": 15,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.0325474792808421,
+     "tangential_force_mean_N": 0.005027465114369713,
+     "log_normal_force_mean_N": 1.039975963604565,
+     "tip_from_target_max_mm": 5.97750061313601
+    },
+    "ring": {
+     "share_of_gait_agreeing_with_log": 0.3333333333333333,
+     "share_touching": 0.11911111111111111,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 19,
+     "log_whole_lifts": 1,
+     "normal_force_mean_N": 0.027471780595361307,
+     "tangential_force_mean_N": 0.013057884069509328,
+     "log_normal_force_mean_N": 1.3448798662307215,
+     "tip_from_target_max_mm": 4.9934862962002615
+    },
+    "thumb": {
+     "share_of_gait_agreeing_with_log": 0.5653333333333334,
+     "share_touching": 0.40044444444444444,
+     "log_share_touching": 0.8217777777777778,
+     "whole_lifts": 34,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.029776525645103653,
+     "tangential_force_mean_N": 0.012132309606949672,
+     "log_normal_force_mean_N": 1.1487313514357214,
+     "tip_from_target_max_mm": 7.4490193848989845
+    }
+   },
+   "bodies": {
+    "deepest_cut_mm": [
+     4.978113683638278,
+     -4.427977556033348,
+     -7.836222864141807,
+     -6.2397341056018885
+    ],
+    "share_of_time_cutting_in": [
+     0.17333333333333334,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "smallest_gap_between_fingers_mm": 12.034104585303144
+   }
+  },
+  "one_input_soft_weight_carried": {
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_in_wait_deg": 0.7881222210778204,
+   "turn_gait_deg": 10.932458897390596,
+   "gait_completed_to_log_s": 7.05632317378372,
+   "turn_first_round_deg": 19.229370787528758,
+   "tilt_change_max_deg": 37.098565482714115,
+   "centre_moved_max_mm": 18.59215065838199,
+   "centre_drop_max_mm": 0.0,
+   "fingers": {
+    "index": {
+     "share_of_gait_agreeing_with_log": 0.4662222222222222,
+     "share_touching": 0.24044444444444443,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 30,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.038581924636079526,
+     "tangential_force_mean_N": 0.015860192290415718,
+     "log_normal_force_mean_N": 1.1791664113118812,
+     "tip_from_target_max_mm": 10.214691458044667
+    },
+    "middle": {
+     "share_of_gait_agreeing_with_log": 0.45866666666666667,
+     "share_touching": 0.31155555555555553,
+     "log_share_touching": 0.7702222222222223,
+     "whole_lifts": 46,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.02998482188118023,
+     "tangential_force_mean_N": 0.012407696415071693,
+     "log_normal_force_mean_N": 1.039975963604565,
+     "tip_from_target_max_mm": 6.919379148340702
+    },
+    "ring": {
+     "share_of_gait_agreeing_with_log": 0.3751111111111111,
+     "share_touching": 0.16977777777777778,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 26,
+     "log_whole_lifts": 1,
+     "normal_force_mean_N": 0.02974063612113668,
+     "tangential_force_mean_N": 0.015443676745961617,
+     "log_normal_force_mean_N": 1.3448798662307215,
+     "tip_from_target_max_mm": 8.107666130539888
+    },
+    "thumb": {
+     "share_of_gait_agreeing_with_log": 0.45955555555555555,
+     "share_touching": 0.37022222222222223,
+     "log_share_touching": 0.8217777777777778,
+     "whole_lifts": 54,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.0353933321927245,
+     "tangential_force_mean_N": 0.0199099188414198,
+     "log_normal_force_mean_N": 1.1487313514357214,
+     "tip_from_target_max_mm": 10.86140970536345
+    }
+   },
+   "bodies": {
+    "deepest_cut_mm": [
+     -7.849794023358232,
+     -15.57173403286172,
+     4.051046738710227,
+     -7.228372408305636
+    ],
+    "share_of_time_cutting_in": [
+     0.0,
+     0.0,
+     0.4266666666666667,
+     0.0
+    ],
+    "smallest_gap_between_fingers_mm": 32.52857913408047
+   }
+  },
+  "logged_path_soft_weight_carried": {
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_in_wait_deg": 5.4396631624892535,
+   "turn_gait_deg": -100.2587890829377,
+   "gait_completed_to_log_s": 7.05632317378372,
+   "turn_first_round_deg": -60.259463009332734,
+   "tilt_change_max_deg": 48.6994415917378,
+   "centre_moved_max_mm": 22.48844297084439,
+   "centre_drop_max_mm": 0.0,
+   "fingers": {
+    "index": {
+     "share_of_gait_agreeing_with_log": 0.352,
+     "share_touching": 0.20266666666666666,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 71,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.028560734639012104,
+     "tangential_force_mean_N": 0.012649152741058494,
+     "log_normal_force_mean_N": 1.1791664113118812,
+     "tip_from_target_max_mm": 5.180191401140977
+    },
+    "middle": {
+     "share_of_gait_agreeing_with_log": 0.36533333333333334,
+     "share_touching": 0.1791111111111111,
+     "log_share_touching": 0.7702222222222223,
+     "whole_lifts": 7,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.03264616475693312,
+     "tangential_force_mean_N": 0.011775295264058112,
+     "log_normal_force_mean_N": 1.039975963604565,
+     "tip_from_target_max_mm": 6.308999865304161
+    },
+    "ring": {
+     "share_of_gait_agreeing_with_log": 0.368,
+     "share_touching": 0.14222222222222222,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 10,
+     "log_whole_lifts": 1,
+     "normal_force_mean_N": 0.025051572965469095,
+     "tangential_force_mean_N": 0.00867879893995755,
+     "log_normal_force_mean_N": 1.3448798662307215,
+     "tip_from_target_max_mm": 4.719574777412397
+    },
+    "thumb": {
+     "share_of_gait_agreeing_with_log": 0.22711111111111112,
+     "share_touching": 0.056,
+     "log_share_touching": 0.8217777777777778,
+     "whole_lifts": 29,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.02770640687884338,
+     "tangential_force_mean_N": 0.013866867807042561,
+     "log_normal_force_mean_N": 1.1487313514357214,
+     "tip_from_target_max_mm": 5.840504298045777
+    }
+   }
+  },
+  "two_inputs_stiff_weight_carried": {
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_in_wait_deg": 0.04371442498647421,
+   "turn_gait_deg": -82.1773008927577,
+   "gait_completed_to_log_s": 7.05632317378372,
+   "turn_first_round_deg": -43.54491645778535,
+   "tilt_change_max_deg": 52.73722189306775,
+   "centre_moved_max_mm": 19.94143365481815,
+   "centre_drop_max_mm": 0.0,
+   "fingers": {
+    "index": {
+     "share_of_gait_agreeing_with_log": 0.6742222222222222,
+     "share_touching": 0.47333333333333333,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 21,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.3493425845020755,
+     "tangential_force_mean_N": 0.19786204788394124,
+     "log_normal_force_mean_N": 1.1791664113118812,
+     "tip_from_target_max_mm": 3.270951850064106
+    },
+    "middle": {
+     "share_of_gait_agreeing_with_log": 0.6444444444444445,
+     "share_touching": 0.5364444444444444,
+     "log_share_touching": 0.7702222222222223,
+     "whole_lifts": 17,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.45932557843103494,
+     "tangential_force_mean_N": 0.1450531650794969,
+     "log_normal_force_mean_N": 1.039975963604565,
+     "tip_from_target_max_mm": 3.2307368361482163
+    },
+    "ring": {
+     "share_of_gait_agreeing_with_log": 0.42177777777777775,
+     "share_touching": 0.24133333333333334,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 35,
+     "log_whole_lifts": 1,
+     "normal_force_mean_N": 0.17263136336080342,
+     "tangential_force_mean_N": 0.10937493822779015,
+     "log_normal_force_mean_N": 1.3448798662307215,
+     "tip_from_target_max_mm": 1.9730413204050778
+    },
+    "thumb": {
+     "share_of_gait_agreeing_with_log": 0.636,
+     "share_touching": 0.5102222222222222,
+     "log_share_touching": 0.8217777777777778,
+     "whole_lifts": 10,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.5015957764440809,
+     "tangential_force_mean_N": 0.1750961057409743,
+     "log_normal_force_mean_N": 1.1487313514357214,
+     "tip_from_target_max_mm": 3.5838953147492782
+    }
+   },
+   "bodies": {
+    "deepest_cut_mm": [
+     1.6628860820546016,
+     -0.6827187360040846,
+     -3.112996493164115,
+     -2.6827405222487593
+    ],
+    "share_of_time_cutting_in": [
+     0.13333333333333333,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "smallest_gap_between_fingers_mm": 12.059605389486547
+   }
+  },
+  "one_input_stiff_weight_carried": {
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_in_wait_deg": -0.041124506331409426,
+   "turn_gait_deg": -1.6777659009831338,
+   "gait_completed_to_log_s": 7.05632317378372,
+   "turn_first_round_deg": -28.27044034307185,
+   "tilt_change_max_deg": 47.396794052952856,
+   "centre_moved_max_mm": 20.760703554761893,
+   "centre_drop_max_mm": 0.0,
+   "fingers": {
+    "index": {
+     "share_of_gait_agreeing_with_log": 0.6266666666666667,
+     "share_touching": 0.4408888888888889,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 14,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.7099405212105873,
+     "tangential_force_mean_N": 0.20345403737953424,
+     "log_normal_force_mean_N": 1.1791664113118812,
+     "tip_from_target_max_mm": 4.921362498574514
+    },
+    "middle": {
+     "share_of_gait_agreeing_with_log": 0.6608888888888889,
+     "share_touching": 0.5191111111111111,
+     "log_share_touching": 0.7702222222222223,
+     "whole_lifts": 28,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.6239265989148496,
+     "tangential_force_mean_N": 0.22601391953193303,
+     "log_normal_force_mean_N": 1.039975963604565,
+     "tip_from_target_max_mm": 4.820998711006524
+    },
+    "ring": {
+     "share_of_gait_agreeing_with_log": 0.592,
+     "share_touching": 0.4008888888888889,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 8,
+     "log_whole_lifts": 1,
+     "normal_force_mean_N": 0.504649610347709,
+     "tangential_force_mean_N": 0.16910125940242998,
+     "log_normal_force_mean_N": 1.3448798662307215,
+     "tip_from_target_max_mm": 4.916843137990989
+    },
+    "thumb": {
+     "share_of_gait_agreeing_with_log": 0.5191111111111111,
+     "share_touching": 0.43777777777777777,
+     "log_share_touching": 0.8217777777777778,
+     "whole_lifts": 44,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.6529635565411407,
+     "tangential_force_mean_N": 0.23632265925004392,
+     "log_normal_force_mean_N": 1.1487313514357214,
+     "tip_from_target_max_mm": 5.1213579181809745
+    }
+   },
+   "bodies": {
+    "deepest_cut_mm": [
+     -7.979777451195196,
+     -12.42888803978286,
+     3.738745976286664,
+     -3.968800836192438
+    ],
+    "share_of_time_cutting_in": [
+     0.0,
+     0.0,
+     0.3333333333333333,
+     0.0
+    ],
+    "smallest_gap_between_fingers_mm": 32.55129092102008
+   }
+  },
+  "logged_path_stiff_weight_carried": {
+   "stopped": null,
+   "tip_tip_contacts_logged": 0,
+   "turn_in_wait_deg": 0.058427313840679354,
+   "turn_gait_deg": -153.21935100887515,
+   "gait_completed_to_log_s": 7.05632317378372,
+   "turn_first_round_deg": -75.23414399553059,
+   "tilt_change_max_deg": 18.387803110097742,
+   "centre_moved_max_mm": 18.682999779767783,
+   "centre_drop_max_mm": 0.0,
+   "fingers": {
+    "index": {
+     "share_of_gait_agreeing_with_log": 0.9208888888888889,
+     "share_touching": 0.7013333333333334,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 7,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.11106297054398515,
+     "tangential_force_mean_N": 0.05143837017483974,
+     "log_normal_force_mean_N": 1.1791664113118812,
+     "tip_from_target_max_mm": 0.8195445025952106
+    },
+    "middle": {
+     "share_of_gait_agreeing_with_log": 0.8675555555555555,
+     "share_touching": 0.6733333333333333,
+     "log_share_touching": 0.7702222222222223,
+     "whole_lifts": 7,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.12236102466244174,
+     "tangential_force_mean_N": 0.05176190859664062,
+     "log_normal_force_mean_N": 1.039975963604565,
+     "tip_from_target_max_mm": 3.0141626533068533
+    },
+    "ring": {
+     "share_of_gait_agreeing_with_log": 0.8844444444444445,
+     "share_touching": 0.6471111111111111,
+     "log_share_touching": 0.7626666666666667,
+     "whole_lifts": 8,
+     "log_whole_lifts": 1,
+     "normal_force_mean_N": 0.10555926342044457,
+     "tangential_force_mean_N": 0.056693685573775514,
+     "log_normal_force_mean_N": 1.3448798662307215,
+     "tip_from_target_max_mm": 0.8428732764786281
+    },
+    "thumb": {
+     "share_of_gait_agreeing_with_log": 0.9182222222222223,
+     "share_touching": 0.7622222222222222,
+     "log_share_touching": 0.8217777777777778,
+     "whole_lifts": 9,
+     "log_whole_lifts": 2,
+     "normal_force_mean_N": 0.11719432526913812,
+     "tangential_force_mean_N": 0.053679036998114556,
+     "log_normal_force_mean_N": 1.1487313514357214,
+     "tip_from_target_max_mm": 2.9525696857978017
+    }
+   }
+  },
+  "two_inputs_main_free": {
+   "stopped": [
+    "the cylinder had dropped 30 mm",
+    1.6095
+   ],
+   "tip_tip_contacts_logged": 0
+  },
+  "one_input_main_free": {
+   "stopped": [
+    "the cylinder had dropped 30 mm",
+    1.617
+   ],
+   "tip_tip_contacts_logged": 0
+  },
+  "logged_path_main_free": {
+   "stopped": [
+    "the cylinder had dropped 30 mm",
+    1.603
+   ],
+   "tip_tip_contacts_logged": 0
+  }
+ },
+ "bodies_on_logged_motion_two_inputs": {
+  "deepest_cut_mm": [
+   -2.0227313667769975e-05,
+   -1.295694220031245,
+   -1.6111263456563396,
+   -2.729692056863334
+  ],
+  "share_of_time_cutting_in": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "smallest_gap_between_fingers_mm": 12.049137390981421
+ },
+ "bodies_on_logged_motion_one_input": {
+  "deepest_cut_mm": [
+   -5.276802239142612,
+   -8.792452708311624,
+   -1.2291006310184809,
+   -0.019574246317557997
+  ],
+  "share_of_time_cutting_in": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "smallest_gap_between_fingers_mm": 31.9755363308838
+ }
+}

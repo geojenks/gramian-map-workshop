@@ -1,0 +1,91 @@
+One stroke of a recorded learned rotation, replicated in part by pneu-net fingers
+SIMULATION ONLY. Comparative, not predictive.
+
+Recording: cylinder radius 32.9 mm, half length 26.3 mm, mass 23.9 g, friction 0.72; 3606 samples over 30.0 s; turn about its own axis over the log -960 deg.
+Sections with the same three fingertips touching (normal force over 0.02 N) for at least 0.3 s, mean tilt under 15 deg, tilt range under 5 deg, centre moving under 6 mm: 6. Up to 6, largest turn first, are fitted.
+Squeeze each pneu-net is placed to give (ASSUMED): 0.217 N, 2 times what friction needs to carry the weight, shared between three.
+Contact model: elliptic friction cone, impratio 10, time step 0.0005 s.
+
+Finger wall_0.0020m: length 73 mm, contact radius 8.08 mm, free stroke 41.4 mm; tip stiffness at zero input along / in the bending plane 916.3 / 11.44 N/m (record 916.3 / 11.44).
+Finger wall_0.0015m: length 73 mm, contact radius 7.36 mm, free stroke 69.7 mm; tip stiffness at zero input along / in the bending plane 741.6 / 8.09 N/m (record 741.6 / 8.09).
+Finger wall_0.0010m: length 73 mm, contact radius 6.44 mm, free stroke 85.2 mm; tip stiffness at zero input along / in the bending plane 322.8 / 5.51 N/m (record 322.8 / 5.51).
+
+Fit of each finger's loaded tip path to the logged contact path (no simulation):
+  section (log s)  fingertips          recorded turn  finger record   misfit rms per finger (mm)   worst (mm)  gap between finger bodies (mm)
+  8.01 to 8.60   middle+ring+thumb     -17.5 deg    wall_0.0020m     0.54   0.53   0.44           0.54       +42.9
+  8.01 to 8.60   middle+ring+thumb     -17.5 deg    wall_0.0015m     0.52   0.50   0.49           0.52       +41.6
+  8.01 to 8.60   middle+ring+thumb     -17.5 deg    wall_0.0010m     0.56   0.53   0.67           0.67       +36.6
+  5.76 to 6.28   middle+ring+thumb     -17.0 deg    wall_0.0020m     0.73   0.77   1.09           1.09       +46.1
+  5.76 to 6.28   middle+ring+thumb     -17.0 deg    wall_0.0015m     0.66   0.74   1.44           1.44       +46.8
+  5.76 to 6.28   middle+ring+thumb     -17.0 deg    wall_0.0010m     0.89   0.68   1.73           1.73       +24.2
+  2.56 to 3.06   index+middle+thumb    -16.8 deg    wall_0.0020m     1.37   1.32   1.20           1.37       +34.8
+  2.56 to 3.06   index+middle+thumb    -16.8 deg    wall_0.0015m     1.27   1.35   1.25           1.35       +31.4
+  2.56 to 3.06   index+middle+thumb    -16.8 deg    wall_0.0010m     1.21   1.38   1.54           1.54       +21.1
+  10.41 to 10.94   middle+ring+thumb     -16.6 deg    wall_0.0020m     0.48   0.61   0.47           0.61       +41.5
+  10.41 to 10.94   middle+ring+thumb     -16.6 deg    wall_0.0015m     0.35   0.73   0.50           0.73       +42.2
+  10.41 to 10.94   middle+ring+thumb     -16.6 deg    wall_0.0010m     0.31   0.91   0.46           0.91       +38.6
+  3.51 to 4.03   middle+ring+thumb     -16.4 deg    wall_0.0020m     0.44   0.42   0.46           0.46       +35.2
+  3.51 to 4.03   middle+ring+thumb     -16.4 deg    wall_0.0015m     0.45   0.30   0.59           0.59       +26.0
+  3.51 to 4.03   middle+ring+thumb     -16.4 deg    wall_0.0010m     0.47   0.39   0.89           0.89       +22.7
+  1.41 to 1.86   middle+ring+thumb     -10.1 deg    wall_0.0020m     0.39   0.60   0.60           0.60       +29.6
+  1.41 to 1.86   middle+ring+thumb     -10.1 deg    wall_0.0015m     0.41   0.60   0.52           0.60       +26.4
+  1.41 to 1.86   middle+ring+thumb     -10.1 deg    wall_0.0010m     0.45   0.63   0.71           0.71       +21.2
+  Arrangements whose finger bodies do not overlap: 18 of 18.
+
+Chosen (smallest worst-finger misfit among those that do not overlap): log 3.51 to 4.03 s, wall_0.0020m.
+  section: mean tilt 8.7 deg, tilt range 4.2 deg, centre moves 5.9 mm.
+  middle: logged contact path 13.9 mm long; misfit rms 0.44 mm, largest 0.69 mm; path leaves the finger's plane by 0.16 mm rms; input 280 to 352 of 500 (simulation units); body inside the cylinder by at most 0.00 mm in the free shape.
+          tip stiffness at the first input level: 41.3 N/m along the contact normal, 13.7 N/m along the cylinder's surface; friction at the assumed squeeze can hold the tip back by 11.4 mm; the recorded 1.02 N would push the tip back 25 mm.
+  ring  : logged contact path 4.2 mm long; misfit rms 0.42 mm, largest 0.72 mm; path leaves the finger's plane by 0.38 mm rms; input 319 to 298 of 500 (simulation units); body inside the cylinder by at most 0.00 mm in the free shape.
+          tip stiffness at the first input level: 17.8 N/m along the contact normal, 24.0 N/m along the cylinder's surface; friction at the assumed squeeze can hold the tip back by 6.5 mm; the recorded 1.06 N would push the tip back 59 mm.
+  thumb : logged contact path 10.5 mm long; misfit rms 0.46 mm, largest 0.73 mm; path leaves the finger's plane by 0.43 mm rms; input 268 to 347 of 500 (simulation units); body inside the cylinder by at most 0.00 mm in the free shape.
+          tip stiffness at the first input level: 37.6 N/m along the contact normal, 14.3 N/m along the cylinder's surface; friction at the assumed squeeze can hold the tip back by 11.0 mm; the recorded 1.08 N would push the tip back 29 mm.
+
+Recorded stroke: cylinder turns -16.4 deg in 0.52 s; tilt changes by at most 4.7 deg; centre moves at most 5.9 mm.
+  middle: normal force 1.02 N; contact moves 11.5 mm in the world, 4.0 mm on the cylinder.
+  ring  : normal force 1.06 N; contact moves 2.2 mm in the world, 2.9 mm on the cylinder.
+  thumb : normal force 1.08 N; contact moves 9.5 mm in the world, 2.9 mm on the cylinder.
+
+Simulated timeline (ASSUMED): fingers brought in 0.5 to 2.5 s with the cylinder held; let go at 4 s; stroke 6 to 10 s; inputs constant to 12 s.
+Contacts are compared with the recording at the same fraction of the stroke's duration.
+
+Arrangement, cylinder free (nothing but the fingers holds the cylinder): ran to the end; contacts before the fingers are brought in: 0.
+  cylinder turn: +3.69 deg in the 2 s after being let go, -10.69 deg in the stroke, -5.98 deg in the final 2 s (recorded stroke -16.4 deg).
+  tilt changed by at most 1.4 deg; centre moved at most 8.9 mm, dropped at most 6.6 mm (2.6 mm by the start of the stroke).
+  middle: touching 100% of the stroke (100% of that on the tip link); normal force 0.24 N at the start, 0.18 N at the end; contact moved 6.1 mm in the world (recorded 11.5 mm); off the recorded contact by 3.8 mm at the start, 1.6 mm at the end, median 1.8 mm, largest 3.8 mm in the world; median 12.2 mm on the cylinder.
+  ring  : touching 100% of the stroke (100% of that on the tip link); normal force 0.22 N at the start, 0.29 N at the end; contact moved 0.3 mm in the world (recorded 2.2 mm); off the recorded contact by 5.9 mm at the start, 7.4 mm at the end, median 7.3 mm, largest 8.0 mm in the world; median 2.5 mm on the cylinder.
+  thumb : touching 100% of the stroke (100% of that on the tip link); normal force 0.14 N at the start, 0.29 N at the end; contact moved 7.3 mm in the world (recorded 9.5 mm); off the recorded contact by 6.1 mm at the start, 8.2 mm at the end, median 9.1 mm, largest 9.6 mm in the world; median 10.1 mm on the cylinder.
+
+Arrangement, weight carried (the cylinder's height is fixed; it is free to slide, tilt and turn): ran to the end; contacts before the fingers are brought in: 0.
+  cylinder turn: +3.23 deg in the 2 s after being let go, -17.28 deg in the stroke, -0.76 deg in the final 2 s (recorded stroke -16.4 deg).
+  tilt changed by at most 0.5 deg; centre moved at most 7.1 mm, dropped at most 0.0 mm (0.0 mm by the start of the stroke).
+  middle: touching 100% of the stroke (100% of that on the tip link); normal force 0.22 N at the start, 0.21 N at the end; contact moved 11.3 mm in the world (recorded 11.5 mm); off the recorded contact by 1.5 mm at the start, 0.9 mm at the end, median 1.1 mm, largest 1.9 mm in the world; median 3.4 mm on the cylinder.
+  ring  : touching 100% of the stroke (100% of that on the tip link); normal force 0.19 N at the start, 0.14 N at the end; contact moved 2.6 mm in the world (recorded 2.2 mm); off the recorded contact by 1.3 mm at the start, 1.2 mm at the end, median 1.9 mm, largest 2.6 mm in the world; median 2.0 mm on the cylinder.
+  thumb : touching 100% of the stroke (100% of that on the tip link); normal force 0.20 N at the start, 0.18 N at the end; contact moved 10.3 mm in the world (recorded 9.5 mm); off the recorded contact by 3.1 mm at the start, 2.4 mm at the end, median 2.8 mm, largest 3.7 mm in the world; median 3.5 mm on the cylinder.
+
+Arrangement, weight carried inputs constant (control: as the last, but the inputs stay at their first levels): ran to the end; contacts before the fingers are brought in: 0.
+  cylinder turn: +3.23 deg in the 2 s after being let go, -0.28 deg in the stroke, -0.27 deg in the final 2 s (recorded stroke -16.4 deg).
+  tilt changed by at most 0.2 deg; centre moved at most 1.4 mm, dropped at most 0.0 mm (0.0 mm by the start of the stroke).
+  middle: touching 100% of the stroke (100% of that on the tip link); normal force 0.22 N at the start, 0.22 N at the end; contact moved 0.3 mm in the world (recorded 11.5 mm); off the recorded contact by 1.5 mm at the start, 11.0 mm at the end, median 5.9 mm, largest 11.0 mm in the world; median 5.4 mm on the cylinder.
+  ring  : touching 100% of the stroke (100% of that on the tip link); normal force 0.19 N at the start, 0.18 N at the end; contact moved 0.9 mm in the world (recorded 2.2 mm); off the recorded contact by 1.3 mm at the start, 2.5 mm at the end, median 2.3 mm, largest 2.8 mm in the world; median 3.7 mm on the cylinder.
+  thumb : touching 100% of the stroke (100% of that on the tip link); normal force 0.20 N at the start, 0.20 N at the end; contact moved 0.2 mm in the world (recorded 9.5 mm); off the recorded contact by 3.1 mm at the start, 12.0 mm at the end, median 8.3 mm, largest 12.1 mm in the world; median 2.1 mm on the cylinder.
+
+Arrangement, cylinder driven along logged motion (diagnostic, not a replication: the cylinder is moved along the logged motion): ran to the end; contacts before the fingers are brought in: 0.
+  cylinder turn: +0.00 deg in the 2 s after being let go, -16.37 deg in the stroke, +0.00 deg in the final 2 s (recorded stroke -16.4 deg).
+  tilt changed by at most 4.7 deg; centre moved at most 5.9 mm, dropped at most 0.0 mm (0.0 mm by the start of the stroke).
+  middle: touching 98% of the stroke (100% of that on the tip link); normal force 0.36 N at the start, 0.10 N at the end; contact moved 9.8 mm in the world (recorded 11.5 mm); off the recorded contact by 2.5 mm at the start, 0.4 mm at the end, median 0.5 mm, largest 2.5 mm in the world; median 0.6 mm on the cylinder.
+  ring  : touching 100% of the stroke (100% of that on the tip link); normal force 0.19 N at the start, 0.09 N at the end; contact moved 2.4 mm in the world (recorded 2.2 mm); off the recorded contact by 1.0 mm at the start, 1.2 mm at the end, median 1.3 mm, largest 1.5 mm in the world; median 1.3 mm on the cylinder.
+  thumb : touching 100% of the stroke (100% of that on the tip link); normal force 0.40 N at the start, 0.36 N at the end; contact moved 10.1 mm in the world (recorded 9.5 mm); off the recorded contact by 2.7 mm at the start, 2.5 mm at the end, median 2.9 mm, largest 3.2 mm in the world; median 2.9 mm on the cylinder.
+
+Weight carried, turn in the stroke less the control's turn over the same time: -17.00 deg, 104% of the recorded -16.4 deg.
+
+Replay of the recording (Wave_manip's hand model posed from the logged joint angles): links off the logged link positions by median 0.00 mm, at most 0.00 mm over the section.
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_arrangement_replicates_rl_stroke_20nov\recorded_then_arrangement_cylinder_free.mp4
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_arrangement_replicates_rl_stroke_20nov\recorded_then_arrangement_cylinder_free_recorded.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_arrangement_replicates_rl_stroke_20nov\recorded_then_arrangement_cylinder_free_arrangement.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_arrangement_replicates_rl_stroke_20nov\recorded_then_arrangement_weight_carried.mp4
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_arrangement_replicates_rl_stroke_20nov\recorded_then_arrangement_weight_carried_recorded.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_arrangement_replicates_rl_stroke_20nov\recorded_then_arrangement_weight_carried_arrangement.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_arrangement_replicates_rl_stroke_20nov\recorded_then_arrangement_cylinder_driven_along_logged_motion.mp4
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_arrangement_replicates_rl_stroke_20nov\recorded_then_arrangement_cylinder_driven_along_logged_motion_recorded.png
+  wrote C:\Users\geo\Documents\Projects\gramian-map-workshop\outputs\pneunet_arrangement_replicates_rl_stroke_20nov\recorded_then_arrangement_cylinder_driven_along_logged_motion_arrangement.png

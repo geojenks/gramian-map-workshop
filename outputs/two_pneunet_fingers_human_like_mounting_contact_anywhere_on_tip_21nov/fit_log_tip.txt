@@ -1,0 +1,69 @@
+Typical spacing of neighbouring nodes, mm: {'tip nodes the search sees': 2.24, 'every tip node': 1.26, 'nodes the search sees over the whole finger': 5.09, 'every skin node': 1.25}
+00:56 contact anywhere on the tip 
+  index  contact error median 4.43 mm, rms 6.20, max 15.11; by thirds of each touching stretch 3.88, 1.56, 7.46
+         whole-finger clearance on returns 3.52-4.02 s: 12.9 mm; 5.76-6.26 s: 21.3 mm; first rule FAIL, second rule (less the gap either side, worst 4.3 mm) FAIL
+         whole skin while touching: deepest cut 0.22 mm (median 0.00), limit 1: PASS; gap of the nearest allowed node to the surface median +1.44 mm, range -0.12 to +8.65
+         touching node: wanders up to 14.8 mm over the skin within one touching stretch; between 67.1 and 73.0 mm along the finger
+         mounting: axis 12.9 deg from the cylinder's axis, roll +14.9 deg towards the biased side; +22% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; inputs first 0 to 120, second 0 to 120
+         ALL RULES: FAIL
+01:44 contact anywhere on the tip 
+  ring   contact error median 2.37 mm, rms 5.31, max 12.27; by thirds of each touching stretch 1.66, 0.48, 5.12
+         whole-finger clearance on returns 2.56-3.06 s: 7.5 mm (cut by the window); 4.72-5.19 s: 7.2 mm; 7.02-7.06 s: 23.1 mm (cut by the window); first rule PASS, second rule (less the gap either side, worst -5.4 mm) FAIL
+         whole skin while touching: deepest cut 0.19 mm (median 0.00), limit 1: PASS; gap of the nearest allowed node to the surface median +0.69 mm, range +0.01 to +12.66
+         touching node: wanders up to 21.1 mm over the skin within one touching stretch; between 67.2 and 73.0 mm along the finger
+         mounting: axis 15.2 deg from the cylinder's axis, roll +15.0 deg towards the biased side; +21% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; inputs first 0 to 120, second 0 to 120
+         ALL RULES: FAIL
+02:22 contact anywhere on the tip 
+  middle contact error median 0.79 mm, rms 1.21, max 6.14; by thirds of each touching stretch 0.81, 0.72, 0.87
+         whole-finger clearance on returns 4.12-4.62 s: 9.1 mm; 6.52-6.99 s: 14.8 mm; first rule PASS, second rule (less the gap either side, worst 8.2 mm) PASS
+         whole skin while touching: deepest cut 0.03 mm (median 0.00), limit 1: PASS; gap of the nearest allowed node to the surface median +0.14 mm, range -0.03 to +0.86
+         touching node: wanders up to 16.1 mm over the skin within one touching stretch; between 70.1 and 73.0 mm along the finger
+         mounting: axis 10.0 deg from the cylinder's axis, roll +9.2 deg towards the biased side; +13% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; inputs first 5 to 120, second 0 to 120
+         ALL RULES: PASS
+02:27 contact anywhere on the tip 
+  thumb  contact error median 1.07 mm, rms 1.89, max 8.44; by thirds of each touching stretch 1.29, 0.98, 0.94
+         whole-finger clearance on returns 3.12-3.42 s: 6.5 mm; 5.22-5.66 s: 7.7 mm; first rule PASS, second rule (less the gap either side, worst 6.1 mm) PASS
+         whole skin while touching: deepest cut 0.02 mm (median 0.00), limit 1: PASS; gap of the nearest allowed node to the surface median +0.15 mm, range -0.02 to +0.73
+         touching node: wanders up to 13.7 mm over the skin within one touching stretch; between 68.6 and 73.0 mm along the finger
+         mounting: axis 10.7 deg from the cylinder's axis, roll +13.3 deg towards the biased side; +20% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; inputs first 0 to 120, second 35 to 120
+         ALL RULES: PASS
+Four two-pneu-net fingers mounted like the fingers of a hand, against a recorded learned rotation: reach check with the contact allowed anywhere on the tip
+GEOMETRY ONLY, no simulation. Comparative, not predictive.
+
+Recording: data/rl_logs/hora_seed42_30s*.npz. Cylinder radius 32.9 mm, half length 26.3 mm. Window: log 2.56 to 7.06 s.
+Finger: real settled shapes, outputs\two_pneunet_fingers_human_like_mounting_21nov\finger_shapes.npz. Tip: the 480 skin nodes in the last 1/12 of the rest length, of 4875. Typical spacing of neighbouring nodes: tip nodes the search sees 2.24 mm; every tip node 1.26 mm; nodes the search sees over the whole finger 5.09 mm; every skin node 1.25 mm.
+Rules (fixed before the first run, see the header): median distance from the logged contact to the nearest allowed node <= 3.8 mm; whole-finger clearance on every return >= 2.06 mm (second rule: less the largest gap either side); deepest cut of the whole skin while touching <= 1 mm (ASSUMED). Mounting: axis within 25 deg of the cylinder's axis, roll towards the biased side up to 15 deg.
+Measures below use every tip node (or every skin node) and the whole skin; the search saw a thinned finger.
+
+contact anywhere on the tip:
+  index  contact error median 4.43 mm, rms 6.20, max 15.11; by thirds of each touching stretch 3.88, 1.56, 7.46
+         whole-finger clearance on returns 3.52-4.02 s: 12.9 mm; 5.76-6.26 s: 21.3 mm; first rule FAIL, second rule (less the gap either side, worst 4.3 mm) FAIL
+         whole skin while touching: deepest cut 0.22 mm (median 0.00), limit 1: PASS; gap of the nearest allowed node to the surface median +1.44 mm, range -0.12 to +8.65
+         touching node: wanders up to 14.8 mm over the skin within one touching stretch; between 67.1 and 73.0 mm along the finger
+         mounting: axis 12.9 deg from the cylinder's axis, roll +14.9 deg towards the biased side; +22% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; inputs first 0 to 120, second 0 to 120
+         ALL RULES: FAIL
+  middle contact error median 0.79 mm, rms 1.21, max 6.14; by thirds of each touching stretch 0.81, 0.72, 0.87
+         whole-finger clearance on returns 4.12-4.62 s: 9.1 mm; 6.52-6.99 s: 14.8 mm; first rule PASS, second rule (less the gap either side, worst 8.2 mm) PASS
+         whole skin while touching: deepest cut 0.03 mm (median 0.00), limit 1: PASS; gap of the nearest allowed node to the surface median +0.14 mm, range -0.03 to +0.86
+         touching node: wanders up to 16.1 mm over the skin within one touching stretch; between 70.1 and 73.0 mm along the finger
+         mounting: axis 10.0 deg from the cylinder's axis, roll +9.2 deg towards the biased side; +13% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; inputs first 5 to 120, second 0 to 120
+         ALL RULES: PASS
+  ring   contact error median 2.37 mm, rms 5.31, max 12.27; by thirds of each touching stretch 1.66, 0.48, 5.12
+         whole-finger clearance on returns 2.56-3.06 s: 7.5 mm (cut by the window); 4.72-5.19 s: 7.2 mm; 7.02-7.06 s: 23.1 mm (cut by the window); first rule PASS, second rule (less the gap either side, worst -5.4 mm) FAIL
+         whole skin while touching: deepest cut 0.19 mm (median 0.00), limit 1: PASS; gap of the nearest allowed node to the surface median +0.69 mm, range +0.01 to +12.66
+         touching node: wanders up to 21.1 mm over the skin within one touching stretch; between 67.2 and 73.0 mm along the finger
+         mounting: axis 15.2 deg from the cylinder's axis, roll +15.0 deg towards the biased side; +21% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; inputs first 0 to 120, second 0 to 120
+         ALL RULES: FAIL
+  thumb  contact error median 1.07 mm, rms 1.89, max 8.44; by thirds of each touching stretch 1.29, 0.98, 0.94
+         whole-finger clearance on returns 3.12-3.42 s: 6.5 mm; 5.22-5.66 s: 7.7 mm; first rule PASS, second rule (less the gap either side, worst 6.1 mm) PASS
+         whole skin while touching: deepest cut 0.02 mm (median 0.00), limit 1: PASS; gap of the nearest allowed node to the surface median +0.15 mm, range -0.02 to +0.73
+         touching node: wanders up to 13.7 mm over the skin within one touching stretch; between 68.6 and 73.0 mm along the finger
+         mounting: axis 10.7 deg from the cylinder's axis, roll +13.3 deg towards the biased side; +20% of the wag points at the cylinder on the stroke; the recorded stroke goes with lowering the first input; inputs first 0 to 120, second 35 to 120
+         ALL RULES: PASS
+  Passing all rules: 2 of 4. Contact error rule alone: 3 of 4. Mean of the median contact errors 2.16 mm.
+
+Earlier check (centre of the tip face on the contact, roll up to 15 deg), median contact error: index 6.47 mm, middle 0.94 mm, ring 4.88 mm, thumb 2.73 mm.
+
+Goes on to the clip, by the rule fixed in the header: contact anywhere on the tip. The other is a comparison only.
+
+Not checked here: forces; speed; the palm; fingers against each other; whether the skin at the touching node faces the cylinder.

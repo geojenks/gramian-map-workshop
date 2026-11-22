@@ -1,0 +1,14 @@
+Clip of four two-pneu-net fingers turning a cylinder on an axle, beside the recording: run 'two_inputs_main'
+Right-hand side: SIMULATION frames from outputs\two_pneunet_fingers_turn_cylinder_on_axle_21nov_constraint_carry\frames_two_inputs_main.csv. Comparative, not predictive.
+
+Mounting drawn: 'hand-like, roll up to 15 deg' from outputs\two_pneunet_fingers_human_like_mounting_21nov\reach_check_results.json.
+423 frames at 30 per second, 3.00 times slower than the recording; with the first and last frame held one second each the clip lasts 16.0 s.
+Simulated turn over the gait -63.6 deg; recorded -161.6 deg.
+Frames with each tip marked as pressing: index 38, middle 7, ring 108, thumb 136 of 423.
+Drawing check: MuJoCo's mesh against the supplied skin, largest difference 0.080 micrometres.
+
+Files:
+  outputs\two_pneunet_fingers_turn_cylinder_on_axle_21nov_constraint_carry\clip_two_inputs_main.mp4
+  outputs\two_pneunet_fingers_turn_cylinder_on_axle_21nov_constraint_carry\clip_two_inputs_main_start.png
+  outputs\two_pneunet_fingers_turn_cylinder_on_axle_21nov_constraint_carry\clip_two_inputs_main_middle.png
+  outputs\two_pneunet_fingers_turn_cylinder_on_axle_21nov_constraint_carry\clip_two_inputs_main_end.png

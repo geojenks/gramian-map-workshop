@@ -1,0 +1,58 @@
+{
+ "mounting": "hand-like, roll up to 15 deg",
+ "frames": 406,
+ "fingers": {
+  "index": {
+   "contact_error_median_by_third_of_stretch_mm": [
+    4.299289487459389,
+    3.289882317440438,
+    10.303297045999152
+   ],
+   "contact_error_median_mm": 6.601784904626877,
+   "contact_error_max_mm": 18.687001055318117,
+   "frames_touching": 308,
+   "deepest_skin_cut_mm": 4.277181471327187
+  },
+  "middle": {
+   "contact_error_median_by_third_of_stretch_mm": [
+    1.23044302430782,
+    0.5970745492240259,
+    0.8685564230287176
+   ],
+   "contact_error_median_mm": 0.865013078724989,
+   "contact_error_max_mm": 5.452608987439006,
+   "frames_touching": 307,
+   "deepest_skin_cut_mm": 2.4705190238636794
+  },
+  "ring": {
+   "contact_error_median_by_third_of_stretch_mm": [
+    3.6702987421200652,
+    3.3057812475051915,
+    9.660707333751827
+   ],
+   "contact_error_median_mm": 4.981594280743552,
+   "contact_error_max_mm": 20.06996680798883,
+   "frames_touching": 308,
+   "deepest_skin_cut_mm": 3.5789576088000494
+  },
+  "thumb": {
+   "contact_error_median_by_third_of_stretch_mm": [
+    3.5654404982345236,
+    2.5886175246724186,
+    2.382430326301372
+   ],
+   "contact_error_median_mm": 2.6505976446487196,
+   "contact_error_max_mm": 13.951411495288651,
+   "frames_touching": 329,
+   "deepest_skin_cut_mm": 2.6916062964450935
+  }
+ },
+ "smallest_distance_between_fingers_mm": 14.917643367762215,
+ "lowest_skin_node_above_plate_mm": -0.4271937963531425,
+ "files": [
+  "outputs\\two_pneunet_fingers_human_like_mounting_21nov\\recorded_contacts_pneunet_fingers_hand_like_roll_up_to_15_deg_16_9_misses_marked.mp4",
+  "outputs\\two_pneunet_fingers_human_like_mounting_21nov\\recorded_contacts_pneunet_fingers_hand_like_roll_up_to_15_deg_16_9_misses_marked_start.png",
+  "outputs\\two_pneunet_fingers_human_like_mounting_21nov\\recorded_contacts_pneunet_fingers_hand_like_roll_up_to_15_deg_16_9_misses_marked_middle.png",
+  "outputs\\two_pneunet_fingers_human_like_mounting_21nov\\recorded_contacts_pneunet_fingers_hand_like_roll_up_to_15_deg_16_9_misses_marked_end.png"
+ ]
+}

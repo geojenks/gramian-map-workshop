@@ -1,0 +1,27 @@
+Clip of four two-pneu-net fingers on the recorded contacts, contact anywhere on the tip: "contact anywhere on the tip"
+GEOMETRY ONLY, nothing simulated. Comparative, not predictive.
+
+Camera azimuth 35 deg, elevation -25 deg; 406 frames, log 2.56 to 7.06 s, shown 3 times slower.
+Drawing check: MuJoCo's mesh against the supplied skin, largest difference 0.081 micrometres.
+
+Measures on the frames of the clip:
+  index  (the refit's node at the log sample nearest in time, as first rendered: median 4.61 mm, largest 15.02 mm)
+  index  nearest tip node of the drawn shape from the logged contact while touching: median 4.51 mm, largest 15.02 mm (308 frames, 165 of them over 3.8 mm and marked red); deepest cut of any skin node into the replayed cylinder 0.39 mm
+         by third of each touching stretch (first, middle, last), median: 3.25, 1.38, 7.40 mm
+  middle (the refit's node at the log sample nearest in time, as first rendered: median 0.90 mm, largest 8.80 mm)
+  middle nearest tip node of the drawn shape from the logged contact while touching: median 0.82 mm, largest 2.60 mm (307 frames, 0 of them over 3.8 mm and marked red); deepest cut of any skin node into the replayed cylinder 0.20 mm
+         by third of each touching stretch (first, middle, last), median: 0.76, 0.80, 0.92 mm
+  ring   (the refit's node at the log sample nearest in time, as first rendered: median 3.93 mm, largest 18.06 mm)
+  ring   nearest tip node of the drawn shape from the logged contact while touching: median 2.42 mm, largest 18.04 mm (308 frames, 142 of them over 3.8 mm and marked red); deepest cut of any skin node into the replayed cylinder 2.31 mm
+         by third of each touching stretch (first, middle, last), median: 1.81, 0.72, 5.21 mm
+  thumb  (the refit's node at the log sample nearest in time, as first rendered: median 1.16 mm, largest 9.65 mm)
+  thumb  nearest tip node of the drawn shape from the logged contact while touching: median 1.06 mm, largest 9.60 mm (329 frames, 14 of them over 3.8 mm and marked red); deepest cut of any skin node into the replayed cylinder 0.29 mm
+         by third of each touching stretch (first, middle, last), median: 1.23, 0.95, 1.05 mm
+  Smallest distance between skin nodes of different fingers (every third node, every third frame): 16.48 mm.
+  Lowest skin node above the palm plate's top: -0.78 mm.
+
+Files:
+  outputs\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_21nov\recorded_contacts_pneunet_fingers_contact_anywhere_on_the_tip_nearest_tip_node.mp4
+  outputs\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_21nov\recorded_contacts_pneunet_fingers_contact_anywhere_on_the_tip_nearest_tip_node_start.png
+  outputs\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_21nov\recorded_contacts_pneunet_fingers_contact_anywhere_on_the_tip_nearest_tip_node_middle.png
+  outputs\two_pneunet_fingers_human_like_mounting_contact_anywhere_on_tip_21nov\recorded_contacts_pneunet_fingers_contact_anywhere_on_the_tip_nearest_tip_node_end.png

@@ -1,0 +1,105 @@
+Push direction and size: each simulated two-pneu-net tip against the recorded finger (22 Nov).
+Nothing simulated here; logs read only. Comparative, not predictive.
+Cylinder radius 32.9 mm, half length 26.3 mm. Touch threshold 0.02 N.
+Recorded whole force = logged normal force + RECOVERED friction (one consistent split, not the only one).
+Simulated friction direction was not logged: angles use the simulated NORMAL push only.
+
+Checks on the recording's arrays:
+  rows: loader 3606, force file 3606; times equal: True
+  normal force equal to the file's: True; normal direction equal to the file's: True
+  finger order: loader ['index', 'middle', 'ring', 'thumb'], file ['index', 'middle', 'ring', 'thumb'], used here ['index', 'middle', 'ring', 'thumb']
+  recovered friction's part along the normal, over its size, where pressing: median 0.0000, largest 0.0000 (0 means it lies in the surface)
+  share of pressing samples whose logged normal direction was flipped to point into the cylinder: 0.0%
+Angles are taken in the world frame; each side uses its own cylinder pose.
+
+Run 'fixed_depth_main' in outputs/two_pneunet_fingers_turn_cylinder_on_axle_fixed_press_in_22nov (2250 samples of the gait):
+  index: 1689 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 93% of them. The finger's own rest position is past a flat end in 8% of them (8% of all its touching samples).
+    angle, simulated normal push to recorded normal push, deg: median 7.29 (10th to 90th percentile 1.87 to 12.97)
+    angle, simulated normal push to recorded whole force, deg: median 15.48 (10th to 90th percentile 6.59 to 28.46)
+    normal force, simulated over recorded: median 0.19 (10th to 90th percentile 0.12 to 0.26)
+    whole force size, simulated over recorded: median 0.20 (10th to 90th percentile 0.13 to 0.30)
+    friction over normal: simulated median 0.62 (10th to 90th percentile 0.28 to 0.72); recorded median 0.26 (10th to 90th percentile 0.07 to 0.51)
+    forces, N: simulated normal median 0.205, friction 0.126; recorded normal 1.102, recovered friction 0.280
+  middle: 1702 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 99% of them. The finger's own rest position is past a flat end in 1% of them (1% of all its touching samples).
+    angle, simulated normal push to recorded normal push, deg: median 3.60 (10th to 90th percentile 0.73 to 10.46)
+    angle, simulated normal push to recorded whole force, deg: median 13.42 (10th to 90th percentile 6.34 to 22.06)
+    normal force, simulated over recorded: median 0.20 (10th to 90th percentile 0.15 to 0.28)
+    whole force size, simulated over recorded: median 0.22 (10th to 90th percentile 0.15 to 0.29)
+    friction over normal: simulated median 0.44 (10th to 90th percentile 0.10 to 0.72); recorded median 0.23 (10th to 90th percentile 0.06 to 0.41)
+    forces, N: simulated normal median 0.205, friction 0.091; recorded normal 1.034, recovered friction 0.218
+  ring: 1567 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 52% of them. The finger's own rest position is past a flat end in 48% of them (48% of all its touching samples).
+    angle, simulated normal push to recorded normal push, deg: median 15.44 (10th to 90th percentile 1.65 to 42.03)
+    angle, simulated normal push to recorded whole force, deg: median 17.85 (10th to 90th percentile 6.06 to 32.30)
+    normal force, simulated over recorded: median 0.13 (10th to 90th percentile 0.04 to 0.24)
+    whole force size, simulated over recorded: median 0.15 (10th to 90th percentile 0.05 to 0.27)
+    friction over normal: simulated median 0.63 (10th to 90th percentile 0.27 to 0.72); recorded median 0.30 (10th to 90th percentile 0.10 to 0.58)
+    forces, N: simulated normal median 0.203, friction 0.113; recorded normal 1.269, recovered friction 0.332
+  thumb: 1823 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 100% of them. The finger's own rest position is past a flat end in 0% of them (0% of all its touching samples).
+    angle, simulated normal push to recorded normal push, deg: median 10.23 (10th to 90th percentile 0.94 to 17.20)
+    angle, simulated normal push to recorded whole force, deg: median 17.58 (10th to 90th percentile 5.72 to 33.86)
+    normal force, simulated over recorded: median 0.19 (10th to 90th percentile 0.13 to 0.25)
+    whole force size, simulated over recorded: median 0.20 (10th to 90th percentile 0.14 to 0.27)
+    friction over normal: simulated median 0.52 (10th to 90th percentile 0.26 to 0.72); recorded median 0.24 (10th to 90th percentile 0.12 to 0.35)
+    forces, N: simulated normal median 0.207, friction 0.107; recorded normal 1.120, recovered friction 0.282
+
+Run 'fixed_depth_stiff' in outputs/two_pneunet_fingers_turn_cylinder_on_axle_fixed_press_in_22nov (2250 samples of the gait):
+  index: 1694 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 92% of them. The finger's own rest position is past a flat end in 7% of them (7% of all its touching samples).
+    angle, simulated normal push to recorded normal push, deg: median 7.24 (10th to 90th percentile 2.50 to 13.13)
+    angle, simulated normal push to recorded whole force, deg: median 14.61 (10th to 90th percentile 6.04 to 28.77)
+    normal force, simulated over recorded: median 1.18 (10th to 90th percentile 0.75 to 1.62)
+    whole force size, simulated over recorded: median 1.23 (10th to 90th percentile 0.75 to 1.66)
+    friction over normal: simulated median 0.37 (10th to 90th percentile 0.17 to 0.72); recorded median 0.26 (10th to 90th percentile 0.07 to 0.51)
+    forces, N: simulated normal median 1.294, friction 0.475; recorded normal 1.102, recovered friction 0.280
+  middle: 1703 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 99% of them. The finger's own rest position is past a flat end in 1% of them (1% of all its touching samples).
+    angle, simulated normal push to recorded normal push, deg: median 3.69 (10th to 90th percentile 0.93 to 10.45)
+    angle, simulated normal push to recorded whole force, deg: median 12.82 (10th to 90th percentile 6.55 to 21.50)
+    normal force, simulated over recorded: median 1.26 (10th to 90th percentile 0.93 to 1.77)
+    whole force size, simulated over recorded: median 1.29 (10th to 90th percentile 0.94 to 1.76)
+    friction over normal: simulated median 0.29 (10th to 90th percentile 0.09 to 0.54); recorded median 0.23 (10th to 90th percentile 0.06 to 0.41)
+    forces, N: simulated normal median 1.294, friction 0.378; recorded normal 1.034, recovered friction 0.217
+  ring: 1621 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 50% of them. The finger's own rest position is past a flat end in 50% of them (50% of all its touching samples).
+    angle, simulated normal push to recorded normal push, deg: median 14.59 (10th to 90th percentile 1.70 to 42.10)
+    angle, simulated normal push to recorded whole force, deg: median 17.94 (10th to 90th percentile 5.87 to 32.92)
+    normal force, simulated over recorded: median 0.80 (10th to 90th percentile 0.21 to 1.49)
+    whole force size, simulated over recorded: median 0.87 (10th to 90th percentile 0.23 to 1.56)
+    friction over normal: simulated median 0.51 (10th to 90th percentile 0.18 to 0.72); recorded median 0.30 (10th to 90th percentile 0.10 to 0.58)
+    forces, N: simulated normal median 1.283, friction 0.469; recorded normal 1.256, recovered friction 0.337
+  thumb: 1824 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 100% of them. The finger's own rest position is past a flat end in 0% of them (0% of all its touching samples).
+    angle, simulated normal push to recorded normal push, deg: median 10.00 (10th to 90th percentile 0.96 to 16.85)
+    angle, simulated normal push to recorded whole force, deg: median 17.42 (10th to 90th percentile 6.07 to 32.74)
+    normal force, simulated over recorded: median 1.16 (10th to 90th percentile 0.82 to 1.53)
+    whole force size, simulated over recorded: median 1.18 (10th to 90th percentile 0.86 to 1.54)
+    friction over normal: simulated median 0.28 (10th to 90th percentile 0.14 to 0.56); recorded median 0.24 (10th to 90th percentile 0.12 to 0.35)
+    forces, N: simulated normal median 1.297, friction 0.367; recorded normal 1.119, recovered friction 0.282
+
+Run 'mass_5p99_g' in outputs/two_pneunet_fingers_turn_free_cylinder_lighter_22nov (2250 samples of the gait):
+  index: 1683 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 100% of them.
+    angle, simulated normal push to recorded normal push, deg: median 11.45 (10th to 90th percentile 3.34 to 19.99)
+    angle, simulated normal push to recorded whole force, deg: median 16.70 (10th to 90th percentile 10.54 to 28.10)
+    normal force, simulated over recorded: median 0.17 (10th to 90th percentile 0.09 to 0.29)
+    whole force size, simulated over recorded: median 0.18 (10th to 90th percentile 0.10 to 0.29)
+    friction over normal: simulated median 0.32 (10th to 90th percentile 0.16 to 0.63); recorded median 0.26 (10th to 90th percentile 0.07 to 0.51)
+    forces, N: simulated normal median 0.221, friction 0.064; recorded normal 1.102, recovered friction 0.279
+  middle: 1693 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 100% of them.
+    angle, simulated normal push to recorded normal push, deg: median 6.60 (10th to 90th percentile 2.42 to 9.65)
+    angle, simulated normal push to recorded whole force, deg: median 13.66 (10th to 90th percentile 5.69 to 23.29)
+    normal force, simulated over recorded: median 0.19 (10th to 90th percentile 0.06 to 0.31)
+    whole force size, simulated over recorded: median 0.20 (10th to 90th percentile 0.07 to 0.31)
+    friction over normal: simulated median 0.24 (10th to 90th percentile 0.14 to 0.72); recorded median 0.23 (10th to 90th percentile 0.06 to 0.41)
+    forces, N: simulated normal median 0.207, friction 0.051; recorded normal 1.028, recovered friction 0.217
+  ring: 1697 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 100% of them.
+    angle, simulated normal push to recorded normal push, deg: median 10.25 (10th to 90th percentile 6.01 to 22.69)
+    angle, simulated normal push to recorded whole force, deg: median 15.28 (10th to 90th percentile 6.96 to 41.25)
+    normal force, simulated over recorded: median 0.12 (10th to 90th percentile 0.07 to 0.25)
+    whole force size, simulated over recorded: median 0.12 (10th to 90th percentile 0.07 to 0.23)
+    friction over normal: simulated median 0.31 (10th to 90th percentile 0.11 to 0.50); recorded median 0.30 (10th to 90th percentile 0.10 to 0.55)
+    forces, N: simulated normal median 0.160, friction 0.047; recorded normal 1.291, recovered friction 0.344
+  thumb: 1714 samples with both pressing; simulated ball beside the cylinder's side (not past a flat end) in 100% of them.
+    angle, simulated normal push to recorded normal push, deg: median 10.86 (10th to 90th percentile 4.03 to 15.59)
+    angle, simulated normal push to recorded whole force, deg: median 17.71 (10th to 90th percentile 6.73 to 31.90)
+    normal force, simulated over recorded: median 0.16 (10th to 90th percentile 0.08 to 0.26)
+    whole force size, simulated over recorded: median 0.16 (10th to 90th percentile 0.08 to 0.26)
+    friction over normal: simulated median 0.20 (10th to 90th percentile 0.08 to 0.50); recorded median 0.24 (10th to 90th percentile 0.11 to 0.36)
+    forces, N: simulated normal median 0.181, friction 0.031; recorded normal 1.099, recovered friction 0.271
+
+Not measured: the angle between the simulated and recorded friction forces, and so between the whole forces. It needs the runs repeated with the tip's force vector logged.

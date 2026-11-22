@@ -1,0 +1,64 @@
+Four two-pneu-net fingers, mounted like the fingers of a hand, turn a cylinder carried on an axle: simulation with contact
+SIMULATION ONLY. Comparative, not predictive.
+
+Where the fingers stand and their inputs: outputs/two_pneunet_fingers_human_like_mounting_21nov/reach_check_results.json, mounting 'hand-like, roll up to 15 deg', unchanged.
+Recording: cylinder radius 32.9 mm, half length 26.3 mm, mass 23.9 g, friction 0.72. Window: log 2.56 to 7.06 s; the cylinder turns -161.6 deg in it.
+The cylinder is on an axle: its centre and axis direction follow the recording, with the recording's velocities; only the turn about its own axis is free. The axle has no friction, so the cylinder coasts when nothing touches it. In the recording the centre moves at a median 18.5 mm/s and the surface turns at a median 20.0 mm/s, so the carried motion is not small beside the turn.
+Finger stand-in: a tip ball of radius 11.5 mm and 5 g (ASSUMED) on a spring. Its rest position puts the ball's surface on the centre of the free finger's tip face for the commanded inputs. Only the ball touches. Check: the plan's tip position and the tip face's centre differ by at most 1.1e-13 mm.
+Tip stiffness (ASSUMED, same in all directions; from the one-pneu-net stand-in of the 21 Nov upright arrangement): main 56.1 N/m, soft 7.9 N/m, stiff 399.7 N/m.
+Timeline (ASSUMED): tips brought in 0.2 to 1 s with the turn held; let go at 1.5 s; gait from 2.5 s, run 5 times slower than the recording (22.5 s); then 1 s with the last targets held.
+Friction tip to cylinder 0.72 (ASSUMED: the log's value). Elliptic cone, impratio 10, time step 0.0005 s.
+Earlier, for the rule: the 21 Nov contact simulation (cylinder free to tip and slide), two inputs, main stiffness, turned -44.8 deg, 28% of the recorded turn.
+
+four two-pneu-net fingers, both inputs driven; stiffness main (56.1 N/m):
+  Turn over the gait -60.7 deg, 38% of the recorded -161.6 deg (the axle's own angle changed -62.1 deg). In the wait before the gait +0.0 deg; in the 1 s after it -0.1 deg.
+  Coasting: -46.8 deg turned while at least one tip pressed, -13.9 deg while none did (44% of the gait's time had no tip pressing).
+    index: touching agrees with the log 28% of the gait (touching 5%, log 76%); whole lifts 24 (log 2); normal force 0.039 N (log 1.179 N), tangential 0.026 N; ball from its rest position median 0.1 mm, largest 1.2 mm; drawn skin cuts into the cylinder at most 4.3 mm (44% of the gait).
+    middle: touching agrees with the log 25% of the gait (touching 2%, log 77%); whole lifts 12 (log 2); normal force 0.025 N (log 1.040 N), tangential 0.018 N; ball from its rest position median 0.1 mm, largest 0.6 mm; drawn skin cuts into the cylinder at most 2.5 mm (64% of the gait).
+    ring: touching agrees with the log 50% of the gait (touching 26%, log 76%); whole lifts 15 (log 1); normal force 0.121 N (log 1.345 N), tangential 0.061 N; ball from its rest position median 0.3 mm, largest 4.6 mm; drawn skin cuts into the cylinder at most 3.6 mm (53% of the gait).
+    thumb: touching agrees with the log 48% of the gait (touching 30%, log 82%); whole lifts 26 (log 2); normal force 0.035 N (log 1.149 N), tangential 0.016 N; ball from its rest position median 0.4 mm, largest 1.4 mm; drawn skin cuts into the cylinder at most 2.7 mm (81% of the gait).
+
+REFERENCE, not a finger: the ball's surface on the logged contacts themselves; stiffness main (56.1 N/m):
+  Turn over the gait -147.5 deg, 91% of the recorded -161.6 deg (the axle's own angle changed -148.9 deg). In the wait before the gait +0.0 deg; in the 1 s after it -0.2 deg.
+  Coasting: -63.2 deg turned while at least one tip pressed, -84.3 deg while none did (56% of the gait's time had no tip pressing).
+    index: touching agrees with the log 40% of the gait (touching 16%, log 76%); whole lifts 15 (log 2); normal force 0.046 N (log 1.179 N), tangential 0.026 N; ball from its rest position median 0.2 mm, largest 1.5 mm.
+    middle: touching agrees with the log 35% of the gait (touching 15%, log 77%); whole lifts 25 (log 2); normal force 0.062 N (log 1.040 N), tangential 0.029 N; ball from its rest position median 0.2 mm, largest 6.5 mm.
+    ring: touching agrees with the log 35% of the gait (touching 12%, log 76%); whole lifts 11 (log 1); normal force 0.024 N (log 1.345 N), tangential 0.012 N; ball from its rest position median 0.2 mm, largest 1.1 mm.
+    thumb: touching agrees with the log 43% of the gait (touching 25%, log 82%); whole lifts 27 (log 2); normal force 0.028 N (log 1.149 N), tangential 0.015 N; ball from its rest position median 0.3 mm, largest 0.9 mm.
+
+four two-pneu-net fingers, both inputs driven; stiffness soft (7.9 N/m):
+  Turn over the gait -47.6 deg, 29% of the recorded -161.6 deg (the axle's own angle changed -49.1 deg). In the wait before the gait +0.0 deg; in the 1 s after it -0.4 deg.
+  Coasting: -22.2 deg turned while at least one tip pressed, -25.5 deg while none did (88% of the gait's time had no tip pressing).
+    index: touching agrees with the log 24% of the gait (touching 1%, log 76%); whole lifts 9 (log 2); normal force 0.023 N (log 1.179 N), tangential 0.017 N; ball from its rest position median 0.4 mm, largest 2.4 mm; drawn skin cuts into the cylinder at most 4.3 mm (44% of the gait).
+    middle: touching agrees with the log 23% of the gait (touching 0%, log 77%); whole lifts 0 (log 2); normal force 0.000 N (log 1.040 N), tangential 0.000 N; ball from its rest position median 0.3 mm, largest 1.5 mm; drawn skin cuts into the cylinder at most 2.5 mm (64% of the gait).
+    ring: touching agrees with the log 35% of the gait (touching 11%, log 76%); whole lifts 8 (log 1); normal force 0.029 N (log 1.345 N), tangential 0.013 N; ball from its rest position median 0.6 mm, largest 6.2 mm; drawn skin cuts into the cylinder at most 3.6 mm (53% of the gait).
+    thumb: touching agrees with the log 18% of the gait (touching 0%, log 82%); whole lifts 0 (log 2); normal force 0.020 N (log 1.149 N), tangential 0.015 N; ball from its rest position median 0.5 mm, largest 1.9 mm; drawn skin cuts into the cylinder at most 2.7 mm (81% of the gait).
+
+REFERENCE, not a finger: the ball's surface on the logged contacts themselves; stiffness soft (7.9 N/m):
+  Turn over the gait -150.3 deg, 93% of the recorded -161.6 deg (the axle's own angle changed -151.7 deg). In the wait before the gait +0.0 deg; in the 1 s after it -0.7 deg.
+  Coasting: +1.2 deg turned while at least one tip pressed, -151.5 deg while none did (98% of the gait's time had no tip pressing).
+    index: touching agrees with the log 24% of the gait (touching 0%, log 76%); whole lifts 1 (log 2); normal force 0.022 N (log 1.179 N), tangential 0.012 N; ball from its rest position median 0.5 mm, largest 1.8 mm.
+    middle: touching agrees with the log 23% of the gait (touching 2%, log 77%); whole lifts 2 (log 2); normal force 0.034 N (log 1.040 N), tangential 0.016 N; ball from its rest position median 0.3 mm, largest 6.7 mm.
+    ring: touching agrees with the log 24% of the gait (touching 0%, log 76%); whole lifts 0 (log 1); normal force 0.000 N (log 1.345 N), tangential 0.000 N; ball from its rest position median 0.5 mm, largest 3.0 mm.
+    thumb: touching agrees with the log 18% of the gait (touching 0%, log 82%); whole lifts 2 (log 2); normal force 0.038 N (log 1.149 N), tangential 0.027 N; ball from its rest position median 0.5 mm, largest 1.3 mm.
+
+four two-pneu-net fingers, both inputs driven; stiffness stiff (399.7 N/m):
+  Turn over the gait -51.3 deg, 32% of the recorded -161.6 deg (the axle's own angle changed -52.7 deg). In the wait before the gait +0.0 deg; in the 1 s after it -0.0 deg.
+  Coasting: -70.1 deg turned while at least one tip pressed, +18.8 deg while none did (25% of the gait's time had no tip pressing).
+    index: touching agrees with the log 33% of the gait (touching 9%, log 76%); whole lifts 12 (log 2); normal force 0.154 N (log 1.179 N), tangential 0.104 N; ball from its rest position median 0.1 mm, largest 1.1 mm; drawn skin cuts into the cylinder at most 4.3 mm (44% of the gait).
+    middle: touching agrees with the log 31% of the gait (touching 8%, log 77%); whole lifts 11 (log 2); normal force 0.070 N (log 1.040 N), tangential 0.050 N; ball from its rest position median 0.1 mm, largest 0.5 mm; drawn skin cuts into the cylinder at most 2.5 mm (64% of the gait).
+    ring: touching agrees with the log 59% of the gait (touching 35%, log 76%); whole lifts 7 (log 1); normal force 0.574 N (log 1.345 N), tangential 0.216 N; ball from its rest position median 0.1 mm, largest 3.7 mm; drawn skin cuts into the cylinder at most 3.6 mm (53% of the gait).
+    thumb: touching agrees with the log 66% of the gait (touching 48%, log 82%); whole lifts 10 (log 2); normal force 0.152 N (log 1.149 N), tangential 0.074 N; ball from its rest position median 0.2 mm, largest 1.2 mm; drawn skin cuts into the cylinder at most 2.7 mm (81% of the gait).
+
+REFERENCE, not a finger: the ball's surface on the logged contacts themselves; stiffness stiff (399.7 N/m):
+  Turn over the gait -146.5 deg, 91% of the recorded -161.6 deg (the axle's own angle changed -148.0 deg). In the wait before the gait +0.0 deg; in the 1 s after it -0.1 deg.
+  Coasting: -143.8 deg turned while at least one tip pressed, -2.8 deg while none did (1% of the gait's time had no tip pressing).
+    index: touching agrees with the log 69% of the gait (touching 46%, log 76%); whole lifts 22 (log 2); normal force 0.120 N (log 1.179 N), tangential 0.064 N; ball from its rest position median 0.1 mm, largest 1.2 mm.
+    middle: touching agrees with the log 76% of the gait (touching 56%, log 77%); whole lifts 17 (log 2); normal force 0.141 N (log 1.040 N), tangential 0.071 N; ball from its rest position median 0.1 mm, largest 5.8 mm.
+    ring: touching agrees with the log 55% of the gait (touching 31%, log 76%); whole lifts 3 (log 1); normal force 0.102 N (log 1.345 N), tangential 0.050 N; ball from its rest position median 0.1 mm, largest 0.4 mm.
+    thumb: touching agrees with the log 95% of the gait (touching 77%, log 82%); whole lifts 10 (log 2); normal force 0.099 N (log 1.149 N), tangential 0.050 N; ball from its rest position median 0.2 mm, largest 0.7 mm.
+
+RULE (fixed in the header before the first run): at the main stiffness the two-input run turns the same way as the recording and by a larger share than the 21 Nov contact simulation's.
+  MET: -60.7 deg, 38% against 28%. The reference on the same axle: -147.5 deg, 91%.
+
+Not modelled: the finger's body and its bending under load (only a tip ball on a spring touches); the palm; anything holding the cylinder other than the axle; pressure dynamics.

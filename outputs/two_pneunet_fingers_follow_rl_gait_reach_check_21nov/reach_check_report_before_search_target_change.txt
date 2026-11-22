@@ -1,0 +1,75 @@
+Four two-pneu-net fingers against one round of a recorded learned rotation: reach check
+GEOMETRY ONLY, no simulation. Comparative, not predictive.
+
+Recording: data/rl_logs/hora_seed42_30s*.npz. Cylinder radius 32.9 mm, half length 26.3 mm.
+Round: log 2.56 to 5.26 s (2.70 s), cylinder turn -94.5 deg. One round of the gait ends at 4.71 s, when index+middle+thumb next touch alone for at least 0.3 s; the window runs on until every fingertip has one whole lift and landing.
+Cylinder axis is 7.9 deg from vertical on average; world z is up.
+Sets of touching fingertips in the round (lifts and landings as logged):
+  2.56 to 3.06 s (0.50 s)  index+middle+thumb           turn -16.8 deg
+  3.07 to 3.07 s (0.00 s)  index+middle+ring            turn +0.0 deg
+  3.07 to 3.10 s (0.02 s)  index+middle+ring+thumb      turn -1.3 deg
+  3.11 to 3.45 s (0.34 s)  index+middle+ring            turn -13.1 deg
+  3.46 to 3.50 s (0.04 s)  index+middle+ring+thumb      turn -1.4 deg
+  3.51 to 4.03 s (0.52 s)  middle+ring+thumb            turn -16.4 deg
+  4.04 to 4.10 s (0.06 s)  index+middle+ring+thumb      turn -2.1 deg
+  4.11 to 4.65 s (0.54 s)  index+ring+thumb             turn -20.7 deg
+  4.66 to 4.66 s (0.00 s)  index+middle+thumb           turn +0.0 deg
+  4.67 to 4.70 s (0.03 s)  index+middle+ring+thumb      turn -1.4 deg
+
+Finger: C:/Users/geo/Documents/Projects/ARIA/Gramain_extraction/gramian_map\experiments\pneunet_tandem\knuckle_analysis_20nov\tip_surface_points.csv
+  27 of 49 input pairs measured, the rest filled in by that analysis; refined 4 times between levels here.
+  Length 73.0 mm, depth 23.0 mm. Inputs 0 to 120 (first pneu-net) and 0 to 120 (second), simulation units.
+  Tip centre travel: first input alone 26.9 mm, second alone 11.6 mm, furthest two reachable points 30.5 mm apart.
+
+What each recorded fingertip does in the round (a lift shorter than 0.05 s is not counted, ASSUMED):
+  index  touching 2.56 to 3.49 s (0.93 s): contact moves 19.6 mm in the world (start to end 19.6 mm), cylinder turns -34.3 deg
+  index  off      3.52 to 4.02 s (0.50 s): lands 29.0 mm from where it lifted
+  index  touching 4.06 to 5.26 s (1.20 s): contact moves 22.4 mm in the world (start to end 22.4 mm), cylinder turns -42.7 deg
+  middle touching 2.56 to 4.09 s (1.53 s): contact moves 15.9 mm in the world (start to end 13.3 mm), cylinder turns -53.3 deg
+  middle off      4.12 to 4.62 s (0.50 s): lands 17.8 mm from where it lifted
+  middle touching 4.66 to 5.26 s (0.60 s): contact moves 3.2 mm in the world (start to end 2.3 mm), cylinder turns -19.6 deg
+  ring   off      2.56 to 3.06 s (0.50 s): cut by the end of the round
+  ring   touching 3.09 to 4.69 s (1.60 s): contact moves 26.4 mm in the world (start to end 26.4 mm), cylinder turns -57.6 deg
+  ring   off      4.72 to 5.19 s (0.47 s): lands 34.4 mm from where it lifted
+  ring   touching 5.22 to 5.26 s (0.03 s): contact moves 0.7 mm in the world (start to end 0.7 mm), cylinder turns -1.1 deg
+  thumb  touching 2.56 to 3.09 s (0.53 s): contact moves 11.8 mm in the world (start to end 11.8 mm), cylinder turns -18.7 deg
+  thumb  off      3.12 to 3.42 s (0.30 s): lands 24.7 mm from where it lifted
+  thumb  touching 3.46 to 5.19 s (1.73 s): contact moves 24.0 mm in the world (start to end 20.5 mm), cylinder turns -59.0 deg
+  thumb  off      5.22 to 5.26 s (0.03 s): cut by the end of the round
+
+First rule: median distance from the logged contact <= 3.8 mm; clearance on every return >= 2.06 mm. The thresholds were fixed before the fit; the way a return's clearance is measured was changed after the first run (see the header of the script).
+Second rule, ADDED AFTER the control passed the first: the same, with each return's clearance reduced by the largest gap between tip and cylinder in the stays either side.
+Every clamped end is kept below the cylinder's bottom face (ASSUMED: a palm under the object).
+The tip centre is asked to sit half the finger's depth off the logged contact point along the surface normal (ASSUMED; tip tilt ignored).
+
+Two-pneu-net finger, both inputs free:
+  index  contact error median 1.57 mm, rms 2.76, max 9.77; return clearance 3.52-4.02 s: 8.1 mm; inputs first 0 to 120, second 0 to 120; finger at 13 deg to the cylinder's axis, clamped end 87 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median -0.29 mm, range -2.49 to +2.13 (negative = pressed in), over 1 mm in 11% of samples; offset along the surface median 1.08 mm, max 9.62; largest error at 4.06 s, 0% of the way through its stay; 80% of touching samples within half a level of a measured input pair
+         worst return clearance less the largest gap either side 6.0 mm: second rule PASS
+  middle contact error median 0.37 mm, rms 0.44, max 1.05; return clearance 4.12-4.62 s: 8.1 mm; inputs first 0 to 120, second 0 to 120; finger at 22 deg to the cylinder's axis, clamped end 82 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median -0.25 mm, range -0.91 to +0.45 (negative = pressed in), over 1 mm in 0% of samples; offset along the surface median 0.35 mm, max 1.04; largest error at 4.66 s, 0% of the way through its stay; 59% of touching samples within half a level of a measured input pair
+         worst return clearance less the largest gap either side 7.7 mm: second rule PASS
+  ring   contact error median 1.18 mm, rms 3.03, max 12.43; return clearance 2.56-3.06 s: 10.2 mm (cut by the round); 4.72-5.19 s: 5.8 mm; inputs first 0 to 120, second 0 to 120; finger at 21 deg to the cylinder's axis, clamped end 90 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median -0.49 mm, range -4.59 to +0.88 (negative = pressed in), over 1 mm in 0% of samples; offset along the surface median 0.84 mm, max 10.81; largest error at 5.22 s, 0% of the way through its stay; 78% of touching samples within half a level of a measured input pair
+         worst return clearance less the largest gap either side 4.9 mm: second rule PASS
+  thumb  contact error median 0.96 mm, rms 1.52, max 6.26; return clearance 3.12-3.42 s: 3.1 mm; 5.22-5.26 s: 6.8 mm (cut by the round); inputs first 0 to 120, second 0 to 120; finger at 9 deg to the cylinder's axis, clamped end 85 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median -0.29 mm, range -2.18 to +1.14 (negative = pressed in), over 1 mm in 1% of samples; offset along the surface median 0.94 mm, max 5.72; largest error at 3.09 s, 100% of the way through its stay; 69% of touching samples within half a level of a measured input pair
+         worst return clearance less the largest gap either side 1.9 mm: second rule FAIL
+  Passing: first rule 4 of 4, second rule 3 of 4.
+
+Control, the same finger with one input held constant (best level of each input, by the fit's cost):
+  index  contact error median 4.37 mm, rms 5.82, max 17.00; return clearance 3.52-4.02 s: 8.3 mm; inputs first 0 to 120, second 80 to 80; finger at 81 deg to the cylinder's axis, clamped end 38 mm below the cylinder's centre: first rule FAIL
+         while the log says touching: gap to the surface median -1.37 mm, range -6.37 to +8.59 (negative = pressed in), over 1 mm in 30% of samples; offset along the surface median 1.66 mm, max 14.93; largest error at 4.06 s, 0% of the way through its stay; 67% of touching samples within half a level of a measured input pair
+         worst return clearance less the largest gap either side -0.3 mm: second rule FAIL  (second input held at 80)
+  middle contact error median 1.88 mm, rms 3.22, max 7.93; return clearance 4.12-4.62 s: 3.3 mm; inputs first 0 to 120, second 120 to 120; finger at 43 deg to the cylinder's axis, clamped end 58 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median +0.20 mm, range -7.79 to +5.12 (negative = pressed in), over 1 mm in 38% of samples; offset along the surface median 0.63 mm, max 2.92; largest error at 3.36 s, 52% of the way through its stay; 77% of touching samples within half a level of a measured input pair
+         worst return clearance less the largest gap either side -1.8 mm: second rule FAIL  (second input held at 120)
+  ring   contact error median 4.75 mm, rms 5.90, max 17.64; return clearance 2.56-3.06 s: 7.3 mm (cut by the round); 4.72-5.19 s: 3.1 mm; inputs first 0 to 120, second 100 to 100; finger at 72 deg to the cylinder's axis, clamped end 45 mm below the cylinder's centre: first rule FAIL
+         while the log says touching: gap to the surface median -2.08 mm, range -4.87 to +6.34 (negative = pressed in), over 1 mm in 42% of samples; offset along the surface median 2.19 mm, max 17.54; largest error at 5.22 s, 0% of the way through its stay; 70% of touching samples within half a level of a measured input pair
+         worst return clearance less the largest gap either side -3.2 mm: second rule FAIL  (second input held at 100)
+  thumb  contact error median 1.63 mm, rms 4.34, max 11.40; return clearance 3.12-3.42 s: 3.1 mm; 5.22-5.26 s: 3.1 mm (cut by the round); inputs first 10 to 120, second 120 to 120; finger at 16 deg to the cylinder's axis, clamped end 82 mm below the cylinder's centre: first rule PASS
+         while the log says touching: gap to the surface median -0.37 mm, range -5.48 to +9.77 (negative = pressed in), over 1 mm in 23% of samples; offset along the surface median 1.07 mm, max 8.27; largest error at 3.46 s, 0% of the way through its stay; 84% of touching samples within half a level of a measured input pair
+         worst return clearance less the largest gap either side -6.7 mm: second rule FAIL  (second input held at 120)
+  Passing: first rule 2 of 4, second rule 0 of 4.
+
+Not checked: finger bodies against the cylinder and each other (fingers lying close alongside the cylinder make this the likeliest thing to fail next); tip tilt; forces; speed. The return paths' input pairs are not checked against which table points were measured.
