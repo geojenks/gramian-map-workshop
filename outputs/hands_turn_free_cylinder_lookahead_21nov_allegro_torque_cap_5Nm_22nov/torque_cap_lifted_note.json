@@ -1,0 +1,23 @@
+{
+ "made_by": "tools/allegro_turn_torque_cap_lifted_22nov.py",
+ "torque_cap_N_m": 5.0,
+ "real_cap_N_m": 0.5,
+ "runs": {
+  "allegro, feedback, seed 0": {
+   "share_of_time_any_actuator_above_real_cap": 0.1518784972022382,
+   "largest_torque_N_m": 1.2369621742420804
+  },
+  "allegro, feedback, seed 1": {
+   "share_of_time_any_actuator_above_real_cap": 0.4540367705835332,
+   "largest_torque_N_m": 1.748436781482012
+  },
+  "allegro, feedback, seed 2": {
+   "share_of_time_any_actuator_above_real_cap": 0.1334932054356515,
+   "largest_torque_N_m": 0.9990905262261243
+  },
+  "allegro, no feedback": {
+   "share_of_time_any_actuator_above_real_cap": 0.0,
+   "largest_torque_N_m": 0.25137832407727523
+  }
+ }
+}

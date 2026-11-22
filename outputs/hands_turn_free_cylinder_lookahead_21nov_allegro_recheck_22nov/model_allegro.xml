@@ -1,0 +1,261 @@
+<mujoco model="allegro_right">
+  <compiler angle="radian" meshdir="C:\Users\geo\Documents\Projects\gramian-map-workshop\external\mujoco_menagerie\wonik_allegro\assets/"/>
+
+  <option impratio="10" cone="elliptic"/>
+
+  <default>
+    <default class="allegro_right">
+      <joint damping="0.1"/>
+      <geom density="800"/>
+      <general biastype="affine" biasprm="0 -1"/>
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2" material="black"/>
+        <default class="palm_visual">
+          <geom mesh="base_link"/>
+        </default>
+        <default class="base_visual">
+          <geom mesh="link_0.0"/>
+        </default>
+        <default class="proximal_visual">
+          <geom mesh="link_1.0"/>
+        </default>
+        <default class="medial_visual">
+          <geom mesh="link_2.0"/>
+        </default>
+        <default class="distal_visual">
+          <geom mesh="link_3.0"/>
+        </default>
+        <default class="fingertip_visual">
+          <geom material="white" mesh="link_3.0_tip"/>
+        </default>
+        <default class="thumbtip_visual">
+          <geom material="white" mesh="link_15.0_tip"/>
+        </default>
+      </default>
+      <default class="collision">
+        <geom type="box" group="3"/>
+        <default class="palm_collision">
+          <geom size="0.0204 0.0565 0.0475"/>
+        </default>
+        <default class="base_collision">
+          <geom size="0.0098 0.01375 0.0082"/>
+          <default class="thumb_base_collision">
+            <geom size="0.0179 0.017 0.02275"/>
+          </default>
+        </default>
+        <default class="proximal_collision">
+          <geom size="0.0098 0.01375 0.027"/>
+          <default class="thumb_proximal_collision">
+            <geom size="0.0098 0.01375 0.00885"/>
+          </default>
+        </default>
+        <default class="medial_collision">
+          <geom size="0.0098 0.01375 0.0192"/>
+          <default class="thumb_medial_collision">
+            <geom size="0.0098 0.01375 0.0257"/>
+          </default>
+        </default>
+        <default class="distal_collision">
+          <geom size="0.0098 0.01375 0.008"/>
+          <default class="thumb_distal_collision">
+            <geom size="0.0098 0.01375 0.0157"/>
+          </default>
+        </default>
+        <default class="fingertip_collision">
+          <geom size="0.012 0.01 0" type="capsule"/>
+          <default class="thumbtip_collision">
+            <geom size="0.012 0.008 0"/>
+          </default>
+        </default>
+      </default>
+      <default class="base">
+        <joint range="-0.47 0.47"/>
+        <general ctrlrange="-0.47 0.47"/>
+      </default>
+      <default class="proximal">
+        <joint range="-0.196 1.61"/>
+        <general ctrlrange="-0.196 1.61"/>
+      </default>
+      <default class="medial">
+        <joint range="-0.174 1.709"/>
+        <general ctrlrange="-0.174 1.709"/>
+      </default>
+      <default class="distal">
+        <joint range="-0.227 1.618"/>
+        <general ctrlrange="-0.227 1.618"/>
+      </default>
+      <default class="thumb_base">
+        <joint range="0.263 1.396"/>
+        <general ctrlrange="0.263 1.396"/>
+      </default>
+      <default class="thumb_proximal">
+        <joint range="-0.105 1.163"/>
+        <general ctrlrange="-0.105 1.163"/>
+      </default>
+      <default class="thumb_medial">
+        <joint range="-0.189 1.644"/>
+        <general ctrlrange="-0.189 1.644"/>
+      </default>
+      <default class="thumb_distal">
+        <joint range="-0.162 1.719"/>
+        <general ctrlrange="-0.162 1.719"/>
+      </default>
+    </default>
+  </default>
+
+  <asset>
+    <material name="black" rgba="0.2 0.2 0.2 1"/>
+    <material name="white" rgba="0.9 0.9 0.9 1"/>
+    <mesh name="base_link" file="base_link.stl"/>
+    <mesh name="link_0.0" file="link_0.0.stl"/>
+    <mesh name="link_1.0" file="link_1.0.stl"/>
+    <mesh name="link_2.0" file="link_2.0.stl"/>
+    <mesh name="link_3.0" file="link_3.0.stl"/>
+    <mesh name="link_3.0_tip" file="link_3.0_tip.stl"/>
+    <mesh name="link_12.0_right" file="link_12.0_right.stl"/>
+    <mesh name="link_13.0" file="link_13.0.stl"/>
+    <mesh name="link_14.0" file="link_14.0.stl"/>
+    <mesh name="link_15.0" file="link_15.0.stl"/>
+    <mesh name="link_15.0_tip" file="link_15.0_tip.stl"/>
+  </asset>
+
+  <worldbody>
+    <body name="palm" childclass="allegro_right" pos="-4.91239e-09 4.05462e-09 0.5" quat="0.5 0.5 -0.5 0.5" gravcomp="1">
+      <geom class="palm_visual" friction="0.721185" mesh="base_link"/>
+      <geom class="palm_collision" pos="-0.0093 0 -0.0475" friction="0.721185" mass="0"/>
+      <body name="ff_base" pos="0 0.0435 -0.001542" quat="0.999048 -0.0436194 0 0" gravcomp="1">
+        <joint name="ffj0" class="base" pos="0 0 0" axis="0 0 1"/>
+        <geom class="base_visual" friction="0.721185" mesh="link_0.0"/>
+        <geom class="base_collision" pos="0 0 0.0082" friction="0.721185" mass="0"/>
+        <body name="ff_proximal" pos="0 0 0.0164" gravcomp="1">
+          <joint name="ffj1" class="proximal" pos="0 0 0" axis="0 1 0"/>
+          <geom class="proximal_visual" friction="0.721185" mesh="link_1.0"/>
+          <geom class="proximal_collision" pos="0 0 0.027" friction="0.721185" mass="0"/>
+          <body name="ff_medial" pos="0 0 0.054" gravcomp="1">
+            <joint name="ffj2" class="medial" pos="0 0 0" axis="0 1 0"/>
+            <geom class="medial_visual" friction="0.721185" mesh="link_2.0"/>
+            <geom class="medial_collision" pos="0 0 0.0192" friction="0.721185" mass="0"/>
+            <body name="ff_distal" pos="0 0 0.0384" gravcomp="1">
+              <joint name="ffj3" class="distal" pos="0 0 0" axis="0 1 0"/>
+              <geom class="distal_visual" friction="0.721185" mesh="link_3.0"/>
+              <geom class="distal_collision" pos="0 0 0.008" friction="0.721185" mass="0"/>
+              <geom name="ff_distal_ball" size="0.01235" pos="0 0 0.0515" friction="0.721185" mass="0" rgba="0.9 0.9 0.9 1"/>
+              <body name="ff_tip" gravcomp="1">
+                <geom class="fingertip_visual" pos="0 0 0.0267" friction="0.721185" mesh="link_3.0_tip"/>
+                <geom class="fingertip_collision" pos="0 0 0.019" contype="0" conaffinity="0" friction="0.721185" mass="0"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="mf_base" pos="0 0 0.0007" gravcomp="1">
+        <joint name="mfj0" class="base" pos="0 0 0" axis="0 0 1"/>
+        <geom class="base_visual" friction="0.721185" mesh="link_0.0"/>
+        <geom class="base_collision" pos="0 0 0.0082" friction="0.721185" mass="0"/>
+        <body name="mf_proximal" pos="0 0 0.0164" gravcomp="1">
+          <joint name="mfj1" class="proximal" pos="0 0 0" axis="0 1 0"/>
+          <geom class="proximal_visual" friction="0.721185" mesh="link_1.0"/>
+          <geom class="proximal_collision" pos="0 0 0.027" friction="0.721185" mass="0"/>
+          <body name="mf_medial" pos="0 0 0.054" gravcomp="1">
+            <joint name="mfj2" class="medial" pos="0 0 0" axis="0 1 0"/>
+            <geom class="medial_visual" friction="0.721185" mesh="link_2.0"/>
+            <geom class="medial_collision" pos="0 0 0.0192" friction="0.721185" mass="0"/>
+            <body name="mf_distal" pos="0 0 0.0384" gravcomp="1">
+              <joint name="mfj3" class="distal" pos="0 0 0" axis="0 1 0"/>
+              <geom class="distal_visual" friction="0.721185" mesh="link_3.0"/>
+              <geom class="distal_collision" pos="0 0 0.008" friction="0.721185" mass="0"/>
+              <geom name="mf_distal_ball" size="0.01235" pos="0 0 0.0515" friction="0.721185" mass="0" rgba="0.9 0.9 0.9 1"/>
+              <body name="mf_tip" gravcomp="1">
+                <geom class="fingertip_visual" pos="0 0 0.0267" friction="0.721185" mesh="link_3.0_tip"/>
+                <geom class="fingertip_collision" pos="0 0 0.019" contype="0" conaffinity="0" friction="0.721185" mass="0"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="rf_base" pos="0 -0.0435 -0.001542" quat="0.999048 0.0436194 0 0" gravcomp="1">
+        <joint name="rfj0" class="base" pos="0 0 0" axis="0 0 1"/>
+        <geom class="base_visual" friction="0.721185" mesh="link_0.0"/>
+        <geom class="base_collision" pos="0 0 0.0082" friction="0.721185" mass="0"/>
+        <body name="rf_proximal" pos="0 0 0.0164" gravcomp="1">
+          <joint name="rfj1" class="proximal" pos="0 0 0" axis="0 1 0"/>
+          <geom class="proximal_visual" friction="0.721185" mesh="link_1.0"/>
+          <geom class="proximal_collision" pos="0 0 0.027" friction="0.721185" mass="0"/>
+          <body name="rf_medial" pos="0 0 0.054" gravcomp="1">
+            <joint name="rfj2" class="medial" pos="0 0 0" axis="0 1 0"/>
+            <geom class="medial_visual" friction="0.721185" mesh="link_2.0"/>
+            <geom class="medial_collision" pos="0 0 0.0192" friction="0.721185" mass="0"/>
+            <body name="rf_distal" pos="0 0 0.0384" gravcomp="1">
+              <joint name="rfj3" class="distal" pos="0 0 0" axis="0 1 0"/>
+              <geom class="distal_visual" friction="0.721185" mesh="link_3.0"/>
+              <geom class="distal_collision" pos="0 0 0.008" friction="0.721185" mass="0"/>
+              <geom name="rf_distal_ball" size="0.01235" pos="0 0 0.0515" friction="0.721185" mass="0" rgba="0.9 0.9 0.9 1"/>
+              <body name="rf_tip" gravcomp="1">
+                <geom class="fingertip_visual" pos="0 0 0.0267" friction="0.721185" mesh="link_3.0_tip"/>
+                <geom class="fingertip_collision" pos="0 0 0.019" contype="0" conaffinity="0" friction="0.721185" mass="0"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="th_base" pos="-0.0182 0.019333 -0.045987" quat="0.477714 -0.521334 -0.521334 -0.477714" gravcomp="1">
+        <joint name="thj0" class="thumb_base" pos="0 0 0" axis="-1 0 0"/>
+        <geom class="visual" friction="0.721185" mesh="link_12.0_right"/>
+        <geom class="thumb_base_collision" pos="-0.0179 0.009 0.0145" friction="0.721185" mass="0"/>
+        <body name="th_proximal" pos="-0.027 0.005 0.0399" gravcomp="1">
+          <joint name="thj1" class="thumb_proximal" pos="0 0 0" axis="0 0 1"/>
+          <geom class="visual" friction="0.721185" mesh="link_13.0"/>
+          <geom class="thumb_proximal_collision" pos="0 0 0.00885" friction="0.721185" mass="0"/>
+          <body name="th_medial" pos="0 0 0.0177" gravcomp="1">
+            <joint name="thj2" class="thumb_medial" pos="0 0 0" axis="0 1 0"/>
+            <geom class="visual" friction="0.721185" mesh="link_14.0"/>
+            <geom class="thumb_medial_collision" pos="0 0 0.0257" friction="0.721185" mass="0"/>
+            <body name="th_distal" pos="0 0 0.0514" gravcomp="1">
+              <joint name="thj3" class="thumb_distal" pos="0 0 0" axis="0 1 0"/>
+              <geom class="visual" friction="0.721185" mesh="link_15.0"/>
+              <geom class="thumb_distal_collision" pos="0 0 0.0157" friction="0.721185" mass="0"/>
+              <geom name="th_distal_ball" size="0.01235" pos="0 0 0.0671" friction="0.721185" mass="0" rgba="0.9 0.9 0.9 1"/>
+              <body name="th_tip" gravcomp="1">
+                <geom class="thumbtip_visual" pos="0 0 0.0423" friction="0.721185" mesh="link_15.0_tip"/>
+                <geom class="thumbtip_collision" pos="0 0 0.035" contype="0" conaffinity="0" friction="0.721185" mass="0"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    <body name="obj">
+      <joint name="obj_free" type="free"/>
+      <geom name="obj" size="0.0329014 0.0263211" type="cylinder" friction="0.721185" mass="0.0239401" rgba="0.85 0.75 0.45 1"/>
+      <geom name="mark0" size="0.0332304 0.003 0.0268476" type="box" contype="0" conaffinity="0" mass="0" rgba="0.75 0.2 0.15 1"/>
+      <geom name="mark1" size="0.0332304 0.003 0.0268476" quat="0.707107 0 0 0.707107" type="box" contype="0" conaffinity="0" mass="0" rgba="0.2 0.3 0.6 1"/>
+    </body>
+  </worldbody>
+
+  <contact>
+    <exclude body1="palm" body2="ff_base"/>
+    <exclude body1="palm" body2="mf_base"/>
+    <exclude body1="palm" body2="rf_base"/>
+    <exclude body1="palm" body2="th_base"/>
+    <exclude body1="palm" body2="th_proximal"/>
+  </contact>
+
+  <actuator>
+    <general name="ffa0" class="base" joint="ffj0" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="ffa1" class="proximal" joint="ffj1" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="ffa2" class="medial" joint="ffj2" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="ffa3" class="distal" joint="ffj3" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="mfa0" class="base" joint="mfj0" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="mfa1" class="proximal" joint="mfj1" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="mfa2" class="medial" joint="mfj2" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="mfa3" class="distal" joint="mfj3" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="rfa0" class="base" joint="rfj0" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="rfa1" class="proximal" joint="rfj1" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="rfa2" class="medial" joint="rfj2" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="rfa3" class="distal" joint="rfj3" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="tha0" class="thumb_base" joint="thj0" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="tha1" class="thumb_proximal" joint="thj1" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="tha2" class="thumb_medial" joint="thj2" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+    <general name="tha3" class="thumb_distal" joint="thj3" ctrllimited="false" forcelimited="true" forcerange="-0.5 0.5" gainprm="3" biasprm="0 -3"/>
+  </actuator>
+</mujoco>

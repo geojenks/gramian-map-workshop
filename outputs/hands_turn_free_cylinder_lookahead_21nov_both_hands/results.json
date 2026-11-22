@@ -1,0 +1,524 @@
+{
+ "made_by": "tools/hands_turn_free_cylinder_lookahead_21nov.py",
+ "settings": {
+  "hold_s": 0.5,
+  "horizon_s": 0.5,
+  "replan_s": 0.02,
+  "knots": 4,
+  "samples": 100,
+  "spread_rad": 0.03,
+  "turn_tol_rad": 0.2,
+  "pos_tol_m": 0.01,
+  "tilt_tol_rad": 0.2,
+  "change_weight": 0.2,
+  "speed_tol_m_s": 0.1,
+  "wobble_tol_rad_s": 2.0
+ },
+ "pass_test": {
+  "centre_mm": 30.0,
+  "tilt_deg": 30.0,
+  "turn_share": [
+   0.5,
+   1.5
+  ],
+  "time_at_limit": 0.05
+ },
+ "runs": {
+  "allegro, no feedback": {
+   "ran_s": 0.424,
+   "stopped_at_s": 0.428,
+   "held_until_s": 0.216,
+   "turn_deg": -96.67207727792122,
+   "logged_turn_deg_same_time": -352.9747979049203,
+   "turn_deg_by_own_axis_sum": -96.65558120967174,
+   "centre_from_release_mm_max": 140.70563174852785,
+   "axis_tilt_deg_max": 136.626785748315,
+   "fingertips_touching_share": {
+    "first": 0.5,
+    "middle": 0.1111111111111111,
+    "ring": 0.48148148148148145,
+    "thumb": 0.24074074074074073
+   },
+   "fingertip_mean_normal_force_N": {
+    "first": 0.7030217802367077,
+    "middle": 0.03737696285719948,
+    "ring": 0.6884631307355298,
+    "thumb": 0.0881593534435625
+   },
+   "fingertip_largest_normal_force_N": {
+    "first": 1.698749638673418,
+    "middle": 0.47326188201308617,
+    "ring": 2.602598649073645,
+    "thumb": 0.8118341969119605
+   },
+   "other_hand_parts_pressing_share": 0.0,
+   "actuators_hardest_worked": {
+    "rfa0": {
+     "largest_share_of_force_range": 0.5027566481545505,
+     "mean_share_of_force_range": 0.22829433070075408,
+     "share_of_time_at_limit": 0.0
+    },
+    "mfa0": {
+     "largest_share_of_force_range": 0.42762766568526983,
+     "mean_share_of_force_range": 0.0970583957390259,
+     "share_of_time_at_limit": 0.0
+    },
+    "ffa0": {
+     "largest_share_of_force_range": 0.4246073951211102,
+     "mean_share_of_force_range": 0.19021073941870323,
+     "share_of_time_at_limit": 0.0
+    },
+    "rfa3": {
+     "largest_share_of_force_range": 0.38516522061865066,
+     "mean_share_of_force_range": 0.09009754012433599,
+     "share_of_time_at_limit": 0.0
+    }
+   },
+   "largest_share_of_time_any_actuator_at_limit": 0.0,
+   "controller_offset_rad_mean_abs": 0.0,
+   "controller_offset_rad_largest": 0.0,
+   "pass_test": {
+    "centre stays within 30 mm": false,
+    "axis stays within 30 deg": false,
+    "turn is 0.5 to 1.5 times the logged turn": false,
+    "no actuator at its limit over 5 % of the time": true
+   },
+   "passes": false,
+   "wall_s": 0.282442569732666
+  },
+  "allegro, feedback, seed 0": {
+   "ran_s": 10.0,
+   "stopped_at_s": null,
+   "held_until_s": 1.992,
+   "turn_deg": -342.2020319055507,
+   "logged_turn_deg_same_time": -352.9747979049203,
+   "turn_deg_by_own_axis_sum": -342.0632233097934,
+   "centre_from_release_mm_max": 30.91688209912673,
+   "axis_tilt_deg_max": 30.20862847007,
+   "fingertips_touching_share": {
+    "first": 0.49000799360511593,
+    "middle": 0.8281374900079936,
+    "ring": 0.5139888089528377,
+    "thumb": 0.8657074340527577
+   },
+   "fingertip_mean_normal_force_N": {
+    "first": 0.8443441262578735,
+    "middle": 1.3041546972196738,
+    "ring": 0.818854424769876,
+    "thumb": 1.686196064558582
+   },
+   "fingertip_largest_normal_force_N": {
+    "first": 4.654600939846698,
+    "middle": 7.628607042537929,
+    "ring": 6.578897239959538,
+    "thumb": 6.796577291274611
+   },
+   "other_hand_parts_pressing_share": 0.0,
+   "actuators_hardest_worked": {
+    "ffa0": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.3749622143312787,
+     "share_of_time_at_limit": 0.05755395683453238
+    },
+    "mfa3": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.16314368149336603,
+     "share_of_time_at_limit": 0.003996802557953637
+    },
+    "mfa1": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.3307544499737277,
+     "share_of_time_at_limit": 0.0031974420463629096
+    },
+    "mfa0": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.27080432151757894,
+     "share_of_time_at_limit": 0.02238209432454037
+    }
+   },
+   "largest_share_of_time_any_actuator_at_limit": 0.05755395683453238,
+   "controller_offset_rad_mean_abs": 0.12221517183875141,
+   "controller_offset_rad_largest": 0.5414393353547351,
+   "pass_test": {
+    "centre stays within 30 mm": false,
+    "axis stays within 30 deg": false,
+    "turn is 0.5 to 1.5 times the logged turn": true,
+    "no actuator at its limit over 5 % of the time": false
+   },
+   "passes": false,
+   "wall_s": 156.672926902771
+  },
+  "allegro, feedback, seed 1": {
+   "ran_s": 10.0,
+   "stopped_at_s": null,
+   "held_until_s": 3.872,
+   "turn_deg": -350.10731008555354,
+   "logged_turn_deg_same_time": -352.9747979049203,
+   "turn_deg_by_own_axis_sum": -350.00871671480724,
+   "centre_from_release_mm_max": 33.42663041719052,
+   "axis_tilt_deg_max": 33.39884695844098,
+   "fingertips_touching_share": {
+    "first": 0.6067146282973621,
+    "middle": 0.8353317346123101,
+    "ring": 0.3844924060751399,
+    "thumb": 0.6834532374100719
+   },
+   "fingertip_mean_normal_force_N": {
+    "first": 0.6800117657329062,
+    "middle": 1.4410654372103349,
+    "ring": 0.5435747569764086,
+    "thumb": 1.2688378837427663
+   },
+   "fingertip_largest_normal_force_N": {
+    "first": 4.5769237817252195,
+    "middle": 6.741697649955778,
+    "ring": 7.870701624606006,
+    "thumb": 6.397335021825691
+   },
+   "other_hand_parts_pressing_share": 0.0,
+   "actuators_hardest_worked": {
+    "ffa0": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.23973350363638707,
+     "share_of_time_at_limit": 0.0007993605115907274
+    },
+    "mfa1": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.4091636017567691,
+     "share_of_time_at_limit": 0.023181454836131096
+    },
+    "tha1": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.3276282981848867,
+     "share_of_time_at_limit": 0.051159072741806554
+    },
+    "tha2": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.2545093192074813,
+     "share_of_time_at_limit": 0.03836930455635491
+    }
+   },
+   "largest_share_of_time_any_actuator_at_limit": 0.051159072741806554,
+   "controller_offset_rad_mean_abs": 0.10973501585450908,
+   "controller_offset_rad_largest": 0.5081847652305143,
+   "pass_test": {
+    "centre stays within 30 mm": false,
+    "axis stays within 30 deg": false,
+    "turn is 0.5 to 1.5 times the logged turn": true,
+    "no actuator at its limit over 5 % of the time": false
+   },
+   "passes": false,
+   "wall_s": 129.53936409950256
+  },
+  "allegro, feedback, seed 2": {
+   "ran_s": 10.0,
+   "stopped_at_s": null,
+   "held_until_s": 3.136,
+   "turn_deg": -344.2472442223745,
+   "logged_turn_deg_same_time": -352.9747979049203,
+   "turn_deg_by_own_axis_sum": -344.74627330931884,
+   "centre_from_release_mm_max": 47.953145422024264,
+   "axis_tilt_deg_max": 40.03107912559674,
+   "fingertips_touching_share": {
+    "first": 0.4724220623501199,
+    "middle": 0.7242206235011991,
+    "ring": 0.36211031175059955,
+    "thumb": 0.7889688249400479
+   },
+   "fingertip_mean_normal_force_N": {
+    "first": 0.5344366584043114,
+    "middle": 1.55156559535164,
+    "ring": 0.8176303443089953,
+    "thumb": 1.1367625667912993
+   },
+   "fingertip_largest_normal_force_N": {
+    "first": 4.428256930811736,
+    "middle": 8.749168162110191,
+    "ring": 7.576451999105249,
+    "thumb": 4.912660034851237
+   },
+   "other_hand_parts_pressing_share": 0.0007993605115907274,
+   "actuators_hardest_worked": {
+    "ffa0": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.26492319718806806,
+     "share_of_time_at_limit": 0.011191047162270184
+    },
+    "ffa1": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.30030309975117786,
+     "share_of_time_at_limit": 0.11590727418065548
+    },
+    "ffa3": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.1287609152638571,
+     "share_of_time_at_limit": 0.0015987210231814548
+    },
+    "mfa0": {
+     "largest_share_of_force_range": 1.0,
+     "mean_share_of_force_range": 0.20494688908186964,
+     "share_of_time_at_limit": 0.011990407673860911
+    }
+   },
+   "largest_share_of_time_any_actuator_at_limit": 0.11590727418065548,
+   "controller_offset_rad_mean_abs": 0.13778892226008949,
+   "controller_offset_rad_largest": 0.7935625646265767,
+   "pass_test": {
+    "centre stays within 30 mm": false,
+    "axis stays within 30 deg": false,
+    "turn is 0.5 to 1.5 times the logged turn": true,
+    "no actuator at its limit over 5 % of the time": false
+   },
+   "passes": false,
+   "wall_s": 142.99377417564392
+  },
+  "shadow_tied, no feedback": {
+   "ran_s": 10.0,
+   "stopped_at_s": null,
+   "held_until_s": 1.456,
+   "turn_deg": -89.14467951730889,
+   "logged_turn_deg_same_time": -352.9747979049203,
+   "turn_deg_by_own_axis_sum": -89.23025875672585,
+   "centre_from_release_mm_max": 23.861532181761085,
+   "axis_tilt_deg_max": 74.3628925108006,
+   "fingertips_touching_share": {
+    "first": 0.5099920063948841,
+    "middle": 0.7266187050359713,
+    "ring": 0.5715427657873701,
+    "thumb": 0.8033573141486811
+   },
+   "fingertip_mean_normal_force_N": {
+    "first": 0.34957770070647304,
+    "middle": 0.31405122587618994,
+    "ring": 0.3681765537305106,
+    "thumb": 0.4916933281014554
+   },
+   "fingertip_largest_normal_force_N": {
+    "first": 3.1621782889339722,
+    "middle": 2.1307236272748815,
+    "ring": 3.356057998597815,
+    "thumb": 2.7594164960704624
+   },
+   "other_hand_parts_pressing_share": 0.27577937649880097,
+   "actuators_hardest_worked": {
+    "rh_A_RFJ4": {
+     "largest_share_of_force_range": 0.4298086643504784,
+     "mean_share_of_force_range": 0.08761782557508123,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_THJ2": {
+     "largest_share_of_force_range": 0.2753455036438601,
+     "mean_share_of_force_range": 0.059368769459532865,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_RFJ3": {
+     "largest_share_of_force_range": 0.2726237179329869,
+     "mean_share_of_force_range": 0.06773034365299646,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_MFJ3": {
+     "largest_share_of_force_range": 0.22569679174176777,
+     "mean_share_of_force_range": 0.044570250528410085,
+     "share_of_time_at_limit": 0.0
+    }
+   },
+   "largest_share_of_time_any_actuator_at_limit": 0.0,
+   "controller_offset_rad_mean_abs": 0.0,
+   "controller_offset_rad_largest": 0.0,
+   "pass_test": {
+    "centre stays within 30 mm": true,
+    "axis stays within 30 deg": false,
+    "turn is 0.5 to 1.5 times the logged turn": false,
+    "no actuator at its limit over 5 % of the time": true
+   },
+   "passes": false,
+   "wall_s": 2.210508108139038
+  },
+  "shadow_tied, feedback, seed 0": {
+   "ran_s": 10.0,
+   "stopped_at_s": null,
+   "held_until_s": 9.128,
+   "turn_deg": -286.86209639924346,
+   "logged_turn_deg_same_time": -352.9747979049203,
+   "turn_deg_by_own_axis_sum": -286.74744235481126,
+   "centre_from_release_mm_max": 20.617730700217987,
+   "axis_tilt_deg_max": 30.749240579773954,
+   "fingertips_touching_share": {
+    "first": 0.9192645883293366,
+    "middle": 0.5267785771382894,
+    "ring": 0.5067945643485212,
+    "thumb": 0.8928856914468425
+   },
+   "fingertip_mean_normal_force_N": {
+    "first": 2.809825523769238,
+    "middle": 0.5119330849857792,
+    "ring": 0.8274023252388822,
+    "thumb": 1.905419740491718
+   },
+   "fingertip_largest_normal_force_N": {
+    "first": 10.922069543314949,
+    "middle": 4.203279313860313,
+    "ring": 6.854646933513834,
+    "thumb": 10.898037263162266
+   },
+   "other_hand_parts_pressing_share": 0.32454036770583533,
+   "actuators_hardest_worked": {
+    "rh_A_RFJ4": {
+     "largest_share_of_force_range": 0.6266795722922209,
+     "mean_share_of_force_range": 0.11925946738043733,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_FFJ3": {
+     "largest_share_of_force_range": 0.5479742679398583,
+     "mean_share_of_force_range": 0.1719096495250617,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_FFJ0": {
+     "largest_share_of_force_range": 0.4054208659976719,
+     "mean_share_of_force_range": 0.08312810946346985,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_THJ2": {
+     "largest_share_of_force_range": 0.3886247368489768,
+     "mean_share_of_force_range": 0.07727514348381846,
+     "share_of_time_at_limit": 0.0
+    }
+   },
+   "largest_share_of_time_any_actuator_at_limit": 0.0,
+   "controller_offset_rad_mean_abs": 0.07618350752556918,
+   "controller_offset_rad_largest": 1.2378132155258599,
+   "pass_test": {
+    "centre stays within 30 mm": true,
+    "axis stays within 30 deg": false,
+    "turn is 0.5 to 1.5 times the logged turn": true,
+    "no actuator at its limit over 5 % of the time": true
+   },
+   "passes": false,
+   "wall_s": 305.6111934185028
+  },
+  "shadow_tied, feedback, seed 1": {
+   "ran_s": 10.0,
+   "stopped_at_s": null,
+   "held_until_s": 10.0,
+   "turn_deg": -330.9384385809087,
+   "logged_turn_deg_same_time": -352.9747979049203,
+   "turn_deg_by_own_axis_sum": -330.8988140208993,
+   "centre_from_release_mm_max": 15.765440742357033,
+   "axis_tilt_deg_max": 16.61994762400953,
+   "fingertips_touching_share": {
+    "first": 0.9336530775379697,
+    "middle": 0.7050359712230215,
+    "ring": 0.37569944044764186,
+    "thumb": 0.8401278976818545
+   },
+   "fingertip_mean_normal_force_N": {
+    "first": 2.4918539800773933,
+    "middle": 0.814174859265982,
+    "ring": 0.5557802463210105,
+    "thumb": 1.0161974966386664
+   },
+   "fingertip_largest_normal_force_N": {
+    "first": 7.535946356448651,
+    "middle": 4.109229916334032,
+    "ring": 4.852254772112737,
+    "thumb": 3.049179081261493
+   },
+   "other_hand_parts_pressing_share": 0.486810551558753,
+   "actuators_hardest_worked": {
+    "rh_A_RFJ4": {
+     "largest_share_of_force_range": 0.6011530253464048,
+     "mean_share_of_force_range": 0.13448940715996904,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_FFJ3": {
+     "largest_share_of_force_range": 0.38192528384558055,
+     "mean_share_of_force_range": 0.1482131234724287,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_THJ2": {
+     "largest_share_of_force_range": 0.3779708835974144,
+     "mean_share_of_force_range": 0.06928952248495708,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_RFJ3": {
+     "largest_share_of_force_range": 0.3519508414997399,
+     "mean_share_of_force_range": 0.10658478289786454,
+     "share_of_time_at_limit": 0.0
+    }
+   },
+   "largest_share_of_time_any_actuator_at_limit": 0.0,
+   "controller_offset_rad_mean_abs": 0.06172891380069429,
+   "controller_offset_rad_largest": 0.5434416440888161,
+   "pass_test": {
+    "centre stays within 30 mm": true,
+    "axis stays within 30 deg": true,
+    "turn is 0.5 to 1.5 times the logged turn": true,
+    "no actuator at its limit over 5 % of the time": true
+   },
+   "passes": true,
+   "wall_s": 275.24812293052673
+  },
+  "shadow_tied, feedback, seed 2": {
+   "ran_s": 10.0,
+   "stopped_at_s": null,
+   "held_until_s": 6.784,
+   "turn_deg": -340.57645264898287,
+   "logged_turn_deg_same_time": -352.9747979049203,
+   "turn_deg_by_own_axis_sum": -340.40160019381364,
+   "centre_from_release_mm_max": 19.72344869780578,
+   "axis_tilt_deg_max": 43.14709506490528,
+   "fingertips_touching_share": {
+    "first": 0.8409272581934453,
+    "middle": 0.6522781774580336,
+    "ring": 0.3669064748201439,
+    "thumb": 0.8593125499600319
+   },
+   "fingertip_mean_normal_force_N": {
+    "first": 1.2437172009799518,
+    "middle": 0.5113310581304167,
+    "ring": 0.5929965758979592,
+    "thumb": 1.0101128039038605
+   },
+   "fingertip_largest_normal_force_N": {
+    "first": 5.656386485741583,
+    "middle": 3.144362126867758,
+    "ring": 5.166985418444319,
+    "thumb": 3.429868722232886
+   },
+   "other_hand_parts_pressing_share": 0.30775379696243005,
+   "actuators_hardest_worked": {
+    "rh_A_RFJ4": {
+     "largest_share_of_force_range": 0.5877773083538979,
+     "mean_share_of_force_range": 0.10208618987399794,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_FFJ0": {
+     "largest_share_of_force_range": 0.3929830773792389,
+     "mean_share_of_force_range": 0.044033137233561795,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_THJ2": {
+     "largest_share_of_force_range": 0.39102801041531476,
+     "mean_share_of_force_range": 0.07162528378878165,
+     "share_of_time_at_limit": 0.0
+    },
+    "rh_A_FFJ3": {
+     "largest_share_of_force_range": 0.3239894515758127,
+     "mean_share_of_force_range": 0.08977692031705288,
+     "share_of_time_at_limit": 0.0
+    }
+   },
+   "largest_share_of_time_any_actuator_at_limit": 0.0,
+   "controller_offset_rad_mean_abs": 0.07331560869120732,
+   "controller_offset_rad_largest": 0.9075268460538786,
+   "pass_test": {
+    "centre stays within 30 mm": true,
+    "axis stays within 30 deg": false,
+    "turn is 0.5 to 1.5 times the logged turn": true,
+    "no actuator at its limit over 5 % of the time": true
+   },
+   "passes": false,
+   "wall_s": 284.5683298110962
+  }
+ }
+}
