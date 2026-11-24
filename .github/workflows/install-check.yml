@@ -88,4 +88,4 @@ jobs:
           pip install -e ".[map]"
           python -c "import os, sys; print(os.path.dirname(sys.executable))" >> "$GITHUB_PATH"
       - name: Map tests
-        run: python -m unittest tests.test_export_map_paths tests.test_lookup
+        run: python -m unittest tests.test_export_map_paths tests.test_lookup tests.test_map_task

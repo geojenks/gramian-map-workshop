@@ -251,9 +251,18 @@ ul.acts li[hidden] { display: none; }
       <p class="note" id="ownmsg" hidden></p>
     </section>
 
-    <section id="tasksec" hidden>
+    <section id="tasksec">
       <h2>Task</h2>
-      <div id="cones"></div>
+      <div class="axes"><label for="taskpick">Task</label><select id="taskpick"></select></div>
+      <p class="note">The map can test the actuators against a task of your own. Copy
+        <code>data/tasks/cup_turn.json</code>, give it an id of its own and change the ball, the friction, the
+        contact ring or the duty. Then run
+        <code>python tools/export_map_paths.py --task my_task.json --tag mine</code>
+        and choose the file it writes. It joins the list above. The finger count, the half-angle and the stroke
+        angle are carried over from our task. The file stays in this browser and is sent nowhere.</p>
+      <div class="row"><input id="taskfile" type="file" accept=".json,application/json" aria-label="Map file for your own task">
+        <button id="taskoff" type="button" hidden>Remove</button></div>
+      <p class="note" id="taskmsg" hidden></p>
       <p class="note" id="conescaled" hidden></p>
       <p class="note" id="conenote" hidden></p>
       <div id="conecap" hidden></div>
@@ -345,7 +354,8 @@ try { const m = localStorage.getItem("map_mount"); if (MOUNTS[m]) MOUNT = m; } c
 { const m = (location.hash.match(/mount=(\w+)/) || [])[1]; if (MOUNTS[m]) MOUNT = m; }
 // The task's name as the talk says it; the export's own name is used for any task not listed.
 const TASK_WORDS = { cup_turn: "Turn a ball in the hand" };
-function taskName(c) { return (TASK_WORDS[c.task] || c.name || c.task) + (MOUNTS[c.mount] ? ", " + MOUNTS[c.mount].words : ""); }
+function taskName(c) { return (TASK_WORDS[c.task] || c.name || c.task) + (c.yours ? " (yours)" : "") +
+  (MOUNTS[c.mount] ? ", " + MOUNTS[c.mount].words : ""); }
 let DATA;
 try {
   const r = await fetch(MOUNTS[MOUNT].file);
@@ -394,6 +404,53 @@ const OWN_KEY = "map_own_records", OWN_KIND = "own records for the map page";
     try { localStorage.setItem(OWN_KEY, t); } catch (e) { say("This browser would not keep the file, so it cannot be added."); return; }
     location.reload(); };
   $("ownoff").onclick = () => { try { localStorage.removeItem(OWN_KEY); } catch (e) {} location.reload(); };
+}
+// A task of the reader's own. tools/export_map_paths.py --task writes one file holding the task's cone and every stored
+// actuator's test against it, for each placement of the finger. The reader chooses that file, it is kept in the
+// browser's storage with any chosen before, and the page loads again with the task added to the list. Nothing here
+// works a task out; the file already holds the result. It runs after the reader's own records are added, and the
+// stored cones are compared before any task is added to them.
+const TASK_KEY = "map_tasks", TASK_KIND = "task for the map page", TASK_PICK = "map_task_pick";
+{
+  const say = t => { const e = $("taskmsg"); e.hidden = !t; e.textContent = t || ""; };
+  const cones = list => JSON.stringify((list || []).map(c =>
+    ["task", "n", "mount", "yaw_deg", "half_angle_deg"].map(k => c[k] === undefined ? null : c[k])));
+  const check = doc => {
+    if (!doc || doc.kind !== TASK_KIND || !doc.mounts || !doc.task || typeof doc.task.id !== "string")
+      throw new Error("it was not written by tools/export_map_paths.py --task"); return doc; };
+  let kept = [];
+  try { kept = JSON.parse(localStorage.getItem(TASK_KEY) || "[]"); } catch (e) {}
+  if (!Array.isArray(kept)) kept = [];
+  $("taskoff").hidden = !kept.length;
+  const stored = cones(DATA.task_cones), words = [];
+  kept.forEach(doc => {
+    const id = doc && doc.task && doc.task.id;
+    try {
+      const m = check(doc).mounts[MOUNT];
+      if (!m || !m.cone || !m.tasks) throw new Error("it has no entry for this placement of the finger");
+      if (cones(m.stored_cones) !== stored)
+        throw new Error("it was made for a different map from the one this page shows; make it again from an up-to-date clone");
+      if (DATA.task_cones.some(c => c.task === id)) throw new Error("the map already holds a task with that id");
+      m.cone.yours = true; DATA.task_cones.push(m.cone);
+      const without = [];
+      DATA.actuators.forEach(a => { if (!Array.isArray(a.tasks)) return;
+        if (m.tasks[a.id]) { a.tasks.push(m.tasks[a.id]); return; }
+        a.tasks.push({ task: id, reason: "the task file holds no test for this record" });
+        without.push(a.display_name || a.name || a.id); });
+      words.push("Added: " + (m.cone.name || id) + "." +
+        (without.length ? " Not tested against it, because the task file was made without them: " + without.join(", ") + "." : ""));
+    } catch (e) { words.push((id || "A task file") + " is not used: " + e.message + "."); }
+  });
+  say(words.join(" "));
+  $("taskfile").onchange = async ev => { const f = ev.target.files[0]; if (!f) return;
+    let doc;
+    try { doc = check(JSON.parse(await f.text())); } catch (e) { say(f.name + " is not used: " + e.message + "."); return; }
+    const next = kept.filter(d => !(d && d.task && d.task.id === doc.task.id)).concat([doc]);
+    try { localStorage.setItem(TASK_KEY, JSON.stringify(next)); }
+    catch (e) { say("This browser would not keep the file, so it cannot be added. Removing the tasks already added may make room."); return; }
+    try { sessionStorage.setItem(TASK_PICK, doc.task.id); } catch (e) {}
+    location.reload(); };
+  $("taskoff").onclick = () => { try { localStorage.removeItem(TASK_KEY); } catch (e) {} location.reload(); };
 }
 if (!window.THREE) { fail("The 3D library did not load."); return; }
 
@@ -1937,8 +1994,8 @@ function setUI() {
 function scaledUI() {
   setUI(); leftUI();
   const on = scaledOn();
-  $("cones").querySelectorAll("input").forEach(x => { const c = CONES[+x.dataset.i];
-    x.disabled = on || !coneUsable(c); x.checked = +x.dataset.i === S.cone; });
+  $("taskpick").disabled = on || !CONES.some(coneUsable);
+  $("taskpick").value = S.cone === null ? "" : String(S.cone);
   const cs = $("conescaled"); cs.hidden = !on;
   cs.textContent = "Task cones are not drawn while the scaled input is on an axis: a cone is set in tip travel, not in scaled terms.";
   const box = $("scalenote"); box.hidden = !on; box.innerHTML = "";
@@ -1968,24 +2025,22 @@ function scaledUI() {
     sm.textContent = "About the scaled quantities"; d.appendChild(sm);
     const t = document.createElement("p"); t.textContent = SC.note; d.appendChild(t); box.appendChild(d); }
 }
-// One switch per task cone. Turning one on puts its three axes on the view and draws it; only one is on at a time.
+// One list of the task cones, ours and any the reader has added. Choosing one puts its three axes on the view and
+// draws it; "No task" takes the cone off. Only one is on at a time.
 function tasksUI() {
-  const box = $("cones"); box.innerHTML = "";
-  $("tasksec").hidden = !CONES.length;
-  CONES.forEach((c, i) => {
-    const lab = document.createElement("label"); lab.className = "row";
-    const cb = document.createElement("input"); cb.type = "checkbox"; cb.dataset.i = i;
-    cb.disabled = !coneUsable(c); cb.checked = S.cone === i;
-    lab.append(cb, document.createTextNode(" Task: " + taskName(c)));
-    if (cb.disabled) lab.title = "This cone's axes are not in the data.";
-    cb.onchange = () => {
-      if (cb.checked) { S.cone = i; S.axes = c.axes.slice(); S.axes.forEach((k, j) => $("ax" + j).value = k); defs(); }
-      else S.cone = null;
-      box.querySelectorAll("input").forEach(x => { x.checked = +x.dataset.i === S.cone; });
-      build(!cb.checked);
-    };
-    box.appendChild(lab);
-  });
+  const sel = $("taskpick"); sel.innerHTML = "";
+  const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; sel.appendChild(o); return o; };
+  opt("", "No task");
+  CONES.forEach((c, i) => { const o = opt(String(i), taskName(c));
+    if (!coneUsable(c)) { o.disabled = true; o.title = "This cone's axes are not in the data."; } });
+  sel.disabled = !CONES.some(coneUsable);
+  sel.value = S.cone === null ? "" : String(S.cone);
+  sel.onchange = () => {
+    const i = sel.value === "" ? null : +sel.value, c = i === null ? null : CONES[i];
+    S.cone = c ? i : null;
+    if (c) { S.axes = c.axes.slice(); S.axes.forEach((k, j) => $("ax" + j).value = k); defs(); }
+    build(!c);
+  };
 }
 // The caption under the switch, the note when other axes are chosen, and the cone's rows in the key.
 let capFor = null;
@@ -2134,6 +2189,10 @@ new MutationObserver(retheme).observe(document.documentElement, { attributes: tr
 $("fmode").onchange = () => { plot.mode = $("fmode").value; plotBuild(); plot.cone = undefined; plotPaint(); };
 
 panel(); tasksUI(); plotBuild(); build(false); placeCamera(); requestAnimationFrame(frame);
+// A task the reader has just added is chosen for them, once.
+try { const id = sessionStorage.getItem(TASK_PICK); sessionStorage.removeItem(TASK_PICK);
+  const i = id ? CONES.findIndex(c => c.task === id && c.yours && coneUsable(c)) : -1;
+  if (i >= 0) { $("taskpick").value = String(i); $("taskpick").onchange(); } } catch (e) {}
 })();
 </script>
 <!-- page ends -->
