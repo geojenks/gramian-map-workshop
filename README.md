@@ -12,8 +12,7 @@ a manipulator and checked against a manipulation **task**. The tool then says
 whether the task can be done and, if not, **why**.
 
 > The simulations and records here are not calibrated against real experiments
-> unless marked, so use them to compare designs, not to predict what a built one
-> will do.
+> unless marked.
 
 The workflow is three swappable modules.
 
@@ -152,6 +151,11 @@ python tools/figure_map_tip_paths.py --record my_actuator.json --tag mine
 
 The last line draws your actuator on the picture of the roster
 (`outputs/map_tip_paths/`); it needs the `figures` extra.
+
+To see it on the map you can turn in a browser, run
+`python tools/export_map_paths.py --record my_actuator.json --tag mine`
+(it needs the `map` extra) and choose the file it writes under
+"Your own record" on the map page.
 
 **What you can bring today.**
 

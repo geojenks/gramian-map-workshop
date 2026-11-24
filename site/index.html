@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gramian map workshop</title>
+<title>Actuator Affordance Mapping for Contact-Defined Manipulation Tasks</title>
 <style>
 :root { color-scheme: light; --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b;
   --ink2:#52514e; --muted:#898781; --grid:#e1e0d9; --link:#256abf; --code:#efeee9; }
@@ -40,19 +40,47 @@ figure { margin: .8rem 0; }
 figure img { width: 100%; height: auto; border: 1px solid var(--grid); border-radius: 6px;
   background: #fff; }
 figcaption { color: var(--muted); font-size: .9rem; }
+header.paper { text-align: center; padding: 1rem 0 1.8rem; margin-bottom: 2rem;
+  border-bottom: 1px solid var(--grid); }
+header.paper h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 500;
+  font-size: clamp(1.7rem, 5vw, 2.5rem); line-height: 1.15; margin: 0 0 .7rem;
+  text-wrap: balance; }
+.kicker { font-size: .8rem; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 .9rem; }
+.subtitle { font-size: 1.2rem; color: var(--ink2); margin: 0 0 1.1rem; text-wrap: balance; }
+.affil { color: var(--muted); margin: 0 0 1.4rem; }
+nav.top { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
+nav.top a { display: inline-block; padding: .45rem 1.1rem; border-radius: 999px;
+  background: var(--ink); color: var(--page); font-weight: 600; text-decoration: none; }
+nav.top a:hover { opacity: .85; }
+h2.first { font-size: 1.5rem; margin-top: 0; }
+.mapframe { display: block; width: min(76rem, 100vw - 32px); height: min(46rem, 85vh);
+  margin-left: 50%; transform: translateX(-50%); border: 1px solid var(--grid);
+  border-radius: 6px; background: var(--surface); }
 </style>
 </head>
 <body>
 <main>
-<h1>Put your actuator on the map</h1>
+<header class="paper">
+<p class="kicker">Robot Dexterity Co-Design Team Workshop, November 2026</p>
+<h1>Actuator Affordance Mapping for Contact-Defined Manipulation Tasks</h1>
+<p class="subtitle">A generalisable actuator characterisation based on Gramians</p>
+<p class="affil">University of Bath<br>
+Funded by ARIA, the Advanced Research and Invention Agency</p>
+<nav class="top" aria-label="Main links">
+<a href="map.html">Interactive map</a>
+<a href="https://github.com/geojenks/gramian-map-workshop">Code on GitHub</a>
+<a href="record_form.html">Record form</a>
+</nav>
+</header>
+<h2 class="first">Put your actuator on the map</h2>
 <p class="lede">A small tool from our ARIA dexterous soft robotics work. Describe an
 actuator by datasheet numbers, a measured table, a formula or a mesh, and it becomes
 a record. The record goes on a map of actuators, drawn as the path its tip takes
 while its input rises. Once it is there, you can arrange copies of it as a
 manipulator and ask whether that manipulator can do a task.</p>
 <p class="note">The simulations and records here are not calibrated against real experiments
-unless marked, so use them to compare designs, not to predict what a built one
-will do.</p>
+unless marked.</p>
 
 <h2>Try it with no install</h2>
 <ul class="links">
@@ -130,31 +158,34 @@ python preprocess.py cads/actuation_methods/pumped_volume_pneunet/mesh.msh cads/
 python sample_to_draft_record.py --sample experiments/actuation_methods/same_body_pneunet/chamber_pressure_set --cad cads/actuation_methods/pumped_volume_pneunet --id sample_pneunet_pressure_set --name "Pneunet, chamber pressure set (sample)" --physics pneumatic --input_name "chamber pressure (scene units)" --out_root ../my_mesh_drafts
 cd ..
 python tools/figure_map_tip_paths.py --record my_mesh_drafts/sample_pneunet_pressure_set.json --tag my_mesh</code></pre>
-<p>The last command puts the finger on the map, and the picture it drew in our run
-is the one shown <a href="#on-the-map">below</a>. The steps, what each prints, and how to prepare your own mesh are in
+<p>The last command draws the finger on a flat picture of the map, linked
+<a href="#on-the-map">below</a>. The steps, what each prints, and how to prepare your own mesh are in
 <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/ACTUATOR_FROM_A_MESH.md"><code>docs/ACTUATOR_FROM_A_MESH.md</code></a>.</p>
 </details>
 </div>
 
 <h3 id="on-the-map">Your record on the map</h3>
-<p>Whichever way the record was made, the same command draws it among the records
-we hold. It needs matplotlib, which the <a href="#run">install</a> below brings.</p>
+<p>This is the map, with every actuator we hold. Drag to turn it, choose what each
+axis shows, and pick an actuator to see its record. The finger simulated from a mesh
+above is on it. It also opens <a href="map.html">on a page of its own</a>.</p>
+<iframe class="mapframe" src="map.html" title="Interactive actuator map" loading="lazy"></iframe>
+<p>Whichever way your record was made, one command works out its place on this map
+and writes a small file. It needs scipy, which the <a href="#run">install</a> below
+brings.</p>
+<pre><code>python tools/export_map_paths.py --record my_actuator.json --tag my_actuator</code></pre>
+<p>It writes <code>outputs/map_paths/map_own_records_my_actuator.json</code>. On the
+map, choose that file under "Your own record". Your actuator is drawn with the others
+and marked "(yours)". The file stays in your browser and is sent nowhere. A record
+that holds only headline numbers, with no table of tip motion, has no path to draw,
+so it is left out and the map says so.</p>
+<p>A second command draws a flat picture to keep or print. It needs matplotlib, which
+the install also brings.</p>
 <pre><code>python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator</code></pre>
-<p>It writes <code>outputs/map_tip_paths/map_tip_paths_my_actuator.png</code>. Across
-the picture is the share of the tip's motion that is sideways, and up it is the free
-stroke. Each mark has the actuator's own tip path drawn through it, and yours is
-boxed and labelled "(yours)". A record with no free tip motion is left out, and the
-command prints the reason.</p>
-<figure>
-<a href="map_tip_paths_mesh_sample.png"><img src="map_tip_paths_mesh_sample.png"
-alt="Scatter of actuator records: share of tip motion that is sideways against free stroke, with the sample pneu-net finger boxed at the right among the benders"></a>
-<figcaption>The picture this command drew in our run for the finger simulated from
-a mesh. It is boxed and marked "(yours)" at the right, among the other benders.
-Select the picture for full size.</figcaption>
-</figure>
-<p>The <a href="map.html">map you can turn in a browser</a> shows the records we
-hold. It does not yet take a record of your own, so for now yours goes on the drawn
-picture.</p>
+<p>It writes <code>outputs/map_tip_paths/map_tip_paths_my_actuator.png</code>, with
+the share of the tip's motion that is sideways across and the free stroke up, and
+your actuator boxed and labelled "(yours)". We keep
+<a href="map_tip_paths_mesh_sample.png">the picture it drew for the mesh finger</a>
+as an example.</p>
 
 <h2>Then a manipulator and a task</h2>
 <p>With the record on the map, two more pieces say what the actuator can do in a
@@ -214,14 +245,16 @@ be at those contacts with those forces. Check each file before using it, with
 
 <h2 id="run">Install</h2>
 <p>You need Python 3.9 or newer and git. The last two lines make a record from the
-published bench curves and draw the map with it on.</p>
+published bench curves and draw the map with it on. The line after them writes the
+file the <a href="map.html">browser map</a> takes.</p>
 <pre><code>git clone https://github.com/geojenks/gramian-map-workshop
 cd gramian-map-workshop
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -e ".[figures]"
+pip install -e ".[figures,map]"
 python tools/curves_to_record.py data/test_curves/mosadegh2014_fPN.csv --out my_actuator.json
-python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator</code></pre>
+python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator
+python tools/export_map_paths.py --record my_actuator.json --tag my_actuator</code></pre>
 <p>To check rigid robot hands as well (Allegro, Shadow, LEAP and Linker's public
 L20), add MuJoCo and fetch the hand models:</p>
 <pre><code>pip install -e ".[hands]"
