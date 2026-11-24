@@ -1,0 +1,14 @@
+{
+ "about": "Read by tools/export_map_paths.py. Further simulated tip positions with both inputs on, for a two-input actuator whose record holds only a few such rows. Keyed by record id. They are used only to check the computed surface, never to draw it, and they are kept apart from the record's own test rows. 'file' is a CSV in this repository, pinned by 'sha256'; the export stops if the file changes. 'inputs' names the two columns holding the record's input channels 0 and 1, in the record's own units. 'position_mm' names the three columns holding the tip position in millimetres; the row with both inputs at zero is the rest position and is subtracted. 'to_record_axes' is the sign each of those three columns takes to match the record's axes. It is not trusted: every row of the file that the record also holds must give the record's own tip displacement, or the export stops. 'use' names the column and the value that mark a simulated row; rows with any other value are left out and counted. 'why' says where the file comes from. The record itself is not changed.",
+ "records": {
+  "pneunet_tandem_twist_90deg": {
+   "file": "data/draft_records/pneunet_tandem_twist/tip_surface_points.csv",
+   "sha256": "915748037f084c8ca8cc35a120c6e63e48a1e64aabea04b16b3e43f8a672a9f3",
+   "inputs": ["p1", "p2"],
+   "position_mm": ["tip_x_mm", "tip_y_mm", "tip_z_mm"],
+   "to_record_axes": [1, -1, -1],
+   "use": {"column": "kind", "value": "measured"},
+   "why": "Our own simulation of the same finger (20 November 2026), copied unchanged; see PROVENANCE.md beside the file. Its sideways axes point the opposite way to the record's."
+  }
+ }
+}

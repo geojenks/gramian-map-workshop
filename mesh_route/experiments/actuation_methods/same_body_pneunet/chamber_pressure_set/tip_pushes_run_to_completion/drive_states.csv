@@ -1,0 +1,7 @@
+level,state,test_force_x_N,test_force_y_N,test_force_z_N,disp_x_mm,disp_y_mm,disp_z_mm,rot_x_deg,rot_y_deg,rot_z_deg,substeps,settle_reason,tip_drift_mm,cavity_volume_change_m3,chamber_pressure_readout,chamber_volume_growth_readout,cable_force_readout,cable_displacement_readout_m,hold_force_x_N,hold_force_y_N,hold_force_z_N,hold_moment_x_Nm,hold_moment_y_Nm,hold_moment_z_Nm,net_drive_load_N
+20,free,0,0,0,1.17845,-5.40637,0.09857,0.9349,0.0468,-9.0104,564,settled_disp,0.00144,9.025960e-07,-2.000000e+01,9.025952e-07,nan,nan,nan,nan,nan,nan,nan,nan,nan
+20,push_plus_y,0,0.01,0,0.92159,-2.96844,0.10708,0.8979,0.0495,-6.0014,530,settled_disp,0.00144,8.736493e-07,-2.000000e+01,8.736502e-07,nan,nan,nan,nan,nan,nan,nan,nan,nan
+20,push_minus_y,0,-0.01,0,1.33569,-7.88639,0.08818,0.9704,0.0444,-12.0737,597,settled_disp,0.00142,9.316505e-07,-2.000000e+01,9.316497e-07,nan,nan,nan,nan,nan,nan,nan,nan,nan
+20,push_plus_z,0,0,0.01,1.17739,-5.40628,0.27126,1.2067,-0.0971,-9.0038,533,settled_disp,0.00144,9.030028e-07,-2.000000e+01,9.030037e-07,nan,nan,nan,nan,nan,nan,nan,nan,nan
+20,push_minus_z,0,0,-0.01,1.18006,-5.41896,-0.07290,0.6731,0.1909,-9.0314,193,settled_disp,0.00071,9.023643e-07,-2.000000e+01,9.023645e-07,nan,nan,nan,nan,nan,nan,nan,nan,nan
+20,free_again,0,0,0,1.17907,-5.41286,0.09741,0.9267,0.0467,-9.0190,163,settled_disp,0.00073,9.026669e-07,-2.000000e+01,9.026668e-07,nan,nan,nan,nan,nan,nan,nan,nan,nan

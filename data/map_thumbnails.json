@@ -1,0 +1,379 @@
+{
+ "note": "Read by tools/render_map_thumbnails.py, which draws the pictures, and by tools/export_map_paths.py, which passes each one to the map page. The small picture shown for each actuator. \"records\" is keyed by record id. Each entry holds \"kind\", \"image\" (the picture's path under site/) and either \"sources\" or \"basis\". Kind \"mesh\" is real geometry: the rest shape drawn from the mesh the simulation ran on, with every file used listed in \"sources\" and pinned by repository, commit, path and sha256 (\"draws\" says what the file adds: the body, the braid, the tendon or the cables). The pins are filled in by the render script's --pin, never by hand, and the script refuses a file whose sha256 differs. Kind \"schematic\" is a plain diagram of the type of actuator, drawn by the same script from the description in \"basis\"; it is not the geometry of the published device, and no figure from a paper is copied. Pictures are not to a common scale. Nothing here comes from, or goes into, data/records. An actuator with no entry here keeps the plain round marker.",
+ "records": {
+  "bellows1": {
+   "kind": "mesh",
+   "image": "thumbs/bellows1.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/bellows/bellows1/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "0faf97a7f5060afa02a978a5cc0480ad7fcdae067ce94c02595b1b293c155b4e"
+    }
+   ]
+  },
+  "bellows_seg3": {
+   "kind": "mesh",
+   "image": "thumbs/bellows_seg3.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/bellows/bellows_seg3/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "701f0fd5e771279a91174594984660a461ef33d07922968b3a4c1f46435aaf2a"
+    }
+   ]
+  },
+  "bellows_seg5": {
+   "kind": "mesh",
+   "image": "thumbs/bellows_seg5.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/bellows/bellows_seg5/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "72341c458ac495ed9a2074332e09dc37eae7db0fdc7e91d2d2d4f8a90166b19e"
+    }
+   ]
+  },
+  "bellows_seg7": {
+   "kind": "mesh",
+   "image": "thumbs/bellows_seg7.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/bellows/bellows_seg7/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "c49ea0b5bd0cd94039d1788e8631c00165e295c30cfe423b13153ccb617d066f"
+    }
+   ]
+  },
+  "bellows_seg9": {
+   "kind": "mesh",
+   "image": "thumbs/bellows_seg9.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/bellows/bellows_seg9/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "7d1cbfa6d5852080c8e43abf79dcc4b88801356054959a30dfd007a7cc712b71"
+    }
+   ]
+  },
+  "bellows_tendon1": {
+   "kind": "mesh",
+   "image": "thumbs/bellows_tendon1.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/bellows/bellows_tendon1/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "2147b6ab8067d168a08894ed26ec74b6e137f9182eb156d2122b66d14df55f21"
+    },
+    {
+     "draws": "tendon",
+     "path": "gramian_map/cads/bellows/bellows_tendon1/tendon.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "651b30048c257d6d3c89743ae309558a941f9190423727b5fc55883dbe5eb9d3"
+    }
+   ]
+  },
+  "cable_finger": {
+   "kind": "mesh",
+   "image": "thumbs/cable_finger.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/cable_finger/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "7a23befb0fd9422acf85c6b296b12a8fa14a26184d38846ac85da2a5c0a264f2"
+    },
+    {
+     "draws": "cables",
+     "path": "gramian_map/cads/cable_finger/drive_cables.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "733dde3acbe66e068f9f1bfbfe05745e99a84aa2d4425c4602446abace3cb36b"
+    }
+   ]
+  },
+  "mckibben_v2_20deg": {
+   "kind": "mesh",
+   "image": "thumbs/mckibben_v2_20deg.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/mckibben/v2_20deg/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "8e9b97eec1023aaffb237c57044711e69b50ca4364d297d2bceb93faf1664209"
+    },
+    {
+     "draws": "braid",
+     "path": "gramian_map/cads/mckibben/v2_20deg/braid.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "29f3327b5a1b50b492e2eecebc817b4b0f0b526d21b304cefb2960346f0e3d46"
+    }
+   ]
+  },
+  "mckibben_v2_30deg": {
+   "kind": "mesh",
+   "image": "thumbs/mckibben_v2_30deg.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/mckibben/v2_30deg/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "8e9b97eec1023aaffb237c57044711e69b50ca4364d297d2bceb93faf1664209"
+    },
+    {
+     "draws": "braid",
+     "path": "gramian_map/cads/mckibben/v2_30deg/braid.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "51fc7f0a18aa0c891054372a11a946ea4e13ed84bcfe9d9ad0d3372772f2bdc6"
+    }
+   ]
+  },
+  "mckibben_v2_40deg": {
+   "kind": "mesh",
+   "image": "thumbs/mckibben_v2_40deg.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/mckibben/v2_40deg/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "8e9b97eec1023aaffb237c57044711e69b50ca4364d297d2bceb93faf1664209"
+    },
+    {
+     "draws": "braid",
+     "path": "gramian_map/cads/mckibben/v2_40deg/braid.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "4b7715a6814599e59968019f78e38a6ebdc3a5cb422a93f2aec1c789e8bb95f0"
+    }
+   ]
+  },
+  "mckibben_v2_55deg": {
+   "kind": "mesh",
+   "image": "thumbs/mckibben_v2_55deg.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/mckibben/v2_55deg/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "8e9b97eec1023aaffb237c57044711e69b50ca4364d297d2bceb93faf1664209"
+    },
+    {
+     "draws": "braid",
+     "path": "gramian_map/cads/mckibben/v2_55deg/braid.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "5b7d816cd4d6de197b5d085db664e9969833a279242de3fab3ab4653f6d2e8db"
+    }
+   ]
+  },
+  "mckibben_v2_60deg": {
+   "kind": "mesh",
+   "image": "thumbs/mckibben_v2_60deg.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/mckibben/v2_60deg/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "8e9b97eec1023aaffb237c57044711e69b50ca4364d297d2bceb93faf1664209"
+    },
+    {
+     "draws": "braid",
+     "path": "gramian_map/cads/mckibben/v2_60deg/braid.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "7b933a04de5bf5dc57a72cfd02577a2ba36f68da5b449779c68705d310cc8432"
+    }
+   ]
+  },
+  "wall_0.0005m": {
+   "kind": "mesh",
+   "image": "thumbs/wall_0.0005m.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/pneunet/wall_0.0005m/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "133cdf9f9abe4b23c352cf22176c3db72731310d6ed8efbe9f29d76efbde63bf"
+    }
+   ]
+  },
+  "wall_0.0010m": {
+   "kind": "mesh",
+   "image": "thumbs/wall_0.0010m.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/pneunet/wall_0.0010m/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "81c1b0674a61d1dec18f5c71b4e9520069e2684ffd6ae77f2dc85036d65b5bc6"
+    }
+   ]
+  },
+  "wall_0.0015m": {
+   "kind": "mesh",
+   "image": "thumbs/wall_0.0015m.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/pneunet/wall_0.0015m/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "3f532b4d2bfc7fbf3b90c464f2fee01549cc757a06f005fef1331773595dd829"
+    }
+   ]
+  },
+  "wall_0.0020m": {
+   "kind": "mesh",
+   "image": "thumbs/wall_0.0020m.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/pneunet/wall_0.0020m/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "32a0717c9e20041fc08727a76ae8f98414cfcbc7e808610e2f77032820716b31"
+    }
+   ]
+  },
+  "pneunet_tandem_twist_60deg": {
+   "kind": "mesh",
+   "image": "thumbs/pneunet_tandem_twist_60deg.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/pneunet_tandem/twist_60deg/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "f122b942bd22cbe54d102913870bf2af767240d5ca71f8628e0fb4412e61cc3a"
+    }
+   ]
+  },
+  "pneunet_tandem_twist_90deg": {
+   "kind": "mesh",
+   "image": "thumbs/pneunet_tandem_twist_90deg.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/pneunet_tandem/twist_90deg/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "sha256": "569046ae826da252be8a67c85463cccd16e433b3bf7254874d1374763da2b6ab"
+    }
+   ]
+  },
+  "abboodi2026_ossa5_axial_extend": {
+   "kind": "schematic",
+   "schematic": "sleeve_bellows",
+   "image": "thumbs/schematic_sleeve_bellows.png",
+   "basis": "The record's notes describe a sleeve whose wall is a four-chamber bellows. Drawn as a folded sleeve seen from the side; the number of folds and the proportions are ours."
+  },
+  "abboodi2026_ossa5_vacuum_contract": {
+   "kind": "schematic",
+   "schematic": "sleeve_bellows",
+   "image": "thumbs/schematic_sleeve_bellows.png",
+   "basis": "The record's notes describe a sleeve whose wall is a four-chamber bellows. Drawn as a folded sleeve seen from the side; the number of folds and the proportions are ours."
+  },
+  "mosadegh2014_fPN": {
+   "kind": "schematic",
+   "schematic": "pneunet",
+   "image": "thumbs/schematic_pneunet.png",
+   "basis": "A pneumatic network bender: a row of chambers on a flat strip, as the field draws the type. The same drawing stands for the fast and the slow design; it does not show how they differ."
+  },
+  "mosadegh2014_sPN": {
+   "kind": "schematic",
+   "schematic": "pneunet",
+   "image": "thumbs/schematic_pneunet.png",
+   "basis": "A pneumatic network bender: a row of chambers on a flat strip, as the field draws the type. The same drawing stands for the fast and the slow design; it does not show how they differ."
+  },
+  "chandler2020_pha_a0_C1": {
+   "kind": "schematic",
+   "schematic": "parallel_helix",
+   "image": "thumbs/schematic_parallel_helix.png",
+   "basis": "The record's notes describe three chambers round a core; at thread angle 0 they run straight along the rod. The same drawing stands for each chamber driven alone."
+  },
+  "chandler2020_pha_a0_C2": {
+   "kind": "schematic",
+   "schematic": "parallel_helix",
+   "image": "thumbs/schematic_parallel_helix.png",
+   "basis": "The record's notes describe three chambers round a core; at thread angle 0 they run straight along the rod. The same drawing stands for each chamber driven alone."
+  },
+  "chandler2020_pha_a0_C3": {
+   "kind": "schematic",
+   "schematic": "parallel_helix",
+   "image": "thumbs/schematic_parallel_helix.png",
+   "basis": "The record's notes describe three chambers round a core; at thread angle 0 they run straight along the rod. The same drawing stands for each chamber driven alone."
+  },
+  "cherubini2015_RC_datasetC": {
+   "kind": "schematic",
+   "schematic": "coiled_fibre",
+   "image": "thumbs/schematic_coiled_fibre.png",
+   "basis": "The record's notes describe a nylon fishing line wound into a coil. Drawn as a plain coil; the number of turns is ours."
+  },
+  "kubler2023_pouch_W40xL40": {
+   "kind": "schematic",
+   "schematic": "vine_pouch",
+   "image": "thumbs/schematic_vine_pouch.png",
+   "basis": "The record's notes describe a line of welded rectangular pouches on an inflated vine robot body. The number of pouches drawn is ours."
+  },
+  "kubler2023_cPAM_W40xL40": {
+   "kind": "schematic",
+   "schematic": "vine_cpam",
+   "image": "thumbs/schematic_vine_cpam.png",
+   "basis": "The record's notes describe cylindrical pneumatic artificial muscles welded into an inflated vine robot body. The number drawn is ours."
+  },
+  "kubler2023_fPAM_W40": {
+   "kind": "schematic",
+   "schematic": "vine_fpam",
+   "image": "thumbs/schematic_vine_fpam.png",
+   "basis": "The record's notes describe one cylindrical tube glued along an inflated vine robot body."
+  },
+  "yang2016_vamp_ecoflex": {
+   "kind": "schematic",
+   "schematic": "buckling_block",
+   "image": "thumbs/schematic_buckling_block.png",
+   "basis": "The record's notes describe an elastomer block with rows of internal cavities whose beams buckle under vacuum. The number and layout of cavities drawn are ours. The same drawing stands for both materials."
+  },
+  "yang2016_vamp_elastosil": {
+   "kind": "schematic",
+   "schematic": "buckling_block",
+   "image": "thumbs/schematic_buckling_block.png",
+   "basis": "The record's notes describe an elastomer block with rows of internal cavities whose beams buckle under vacuum. The number and layout of cavities drawn are ours. The same drawing stands for both materials."
+  },
+  "sample_pneunet_pressure_set": {
+   "kind": "mesh",
+   "image": "thumbs/sample_pneunet_pressure_set.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/actuation_methods/pumped_volume_pneunet/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+     "sha256": "c3f7e16a26347d37cb05fefc950cff68f4996562192f292f6c961b25234468e0"
+    }
+   ]
+  }
+ }
+}

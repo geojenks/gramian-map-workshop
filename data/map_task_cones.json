@@ -1,0 +1,34 @@
+{
+ "note": "Read by tools/export_map_paths.py. Each entry declares one task drawn on the map as a cone on the three tip-travel axes. \"task\" names a file in data/tasks. \"n\", \"mount\" and \"yaw_deg\" are the placement of the finger on the object that the needed direction is worked out for; they are the ones demos/backwards_lookup.py was run with for outputs/backwards_lookup.json. \"half_angle_deg\" is how far from the needed direction a tip position may lie and still count as inside; \"half_angle_basis\" says where that number comes from. \"least_travel_m\" is the least tip travel along the needed direction, or null where the task file states none, with \"least_travel_note\" saying so. \"stroke\" (optional) gives the cone a far end: \"angle_deg\" is the wave's commanded stroke, \"source\" pins where it is read from (a Wave_manip commit, file, sha256, key and command-line flag) and \"basis\" says what it means; the exporter turns it into the tip travel for one stroke, from the task file's ball radius and contact-ring altitude. Nothing here comes from, or goes into, data/records. \"push_basis\" and \"push_threshold_ratio\" (given together, or neither) ask for the push each finger must make to hold the task's object: the basis says how it is worked out and what it means, and the threshold ratio is the share of the needed push a record must reach to count as meeting it. \"return_clear\" (optional, only with a stroke) asks for a second check: after the stroke the finger must break contact and come back to its start clear of the object. \"basis\" says how that is read from the tip positions; \"drawn_depth_m\" is how much further out of the object than its stroke path the tip must be able to sit, all along the stroke, and how deep the page draws the band for it; \"drawn_depth_basis\" says where that number comes from.",
+ "cones": [
+  {
+   "task": "cup_turn",
+   "n": 4,
+   "mount": "aimed",
+   "yaw_deg": 90,
+   "half_angle_deg": 45,
+   "half_angle_basis": "A choice made for the display, not a limit measured on the task. Inside 45 degrees the tip has moved further along the needed direction than across it (the squared cosine is above one half). The task file gives no angle. The range of angles for which the records inside the cone are exactly the stored turners is worked out by tests/test_export_map_paths.py and is not used to choose this number.",
+   "least_travel_m": null,
+   "least_travel_note": "The task file states no least tip travel, so the cone has no floor: any travel inside the angle counts. Its far end is one stroke of the wave.",
+   "stroke": {
+    "angle_deg": 40.0,
+    "source": {
+     "commit": "217746b6812c9bd14409a7bb6dfea1ec3eeabf01",
+     "path": "w20_logs/w20s4_cup_runs.json",
+     "sha256": "abab470baaff14f35104af2c6bdcd9aab72e37c9471ade11a3ebecf0d9268eea",
+     "dirty": false,
+     "key": "runs/3/command",
+     "flag": "--stroke-deg"
+    },
+    "basis": "The stroke angle is the wave's commanded sweep of each fingertip about the turn axis during contact, read from the same run command the task file takes its duty from. That run only settled the ball, so this is the commanded stroke, not a measured turn of the ball. The tip travel for one stroke is the stroke angle times the contact ring's distance from the turn axis (ball radius times the cosine of the ring altitude, both from the task file), the inverse of the repository's own turn-per-stroke rule (gramian_workshop.arrange.Arrangement.turn_per_stroke_deg). The stroke is taken to start with the finger at rest touching the ball. The tip's real target is an arc about the turn axis; the straight cone with a far end is a simplification."
+   },
+   "return_clear": {
+    "basis": "After each stroke the finger must let go of the ball and come back to where the stroke began without dragging the ball back with it. The stroke path is taken, as the stroke's basis says, to run in contact from rest. So on the way back the tip must sit further out of the ball than the stroke path, at every travel along the stroke: less travel along the contact normal, which points into the ball. This is read from free tip positions only; nothing here simulates the ball. Distance from the ball's curved surface is not used, because the stroke is drawn straight and a straight path leaves a ball by geometry alone. A finger with one input has one tip position at each travel, so it can only come back the way it went.",
+    "drawn_depth_m": 0.002,
+    "drawn_depth_basis": "A choice made for the display, not a clearance measured on the task. The task file states none. tests/test_export_map_paths.py checks that, on the records held, every pass or fail is the same for any depth above a hundredth of a millimetre."
+   },
+   "push_basis": "The needed push is worked out by the repo's hold solve (gramian_workshop.readout.soft_hold, with a margin) from the task file's object mass, gravity, friction coefficient and contact-ring altitude, with this entry's finger count and placement and the task file's duty, over every set of fingers in contact that the duty schedule makes, with each finger given unit force; the needed push is one over the smallest margin. Under this placement each finger is aimed so that its push points into the ball along the contact normal, so the direction of the push is set by the placement and only its size is tested. The push a record can make is its held-tip force, read with the tip held at rest, along its own push direction; simulated forces are comparative, not predictive, and the records' forces are known to have been read before the body had fully settled.",
+   "push_threshold_ratio": 1.0
+  }
+ ]
+}

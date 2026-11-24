@@ -274,4 +274,7 @@ outputs/cup_hold.json outputs/cup_hold.txt`.
 
 The mesh route (an actuator as a CAD model, through simulation, to a
 record) is hours of compute in another project and is not part of the
-day. Its records are already in `data/records/`.
+day. Its records are already in `data/records/`. The scripts for
+one such route, with one worked pneu-net whose record is a draft kept
+outside `data/records/`, are in `mesh_route/`; `docs/ACTUATOR_FROM_A_MESH.md`
+says how to run them.

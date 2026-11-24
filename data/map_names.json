@@ -1,0 +1,297 @@
+{
+ "note": "Read by tools/export_map_paths.py. The name each actuator is shown by on the map page, and the reference its card links to. These are display choices, not data: nothing here comes from, or goes into, data/records. \"records\" is keyed by record id. Each entry holds \"name\" (the label on the map: what the actuator is called, with the part that tells it from its neighbours), \"detail\" (one plain sentence for the card), \"name_from\" (\"authors\" for the name the paper uses, \"field\" for the field's general name for that type of actuator with our own distinguishing part, \"description\" for a plain description of ours where the source gives no name), \"name_source\" (where the name was taken from) and \"reference\" (a key of \"references\", or null for our own simulated records, which are not published). \"references\" holds each paper once: the full citation, the DOI, the link (always https://doi.org/ followed by the DOI), an open copy where the curves were read from one, and the date and way the citation was checked. No name is invented: where a source gives no name for the actuator, the entry is a plain description and says so. An actuator with no entry here is shown by its record id.",
+ "references": {
+  "abboodi2026": {
+   "citation": "Abboodi, M. and Doumit, M. (2026). Design, manufacturing, and testing of a novel omnidirectional soft sleeve actuator. Scientific Reports 16, 9828.",
+   "authors_short": "Abboodi and Doumit",
+   "year": 2026,
+   "doi": "10.1038/s41598-026-40604-5",
+   "open_copy": null,
+   "url": "https://doi.org/10.1038/s41598-026-40604-5",
+   "checked": "2026-11-20",
+   "checked_how": "Title, authors, journal, volume and pages as Crossref returns them for the DOI; the DOI resolves at doi.org."
+  },
+  "mosadegh2014": {
+   "citation": "Mosadegh, B., Polygerinos, P., Keplinger, C., Wennstedt, S., Shepherd, R. F., Gupta, U., Shim, J., Bertoldi, K., Walsh, C. J. and Whitesides, G. M. (2014). Pneumatic Networks for Soft Robotics that Actuate Rapidly. Advanced Functional Materials 24(15), 2163-2170.",
+   "authors_short": "Mosadegh et al.",
+   "year": 2014,
+   "doi": "10.1002/adfm.201303288",
+   "open_copy": null,
+   "url": "https://doi.org/10.1002/adfm.201303288",
+   "checked": "2026-11-20",
+   "checked_how": "Title, authors, journal, volume and pages as Crossref returns them for the DOI; the DOI resolves at doi.org."
+  },
+  "chandler2020": {
+   "citation": "Chandler, J. H., Chauhan, M., Garbin, N., Obstein, K. L. and Valdastri, P. (2020). Parallel Helix Actuators for Soft Robotic Applications. Frontiers in Robotics and AI 7, 119.",
+   "authors_short": "Chandler et al.",
+   "year": 2020,
+   "doi": "10.3389/frobt.2020.00119",
+   "open_copy": null,
+   "url": "https://doi.org/10.3389/frobt.2020.00119",
+   "checked": "2026-11-20",
+   "checked_how": "Title, authors, journal, volume and pages as Crossref returns them for the DOI; the DOI resolves at doi.org."
+  },
+  "cherubini2015": {
+   "citation": "Cherubini, A., Moretti, G., Vertechy, R. and Fontana, M. (2015). Experimental characterization of thermally-activated artificial muscles based on coiled nylon fishing lines. AIP Advances 5(6), 067158.",
+   "authors_short": "Cherubini et al.",
+   "year": 2015,
+   "doi": "10.1063/1.4923315",
+   "open_copy": null,
+   "url": "https://doi.org/10.1063/1.4923315",
+   "checked": "2026-11-20",
+   "checked_how": "Title, authors, journal, volume and pages as Crossref returns them for the DOI; the DOI resolves at doi.org."
+  },
+  "kubler2024": {
+   "citation": "Kübler, A. M., du Pasquier, C., Low, A., Djambazi, B., Aymon, N., Förster, J., Agharese, N., Siegwart, R. and Okamura, A. M. (2024). A Comparison of Pneumatic Actuators for Soft Growing Vine Robots. Soft Robotics 11(5), 857-868.",
+   "authors_short": "Kübler et al.",
+   "year": 2024,
+   "doi": "10.1089/soro.2023.0169",
+   "open_copy": {
+    "url": "https://arxiv.org/abs/2305.00967v3",
+    "what": "arXiv preprint, version 3: the copy the curves were read from"
+   },
+   "url": "https://doi.org/10.1089/soro.2023.0169",
+   "checked": "2026-11-20",
+   "checked_how": "Title, authors, journal, volume and pages as Crossref returns them for the DOI; the DOI resolves at doi.org."
+  },
+  "yang2016": {
+   "citation": "Yang, D., Verma, M. S., So, J.-H., Mosadegh, B., Keplinger, C., Lee, B., Khashai, F., Lossner, E., Suo, Z. and Whitesides, G. M. (2016). Buckling Pneumatic Linear Actuators Inspired by Muscle. Advanced Materials Technologies 1(3), 1600055.",
+   "authors_short": "Yang et al.",
+   "year": 2016,
+   "doi": "10.1002/admt.201600055",
+   "open_copy": {
+    "url": "https://dash.harvard.edu/entities/publication/73120379-1979-6bd4-e053-0100007fdf3b",
+    "what": "accepted manuscript in Harvard DASH: the copy the curves were read from"
+   },
+   "url": "https://doi.org/10.1002/admt.201600055",
+   "checked": "2026-11-20",
+   "checked_how": "Title, authors, journal, volume and pages as Crossref returns them for the DOI; the DOI resolves at doi.org."
+  }
+ },
+ "records": {
+  "abboodi2026_ossa5_axial_extend": {
+   "name": "OSSA sleeve, extending",
+   "detail": "Omnidirectional soft sleeve actuator (model OSSA 5), all chambers pressurised so it lengthens.",
+   "name_from": "authors",
+   "name_source": "The paper's title names the omnidirectional soft sleeve actuator, which the record's own name shortens to OSSA and gives as model OSSA 5 with its mode.",
+   "reference": "abboodi2026"
+  },
+  "abboodi2026_ossa5_vacuum_contract": {
+   "name": "OSSA sleeve, contracting",
+   "detail": "Omnidirectional soft sleeve actuator (model OSSA 5), under vacuum so it shortens.",
+   "name_from": "authors",
+   "name_source": "The paper's title names the omnidirectional soft sleeve actuator, which the record's own name shortens to OSSA and gives as model OSSA 5 with its mode.",
+   "reference": "abboodi2026"
+  },
+  "mosadegh2014_fPN": {
+   "name": "Fast pneu-net",
+   "detail": "The fast pneumatic network bender, written fPN in the paper.",
+   "name_from": "authors",
+   "name_source": "The paper's title names pneumatic networks; the record's own name gives the short form fPN, fast pneu-net.",
+   "reference": "mosadegh2014"
+  },
+  "mosadegh2014_sPN": {
+   "name": "Slow pneu-net",
+   "detail": "The slow pneumatic network bender, written sPN in the paper.",
+   "name_from": "authors",
+   "name_source": "The paper's title names pneumatic networks; the record's own name gives the short form sPN, slow pneu-net.",
+   "reference": "mosadegh2014"
+  },
+  "chandler2020_pha_a0_C1": {
+   "name": "Parallel helix actuator, chamber 1",
+   "detail": "Three-chamber parallel helix actuator at thread angle 0, with chamber 1 driven alone.",
+   "name_from": "authors",
+   "name_source": "The paper's title names parallel helix actuators; the record's own name gives the thread angle and the chamber driven.",
+   "reference": "chandler2020"
+  },
+  "chandler2020_pha_a0_C2": {
+   "name": "Parallel helix actuator, chamber 2",
+   "detail": "Three-chamber parallel helix actuator at thread angle 0, with chamber 2 driven alone.",
+   "name_from": "authors",
+   "name_source": "The paper's title names parallel helix actuators; the record's own name gives the thread angle and the chamber driven.",
+   "reference": "chandler2020"
+  },
+  "chandler2020_pha_a0_C3": {
+   "name": "Parallel helix actuator, chamber 3",
+   "detail": "Three-chamber parallel helix actuator at thread angle 0, with chamber 3 driven alone.",
+   "name_from": "authors",
+   "name_source": "The paper's title names parallel helix actuators; the record's own name gives the thread angle and the chamber driven.",
+   "reference": "chandler2020"
+  },
+  "cherubini2015_RC_datasetC": {
+   "name": "Coiled nylon muscle",
+   "detail": "Coiled nylon fishing line that contracts when heated: the specimen the paper calls the Reference Coil.",
+   "name_from": "authors",
+   "name_source": "The paper's title names artificial muscles based on coiled nylon fishing lines; the record's notes give the paper's name for the specimen, Reference Coil.",
+   "reference": "cherubini2015"
+  },
+  "kubler2023_pouch_W40xL40": {
+   "name": "Pouch motor on a vine robot",
+   "detail": "A line of welded rectangular pouches on an inflated vine robot body; the W40 x L40 size.",
+   "name_from": "authors",
+   "name_source": "Pouch motor is the name the paper uses for this actuator, as the record's name and notes give it.",
+   "reference": "kubler2024"
+  },
+  "kubler2023_cPAM_W40xL40": {
+   "name": "cPAM on a vine robot",
+   "detail": "Cylindrical pneumatic artificial muscles welded into an inflated vine robot body; the W40 x L40 size.",
+   "name_from": "authors",
+   "name_source": "cPAM is the name the paper uses for this actuator, as the record's name gives it; the record's notes describe it as cylindrical pneumatic artificial muscles.",
+   "reference": "kubler2024"
+  },
+  "kubler2023_fPAM_W40": {
+   "name": "fPAM on a vine robot",
+   "detail": "One cylindrical fabric tube glued along an inflated vine robot body; the W40 size.",
+   "name_from": "authors",
+   "name_source": "fPAM is the name the paper uses for this actuator, as the record's name gives it. The record does not spell the short form out, so we do not either.",
+   "reference": "kubler2024"
+  },
+  "yang2016_vamp_ecoflex": {
+   "name": "VAMP, Ecoflex 00-30",
+   "detail": "Vacuum-actuated muscle-inspired pneumatic structure: an elastomer block whose inner beams buckle under vacuum so it shortens. Cast in Ecoflex 00-30.",
+   "name_from": "authors",
+   "name_source": "VAMP is the paper's short form, as the record's name and notes give it; the paper's title calls these buckling pneumatic linear actuators.",
+   "reference": "yang2016"
+  },
+  "yang2016_vamp_elastosil": {
+   "name": "VAMP, Elastosil M4601",
+   "detail": "Vacuum-actuated muscle-inspired pneumatic structure: an elastomer block whose inner beams buckle under vacuum so it shortens. Cast in Elastosil M4601.",
+   "name_from": "authors",
+   "name_source": "VAMP is the paper's short form, as the record's name and notes give it; the paper's title calls these buckling pneumatic linear actuators.",
+   "reference": "yang2016"
+  },
+  "bellows1": {
+   "name": "Bellows, 8 folds",
+   "detail": "A round chamber with 8 folds along its length that lengthens under pressure.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Bellows is the field's general word for this shape; the count is the generator's default number of convolutions (n_conv 8).",
+   "reference": null
+  },
+  "bellows_seg3": {
+   "name": "Bellows, 3 folds",
+   "detail": "The same bellows at the same length with 3 folds.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Bellows is the field's general word for this shape; the count is the generator setting this mesh was made with (n_conv 3).",
+   "reference": null
+  },
+  "bellows_seg5": {
+   "name": "Bellows, 5 folds",
+   "detail": "The same bellows at the same length with 5 folds.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Bellows is the field's general word for this shape; the count is the generator setting this mesh was made with (n_conv 5).",
+   "reference": null
+  },
+  "bellows_seg7": {
+   "name": "Bellows, 7 folds",
+   "detail": "The same bellows at the same length with 7 folds.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Bellows is the field's general word for this shape; the count is the generator setting this mesh was made with (n_conv 7).",
+   "reference": null
+  },
+  "bellows_seg9": {
+   "name": "Bellows, 9 folds",
+   "detail": "The same bellows at the same length with 9 folds.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Bellows is the field's general word for this shape; the count is the generator setting this mesh was made with (n_conv 9).",
+   "reference": null
+  },
+  "bellows_tendon1": {
+   "name": "Bellows with a slack tendon",
+   "detail": "The 8-fold bellows with a slack tendon down one side: it lengthens freely, then the tendon goes taut and it bends.",
+   "name_from": "description",
+   "name_source": "Our own simulated design, not published. A plain description of ours; the source gives no other name.",
+   "reference": null
+  },
+  "cable_finger": {
+   "name": "Tendon-driven silicone finger",
+   "detail": "A solid silicone beam bent by a tendon run through guides along one side.",
+   "name_from": "description",
+   "name_source": "Our own simulated design, not published. A plain description of ours, as in the record's own name.",
+   "reference": null
+  },
+  "mckibben_v2_20deg": {
+   "name": "McKibben muscle, braid 20°",
+   "detail": "A silicone bladder inside a braided sleeve with stiff end caps; braid angle 20 degrees.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. McKibben is the field's name for a bladder in a braided sleeve; the braid angle is the one in the record's own name.",
+   "reference": null
+  },
+  "mckibben_v2_30deg": {
+   "name": "McKibben muscle, braid 30°",
+   "detail": "A silicone bladder inside a braided sleeve with stiff end caps; braid angle 30 degrees.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. McKibben is the field's name for a bladder in a braided sleeve; the braid angle is the one in the record's own name.",
+   "reference": null
+  },
+  "mckibben_v2_40deg": {
+   "name": "McKibben muscle, braid 40°",
+   "detail": "A silicone bladder inside a braided sleeve with stiff end caps; braid angle 40 degrees.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. McKibben is the field's name for a bladder in a braided sleeve; the braid angle is the one in the record's own name.",
+   "reference": null
+  },
+  "mckibben_v2_55deg": {
+   "name": "McKibben muscle, braid 55°",
+   "detail": "A silicone bladder inside a braided sleeve with stiff end caps; braid angle 55 degrees.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. McKibben is the field's name for a bladder in a braided sleeve; the braid angle is the one in the record's own name.",
+   "reference": null
+  },
+  "mckibben_v2_60deg": {
+   "name": "McKibben muscle, braid 60°",
+   "detail": "A silicone bladder inside a braided sleeve with stiff end caps; braid angle 60 degrees.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. McKibben is the field's name for a bladder in a braided sleeve; the braid angle is the one in the record's own name.",
+   "reference": null
+  },
+  "wall_0.0005m": {
+   "name": "Pneu-net bender, 0.5 mm wall",
+   "detail": "A row of chambers joined by a channel that curls under pressure; chamber wall 0.5 mm thick.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Pneu-net (pneumatic network) is the field's name for this type of bender; the wall thickness is the one in the record's own name (0.0005 m).",
+   "reference": null
+  },
+  "wall_0.0010m": {
+   "name": "Pneu-net bender, 1.0 mm wall",
+   "detail": "A row of chambers joined by a channel that curls under pressure; chamber wall 1.0 mm thick.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Pneu-net (pneumatic network) is the field's name for this type of bender; the wall thickness is the one in the record's own name (0.0010 m).",
+   "reference": null
+  },
+  "wall_0.0015m": {
+   "name": "Pneu-net bender, 1.5 mm wall",
+   "detail": "A row of chambers joined by a channel that curls under pressure; chamber wall 1.5 mm thick.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Pneu-net (pneumatic network) is the field's name for this type of bender; the wall thickness is the one in the record's own name (0.0015 m).",
+   "reference": null
+  },
+  "wall_0.0020m": {
+   "name": "Pneu-net bender, 2.0 mm wall",
+   "detail": "A row of chambers joined by a channel that curls under pressure; chamber wall 2.0 mm thick.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Pneu-net (pneumatic network) is the field's name for this type of bender; the wall thickness is the one in the record's own name (0.0020 m).",
+   "reference": null
+  },
+  "pneunet_tandem_twist_60deg": {
+   "name": "Two pneu-nets in line, second turned 60°",
+   "detail": "Two half-length pneu-net benders end to end, the second turned 60 degrees about the long axis, each with its own pressure input.",
+   "name_from": "description",
+   "name_source": "Our own simulated design, not published. A plain description of ours; the source gives no other name.",
+   "reference": null
+  },
+  "pneunet_tandem_twist_90deg": {
+   "name": "Two pneu-nets in line, second turned 90°",
+   "detail": "Two half-length pneu-net benders end to end, the second turned 90 degrees about the long axis, each with its own pressure input.",
+   "name_from": "description",
+   "name_source": "Our own simulated design, not published. A plain description of ours; the source gives no other name.",
+   "reference": null
+  },
+  "sample_pneunet_pressure_set": {
+   "name": "Pneu-net finger, simulated from a mesh",
+   "detail": "The pneu-net bender that the project page takes from a mesh, through a finite-element simulation, to a record; chamber wall 1.0 mm thick, one pressure input.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Pneu-net (pneumatic network) is the field's name for this type of bender; the mesh and the wall thickness are set out in mesh_route/PROVENANCE.md.",
+   "reference": null
+  }
+ }
+}

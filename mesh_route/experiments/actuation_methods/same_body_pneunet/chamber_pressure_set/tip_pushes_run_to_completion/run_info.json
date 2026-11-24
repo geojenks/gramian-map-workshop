@@ -1,0 +1,44 @@
+{
+  "drive": "pressure",
+  "hold_tip": false,
+  "hold_line": "",
+  "n_hold_nodes": 0,
+  "hold_stiffness_N_per_m_per_node": 1000000.0,
+  "f_test_N": 0.01,
+  "push_axes": "yz",
+  "cad_name": "actuation_methods/pumped_volume_pneunet",
+  "levels": [
+    20.0
+  ],
+  "dt_s": 0.01,
+  "n_nodes": 8663,
+  "n_tets": 26713,
+  "n_tip_nodes": 530,
+  "n_clamped_nodes": 455,
+  "rest_tip_m": [
+    0.07155618180662725,
+    0.0013679707976874125,
+    -2.384945394453651e-05
+  ],
+  "body_length_m": 0.073,
+  "body_young_modulus_Pa": 700000.0,
+  "shear_modulus_Pa": 241379.3103448276,
+  "rest_cavity_volume_m3": 1.2297750000000006e-05,
+  "cables_driven": [],
+  "cable_mode": "",
+  "settle": {
+    "ke_threshold": 1e-14,
+    "max_substeps": 1500,
+    "drift_steps": 20,
+    "disp_tol": 1e-07
+  },
+  "argv": [
+    "run_shared_body_drive.py",
+    "--drive",
+    "pressure",
+    "--levels=20",
+    "--out_dir",
+    "experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_pushes_run_to_completion"
+  ],
+  "started": "2026-11-21 18:58:15"
+}

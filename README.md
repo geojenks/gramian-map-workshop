@@ -9,8 +9,38 @@ with manipulation **tasks** (from the wave-manipulation work,
 `geojenks/Wave_manip`). It then says, for each arrangement of fingers, whether
 the task can be done and, if not, **why**.
 
-> Simulation and records only: comparative, not predictive. Record forces are
-> uncalibrated, so strength is shown but never scored.
+> The simulations and records here are not calibrated against real experiments
+> unless marked, so use them to compare designs, not to predict what a built one
+> will do.
+
+## Three pieces, each one a file you can swap
+
+The workflow is three pieces. Each ends in one plain file, and each has more
+than one way in. Bring any one piece and keep ours for the rest.
+
+| Piece | What you have | How it goes in | File it becomes |
+|---|---|---|---|
+| **Actuator** | Bench or simulation curves | a CSV table, `tools/curves_to_record.py` (`docs/ADD_YOUR_ACTUATOR.md`) | a record |
+| | Datasheet numbers | `forms/record_form.html`, in a browser | a record |
+| | An analytical model | your formula in `examples/analytical_model_to_curves.py`, then as curves | a record |
+| | A rigid finger | a table of joints, `tools/joint_table_to_record.py` (`docs/JOINT_TABLE_FORMAT.md`) | a record |
+| | A mesh | the scripts in `mesh_route/`, with one worked pneu-net (`docs/ACTUATOR_FROM_A_MESH.md`); your own runs need SOFA | a record |
+| **Manipulator** | Copies of your actuator | a short file saying where each finger is mounted, `tools/build_record_hand.py` (`docs/PARTICIPANT_SCRIPT.md`, steps 4 to 6) | a hand |
+| | A hand you have a model of | a MuJoCo or URDF model and a description file, `tools/add_hand.py` (`docs/BRING_YOUR_HAND.md`) | a hand |
+| **Task** | Contacts from a MuJoCo simulation | `examples/mujoco_contacts_to_leader.py` (`docs/TASK_FROM_MUJOCO.md`) | a task file |
+| | Contacts from another simulator or an experiment | the same fields written by your own script (`docs/TASK_FILE_FORMAT.md`, "Bringing your own task") | a task file |
+
+What reads what:
+
+- A **record** alone goes on the map picture and into the three cup demos
+  (`--record`). The cup demos use our two stored cup tasks.
+- A **hand** and a **task file** go into the follow check
+  (`tools/run_follow.py`), which says frame by frame whether that hand can
+  be at those contacts with those forces. A hand made of copies of your
+  actuator is a hand like any other there.
+- Check each file before using it: `tools/check_record.py` for a record,
+  `tools/check_leader.py` for a task file (the code calls a task file a
+  "leader").
 
 ## Install
 
@@ -57,6 +87,8 @@ python tools/fetch_hands.py
 
 The whole-motion check, `follow(trajectory=True)`, also needs scipy:
 `pip install -e ".[trajectory]"`.
+The builder of the actuator map, `tools/export_map_paths.py`, needs scipy too:
+`pip install -e ".[map]"`. Without it the map's tests skip themselves.
 The tools that draw pictures (`tools/figure_map_tip_paths.py` and the other
 figure tools) need matplotlib: `pip install -e ".[figures]"`.
 Its speed search, `tools/trajectory_top_speed.py`, finds how fast a hand
@@ -137,10 +169,13 @@ The last line draws your actuator on the picture of the roster
 - A hand you have as a MuJoCo model (`docs/BRING_YOUR_HAND.md`, which also
   describes URDF). Needs the `hands` extra, and a recent git to fetch the
   example models.
-- Not an actuator as a mesh or CAD file. Turning a mesh into a record needs a
-  material, a labelled pressure face and a finite-element simulation. That
-  runs in a separate project that is not public, so it is not part of
-  this repository.
+- An actuator as a mesh (`docs/ACTUATOR_FROM_A_MESH.md`). Turning a mesh
+  into a record needs a material, a labelled pressure face and a
+  finite-element simulation. The scripts are in `mesh_route/`, with one
+  worked pneu-net whose simulation runs are stored: the record is rebuilt
+  from them with the `mesh` extra and no simulator. Runs of your own mesh
+  need SOFA 24.06 with its SoftRobots plugin, which this repository does
+  not install.
 
 A datasheet-level (Tier 0) record needs only `scalars`: stroke, motion
 direction, polarity and blocked force. Richer records (blocked force vectors

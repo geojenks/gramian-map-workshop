@@ -1,0 +1,174 @@
+{
+ "note": "Read by tools/export_map_paths.py. Young's modulus of the body, in pascals, for records whose own metadata.materials.young_modulus_body is not set. Each entry is keyed by record id and holds \"modulus_Pa\", \"source\" (the file it is read from, pinned by repository, commit, path, sha256 of the file at that commit, the symbol read and its line, and the record's CAD folder, where a materials.json would override it) and \"why\" (why that value is the one the run used). The map uses a record's own modulus where it has one; an entry here for such a record is refused. tests/test_export_map_paths.py checks each pin against the repository when it is present. Not listed: the literature and measured records, none of which states a body modulus, and shadow_hand_finger and example_rigid_pneumatic_cylinder, which are rigid. Nothing here comes from, or goes into, data/records.",
+ "records": {
+  "bellows1": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/bellows/bellows1"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/bellows/bellows1) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_bellows.py) writes materials.json only when given --bladder_E, and the record's generator command does not give it. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "bellows_seg3": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/bellows/bellows_seg3"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/bellows/bellows_seg3) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_bellows.py) writes materials.json only when given --bladder_E, and the record's generator command does not give it. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "bellows_seg5": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/bellows/bellows_seg5"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/bellows/bellows_seg5) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_bellows.py) writes materials.json only when given --bladder_E, and the record's generator command does not give it. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "bellows_seg7": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/bellows/bellows_seg7"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/bellows/bellows_seg7) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_bellows.py) writes materials.json only when given --bladder_E, and the record's generator command does not give it. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "bellows_seg9": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/bellows/bellows_seg9"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/bellows/bellows_seg9) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_bellows.py) writes materials.json only when given --bladder_E, and the record's generator command does not give it. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "bellows_tendon1": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/bellows/bellows_tendon1"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/bellows/bellows_tendon1) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_bellows.py + make_spine_tendon.py) (make_bellows.py) writes materials.json only when given --bladder_E, and the record's generator command does not give it. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "cable_finger": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/cable_finger"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/cable_finger) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_cable_finger.py) writes no materials.json. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "wall_0.0005m": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/pneunet/wall_0.0005m"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/pneunet/wall_0.0005m) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_pneunet.py) writes no materials.json. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "wall_0.0010m": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/pneunet/wall_0.0010m"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/pneunet/wall_0.0010m) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_pneunet.py) writes no materials.json. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "wall_0.0015m": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/pneunet/wall_0.0015m"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/pneunet/wall_0.0015m) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_pneunet.py) writes no materials.json. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "wall_0.0020m": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 80,
+    "cad_dir": "gramian_map/cads/pneunet/wall_0.0020m"
+   },
+   "why": "The record's metadata.materials is empty and its CAD folder (gramian_map/cads/pneunet/wall_0.0020m) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_pneunet.py) writes no materials.json. The value is read from the scene at the repository's first commit (14 July 2026); the record was built earlier, in early July, before the repository's history starts, so this is the scene's default as first committed, not a copy taken at the run itself."
+  },
+  "pneunet_tandem_twist_60deg": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "7c00af7580166d36f9874a5d3ba0945679d07bc7a128da89492a067bf17cf8ee",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 81,
+    "cad_dir": "gramian_map/cads/pneunet_tandem/twist_60deg"
+   },
+   "why": "The draft's metadata.materials is empty (the draft builder writes an empty materials block) and its CAD folder (gramian_map/cads/pneunet_tandem/twist_60deg) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_pneunet_tandem.py) writes no materials.json. The value is read from the scene at the commit current when the draft was built; the scene is unchanged since 8 September 2026."
+  },
+  "pneunet_tandem_twist_90deg": {
+   "modulus_Pa": 700000.0,
+   "source": {
+    "repo": "Gramain_extraction",
+    "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+    "path": "gramian_map/parametricGripper.py",
+    "sha256": "7c00af7580166d36f9874a5d3ba0945679d07bc7a128da89492a067bf17cf8ee",
+    "symbol": "YOUNG_MODULUS_BODY",
+    "line": 81,
+    "cad_dir": "gramian_map/cads/pneunet_tandem/twist_90deg"
+   },
+   "why": "The draft's metadata.materials is empty (the draft builder writes an empty materials block) and its CAD folder (gramian_map/cads/pneunet_tandem/twist_90deg) holds no materials.json, on disk or anywhere in the repository's history, so the scene ran with its own default body modulus. The generator (make_pneunet_tandem.py) writes no materials.json. The value is read from the scene at the commit current when the draft was built; the scene is unchanged since 8 September 2026."
+  }
+ }
+}
