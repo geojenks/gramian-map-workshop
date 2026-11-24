@@ -263,9 +263,17 @@ ul.acts li[hidden] { display: none; }
         the contact ring change the result, because that placement tests no push. With the finger aimed at the
         ball, the ball's mass also changes the push the task needs. The file stays in this browser and is sent
         nowhere.</p>
+      <p class="note">A task can also be given as a target on the map's own axes: a file that states values, or
+        ranges of values, on any of the axes. The page draws it as a point, a line, a surface or a box, depending on
+        which of its axes are among the three shown. It is drawn beside the paths, and no actuator is tested against
+        it. <code>docs/MAP_TARGET_FORMAT.md</code> gives the form of the file. To make one from the task file of a
+        simulation, run <code>python tools/leader_to_map_target.py my_task.json --tag mine</code>. Choose either
+        kind of file here.</p>
       <div class="row"><input id="taskfile" type="file" accept=".json,application/json" aria-label="Map file for your own task">
         <button id="taskoff" type="button" hidden>Remove</button></div>
       <p class="note" id="taskmsg" hidden></p>
+      <p class="note" id="targetmsg" hidden></p>
+      <div id="targetcap" hidden></div>
       <p class="note" id="conescaled" hidden></p>
       <p class="note" id="conenote" hidden></p>
       <div id="conecap" hidden></div>
@@ -420,7 +428,7 @@ const TASK_KEY = "map_tasks", TASK_KIND = "task for the map page", TASK_PICK = "
     ["task", "n", "mount", "yaw_deg", "half_angle_deg"].map(k => c[k] === undefined ? null : c[k])));
   const check = doc => {
     if (!doc || doc.kind !== TASK_KIND || !doc.mounts || !doc.task || typeof doc.task.id !== "string")
-      throw new Error("it was not written by tools/export_map_paths.py --task"); return doc; };
+      throw new Error("it is neither a target file nor a file written by tools/export_map_paths.py --task"); return doc; };
   let kept = [];
   try { kept = JSON.parse(localStorage.getItem(TASK_KEY) || "[]"); } catch (e) {}
   if (!Array.isArray(kept)) kept = [];
@@ -447,13 +455,15 @@ const TASK_KEY = "map_tasks", TASK_KIND = "task for the map page", TASK_PICK = "
   say(words.join(" "));
   $("taskfile").onchange = async ev => { const f = ev.target.files[0]; if (!f) return;
     let doc;
-    try { doc = check(JSON.parse(await f.text())); } catch (e) { say(f.name + " is not used: " + e.message + "."); return; }
+    try { doc = JSON.parse(await f.text()); if (doc && doc.kind === TARGET_KIND) { addTarget(doc, f.name); return; }
+      doc = check(doc); } catch (e) { say(f.name + " is not used: " + e.message + "."); return; }
     const next = kept.filter(d => !(d && d.task && d.task.id === doc.task.id)).concat([doc]);
     try { localStorage.setItem(TASK_KEY, JSON.stringify(next)); }
     catch (e) { say("This browser would not keep the file, so it cannot be added. Removing the tasks already added may make room."); return; }
     try { sessionStorage.setItem(TASK_PICK, doc.task.id); } catch (e) {}
     location.reload(); };
-  $("taskoff").onclick = () => { try { localStorage.removeItem(TASK_KEY); } catch (e) {} location.reload(); };
+  $("taskoff").onclick = () => { try { localStorage.removeItem(TASK_KEY); localStorage.removeItem(TARGET_KEY); } catch (e) {}
+    location.reload(); };
 }
 if (!window.THREE) { fail("The 3D library did not load."); return; }
 
@@ -563,6 +573,68 @@ function pushState(a) {
   return "below";
 }
 const hasBoth = a => { const p = pushOf(a); return !!(p && Array.isArray(p.both_input) && p.both_input.length); };
+// A target of the reader's own: a file that states values on the map's own axes (docs/MAP_TARGET_FORMAT.md). Each of its
+// targets holds either "at" (per axis, one value or a low and a high value) or "along" (per axis, a list of values,
+// all as long, read as one path). It is kept in the browser's storage like a task file. The page only draws it.
+const TARGET_KEY = "map_targets", TARGET_KIND = "target for the map page";
+const TARGETS = [];
+S.target = null;
+const targetOn = () => S.target === null ? null : TARGETS[S.target] || null;
+// A target file may say which placement of the finger its values are set in; it is drawn only on that one.
+const targetFits = d => !(d.placement && d.placement.mount && d.placement.mount !== MOUNT);
+const targetName = d => (d.name || d.id) + " (your target)";
+function checkTarget(doc) {
+  if (!doc || doc.kind !== TARGET_KIND) throw new Error("it is not a target file");
+  if (typeof doc.id !== "string" || !doc.id) throw new Error("it has no \"id\"");
+  if (!Array.isArray(doc.targets) || !doc.targets.length) throw new Error("it holds no \"targets\"");
+  const axes = "The axes of this map are " + Object.keys(Q).join(", ");
+  const num = v => typeof v === "number" && isFinite(v);
+  doc.targets.forEach((t, i) => {
+    const who = "target " + (i + 1), at = t && t.at, along = t && t.along, src = at || along;
+    if (!!at === !!along || typeof src !== "object" || Array.isArray(src))
+      throw new Error(who + " must hold either \"at\" or \"along\", and not both");
+    const keys = Object.keys(src);
+    if (!keys.length) throw new Error(who + " names no axis");
+    keys.forEach(k => { if (!Q[k]) throw new Error(who + " names \"" + k + "\", which is not an axis of this map. " + axes); });
+    if (at) keys.forEach(k => { const v = at[k];
+      if (!(num(v) || (Array.isArray(v) && v.length === 2 && v.every(num))))
+        throw new Error(who + ": \"" + k + "\" must be one number, or a low and a high number"); });
+    else keys.forEach(k => { const v = along[k], first = along[keys[0]];
+      if (!Array.isArray(v) || v.length < 2 || !Array.isArray(first) || v.length !== first.length || !v.every(num))
+        throw new Error(who + ": \"" + k + "\" must be a list of two or more numbers, as long as the target's other lists"); });
+  });
+  if (doc.show !== undefined && !(Array.isArray(doc.show) && doc.show.length === 3 && new Set(doc.show).size === 3 &&
+      doc.show.every(k => Q[k]))) throw new Error("\"show\" must name three different axes of this map. " + axes);
+  return doc;
+}
+let targetsKept = [];
+{
+  try { targetsKept = JSON.parse(localStorage.getItem(TARGET_KEY) || "[]"); } catch (e) {}
+  if (!Array.isArray(targetsKept)) targetsKept = [];
+  if (targetsKept.length) $("taskoff").hidden = false;
+  const words = [];
+  targetsKept.forEach(doc => {
+    try { checkTarget(doc);
+      if (TARGETS.some(d => d.id === doc.id)) throw new Error("a target with that id is already added");
+      TARGETS.push(doc);
+      words.push(targetFits(doc) ? "Added the target: " + (doc.name || doc.id) + "."
+        : "The target " + (doc.name || doc.id) + " is not drawn on this placement of the finger. Its values are set for " +
+          (MOUNTS[doc.placement.mount] ? "the other placement (" + MOUNTS[doc.placement.mount].words + ")"
+                                       : "a placement this page does not have") + ".");
+    } catch (e) { words.push(((doc && typeof doc.id === "string" && doc.id) || "A target file") + " is not used: " + e.message + "."); }
+  });
+  const e = $("targetmsg"); e.hidden = !words.length; e.textContent = words.join(" ");
+}
+// Called when the reader chooses a target file: it is checked, kept, and the page loads again with it chosen.
+function addTarget(doc, fileName) {
+  const say = t => { const e = $("targetmsg"); e.hidden = false; e.textContent = t; };
+  try { checkTarget(doc); } catch (e) { say(fileName + " is not used: " + e.message + "."); return; }
+  const next = targetsKept.filter(d => !(d && d.id === doc.id)).concat([doc]);
+  try { localStorage.setItem(TARGET_KEY, JSON.stringify(next)); }
+  catch (e) { say("This browser would not keep the file, so it cannot be added. Removing the tasks already added may make room."); return; }
+  try { sessionStorage.setItem(TASK_PICK, "target:" + doc.id); } catch (e) {}
+  location.reload();
+}
 // For each scene axis, which component of the cone's own axes it shows; null unless the three chosen axes are the cone's three.
 function conePerm(c) {
   const p = S.axes.map(k => c.axes.indexOf(k));
@@ -599,6 +671,10 @@ function layout() {
   SERIES.forEach(vals => S.axes.forEach((k, i) => { const v = vals[k];
     if (!v) { gap[i] = true; return; }
     v.forEach(x => { const c = x * K[i]; if (c < lo[i]) lo[i] = c; if (c > hi[i]) hi[i] = c; }); }));
+  const d = targetOn();              // the box grows to hold a target's values on the axes shown
+  if (d && targetFits(d)) d.targets.forEach(t => { const src = t.at || t.along;
+    S.axes.forEach((k, i) => { if (src[k] === undefined) return;
+      [].concat(src[k]).forEach(x => { const c = x * K[i]; if (c < lo[i]) lo[i] = c; if (c > hi[i]) hi[i] = c; }); }); });
   for (let i = 0; i < 3; i++) if (hi[i] - lo[i] < 0.2) { lo[i] -= 0.1; hi[i] += 0.1; }
   const wall = lo.map(v => v - 0.3);
   return { K, lo, hi, gap, wall };
@@ -736,9 +812,112 @@ function build(keepCamera) {
     cam.theta = 0.62; cam.phi = 1.2;
     home = { target: cam.target.clone(), dist: cam.dist, theta: cam.theta, phi: cam.phi };
   }
-  buildPaths(); buildSurfaces(); buildCone(); coneUI(); tvBuild(); grow(); paint();
+  buildPaths(); buildSurfaces(); buildCone(); buildTarget(); coneUI(); targetUI(); tvBuild(); grow(); paint();
+}
+
+// The reader's target. Each of its targets is drawn from the values it gives on the three axes shown. An axis it
+// does not name is free, so the target runs the whole length of that axis: a target that fixes all three axes is a
+// point, one free axis makes it a line, two a surface, three a box. A path ("along") is a line when all three axes
+// are named, a surface swept along the one free axis when two are, and the range it covers when only one is.
+let targetDrawn = [], targetBall = null;
+function buildTarget() {
+  targetDrawn = []; targetBall = null;
+  const d = targetOn(); if (!d || !targetFits(d)) return;
+  // Where the target's values on the three axes shown lie. A target can be far smaller than the actuators' paths, so
+  // its lines are made thin enough for its own size, and the view can move in to it (targetBall).
+  const reach = new THREE.Box3();
+  d.targets.forEach(t => { const src = t.at || t.along;
+    if (!S.axes.some(k => src[k] !== undefined)) return;
+    const n = t.at ? 2 : src[Object.keys(src)[0]].length;
+    for (let i = 0; i < n; i++) reach.expandByPoint(new THREE.Vector3(...S.axes.map((k, j) => {
+      const v = src[k]; return v === undefined ? 0 : (t.at ? [].concat(v)[Math.min(i, [].concat(v).length - 1)] : v[i]) * L.K[j]; }))); });
+  const span = reach.isEmpty() ? 0 : reach.getSize(new THREE.Vector3()).length();
+  if (span > 0) targetBall = { center: reach.getCenter(new THREE.Vector3()), radius: span / 2 };
+  // Drawn in the ink colour, which no kind of actuator uses, so a target's line is not taken for an actuator's path.
+  const col = new THREE.Color(token("--ink")), R = span > 0 ? Math.min(0.0034 * cam.dist, span * 0.012) : 0.0034 * cam.dist;
+  const skin = () => new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.16, side: THREE.DoubleSide, depthWrite: false });
+  const solid = () => new THREE.MeshBasicMaterial({ color: col });
+  const edge = () => new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.9 });
+  const add = m => { m.frustumCulled = false; G.add(m); return m; };
+  const block = (a, b) => {            // a box between two corners, with its edges
+    const A = new THREE.Vector3(...a), B = new THREE.Vector3(...b), size = B.clone().sub(A);
+    const g = new THREE.BoxGeometry(Math.max(size.x, 1e-5), Math.max(size.y, 1e-5), Math.max(size.z, 1e-5));
+    const mid = A.clone().add(B).multiplyScalar(0.5);
+    add(new THREE.Mesh(g, skin())).position.copy(mid);
+    add(new THREE.LineSegments(new THREE.EdgesGeometry(g), edge())).position.copy(mid);
+  };
+  const mark = (n, p) => { if (d.targets.length < 2) return;
+    const el = document.createElement("span"); el.className = "tick"; el.textContent = String(n + 1);
+    el.style.color = "var(--ink)"; el.style.fontWeight = "600"; labels.appendChild(el); tickLabels.push({ el, p, dx: 6, dy: -6 }); };
+  d.targets.forEach((t, n) => {
+    const src = t.at || t.along, named = S.axes.map(k => src[k] !== undefined), count = named.filter(Boolean).length;
+    const free = S.axes.filter((k, i) => !named[i]), unseen = Object.keys(src).filter(k => S.axes.indexOf(k) < 0);
+    const out = { n, t, form: null, free, unseen }; targetDrawn.push(out);
+    if (!count) return;
+    if (t.at || count === 1) {         // a range on each axis
+      const a = [0, 0, 0], b = [0, 0, 0];
+      S.axes.forEach((k, i) => { if (!named[i]) { a[i] = L.lo[i]; b[i] = L.hi[i]; return; }
+        const p = [].concat(src[k]).map(x => x * L.K[i]); a[i] = Math.min(...p); b[i] = Math.max(...p); });
+      const wide = [0, 1, 2].filter(i => b[i] - a[i] > 1e-9).length;
+      if (wide === 0) { add(new THREE.Mesh(new THREE.SphereGeometry(R * 3, 18, 12), solid())).position.set(...a); out.form = "point"; }
+      else if (wide === 1) { add(new THREE.Mesh(tube([new THREE.Vector3(...a), new THREE.Vector3(...b)], R, "solid").g, solid())); out.form = "line"; }
+      else { block(a, b); out.form = wide === 2 ? "surface" : "box"; }
+      mark(n, new THREE.Vector3(...b));
+      return;
+    }
+    const len = src[Object.keys(src)[0]].length;
+    const at = (i, f) => new THREE.Vector3(...S.axes.map((k, j) => named[j] ? src[k][i] * L.K[j] : f));
+    if (count === 3) {                 // the path itself
+      const pts = []; for (let i = 0; i < len; i++) pts.push(at(i, 0));
+      add(new THREE.Mesh(tube(pts, R, "solid").g, solid())); out.form = "line"; mark(n, pts[len - 1]);
+      return;
+    }
+    const f = named.indexOf(false), P = [], idx = [];   // the path swept along the one free axis
+    for (let i = 0; i < len; i++) P.push(at(i, L.lo[f]), at(i, L.hi[f]));
+    for (let i = 0; i < len - 1; i++) idx.push(2 * i, 2 * i + 1, 2 * i + 2, 2 * i + 1, 2 * i + 3, 2 * i + 2);
+    const g = new THREE.BufferGeometry().setFromPoints(P); g.setIndex(idx); add(new THREE.Mesh(g, skin()));
+    [0, 1].forEach(s => add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(P.filter((p, i) => i % 2 === s)), edge())));
+    [0, len - 1].forEach(i => add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([P[2 * i], P[2 * i + 1]]), edge())));
+    out.form = "surface"; mark(n, P[2 * len - 1]);
+  });
+}
+// The caption for the reader's target: what each of its targets is drawn as on the axes shown, and what is left out.
+function targetUI() {
+  const d = targetOn(), cap = $("targetcap"); cap.hidden = !d; cap.innerHTML = "";
+  const key = $("key"); key.querySelectorAll("[data-target]").forEach(e => e.remove());
+  if (!d) return;
+  const p = (cls, text) => { const e = document.createElement("p"); if (cls) e.className = cls; e.textContent = text; cap.appendChild(e); return e; };
+  const head = p("", ""), b = document.createElement("b"); b.textContent = d.name || d.id; head.appendChild(b);
+  const list = a => a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+  const label = k => Q[k].label.toLowerCase();
+  const one = d.targets.length === 1, groups = new Map();
+  targetDrawn.forEach(o => {
+    let s = o.form ? "drawn as a " + o.form : "not drawn, having no value on any of the three axes shown";
+    const words = [s];
+    if (o.form && o.free.length) words.push("The " + list(o.free.map(label)) + (o.free.length > 1 ? " axes are" : " axis is") +
+      " not set, so the target runs the whole length of " + (o.free.length > 1 ? "those axes" : "that axis") + ".");
+    if (o.unseen.length) words.push("The file also sets the " + list(o.unseen.map(label)) + ", which " +
+      (o.unseen.length > 1 ? "are" : "is") + " not on the view.");
+    const k = JSON.stringify(words); if (!groups.has(k)) groups.set(k, { words, ns: [] }); groups.get(k).ns.push(o.n + 1);
+  });
+  groups.forEach(g => p("", (one ? "The target is " : g.ns.length > 1 ? "Targets " + list(g.ns.map(String)) + " are each " :
+    "Target " + g.ns[0] + " is ") + g.words[0] + ". " + g.words.slice(1).join(" ")));
+  if (!one) { const det = document.createElement("details"), s = document.createElement("summary");
+    s.textContent = "The " + d.targets.length + " targets by number"; det.appendChild(s);
+    const ol = document.createElement("ol"); d.targets.forEach((t, i) => { const li = document.createElement("li");
+      li.textContent = t.name || "Target " + (i + 1); ol.appendChild(li); }); det.appendChild(ol); cap.appendChild(det); }
+  if (d.note) { const det = document.createElement("details"), s = document.createElement("summary");
+    s.textContent = "How this target was made"; det.appendChild(s);
+    const t = document.createElement("p"); t.textContent = d.note; det.appendChild(t); cap.appendChild(det); }
+  p("note", "The page draws the target beside the paths. It does not test any actuator against it." +
+    (targetSmall() ? " The target is small beside the paths, so the view moves in to it when it is chosen. The Reset button shows the whole map again." : ""));
+  const sw = document.createElement("span"); sw.className = "cone"; sw.dataset.target = "1";
+  sw.style.background = "color-mix(in srgb, var(--ink) 22%, transparent)"; sw.style.borderColor = "var(--ink)"; sw.style.clipPath = "none";
+  const tx = document.createElement("span"); tx.dataset.target = "1"; tx.textContent = "your target, drawn from the values its file gives on the axes shown";
+  key.append(sw, tx);
 }
 let home = null, whisker = null;
+function targetSmall() { return !!(targetOn() && targetBall && home && targetBall.radius < 0.25 * home.dist); }
 
 // The task cone: tip at rest, about the cone's drawn direction, with its half-angle. It is made in the data's own
 // units on the cone's three axes, then each corner goes through the same scaling as the paths (value × K per axis).
@@ -1997,8 +2176,7 @@ function setUI() {
 function scaledUI() {
   setUI(); leftUI();
   const on = scaledOn();
-  $("taskpick").disabled = on || !CONES.some(coneUsable);
-  $("taskpick").value = S.cone === null ? "" : String(S.cone);
+  pickUI();
   const cs = $("conescaled"); cs.hidden = !on;
   cs.textContent = "Task cones are not drawn while the scaled input is on an axis: a cone is set in tip travel, not in scaled terms.";
   const box = $("scalenote"); box.hidden = !on; box.innerHTML = "";
@@ -2028,21 +2206,43 @@ function scaledUI() {
     sm.textContent = "About the scaled quantities"; d.appendChild(sm);
     const t = document.createElement("p"); t.textContent = SC.note; d.appendChild(t); box.appendChild(d); }
 }
-// One list of the task cones, ours and any the reader has added. Choosing one puts its three axes on the view and
-// draws it; "No task" takes the cone off. Only one is on at a time.
+// One list of the task cones, ours and any the reader has added, and of the reader's targets. Choosing a cone puts
+// its three axes on the view and draws it. Choosing a target draws it on the axes its file asks for, or on the axes
+// already shown if it sets one of them. "No task" takes either off. Only one is on at a time.
+function pickUI() {
+  const sel = $("taskpick"), on = scaledOn(); let any = false;
+  Array.from(sel.options).forEach(o => {
+    if (o.dataset.cone) o.disabled = on || !coneUsable(CONES[+o.value]);
+    else if (o.dataset.target) o.disabled = !targetFits(TARGETS[+o.value.slice(1)]);
+    if (o.value !== "" && !o.disabled) any = true; });
+  sel.disabled = !any;
+  sel.value = S.cone !== null ? String(S.cone) : S.target !== null ? "t" + S.target : "";
+}
 function tasksUI() {
   const sel = $("taskpick"); sel.innerHTML = "";
   const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; sel.appendChild(o); return o; };
   opt("", "No task");
-  CONES.forEach((c, i) => { const o = opt(String(i), taskName(c));
-    if (!coneUsable(c)) { o.disabled = true; o.title = "This cone's axes are not in the data."; } });
-  sel.disabled = !CONES.some(coneUsable);
-  sel.value = S.cone === null ? "" : String(S.cone);
+  CONES.forEach((c, i) => { const o = opt(String(i), taskName(c)); o.dataset.cone = "1";
+    if (!coneUsable(c)) o.title = "This cone's axes are not in the data."; });
+  TARGETS.forEach((d, i) => { const o = opt("t" + i, targetName(d)); o.dataset.target = "1";
+    if (!targetFits(d)) o.title = "This target's values are set for the other placement of the finger."; });
+  pickUI();
   sel.onchange = () => {
-    const i = sel.value === "" ? null : +sel.value, c = i === null ? null : CONES[i];
-    S.cone = c ? i : null;
-    if (c) { S.axes = c.axes.slice(); S.axes.forEach((k, j) => $("ax" + j).value = k); defs(); }
-    build(!c);
+    const v = sel.value; S.cone = null; S.target = null;
+    let axes = null;
+    if (v[0] === "t") { S.target = +v.slice(1); const d = TARGETS[S.target];
+      const named = []; d.targets.forEach(t => Object.keys(t.at || t.along).forEach(k => { if (named.indexOf(k) < 0) named.push(k); }));
+      if (d.show) axes = d.show.slice();
+      else if (!S.axes.some(k => named.indexOf(k) >= 0))
+        axes = named.concat(S.axes.filter(k => named.indexOf(k) < 0)).slice(0, 3);
+    } else if (v !== "") { S.cone = +v; axes = CONES[S.cone].axes.slice(); }
+    if (axes) { S.axes = axes; S.axes.forEach((k, j) => $("ax" + j).value = k); defs(); }
+    build(v === "");
+    // A target is often much smaller than the actuators' paths, so the view moves in to it. "Reset" goes back.
+    if (targetSmall())
+      flyTo({ target: targetBall.center.clone(), theta: cam.theta, phi: cam.phi,
+        dist: Math.max(0.02, targetBall.radius / Math.sin(FOV * Math.PI / 360) * 1.6 /
+                             Math.min(1, view.clientWidth / Math.max(1, view.clientHeight))) }, 900);
   };
 }
 // The caption under the switch, the note when other axes are chosen, and the cone's rows in the key.
@@ -2195,7 +2395,9 @@ panel(); tasksUI(); plotBuild(); build(false); placeCamera(); requestAnimationFr
 // A task the reader has just added is chosen for them, once.
 try { const id = sessionStorage.getItem(TASK_PICK); sessionStorage.removeItem(TASK_PICK);
   const i = id ? CONES.findIndex(c => c.task === id && c.yours && coneUsable(c)) : -1;
-  if (i >= 0) { $("taskpick").value = String(i); $("taskpick").onchange(); } } catch (e) {}
+  const j = id && id.indexOf("target:") === 0 ? TARGETS.findIndex(d => d.id === id.slice(7) && targetFits(d)) : -1;
+  if (j >= 0) { $("taskpick").value = "t" + j; $("taskpick").onchange(); }
+  else if (i >= 0) { $("taskpick").value = String(i); $("taskpick").onchange(); } } catch (e) {}
 })();
 </script>
 <!-- page ends -->

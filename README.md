@@ -157,6 +157,12 @@ To see it on the map you can turn in a browser, run
 (it needs the `map` extra) and choose the file it writes under
 "Your own record" on the map page.
 
+The map page can also draw a target of your own beside the actuators'
+paths: values on the map's own axes, drawn as a point, a line, a surface or
+a box. `python tools/leader_to_map_target.py my_task.json --tag mine` writes
+one from a task file, as the path of each contact, and
+`docs/MAP_TARGET_FORMAT.md` gives the format for writing one by hand.
+
 **What you can bring today.**
 
 - An actuator, as numbers: datasheet values typed into the form, or measured
