@@ -15,12 +15,9 @@ whether the task can be done and, if not, **why**.
 > unless marked, so use them to compare designs, not to predict what a built one
 > will do.
 
-## Three pieces, each one a file you can swap
+The workflow is three swappable modules.
 
-The workflow is three pieces. Each ends in one plain file, and each has more
-than one way in. Bring any one piece and keep ours for the rest.
-
-| Piece | What you have | How it goes in | File it becomes |
+| Piece | What you need | Entry | Output |
 |---|---|---|---|
 | **Actuator** | Bench or simulation curves | a CSV table, `tools/curves_to_record.py` (`docs/ADD_YOUR_ACTUATOR.md`) | a record |
 | | Datasheet numbers | `forms/record_form.html`, in a browser | a record |
