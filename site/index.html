@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gramian map workshop</title>
+<title>Actuator Affordance Mapping for Contact-Defined Manipulation Tasks</title>
 <style>
 :root { color-scheme: light; --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b;
   --ink2:#52514e; --muted:#898781; --grid:#e1e0d9; --link:#256abf; --code:#efeee9; }
@@ -40,8 +40,20 @@ figure { margin: .8rem 0; }
 figure img { width: 100%; height: auto; border: 1px solid var(--grid); border-radius: 6px;
   background: #fff; }
 figcaption { color: var(--muted); font-size: .9rem; }
-nav.top { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: 0 0 1.6rem;
-  padding-bottom: .7rem; border-bottom: 1px solid var(--grid); font-weight: 600; }
+header.paper { text-align: center; padding: 1rem 0 1.8rem; margin-bottom: 2rem;
+  border-bottom: 1px solid var(--grid); }
+header.paper h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 500;
+  font-size: clamp(1.7rem, 5vw, 2.5rem); line-height: 1.15; margin: 0 0 .7rem;
+  text-wrap: balance; }
+.kicker { font-size: .8rem; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 .9rem; }
+.subtitle { font-size: 1.2rem; color: var(--ink2); margin: 0 0 1.1rem; text-wrap: balance; }
+.affil { color: var(--muted); margin: 0 0 1.4rem; }
+nav.top { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
+nav.top a { display: inline-block; padding: .45rem 1.1rem; border-radius: 999px;
+  background: var(--ink); color: var(--page); font-weight: 600; text-decoration: none; }
+nav.top a:hover { opacity: .85; }
+h2.first { font-size: 1.5rem; margin-top: 0; }
 .mapframe { display: block; width: min(76rem, 100vw - 32px); height: min(46rem, 85vh);
   margin-left: 50%; transform: translateX(-50%); border: 1px solid var(--grid);
   border-radius: 6px; background: var(--surface); }
@@ -49,11 +61,19 @@ nav.top { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: 0 0 1.6rem;
 </head>
 <body>
 <main>
+<header class="paper">
+<p class="kicker">Workshop talk, November 2026</p>
+<h1>Actuator Affordance Mapping for Contact-Defined Manipulation Tasks</h1>
+<p class="subtitle">A generalisable actuator characterisation based on Gramians</p>
+<p class="affil">University of Bath<br>
+Funded by ARIA, the Advanced Research and Invention Agency</p>
 <nav class="top" aria-label="Main links">
 <a href="map.html">Interactive map</a>
 <a href="https://github.com/geojenks/gramian-map-workshop">Code on GitHub</a>
+<a href="record_form.html">Record form</a>
 </nav>
-<h1>Put your actuator on the map</h1>
+</header>
+<h2 class="first">Put your actuator on the map</h2>
 <p class="lede">A small tool from our ARIA dexterous soft robotics work. Describe an
 actuator by datasheet numbers, a measured table, a formula or a mesh, and it becomes
 a record. The record goes on a map of actuators, drawn as the path its tip takes
