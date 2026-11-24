@@ -9,8 +9,9 @@ with manipulation **tasks** (from the wave-manipulation work,
 `geojenks/Wave_manip`). It then says, for each arrangement of fingers, whether
 the task can be done and, if not, **why**.
 
-> Simulation and records only: comparative, not predictive. Record forces are
-> uncalibrated, so strength is shown but never scored.
+> The simulations and records here are not calibrated against real experiments
+> unless marked, so use them to compare designs, not to predict what a built one
+> will do.
 
 ## Three pieces, each one a file you can swap
 

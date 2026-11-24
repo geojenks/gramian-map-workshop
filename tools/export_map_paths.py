@@ -2860,9 +2860,36 @@ def build(drafts=False, hand_placed=HAND_PLACED, caveats=CAVEATS,
                        "actuators": scaled}}
 
 
+def _settled(x):
+    """A number as it is written to disk: 12 significant figures, and nothing
+    finer than 1e-12.
+
+    numpy and scipy do not give the same last digits from one version or
+    machine to the next. The lengths, angles and forces here are worth far
+    fewer figures than that, so the digits that move are cut off, and a value
+    that is only rounding noise about zero (1e-16 and below, where the
+    smallest real values are about 1e-9) is written as 0.0. The file then
+    comes out the same wherever it is built."""
+    y = round(float(f"{x:.12g}"), 12)
+    return 0.0 if y == 0 else y
+
+
+def _settle(doc):
+    """`doc` with every decimal number passed through `_settled`. Whole
+    numbers, true/false and text are left as they are."""
+    if isinstance(doc, float):
+        return _settled(doc)
+    if isinstance(doc, dict):
+        return {k: _settle(v) for k, v in doc.items()}
+    if isinstance(doc, (list, tuple)):
+        return [_settle(v) for v in doc]
+    return doc
+
+
 def render(doc):
     """The document as the exact text written to disk."""
-    return json.dumps(doc, indent=1, ensure_ascii=False, allow_nan=False) + "\n"
+    return json.dumps(_settle(doc), indent=1, ensure_ascii=False,
+                      allow_nan=False) + "\n"
 
 
 def write(doc, path):

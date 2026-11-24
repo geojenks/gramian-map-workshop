@@ -210,6 +210,11 @@ class TestWorkedOutLines(unittest.TestCase):
 
     def test_lines_are_the_map_export_surface_and_stroke_line(self):
         import numpy as np
+        import export_map_paths as ex
+        # The map data holds each number as the export writes it (12
+        # significant figures, nothing finer than 1e-12), so the lines worked
+        # out here are written the same way before they are compared.
+        written = ex._settle
         path = os.path.join(ROOT, "site", "data",
                             "map_paths_with_drafts_palm_mount.json")
         with open(path, encoding="utf-8") as f:
@@ -230,7 +235,8 @@ class TestWorkedOutLines(unittest.TestCase):
                           s["values"][key][k][m]) for key in
                          ("axial_m", "side_y_m", "side_z_m")]
                         for m in range(len(u))]
-                np.testing.assert_allclose(y, want, rtol=0, atol=1e-15)
+                np.testing.assert_allclose(written(np.asarray(y).tolist()),
+                                           want, rtol=0, atol=1e-15)
             # the page strokes along the first part of one of them: its
             # points start where that line starts and lie on it
             for t in a["tasks"]:
@@ -242,7 +248,8 @@ class TestWorkedOutLines(unittest.TestCase):
                        and about["held"][0]["at"] == sl["held_at"]]
                 self.assertEqual(len(hit), 1, rec["id"])
                 line, pts = np.asarray(hit[0]), np.asarray(sl["points_m"])
-                np.testing.assert_allclose(pts[0], line[0], rtol=0, atol=1e-15)
+                np.testing.assert_allclose(pts[0], written(line[0].tolist()),
+                                           rtol=0, atol=1e-15)
                 a0, d = line[:-1], np.diff(line, axis=0)
                 for p in pts:
                     s01 = np.clip(((p - a0) * d).sum(1) / (d * d).sum(1), 0, 1)
