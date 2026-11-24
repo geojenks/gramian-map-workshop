@@ -43,11 +43,12 @@ figcaption { color: var(--muted); font-size: .9rem; }
 </head>
 <body>
 <main>
-<h1>Can N copies of your actuator hold, and turn, a ball in a cup?</h1>
-<p class="lede">A small tool from our ARIA dexterous soft robotics work. Give it a
-soft actuator's record (datasheet numbers or a measured table) and it says, for
-each arrangement of fingers, whether the task can be done and, if not, why:
-direction, friction, or strength.</p>
+<h1>Put your actuator on the map</h1>
+<p class="lede">A small tool from our ARIA dexterous soft robotics work. Describe an
+actuator by datasheet numbers, a measured table, a formula or a mesh, and it becomes
+a record. The record goes on a map of actuators, drawn as the path its tip takes
+while its input rises. Once it is there, you can arrange copies of it as a
+manipulator and ask whether that manipulator can do a task.</p>
 <p class="note">The simulations and records here are not calibrated against real experiments
 unless marked, so use them to compare designs, not to predict what a built one
 will do.</p>
@@ -63,22 +64,22 @@ measured table, in whatever units you have, and gives you a record file to downl
 in browser.</li>
 </ul>
 
-<h2>Three pieces, each one a file you can swap</h2>
-<p>The workflow has three pieces, an actuator, a manipulator and a task. Each ends
-in one plain file, and each has more than one way in. Bring any one piece and keep
-ours for the rest. The commands below are run from the top folder of a clone, after
-the install under <a href="#run">Run it on your own actuator</a>.</p>
+<h2>First, your actuator on the map</h2>
+<p>The actuator is the piece to start with. It has several ways in, and each ends
+in the same plain file, a record. The commands below are run from the top folder of
+a clone, after the <a href="#run">install</a>.</p>
 
 <div class="piece">
-<h3>1. Your actuator</h3>
+<h3>Your actuator</h3>
 <p class="becomes">Your actuator becomes a record, which is one file saying how the
-tip moves and how hard it pushes. A record alone goes on the picture of all the
-records.</p>
+tip moves and how hard it pushes. A record is all the map needs, and
+<a href="#on-the-map">one command puts it there</a>.</p>
 
 <details open>
 <summary>From datasheet numbers, in your browser</summary>
 <p>Open the <a href="record_form.html">record form</a>, type the numbers in
-whatever units you have, and download the record. It needs no install.</p>
+whatever units you have, and download the record. The form needs no install.
+Putting the downloaded file on the map does.</p>
 </details>
 
 <details>
@@ -88,12 +89,12 @@ whatever units you have, and download the record. It needs no install.</p>
 <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/TEST_CURVE_FORMAT.md"><code>docs/TEST_CURVE_FORMAT.md</code></a>).</p>
 <pre><code>python tools/curves_to_record.py data/test_curves/mosadegh2014_fPN.csv --out my_actuator.json
 python tools/check_record.py my_actuator.json
-python demos/cup_hold.py --record my_actuator.json</code></pre>
+python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator</code></pre>
 <p>The second command prints, among its lines:</p>
 <pre><code>     push direction  -   from no force data: this actuator cannot push in the tool
      stroke          94.9 mm</code></pre>
-<p>That file gives motion and no force, so its row in the cup demo reads "no
-contact". The full walk is <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/ADD_YOUR_ACTUATOR.md"><code>docs/ADD_YOUR_ACTUATOR.md</code></a>.</p>
+<p>That file gives motion and no force, so its mark on the map is an open circle,
+which the legend reads as "motion only (no force data)". The full walk is <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/ADD_YOUR_ACTUATOR.md"><code>docs/ADD_YOUR_ACTUATOR.md</code></a>.</p>
 </details>
 
 <details>
@@ -104,15 +105,17 @@ shipped it holds a textbook bending finger with made-up
 numbers.</p>
 <pre><code>python examples/analytical_model_to_curves.py --out my_model_curves.csv
 python tools/curves_to_record.py my_model_curves.csv --out my_model.json
-python tools/check_record.py my_model.json</code></pre>
+python tools/check_record.py my_model.json
+python tools/figure_map_tip_paths.py --record my_model.json --tag my_model</code></pre>
 </details>
 
 <details>
 <summary>From a table of joints, for a rigid finger</summary>
 <pre><code>python tools/joint_table_to_record.py data/joint_tables/shadow_hand_finger.csv --out my_finger.json
-python tools/check_record.py my_finger.json</code></pre>
-<p>The format is <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/JOINT_TABLE_FORMAT.md"><code>docs/JOINT_TABLE_FORMAT.md</code></a>. A record made this way cannot
-yet be built into a hand (issue 33).</p>
+python tools/check_record.py my_finger.json
+python tools/figure_map_tip_paths.py --record my_finger.json --tag my_finger</code></pre>
+<p>The format is <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/JOINT_TABLE_FORMAT.md"><code>docs/JOINT_TABLE_FORMAT.md</code></a>. A record made this way goes
+on the map, but cannot yet be built into a hand (issue 33).</p>
 </details>
 
 <details open>
@@ -126,20 +129,40 @@ python preprocess.py cads/actuation_methods/pumped_volume_pneunet/mesh.msh cads/
 python sample_to_draft_record.py --sample experiments/actuation_methods/same_body_pneunet/chamber_pressure_set --cad cads/actuation_methods/pumped_volume_pneunet --id sample_pneunet_pressure_set --name "Pneunet, chamber pressure set (sample)" --physics pneumatic --input_name "chamber pressure (scene units)" --out_root ../my_mesh_drafts
 cd ..
 python tools/figure_map_tip_paths.py --record my_mesh_drafts/sample_pneunet_pressure_set.json --tag my_mesh</code></pre>
-<figure>
-<a href="map_tip_paths_mesh_sample.png"><img src="map_tip_paths_mesh_sample.png"
-alt="Scatter of actuator records: share of tip motion that is sideways against free stroke, with the sample pneu-net finger boxed at the right among the benders"></a>
-<figcaption>The picture <code>tools/figure_map_tip_paths.py</code> drew in our run,
-with the worked finger boxed and marked "(yours)" at the right, among the other
-benders. Select it for full size.</figcaption>
-</figure>
-<p>The steps, what each prints, and how to prepare your own mesh are in
+<p>The last command puts the finger on the map, and the picture it drew in our run
+is the one shown <a href="#on-the-map">below</a>. The steps, what each prints, and how to prepare your own mesh are in
 <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/ACTUATOR_FROM_A_MESH.md"><code>docs/ACTUATOR_FROM_A_MESH.md</code></a>.</p>
 </details>
 </div>
 
+<h3 id="on-the-map">Your record on the map</h3>
+<p>Whichever way the record was made, the same command draws it among the records
+we hold. It needs matplotlib, which the <a href="#run">install</a> below brings.</p>
+<pre><code>python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator</code></pre>
+<p>It writes <code>outputs/map_tip_paths/map_tip_paths_my_actuator.png</code>. Across
+the picture is the share of the tip's motion that is sideways, and up it is the free
+stroke. Each mark has the actuator's own tip path drawn through it, and yours is
+boxed and labelled "(yours)". A record with no free tip motion is left out, and the
+command prints the reason.</p>
+<figure>
+<a href="map_tip_paths_mesh_sample.png"><img src="map_tip_paths_mesh_sample.png"
+alt="Scatter of actuator records: share of tip motion that is sideways against free stroke, with the sample pneu-net finger boxed at the right among the benders"></a>
+<figcaption>The picture this command drew in our run for the finger simulated from
+a mesh. It is boxed and marked "(yours)" at the right, among the other benders.
+Select the picture for full size.</figcaption>
+</figure>
+<p>The <a href="map.html">map you can turn in a browser</a> shows the records we
+hold. It does not yet take a record of your own, so for now yours goes on the drawn
+picture.</p>
+
+<h2>Then a manipulator and a task</h2>
+<p>With the record on the map, two more pieces say what the actuator can do in a
+hand. A manipulator is an arrangement of fingers, and a task is what the object and
+its contacts must do. Each is again one plain file with more than one way in, and
+you can bring either one and keep ours for the other.</p>
+
 <div class="piece">
-<h3>2. Your manipulator</h3>
+<h3>Your manipulator</h3>
 <p class="becomes">Your manipulator becomes a hand, a file that says how many fingers
 there are and where each one stands.</p>
 <details>
@@ -163,7 +186,7 @@ says what a hand must have and gives the full steps.</p>
 </div>
 
 <div class="piece">
-<h3>3. Your task</h3>
+<h3>Your task</h3>
 <p class="becomes">Your task becomes a task file. It says, frame by frame, where the
 object is, which contacts touch it, where, and with what force.</p>
 <details>
@@ -188,15 +211,15 @@ be at those contacts with those forces. Check each file before using it, with
 <code>tools/check_record.py</code> for a record and
 <code>tools/check_leader.py</code> for a task file.</p>
 
-<h2 id="run">Run it on your own actuator</h2>
-<p>You need Python 3.9 or newer and git.</p>
+<h2 id="run">Install</h2>
+<p>You need Python 3.9 or newer and git. The last line draws the map with the
+finger from the bench curves on it, once you have made that record as above.</p>
 <pre><code>git clone https://github.com/geojenks/gramian-map-workshop
 cd gramian-map-workshop
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -e .
-python demos/cup_hold.py --record my_actuator.json
-python demos/cup_turn.py --record my_actuator.json</code></pre>
+pip install -e ".[figures]"
+python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator</code></pre>
 <p>To check rigid robot hands as well (Allegro, Shadow, LEAP and Linker's public
 L20), add MuJoCo and fetch the hand models:</p>
 <pre><code>pip install -e ".[hands]"

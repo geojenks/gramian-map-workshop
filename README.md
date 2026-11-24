@@ -1,11 +1,14 @@
 # gramian-map-workshop
 
-**Can N copies of your actuator hold, and turn, a ball in a cup?**
+**Put your actuator on the map.**
 
-A small, numpy-only tool for the ARIA workshop. It pairs soft-actuator
-**records** (from the Gramian capability map, `geojenks/Gramain_extraction`,
-not public)
-with manipulation **tasks**. It then says, for each arrangement of fingers,
+A small tool for the ARIA workshop. You describe an actuator and it becomes a
+**record**, in the format of the Gramian capability map
+(`geojenks/Gramain_extraction`, not public). The record goes on a map of
+actuators, drawn as the path its tip takes while its input rises
+(`python tools/figure_map_tip_paths.py --record my_actuator.json --tag mine`,
+with the `figures` extra). Once it is there, copies of it can be arranged as
+a manipulator and checked against a manipulation **task**. The tool then says
 whether the task can be done and, if not, **why**.
 
 > The simulations and records here are not calibrated against real experiments
