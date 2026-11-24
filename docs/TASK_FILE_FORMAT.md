@@ -300,7 +300,7 @@ number, the check stops. The checker also requires it to be positive.
 - **The friction coefficient used by the follow check is its default** for
   every stored leader, since none sets `mu`. The derivation's own `mu` is
   not passed on.
-- **Simulated leaders** (from Wave_manip presets) are simulation only:
+- **Simulated leaders** (from gait presets in a private repository of ours) are simulation only:
   "comparative, not predictive", as their `caveat` says. Their forces come
   from a dynamic MuJoCo run (`source.force_source`), so the object's
   weight and acceleration are inside them. Object size and mass come from
@@ -314,7 +314,7 @@ different file read by `gramian_workshop/task.py` for the demos.
 
 | Writer | Leaders | How the method was obtained |
 |---|---|---|
-| `tools/record_leader.py` | `w10_cup_physical_*`, `w12c_cup_analytic_lock` | A Wave_manip preset run headless in MuJoCo, control ticks thinned as `source.every_nth_tick` records. |
+| `tools/record_leader.py` | `w10_cup_physical_*`, `w12c_cup_analytic_lock` | A gait preset from a private repository of ours, run headless in MuJoCo, control ticks thinned as `source.every_nth_tick` records. |
 | `tools/import_demo_leader.py` | `tennis_new_cup_take3_derived` | A recorded human demonstration (three cameras) with forces derived from the ball's motion. |
 | `tools/demo_handframe.py` | `tennis_new_cup_take3_handframe` | The derived leader carried into the demonstrator's palm frame, contacts re-made from the hand skeleton, forces re-derived there. |
 | `tools/make_hold_leader.py` | `hold_<hand>__self` | No recording: a static hold of a 30 mm radius ball made from the hand's own forward kinematics. Each finger's joints sit at one fraction of their range (a grid search, scored by how well a ball of that radius touches every distal pad, pad facing it, clear of the palm and the fingers' other links); the ball is placed by least squares; every station pushes 0.1 N along the inward normal, and the object's mass is whatever that net force holds. The known answer for the check: with the stored placement every frame should be green, and the scale margin says by how much. `source` records the pose, the fit and its misses. The first leaders' score had no term between fingers, so those poses overlap finger with finger (`outputs/hold_pose_self_overlap.md`, issue 27). The score now also carries the hand's overlap with itself: the deepest MuJoCo penetration between two of the hand's own bodies at the whole-hand pose, net of what the model already has at its rest pose (so a palm built through a proximal link does not steer the search), weighted like the palm term; the search also starts from the pose the score without the term chooses, and `source.sphere_fit` records the overlap, the pair and the start. Leaders made with the term are `hold_<hand>__self__selfoverlapfix` (`supersedes` the first leader of that hand; `--no-self-term` reproduces the first leaders byte for byte), their results `outputs/follow_<hand>__hold_<hand>__self__selfoverlapfix__fixed.json`, table `outputs/hold_summary__selfoverlapfix.md`, overlap before and after `outputs/hold_pose_self_overlap__selfoverlapfix.md`. The known answer covers the check's torque and hand-to-ball tests; the hand's overlap with itself is reported in that table and does not change the verdict (ruling of 6 Nov). |
@@ -450,8 +450,7 @@ from the old leader stay as they are.
 **Why the w10 contact flags were wrong.** `tools/record_leader.py` took
 `contact` from the bridge's `stations.contact`. On the route these leaders
 use (the analytic contact model, helpers off), the bridge fills that flag
-from the wave pattern (`wave_contact`, in `friction_torque_implicit` in
-`unified_v6/bridge/server.py`): the stations the gait plans to be in
+from the gait's planned pattern: the stations the gait plans to be in
 stance, not the stations touching the ball. The contact point and the
 force come from MuJoCo's contacts between station and ball. So a station
 in its planned stance but hovering off the ball was flagged touching with
@@ -460,8 +459,8 @@ a station touching the ball outside its planned stance was flagged not
 touching, and its force was dropped.
 
 **How the w10 copies were made.** We ran the recorder again on the same
-Wave_manip commit as each stored leader (its `source.commit`), unpacked
-with `git archive` so the Wave_manip checkout was not changed, with the
+commit of the source repository as each stored leader (its `source.commit`),
+unpacked with `git archive` so that checkout was not changed, with the
 settings in its `source`. In its default mode the recorder reproduces the
 stored leaders' frames exactly, except
 `w10_cup_physical_x0.3_a0.0915_sl0.3t_R33.5_n4`, where the last rounded

@@ -30,7 +30,6 @@ jobs:
           mkdir _site
           cp site/index.html site/map.html forms/record_form.html _site/
           cp -r site/data site/thumbs _site/
-          cp outputs/cup_hold.html outputs/cup_turn.html outputs/cup_hold_passive_2mm.html outputs/follow_respaced.html _site/
           cp outputs/map_tip_paths/map_tip_paths_mesh_sample.png _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
