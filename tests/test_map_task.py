@@ -71,6 +71,11 @@ class OwnTask(unittest.TestCase):
                                    ours["stroke"]["travel_m"] / 2.0,
                                    delta=1e-9 + 1e-6 * ours["stroke"]["travel_m"])
 
+    def test_page_knows_the_kind(self):
+        with open(os.path.join(ROOT, "site", "map.html"),
+                  encoding="utf-8") as fo:
+            self.assertIn('TASK_KIND = "%s"' % X.TASK_KIND, fo.read())
+
     def test_json_safe(self):
         json.dumps(self.doc, allow_nan=False)
 

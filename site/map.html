@@ -259,7 +259,10 @@ ul.acts li[hidden] { display: none; }
         contact ring or the duty. Then run
         <code>python tools/export_map_paths.py --task my_task.json --tag mine</code>
         and choose the file it writes. It joins the list above. The finger count, the half-angle and the stroke
-        angle are carried over from our task. The file stays in this browser and is sent nowhere.</p>
+        angle are carried over from our task. With the finger on the palm, only the ball's radius and the height of
+        the contact ring change the result, because that placement tests no push. With the finger aimed at the
+        ball, the ball's mass also changes the push the task needs. The file stays in this browser and is sent
+        nowhere.</p>
       <div class="row"><input id="taskfile" type="file" accept=".json,application/json" aria-label="Map file for your own task">
         <button id="taskoff" type="button" hidden>Remove</button></div>
       <p class="note" id="taskmsg" hidden></p>
