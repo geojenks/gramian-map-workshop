@@ -1,0 +1,58 @@
+{
+ "note": "Read by tools/export_map_paths.py. Corrections to an input pressure before it is divided by the body modulus. Each entry is one correction: the pressure is multiplied by 1 / dt_s, for the records listed in applies_to and no others. Delete an entry to remove its correction; only the scaled input changes, and every unscaled value stays as stored. A literature record's scaled input is its pressure over its modulus, with no correction. Cable inputs are never corrected here.",
+ "factors": {
+  "scene_pressure": {
+   "why": "In the simulation scene the pressure constraint takes its value as an impulse over one time step, so the scene's 'Pa' is 1 / dt smaller than a physical pascal: 100 times at the scene's time step of 0.01 s. A clamped bar loaded once by gravity and once by the pressure constraint, at two time steps, shows it: the ratio of the two sags follows 0.01 / dt to within about 1.2%. That check is on a bar built with the same SOFA components, not on the actuator scenes themselves. Not yet ruled on by the project owner.",
+   "dt_s": 0.01,
+   "dt_sources": [
+    {
+     "repo": "Gramain_extraction",
+     "commit": "a0dd9bbbe850160a7ee32bdd8f40edb43006c862",
+     "path": "gramian_map/parametricGripper.py",
+     "sha256": "a8b3161fe1ae1a4878bc07ceb469d191ac4c7c8866e077a123bb7aaf379c9fcc",
+     "symbol": "DT",
+     "line": 235
+    },
+    {
+     "repo": "Gramain_extraction",
+     "commit": "ce1cbddc7a8b8d384a3f5eadb562113fa9a34194",
+     "path": "gramian_map/parametricGripper.py",
+     "sha256": "7c00af7580166d36f9874a5d3ba0945679d07bc7a128da89492a067bf17cf8ee",
+     "symbol": "DT",
+     "line": 236
+    }
+   ],
+   "dt_note": "The scene's time step as committed. The sweep runners accept --dt and the records do not state the step each run used, so the factor rests on the scene default.",
+   "evidence": {
+    "repo": "Gramain_extraction",
+    "path": "gramian_map/experiments/pressure_force_scale/results.json",
+    "sha256": "d6f02171210538eb34181bdb47c189ffb01f26231e7aa39a0db07fa7be75189b",
+    "script": "gramian_map/check_pressure_force_scale.py",
+    "script_sha256": "43ee8164841e4e8a5d7537baa3a3549db50361f784c0f7a1818d9221eb350039",
+    "tracked": false
+   },
+   "applies_to": [
+    "bellows1",
+    "bellows_seg3",
+    "bellows_seg5",
+    "bellows_seg7",
+    "bellows_seg9",
+    "bellows_tendon1",
+    "mckibben_v2_20deg",
+    "mckibben_v2_30deg",
+    "mckibben_v2_40deg",
+    "mckibben_v2_55deg",
+    "mckibben_v2_60deg",
+    "mckibben_v2_70deg",
+    "pneunet_tandem_twist_60deg",
+    "pneunet_tandem_twist_90deg",
+    "wall_0.0005m",
+    "wall_0.0010m",
+    "wall_0.0015m",
+    "wall_0.0020m"
+   ],
+   "chosen_by": "Every record and draft record whose source.kind is simulation, whose provenance.scene is parametricGripper.py, and which has an input channel in Pa.",
+   "ruled": false
+  }
+ }
+}

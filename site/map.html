@@ -1,0 +1,2093 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<!-- page begins (the lines between the two markers are what is published as the private preview) -->
+<title>Actuator map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one screen. A narrow panel of controls on the left, the 3D view fills the rest;
+   on a phone the view comes first and the panel scrolls under it. */
+:root { color-scheme: light; --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b;
+  --ink2:#52514e; --muted:#898781; --grid:#e1e0d9; --link:#256abf; --code:#efeee9;
+  --ph-pneumatic:#2B6CB0; --ph-tendon:#B8531A; --ph-thermal:#C53030;
+  --ph-electrostatic:#6B46C1; --ph-hydraulic:#2C7A7B; --ph-rigid:#4A5568; --ph-other:#718096;
+  --font: system-ui, -apple-system, "Segoe UI", sans-serif; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark;
+  --page:#141413; --surface:#1c1c1b; --ink:#f2f1ed; --ink2:#c2c0b8; --muted:#8f8d86;
+  --grid:#33322f; --link:#7fb0ef; --code:#262624;
+  --ph-pneumatic:#6FA8E8; --ph-tendon:#E0884A; --ph-thermal:#F07A7A;
+  --ph-electrostatic:#A58BE6; --ph-hydraulic:#5FBFC0; --ph-rigid:#A8B0BD; --ph-other:#9AA5B4; } }
+:root[data-theme="dark"] { color-scheme: dark;
+  --page:#141413; --surface:#1c1c1b; --ink:#f2f1ed; --ink2:#c2c0b8; --muted:#8f8d86;
+  --grid:#33322f; --link:#7fb0ef; --code:#262624;
+  --ph-pneumatic:#6FA8E8; --ph-tendon:#E0884A; --ph-thermal:#F07A7A;
+  --ph-electrostatic:#A58BE6; --ph-hydraulic:#5FBFC0; --ph-rigid:#A8B0BD; --ph-other:#9AA5B4; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.45 var(--font); }
+.app { display: grid; grid-template-columns: minmax(16rem, 21rem) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr); height: 100%; }
+.panel { overflow-y: auto; border-right: 1px solid var(--grid); background: var(--surface);
+  padding-block: 1rem 1.5rem; padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: 16px; display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+.view { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+.view canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.view canvas:active { cursor: grabbing; }
+#labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+#labels span { position: absolute; white-space: nowrap; font-size: 11px; line-height: 1;
+  transform: translateY(-50%); font-variant-numeric: tabular-nums; }
+#labels .act { color: var(--ink); background: color-mix(in srgb, var(--page) 78%, transparent);
+  padding: 2px 3px; border-radius: 2px; }
+#labels .act.hot { font-weight: 600; z-index: 2; }
+#labels .tick { color: var(--muted); transform: translate(-50%, -50%); }
+#labels .axis { color: var(--ink2); font-weight: 600; font-size: 12px; }
+#labels .wall { color: var(--muted); font-style: italic; }
+/* The small picture of an actuator, at the tip of its path. Its ground is the same pale grey in both themes, so the
+   drawing reads the same. Round: drawn from the simulated mesh. Square: a schematic of the type. */
+#labels .pic { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; box-sizing: border-box;
+  background: #f1f2f4; border: 2px solid currentColor; border-radius: 50%; }
+#labels .pic.sch { border-radius: 5px; }
+#labels .pic.dash { border-style: dashed; }
+#labels .pic.hot { width: 52px; height: 52px; margin: -26px 0 0 -26px; z-index: 2; }
+#labels .pic img { display: block; width: 100%; height: 100%; border-radius: inherit; }
+#labels .pic i { position: absolute; right: -4px; bottom: -4px; width: 9px; height: 9px; box-sizing: border-box;
+  border: 2px solid currentColor; border-radius: 50%; background: currentColor; }
+#labels .pic.nof i { background: #f1f2f4; }
+.picsm { flex: none; width: 16px; height: 16px; box-sizing: border-box; background: #f1f2f4;
+  border: 2px solid currentColor; border-radius: 50%; }
+.picsm.sch { border-radius: 3px; }
+#about { display: flex; flex-direction: column; gap: .3rem; }
+#about figure { margin: 0; display: flex; gap: .6rem; align-items: flex-start; }
+#about figure img { flex: none; width: 84px; height: 84px; background: #f1f2f4; border: 1px solid var(--grid); border-radius: 50%; }
+#about figure.sch img { border-radius: 6px; }
+#about figcaption, #about .src { color: var(--muted); font-size: .84rem; }
+#about a { color: var(--link); overflow-wrap: anywhere; }
+#card .rid { color: var(--muted); font-size: .82rem; overflow-wrap: anywhere; }
+h1 { font-size: 1.35rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+h2 { font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; color: var(--muted);
+  margin: 0 0 .4rem; font-weight: 600; }
+p { margin: 0; color: var(--ink2); }
+.lede { color: var(--ink); }
+.note { border-left: 3px solid var(--grid); padding-left: .7rem; color: var(--muted); font-size: .86rem; }
+section { display: flex; flex-direction: column; gap: .45rem; }
+.axes { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .35rem .6rem; align-items: center; }
+select, button { font: inherit; color: var(--ink); background: var(--page);
+  border: 1px solid var(--grid); border-radius: 4px; padding: .3rem .5rem; min-width: 0; }
+select { width: 100%; }
+button { cursor: pointer; }
+button:hover { border-color: var(--muted); }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 1px; }
+.row { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+input[type=range] { flex: 1 1 8rem; min-width: 0; accent-color: var(--link); }
+.readout { font-variant-numeric: tabular-nums; color: var(--ink2); min-width: 3.2em; text-align: right; }
+ul.acts { list-style: none; margin: 0; padding: 0; }
+ul.acts li { display: flex; align-items: center; gap: .5rem; padding: .16rem .3rem; border-radius: 3px;
+  cursor: pointer; color: var(--ink2); font-size: .9rem; overflow-wrap: anywhere; }
+ul.acts li:hover, ul.acts li.hot { background: var(--code); color: var(--ink); }
+ul.acts li.sel { background: var(--code); color: var(--ink); font-weight: 600; }
+.sw { flex: none; width: 18px; height: 0; border-top: 3px solid currentColor; }
+.sw.dash { border-top-style: dashed; }
+.dot { flex: none; width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; }
+.dot.full { background: currentColor; }
+.patch { flex: none; width: 18px; height: 10px; border: 1px solid currentColor;
+  background: color-mix(in srgb, currentColor 22%, transparent); }
+.bar { flex: none; width: 18px; height: 0; border-top: 1px solid currentColor; }
+.dia { flex: none; width: 8px; height: 8px; margin: 0 5px; background: currentColor; transform: rotate(45deg); }
+.key { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .3rem .6rem; align-items: center;
+  font-size: .86rem; color: var(--ink2); }
+#card { background: var(--page); border: 1px solid var(--grid); border-radius: 4px; padding: .6rem .7rem;
+  font-size: .88rem; display: flex; flex-direction: column; gap: .3rem; }
+#card b { color: var(--ink); }
+#card table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+#card td { padding: 0 .8rem 0 0; color: var(--ink2); vertical-align: top; }
+#card .warn { color: var(--ph-tendon); }
+details summary { cursor: pointer; color: var(--ink2); }
+details ul { margin: .4rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: .86rem; }
+#error { padding: 1rem; color: var(--ph-thermal); }
+ul.acts li.out { opacity: .5; }
+.cone { flex: none; width: 14px; height: 14px; background: color-mix(in srgb, var(--link) 22%, transparent);
+  border: 1px solid var(--link); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+#conecap { display: flex; flex-direction: column; gap: .35rem; font-size: .86rem; }
+#conecap details { color: var(--muted); }
+#force { display: flex; flex-direction: column; gap: .3rem; border-top: 1px solid var(--grid); padding-top: .4rem; margin-top: .1rem; }
+#force svg { display: block; width: 220px; max-width: 100%; height: auto; }
+#force .fscroll { max-height: 11rem; overflow: auto; border: 1px solid var(--grid); border-radius: 3px; }
+#force table { font-size: .8rem; }
+#force th { position: sticky; top: 0; background: var(--page); text-align: left; font-weight: 600;
+  color: var(--ink2); padding: .1rem .6rem .1rem .3rem; vertical-align: bottom; }
+#force td { padding: 0 .6rem 0 .3rem; white-space: nowrap; }
+#force .small { font-size: .8rem; color: var(--muted); }
+#force details p { margin-top: .3rem; font-size: .8rem; color: var(--muted); }
+/* The 3D view and the force plot share the space beside the panel: side by side on wide screens
+   (the view keeps at least 60% of it), the plot under the view on narrower ones. */
+.stage { display: flex; min-width: 0; min-height: 0; }
+.stage > .view { flex: 3 1 0; }
+.fplot { flex: 2 1 0; min-width: 16rem; max-width: 30rem; overflow-y: auto; border-left: 1px solid var(--grid);
+  background: var(--surface); padding: 1rem 16px 1.5rem; padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: .5rem; }
+#fsvg { display: block; width: 100%; height: auto; overflow: visible; }
+#fsvg text { font-family: var(--font); font-size: 10px; fill: var(--muted); }
+#fsvg .rg { fill: none; stroke: var(--grid); }
+#fsvg .fa { cursor: pointer; }
+#fsvg .ln { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+#fsvg .fa.on .ln { stroke-width: 3; }
+#fsvg .hit { fill: transparent; stroke: transparent; stroke-width: 10; }
+#fsvg .dt { fill: currentColor; stroke: currentColor; stroke-width: 1.2; }
+#fsvg .dt.hollow { fill: var(--surface); stroke-width: 1.6; }
+#fsvg .need { fill: none; stroke: var(--link); stroke-width: 1.4; stroke-dasharray: 5 3; }
+#fsvg text.needt { fill: var(--link); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
+/* The task view: with a task cone on, every actuator's tip path turned so that its own needed direction lies along
+   the horizontal axis, above the force plot in the same side panel. */
+.fplot[hidden], #tview[hidden], #fpart[hidden] { display: none; }
+#tview, #fpart { display: flex; flex-direction: column; gap: .5rem; }
+#tview { border-bottom: 1px solid var(--grid); padding-bottom: .9rem; margin-bottom: .4rem; }
+#tsvg { display: block; width: 100%; height: auto; overflow: visible; }
+#tsvg text { font-family: var(--font); font-size: 10px; fill: var(--muted); }
+#tsvg .rg { fill: none; stroke: var(--grid); }
+#tsvg .ax0 { fill: none; stroke: var(--muted); }
+#tsvg .wedge { fill: color-mix(in srgb, var(--link) 18%, transparent); stroke: none; }
+#tsvg .wedge-e { fill: none; stroke: var(--link); stroke-width: 1.2; }
+#tsvg .wedge-e.past { stroke-dasharray: 4 3; opacity: .6; }
+#tsvg .end { stroke: var(--link); stroke-width: 1.8; }
+#tsvg text.endt { fill: var(--link); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
+#tsvg .ta { cursor: pointer; }
+#tsvg .ln { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+#tsvg .ta.on .ln { stroke-width: 3; }
+#tsvg .lead { stroke-dasharray: 1.5 2.5; opacity: .8; }
+#tsvg .hit { fill: transparent; stroke: transparent; stroke-width: 10; }
+#tsvg .exit { fill: currentColor; stroke: none; }
+#tsvg .far { fill: var(--ink); stroke: var(--surface); stroke-width: 1; }
+#tsvg .pm { fill: currentColor; stroke: currentColor; stroke-width: 1.2; }
+#tsvg .pm.below, #tsvg .pm.unknown { fill: var(--surface); stroke-width: 1.6; }
+#tsvg .pm.unknown { stroke-dasharray: 2.2 1.6; }
+#tsvg .pm.ring { fill: none; }
+#tsvg .pm.none { fill: none; stroke-width: 1.8; stroke-linecap: round; }
+#tsvg .lab { pointer-events: none; }
+#tsvg .lab text { fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
+#tsvg .lab.hot text { font-weight: 600; }
+#tsvg .lab .leader { stroke: var(--muted); stroke-width: .8; }
+#tsvg .lab .pg { fill: #f1f2f4; stroke: currentColor; stroke-width: 1.5; }
+#tcap, #tcount, #rcount { font-size: .84rem; }
+#rsvg { display: block; width: 100%; height: auto; overflow: visible; }
+#rsvg[hidden] { display: none; }
+#rsvg text { font-family: var(--font); font-size: 10px; fill: var(--muted); }
+#rsvg .ax0 { fill: none; stroke: var(--muted); }
+#rsvg .need { fill: none; stroke: var(--link); stroke-width: 1.2; stroke-dasharray: 4 3; }
+#rsvg text.needt { fill: var(--link); font-weight: 600; }
+#rsvg .band { fill: color-mix(in srgb, var(--link) 12%, transparent); stroke: none; }
+#rsvg .ln { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
+#rsvg .ok .ln { stroke-width: 2.6; }
+#rsvg .ra { cursor: pointer; }
+#tcount { color: var(--ink); }
+.dot.dsh { border-style: dashed; }
+.xm { flex: none; width: 10px; margin: 0 4px; text-align: center; font-weight: 700; line-height: 1; }
+.tri { flex: none; width: 0; height: 0; margin: 0 5px; border-left: 8px solid currentColor;
+  border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+.wedgesm { flex: none; width: 18px; height: 12px; background: color-mix(in srgb, var(--link) 30%, transparent);
+  clip-path: polygon(0 100%, 100% 100%, 100% 0); }
+#fcap, #fnote p { font-size: .84rem; }
+#fnote { display: flex; flex-direction: column; gap: .35rem; }
+#fnote details p { margin-top: .3rem; color: var(--muted); }
+#labels .act.both::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 3px;
+  border: 1.5px solid currentColor; border-radius: 50%; vertical-align: -1px; }
+.ring { flex: none; width: 10px; height: 10px; margin: 0 4px; border: 1.5px solid currentColor; border-radius: 50%; }
+ul.acts li[hidden] { display: none; }
+#scalenote p + p, #scalenote details { margin-top: .3rem; }
+#scalenote details p { margin-top: .3rem; }
+#fmode { width: auto; }
+#left li.head { list-style: none; margin: .4rem 0 0 -1.1rem; color: var(--ink2); }
+@media (max-width: 1100px) {
+  .stage { flex-direction: column; }
+  .stage > .view { flex: 1 1 0; }
+  .fplot { flex: none; max-width: none; max-height: 45vh; border-left: 0; border-top: 1px solid var(--grid); }
+  #fsvg { max-width: 30rem; margin: 0 auto; }
+}
+@media (max-width: 760px) {
+  #labels .pic { width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+  #labels .pic.hot { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+  html, body { height: auto; }
+  .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; height: auto; }
+  .view { order: -1; height: 62vh; min-height: 320px; border-bottom: 1px solid var(--grid); }
+  .stage { order: -1; }
+  .stage > .view { flex: none; }
+  .fplot { min-width: 0; max-height: none; overflow: visible; border-top: 0; border-bottom: 1px solid var(--grid);
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); }
+  .panel { border-right: 0; overflow: visible; padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+}
+</style>
+
+<div class="app">
+  <div class="panel">
+    <section>
+      <h1>Actuator map</h1>
+      <p class="lede">Each line is the tip of one actuator. It starts at rest and moves as the input rises.
+        Across the three axes you choose, the direction of a line says what kind of motion the actuator makes. Its length says how much.</p>
+      <p class="note">Simulation and published records only: comparative, not predictive.
+        Axes that measure the same kind of thing share one scale.</p>
+    </section>
+
+    <section>
+      <h2>What each axis shows</h2>
+      <div class="axes">
+        <label for="axset">Axis set</label><select id="axset"></select>
+        <label for="ax0">Across</label><select id="ax0"></select>
+        <label for="ax1">Up</label><select id="ax1"></select>
+        <label for="ax2">Depth</label><select id="ax2"></select>
+      </div>
+      <div class="note" id="scalenote" hidden></div>
+      <details><summary>How each is measured</summary><ul id="axdef"></ul></details>
+    </section>
+
+    <section id="tasksec" hidden>
+      <h2>Task</h2>
+      <div id="cones"></div>
+      <p class="note" id="conescaled" hidden></p>
+      <p class="note" id="conenote" hidden></p>
+      <div id="conecap" hidden></div>
+    </section>
+
+    <section>
+      <h2>Input</h2>
+      <div class="row">
+        <button id="play" type="button">Play</button>
+        <input id="tt" type="range" min="0" max="1000" value="1000" aria-label="Share of each actuator's own input range">
+        <span class="readout" id="ttv">100%</span>
+      </div>
+      <p class="note">Every actuator is shown at the same share of its own input range. Their inputs are
+        in different units, so there is no common input to plot.</p>
+    </section>
+
+    <section>
+      <h2>View</h2>
+      <div class="row">
+        <button id="vface" type="button">Face on</button>
+        <button id="vreset" type="button">Reset</button>
+        <label class="row" for="lab"><input id="lab" type="checkbox" checked> Names</label>
+        <label class="row" for="pics"><input id="pics" type="checkbox" checked> Pictures</label>
+      </div>
+      <p class="note">Drag to turn. Scroll or pinch to zoom. Shift-drag, or two fingers, to slide.</p>
+    </section>
+
+    <section>
+      <h2>Selected</h2>
+      <div id="card">Point at a line, or pick a name below.</div>
+    </section>
+
+    <section>
+      <h2>Key</h2>
+      <div class="key" id="key"></div>
+    </section>
+
+    <section>
+      <h2>Actuators</h2>
+      <ul class="acts" id="acts"></ul>
+    </section>
+
+    <section>
+      <details><summary id="leftsum">Left out</summary><ul id="left"></ul></details>
+    </section>
+  </div>
+  <div class="stage">
+    <div class="view" id="view"><canvas id="c"></canvas><div id="labels"></div><div id="error" hidden></div></div>
+    <aside class="fplot" id="fplot" aria-label="Task view and force with the tip held">
+      <section id="tview" aria-labelledby="thead" hidden>
+        <h2 id="thead">Task view</h2>
+        <div class="row"><label for="tmount">Finger</label><select id="tmount">
+          <option value="palm">standing on the palm beside the ball</option><option value="aimed">aimed at the ball</option></select></div>
+        <label class="row" for="twhole"><input id="twhole" type="checkbox"> Show whole paths</label>
+        <label class="row" for="tplain"><input id="tplain" type="checkbox"> Plain: only the candidates, no names</label>
+        <svg id="tsvg" role="group" aria-label="Task view: each actuator's tip travel along its own needed direction and across it, in millimetres"></svg>
+        <p class="note" id="tcap"></p>
+        <p id="tcount"></p>
+        <svg id="rsvg" role="group" aria-label="Second check: how much further out of the ball than its stroke path each actuator's return path sits, along one stroke, in millimetres"></svg>
+        <p id="rcount"></p>
+        <div class="key" id="tkey"></div>
+      </section>
+      <div id="fpart">
+        <h2 id="fhead">Force with the tip held</h2>
+        <div class="row"><label for="fmode">Size</label><select id="fmode">
+          <option value="N">in newtons</option><option value="scaled">÷ (E·L²), a pure number</option></select></div>
+        <svg id="fsvg" role="group" aria-label="Force with the tip held: angle off the body axis and size, each actuator's measured levels"></svg>
+        <p class="note" id="fcap"></p>
+        <div id="fnote" hidden></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(async function () {
+"use strict";
+const $ = id => document.getElementById(id);
+const token = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function fail(msg) { const e = $("error"); e.hidden = false; e.textContent = msg; }
+
+// Where the finger stands for the task. Each placement has its own export; the choice is kept in the address and,
+// where the browser allows, in its storage, and the page loads again when it changes.
+const MOUNTS = { palm: { file: "data/map_paths_with_drafts_palm_mount.json", words: "finger standing on the palm beside the ball" },
+  aimed: { file: "data/map_paths.json", words: "finger aimed at the ball" } };
+let MOUNT = "palm";
+try { const m = localStorage.getItem("map_mount"); if (MOUNTS[m]) MOUNT = m; } catch (e) {}
+{ const m = (location.hash.match(/mount=(\w+)/) || [])[1]; if (MOUNTS[m]) MOUNT = m; }
+// The task's name as the talk says it; the export's own name is used for any task not listed.
+const TASK_WORDS = { cup_turn: "Turn a ball in the hand" };
+function taskName(c) { return (TASK_WORDS[c.task] || c.name || c.task) + (MOUNTS[c.mount] ? ", " + MOUNTS[c.mount].words : ""); }
+let DATA;
+try {
+  const r = await fetch(MOUNTS[MOUNT].file);
+  if (!r.ok) throw new Error(r.status);
+  DATA = await r.json();
+} catch (e) {
+  fail("Could not load " + MOUNTS[MOUNT].file + ". Open this page through a web server " +
+       "(for example: python -m http.server, run in the site folder), not as a file.");
+  return;
+}
+if (!window.THREE) { fail("The 3D library did not load."); return; }
+
+// ---------- data ----------
+const Q = {}; DATA.quantities.forEach(q => Q[q.key] = q);
+const SHOW = { m: { f: 1000, u: "mm" }, rad: { f: 180 / Math.PI, u: "deg" }, "": { f: 100, u: "%" } };
+// The scaled input is a pure number, not a share of anything, so it is shown as it is.
+const PLAIN = { input_scaled: true };
+const show = q => PLAIN[q.key] ? { f: 1, u: "" } : SHOW[q.unit] || { f: 1, u: q.unit };
+const ACTS = DATA.actuators;
+// Quantities with size and material taken out (DATA.scaled). Each leg's scaled values are added to its own values,
+// so they can be put on any axis like the others; a leg's scaled entry is kept on it as leg.scaled.
+const SC = DATA.scaled && DATA.scaled.actuators ? DATA.scaled : null;
+const QLIST = DATA.quantities.slice();
+if (SC) {
+  (SC.quantities || []).forEach(q => { if (!Q[q.key]) { Q[q.key] = q; QLIST.push(q); } });
+  ACTS.forEach(a => { const s = SC.actuators[a.id]; a.scaled = null;
+    if (!s) return;
+    if (s.legs.length !== a.legs.length || s.legs.some((l, i) => l.label !== a.legs[i].label)) {
+      console.error("Scaled legs do not match the legs of " + a.id + "; its scaled values are not used."); return; }
+    a.scaled = s;
+    a.legs.forEach((leg, i) => { const sl = s.legs[i]; leg.scaled = sl;
+      Object.keys(sl.values).forEach(k => { if (!(k in leg.values)) leg.values[k] = sl.values[k]; }); }); });
+}
+const S = { axes: ["bend_rad", "stretch_share", "input_share"], t: 1, sel: null, hot: null, names: true, pics: true };
+// What an actuator is called on the page: its display name (data/map_names.json), else the record's id.
+const shownName = a => a.display_name || a.name || a.id;
+S.axes = S.axes.filter(k => Q[k]);
+DATA.quantities.forEach(q => { if (S.axes.length < 3 && !S.axes.includes(q.key)) S.axes.push(q.key); });
+// Named sets of three axes. The first is the view the page opens on; the scaled one takes size and material out.
+const SETS = [{ name: "Default", axes: S.axes.slice() }];
+if (SC && ["bending_share", "axial_share", "input_scaled"].every(k => Q[k]))
+  SETS.push({ name: "Scaled", axes: ["bending_share", "axial_share", "input_scaled"] });
+S.set = 0;
+// With the scaled input on an axis, an actuator is placed only if one of its legs has a scaled input;
+// the others are listed under Left out, with the reason.
+const scaledOn = () => S.axes.indexOf("input_scaled") >= 0;
+const placeable = a => !scaledOn() || a.legs.some(l => Array.isArray(l.values.input_scaled));
+function scaledWhy(a) {
+  const l = a.legs.find(x => x.scaled && x.scaled.reasons && x.scaled.reasons.input_scaled);
+  return l ? l.scaled.reasons.input_scaled : "No scaled input is formed for it.";
+}
+const physColour = p => token("--ph-" + p) || token("--ph-other");
+// Everything that sets the extents of the box: each leg, each predicted surface, each measured test point.
+// Surfaces hold no scaled values, so they are not drawn while the scaled input is on an axis.
+const SERIES_ALL = [];
+ACTS.forEach(a => { a.legs.forEach(l => SERIES_ALL.push({ a, v: l.values }));
+  if (!a.surface) return;
+  const flat = {}; Object.keys(a.surface.values).forEach(k => { const g = a.surface.values[k]; flat[k] = g ? [].concat(...g) : null; });
+  SERIES_ALL.push({ a, v: flat, surface: true });
+  a.surface.tests.forEach(t => { const m = {}; Object.keys(t.measured).forEach(k => { m[k] = t.measured[k] === null ? null : [t.measured[k]]; });
+    SERIES_ALL.push({ a, v: m, surface: true }); }); });
+const series = () => SERIES_ALL.filter(x => placeable(x.a) && !(x.surface && scaledOn())).map(x => x.v);
+// A predicted surface is filled in only if its measured test points lie within this share of it.
+const TRUST = 0.15, POSITION = ["axial_m", "bending_m", "side_y_m", "side_z_m", "axial_share", "bending_share"];
+// Quantities that cannot be worked out without the length of the body.
+const NEEDS_LENGTH = k => /_share$/.test(k) && k !== "input_share" || !!Q[k].estimate;
+// The worst miss of a surface's tests on one quantity, as a share of the largest measured value; null if it cannot be tested.
+function gapShare(s, k) {
+  if (POSITION.indexOf(k) >= 0) return s.worst_position_gap_share;
+  if (k === "twist_rad") return s.worst_twist_gap_share;
+  const g = s.worst_gap_share_by_key; return g && g[k] !== undefined ? g[k] : null;
+}
+// The chosen axes on which a surface's tests miss by more than that; null if it has no tests at all.
+function failing(s) {
+  if (!s.tests.length) return null;
+  return S.axes.filter(k => { const g = gapShare(s, k); return g !== null && g > TRUST; });
+}
+// Axes share a scale when they measure the same kind of thing: lengths, angles, shares of body length.
+const scaleOf = k => k === "input_share" ? "input" : k === "input_scaled" ? "scaled input" : Q[k].unit || "share of length";
+const styleOf = a => a.hand_placed ? "dot" : a.draft ? "dash" : "solid";
+// Task cones: which one is on (an index into DATA.task_cones, or null), and each actuator's test against it.
+const CONES = Array.isArray(DATA.task_cones) ? DATA.task_cones : [];
+S.cone = null;
+const coneOn = () => S.cone === null ? null : CONES[S.cone] || null;
+const coneUsable = c => Array.isArray(c.axes) && c.axes.length === 3 && c.axes.every(k => Q[k]) &&
+  Array.isArray(c.drawn_direction) && c.drawn_direction.length === 3;
+function taskOf(a, c) {
+  if (!c || !Array.isArray(a.tasks)) return null;
+  return a.tasks.find(t => t && t.task === c.task) || a.tasks[CONES.indexOf(c)] || null;
+}
+const enters = a => { const t = taskOf(a, coneOn()); return !!(t && t.enters === true); };
+// With a task on that declares a push: does the actuator reach the needed push at a measured level, and does it do so
+// at a level whose tip position is also inside the cone?
+const pushOf = a => { const c = coneOn(), t = c && c.push ? taskOf(a, c) : null; return t && !t.reason && t.push ? t.push : null; };
+const hasMeets = a => { const p = pushOf(a); return !!(p && Array.isArray(p.meets_input) && p.meets_input.length); };
+// How an actuator stands against the needed push: "meets" at a measured level; "unknown" when the direction of its
+// force is not stored; "short" when it enters the cone but its force levels stop below the end of its run inside the
+// cone, so the force is not measured high enough to tell; otherwise "below" at every measured level.
+function pushState(a) {
+  const p = pushOf(a); if (!p) return null;
+  if (!p.direction_known || !Array.isArray(p.meets_input)) return "unknown";
+  if (p.meets_input.length) return "meets";
+  const c = coneOn(), t = c && taskOf(a, c), IV = (p.input && p.input.values) || [];
+  const one = v => Array.isArray(v) ? (v.length === 1 ? v[0] : null) : v;
+  const tops = IV.map(one).filter(v => typeof v === "number");
+  if (t && t.enters && Array.isArray(t.legs) && tops.length === IV.length && tops.length) {
+    const ends = [], sk = t.stroke;
+    if (sk && Array.isArray(sk.legs)) {   // with a stroke, force is needed up to the stroke's end, not to the last level inside the angle
+      sk.legs.forEach(l => { const e = one(l.end_input); if (l.inside_to_end && typeof e === "number") ends.push(e); });
+      if (ends.length && Math.max(...tops) < Math.min(...ends)) return { short: true, forceTop: Math.max(...tops), coneEnd: Math.min(...ends), stroke: true };
+    } else {
+      t.legs.forEach(l => (l.inside_input || []).forEach(r => { const e = one(r[1]); if (typeof e === "number") ends.push(e); }));
+      if (ends.length && Math.max(...tops) < Math.max(...ends)) return { short: true, forceTop: Math.max(...tops), coneEnd: Math.max(...ends) };
+    }
+  }
+  return "below";
+}
+const hasBoth = a => { const p = pushOf(a); return !!(p && Array.isArray(p.both_input) && p.both_input.length); };
+// For each scene axis, which component of the cone's own axes it shows; null unless the three chosen axes are the cone's three.
+function conePerm(c) {
+  const p = S.axes.map(k => c.axes.indexOf(k));
+  return p.every(j => j >= 0) && new Set(p).size === 3 ? p : null;
+}
+
+// ---------- three ----------
+const canvas = $("c"), view = $("view"), labels = $("labels");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+const scene = new THREE.Scene();
+const FOV = 38;                     // the lens when the view is not flattened
+const camera = new THREE.PerspectiveCamera(FOV, 1, 0.01, 100);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x777777, 0.95));
+const sun = new THREE.DirectionalLight(0xffffff, 0.55); sun.position.set(2, 4, 3); scene.add(sun);
+let G = null;                       // everything rebuilt when the axes or theme change
+let L = null;                       // layout: scale, extents, walls
+let legs = [];                      // one entry per drawn leg
+let surfs = [];                     // one entry per predicted two-input surface
+let insides = [];                   // with a task cone on: marks on the measured levels that lie inside it
+let coneEndDrawn = null;            // with a stroke: whether the cone's far end fits in the view (null: no stroke)
+let tickLabels = [];
+const cam = { theta: 0.62, phi: 1.2, dist: 4.4, flat: 0, target: new THREE.Vector3() };
+let builtDist = 0, fly = null;
+
+function layout() {
+  const SERIES = series();
+  const maxAbs = k => { let m = 0; SERIES.forEach(vals => { const v = vals[k];
+    if (v) v.forEach(x => { if (Math.abs(x) > m) m = Math.abs(x); }); }); return m; };
+  const byUnit = {};
+  S.axes.forEach(k => { const u = scaleOf(k); byUnit[u] = Math.max(byUnit[u] || 0, maxAbs(k)); });
+  const K = S.axes.map(k => { const m = byUnit[scaleOf(k)]; return m > 0 ? 1 / m : 1; });
+  const lo = [0, 0, 0], hi = [0, 0, 0], gap = [false, false, false];
+  SERIES.forEach(vals => S.axes.forEach((k, i) => { const v = vals[k];
+    if (!v) { gap[i] = true; return; }
+    v.forEach(x => { const c = x * K[i]; if (c < lo[i]) lo[i] = c; if (c > hi[i]) hi[i] = c; }); }));
+  for (let i = 0; i < 3; i++) if (hi[i] - lo[i] < 0.2) { lo[i] -= 0.1; hi[i] += 0.1; }
+  const wall = lo.map(v => v - 0.3);
+  return { K, lo, hi, gap, wall };
+}
+
+function samples(leg) {
+  const sh = leg.values.input_share;
+  // An estimate can run out part-way along a path (no value from some level on). A quantity with no value
+  // even at the first level goes to the wall; otherwise the line stops at the last level that has every chosen value.
+  const upto = v => { const i = v.indexOf(null); return i < 0 ? v.length : i; };
+  const cols = S.axes.map((k, i) => { const v = leg.values[k]; return v && upto(v) > 0 ? v.map(x => x * L.K[i]) : null; });
+  const n = Math.min(sh.length, ...S.axes.map(k => { const v = leg.values[k]; return v && upto(v) > 0 ? upto(v) : Infinity; }));
+  const at = i => new THREE.Vector3(cols[0] ? cols[0][i] : L.wall[0], cols[1] ? cols[1][i] : L.wall[1],
+                                    cols[2] ? cols[2][i] : L.wall[2]);
+  const pts = [], shares = [];
+  if (n >= 60) { for (let i = 0; i < n; i++) { pts.push(at(i)); shares.push(sh[i]); } }
+  else {
+    // Every stored row is kept, with points added between rows so the line can grow smoothly.
+    const sub = n > 1 ? Math.max(1, Math.ceil(60 / (n - 1))) : 1;
+    for (let i = 0; i < n - 1; i++) for (let j = 0; j < sub; j++) { const f = j / sub;
+      pts.push(at(i).lerp(at(i + 1), f)); shares.push(sh[i] + (sh[i + 1] - sh[i]) * f); }
+    pts.push(at(n - 1)); shares.push(sh[n - 1]);
+  }
+  const origin = new THREE.Vector3(cols[0] ? 0 : L.wall[0], cols[1] ? 0 : L.wall[1], cols[2] ? 0 : L.wall[2]);
+  // The stored rows themselves (no points added between them), for marking single measured levels.
+  const levels = []; for (let i = 0; i < n; i++) levels.push({ k: i, p: at(i), s: sh[i] });
+  return { pts, shares, origin, levels };
+}
+
+// A tube along a polyline, with optional gaps. Indices run in order along the line, so the
+// drawn range can stop part-way to show the path growing.
+function tube(pts, radius, style) {
+  const R = 6, n = pts.length, pos = new Float32Array(n * R * 3), nor = new Float32Array(n * R * 3);
+  const T = new THREE.Vector3(), prevT = new THREE.Vector3(), N = new THREE.Vector3(), B = new THREE.Vector3();
+  const q = new THREE.Quaternion();
+  for (let i = 0; i < n; i++) {
+    T.subVectors(pts[Math.min(n - 1, i + 1)], pts[Math.max(0, i - 1)]);
+    if (T.lengthSq() < 1e-18) T.copy(i ? prevT : new THREE.Vector3(1, 0, 0)); else T.normalize();
+    if (i === 0) { N.set(0, 1, 0); if (Math.abs(T.y) > 0.9) N.set(1, 0, 0); N.cross(T).normalize(); }
+    else { q.setFromUnitVectors(prevT, T); N.applyQuaternion(q).normalize(); }
+    B.crossVectors(T, N); prevT.copy(T);
+    for (let r = 0; r < R; r++) {
+      const a = 2 * Math.PI * r / R, c = Math.cos(a), s = Math.sin(a), o = (i * R + r) * 3;
+      const nx = c * N.x + s * B.x, ny = c * N.y + s * B.y, nz = c * N.z + s * B.z;
+      nor[o] = nx; nor[o + 1] = ny; nor[o + 2] = nz;
+      pos[o] = pts[i].x + radius * nx; pos[o + 1] = pts[i].y + radius * ny; pos[o + 2] = pts[i].z + radius * nz;
+    }
+  }
+  const idx = [], segEnd = [];
+  for (let i = 0; i < n - 1; i++) {
+    const on = style === "solid" || (style === "dash" ? i % 5 < 3 : i % 2 === 0);
+    if (on) for (let r = 0; r < R; r++) {
+      const a = i * R + r, b = i * R + (r + 1) % R, c = a + R, d = b + R;
+      idx.push(a, b, c, b, d, c);
+    }
+    segEnd.push(idx.length);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  g.setAttribute("normal", new THREE.BufferAttribute(nor, 3));
+  g.setIndex(idx);
+  return { g, segEnd };
+}
+
+function clear(group) {
+  group.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
+  scene.remove(group);
+}
+
+function build(keepCamera) {
+  // Task cones are set in tip travel, so none is on while the scaled input is on an axis; nor is a selection left on
+  // an actuator that is not placed.
+  if (scaledOn()) S.cone = null;
+  const gone = id => { const a = ACTS.find(x => x.id === id); return !!a && !placeable(a); };
+  if (gone(S.sel)) S.sel = null; if (gone(S.hot)) S.hot = null;
+  scaledUI();
+  if (G) clear(G);
+  G = new THREE.Group(); scene.add(G); whisker = null;
+  L = layout(); legs = []; surfs = []; insides = []; tickLabels = [];
+  labels.innerHTML = "";
+  const ink = new THREE.Color(token("--ink")), grid = new THREE.Color(token("--grid")),
+        muted = new THREE.Color(token("--muted")), page = new THREE.Color(token("--page"));
+  renderer.setClearColor(page, 1);
+
+  // box edges, axes through rest, ticks
+  const seg = [], segAxis = [], segTick = [];
+  const lo = L.lo.map((v, i) => L.gap[i] ? L.wall[i] : v), hi = L.hi;
+  const c = (x, y, z) => [x ? hi[0] : lo[0], y ? hi[1] : lo[1], z ? hi[2] : lo[2]];
+  [[0,0,0,1,0,0],[0,1,0,1,1,0],[0,0,1,1,0,1],[0,1,1,1,1,1],[0,0,0,0,1,0],[1,0,0,1,1,0],[0,0,1,0,1,1],
+   [1,0,1,1,1,1],[0,0,0,0,0,1],[1,0,0,1,0,1],[0,1,0,0,1,1],[1,1,0,1,1,1]].forEach(e =>
+    seg.push(...c(e[0], e[1], e[2]), ...c(e[3], e[4], e[5])));
+  const addLabel = (cls, text, p, dx, dy) => { const el = document.createElement("span");
+    el.className = cls; el.textContent = text; labels.appendChild(el);
+    tickLabels.push({ el, p, dx: dx || 0, dy: dy || 0 }); return el; };
+  S.axes.forEach((k, i) => {
+    const a = [0, 0, 0], b = [0, 0, 0]; a[i] = L.lo[i]; b[i] = L.hi[i]; segAxis.push(...a, ...b);
+    const sh = show(Q[k]), d0 = L.lo[i] / L.K[i] * sh.f, d1 = L.hi[i] / L.K[i] * sh.f;
+    const raw = (d1 - d0) / 5, mag = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / mag;
+    const step = (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * mag, j = (i + 1) % 3;
+    for (let v = Math.ceil(d0 / step) * step; v <= d1 + 1e-9; v += step) {
+      if (Math.abs(v) < step / 2) continue;
+      const p = [0, 0, 0], p2 = [0, 0, 0]; p[i] = p2[i] = v / sh.f * L.K[i]; p2[j] = -0.025;
+      segTick.push(...p, ...p2);
+      const lp = [0, 0, 0]; lp[i] = p[i]; lp[j] = -0.07;
+      addLabel("tick", String(+v.toFixed(6)), new THREE.Vector3(...lp));
+    }
+    const end = [0, 0, 0]; end[i] = L.hi[i] + 0.06;
+    addLabel("axis", Q[k].label + (sh.u ? ", " + sh.u : ""), new THREE.Vector3(...end), 6, 0);
+    if (L.gap[i]) {                 // a wall for actuators whose record does not hold this quantity
+      const o = [(i + 1) % 3, (i + 2) % 3], P = [];
+      [[0, 0], [1, 0], [1, 1], [0, 1]].forEach(s => { const v = [0, 0, 0]; v[i] = L.wall[i];
+        v[o[0]] = s[0] ? hi[o[0]] : lo[o[0]]; v[o[1]] = s[1] ? hi[o[1]] : lo[o[1]]; P.push(v); });
+      const g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.Float32BufferAttribute([].concat(...P), 3));
+      g.setIndex([0, 1, 2, 0, 2, 3]);
+      G.add(new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: muted, transparent: true, opacity: 0.1,
+        side: THREE.DoubleSide, depthWrite: false })));
+      addLabel("wall", (k === "input_scaled" ? "not formed: " : NEEDS_LENGTH(k) ? "no body length: " : "not measured: ") +
+        Q[k].label.toLowerCase(), new THREE.Vector3(...P[3]), 6, 10);
+    }
+  });
+  const lines = (arr, col, op) => { const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(arr, 3));
+    G.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: col, transparent: op < 1, opacity: op }))); };
+  lines(seg, grid, 1); lines(segAxis, muted, 1); lines(segTick, muted, 1);
+  const rest = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 12), new THREE.MeshBasicMaterial({ color: ink }));
+  rest.userData.head = 0.008; G.add(rest); legs.rest = rest;
+  addLabel("tick", "rest", new THREE.Vector3(0, -0.05, 0));
+
+  if (!keepCamera) {
+    cam.target.set((lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2);
+    const diag = Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]);
+    const aspect = view.clientWidth / Math.max(1, view.clientHeight);
+    cam.dist = diag / 2 / Math.sin(FOV * Math.PI / 360) * 1.12 / Math.min(1, aspect);
+    cam.theta = 0.62; cam.phi = 1.2;
+    home = { target: cam.target.clone(), dist: cam.dist, theta: cam.theta, phi: cam.phi };
+  }
+  buildPaths(); buildSurfaces(); buildCone(); coneUI(); tvBuild(); grow(); paint();
+}
+let home = null, whisker = null;
+
+// The task cone: tip at rest, about the cone's drawn direction, with its half-angle. It is made in the data's own
+// units on the cone's three axes, then each corner goes through the same scaling as the paths (value × K per axis).
+function buildCone() {
+  coneEndDrawn = null;
+  const c = coneOn(); if (!c || !coneUsable(c)) return;
+  const perm = conePerm(c); if (!perm) return;
+  const d = new THREE.Vector3(...c.drawn_direction).normalize();
+  if (!(d.lengthSq() > 0)) return;
+  const th = (+c.half_angle_deg || 0) * Math.PI / 180;
+  if (!(th > 0 && th < Math.PI / 2)) return;
+  const toScene = v => { const a = [v.x, v.y, v.z]; return new THREE.Vector3(...perm.map((j, i) => a[j] * L.K[i])); };
+  // Length: as far along the cone's axis as any drawn point reaches.
+  let h = 0;
+  series().forEach(vals => { const cols = c.axes.map(k => vals[k]); if (cols.some(v => !v)) return;
+    for (let i = 0; i < cols[0].length; i++) { const x = cols[0][i], y = cols[1][i], z = cols[2][i];
+      if (x === null || y === null || z === null) continue;
+      const t = x * d.x + y * d.y + z * d.z; if (t > h) h = t; } });
+  if (!(h > 0)) { const box = [0, 1, 2].map(i => (L.hi[i] - L.lo[i]) / L.K[i]); h = Math.max(...box) / 2; }
+  h *= 1.05;
+  // ...but the rim may reach no further than twice the drawn box, so the cone does not swallow the view.
+  const dd = [d.x, d.y, d.z], tn = Math.tan(th);
+  let room = Infinity;
+  perm.forEach((j, i) => { const a = dd[j] * L.K[i], rr = tn * Math.sqrt(Math.max(0, 1 - dd[j] * dd[j])) * L.K[i];
+    if (a + rr > 0 && L.hi[i] > 0) room = Math.min(room, 2 * L.hi[i] / (a + rr));
+    if (a - rr < 0 && L.lo[i] < 0) room = Math.min(room, 2 * L.lo[i] / (a - rr)); });
+  // With a stroke declared, the cone ends at one stroke's tip travel, closed by a cap; where that lies beyond the
+  // room above, the cone is drawn open as before and the caption says so.
+  const travel = c.stroke && isNum(c.stroke.travel_m) && c.stroke.travel_m > 0 ? c.stroke.travel_m : null;
+  const capped = travel !== null && travel <= room;
+  h = capped ? travel : Math.min(h, room);
+  coneEndDrawn = travel === null ? null : capped;
+  const floor = typeof c.least_travel_m === "number" && c.least_travel_m > 0 && c.least_travel_m < h ? c.least_travel_m : 0;
+  const p = new THREE.Vector3(Math.abs(d.x) < 0.9 ? 1 : 0, Math.abs(d.x) < 0.9 ? 0 : 1, 0).cross(d).normalize();
+  const q = new THREE.Vector3().crossVectors(d, p);
+  const M = 64, ring = along => { const r = along * Math.tan(th), out = [];
+    for (let m = 0; m <= M; m++) { const f = 2 * Math.PI * m / M;
+      out.push(toScene(d.clone().multiplyScalar(along).addScaledVector(p, r * Math.cos(f)).addScaledVector(q, r * Math.sin(f)))); }
+    return out; };
+  const r0 = ring(floor), r1 = ring(h), P = r0.concat(r1), idx = [];
+  for (let m = 0; m < M; m++) idx.push(m, m + 1, M + 1 + m, m + 1, M + 2 + m, M + 1 + m);
+  const col = new THREE.Color(token("--link"));
+  const skin = { color: col, transparent: true, opacity: 0.16, side: THREE.DoubleSide, depthWrite: false };
+  const g = new THREE.BufferGeometry().setFromPoints(P); g.setIndex(idx);
+  const mesh = new THREE.Mesh(g, new THREE.MeshBasicMaterial(skin)); mesh.frustumCulled = false; G.add(mesh);
+  if (floor > 0) {                 // a least travel: the floor the tip must get past
+    const fi = []; for (let m = 1; m < M; m++) fi.push(0, m, m + 1);
+    const fg = new THREE.BufferGeometry().setFromPoints(r0); fg.setIndex(fi);
+    const fm = new THREE.Mesh(fg, new THREE.MeshBasicMaterial(skin)); fm.frustumCulled = false; G.add(fm);
+  }
+  if (capped) {                    // the far end: one stroke of the wave
+    const ci = []; for (let m = 1; m < M; m++) ci.push(0, m, m + 1);
+    const cg = new THREE.BufferGeometry().setFromPoints(r1); cg.setIndex(ci);
+    const cm = new THREE.Mesh(cg, new THREE.MeshBasicMaterial({ ...skin, opacity: 0.3 })); cm.frustumCulled = false; G.add(cm);
+  }
+  const rim = new THREE.Line(new THREE.BufferGeometry().setFromPoints(r1),
+    new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: capped ? 0.95 : 0.45 }));
+  const axis = new THREE.Line(new THREE.BufferGeometry().setFromPoints([toScene(d.clone().multiplyScalar(floor)),
+    toScene(d.clone().multiplyScalar(h))]), new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.8 }));
+  rim.frustumCulled = axis.frustumCulled = false; G.add(rim); G.add(axis);
+}
+
+// With a cone on: a small mark on each measured level that lies inside it, for the actuators that enter it.
+// Only stored levels are marked as beads; the one point worked out between them is the far-end dot below.
+function buildInside() {
+  insides.forEach(x => { G.remove(x.mesh); x.mesh.geometry.dispose(); x.mesh.material.dispose(); });
+  insides = [];
+  const c = coneOn(); if (!c) return;
+  // Beads in the actuator's own colour, unshaded so they read brighter than the tube; where the levels are dense
+  // they merge into a thicker, brighter stretch of the same line.
+  // With a stroke declared, levels beyond the cone's far end are not marked, and a dark dot sits where the tip
+  // reaches the far end (in a straight line between the two logged levels either side) on each leg that stays
+  // inside the cone all the way there; where the first logged level is already beyond the far end, the dot sits on that
+  // level (nothing is worked out back towards rest). A line with beads and no larger dot enters the cone but stops short.
+  const r = 0.0048 * cam.dist, m4 = new THREE.Matrix4(), travel = c.stroke ? c.stroke.travel_m : null;
+  const one = (p, s, colour, size) => { const mesh = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 12, 10),
+      new THREE.MeshBasicMaterial({ color: colour, transparent: true }), 1);
+    m4.makeScale(size, size, size).setPosition(p); mesh.setMatrixAt(0, m4);
+    mesh.instanceMatrix.needsUpdate = true; mesh.frustumCulled = false; G.add(mesh); return mesh; };
+  legs.forEach(l => { const t = taskOf(l.a, c); if (!t || t.enters !== true || !Array.isArray(t.legs)) return;
+    const li = l.a.legs.indexOf(l.leg), tl = t.legs[li]; if (!tl || !Array.isArray(tl.inside)) return;
+    const sl = t.stroke && Array.isArray(t.stroke.legs) ? t.stroke.legs[li] : null;
+    const along = sl && Array.isArray(sl.along_m) && isNum(travel) ? sl.along_m : null;
+    const marks = l.levels.filter(v => tl.inside[v.k] === true && (!along || along[v.k] <= travel)).sort((x, y) => x.s - y.s);
+    if (marks.length) {
+      const mesh = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 10, 8),
+        new THREE.MeshBasicMaterial({ color: new THREE.Color(physColour(l.a.physics)), transparent: true }), marks.length);
+      marks.forEach((v, i) => { m4.makeScale(r, r, r).setPosition(v.p); mesh.setMatrixAt(i, m4); });
+      mesh.instanceMatrix.needsUpdate = true; mesh.frustumCulled = false; G.add(mesh);
+      insides.push({ a: l.a, mesh, shares: marks.map(v => v.s) });
+    }
+    if (!along || sl.inside_to_end !== true) return;
+    const k = along.findIndex(x => x >= travel); if (k < 0 || k >= l.levels.length) return;
+    let p = l.levels[k].p.clone(), s = l.levels[k].s;
+    if (k > 0 && along[k] > along[k - 1]) { const f = (travel - along[k - 1]) / (along[k] - along[k - 1]), b = l.levels[k - 1];
+      p = b.p.clone().lerp(l.levels[k].p, f); s = b.s + (l.levels[k].s - b.s) * f; }
+    insides.push({ a: l.a, mesh: one(p, s, new THREE.Color(token("--ink")), r * 1.9), shares: [s] }); });
+}
+
+// For the actuator in focus: a bar through the head of each path, along each chosen axis that is an
+// estimate. Its half-length is how far the value moves if the body length is wrong by the tolerance.
+function whisk() {
+  if (whisker) { G.remove(whisker); whisker.geometry.dispose(); whisker.material.dispose(); whisker = null; }
+  const focus = S.hot || S.sel; if (!focus) return;
+  const P = [];
+  legs.forEach(l => { const sens = l.leg.length_sensitivity; if (l.a.id !== focus || !l.shown || !sens) return;
+    S.axes.forEach((k, i) => { const v = sens[k] ? valueAt(l.leg, sens[k]) : null;
+      if (v === null || Number.isNaN(v)) return;
+      const a = l.pos.clone(), b = l.pos.clone(), d = Math.abs(v) * L.K[i];
+      a.setComponent(i, a.getComponent(i) - d); b.setComponent(i, b.getComponent(i) + d); P.push(a, b); }); });
+  if (!P.length) return;
+  whisker = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(P),
+    new THREE.LineBasicMaterial({ color: new THREE.Color(token("--ink")) }));
+  whisker.frustumCulled = false; G.add(whisker);
+}
+
+// For an actuator with two inputs: the surface of tip positions predicted for both inputs together
+// (computed from the two single-input paths by the rule declared for it), and the measured combined-input points that test it.
+function buildSurfaces() {
+  const warn = new THREE.Color(token("--ph-tendon")), ink = new THREE.Color(token("--ink"));
+  const vec = vals => new THREE.Vector3(...S.axes.map((k, ax) =>
+    vals[k] === null || vals[k] === undefined ? L.wall[ax] : vals[k] * L.K[ax]));
+  if (scaledOn()) return;
+  ACTS.forEach(a => { const s = a.surface; if (!s || !placeable(a)) return;
+    const n0 = s.inputs[0].values.length, n1 = s.inputs[1].values.length, P = [];
+    for (let i = 0; i < n0; i++) for (let j = 0; j < n1; j++)
+      P.push(new THREE.Vector3(...S.axes.map((k, ax) => s.values[k] && s.values[k][i][j] !== null
+        ? s.values[k][i][j] * L.K[ax] : L.wall[ax])));
+    const sh = (i, j) => s.values.input_share[i][j];
+    // Cells and grid lines are ordered by input share, so the drawn range can grow with the input.
+    const quads = [], segs = [];
+    for (let i = 0; i < n0; i++) for (let j = 0; j < n1; j++) {
+      const v = i * n1 + j;
+      if (i < n0 - 1 && j < n1 - 1) quads.push({ v, s: Math.max(sh(i, j), sh(i + 1, j), sh(i, j + 1), sh(i + 1, j + 1)) });
+      if (i < n0 - 1) segs.push({ a: v, b: v + n1, s: Math.max(sh(i, j), sh(i + 1, j)) });
+      if (j < n1 - 1) segs.push({ a: v, b: v + 1, s: Math.max(sh(i, j), sh(i, j + 1)) });
+    }
+    quads.sort((x, y) => x.s - y.s); segs.sort((x, y) => x.s - y.s);
+    const idx = []; quads.forEach(q => idx.push(q.v, q.v + 1, q.v + n1, q.v + 1, q.v + n1 + 1, q.v + n1));
+    const g = new THREE.BufferGeometry().setFromPoints(P); g.setIndex(idx);
+    const col = new THREE.Color(physColour(a.physics)), fail = failing(s), filled = !!fail && fail.length === 0;
+    const mesh = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.18,
+      side: THREE.DoubleSide, depthWrite: false }));
+    mesh.visible = filled; mesh.frustumCulled = false; G.add(mesh);
+    const wp = []; segs.forEach(e => wp.push(P[e.a].x, P[e.a].y, P[e.a].z, P[e.b].x, P[e.b].y, P[e.b].z));
+    const wg = new THREE.BufferGeometry(); wg.setAttribute("position", new THREE.Float32BufferAttribute(wp, 3));
+    const wire = new THREE.LineSegments(wg, new THREE.LineBasicMaterial({ color: filled ? col : warn, transparent: true, opacity: 0.5 }));
+    wire.frustumCulled = false; G.add(wire);
+    const tests = s.tests.map(t => { const m = vec(t.measured), pr = vec(t.predicted);
+      const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([m, pr]),
+        new THREE.LineBasicMaterial({ color: warn, transparent: true }));
+      const dot = new THREE.Mesh(new THREE.OctahedronGeometry(1), new THREE.MeshBasicMaterial({ color: ink, transparent: true }));
+      dot.position.copy(m); G.add(line); G.add(dot);
+      return { line, dot, share: t.measured.input_share }; });
+    surfs.push({ a, mesh, wire, tests, pts: P, qShare: quads.map(q => q.s), wShare: segs.map(e => e.s) });
+  });
+}
+
+const noPic = {};
+function buildPaths() {
+  legs.forEach(l => { [l.mesh, l.head, l.lead].forEach(o => { if (!o) return; G.remove(o);
+    o.traverse(x => { if (x.geometry) x.geometry.dispose(); if (x.material) x.material.dispose(); }); });
+    if (l.label) l.label.remove(); if (l.pic) l.pic.remove(); });
+  const rest = legs.rest; legs = []; legs.rest = rest;
+  builtDist = cam.dist;
+  const radius = 0.0028 * cam.dist, page = new THREE.Color(token("--page"));
+  ACTS.forEach(a => { if (!placeable(a)) return;
+    const col = new THREE.Color(physColour(a.physics));
+    a.legs.forEach((leg, li) => {
+      const s = samples(leg), t = tube(s.pts, li === 0 || leg.lead_in_from_origin || s.pts[0].lengthSq() === 0
+        ? radius : radius * 0.7, styleOf(a));
+      const mat = new THREE.MeshLambertMaterial({ color: col, transparent: true });
+      const mesh = new THREE.Mesh(t.g, mat); mesh.userData.id = a.id; mesh.frustumCulled = false; G.add(mesh);
+      const head = new THREE.Group();
+      const ball = new THREE.SphereGeometry(1, 18, 12);
+      if (a.has_force) head.add(new THREE.Mesh(ball, new THREE.MeshLambertMaterial({ color: col, transparent: true })));
+      else {
+        head.add(new THREE.Mesh(ball, new THREE.MeshBasicMaterial({ color: page, transparent: true })));
+        const rim = new THREE.Mesh(ball, new THREE.MeshBasicMaterial({ color: col, side: THREE.BackSide, transparent: true }));
+        rim.scale.setScalar(1.35); head.add(rim);
+      }
+      head.traverse(o => { o.userData.id = a.id; }); G.add(head);
+      let lead = null;
+      if (leg.lead_in_from_origin) {
+        const g = new THREE.BufferGeometry().setFromPoints([s.origin, s.pts[0]]);
+        lead = new THREE.Line(g, new THREE.LineDashedMaterial({ color: col, dashSize: 0.012, gapSize: 0.012,
+          transparent: true, opacity: 0.8 }));
+        lead.computeLineDistances(); G.add(lead);
+      }
+      let label = null, pic = null, lw = 0;
+      if (li === 0) { label = document.createElement("span"); label.className = "act"; label.textContent = shownName(a);
+        labels.appendChild(label); lw = label.offsetWidth;
+        // The picture stands in for the ball at the tip of the path. An actuator with no picture, or one whose
+        // picture does not load, keeps the ball.
+        const th = a.thumbnail;
+        if (th && !noPic[a.id]) { pic = document.createElement("div");
+          pic.className = "pic" + (th.kind === "schematic" ? " sch" : "") + (styleOf(a) === "solid" ? "" : " dash") +
+            (a.has_force ? "" : " nof");
+          pic.style.color = physColour(a.physics); pic.style.display = "none";
+          const im = document.createElement("img"); im.alt = ""; im.draggable = false;
+          im.onerror = () => { noPic[a.id] = true; pic.remove(); legs.forEach(x => { if (x.pic === pic) x.pic = null; }); };
+          im.src = th.image; pic.append(im, document.createElement("i")); labels.appendChild(pic); } }
+      legs.push({ a, leg, mesh, head, lead, label, pic, lw, dim: 1, box: null, far: 0, pts: s.pts, shares: s.shares, segEnd: t.segEnd,
+                  levels: s.levels, pos: new THREE.Vector3(), shown: false });
+    });
+  });
+  buildInside(); grow(); paint();
+}
+
+function grow() {
+  legs.forEach(l => {
+    const sh = l.shares, n = sh.length;
+    if (S.t < sh[0] - 1e-9) { l.mesh.geometry.setDrawRange(0, 0); l.head.visible = false; l.shown = false; return; }
+    let k = 0; while (k < n - 1 && sh[k + 1] <= S.t + 1e-9) k++;
+    l.mesh.geometry.setDrawRange(0, k > 0 ? l.segEnd[k - 1] : 0);
+    l.pos.copy(l.pts[k]);
+    if (k < n - 1) { const d = sh[k + 1] - sh[k]; if (d > 0) l.pos.lerp(l.pts[k + 1], Math.min(1, (S.t - sh[k]) / d)); }
+    l.head.position.copy(l.pos); l.head.visible = true; l.shown = true;
+  });
+  const upTo = arr => { let k = 0; while (k < arr.length && arr[k] <= S.t + 1e-9) k++; return k; };
+  surfs.forEach(s => { s.mesh.geometry.setDrawRange(0, upTo(s.qShare) * 6); s.wire.geometry.setDrawRange(0, upTo(s.wShare) * 2);
+    s.tests.forEach(t => { t.dot.visible = t.line.visible = t.share <= S.t + 1e-9; }); });
+  insides.forEach(x => { x.mesh.count = upTo(x.shares); });
+  whisk();
+}
+
+function paint() {
+  const focus = S.hot || S.sel, cone = coneOn();
+  // With a task cone on, the actuators that never enter it are faded as well (the in-focus one is not).
+  const coneDim = a => cone && !enters(a) && a.id !== focus ? 0.22 : 1;
+  legs.forEach(l => { const dim = Math.min(focus && l.a.id !== focus ? 0.14 : 1, coneDim(l.a));
+    l.mesh.material.opacity = dim; l.mesh.material.depthWrite = dim === 1;
+    l.head.traverse(o => { if (o.material) o.material.opacity = dim; });
+    if (l.lead) l.lead.material.opacity = 0.8 * dim;
+    l.dim = dim; if (l.pic) l.pic.classList.toggle("hot", l.a.id === focus);
+    if (l.label) { l.label.classList.toggle("hot", l.a.id === focus); l.label.classList.toggle("both", hasBoth(l.a)); } });
+  surfs.forEach(s => { const dim = Math.min(focus && s.a.id !== focus ? 0.14 : 1, coneDim(s.a));
+    s.mesh.material.opacity = (focus === s.a.id ? 0.34 : 0.18) * dim; s.wire.material.opacity = (focus === s.a.id ? 0.8 : 0.5) * dim;
+    s.tests.forEach(t => { t.dot.material.opacity = dim; t.line.material.opacity = dim; }); });
+  insides.forEach(x => { const dim = focus && x.a.id !== focus ? 0.14 : 1;
+    x.mesh.material.opacity = dim; x.mesh.material.depthWrite = dim === 1; });
+  const byId = {}; ACTS.forEach(a => byId[a.id] = a);
+  document.querySelectorAll("#acts li").forEach(li => {
+    li.classList.toggle("sel", li.dataset.id === S.sel); li.classList.toggle("hot", li.dataset.id === S.hot);
+    li.classList.toggle("out", !!cone && !!byId[li.dataset.id] && !enters(byId[li.dataset.id])); });
+  whisk(); card(); plotPaint(); tvPaint();
+}
+
+// ---------- camera ----------
+function placeCamera() {
+  // "Face on" flattens the view: a long lens from far away, so near and far things line up with the ticks.
+  // The size of things at the target stays the same.
+  const t0 = Math.tan(FOV * Math.PI / 360), t1 = t0 * Math.pow(0.04, cam.flat), d = cam.dist * t0 / t1;
+  camera.fov = Math.atan(t1) * 360 / Math.PI;
+  const sp = Math.sin(cam.phi);
+  camera.position.set(cam.target.x + d * sp * Math.sin(cam.theta), cam.target.y + d * Math.cos(cam.phi),
+                      cam.target.z + d * sp * Math.cos(cam.theta));
+  camera.near = Math.max(d * 0.02, d - cam.dist * 4); camera.far = d + cam.dist * 30 + 10; camera.updateProjectionMatrix();
+  camera.lookAt(cam.target);
+}
+function flyTo(to, ms) {
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  fly = { t0: performance.now(), ms: reduce ? 1 : ms, from: { target: cam.target.clone(), dist: cam.dist,
+    theta: cam.theta, phi: cam.phi, flat: cam.flat }, to };
+}
+const ptrs = new Map(); let moved = 0, pinch = 0, mid = null;
+function pan(dx, dy) {
+  const right = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 0),
+        up = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 1);
+  const k = cam.dist * 2 * Math.tan(FOV * Math.PI / 360) / canvas.clientHeight;
+  cam.target.addScaledVector(right, -dx * k).addScaledVector(up, dy * k);
+}
+canvas.addEventListener("pointerdown", e => { canvas.setPointerCapture(e.pointerId);
+  ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY, b: e.button, shift: e.shiftKey }); moved = 0; fly = null;
+  if (ptrs.size === 2) { const p = [...ptrs.values()]; pinch = Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y);
+    mid = { x: (p[0].x + p[1].x) / 2, y: (p[0].y + p[1].y) / 2 }; } });
+canvas.addEventListener("pointermove", e => {
+  const p = ptrs.get(e.pointerId);
+  if (!p) { hover(e); return; }
+  const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+  if (ptrs.size === 1) {
+    if (p.b !== 0 || p.shift) pan(dx, dy);
+    else { cam.theta -= dx * 0.006; cam.phi = Math.min(Math.PI - 0.02, Math.max(0.02, cam.phi - dy * 0.006)); }
+  } else if (ptrs.size === 2) {
+    const q = [...ptrs.values()], d = Math.hypot(q[0].x - q[1].x, q[0].y - q[1].y),
+          m = { x: (q[0].x + q[1].x) / 2, y: (q[0].y + q[1].y) / 2 };
+    if (pinch > 0 && d > 0) zoom(pinch / d);
+    pan(m.x - mid.x, m.y - mid.y); pinch = d; mid = m;
+  } });
+const lift = e => { const had = ptrs.delete(e.pointerId);
+  if (had && e.type === "pointerup" && moved < 5 && ptrs.size === 0) { const id = pick(e); S.sel = id === S.sel ? null : id; paint(); } };
+canvas.addEventListener("pointerup", lift); canvas.addEventListener("pointercancel", lift);
+canvas.addEventListener("pointerleave", () => { if (S.hot) { S.hot = null; paint(); } });
+canvas.addEventListener("contextmenu", e => e.preventDefault());
+canvas.addEventListener("wheel", e => { e.preventDefault(); fly = null; zoom(Math.exp(e.deltaY * 0.0012)); }, { passive: false });
+function zoom(f) { cam.dist = Math.min(40, Math.max(0.02, cam.dist * f)); }
+const ray = new THREE.Raycaster();
+function pick(e) {
+  const r = canvas.getBoundingClientRect();
+  // A picture is picked by its square on the screen; the one in focus is on top.
+  const px = e.clientX - r.left, py = e.clientY - r.top, focus = S.hot || S.sel;
+  const on = legs.filter(l => l.box && px >= l.box.x0 && px <= l.box.x1 && py >= l.box.y0 && py <= l.box.y1);
+  if (on.length) return (on.find(l => l.a.id === focus) || on[0]).a.id;
+  ray.setFromCamera({ x: (e.clientX - r.left) / r.width * 2 - 1, y: -(e.clientY - r.top) / r.height * 2 + 1 }, camera);
+  const objs = []; legs.forEach(l => { if (l.shown) { objs.push(l.mesh); l.head.children.forEach(c => objs.push(c)); } });
+  const hit = ray.intersectObjects(objs, false)[0];
+  return hit ? hit.object.userData.id : null;
+}
+function hover(e) { const id = pick(e); if (id !== S.hot) { S.hot = id; paint(); } }
+
+// ---------- panel ----------
+function valueAt(leg, arr) {
+  if (!arr) return null;
+  const sh = leg.values.input_share, n = sh.length;
+  if (S.t < sh[0] - 1e-9) return null;
+  let k = 0; while (k < n - 1 && sh[k + 1] <= S.t + 1e-9) k++;
+  if (arr[k] === null) return NaN;
+  if (k >= n - 1) return arr[n - 1];
+  const d = sh[k + 1] - sh[k], f = d > 0 ? (S.t - sh[k]) / d : 0;
+  if (arr[k + 1] === null) return f > 1e-9 ? NaN : arr[k];
+  return arr[k] + (arr[k + 1] - arr[k]) * f;
+}
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+const fmt = v => Math.abs(v) >= 100 ? v.toFixed(0) : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(2);
+// Three significant figures, written out in full (no exponent); a missing value is never shown as 0.
+function sig3(v) {
+  if (v === null || v === undefined || typeof v !== "number" || !Number.isFinite(v)) return "not measured";
+  if (v === 0) return "0";
+  const r = +v.toPrecision(3); return r.toFixed(Math.max(0, 2 - Math.floor(Math.log10(Math.abs(r)))));
+}
+const inputTxt = v => v === null || v === undefined || !Number.isFinite(+v) ? "not measured" : String(+(+v).toPrecision(4));
+const withUnit = (txt, u) => u ? txt + " " + u : txt;
+const forceBox = { id: null, node: null };
+
+// The selected actuator against the task cone that is on.
+function coneLine(a, c) {
+  const t = taskOf(a, c);
+  let h = "<span><b>Task: " + esc(taskName(c)) + ".</b> ";
+  if (!Array.isArray(a.tasks)) return h + (a.hand_placed ? "Not tested: this entry is placed by hand." :
+    "Not tested: there is no task result for this actuator.") + "</span>";
+  if (!t) return h + "Not tested: there is no result for this task.</span>";
+  if (t.reason) return h + "Not tested: " + esc(t.reason) + "</span>";
+  h += t.enters ? "Enters the cone." : "Does not enter the cone.";
+  if (typeof t.least_angle_deg === "number")
+    h += " Least angle to its needed direction: " + t.least_angle_deg.toFixed(1) + "°.";
+  if (typeof t.off_drawn_direction_deg === "number" && t.off_drawn_direction_deg >= 1)
+    h += " Its needed direction is " + t.off_drawn_direction_deg.toFixed(1) + "° off the axis of the drawn cone.";
+  { const r = t.return_clear;
+    if (r && typeof r.passes === "boolean" && isNum(r.least_outward_reach_m)) h += " Second check, the return: " +
+      (r.passes ? "passes" : "does not pass") + "; its return path sits at least " + sig3(r.least_outward_reach_m * 1e3) +
+      " mm further out of the ball than its stroke path" + (r.stroke_line && r.stroke_line.held_input ? ", stroking with " +
+      esc(r.stroke_line.held_input) + " held at " + esc(inputTxt(r.stroke_line.held_at)) : "") + ".";
+    else if (r && r.reason) h += " Second check, the return: not tested (" + esc(r.reason) + ")."; }
+  h += "</span>";
+  if (!t.enters || !Array.isArray(t.legs)) return h;
+  h += "<table><tr><td colspan='2'>Within the cone's angle, at the measured levels:</td></tr>";
+  a.legs.forEach((leg, i) => { const tl = t.legs[i], r = tl && Array.isArray(tl.inside_input) ? tl.inside_input : [];
+    const u = leg.input.unit || "";
+    const txt = r.length ? r.map(x => x[0] === x[1] ? "at " + withUnit(inputTxt(x[0]), u) :
+      "from " + inputTxt(x[0]) + " to " + withUnit(inputTxt(x[1]), u)).join("; ") : "none";
+    h += "<tr><td>" + esc(a.legs.length > 1 ? leg.label : leg.input.name || "input") + "</td><td>" + esc(txt) + "</td></tr>"; });
+  return h + "</table>";
+}
+
+// With a stroke declared on the cone: whether the selected actuator's tip reaches the far end, at what input, and
+// whether it stays inside the cone all the way there; if it never does, how far along its needed direction it gets.
+function strokeLines(a, c) {
+  if (!c.stroke || !isNum(c.stroke.travel_m)) return "";
+  const t = taskOf(a, c);
+  if (!t || t.reason || !t.stroke || !Array.isArray(t.stroke.legs)) return "";   // the task line above says why
+  const g = t.stroke, mm = v => sig3(v * 1000) + " mm";
+  let h = "<span><b>Far end.</b> ";
+  if (g.reaches_end !== true) return h + "Does not reach the far end. Furthest travel along its needed direction: " +
+    mm(g.furthest_along_m) + (isNum(g.furthest_along_m) && g.furthest_along_m < 0 ?
+      " (below zero: the tip moves against the needed direction)" : "") +
+    "; one stroke of the wave is " + mm(c.stroke.travel_m) + ".</span>";
+  h += "Reaches the far end, one stroke of the wave (" + mm(c.stroke.travel_m) + " along its needed direction).</span><table>";
+  a.legs.forEach((leg, i) => { const sl = g.legs[i]; if (!sl) return;
+    const txt = sl.reaches_end !== true ? "does not reach the far end" :
+      "reaches it at " + withUnit(inputTxt(sl.end_input), leg.input.unit || "") + ", " + (sl.end_input_is || "") +
+      (sl.inside_to_end === true ? "; stays inside the cone all the way" : "; leaves the cone on the way");
+    h += "<tr><td>" + esc(a.legs.length > 1 ? leg.label : leg.input.name || "input") + "</td><td>" + esc(txt) + "</td></tr>"; });
+  return h + "</table>";
+}
+
+// The force with the tip held, drawn in the plane of the body axis (across) and the sideways y direction (up).
+function forceSvg(f, n) {
+  const W = 220, H = 150, R = 62, A = Array.isArray(f.axial_N) ? f.axial_N : null,
+        Sd = Array.isArray(f.sideways_size_N) ? f.sideways_size_N : null, V = f.direction_known && Array.isArray(f.vector_N) ? f.vector_N : null;
+  const num = v => typeof v === "number" && Number.isFinite(v);
+  const arrows = [], bars = [];        // in force units: arrows from the tip; bars are sideways sizes with unknown direction
+  for (let k = 0; k < n; k++) {
+    if (V) { const v = V[k]; if (v && num(v[0]) && num(v[1])) arrows.push({ k, x: v[0], y: v[1] }); }
+    else {
+      const ax = A && num(A[k]) ? A[k] : null, sd = Sd && num(Sd[k]) ? Sd[k] : null;
+      if (ax !== null) arrows.push({ k, x: ax, y: 0 });
+      if (sd !== null) bars.push({ k, x: ax !== null ? ax : 0, s: Math.abs(sd) });
+    }
+  }
+  if (!arrows.length && !bars.length) return "";
+  let big = 0; arrows.forEach(p => big = Math.max(big, Math.hypot(p.x, p.y)));
+  bars.forEach(b => big = Math.max(big, Math.abs(b.x), b.s));
+  const s = big > 0 ? R / big : 0, BODY = 40;
+  let x0 = -BODY, x1 = 0, y0 = 0, y1 = 0;
+  arrows.forEach(p => { x0 = Math.min(x0, p.x * s); x1 = Math.max(x1, p.x * s); y0 = Math.min(y0, -p.y * s); y1 = Math.max(y1, -p.y * s); });
+  bars.forEach(b => { x0 = Math.min(x0, b.x * s); x1 = Math.max(x1, b.x * s); y0 = Math.min(y0, -b.s * s); y1 = Math.max(y1, b.s * s); });
+  const ox = W / 2 - (x0 + x1) / 2, oy = (H - 12) / 2 - (y0 + y1) / 2, f1 = v => v.toFixed(1);
+  const op = k => n > 1 ? (k === n - 1 ? 1 : 0.15 + 0.45 * k / (n - 1)) : 1, wd = k => k === n - 1 ? 2 : 1.1;
+  let g = "<svg viewBox='0 0 " + W + " " + H + "' width='" + W + "' height='" + H + "' role='img' aria-label='Force at the held tip, each input level'>" +
+    "<line x1='0' y1='" + f1(oy) + "' x2='" + W + "' y2='" + f1(oy) + "' style='stroke:var(--grid)'/>" +
+    "<line x1='" + f1(ox) + "' y1='0' x2='" + f1(ox) + "' y2='" + H + "' style='stroke:var(--grid)'/>" +
+    "<text x='" + (W - 2) + "' y='" + f1(oy - 4) + "' text-anchor='end' font-size='9' style='fill:var(--muted)'>axial +</text>" +
+    "<text x='" + f1(ox + 4) + "' y='9' font-size='9' style='fill:var(--muted)'>" + (V ? "y +" : bars.length ? "sideways" : "") + "</text>" +
+    "<line x1='" + f1(ox - BODY) + "' y1='" + f1(oy) + "' x2='" + f1(ox) + "' y2='" + f1(oy) + "' stroke-width='4' stroke-linecap='round' style='stroke:var(--muted)'/>" +
+    "<text x='" + f1(ox - BODY / 2) + "' y='" + f1(oy + 14) + "' text-anchor='middle' font-size='9' style='fill:var(--muted)'>base → tip</text>" +
+    "<g style='color:var(--ink)'>";
+  bars.forEach(b => { const x = ox + b.x * s, ya = oy - b.s * s, yb = oy + b.s * s;
+    g += "<g opacity='" + op(b.k).toFixed(2) + "' stroke='currentColor' stroke-width='" + wd(b.k) + "'>" +
+      "<line x1='" + f1(x) + "' y1='" + f1(ya) + "' x2='" + f1(x) + "' y2='" + f1(yb) + "' stroke-dasharray='3 2'/>" +
+      "<line x1='" + f1(x - 3) + "' y1='" + f1(ya) + "' x2='" + f1(x + 3) + "' y2='" + f1(ya) + "'/>" +
+      "<line x1='" + f1(x - 3) + "' y1='" + f1(yb) + "' x2='" + f1(x + 3) + "' y2='" + f1(yb) + "'/></g>"; });
+  arrows.forEach(p => { const ex = ox + p.x * s, ey = oy - p.y * s, len = Math.hypot(ex - ox, ey - oy);
+    if (len < 1) { g += "<circle cx='" + f1(ox) + "' cy='" + f1(oy) + "' r='1.5' fill='currentColor' opacity='" + op(p.k).toFixed(2) + "'/>"; return; }
+    const ux = (ex - ox) / len, uy = (ey - oy) / len, hl = Math.min(7, len * 0.45), hw = hl * 0.45;
+    const bx = ex - ux * hl, by = ey - uy * hl;
+    g += "<g opacity='" + op(p.k).toFixed(2) + "'><line x1='" + f1(ox) + "' y1='" + f1(oy) + "' x2='" + f1(bx) + "' y2='" + f1(by) +
+      "' stroke='currentColor' stroke-width='" + wd(p.k) + "'/><polygon fill='currentColor' points='" + f1(ex) + "," + f1(ey) + " " +
+      f1(bx - uy * hw) + "," + f1(by + ux * hw) + " " + f1(bx + uy * hw) + "," + f1(by - ux * hw) + "'/></g>"; });
+  return g + "</g></svg>";
+}
+
+function forceHtml(a) {
+  const f = a.force;
+  let h = "<b>Force with the tip held</b>";
+  // A force left off the map (data/map_force_withheld.json): its reason stands where the force would have been.
+  if (f === null && a.force_withheld) return h + "<span class='small'>" + esc(a.force_withheld) + "</span>";
+  if (f === null) return h + "<span>No force with the tip held is in this record.</span>";
+  const inp = f.input || {}, IV = Array.isArray(inp.values) ? inp.values : [], names = inp.names || [], units = inp.units || [];
+  const n = IV.length || (Array.isArray(f.size_N) ? f.size_N.length : 0), top = n - 1;
+  const col = (arr, k) => Array.isArray(arr) ? sig3(arr[k]) : "not measured";
+  const V = f.direction_known && Array.isArray(f.vector_N) ? f.vector_N : null;
+  const hasA = Array.isArray(f.axial_N), hasS = Array.isArray(f.sideways_size_N);
+  const levelTxt = k => names.map((nm, c) => withUnit(inputTxt(IV[k] && IV[k][c]), units[c])).join(", ");
+  h += "<span class='small'>At the force test's own input levels, which are not the levels of the path above.</span>";
+  h += forceSvg(f, n);
+  if (V) {
+    h += "<span class='small'>Arrows: the force on the held tip, across along the body axis and up along y. " +
+      "Darkest: the top level; fainter: lower levels.</span>";
+    const zBig = V.filter(v => v && Math.abs(v[2]) > Math.abs(v[1])).length;
+    if (zBig) h += "<span class='small'>At " + (zBig === n ? "every level" : zBig + " of " + n + " levels") +
+      " the z part is larger than the y part drawn here, so the drawing understates the sideways force there. Both are in the table.</span>";
+  } else if (hasA && hasS) h += "<span class='small'>Arrows: the axial part, signed. Dashed bars: the size of the sideways part; " +
+    "its direction about the axis is not known. Darkest: the top level.</span>";
+  else if (hasA) h += "<span class='small'>Arrows: the axial part, signed. Darkest: the top level. Sideways part: not measured.</span>";
+  else if (hasS) h += "<span class='small'>Dashed bars: the size of the sideways part; its direction about the axis is not known. " +
+    "Darkest: the top level. Axial part: not measured.</span>";
+  // One row per level.
+  const whole = f.size_is === "whole force", off = Array.isArray(f.off_axis_deg);
+  // Beside the newtons: the same force over E·L² (E: the body's Young's modulus; L: its length), and the scaled input.
+  const sf = a.scaled && a.scaled.force ? a.scaled.force : null, sr = sf && sf.reasons ? sf.reasons : {};
+  const anyNum = arr => Array.isArray(arr) && arr.some(v => typeof v === "number" && Number.isFinite(v));
+  const sA = sf && anyNum(sf.axial_scaled) ? sf.axial_scaled : null, sS = sf && anyNum(sf.sideways_scaled) ? sf.sideways_scaled : null;
+  const sW = sf && whole && anyNum(sf.size_scaled) ? sf.size_scaled : null, sI = sf && Array.isArray(sf.input_scaled) ? sf.input_scaled : null;
+  const sIn = sI && names.some((nm, c) => sI.some(r => Array.isArray(r) && isNum(r[c])));
+  let t = "<div class='fscroll'><table><tr>" + names.map((nm, c) => "<th>" + esc(withUnit(nm, units[c] ? "(" + units[c] + ")" : "")) + "</th>").join("") +
+    "<th>Axial, N</th><th>Sideways size, N</th>" + (V ? "<th>y, N</th><th>z, N</th>" : "") +
+    (whole ? "<th>Whole size, N</th>" : "") + (off ? "<th>Off the axis, °</th>" : "") +
+    (sIn ? names.map(nm => "<th>" + esc(nm) + ", scaled</th>").join("") : "") +
+    (sA ? "<th>Axial ÷ E·L²</th>" : "") + (sS ? "<th>Sideways size ÷ E·L²</th>" : "") + (sW ? "<th>Whole size ÷ E·L²</th>" : "") + "</tr>";
+  for (let k = 0; k < n; k++) {
+    t += "<tr>" + names.map((nm, c) => "<td>" + esc(inputTxt(IV[k] && IV[k][c])) + "</td>").join("") +
+      "<td>" + col(f.axial_N, k) + "</td><td>" + col(f.sideways_size_N, k) + "</td>" +
+      (V ? "<td>" + (V[k] ? sig3(V[k][1]) : "not measured") + "</td><td>" + (V[k] ? sig3(V[k][2]) : "not measured") + "</td>" : "") +
+      (whole ? "<td>" + col(f.size_N, k) + "</td>" : "") + (off ? "<td>" + col(f.off_axis_deg, k) + "</td>" : "") +
+      (sIn ? names.map((nm, c) => "<td>" + (Array.isArray(sI[k]) && isNum(sI[k][c]) ? sig3(sI[k][c]) : "not formed") + "</td>").join("") : "") +
+      (sA ? "<td>" + col(sA, k) + "</td>" : "") + (sS ? "<td>" + col(sS, k) + "</td>" : "") + (sW ? "<td>" + col(sW, k) + "</td>" : "") + "</tr>";
+  }
+  h += t + "</table></div>";
+  if (sA || sS || sW) {
+    const st = a.scaled.stiffness || {}, L0 = a.length && a.length.value_m;
+    h += "<span class='small'>Columns marked ÷ E·L²: the force over the body's Young's modulus" +
+      (isNum(st.modulus_Pa) ? " (" + esc(sig3(st.modulus_Pa)) + " Pa)" : "") + " times its length squared" +
+      (isNum(L0) ? " (" + esc(sig3(L0 * 1000)) + " mm)" : "") + ", a pure number that takes size and material out." +
+      (sIn ? " The scaled input is formed by the same rule as on the map." : "") + "</span>";
+    // The pressure correction, said here too, as the table shows on every axis set.
+    if (sIn) Object.keys(SC.pressure_scale || {}).forEach(key => { const p = SC.pressure_scale[key];
+      if (!isNum(p.dt_s) || !(p.dt_s > 0) || !(p.applies_to || []).includes(a.id)) return;
+      const k = +(1 / p.dt_s).toPrecision(6);
+      h += "<span class='small'>" + esc("Its scaled input includes a factor of " + k + " (one over the scene's time step of " + p.dt_s +
+        " s), because the scene takes its pressure as an impulse over one step. " + (p.ruled === true ? "" :
+        "The project owner has not yet ruled on this correction; without it, the scaled input would be " + k + " times smaller. ") +
+        "The force over E·L² does not use it.") + "</span>";
+    });
+  } else {
+    const why = sr.size_scaled || sr.axial_scaled || sr.sideways_scaled || (a.scaled && a.scaled.stiffness && a.scaled.stiffness.reason);
+    h += "<span class='small'>Force over E·L² (E: the body's Young's modulus; L: its length): not formed. " +
+      esc(why || "No scaled force is in the export for this actuator.") + "</span>";
+  }
+  if (n > 0 && (Array.isArray(f.moment_Nm) || Array.isArray(f.twist_tip_Nm) || (f.to_task || []).length))
+    h += "<span>Top level: the last row, at " + esc(levelTxt(top)) + ".</span>";
+  if (Array.isArray(f.moment_Nm) && Array.isArray(f.moment_Nm[top]))
+    h += "<span>Moment about the inlet, top level: " + ["x", "y", "z"].map((c, i) => c + " " + sig3(f.moment_Nm[top][i])).join(", ") + " N·m</span>";
+  if (Array.isArray(f.twist_tip_Nm))
+    h += "<span>Twist at the tip, top level: " + withUnit(sig3(f.twist_tip_Nm[top]), typeof f.twist_tip_Nm[top] === "number" ? "N·m" : "") + "</span>";
+  // the angle between this force and a task's needed direction is not shown: the placement sets it to a right angle
+  if (f.method) h += "<span class='small'>How it was held: " + esc(f.method) + "</span>";
+  if (f.moment_method) h += "<span class='small'>How the moment was found: " + esc(f.moment_method) + "</span>";
+  const far = CONES.some(c => c && c.stroke) ? " Force with the tip held at the end of a stroke is not stored in the records yet." : "";
+  if (DATA.force_note) h += "<details><summary>About the force data</summary><p>" + esc(DATA.force_note + far) + "</p></details>";
+  else if (far) h += "<span class='small'>" + esc(far.trim()) + "</span>";
+  return h;
+}
+
+// With a task on that declares a push: what the selected actuator can push along its placed direction, and where it
+// meets the need. Only the size is compared; the placement points each finger's push into the ball.
+const isNum = v => typeof v === "number" && Number.isFinite(v);
+function pushLines(a, c) {
+  if (!c.push) return "";
+  const t = taskOf(a, c);
+  if (!t || t.reason) return "";                 // the task line above already says it is not tested
+  const p = t.push;
+  if (!p) return "<span><b>Push.</b> Not tested: " + (a.force_withheld ? "its force with the tip held is left off the map, for the " +
+    "reason given under Force with the tip held." : a.force ? "no push is stored for this actuator." :
+    "the record holds no force with the tip held.") + "</span>";
+  const inp = p.input || {}, IV = Array.isArray(inp.values) ? inp.values : [], names = inp.names || [], units = inp.units || [];
+  const at = row => Array.isArray(row) ? names.map((nm, i) => (names.length > 1 ? (nm || "input") + " " : "") +
+    withUnit(inputTxt(row[i]), units[i])).join(", ") : withUnit(inputTxt(row), units[0]);
+  const need = isNum(p.needed_N) ? p.needed_N : c.push.needed_N;
+  const needTxt = isNum(need) ? "The task needs " + sig3(need) + " N from each finger." :
+    "The needed push has no value here" + (p.reason ? " (" + p.reason + ")" : "") + ".";
+  let h = "<span><b>Push.</b> ";
+  const av = Array.isArray(p.available_N) ? p.available_N : null;
+  if (p.direction_known && av && av.length) {
+    const k = av.length - 1;
+    h += esc("Push it can make along its placed direction: " + sig3(av[k]) + " N" +
+      (IV.length === av.length ? " at " + at(IV[k]) : "") + " (the last level stored with the tip held). " + needTxt +
+      (Array.isArray(p.ratio) && isNum(p.ratio[k]) ? " Ratio " + sig3(p.ratio[k]) + "." : ""));
+  } else {
+    const so = Array.isArray(p.size_only_ratio) ? p.size_only_ratio : null, k = so ? so.length - 1 : -1;
+    h += esc("Push along its placed direction: direction not stored" +
+      (k >= 0 && isNum(so[k]) ? "; by size alone the ratio is " + sig3(so[k]) + " (the last level stored with the tip held" +
+        (IV.length === so.length ? ", at " + at(IV[k]) : "") + ")" : "") + ". " + needTxt);
+  }
+  h += "</span>";
+  const same = (x, y) => JSON.stringify(x) === JSON.stringify(y);
+  const runs = r => r.length ? r.map(x => same(x[0], x[1]) ? "at " + at(x[0]) : "from " + at(x[0]) + " to " + at(x[1])).join("; ") + "."
+    : "no measured level.";
+  h += "<span>" + esc("Meets the push at: " + (Array.isArray(p.meets_input) ? runs(p.meets_input) :
+    "not tested, as the direction of the force is not stored.")) + "</span>";
+  h += "<span>" + esc("Meets position and push together at: " + (Array.isArray(p.both_input) ? runs(p.both_input) :
+    p.both_reason || "not tested.")) + "</span>";
+  const st = pushState(a);
+  if (st && st.short) h += "<span class='warn'>" + esc("Cannot be told: the force with the tip held is measured only up to " +
+    withUnit(inputTxt(st.forceTop), units[0]) + (st.stroke ? ", but its tip reaches the end of one stroke only at " : ", but the actuator is inside the cone up to ") + withUnit(inputTxt(st.coneEnd), units[0]) +
+    ". No value is carried beyond the measured levels.") + "</span>";
+  const ax = a.force && Array.isArray(a.force.axial_N) ? a.force.axial_N : null;
+  if (ax && isNum(ax[ax.length - 1]) && ax[ax.length - 1] < 0) h += "<span>" + esc("It pulls rather than pushes: the placement " +
+    "turns it round so that its pull acts into the ball.") + "</span>";
+  return h;
+}
+
+// ---------- force plot ----------
+// Each actuator's force with the tip held, one point per measured level. Angle: how far the force points off the
+// body axis (0° along it, base to tip, at the right; 90° sideways, at the top; 180° back towards the base, at the left).
+// Distance from the centre: its size, on a log scale whose limits come from the data.
+// mode "N": sizes in newtons; mode "scaled": the same sizes over E·L² (E: the body's Young's modulus; L: its length).
+const plot = { svg: null, layer: null, arc: null, groups: [], lo: 0, hi: 1, cone: undefined, mode: "N" };
+const fScaled = () => plot.mode === "scaled";
+const FP = { cx: 200, cy: 206, R: 180 };
+const SVGNS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs, parent) {
+  const e = document.createElementNS(SVGNS, tag);
+  Object.keys(attrs || {}).forEach(k => e.setAttribute(k, attrs[k]));
+  if (parent) parent.appendChild(e); return e;
+}
+// The drawable levels of one actuator, split into runs wherever an input steps back down (an actuator with
+// more than one input has one run per sweep). Levels with no size, a zero size or no angle are left out.
+function plotPoints(a) {
+  const f = a.force; if (!f || !Array.isArray(f.size_N)) return null;
+  // Scaled mode: the size over E·L², from the export; the angle is unchanged, as one positive factor divides every part.
+  const sf = a.scaled && a.scaled.force, SZ = fScaled() ? (sf && Array.isArray(sf.size_scaled) ? sf.size_scaled : null) : f.size_N;
+  if (!SZ) return null;
+  const IV = f.input && Array.isArray(f.input.values) ? f.input.values : [];
+  const off = Array.isArray(f.off_axis_deg) ? f.off_axis_deg : null;
+  const side = !off && f.size_is === "sideways part only", ax = Array.isArray(f.axial_N) ? f.axial_N : null;
+  const runs = []; let run = null;
+  SZ.forEach((s, k) => {
+    const prev = IV[k - 1], row = IV[k];
+    if (!run || (Array.isArray(prev) && Array.isArray(row) && row.some((x, c) => x < prev[c]))) { run = []; runs.push(run); }
+    // Axial part only: on the 0° or 180° line by its sign. Sideways part only: at 90°, its direction not known.
+    const deg = off ? off[k] : side ? 90 : ax && isNum(ax[k]) ? (ax[k] < 0 ? 180 : 0) : null;
+    if (isNum(s) && s > 0 && isNum(deg)) run.push({ k, s, deg });
+  });
+  const kept = runs.filter(r => r.length);
+  return kept.length ? { runs: kept, hollow: side } : null;
+}
+// Sizes outside the drawn range are pinned to its nearest edge; the centre is kept open so the angle stays readable.
+const fpR = s => FP.R * (0.1 + 0.9 * Math.min(1, Math.max(0, (Math.log10(s) - plot.lo) / (plot.hi - plot.lo))));
+const fpXY = (s, deg) => { const r = fpR(s), t = deg * Math.PI / 180; return [FP.cx + r * Math.cos(t), FP.cy - r * Math.sin(t)]; };
+const f1 = v => v.toFixed(1);
+const decTxt = e => (e >= 0 ? String(Math.pow(10, e)) : e >= -4 ? Math.pow(10, e).toFixed(-e) : "1e" + e) + (fScaled() ? "" : " N");
+function plotBuild() {
+  const svg = $("fsvg"); svg.innerHTML = ""; plot.svg = svg; plot.groups = [];
+  const drawn = [], absent = [], noE = [];
+  ACTS.forEach(a => { const p = plotPoints(a); if (p) drawn.push({ a, p });
+    else if (fScaled() && a.force && Array.isArray(a.force.size_N)) noE.push(a); else absent.push(a); });
+  let lo = Infinity, hi = -Infinity;
+  const take = s => { if (isNum(s) && s > 0) { lo = Math.min(lo, s); hi = Math.max(hi, s); } };
+  drawn.forEach(d => d.p.runs.forEach(r => r.forEach(q => take(q.s))));
+  // The needed push is in newtons, so it sets the scale only in newtons.
+  if (!fScaled()) CONES.forEach(c => take(c.push && c.push.needed_N));
+  if (!drawn.length) { $("fpart").hidden = true; asideUI(); return; }
+  $("fpart").hidden = false; asideUI();
+  plot.lo = Math.floor(Math.log10(lo)); plot.hi = Math.ceil(Math.log10(hi)); if (plot.hi <= plot.lo) plot.hi = plot.lo + 1;
+  // With a needed push declared, draw the decades around it (one whole decade below, two above), so the comparison
+  // fills the plot and one very large or very small record does not set the scale.
+  const need = fScaled() ? null : CONES.map(c => c.push && c.push.needed_N).find(v => isNum(v) && v > 0);
+  if (need) { plot.lo = Math.max(plot.lo, Math.floor(Math.log10(need)) - 1); plot.hi = Math.min(plot.hi, Math.ceil(Math.log10(need)) + 2); }
+  const loN = Math.pow(10, plot.lo), hiN = Math.pow(10, plot.hi);
+  const over = drawn.filter(d => d.p.runs.some(r => r.some(q => q.s > hiN))).length;
+  const under = drawn.filter(d => d.p.runs.some(r => r.some(q => q.s < loN))).length;
+  const { cx, cy, R } = FP;
+  svg.setAttribute("viewBox", "0 0 400 240");
+  const grid = svgEl("g", {}, svg);
+  for (let e = plot.lo + 1; e <= plot.hi; e++) { const r = fpR(Math.pow(10, e));
+    svgEl("path", { class: "rg", d: "M" + f1(cx - r) + " " + cy + " A" + f1(r) + " " + f1(r) + " 0 0 1 " + f1(cx + r) + " " + cy }, grid); }
+  svgEl("line", { class: "rg", x1: cx - R, y1: cy, x2: cx + R, y2: cy }, grid);
+  svgEl("line", { class: "rg", x1: cx, y1: cy, x2: cx, y2: cy - R }, grid);
+  for (let e = plot.lo; e <= plot.hi; e++) {
+    const t = svgEl("text", { x: cx - 4, y: f1(cy - fpR(Math.pow(10, e)) - 2), "text-anchor": "end" }, grid); t.textContent = decTxt(e); }
+  const lab = (x, y, anchor, text) => { const t = svgEl("text", { x, y, "text-anchor": anchor }, grid); t.textContent = text; };
+  lab(cx + R, cy + 13, "end", "0°: along the axis, base to tip");
+  lab(cx - R, cy + 13, "start", "180°: back towards the base");
+  lab(cx + 4, cy - R + 10, "start", "90°: sideways");
+  plot.arc = svgEl("g", {}, svg);
+  plot.layer = svgEl("g", {}, svg);
+  drawn.forEach(({ a, p }) => {
+    const g = svgEl("g", { class: "fa", "data-id": a.id, style: "color:var(--ph-" + a.physics + ", var(--ph-other))" }, plot.layer);
+    svgEl("title", {}, g).textContent = shownName(a) !== a.id ? shownName(a) + " (" + a.id + ")" : a.id;
+    const dash = styleOf(a) === "dash" ? "5 3" : styleOf(a) === "dot" ? "1.5 2.5" : null, dots = [];
+    p.runs.forEach(r => {
+      const xy = r.map(q => fpXY(q.s, q.deg)), pts = xy.map(v => f1(v[0]) + "," + f1(v[1])).join(" ");
+      if (r.length > 1) { svgEl("polyline", { class: "hit", points: pts }, g);
+        const ln = svgEl("polyline", { class: "ln", points: pts }, g); if (dash) ln.setAttribute("stroke-dasharray", dash); }
+      const top = xy[xy.length - 1];
+      svgEl("circle", { class: "hit", cx: f1(top[0]), cy: f1(top[1]), r: 7 }, g);
+      dots.push(svgEl("circle", { class: "dt" + (p.hollow ? " hollow" : ""), cx: f1(top[0]), cy: f1(top[1]), r: 3.2 }, g));
+    });
+    g.addEventListener("mouseenter", () => { S.hot = a.id; paint(); });
+    g.addEventListener("mouseleave", () => { if (S.hot === a.id) { S.hot = null; paint(); } });
+    g.addEventListener("click", () => { S.sel = S.sel === a.id ? null : a.id; paint(); });
+    plot.groups.push({ a, g, dots });
+  });
+  let cap = "Angle: how far the force with the tip held points off the body axis. Distance from the centre: its size" +
+    (fScaled() ? " over E·L² (E: the body's Young's modulus; L: its length), a pure number," : ",") +
+    " on a log scale, each ring ten times the last. One line per actuator through its measured levels, in its map colour, " +
+    "with a dot at the top level.";
+  if (drawn.some(d => d.p.runs.length > 1)) cap += " An actuator with more than one input has one line per sweep of its inputs, each with a dot at its top.";
+  if (drawn.some(d => !Array.isArray(d.a.force.off_axis_deg) && !d.p.hollow))
+    cap += " Records that hold only the axial part sit on the 0° or 180° line, by its sign.";
+  if (drawn.some(d => d.p.hollow)) cap += " Hollow dots: only the size of the sideways part is stored, so the line is put at 90°; its direction is not known.";
+  if (over || under) cap += " The plot shows " + decTxt(plot.lo) + " to " + decTxt(plot.hi) + ". Levels outside that are pinned to the edge: " +
+    over + " actuator" + (over === 1 ? "" : "s") + " above, " + under + " with levels below.";
+  const held = absent.filter(a => a.force_withheld), none = absent.length - held.length;
+  cap += none ? " Not drawn: " + none + " of " + ACTS.length + " actuators, which hold no force with the tip held." :
+    noE.length || held.length ? "" : " Every actuator is drawn.";
+  if (held.length) cap += " Not drawn: " + held.length + " actuator" + (held.length === 1 ? " whose" : "s whose") +
+    " force with the tip held is left off the map; " + (held.length === 1 ? "its" : "each") + " card says why.";
+  if (noE.length) cap += " Not drawn in scaled terms: " + noE.length + " actuator" + (noE.length === 1 ? "" : "s") +
+    " with a force with the tip held but no Young's modulus for the body, so the force over E·L² is not formed. Their newtons are on the other setting.";
+  cap += " Simulation and published records, read with the tip held at rest: comparative, not predictive.";
+  $("fcap").textContent = cap;
+}
+function plotPaint() {
+  if (!plot.svg || !plot.layer) return;
+  const focus = S.hot || S.sel, c = coneOn(), push = c && c.push ? c.push : null;
+  plot.groups.forEach(({ a, g, dots }) => {
+    // The same fading as the 3D view: others fade while one is in focus; with a push declared, those that never meet it fade.
+    const op = Math.min(focus && a.id !== focus ? 0.14 : 1, push && a.id !== focus ? (st => st === "meets" ? 1 : st === "below" ? 0.22 : 0.6)(pushState(a)) : 1);
+    g.setAttribute("opacity", op); g.classList.toggle("on", a.id === focus);
+    dots.forEach(d => d.setAttribute("r", a.id === focus ? 4.6 : 3.2));
+  });
+  const f = plot.groups.find(x => x.a.id === focus);
+  if (f && f.g !== plot.layer.lastChild) plot.layer.appendChild(f.g);
+  if (plot.cone === c) return;
+  plot.cone = c; plot.arc.innerHTML = "";
+  const note = $("fnote"); note.innerHTML = ""; note.hidden = !push;
+  if (!push) return;
+  const para = text => { const e = document.createElement("p"); e.textContent = text; note.appendChild(e); return e; };
+  const { cx, cy } = FP;
+  if (fScaled()) para("The needed push is in newtons, so it is not drawn on the scaled size. Set the size to newtons to see it.");
+  else if (isNum(push.needed_N) && push.needed_N > 0) {
+    const r = fpR(push.needed_N);
+    svgEl("path", { class: "need", d: "M" + f1(cx - r) + " " + cy + " A" + f1(r) + " " + f1(r) + " 0 0 1 " + f1(cx + r) + " " + cy }, plot.arc);
+    // The label sits under the baseline, clear of the 90° line and the ring labels.
+    svgEl("text", { class: "needt", x: cx, y: cy + 28, "text-anchor": "middle" }, plot.arc).textContent =
+      "Dashed arc: " + sig3(push.needed_N) + " N needed along the placed push direction";
+    para("Task: " + taskName(c) + ". The arc is the push each finger must make along its placed push direction " +
+      "for the hand to hold the ball: " + sig3(push.needed_N) + " N.");
+  } else para("Task: " + taskName(c) + ". The needed push has no value for this placement" +
+    (push.reason ? " (" + push.reason + ")" : "") + ".");
+  para("Bright: actuators whose force with the tip held, taken along their placed push direction, reaches the needed push at one or " +
+    "more measured levels. That part can be smaller than the whole size drawn here. Faded: below it at every measured level. " +
+    "Half faded: cannot be told, because the direction of the force is not stored, or because the force was measured " +
+    "only at low inputs, below those at which the actuator is inside the cone.");
+  para("An actuator near 180° pulls rather than pushes. The placement turns it round so that its pull acts into the ball, " +
+    "so a puller can meet the push. The hold solve calls this strength comparative; the pass mark here is our reading of it.");
+  para("The angle is not tested: the placement points each finger's push into the ball, so only the size is compared. " +
+    "The forces are read with the tip held at rest, and the hold is a simulated solve: comparative, not predictive.");
+  if (c.stroke) para("Force with the tip held at the end of a stroke is not stored in the records yet.");
+  if (push.basis) { const d = document.createElement("details"), s = document.createElement("summary");
+    s.textContent = "How the needed push is worked out"; d.appendChild(s);
+    const t = document.createElement("p"); t.textContent = push.basis; d.appendChild(t); note.appendChild(d); }
+}
+
+// ---------- task view ----------
+// With a task cone on: each actuator's tip path, turned so that its own needed direction lies along the horizontal
+// axis. Along: the tip position from rest dotted with the needed direction ("along_m"). Across: the size of the part
+// at right angles to it ("across_m"), never below zero. One scale on both axes, so the angle seen from the origin is
+// the true angle to the needed direction. Every measured level is drawn, whatever the input slider says.
+const tv = { layer: null, labs: null, groups: [], whole: false, H: 0 };
+const TV = { W: 400, ML: 36, MR: 12, MT: 18, MB: 32 };
+// The aside is hidden only when neither the task view nor the force plot has anything to show.
+function asideUI() { $("fplot").hidden = $("fpart").hidden && $("tview").hidden; }
+// Per leg: along and across at each level. From the export where it holds them; otherwise worked out here from the
+// tip position and the needed direction in the same way (dot product, and the size of the cross product).
+function tvLegs(a, t) {
+  const sk = t.stroke && Array.isArray(t.stroke.legs) ? t.stroke.legs : null;
+  const e = Array.isArray(t.needed_direction) && t.needed_direction.length === 3 && t.needed_direction.every(isNum) ? t.needed_direction : null;
+  const n = e ? Math.hypot(e[0], e[1], e[2]) : 0;
+  const out = [];
+  a.legs.forEach((leg, li) => {
+    const g = sk ? sk[li] : null;
+    if (g && Array.isArray(g.along_m) && Array.isArray(g.across_m) && g.across_m.length === g.along_m.length) {
+      out.push({ leg, li, g, along: g.along_m, across: g.across_m }); return; }
+    const v = leg.values, X = v.axial_m, Y = v.side_y_m, Z = v.side_z_m;
+    if (!(n > 0) || !Array.isArray(X) || !Array.isArray(Y) || !Array.isArray(Z)) return;
+    const u = e.map(c => c / n), along = [], across = [];
+    X.forEach((x, k) => { const y = Y[k], z = Z[k];
+      if (!isNum(x) || !isNum(y) || !isNum(z)) { along.push(null); across.push(null); return; }
+      along.push(x * u[0] + y * u[1] + z * u[2]);
+      across.push(Math.hypot(y * u[2] - z * u[1], z * u[0] - x * u[2], x * u[1] - y * u[0])); });
+    out.push({ leg, li, g: g || null, along, across });
+  });
+  return out;
+}
+// The part of the segment p→q inside the window, as [t0, t1] along it, or null (Liang and Barsky's clipping).
+function tvClip(p, q, w) {
+  let t0 = 0, t1 = 1; const dx = q[0] - p[0], dy = q[1] - p[1];
+  const P = [-dx, dx, -dy, dy], R = [p[0] - w.x0, w.x1 - p[0], p[1] - w.y0, w.y1 - p[1]];
+  for (let i = 0; i < 4; i++) {
+    if (P[i] === 0) { if (R[i] < 0) return null; continue; }
+    const r = R[i] / P[i];
+    if (P[i] < 0) { if (r > t1) return null; if (r > t0) t0 = r; } else { if (r < t0) return null; if (r < t1) t1 = r; }
+  }
+  return [t0, t1];
+}
+function tvBuild() {
+  const c = coneOn(), box = $("tview");
+  const th = c && isNum(c.half_angle_deg) ? c.half_angle_deg * Math.PI / 180 : null;
+  box.hidden = !c || !(th > 0 && th < Math.PI / 2);
+  asideUI();
+  const svg = $("tsvg"); svg.innerHTML = ""; tv.layer = tv.labs = null; tv.groups = [];
+  if (box.hidden) return;
+  const travel = c.stroke && isNum(c.stroke.travel_m) && c.stroke.travel_m > 0 ? c.stroke.travel_m : null;
+  const items = [];
+  ACTS.forEach(a => { if (!placeable(a)) return; const t = taskOf(a, c); if (!t || t.reason) return;
+    const ls = tvLegs(a, t); if (!ls.length) return;
+    ls.forEach(l => { l.pts = l.along.map((s, k) => isNum(s) && isNum(l.across[k]) ? [s, l.across[k]] : null); });
+    const passes = !!travel && ls.some(l => l.g && l.g.reaches_end === true && l.g.inside_to_end === true);
+    items.push({ a, t, ls, passes }); });
+  // The window. Default: from a quarter of one stroke behind the origin to one and a half strokes along, and the same
+  // vertically: from a quarter of a stroke below the axis (across is never below zero, so that band holds only marks
+  // and names) to one and a half strokes above it. With no stroke,
+  // the furthest any tip gets along its needed direction stands in for the stroke. "Show whole paths" fits everything.
+  let far = 0, big = 0;
+  items.forEach(x => x.ls.forEach(l => l.pts.forEach(p => { if (p) { far = Math.max(far, p[0]); big = Math.max(big, Math.abs(p[0]), p[1]); } })));
+  const s = travel || (far > 0 ? far : big > 0 ? big : 0.01);
+  let w;
+  if (tv.whole) {
+    const b = { x0: 0, x1: travel || 0, y0: 0, y1: travel ? travel * Math.tan(th) : 0 };
+    items.forEach(x => x.ls.forEach(l => l.pts.forEach(p => { if (!p) return;
+      b.x0 = Math.min(b.x0, p[0]); b.x1 = Math.max(b.x1, p[0]); b.y1 = Math.max(b.y1, p[1]); })));
+    const pad = 0.05 * Math.max(b.x1 - b.x0, b.y1 - b.y0, 1e-6);
+    w = { x0: b.x0 - pad, x1: b.x1 + pad, y0: b.y0 - pad, y1: b.y1 + pad };
+  } else w = { x0: -0.25 * s, x1: 1.5 * s, y0: -0.25 * s, y1: 1.5 * s };
+  // One scale on both axes. A window far taller or wider than the plot is widened the other way, never squashed.
+  const PW = TV.W - TV.ML - TV.MR;
+  if ((w.y1 - w.y0) > 1.3 * (w.x1 - w.x0)) { const add = (w.y1 - w.y0) / 1.3 - (w.x1 - w.x0); w.x1 += add; }
+  if ((w.y1 - w.y0) < 0.45 * (w.x1 - w.x0)) { w.y1 = w.y0 + 0.45 * (w.x1 - w.x0); }
+  const k = PW / (w.x1 - w.x0), PH = (w.y1 - w.y0) * k, H = TV.MT + PH + TV.MB; tv.H = H;
+  const X = x => TV.ML + (x - w.x0) * k, Y = y => TV.MT + (w.y1 - y) * k, xy = p => f1(X(p[0])) + "," + f1(Y(p[1]));
+  const inW = p => p[0] >= w.x0 && p[0] <= w.x1 && p[1] >= w.y0 && p[1] <= w.y1;
+  svg.setAttribute("viewBox", "0 0 " + TV.W + " " + f1(H));
+  // grid and ticks, in mm, one step on both axes
+  const grid = svgEl("g", {}, svg), mm = 1000;
+  const raw = Math.max(w.x1 - w.x0, w.y1 - w.y0) * mm / 6, mag = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / mag;
+  const step = (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * mag;
+  const tick = v => String(+v.toFixed(6));
+  for (let v = Math.ceil(w.x0 * mm / step) * step; v <= w.x1 * mm + 1e-9; v += step) { const x = X(v / mm);
+    svgEl("line", { class: Math.abs(v) < step / 2 ? "ax0" : "rg", x1: f1(x), y1: TV.MT, x2: f1(x), y2: f1(TV.MT + PH) }, grid);
+    svgEl("text", { x: f1(x), y: f1(TV.MT + PH + 12), "text-anchor": "middle" }, grid).textContent = tick(Math.abs(v) < step / 2 ? 0 : v); }
+  for (let v = Math.ceil(w.y0 * mm / step) * step; v <= w.y1 * mm + 1e-9; v += step) { const y = Y(v / mm);
+    svgEl("line", { class: Math.abs(v) < step / 2 ? "ax0" : "rg", x1: TV.ML, y1: f1(y), x2: TV.W - TV.MR, y2: f1(y) }, grid);
+    svgEl("text", { x: TV.ML - 4, y: f1(y + 3.5), "text-anchor": "end" }, grid).textContent = tick(Math.abs(v) < step / 2 ? 0 : v); }
+  svgEl("text", { class: "keep", x: TV.W - TV.MR, y: f1(TV.MT + PH + 26), "text-anchor": "end" }, grid).textContent = "along its own needed direction, mm";
+  svgEl("text", { class: "keep", x: TV.ML, y: TV.MT - 6, "text-anchor": "start" }, grid).textContent = "across it, mm";
+  // the wedge: the cone's half-angle in the upper half, closed at one stroke; past one stroke the same angle, dashed
+  const clip = svgEl("clipPath", { id: "tvclip" }, svgEl("defs", {}, svg));
+  svgEl("rect", { x: TV.ML, y: TV.MT, width: f1(PW), height: f1(PH) }, clip);
+  const wg = svgEl("g", { "clip-path": "url(#tvclip)" }, svg), tn = Math.tan(th);
+  const reach = 4 * Math.max(Math.abs(w.x1), Math.abs(w.x0), w.y1, s);
+  if (travel) {
+    svgEl("polygon", { class: "wedge", points: [[0, 0], [travel, 0], [travel, travel * tn]].map(xy).join(" ") }, wg);
+    svgEl("polyline", { class: "wedge-e", points: [[0, 0], [travel, travel * tn]].map(xy).join(" ") }, wg);
+    svgEl("polyline", { class: "wedge-e past", points: [[travel, travel * tn], [reach, reach * tn]].map(xy).join(" ") }, wg);
+    svgEl("line", { class: "end", x1: f1(X(travel)), y1: f1(Y(0)), x2: f1(X(travel)), y2: f1(Y(travel * tn)) }, wg);
+  } else {
+    svgEl("polygon", { class: "wedge", points: [[0, 0], [reach, 0], [reach, reach * tn]].map(xy).join(" ") }, wg);
+    svgEl("polyline", { class: "wedge-e", points: [[0, 0], [reach, reach * tn]].map(xy).join(" ") }, wg);
+  }
+  if (travel && inW([travel, travel * tn]))
+    svgEl("text", { class: "endt keep", x: f1(X(travel)), y: f1(Y(travel * tn) - 5), "text-anchor": "middle" }, svg).textContent =
+      "one stroke, " + sig3(travel * 1000) + " mm";
+  // the paths
+  tv.layer = svgEl("g", {}, svg);
+  let cut = 0, farOut = 0;
+  const exitMark = (g, at, d) => {           // a small triangle in the margin, pointing the way the path goes on
+    const L = Math.hypot(d[0], d[1]) || 1, ux = d[0] / L, uy = -d[1] / L, x = X(at[0]), y = Y(at[1]);
+    const tip = [x + ux * 8, y + uy * 8], b = [x + ux * 1.5, y + uy * 1.5];
+    svgEl("polygon", { class: "exit", points: [tip, [b[0] - uy * 3.5, b[1] + ux * 3.5], [b[0] + uy * 3.5, b[1] - ux * 3.5]]
+      .map(p => f1(p[0]) + "," + f1(p[1])).join(" ") }, g); };
+  const pushMark = (g, p, a) => {
+    const x = f1(X(p[0])), y = f1(Y(p[1]));
+    if (!c.push) { svgEl("circle", { class: "pm", cx: x, cy: y, r: 2.6 }, g); return; }
+    const st = pushState(a);
+    if (hasBoth(a)) { svgEl("circle", { class: "pm", cx: x, cy: y, r: 3 }, g); svgEl("circle", { class: "pm ring", cx: x, cy: y, r: 6 }, g); }
+    else if (st === "meets") svgEl("circle", { class: "pm", cx: x, cy: y, r: 3.6 }, g);
+    else if (st === "below") svgEl("circle", { class: "pm below", cx: x, cy: y, r: 3.6 }, g);
+    else if (st) svgEl("circle", { class: "pm unknown", cx: x, cy: y, r: 3.9 }, g);   // unknown, or measured too low to tell
+    else { const X0 = X(p[0]), Y0 = Y(p[1]), r = 3.2;
+      svgEl("path", { class: "pm none", d: "M" + f1(X0 - r) + " " + f1(Y0 - r) + "L" + f1(X0 + r) + " " + f1(Y0 + r) +
+        "M" + f1(X0 - r) + " " + f1(Y0 + r) + "L" + f1(X0 + r) + " " + f1(Y0 - r) }, g); }
+  };
+  items.forEach(x => {
+    const { a } = x, g = svgEl("g", { class: "ta", "data-id": a.id, style: "color:var(--ph-" + a.physics + ", var(--ph-other))" }, tv.layer);
+    svgEl("title", {}, g).textContent = shownName(a) !== a.id ? shownName(a) + " (" + a.id + ")" : a.id;
+    const dash = styleOf(a) === "dash" ? "5 3" : styleOf(a) === "dot" ? "1.5 2.5" : null;
+    let anyCut = false, endMark = null, farMark = null;
+    x.ls.forEach(l => {
+      const runs = [], exits = []; let run = null;
+      const first = l.pts.findIndex(p => !!p);
+      if (first < 0) return;
+      // each input's lines sit in their own group, so the plain picture can fade the inputs that do not reach one stroke
+      const ok = !!travel && !!l.g && l.g.reaches_end === true && l.g.inside_to_end === true;
+      const lg = svgEl("g", { class: ok ? "leg" : "leg weak" }, g);
+      if (l.leg.lead_in_from_origin && (l.pts[first][0] !== 0 || l.pts[first][1] !== 0)) {
+        const cl = tvClip([0, 0], l.pts[first], w);
+        if (cl) { const p = l.pts[first], A = [p[0] * cl[0], p[1] * cl[0]], B = [p[0] * cl[1], p[1] * cl[1]];
+          svgEl("polyline", { class: "ln lead", points: xy(A) + " " + xy(B) }, lg);
+          if (cl[1] < 1) exits.push({ at: B, d: p }); } }
+      for (let i = first + 1; i < l.pts.length; i++) {
+        const p = l.pts[i - 1], q = l.pts[i];
+        if (!p || !q) { run = null; continue; }          // a level with no value breaks the line
+        const cl = tvClip(p, q, w); if (!cl) { run = null; continue; }
+        const lerp = f => [p[0] + (q[0] - p[0]) * f, p[1] + (q[1] - p[1]) * f], A = lerp(cl[0]), B = lerp(cl[1]);
+        if (!run || cl[0] > 0) { run = [A]; runs.push(run); }
+        run.push(B);
+        if (cl[1] < 1) { exits.push({ at: B, d: [q[0] - p[0], q[1] - p[1]] }); run = null; }
+      }
+      runs.forEach(r => { const pts = r.map(xy).join(" ");
+        svgEl("polyline", { class: "hit", points: pts }, lg);
+        const ln = svgEl("polyline", { class: "ln", points: pts }, lg); if (dash) ln.setAttribute("stroke-dasharray", dash); });
+      exits.forEach(e => exitMark(lg, e.at, e.d)); if (exits.length) anyCut = true;
+      // the larger dot: where the tip reaches one stroke having stayed inside all the way, in a straight line between
+      // the two logged levels either side; on the first logged level where that is already past one stroke
+      if (travel && l.g && l.g.reaches_end === true && l.g.inside_to_end === true) {
+        const kk = l.along.findIndex(v => isNum(v) && v >= travel);
+        if (kk >= 0 && l.pts[kk]) { let p = l.pts[kk];
+          const b = kk > 0 ? l.pts[kk - 1] : null;
+          if (b && p[0] > b[0]) { const f = (travel - b[0]) / (p[0] - b[0]); p = [travel, b[1] + (p[1] - b[1]) * f]; }
+          if (inW(p)) { svgEl("circle", { class: "far", cx: f1(X(p[0])), cy: f1(Y(p[1])), r: 4.4 }, g); if (!farMark) farMark = p; }
+          else farOut++; }
+      }
+      if (l.li === 0 || !endMark) {
+        let last = -1; l.pts.forEach((p, i) => { if (p) last = i; });
+        const lp = l.pts[last];
+        const mk = inW(lp) ? lp : exits.length ? exits[exits.length - 1].at : null;
+        if (l.li === 0 && mk) endMark = mk;
+      }
+    });
+    if (anyCut) cut++;
+    if (endMark) pushMark(g, endMark, a);
+    g.addEventListener("mouseenter", () => { S.hot = a.id; paint(); });
+    g.addEventListener("mouseleave", () => { if (S.hot === a.id) { S.hot = null; paint(); } });
+    g.addEventListener("click", () => { S.sel = S.sel === a.id ? null : a.id; paint(); });
+    const anchor = farMark || endMark;
+    tv.groups.push({ a, t: x.t, g, passes: x.passes, anchor: anchor ? [X(anchor[0]), Y(anchor[1])] : null });
+  });
+  tv.labs = svgEl("g", {}, svg);
+  // caption, counts and key
+  const deg = c.half_angle_deg;
+  $("tcap").textContent = "Each actuator is turned so that its own needed direction lies along the horizontal axis. " +
+    "Along: how far the tip has moved in that direction from rest. Across: how far it has moved at right angles to it, " +
+    "a size, so never below zero. Both axes are in millimetres on one scale, so the angle seen from the origin is the true " +
+    "angle to the needed direction. The shaded wedge is the cone's half-angle, " + deg + "°" +
+    (travel ? ", closed at one stroke of the wave; the dashed edge is the same angle past one stroke." : ", drawn open, as this task declares no stroke.") +
+    " Each line joins an actuator's measured levels over its whole input range; it does not follow the input slider." +
+    (!tv.whole && (cut || farOut) ? " In this window " + cut + " path" + (cut === 1 ? " runs" : "s run") + " on past the edge" +
+      (farOut ? ", and " + farOut + " of the larger dots " + (farOut === 1 ? "lies" : "lie") + " beyond it" : "") +
+      ". Tick Show whole paths to fit everything." : "");
+  const nE = items.filter(x => x.t.enters === true).length, pass = items.filter(x => x.passes);
+  const nM = pass.filter(x => pushState(x.a) === "meets").length, nB = pass.filter(x => hasBoth(x.a)).length;
+  let cnt = "Of the " + items.length + " actuators drawn, " + nE + " come within " + deg + "° of their needed direction at some " +
+    "measured level";
+  if (travel) {
+    cnt += (c.push ? ", " : ", and ") + pass.length + " reach the end of one stroke without leaving the wedge";
+    if (c.push) cnt += ", and " + nM + " of those " + pass.length + " can also make the needed push at some measured level, with the tip " +
+      "held at rest (not at the end of the stroke)" + (nB ? "; " + nB + " of them at a level where the tip is also inside the cone." : ".");
+    else cnt += ". The push on the ball is not checked on this placement.";
+  } else if (c.push) {
+    const ent = items.filter(x => x.t.enters === true), m2 = ent.filter(x => pushState(x.a) === "meets").length;
+    cnt += ", and " + m2 + " of those " + ent.length + " can also make the needed push at some measured level, with the tip held at rest.";
+  } else cnt += ".";
+  $("tcount").textContent = cnt;
+  rcBuild(c, pass, travel);
+  const key = $("tkey"); key.innerHTML = "";
+  const row = (cls, text, colour, size) => { const d = document.createElement("span"); d.className = cls; if (colour) d.style.color = colour;
+    if (size) d.style.width = d.style.height = size;
+    const t = document.createElement("span"); t.textContent = text; key.append(d, t); };
+  const line = text => { const t = document.createElement("span"); t.style.gridColumn = "1 / -1"; t.textContent = text; key.append(t); };
+  row("wedgesm", "within " + deg + "° of the needed direction" + (travel ? ", out to one stroke of the wave" : ""));
+  if (travel) row("dot full", "larger dot: the tip reaches one stroke having stayed inside the wedge all the way (where the first " +
+    "logged level is already past one stroke, the dot is on that level)", "var(--ink)", "13px");
+  row("tri", "the path runs on past the edge of the window");
+  if (c.push) {
+    line("At the end of each actuator's path, or where it leaves the window, one mark for its push:");
+    row("dot full", "meets the needed push at a measured level");
+    row("dot", "below the needed push at every measured level");
+    row("dot dsh", "cannot be told: the direction of its force is not stored, or its force was measured only at inputs " +
+      "below those it needs here");
+    row("xm", "push not tested: no force with the tip held is used for it");
+    row("ring", "dot in a ring: meets position and push together at a measured level" + (items.some(x => hasBoth(x.a)) ? "" : " (none at present)"));
+  }
+  line("Faded: never within " + deg + "° of its needed direction. Colours and line styles as in the 3D view; a dotted start " +
+    "joins a path that does not start at rest to the origin. Point at a line, or click it, to pick it out.");
+  key.querySelectorAll(".xm").forEach(e => { e.textContent = "×"; });
+}
+// Names (and pictures, with Pictures on) beside the actuators that reach one stroke inside the wedge, and beside the
+// one in focus; a name that would sit on another is moved up or down a little, or left out.
+function tvLabels(focus) {
+  const lay = tv.labs; if (!lay) return; lay.innerHTML = "";
+  const want = tv.groups.filter(x => x.anchor && (x.a.id === focus || (S.names && !tv.plain && x.passes)))
+    .sort((p, q) => (q.a.id === focus) - (p.a.id === focus));
+  const placed = [], defs = svgEl("defs", {}, lay);
+  // the axis titles and the stroke's own label are kept clear too
+  document.querySelectorAll("#tsvg text.keep").forEach(e => { try { const b = e.getBBox();
+    if (b.width > 0) placed.push({ x0: b.x - 2, x1: b.x + b.width + 2, y0: b.y - 1, y1: b.y + b.height + 1 }); } catch (err) { /* not drawn yet */ } });
+  want.forEach((x, n) => {
+    const hot = x.a.id === focus, [ax, ay] = x.anchor;
+    const g = svgEl("g", { class: "lab" + (hot ? " hot" : ""), style: x.g.getAttribute("style") }, lay);
+    if (focus && !hot) g.setAttribute("opacity", 0.35);
+    const th = S.pics && x.a.thumbnail && !noPic[x.a.id] ? x.a.thumbnail : null;
+    const t = svgEl("text", {}, g); t.textContent = shownName(x.a);
+    let tw = 0; try { tw = t.getComputedTextLength(); } catch (e) { tw = 0; }
+    if (!(tw > 0)) tw = 5.6 * t.textContent.length;
+    const pw = th ? 18 : 0, bw = pw + tw, bh = th ? 16 : 12;
+    let best = null;
+    for (const dy of [0, -14, 14, -28, 28, -42, 42]) {
+      for (const right of [true, false]) {
+        const x0 = right ? ax + 8 : ax - 8 - bw, b = { x0, x1: x0 + bw, y0: ay + dy - bh / 2, y1: ay + dy + bh / 2, dy, right };
+        if (b.x0 < 0 || b.x1 > TV.W || b.y0 < 0 || b.y1 > tv.H) continue;
+        if (!best) best = b;
+        if (!placed.some(o => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0)) { best = b; best.free = true; break; }
+      }
+      if (best && best.free) break;
+    }
+    if (!best || (!best.free && !hot)) { g.remove(); return; }
+    placed.push(best);
+    const cy = ay + best.dy;
+    if (best.dy !== 0) svgEl("line", { class: "leader", x1: f1(ax), y1: f1(ay), x2: f1(best.right ? best.x0 : best.x1), y2: f1(cy) }, g)
+      && g.insertBefore(g.lastChild, t);
+    t.setAttribute("x", f1(best.x0 + pw)); t.setAttribute("y", f1(cy + 3.5));
+    if (th) {
+      const id = "tvpic" + n, px = best.x0 + 1, py = cy - 7, sch = th.kind === "schematic";
+      const cp = svgEl("clipPath", { id }, defs);
+      if (sch) svgEl("rect", { x: f1(px), y: f1(py), width: 14, height: 14, rx: 3 }, cp);
+      else svgEl("circle", { cx: f1(px + 7), cy: f1(cy), r: 7 }, cp);
+      const bg = sch ? svgEl("rect", { class: "pg", x: f1(px), y: f1(py), width: 14, height: 14, rx: 3 }, g)
+        : svgEl("circle", { class: "pg", cx: f1(px + 7), cy: f1(cy), r: 7 }, g);
+      if (styleOf(x.a) !== "solid") bg.setAttribute("stroke-dasharray", "2.5 1.5");
+      const im = svgEl("image", { href: th.image, x: f1(px), y: f1(py), width: 14, height: 14,
+        preserveAspectRatio: "xMidYMid slice", "clip-path": "url(#" + id + ")" }, g);
+      im.addEventListener("error", () => im.remove());
+    }
+  });
+}
+// The second check, drawn under the task view: for each actuator that passes the first check, how much further out of
+// the ball than its stroke path its return path sits, at the export's stations along one stroke. Every value is read
+// from the export's "return_clear"; nothing is worked out here but the positions on the page.
+function rcBuild(c, pass, travel) {
+  const svg = $("rsvg"), out = $("rcount"); svg.innerHTML = ""; out.textContent = ""; tv.rgroups = [];
+  const decl = c.return_clear, rows = [];
+  if (decl && travel) pass.forEach(x => { const r = x.t.return_clear;
+    if (!r || typeof r.passes !== "boolean" || !Array.isArray(r.outward_reach_m) || !Array.isArray(r.stations_along_m)) return;
+    const s0 = isNum(r.stroke_start_along_m) ? r.stroke_start_along_m : 0;
+    const pts = r.stations_along_m.map((s, k) => [(s - s0) * 1e3, r.outward_reach_m[k] * 1e3]);
+    if (pts.every(p => isNum(p[0]) && isNum(p[1]))) rows.push({ a: x.a, r, pts }); });
+  svg.toggleAttribute("hidden", !rows.length); out.hidden = !rows.length;
+  if (!rows.length) return;
+  const depth = decl.drawn_depth_m * 1e3, T = travel * 1e3;
+  const ys = rows.flatMap(w => w.pts.map(p => p[1])).concat([0, depth]);
+  const lo = Math.min(...ys), hi = Math.max(...ys), pad = (hi - lo) * 0.12 || 1;
+  const W = 320, H = 150, L = 34, R = 8, Tp = 16, B = 26;
+  const X = v => L + (W - L - R) * v / T, Y = v => Tp + (H - Tp - B) * (hi + pad - v) / (hi - lo + 2 * pad);
+  svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+  svgEl("rect", { class: "band", x: X(0), y: Y(hi + pad), width: X(T) - X(0), height: Y(depth) - Y(hi + pad) }, svg);
+  svgEl("line", { class: "ax0", x1: X(0), y1: Y(0), x2: X(T), y2: Y(0) }, svg);
+  svgEl("line", { class: "ax0", x1: X(0), y1: Y(lo - pad), x2: X(0), y2: Y(hi + pad) }, svg);
+  svgEl("line", { class: "need", x1: X(0), y1: Y(depth), x2: X(T), y2: Y(depth) }, svg);
+  svgEl("text", { class: "needt", x: X(T), y: Y(depth) - 3, "text-anchor": "end" }, svg).textContent = "needed: " + sig3(depth) + " mm";
+  svgEl("text", { x: X(T), y: Y(0) + 11, "text-anchor": "end" }, svg).textContent = "the stroke path";
+  svgEl("text", { x: X(0) - 4, y: Y(0) + 3, "text-anchor": "end" }, svg).textContent = "0";
+  svgEl("text", { x: X(0) - 4, y: Y(hi) + 3, "text-anchor": "end" }, svg).textContent = sig3(hi);
+  svgEl("text", { x: X(0), y: H - 4 }, svg).textContent = "0";
+  svgEl("text", { x: X(T), y: H - 4, "text-anchor": "end" }, svg).textContent = "one stroke, " + T.toFixed(1) + " mm";
+  svgEl("text", { x: 2, y: 10 }, svg).textContent = "return path further out of the ball than the stroke path, mm";
+  rows.forEach(w => { const a = w.a;
+    const g = svgEl("g", { class: "ra" + (w.r.passes ? " ok" : ""), style: "color:var(--ph-" + a.physics + ", var(--ph-other))" }, svg);
+    svgEl("title", {}, g).textContent = shownName(a) + ": least " + sig3(w.r.least_outward_reach_m * 1e3) + " mm";
+    svgEl("polyline", { class: "ln", points: w.pts.map(p => f1(X(p[0])) + "," + f1(Y(p[1]))).join(" ") }, g);
+    g.addEventListener("mouseenter", () => { S.hot = a.id; paint(); });
+    g.addEventListener("mouseleave", () => { if (S.hot === a.id) { S.hot = null; paint(); } });
+    g.addEventListener("click", () => { S.sel = S.sel === a.id ? null : a.id; paint(); });
+    tv.rgroups.push({ a, g, ok: w.r.passes }); });
+  const ok = rows.filter(w => w.r.passes), own = decl.stroke_from === "own_start";
+  let txt = "Second check, the return. To break contact and come back, the return path must sit at least " + sig3(depth) +
+    " mm further out of the ball than the stroke path, all along the stroke (the depth is a choice made for the display). Of the " +
+    rows.length + " that pass the first check, " + ok.length + (ok.length === 1 ? " passes" : " pass") + " this one" +
+    (ok.length ? ": " + ok.map(w => shownName(w.a) + " (at least " + sig3(w.r.least_outward_reach_m * 1e3) + " mm)").join("; ") : "") + ".";
+  if (own) txt += " Here the stroke need not start at rest: one input first brings the tip onto the ball, the other makes the stroke, " +
+    "and the finger comes back with the first input changed. Moving between the two paths at the ends of the stroke is not checked.";
+  if (rows.length > ok.length) txt += " A line lying on zero comes back the way it went.";
+  out.textContent = txt;
+}
+function tvPaint() {
+  if (!tv.layer) return;
+  const focus = S.hot || S.sel;
+  (tv.rgroups || []).forEach(x => { x.g.setAttribute("opacity", focus ? (x.a.id === focus ? 1 : 0.14) : x.ok ? 1 : 0.45); });
+  // The same fading as the 3D view: others fade while one is in focus, and those that never enter the cone fade too.
+  tv.groups.forEach(x => {
+    // Plain: everything but the candidates (those that reach one stroke inside the wedge) is faded almost away.
+    const op = tv.plain ? (x.passes || x.a.id === focus ? 1 : 0.05)
+      : Math.min(focus && x.a.id !== focus ? 0.14 : 1, x.t.enters === true || x.a.id === focus ? 1 : 0.22);
+    x.g.setAttribute("opacity", op); x.g.classList.toggle("on", x.a.id === focus);
+    const dim = tv.plain && x.passes && x.a.id !== focus;   // a candidate's other inputs fade with the rest
+    x.g.querySelectorAll("g.weak").forEach(e => { if (dim) e.setAttribute("opacity", 0.05); else e.removeAttribute("opacity"); }); });
+  const f = tv.groups.find(x => x.a.id === focus);
+  if (f && f.g !== tv.layer.lastChild) tv.layer.appendChild(f.g);
+  tvLabels(focus);
+}
+
+// The picture, what the name is from and the reference do not change with the input slider, so they are built once
+// per actuator and kept, like the force part.
+const aboutBox = { id: null, node: null };
+const NAME_FROM = { authors: "The name the authors use.",
+  field: "The field's name for this type of actuator; the part that tells it from its neighbours is ours.",
+  description: "A plain description of ours: the source gives it no name." };
+function aboutHtml(a) {
+  let h = "";
+  const th = a.thumbnail;
+  if (th && !noPic[a.id]) h += "<figure" + (th.kind === "schematic" ? " class='sch'" : "") + "><img alt='' src='" + esc(th.image) +
+    "'><figcaption>" + (th.kind === "schematic" ? "<b>Schematic, not the published device.</b> " : "") + esc(th.basis) +
+    "</figcaption></figure>";
+  if (a.name_from) h += "<details><summary>Where the name is from</summary><span class='src'>" + esc(NAME_FROM[a.name_from] || "") +
+    " " + esc(a.name_source || "") + "</span></details>";
+  const r = a.reference;
+  if (r) { h += "<span><b>Reference.</b> " + esc(r.citation) + " <a href='" + esc(r.url) + "' target='_blank' rel='noopener'>" +
+      esc(r.url) + "</a></span>";
+    if (r.open_copy) h += "<span>Open copy: <a href='" + esc(r.open_copy.url) + "' target='_blank' rel='noopener'>" +
+      esc(r.open_copy.what) + "</a></span>"; }
+  else if (a.name_from) h += "<span class='src'>No reference: our own simulated design, not published.</span>";
+  return h;
+}
+function card() {
+  const id = S.hot || S.sel, a = ACTS.find(x => x.id === id), el = $("card");
+  if (!a) { el.textContent = "Point at a line, or pick a name below."; return; }
+  let h = "<b>" + esc(shownName(a)) + "</b>" + (a.name_detail ? "<span>" + esc(a.name_detail) + "</span>" : "") +
+    "<span class='rid'>" + (a.reference ? esc(a.reference.authors_short) + " " + esc(a.reference.year) + " · " : "") +
+    esc(a.physics || "physics not stated") +
+    " · " + esc(a.source_kind || "") + (a.draft ? " · draft" : "") + (a.hand_placed ? " · placed by hand" : "") +
+    " · record " + esc(a.id) + "</span><i id='abouthere'></i>";
+  const len = a.length || {}, needs = S.axes.filter(NEEDS_LENGTH), ests = S.axes.filter(k => Q[k].estimate);
+  let swing = false;
+  if (needs.length) h += "<span>" + (!len.value_m ? "No body length is set for this actuator, so " +
+      esc(needs.map(k => Q[k].label.toLowerCase()).join(" and ")) + " cannot be worked out." :
+    "Body length " + fmt(len.value_m * 1000) + " mm, " + (len.source === "record" ? "from the record." :
+      "an estimate" + (len.detail ? ": " + esc(len.detail) : "."))) + "</span>";
+  a.legs.forEach(leg => {
+    h += "<table>";
+    if (a.legs.length > 1) h += "<tr><td colspan='2'><b>" + esc(leg.label) + "</b></td></tr>";
+    const u = valueAt(leg, leg.input.values);
+    h += "<tr><td>" + esc(leg.input.name || "input") + "</td><td>" +
+      (u === null ? "not reached yet" : esc(+u.toPrecision(4)) + " " + esc(leg.input.unit || "")) + "</td></tr>";
+    S.axes.forEach(k => { if (k === "input_share") return; const sh = show(Q[k]), v = valueAt(leg, leg.values[k]);
+      const sens = leg.length_sensitivity && leg.length_sensitivity[k], pm = sens ? valueAt(leg, sens) : null;
+      const has = pm !== null && !Number.isNaN(pm); if (has) swing = true;
+      const num = x => PLAIN[k] ? sig3(x) : fmt(x * sh.f);
+      h += "<tr><td>" + esc(Q[k].label) + "</td><td>" + (!leg.values[k] ? (k === "input_scaled" ? "not formed" :
+        NEEDS_LENGTH(k) && !len.value_m ? "no body length" : "not measured") :
+        v === null ? "not reached yet" : Number.isNaN(v) ? "no estimate here" :
+        num(v) + (has ? " ± " + num(Math.abs(pm)) : "") + (sh.u ? " " + sh.u : "")) + "</td></tr>"; });
+    h += "</table>";
+    // With the scaled input on an axis: how this leg's input was scaled.
+    if (S.axes.indexOf("input_scaled") >= 0 && leg.scaled && leg.scaled.input_scaled_definition)
+      h += "<span>Scaled input, " + esc(leg.scaled.input_scaled_form || "") + ". " + esc(leg.scaled.input_scaled_definition) + "</span>";
+  });
+  if (scaledOn() && a.scaled && a.scaled.stiffness) { const st = a.scaled.stiffness;
+    h += "<span>" + (isNum(st.modulus_Pa) ? "Body modulus E = " + esc(sig3(st.modulus_Pa)) + " Pa, " +
+      (st.source === "record" ? "from the record" + (st.detail ? " (" + esc(st.detail) + ")" : "") + "." :
+        "declared in data/map_stiffness.json. " + esc(st.detail || "")) +
+      (isNum(st.limiter_over_body) ? " The record's limiter is " + esc(sig3(st.limiter_over_body)) + " times as stiff as the body; " +
+        "only the body's modulus is used here." : "") : esc(st.reason || "No body modulus is known for it.")) + "</span>"; }
+  if (coneOn()) h += coneLine(a, coneOn()) + strokeLines(a, coneOn()) + pushLines(a, coneOn());
+  if (a.surface && scaledOn()) h += "<span><b>Both inputs together.</b> The surface for both inputs together is not " +
+    "drawn while the scaled input is on an axis: it is not formed in scaled terms.</span>";
+  else if (a.surface) { const s = a.surface, n = s.tests.length, mm = show(Q.axial_m), dg = show(Q.twist_rad);
+    h += "<span><b>Both inputs together.</b> " + esc(s.basis) + " ";
+    if (!n) h += "No point with both inputs on has been measured, so it is untested.</span>";
+    else {
+      const worst = k => Math.max(...s.tests.map(t => Math.abs(t[k])));
+      const pct = v => (v * 100 < 10 ? (v * 100).toFixed(1) : Math.round(v * 100)) + "% of travel";
+      const tw = s.worst_twist_gap_share !== null ? Math.max(...s.tests.map(t => Math.abs(t.measured.twist_rad))) : null;
+      const twist = k => fmt(worst(k) * dg.f) + " " + dg.u + " of a measured " + fmt(tw * dg.f) + " " + dg.u;
+      h += "Checked against " + n + " measured points with both inputs on (diamonds). " + esc(s.tests_note || "") + "</span><table>" +
+        "<tr><td>Tip position, worst miss</td><td>" + fmt(worst("position_gap_m") * mm.f) + " " + mm.u + ", " +
+        pct(s.worst_position_gap_share) + "</td></tr>";
+      if (tw !== null) h += "<tr><td>Twist, worst miss</td><td>" + twist("twist_gap_rad") + "</td></tr>";
+      h += "</table>";
+      if (s.worst_sum_position_gap_share !== null && s.worst_sum_position_gap_share !== undefined) {
+        h += "<span>For comparison, simply adding the two paths together:</span><table>" +
+          "<tr><td>Tip position, worst miss</td><td>" + fmt(worst("sum_position_gap_m") * mm.f) + " " + mm.u + ", " +
+          pct(s.worst_sum_position_gap_share) + "</td></tr>";
+        if (tw !== null) h += "<tr><td>Twist, worst miss</td><td>" + twist("sum_twist_gap_rad") + "</td></tr>";
+        h += "</table>"; }
+      const fail = failing(s);
+      if (fail.length) h += "<span class='warn'>Grid not filled in: on " + esc(fail.map(k => Q[k].label.toLowerCase()).join(" and ")) +
+        " the measured points miss it by more than " + Math.round(TRUST * 100) + "%.</span>";
+    }
+  }
+  if (swing) h += "<span>± is how far the value moves if the body length is wrong by " +
+    Math.round(DATA.length_tolerance * 100) + "%. The bar through the tip of the path shows the same.</span>";
+  if (ests.length && a.legs.some(l => ests.some(k => l.values[k] && l.values[k].indexOf(null) >= 0)))
+    h += "<span class='warn'>The path stops early: once the tip curls back close to the base, its position no longer says how far the body has bent.</span>";
+  if (ests.length && a.bend_check) { const dg = show(Q.bend_rad);
+    h += "<span><b>Check on the bend estimate.</b> The estimate treats the body as one even arc and uses only where the tip is. " +
+      "This record also holds the measured tilt of the tip:</span><table>";
+    a.bend_check.forEach(c => { h += "<tr><td>" + esc(c.leg) + ", at its top</td><td>estimate " + fmt(c.estimated_bend_rad * dg.f) +
+      " " + dg.u + ", measured " + fmt(c.measured_tilt_rad * dg.f) + " " + dg.u + "</td></tr>"; });
+    h += "</table>"; }
+  if (a.force === undefined && !a.has_force) h += "<span>Motion only: the record holds no force data.</span>";
+  const flags = a.flags || [];
+  if (flags.length) h += "<span class='warn'>Flags: " + esc(flags.join(", ")) + "</span>";
+  if (a.caveat) h += "<span class='warn'>" + esc(a.caveat) + "</span>";
+  if (a.hand_placed && a.basis) h += "<span class='warn'>Placed by hand: " + esc(a.basis) + "</span>";
+  // The force part does not change with the input slider, so it is built once per actuator and kept, which
+  // keeps its scroll position and open details while the rest of the card is redrawn.
+  const old = forceBox.id === a.id && forceBox.node && forceBox.node.querySelector(".fscroll"), top = old ? old.scrollTop : 0;
+  el.innerHTML = h;
+  if (aboutBox.id !== a.id) { aboutBox.id = a.id; aboutBox.node = document.createElement("div");
+    aboutBox.node.id = "about"; aboutBox.node.innerHTML = aboutHtml(a);
+    const im = aboutBox.node.querySelector("img"); if (im) im.onerror = () => { const f = im.closest("figure"); if (f) f.remove(); }; }
+  $("abouthere").replaceWith(aboutBox.node);
+  if (a.force === undefined) return;
+  if (forceBox.id !== a.id) { forceBox.id = a.id; forceBox.node = document.createElement("div");
+    forceBox.node.id = "force"; forceBox.node.innerHTML = forceHtml(a); }
+  el.appendChild(forceBox.node);
+  const box = forceBox.node.querySelector(".fscroll"); if (box && top) box.scrollTop = top;
+}
+function panel() {
+  S.axes.forEach((k, i) => { const s = $("ax" + i); s.innerHTML = "";
+    const groups = []; QLIST.forEach(q => { if (groups.indexOf(q.group || "") < 0) groups.push(q.group || ""); });
+    groups.forEach(g => { let box = s; if (g) { box = document.createElement("optgroup"); box.label = g; s.appendChild(box); }
+      QLIST.filter(q => (q.group || "") === g).forEach(q => { const o = document.createElement("option"); o.value = q.key;
+        o.textContent = q.label; box.appendChild(o); }); });
+    s.value = k;
+    s.onchange = () => { const j = S.axes.indexOf(s.value); if (j >= 0 && j !== i) S.axes[j] = S.axes[i];
+      S.axes[i] = s.value; S.axes.forEach((kk, ii) => $("ax" + ii).value = kk); defs(); build(false); }; });
+  const list = $("acts"); list.innerHTML = "";
+  ACTS.forEach(a => { const li = document.createElement("li"); li.dataset.id = a.id; li.tabIndex = 0;
+    li.style.color = ""; const sw = document.createElement("span"); sw.className = "sw" + (styleOf(a) === "solid" ? "" : " dash");
+    sw.style.color = physColour(a.physics); const nm = document.createElement("span"); nm.textContent = shownName(a); li.title = a.id;
+    li.append(sw, nm);
+    const go = () => { S.sel = S.sel === a.id ? null : a.id; paint();
+      const box = new THREE.Box3().expandByPoint(new THREE.Vector3());
+      legs.forEach(x => { if (x.a.id === a.id) x.pts.forEach(p => box.expandByPoint(p)); });
+      surfs.forEach(x => { if (x.a.id === a.id) x.pts.forEach(p => box.expandByPoint(p)); });
+      const ball = box.getBoundingSphere(new THREE.Sphere());
+      if (S.sel) flyTo({ target: ball.center.clone(), theta: cam.theta, phi: cam.phi,
+        dist: Math.max(0.3, ball.radius / Math.sin(FOV * Math.PI / 360) * 1.25 /
+                            Math.min(1, view.clientWidth / Math.max(1, view.clientHeight))) }, 900); };
+    li.onclick = go; li.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
+    li.onmouseenter = () => { S.hot = a.id; paint(); }; li.onmouseleave = () => { S.hot = null; paint(); };
+    list.appendChild(li); });
+  const key = $("key"); key.innerHTML = "";
+  const seen = [...new Set(ACTS.map(a => a.physics))];
+  seen.forEach(p => { const d = document.createElement("span"); d.className = "dot full"; d.style.color = physColour(p);
+    const t = document.createElement("span"); t.textContent = p || "physics not stated"; key.append(d, t); });
+  const row = (cls, text) => { const d = document.createElement("span"); d.className = cls;
+    const t = document.createElement("span"); t.textContent = text; key.append(d, t); };
+  row("sw", "from a record in the repository");
+  if (ACTS.some(a => a.draft)) row("sw dash", "draft record, not yet banked");
+  if (ACTS.some(a => a.hand_placed)) row("sw dash", "placed by hand, not from a record");
+  row("dot", "motion only, no force data");
+  if (ACTS.some(a => a.thumbnail && a.thumbnail.kind === "mesh")) row("picsm", "picture drawn from the simulated mesh, at rest");
+  if (ACTS.some(a => a.thumbnail && a.thumbnail.kind === "schematic"))
+    row("picsm sch", "schematic of the type of actuator, drawn by us: not the published device");
+  if (ACTS.some(a => a.thumbnail)) { const t = document.createElement("span"); t.style.gridColumn = "1 / -1";
+    t.textContent = "Pictures are not to a common scale. Where pictures would overlap, the plain marker is shown."; key.append(t); }
+  if (DATA.length_tolerance) row("bar", "through the selected actuator: how far an estimate moves if its body length is wrong by " +
+    Math.round(DATA.length_tolerance * 100) + "%");
+  if (ACTS.some(a => a.surface)) { row("patch", "computed for two inputs together (grid lines only where its tests fail)");
+    row("dia", "measured with both inputs on, to test the prediction"); }
+  leftUI(); defs(); coneUI();
+}
+// The left-out list: the records the export leaves out, then, while the scaled input is on an axis, the actuators
+// that have no scaled input, each with its reason. Those are also taken off the list of actuators.
+function leftUI() {
+  const extra = ACTS.filter(a => !placeable(a));
+  $("leftsum").textContent = "Left out: " + (DATA.left_out.length + extra.length) + " of " + (DATA.left_out.length + ACTS.length);
+  const left = $("left"); left.innerHTML = "";
+  const item = (text, cls) => { const li = document.createElement("li"); li.textContent = text; if (cls) li.className = cls; left.appendChild(li); };
+  DATA.left_out.forEach(x => item(x.id + ": " + x.reason));
+  if (extra.length) { item("Not placed while the scaled input is on an axis:", "head"); extra.forEach(a => item(shownName(a) + ": " + scaledWhy(a))); }
+  document.querySelectorAll("#acts li").forEach(li => { const a = ACTS.find(x => x.id === li.dataset.id); li.hidden = !!a && !placeable(a); });
+}
+// The axis-set selector: shows the named set the three axes match, or, once one axis is changed, that the last
+// chosen set has been altered.
+function setUI() {
+  const s = $("axset");
+  if (!s.options.length) {
+    SETS.forEach((st, i) => { const o = document.createElement("option"); o.value = String(i);
+      o.textContent = st.name + ": " + st.axes.map(k => Q[k].label).join(" · "); s.appendChild(o); });
+    const o = document.createElement("option"); o.value = "altered"; o.disabled = true; s.appendChild(o);
+    s.onchange = () => { if (s.value === "altered") return;
+      S.set = +s.value; S.axes = SETS[S.set].axes.slice(); S.axes.forEach((k, j) => $("ax" + j).value = k);
+      plot.mode = scaledOn() ? "scaled" : "N"; $("fmode").value = plot.mode; plotBuild(); plot.cone = undefined;
+      defs(); build(false); };
+  }
+  const j = SETS.findIndex(st => st.axes.every((k, i) => S.axes[i] === k)), alt = s.options[s.options.length - 1];
+  if (j >= 0) S.set = j;
+  alt.hidden = j >= 0; alt.textContent = SETS[S.set].name + ", altered";
+  s.value = j >= 0 ? String(j) : "altered";
+}
+// Everything that changes when the scaled input goes on or off an axis.
+function scaledUI() {
+  setUI(); leftUI();
+  const on = scaledOn();
+  $("cones").querySelectorAll("input").forEach(x => { const c = CONES[+x.dataset.i];
+    x.disabled = on || !coneUsable(c); x.checked = +x.dataset.i === S.cone; });
+  const cs = $("conescaled"); cs.hidden = !on;
+  cs.textContent = "Task cones are not drawn while the scaled input is on an axis: a cone is set in tip travel, not in scaled terms.";
+  const box = $("scalenote"); box.hidden = !on; box.innerHTML = "";
+  if (!on || !SC) return;
+  const para = text => { const p = document.createElement("p"); p.textContent = text; box.appendChild(p); return p; };
+  const forms = {}; ACTS.forEach(a => a.legs.forEach(l => { const f = l.scaled && l.scaled.input_scaled_form;
+    if (f && Array.isArray(l.values.input_scaled)) (forms[f] = forms[f] || []).indexOf(a.id) < 0 && forms[f].push(a.id); }));
+  const names = Object.keys(forms);
+  para((names.length > 1 ? "The scaled input axis mixes forms, so it is not one quantity. " : "") +
+    names.map(f => f.charAt(0).toUpperCase() + f.slice(1) + ": " + forms[f].join(", ")).join(". ") +
+    ". Select an actuator to see its own rule.");
+  const ids = new Set(ACTS.filter(placeable).map(a => a.id));
+  Object.keys(SC.pressure_scale || {}).forEach(key => { const p = SC.pressure_scale[key];
+    if (!isNum(p.dt_s) || !(p.dt_s > 0)) return;
+    const hit = (p.applies_to || []).filter(id => ids.has(id)), k = +(1 / p.dt_s).toPrecision(6);
+    if (!hit.length) return;
+    para("Before a simulated pressure is divided by the body modulus, it is multiplied by " + k + " (one over the scene's time step of " +
+      p.dt_s + " s), because the scene takes its pressure as an impulse over one step. This applies to " + hit.length +
+      " of the actuators placed here, chosen from each record's provenance, not its name. " +
+      (p.ruled === true ? "" : "The project owner has not yet ruled on this correction. Without it, their scaled input would be " +
+        k + " times smaller. ") + "Unscaled values are as stored.");
+  });
+  const out = ACTS.filter(a => !placeable(a)).length;
+  if (out) para(out + " actuator" + (out === 1 ? " has" : "s have") + " no scaled input, so " + (out === 1 ? "it is" : "they are") +
+    " not placed here. Each is listed under Left out with its reason.");
+  if (SC.note) { const d = document.createElement("details"), sm = document.createElement("summary");
+    sm.textContent = "About the scaled quantities"; d.appendChild(sm);
+    const t = document.createElement("p"); t.textContent = SC.note; d.appendChild(t); box.appendChild(d); }
+}
+// One switch per task cone. Turning one on puts its three axes on the view and draws it; only one is on at a time.
+function tasksUI() {
+  const box = $("cones"); box.innerHTML = "";
+  $("tasksec").hidden = !CONES.length;
+  CONES.forEach((c, i) => {
+    const lab = document.createElement("label"); lab.className = "row";
+    const cb = document.createElement("input"); cb.type = "checkbox"; cb.dataset.i = i;
+    cb.disabled = !coneUsable(c); cb.checked = S.cone === i;
+    lab.append(cb, document.createTextNode(" Task: " + taskName(c)));
+    if (cb.disabled) lab.title = "This cone's axes are not in the data.";
+    cb.onchange = () => {
+      if (cb.checked) { S.cone = i; S.axes = c.axes.slice(); S.axes.forEach((k, j) => $("ax" + j).value = k); defs(); }
+      else S.cone = null;
+      box.querySelectorAll("input").forEach(x => { x.checked = +x.dataset.i === S.cone; });
+      build(!cb.checked);
+    };
+    box.appendChild(lab);
+  });
+}
+// The caption under the switch, the note when other axes are chosen, and the cone's rows in the key.
+let capFor = null;
+function coneUI() {
+  const c = coneOn(), cap = $("conecap"), note = $("conenote");
+  cap.hidden = !c;
+  if (c !== capFor) { capFor = c; cap.innerHTML = "";
+    if (c) {
+      const p = (cls, text) => { const e = document.createElement("p"); if (cls) e.className = cls; e.textContent = text; cap.appendChild(e); return e; };
+      const name = p("", ""), b = document.createElement("b"); b.textContent = taskName(c); name.appendChild(b);
+      if (typeof c.half_angle_deg === "number") {
+        const d = document.createElement("details"), s = document.createElement("summary");
+        s.textContent = "Half-angle " + c.half_angle_deg + "°"; d.title = c.half_angle_basis || "";
+        d.appendChild(s); if (c.half_angle_basis) { const t = document.createElement("p"); t.textContent = c.half_angle_basis; d.appendChild(t); }
+        cap.appendChild(d);
+      }
+      if (c.least_travel_note) p("", c.least_travel_note);
+      if (c.stroke && isNum(c.stroke.travel_m)) {
+        p("", "The far end of the cone is one stroke of the wave: a commanded sweep of " + c.stroke.angle_deg +
+          "° about the turn axis, which is " + sig3(c.stroke.travel_m * 1000) + " mm of tip travel. " +
+          "The stroke starts with the finger at rest on the ball, and it is commanded, not measured. " +
+          "The tip really follows an arc about the turn axis; the straight cone is a simplification.");
+        if (c.stroke.basis) { const d = document.createElement("details"), s = document.createElement("summary");
+          s.textContent = "How the far end is worked out"; d.appendChild(s);
+          const t = document.createElement("p"); t.textContent = c.stroke.basis; d.appendChild(t); cap.appendChild(d); }
+      }
+      p("", "Each actuator is tested against its own needed direction, at its measured levels, on tip position from rest. " +
+        "This is a different test from the backwards lookup's.");
+      p("note", "Faded lines never enter the cone.");
+    }
+  }
+  const off = !!c && coneUsable(c) && !conePerm(c), open = !!c && coneEndDrawn === false;
+  note.hidden = !off && !open;
+  if (off) note.textContent = "The cone is drawn only on the three tip-travel axes: " +
+    c.axes.map(k => Q[k].label.toLowerCase()).join(", ") + ".";
+  else if (open) note.textContent = "At these scales one stroke of the wave reaches further than the cone can be drawn, " +
+    "so the cone is drawn open, with no far end. The test against the far end is unchanged.";
+  const key = $("key"); key.querySelectorAll("[data-cone]").forEach(e => e.remove());
+  if (c) {
+    const row = (cls, text, colour) => { const d = document.createElement("span"); d.className = cls; d.dataset.cone = "1";
+      if (colour) d.style.color = colour;
+      const t = document.createElement("span"); t.textContent = text; t.dataset.cone = "1"; key.append(d, t); return d; };
+    const far = !!c.stroke && isNum(c.stroke.travel_m);
+    row("cone", "task cone: tip travel within " + c.half_angle_deg + "° of the needed direction" +
+      (far ? ", out to one stroke of the wave" : ""));
+    row("dot full", "bead, or thicker brighter stretch of a line: measured levels inside the cone" +
+      (far ? ", short of its far end" : ""));
+    if (far) { const d = row("dot full", "larger dot: where the tip reaches the far end, having stayed inside the cone all the way " +
+        "(or the first logged level, where that is already beyond it). " +
+        "A line with beads but no larger dot enters the cone but stops short.", "var(--ink)");
+      d.style.width = d.style.height = "13px"; }
+    if (c.push) row("ring", "ring before a name: meets position and push together at a measured level" +
+      (ACTS.some(hasBoth) ? "" : " (none at present)"));
+  }
+}
+function defs() {
+  const ul = $("axdef"); ul.innerHTML = "";
+  S.axes.forEach(k => { const li = document.createElement("li");
+    li.textContent = Q[k].label + ": " + Q[k].definition; ul.appendChild(li); });
+}
+let playing = null;
+function setT(v) { S.t = Math.min(1, Math.max(0, v)); $("tt").value = Math.round(S.t * 1000);
+  $("ttv").textContent = Math.round(S.t * 100) + "%"; grow(); card(); }
+$("tt").oninput = e => { playing = null; $("play").textContent = "Play"; setT(e.target.value / 1000); };
+$("play").onclick = () => { if (playing) { playing = null; $("play").textContent = "Play"; return; }
+  playing = { t0: performance.now(), from: S.t >= 1 ? 0 : S.t }; $("play").textContent = "Pause"; };
+$("lab").onchange = e => { S.names = e.target.checked; };
+$("pics").onchange = e => { S.pics = e.target.checked; };
+// The task view's names and pictures follow the same two switches.
+$("lab").addEventListener("change", tvPaint); $("pics").addEventListener("change", tvPaint);
+$("twhole").onchange = e => { tv.whole = e.target.checked; tvBuild(); tvPaint(); };
+$("tplain").onchange = e => { tv.plain = e.target.checked; tvPaint(); };
+$("tmount").value = MOUNT;
+$("tmount").onchange = e => { try { localStorage.setItem("map_mount", e.target.value); } catch (x) {}
+  location.hash = "mount=" + e.target.value; location.reload(); };
+$("vreset").onclick = () => { if (home) flyTo({ target: home.target.clone(), dist: home.dist, theta: home.theta, phi: home.phi }, 700); };
+$("vface").onclick = () => { if (home) flyTo({ target: home.target.clone(), dist: home.dist, theta: 0, phi: Math.PI / 2, flat: 1 }, 700); };
+
+// ---------- frame ----------
+const v3 = new THREE.Vector3();
+function put(el, p, dx, dy, w, h) {
+  v3.copy(p).project(camera);
+  if (v3.z > 1 || v3.z < -1) { el.style.display = "none"; return null; }
+  const x = (v3.x + 1) / 2 * w + dx, y = (1 - v3.y) / 2 * h + dy;
+  el.style.display = ""; el.style.left = x + "px"; el.style.top = y + "px"; return { x, y };
+}
+function frame(now) {
+  requestAnimationFrame(frame);
+  const w = view.clientWidth, h = view.clientHeight;
+  if (canvas.width !== Math.round(w * renderer.getPixelRatio()) || canvas.height !== Math.round(h * renderer.getPixelRatio())) {
+    renderer.setSize(w, h, false); camera.aspect = w / Math.max(1, h); }
+  if (playing) { const t = playing.from + (now - playing.t0) / 6000; setT(t);
+    if (t >= 1) { playing = null; $("play").textContent = "Play"; } }
+  if (fly) { const f = Math.min(1, (now - fly.t0) / fly.ms), e = f < 0.5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2;
+    cam.target.lerpVectors(fly.from.target, fly.to.target, e); cam.dist = fly.from.dist * Math.pow(fly.to.dist / fly.from.dist, e);
+    cam.theta = fly.from.theta + (fly.to.theta - fly.from.theta) * e; cam.phi = fly.from.phi + (fly.to.phi - fly.from.phi) * e;
+    cam.flat = fly.from.flat + ((fly.to.flat || 0) - fly.from.flat) * e;
+    if (f >= 1) fly = null; }
+  if (Math.abs(Math.log(cam.dist / builtDist)) > 0.12) buildPaths();
+  placeCamera();
+  const hs = cam.dist; legs.forEach(l => l.head.scale.setScalar(0.0085 * hs)); legs.rest.scale.setScalar(0.006 * hs);
+  surfs.forEach(s => s.tests.forEach(t => t.dot.scale.setScalar(0.0055 * hs)));
+  renderer.render(scene, camera);
+  tickLabels.forEach(t => put(t.el, t.p, t.dx, t.dy, w, h));
+  const focus = S.hot || S.sel, taken = [];
+  const order = legs.filter(l => l.label).sort((a, b) => (b.a.id === focus) - (a.a.id === focus) || b.pos.lengthSq() - a.pos.lengthSq());
+  // Pictures first. One is shown only where it has room: where the tips of two paths sit on top of each other (as
+  // all do at rest) neither picture is shown, and where two pictures would overlap the later one gives way. An
+  // actuator whose picture is not shown keeps the plain ball, so every tip is always marked.
+  const small = window.matchMedia && window.matchMedia("(max-width: 760px)").matches;
+  const cands = [];
+  order.forEach(l => { l.box = null; if (!l.pic) return;
+    const p = l.shown && S.pics ? put(l.pic, l.pos, 0, 0, w, h) : null;
+    if (!p) { l.pic.style.display = "none"; return; }
+    const hot = l.a.id === focus, half = (small ? (hot ? 44 : 28) : (hot ? 52 : 34)) / 2;
+    l.far = Math.max(l.far, l.pos.lengthSq()); cands.push({ l, p, hot, half }); });
+  // Which picture keeps its place is settled by how far each tip has been seen to travel, not by where it is now,
+  // so pictures do not swap with each other as the input rises.
+  cands.sort((a, b) => b.hot - a.hot || b.l.far - a.l.far);
+  const shownPics = [];
+  cands.forEach(c => {
+    const same = cands.some(o => o !== c && Math.abs(o.p.x - c.p.x) < 6 && Math.abs(o.p.y - c.p.y) < 6);
+    const b = { x0: c.p.x - c.half, x1: c.p.x + c.half, y0: c.p.y - c.half, y1: c.p.y + c.half };
+    // pictures may touch and overlap a little (4 px) before one gives way
+    const hit = shownPics.some(o => b.x0 + 4 < o.x1 && b.x1 - 4 > o.x0 && b.y0 + 4 < o.y1 && b.y1 - 4 > o.y0);
+    if (!c.hot && (same || hit)) { c.l.pic.style.display = "none"; return; }
+    c.l.pic.style.opacity = c.l.dim; c.l.box = b; shownPics.push(b); });
+  legs.forEach(l => { if (l.shown) l.head.visible = !l.box; });
+  shownPics.forEach(b => taken.push(b));
+  order.forEach(l => {
+    if (!l.shown || (!S.names && l.a.id !== focus)) { l.label.style.display = "none"; return; }
+    const off = l.box ? (l.box.x1 - l.box.x0) / 2 + 4 : 9;
+    const p = put(l.label, l.pos, off, 0, w, h); if (!p) return;
+    const box = { x0: p.x, x1: p.x + l.lw + 6 + (l.label.classList.contains("both") ? 10 : 0), y0: p.y - 8, y1: p.y + 8 };
+    if (l.a.id !== focus && (box.x1 > w || taken.some(b => box.x0 < b.x1 && box.x1 > b.x0 && box.y0 < b.y1 && box.y1 > b.y0))) {
+      l.label.style.display = "none"; return; }
+    taken.push(box);
+  });
+}
+
+const retheme = () => { build(true); panel(); };
+if (window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", retheme);
+new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+// The force plot's size follows the axis set when a set is chosen, and can be switched here on its own.
+$("fmode").onchange = () => { plot.mode = $("fmode").value; plotBuild(); plot.cone = undefined; plotPaint(); };
+
+panel(); tasksUI(); plotBuild(); build(false); placeCamera(); requestAnimationFrame(frame);
+})();
+</script>
+<!-- page ends -->
+</body>
+</html>
