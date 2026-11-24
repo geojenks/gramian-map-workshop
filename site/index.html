@@ -27,6 +27,18 @@ ul.links { list-style: none; padding: 0; }
 ul.links li { padding: .55rem 0; border-top: 1px solid var(--grid); }
 ul.links li:last-child { border-bottom: 1px solid var(--grid); }
 ul.links a { font-weight: 600; }
+.piece { border: 1px solid var(--grid); background: var(--surface); border-radius: 8px;
+  padding: .2rem 1rem .6rem; margin: 1rem 0; }
+.piece h3 { font-size: 1.02rem; margin: .9rem 0 .2rem; color: var(--ink); }
+.piece .becomes { color: var(--muted); font-size: .92rem; margin: 0 0 .6rem; }
+details { border-top: 1px solid var(--grid); padding: .5rem 0; }
+summary { cursor: pointer; color: var(--ink); font-weight: 600; }
+details p { margin: .5rem 0; }
+p code, summary { overflow-wrap: anywhere; }
+figure { margin: .8rem 0; }
+figure img { width: 100%; height: auto; border: 1px solid var(--grid); border-radius: 6px;
+  background: #fff; }
+figcaption { color: var(--muted); font-size: .9rem; }
 </style>
 </head>
 <body>
@@ -54,7 +66,134 @@ finger may also resist as a spring, within 2 mm of deflection.</li>
 human hands checked against a recorded wave gait.</li>
 </ul>
 
-<h2>Run it on your own actuator</h2>
+<h2>Three pieces, each one a file you can swap</h2>
+<p>The workflow has three pieces, an actuator, a manipulator and a task. Each ends
+in one plain file, and each has more than one way in. Bring any one piece and keep
+ours for the rest. The commands below are run from the top folder of a clone, after
+the install under <a href="#run">Run it on your own actuator</a>.</p>
+
+<div class="piece">
+<h3>1. Your actuator</h3>
+<p class="becomes">Your actuator becomes a record, which is one file saying how the
+tip moves and how hard it pushes. A record alone goes on the picture of all the records and into the three
+cup demos (<a href="cup_hold.html">cup hold</a>, <a href="cup_turn.html">cup
+turn</a>, <a href="cup_hold_passive_2mm.html">cup hold with passive
+stiffness</a>), as one more row.</p>
+
+<details open>
+<summary>From datasheet numbers, in your browser</summary>
+<p>Open the <a href="record_form.html">record form</a>, type the numbers in
+whatever units you have, and download the record. It needs no install.</p>
+</details>
+
+<details>
+<summary>From bench or simulation curves</summary>
+<p>The worked example is a published pneu-net bending actuator
+(<a href="https://github.com/geojenks/gramian-map-workshop/blob/main/data/test_curves/mosadegh2014_fPN.csv"><code>data/test_curves/mosadegh2014_fPN.csv</code></a>; the format is
+<a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/TEST_CURVE_FORMAT.md"><code>docs/TEST_CURVE_FORMAT.md</code></a>).</p>
+<pre><code>python tools/curves_to_record.py data/test_curves/mosadegh2014_fPN.csv --out my_actuator.json
+python tools/check_record.py my_actuator.json
+python demos/cup_hold.py --record my_actuator.json</code></pre>
+<p>The second command prints, among its lines:</p>
+<pre><code>     push direction  -   from no force data: this actuator cannot push in the tool
+     stroke          94.9 mm</code></pre>
+<p>That file gives motion and no force, so its row in the cup demo reads "no
+contact". The full walk is <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/ADD_YOUR_ACTUATOR.md"><code>docs/ADD_YOUR_ACTUATOR.md</code></a>.</p>
+</details>
+
+<details>
+<summary>From an analytical model</summary>
+<p>Replace two functions in <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/examples/analytical_model_to_curves.py"><code>examples/analytical_model_to_curves.py</code></a> with
+your formulas, and it writes the same table of curves a bench test would. As
+shipped it holds a textbook bending finger with made-up
+numbers.</p>
+<pre><code>python examples/analytical_model_to_curves.py --out my_model_curves.csv
+python tools/curves_to_record.py my_model_curves.csv --out my_model.json
+python tools/check_record.py my_model.json</code></pre>
+</details>
+
+<details>
+<summary>From a table of joints, for a rigid finger</summary>
+<pre><code>python tools/joint_table_to_record.py data/joint_tables/shadow_hand_finger.csv --out my_finger.json
+python tools/check_record.py my_finger.json</code></pre>
+<p>The format is <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/JOINT_TABLE_FORMAT.md"><code>docs/JOINT_TABLE_FORMAT.md</code></a>. A record made this way cannot
+yet be built into a hand (issue 33).</p>
+</details>
+
+<details open>
+<summary>From a mesh, through a finite-element simulation</summary>
+<p>The scripts are in <a href="https://github.com/geojenks/gramian-map-workshop/tree/main/mesh_route"><code>mesh_route/</code></a>, with one worked pneu-net
+finger whose simulation runs are stored. So you can rebuild its record without a
+simulator. Runs of your own mesh need SOFA.</p>
+<pre><code>pip install -e ".[mesh]"
+cd mesh_route
+python preprocess.py cads/actuation_methods/pumped_volume_pneunet/mesh.msh cads/actuation_methods/pumped_volume_pneunet/actuator.npz
+python sample_to_draft_record.py --sample experiments/actuation_methods/same_body_pneunet/chamber_pressure_set --cad cads/actuation_methods/pumped_volume_pneunet --id sample_pneunet_pressure_set --name "Pneunet, chamber pressure set (sample)" --physics pneumatic --input_name "chamber pressure (scene units)" --out_root ../my_mesh_drafts
+cd ..
+python tools/figure_map_tip_paths.py --record my_mesh_drafts/sample_pneunet_pressure_set.json --tag my_mesh</code></pre>
+<figure>
+<a href="map_tip_paths_mesh_sample.png"><img src="map_tip_paths_mesh_sample.png"
+alt="Scatter of actuator records: share of tip motion that is sideways against free stroke, with the sample pneu-net finger boxed at the right among the benders"></a>
+<figcaption>The picture <code>tools/figure_map_tip_paths.py</code> drew in our run,
+with the worked finger boxed and marked "(yours)" at the right, among the other
+benders. Select it for full size.</figcaption>
+</figure>
+<p>The steps, what each prints, and how to prepare your own mesh are in
+<a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/ACTUATOR_FROM_A_MESH.md"><code>docs/ACTUATOR_FROM_A_MESH.md</code></a>.</p>
+</details>
+</div>
+
+<div class="piece">
+<h3>2. Your manipulator</h3>
+<p class="becomes">Your manipulator becomes a hand, a file that says how many fingers
+there are and where each one stands.</p>
+<details>
+<summary>From copies of your actuator</summary>
+<pre><code>python tools/build_record_hand.py examples/test_curve_hand/hand.json
+python tools/add_hand.py examples/test_curve_hand/hand.xml examples/test_curve_hand/description.json</code></pre>
+<p>A short file says where each finger is mounted. The one here names <code>my_actuator.json</code>, the record made under
+"Bench or simulation curves" above, and the build needs the hands install
+(<code>pip install -e ".[hands]"</code>). Steps 4 to 6 of <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/PARTICIPANT_SCRIPT.md"><code>docs/PARTICIPANT_SCRIPT.md</code></a>
+go through it.</p>
+</details>
+<details>
+<summary>From a hand you have a model of</summary>
+<pre><code>python tools/add_hand.py external/mujoco_menagerie/wonik_allegro/left_hand.xml examples/my_allegro_left.json</code></pre>
+<p>The model is a MuJoCo or URDF file, and a short description file says which
+body is each fingertip. This one is the Allegro hand, which
+<code>python tools/fetch_hands.py</code> fetches after the hands install.
+<a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/BRING_YOUR_HAND.md"><code>docs/BRING_YOUR_HAND.md</code></a>
+says what a hand must have and gives the full steps.</p>
+</details>
+</div>
+
+<div class="piece">
+<h3>3. Your task</h3>
+<p class="becomes">Your task becomes a task file. It says, frame by frame, where the
+object is, which contacts touch it, where, and with what force.</p>
+<details>
+<summary>From contacts in a MuJoCo simulation</summary>
+<pre><code>python examples/mujoco_contacts_to_leader.py
+python tools/check_leader.py outputs/my_mujoco_task.json</code></pre>
+<p>This sample needs the hands install, which brings MuJoCo. It rests a ball on a
+ring of pads and writes its contacts as a task file.
+<a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/TASK_FROM_MUJOCO.md"><code>docs/TASK_FROM_MUJOCO.md</code></a>
+shows how to adapt it to your own run and lists the traps.</p>
+</details>
+<details>
+<summary>From contacts in another simulator or an experiment</summary>
+<p>Your own script writes the same fields, which are listed in <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/TASK_FILE_FORMAT.md"><code>docs/TASK_FILE_FORMAT.md</code></a>, under "Bringing your own
+task".</p>
+</details>
+</div>
+
+<p>A hand and a task file go into the follow check
+(<code>tools/run_follow.py</code>), which says frame by frame whether that hand can
+be at those contacts with those forces. Check each file before using it, with
+<code>tools/check_record.py</code> for a record and
+<code>tools/check_leader.py</code> for a task file.</p>
+
+<h2 id="run">Run it on your own actuator</h2>
 <p>You need Python 3.9 or newer and git.</p>
 <pre><code>git clone https://github.com/geojenks/gramian-map-workshop
 cd gramian-map-workshop
@@ -75,6 +214,10 @@ comes from. Each push is checked on clean Linux and Windows machines.</p>
 <p>Apache-2.0. The hand models fetched by <code>fetch_hands.py</code> keep their
 own licences (BSD, Apache-2.0 and MIT for the Menagerie hands; Apache-2.0 for
 Linker's L20).</p>
+<p>Two scripts of the mesh route started from a SOFA SoftRobots tutorial and are
+under the GNU Lesser General Public License, as
+<a href="https://github.com/geojenks/gramian-map-workshop/blob/main/mesh_route/THIRD_PARTY_NOTICE.md"><code>mesh_route/THIRD_PARTY_NOTICE.md</code></a>
+sets out.</p>
 </main>
 </body>
 </html>
