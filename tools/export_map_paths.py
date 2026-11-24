@@ -571,7 +571,12 @@ HAND_PLACED_MODULUS = ("Placed by hand: there is no record to read a "
 
 
 def _rel(path):
-    return os.path.relpath(path, ROOT).replace("\\", "/")
+    try:
+        return os.path.relpath(path, ROOT).replace("\\", "/")
+    except ValueError:
+        # Windows: a record of your own on another drive has no path
+        # relative to the clone, so it is named by its file name alone
+        return os.path.basename(path)
 
 
 def _finger_facts(rec, quality):
