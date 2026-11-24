@@ -29,6 +29,7 @@ ul.links li:last-child { border-bottom: 1px solid var(--grid); }
 ul.links a { font-weight: 600; }
 .piece { border: 1px solid var(--grid); background: var(--surface); border-radius: 8px;
   padding: .2rem 1rem .6rem; margin: 1rem 0; }
+h3 { font-size: 1.02rem; margin: 1.6rem 0 .4rem; }
 .piece h3 { font-size: 1.02rem; margin: .9rem 0 .2rem; color: var(--ink); }
 .piece .becomes { color: var(--muted); font-size: .92rem; margin: 0 0 .6rem; }
 details { border-top: 1px solid var(--grid); padding: .5rem 0; }
@@ -212,13 +213,14 @@ be at those contacts with those forces. Check each file before using it, with
 <code>tools/check_leader.py</code> for a task file.</p>
 
 <h2 id="run">Install</h2>
-<p>You need Python 3.9 or newer and git. The last line draws the map with the
-finger from the bench curves on it, once you have made that record as above.</p>
+<p>You need Python 3.9 or newer and git. The last two lines make a record from the
+published bench curves and draw the map with it on.</p>
 <pre><code>git clone https://github.com/geojenks/gramian-map-workshop
 cd gramian-map-workshop
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e ".[figures]"
+python tools/curves_to_record.py data/test_curves/mosadegh2014_fPN.csv --out my_actuator.json
 python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator</code></pre>
 <p>To check rigid robot hands as well (Allegro, Shadow, LEAP and Linker's public
 L20), add MuJoCo and fetch the hand models:</p>
