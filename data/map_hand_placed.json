@@ -1,0 +1,4 @@
+{
+ "about": "Read by tools/export_map_paths.py. Actuators placed on the map by hand, not read from a record: for example an actuator known only from a description, a photograph or a single quoted number. Each entry uses the same layout as an actuator in site/data/map_paths.json, without record_file and record_sha256, and must carry a 'basis' string saying where the placement came from. The export marks each one hand_placed: true. Nothing here comes from, or goes into, data/records. Empty until someone adds an entry with its basis.",
+ "actuators": []
+}

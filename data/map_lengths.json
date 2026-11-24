@@ -1,0 +1,25 @@
+{
+ "note": "Read by tools/export_map_paths.py. Estimated body lengths, in metres, for records whose own metadata.length_m is not set. Each entry is keyed by record id and holds \"length_m\" (a positive number) and \"source\" (where the number comes from, for example a dimension read from a paper's figure). The map uses a record's own length where it has one; an entry here for such a record is refused, so an estimate never replaces a length the record holds. The export marks a length taken from here as source \"estimate\". Nothing here comes from, or goes into, data/records. Left out on purpose: mosadegh2014_fPN (the paper gives a 10 cm rod, but does not say that is the length that bends; see also data/map_caveats.json) and mosadegh2014_sPN (the paper states no length for it).",
+ "records": {
+  "abboodi2026_ossa5_axial_extend": {
+   "length_m": 0.12,
+   "source": "Abboodi et al., Sci Rep (2026) 16:9828, Table 1: column l is 120 mm for every model, OSSA5 included"
+  },
+  "abboodi2026_ossa5_vacuum_contract": {
+   "length_m": 0.12,
+   "source": "Abboodi et al., Sci Rep (2026) 16:9828, Table 1: column l is 120 mm for every model, OSSA5 included"
+  },
+  "chandler2020_pha_a0_C1": {
+   "length_m": 0.0499,
+   "source": "Chandler et al. 2020, Table 3, chamber 1 at helix angle 0: arc length from the paper's own constant-curvature fit, 49.9 mm (data/draft_records/chandler2020_parallel_helix/chandler2020_tables_transcribed.csv, column l_mm). A fitted length, not a measured rest length"
+  },
+  "chandler2020_pha_a0_C2": {
+   "length_m": 0.05,
+   "source": "Chandler et al. 2020, Table 3, chamber 2 at helix angle 0: arc length from the paper's own constant-curvature fit, 50.0 mm (data/draft_records/chandler2020_parallel_helix/chandler2020_tables_transcribed.csv, column l_mm). A fitted length, not a measured rest length"
+  },
+  "chandler2020_pha_a0_C3": {
+   "length_m": 0.0483,
+   "source": "Chandler et al. 2020, Table 3, chamber 3 at helix angle 0: arc length from the paper's own constant-curvature fit, 48.3 mm (data/draft_records/chandler2020_parallel_helix/chandler2020_tables_transcribed.csv, column l_mm). A fitted length, not a measured rest length"
+  }
+ }
+}

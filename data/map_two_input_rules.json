@@ -1,0 +1,15 @@
+{
+ "about": "Read by tools/export_map_paths.py. How the tip motions of a two-input actuator's two inputs combine, for the predicted surface on the map. Keyed by record id. 'rule' is 'series' (two segments end to end: the far segment's motion is carried on the near segment's tip) or 'sum' (the two single-input tip displacements and rotation vectors are added). A 'series' entry gives 'base_to_tip', the two input channel indices with the one driving the segment nearer the fixed base first. 'why' says how the arrangement is known; it must come from how the actuator is built, never from which rule fits the data better. A two-input actuator with no entry here gets no surface.",
+ "records": {
+  "pneunet_tandem_twist_60deg": {
+   "rule": "series",
+   "base_to_tip": [0, 1],
+   "why": "The generator make_pneunet_tandem.py builds the proximal segment (inner_cavity_1, channel 0, p1) at X = 0 to 36.5 mm with X = 0 the clamped end, and the distal segment (inner_cavity_2, channel 1, p2) glued on after it at X = 36.5 to 73 mm."
+  },
+  "pneunet_tandem_twist_90deg": {
+   "rule": "series",
+   "base_to_tip": [0, 1],
+   "why": "The generator make_pneunet_tandem.py builds the proximal segment (inner_cavity_1, channel 0, p1) at X = 0 to 36.5 mm with X = 0 the clamped end, and the distal segment (inner_cavity_2, channel 1, p2) glued on after it at X = 36.5 to 73 mm."
+  }
+ }
+}

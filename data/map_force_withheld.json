@@ -1,0 +1,14 @@
+{
+ "note": "Read by tools/export_map_paths.py. Records whose force with the tip held is left off the map, each with the reason. A listed record is treated as holding no force with the tip held everywhere the map uses force: the force axes and table, the scaled force, the push test (which comes out as not tested, as for a record with no force) and the has_force flag. Its path is drawn as before. The record itself is not changed; evidence pins the record file the exporter reads by sha256, and the export stops if that file changes, so the entry is looked at again. Delete an entry to put the force back.",
+ "records": {
+  "cable_finger": {
+   "reason": "Held-tip force left off: the reading measures the holding springs, not the finger. The tendon's end is tied into the same block of nodes that the stiff springs hold (67 nodes, 1e6 N/m each), and the tendon is driven by a fixed take-up, so the reported force is spring stiffness times take-up (about 3.1e6 N per metre of take-up) and would change with the spring stiffness chosen. The record is unchanged; the force is to be re-measured.",
+   "evidence": {
+    "repo": "gramian-map-workshop",
+    "path": "data/records/cable_finger.json",
+    "sha256": "cd810c8b6d9ea16239acd77a37de6eef026abb89daaddde57b17cae4e7c67702",
+    "probe": "probe output probe_tendon1.csv, Gramain_extraction gramian_map/experiments/cable/cable_finger/blocked_force: force over take-up is 3.13e6, 3.15e6, 2.98e6, 2.87e6 N/m at the four levels"
+   }
+  }
+ }
+}

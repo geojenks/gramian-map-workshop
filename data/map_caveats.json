@@ -1,0 +1,50 @@
+{
+ "about": "Read by tools/export_map_paths.py. Limits on drawing a record's free tip path that the record and MANIFEST.json do not carry. Keyed by record id. 'draw': false leaves the record out of the map with the reason given; 'caveat' is shown beside the record on the page.",
+ "source": "Settle audit of the simulated records, October 2026 (geojenks/Gramain_extraction, gramian_map/docs/agent_reports/SETTLE_AUDIT.md and audits/settle_audit/mck_followup.txt on the audit branch), for the two mckibben entries. Each other entry names its own source in its text.",
+ "records": {
+  "mckibben_v2_70deg": {
+   "draw": false,
+   "reason": "settle audit: the resumed free run diverges, so the free tip travel cannot be checked"
+  },
+  "mckibben_v2_20deg": {
+   "draw": true,
+   "caveat": "settle audit: the free run had not settled; the tip moves further when the run is resumed"
+  },
+  "mosadegh2014_fPN": {
+   "draw": true,
+   "caveat": "the tip path does not start at the origin. The record holds the published figure's own coordinates (Mosadegh et al. 2014, supplement Fig S5F), and in that figure the 0 kPa marker sits away from the zero of the axes. The paper says this actuator already bends under gravity at zero pressure; we read the offset as that sag, with the figure's zero at the straight pose, but the paper does not say so outright. The record leaves the 0 kPa point out (hidden under another marker) and starts at 15 kPa. Bend and stretch are not estimated for it"
+  },
+  "kubler2023_cPAM_W40xL40": {
+   "draw": true,
+   "caveat": "the stretch estimate reads zero by construction: this record's tip positions were themselves built from an even arc of fixed length 0.36 m (build_kubler2023_records.py in data/draft_records/kubler2023_vine_actuators), so the estimate only returns that assumption"
+  },
+  "kubler2023_fPAM_W40": {
+   "draw": true,
+   "caveat": "the stretch estimate reads zero by construction: this record's tip positions were themselves built from an even arc of fixed length 0.36 m (build_kubler2023_records.py in data/draft_records/kubler2023_vine_actuators), so the estimate only returns that assumption"
+  },
+  "kubler2023_pouch_W40xL40": {
+   "draw": true,
+   "caveat": "the stretch estimate reads zero by construction: this record's tip positions were themselves built from an even arc of fixed length 0.36 m (build_kubler2023_records.py in data/draft_records/kubler2023_vine_actuators), so the estimate only returns that assumption"
+  },
+  "chandler2020_pha_a0_C1": {
+   "draw": true,
+   "caveat": "the body length used for the estimates is the paper's fitted arc length (Chandler et al. 2020, Table 3), not a measured rest length, and the paper gives it to within 1 to 3 mm. At this much bend that uncertainty is larger than the stretch estimate itself, so the stretch here should not be read"
+  },
+  "chandler2020_pha_a0_C2": {
+   "draw": true,
+   "caveat": "the body length used for the estimates is the paper's fitted arc length (Chandler et al. 2020, Table 3), not a measured rest length, and the paper gives it to within 1 to 3 mm. At this much bend that uncertainty is larger than the stretch estimate itself, so the stretch here should not be read"
+  },
+  "chandler2020_pha_a0_C3": {
+   "draw": true,
+   "caveat": "the body length used for the estimates is the paper's fitted arc length (Chandler et al. 2020, Table 3), not a measured rest length, and the paper gives it to within 1 to 3 mm. At this much bend that uncertainty is larger than the stretch estimate itself, so the stretch here should not be read"
+  },
+  "mosadegh2014_sPN": {
+   "draw": true,
+   "caveat": "the tip path starts a few millimetres off the origin. The record holds the published figure's own coordinates (Mosadegh et al. 2014, supplement Fig S5E, camera series), and its first row is the figure's 0 kPa marker, which does not sit at the zero of the axes. Whether that is sag under gravity or the reading of the figure's axes is not known. The paper states no body length for it, so bend and stretch are not estimated"
+  },
+  "cable_finger": {
+   "draw": true,
+   "caveat": "its stored force with the tip held is hundreds of times larger than any other record's. That reading measures the holding springs, not the finger, so its held-tip force is left off the map until it is re-measured; data/map_force_withheld.json gives the reason. Source: reading of the record's own held-tip block against the other records on this map, 19 Nov 2026, and the probe named in data/map_force_withheld.json"
+  }
+ }
+}
