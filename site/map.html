@@ -1890,7 +1890,7 @@ function panel() {
   const row = (cls, text) => { const d = document.createElement("span"); d.className = cls;
     const t = document.createElement("span"); t.textContent = text; key.append(d, t); };
   row("sw", "from a record in the repository");
-  if (ACTS.some(a => a.draft)) row("sw dash", "draft record, not yet banked");
+  if (ACTS.some(a => a.draft)) row("sw dash", "draft record");
   if (ACTS.some(a => a.hand_placed)) row("sw dash", "placed by hand, not from a record");
   row("dot", "motion only, no force data");
   if (ACTS.some(a => a.thumbnail && a.thumbnail.kind === "mesh")) row("picsm", "picture drawn from the simulated mesh, at rest");
