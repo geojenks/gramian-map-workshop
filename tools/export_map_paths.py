@@ -2089,8 +2089,12 @@ def angle_deg(v, e):
     nv, ne = float(np.linalg.norm(v)), float(np.linalg.norm(e))
     if nv == 0.0 or ne == 0.0:
         return None
-    return float(np.degrees(np.arccos(np.clip(float(v @ e) / (nv * ne),
-                                              -1.0, 1.0))))
+    # From the difference and the sum of the two unit vectors, not from the
+    # arccos of their dot product: near 0 and 180 degrees the arccos loses
+    # most of its figures, and the last ones then differ between machines.
+    a, b = v / nv, e / ne
+    return float(np.degrees(2.0 * np.arctan2(float(np.linalg.norm(a - b)),
+                                             float(np.linalg.norm(a + b)))))
 
 
 def _runs(inside, inputs):
