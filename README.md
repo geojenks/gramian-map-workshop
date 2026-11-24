@@ -1,13 +1,15 @@
 # gramian-map-workshop
 
-**Can N copies of your actuator hold, and turn, a ball in a cup?**
+**Put your actuator on the map.**
 
-A small, numpy-only tool for the ARIA workshop. It pairs soft-actuator
-**records** (from the Gramian capability map, `geojenks/Gramain_extraction`,
-not public)
-with manipulation **tasks** (from the wave-manipulation work,
-`geojenks/Wave_manip`). It then says, for each arrangement of fingers, whether
-the task can be done and, if not, **why**.
+A small tool for the ARIA workshop. You describe an actuator and it becomes a
+**record**, in the format of the Gramian capability map
+(`geojenks/Gramain_extraction`, not public). The record goes on a map of
+actuators, drawn as the path its tip takes while its input rises
+(`python tools/figure_map_tip_paths.py --record my_actuator.json --tag mine`,
+with the `figures` extra). Once it is there, copies of it can be arranged as
+a manipulator and checked against a manipulation **task**. The tool then says
+whether the task can be done and, if not, **why**.
 
 > The simulations and records here are not calibrated against real experiments
 > unless marked, so use them to compare designs, not to predict what a built one
@@ -114,7 +116,7 @@ python -m unittest discover -s tests
 ```
 
 Without the hands, the hand tests skip themselves; so do the source checks
-that need our private Wave_manip repository.
+that need a private repository of ours.
 
 **Hands available.** Allegro, Shadow and LEAP come from MuJoCo Menagerie
 (BSD, Apache-2.0 and MIT, each licence kept with its model). `l20_public` is
@@ -184,7 +186,7 @@ per input level) are read automatically.
 ## The two demos
 
 **Demo 1, cup_hold.** N fingers (N = 1 to 8) on the ring where the Allegro's
-pads held a ball in W20 step 4 (ball 32.9 mm, 0.05 kg, μ = 1, contacts
+pads held a ball in an earlier simulation of ours (ball 32.9 mm, 0.05 kg, μ = 1, contacts
 43.6° below the centre). The demand is the ball's weight. Mounts:
 `aimed` (the finger's push points into the ball) and `palm` (the finger
 stands upright on a palm), each at yaw 0° and 90°.
@@ -258,19 +260,15 @@ awaiting sign-off.
   sha256 and carries its trust flags (the 55° McKibben's floor noise is
   shown, not cleaned).
 - `data/tasks/` holds the task files, written by `tools/export_tasks.py` from
-  Wave_manip's banked W20 logs. Each constant names its file, key, commit
-  and sha256.
-- `gramian_workshop/vendor/` holds the W20 readout core (`stability.py`,
-  `w20_capability.py`), **copied verbatim** by `tools/vendor_w20.py`. Do not
-  edit it; regenerate it.
-- `python -m gramian_workshop.gates --wave-manip ../wave_manip` runs gates
-  V0 to V5. They check that the vendored code matches its source, the solver
-  against brute force, the frames, closure, symmetry and provenance, and they
-  write `outputs/gates.json`. `python -m unittest discover -s tests` runs them
-  as tests; set `WAVE_MANIP=...` for the source checks.
-
-The model and its predictions are registered in Wave_manip:
-`experiment_log/2026-10-21_w20s6_soft_finger_registration.md` (W20 step 6).
+  stored simulation logs in a private repository of ours. Each constant names
+  its file, key, commit and sha256.
+- `gramian_workshop/vendor/` holds the readout core, **copied verbatim** from
+  that repository. Do not edit it; regenerate it.
+- `python -m gramian_workshop.gates` runs gates V0 to V5. They check the
+  solver against brute force, the frames, closure, symmetry and provenance,
+  and they write `outputs/gates.json`. `python -m unittest discover -s tests`
+  runs them as tests. The checks that compare the copied code with its source
+  need that private repository and are reported as skipped without it.
 
 ## Limits, stated
 
