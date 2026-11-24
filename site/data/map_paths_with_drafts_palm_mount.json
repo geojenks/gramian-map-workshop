@@ -23045,7 +23045,7 @@
    ],
    "caveat": "the body length used for the estimates is the paper's fitted arc length (Chandler et al. 2020, Table 3), not a measured rest length, and the paper gives it to within 1 to 3 mm. At this much bend that uncertainty is larger than the stretch estimate itself, so the stretch here should not be read",
    "record_file": "data/draft_records/chandler2020_parallel_helix/chandler2020_pha_a0_C1.json",
-   "record_sha256": "06b11081649eb4adfecf4fc8e2028fba1dd5ec872eb3da60b62e238e6a8b2312",
+   "record_sha256": "617e1a20fd8ce6f7d849de267b3a9ef9a528890f396ec1eafd15465c7a914c62",
    "legs": [
     {
      "label": "injected air volume, chamber C1 (m^3; syringe displacement)",
@@ -23579,7 +23579,7 @@
    ],
    "caveat": "the body length used for the estimates is the paper's fitted arc length (Chandler et al. 2020, Table 3), not a measured rest length, and the paper gives it to within 1 to 3 mm. At this much bend that uncertainty is larger than the stretch estimate itself, so the stretch here should not be read",
    "record_file": "data/draft_records/chandler2020_parallel_helix/chandler2020_pha_a0_C2.json",
-   "record_sha256": "ba61d341dc93fac7d33d00358fac751a252aa8eeb38d162d5662a44da6407a4d",
+   "record_sha256": "c13a552c321a171c661d2fdb73a17a8c927a7c828e5ce042fe2da29fede38f91",
    "legs": [
     {
      "label": "injected air volume, chamber C2 (m^3; syringe displacement)",
@@ -24095,7 +24095,7 @@
    ],
    "caveat": "the body length used for the estimates is the paper's fitted arc length (Chandler et al. 2020, Table 3), not a measured rest length, and the paper gives it to within 1 to 3 mm. At this much bend that uncertainty is larger than the stretch estimate itself, so the stretch here should not be read",
    "record_file": "data/draft_records/chandler2020_parallel_helix/chandler2020_pha_a0_C3.json",
-   "record_sha256": "6b28d9da7b2223baa9cd6d6fae40b44d65855d56c57e8b53a5355054480b0a25",
+   "record_sha256": "f1d6ff0d3bf79764201c75ecbcff15a7fca59f3c3aa5e2821ea6d1f5f195475f",
    "legs": [
     {
      "label": "injected air volume, chamber C3 (m^3; syringe displacement)",
@@ -24903,7 +24903,7 @@
    ],
    "caveat": null,
    "record_file": "data/draft_records/cherubini2015_coiled_nylon/cherubini2015_RC_datasetC.json",
-   "record_sha256": "2e296ff13358c753e78ddc0a85a4b601bbc90119fa57fd81de1f3c48e15e44c9",
+   "record_sha256": "b275a3833cf05ea2187c23e7ae95f25b89ef7e11d15b32889854922d3be3bdd3",
    "legs": [
     {
      "label": "chamber air temperature rise above 25 degC (degC)",
@@ -25204,7 +25204,7 @@
    ],
    "caveat": "the stretch estimate reads zero by construction: this record's tip positions were themselves built from an even arc of fixed length 0.36 m (build_kubler2023_records.py in data/draft_records/kubler2023_vine_actuators), so the estimate only returns that assumption",
    "record_file": "data/draft_records/kubler2023_vine_actuators/kubler2023_cPAM_W40xL40.json",
-   "record_sha256": "77e1ec2cc820653a964ec1c90898967156b6ebd453b339cf74c264b3dce3b25a",
+   "record_sha256": "d24382b4a8f6be204f0f89321ae9001fdf4b43d0e4c4b8f3464042b4b33a61bb",
    "legs": [
     {
      "label": "actuator pressure",
@@ -25892,7 +25892,7 @@
    ],
    "caveat": "the stretch estimate reads zero by construction: this record's tip positions were themselves built from an even arc of fixed length 0.36 m (build_kubler2023_records.py in data/draft_records/kubler2023_vine_actuators), so the estimate only returns that assumption",
    "record_file": "data/draft_records/kubler2023_vine_actuators/kubler2023_fPAM_W40.json",
-   "record_sha256": "3003cd915a3c6997ccdaf20103ae7ae1632758f1bc9c0d32cb002a1521287c3e",
+   "record_sha256": "f19b6ef696b1817086763139130e0c4785902d7f9979717e88dc31c58df978f6",
    "legs": [
     {
      "label": "actuator pressure",
@@ -26688,7 +26688,7 @@
    ],
    "caveat": "the stretch estimate reads zero by construction: this record's tip positions were themselves built from an even arc of fixed length 0.36 m (build_kubler2023_records.py in data/draft_records/kubler2023_vine_actuators), so the estimate only returns that assumption",
    "record_file": "data/draft_records/kubler2023_vine_actuators/kubler2023_pouch_W40xL40.json",
-   "record_sha256": "e6368dae9893bf93c287d91d53c950a1e34779f13e2942bf8807aa663402069b",
+   "record_sha256": "35dcf7d18f7171a582a792b49090327c0afe523295c2542bc5cc0fe3f22b5fc6",
    "legs": [
     {
      "label": "actuator pressure",
@@ -27360,6 +27360,286 @@
     "image": "thumbs/schematic_vine_pouch.png",
     "kind": "schematic",
     "basis": "The record's notes describe a line of welded rectangular pouches on an inflated vine robot body. The number of pouches drawn is ours."
+   }
+  },
+  {
+   "id": "sample_pneunet_pressure_set",
+   "name": "Pneunet, chamber pressure set (sample)",
+   "physics": "pneumatic",
+   "source_kind": "simulation",
+   "draft": true,
+   "hand_placed": false,
+   "has_force": true,
+   "flags": [
+    "source:draft_from_simulation"
+   ],
+   "caveat": "the input is in the units the simulation scene took it in, and the record gives no body stiffness, so its input is not scaled here and its place along a scaled input axis is not comparable with the other actuators. The record is a draft made by the mesh route in mesh_route/",
+   "record_file": "data/draft_records/pneunet_pressure_sample/sample_pneunet_pressure_set.json",
+   "record_sha256": "e42718079c9fb8cfab21d85aa4e9afc666251dd951de03e27e2ee81dfdd0ea09",
+   "legs": [
+    {
+     "label": "chamber pressure (scene units)",
+     "channel": 0,
+     "lead_in_from_origin": false,
+     "input": {
+      "name": "chamber pressure (scene units)",
+      "unit": null,
+      "values": [
+       0.0,
+       5.0,
+       10.0,
+       20.0,
+       30.0
+      ]
+     },
+     "values": {
+      "axial_m": [
+       0.0,
+       0.00024398025035378412,
+       0.00046698603713864195,
+       0.0008355559859944961,
+       0.001078279542436375
+      ],
+      "bending_m": [
+       0.0,
+       0.0012108859208077032,
+       0.0024709913209403325,
+       0.00512892585685403,
+       0.007954586517556586
+      ],
+      "twist_rad": null,
+      "side_y_m": [
+       0.0,
+       0.0012108859208077032,
+       0.0024709854072718193,
+       0.005128825126598025,
+       0.007954190880585577
+      ],
+      "side_z_m": [
+       0.0,
+       -1.4993700054383014e-19,
+       5.406034791737493e-06,
+       3.2144453372178134e-05,
+       7.933536728502693e-05
+      ],
+      "input_share": [
+       0.0,
+       0.16666666666666666,
+       0.3333333333333333,
+       0.6666666666666666,
+       1.0
+      ],
+      "bend_rad": [
+       0.0,
+       0.033061437055130455,
+       0.06724272541299667,
+       0.1387055356650104,
+       0.21394186081586633
+      ],
+      "stretch_share": [
+       0.0,
+       0.003525003828341422,
+       0.007155887439842967,
+       0.014696506451486346,
+       0.02255369128720419
+      ],
+      "bend_y_rad": [
+       0.0,
+       0.033061437055130455,
+       0.06724256448520034,
+       0.13870281153826206,
+       0.21393121999756629
+      ],
+      "bend_z_rad": [
+       0.0,
+       -4.0938065432359806e-18,
+       0.00014711363410842542,
+       0.000869307482323742,
+       0.0021337571812195867
+      ],
+      "axial_share": [
+       0.0,
+       0.00334219521032581,
+       0.006397069001899206,
+       0.011445972410883508,
+       0.014770952636114727
+      ],
+      "bending_share": [
+       0.0,
+       0.016587478367228813,
+       0.03384919617726483,
+       0.07025925831306891,
+       0.10896693859666556
+      ]
+     },
+     "length_sensitivity": {
+      "bend_rad": [
+       0.0,
+       0.00165136356934217,
+       0.0033464865435007887,
+       0.0068513843197485075,
+       0.010485938996454391
+      ],
+      "stretch_share": [
+       0.0,
+       0.00018586927034935918,
+       0.0003966555890178025,
+       0.0008982356845426143,
+       0.0015150397643058922
+      ]
+     }
+    }
+   ],
+   "surface": null,
+   "length": {
+    "value_m": 0.073,
+    "source": "record",
+    "detail": null
+   },
+   "bend_check": null,
+   "tasks": [
+    {
+     "task": "cup_turn",
+     "needed_direction": [
+      0.0,
+      1.0,
+      -6.123233995736766e-17
+     ],
+     "contact_normal": [
+      0.689970864393704,
+      4.432224187442483e-17,
+      0.7238371407214504
+     ],
+     "least_angle_deg": 7.740638414286956,
+     "enters": true,
+     "legs": [
+      {
+       "angle_deg": [
+        null,
+        11.391943660044788,
+        10.702681794460451,
+        9.25970550090782,
+        7.740638414286956
+       ],
+       "inside": [
+        null,
+        true,
+        true,
+        true,
+        true
+       ],
+       "inside_input": [
+        [
+         5.0,
+         30.0
+        ]
+       ]
+      }
+     ],
+     "stroke": {
+      "reaches_end": false,
+      "inside_to_end": false,
+      "furthest_along_m": 0.007954190880585577,
+      "legs": [
+       {
+        "along_m": [
+         0.0,
+         0.0012108859208077032,
+         0.0024709854072718193,
+         0.005128825126598025,
+         0.007954190880585577
+        ],
+        "across_m": [
+         0.0,
+         0.00024398025035378412,
+         0.0004670173274029804,
+         0.0008361740677716756,
+         0.0010811941879880084
+        ],
+        "reaches_end": false,
+        "end_input": null,
+        "end_input_is": "interpolated between logged levels",
+        "inside_to_end": false,
+        "end_angle_deg": null
+       }
+      ]
+     },
+     "return_clear": {
+      "stroke_from": "own_start",
+      "stroke_line": null,
+      "passes": null,
+      "reason": "No line of its tip positions reaches one stroke from its own start inside the cone's angle, so it has no stroke path to come back along."
+     },
+     "off_drawn_direction_deg": 0.0
+    }
+   ],
+   "force": {
+    "method": "holding springs 1e+06 N/m per node; force the actuator puts on the hold; tip held in place on a line of end-face nodes, free to rotate (run_shared_body_drive.py --hold_line)",
+    "moment_method": "held-node forces x lever arm about the tip centre (not about the inlet)",
+    "input": {
+     "names": [
+      "chamber pressure (scene units)"
+     ],
+     "units": [
+      null
+     ],
+     "values": [
+      [
+       20.0
+      ]
+     ]
+    },
+    "axial_N": [
+     0.1628075
+    ],
+    "sideways_size_N": [
+     0.0011250849096567956
+    ],
+    "vector_N": [
+     [
+      0.1628075,
+      -0.00019354401117905072,
+      0.0011083125776035223
+     ]
+    ],
+    "direction_known": true,
+    "size_N": [
+     0.16281138741594195
+    ],
+    "size_is": "whole force",
+    "off_axis_deg": [
+     0.39593747709601046
+    ],
+    "moment_Nm": [
+     [
+      0.0002137381,
+      6.742202663954241e-05,
+      -0.0003354049695837403
+     ]
+    ],
+    "twist_tip_Nm": null,
+    "to_task": [
+     {
+      "task": "cup_turn",
+      "to_needed_direction_deg": [
+       90.0681110687551
+      ],
+      "to_contact_normal_deg": [
+       45.98220136510959
+      ]
+     }
+    ]
+   },
+   "force_withheld": null,
+   "display_name": "Pneu-net finger, simulated from a mesh",
+   "name_detail": "The pneu-net bender that the project page takes from a mesh, through a finite-element simulation, to a record; chamber wall 1.0 mm thick, one pressure input.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Pneu-net (pneumatic network) is the field's name for this type of bender; the mesh and the wall thickness are set out in mesh_route/PROVENANCE.md.",
+   "reference": null,
+   "thumbnail": {
+    "image": "thumbs/sample_pneunet_pressure_set.png",
+    "kind": "mesh",
+    "basis": "Real geometry: the rest shape, drawn from the mesh the simulation ran on."
    }
   },
   {
@@ -33424,7 +33704,7 @@
    ],
    "caveat": null,
    "record_file": "data/draft_records/yang2016_vacuum_buckling/yang2016_vamp_ecoflex.json",
-   "record_sha256": "9e8a85b37cbfea361eb8de698158902e153f399d2793142d745ed02a1daed5e7",
+   "record_sha256": "be7c4e0cd7c4138898107a0796c39a8cdc248a5a56f96ae7d89accc57b6d6e06",
    "legs": [
     {
      "label": "chamber vacuum",
@@ -33762,7 +34042,7 @@
    ],
    "caveat": null,
    "record_file": "data/draft_records/yang2016_vacuum_buckling/yang2016_vamp_elastosil.json",
-   "record_sha256": "d815aa9e0c75dfc93dad18008700675a9cd001ba4b28a65f8e4e222b8e644fd4",
+   "record_sha256": "d1a0e398ea9cec15cccf894a97302c61f6d6233d7d2be715426d163d8e9916a1",
    "legs": [
     {
      "label": "chamber vacuum",
@@ -34115,6 +34395,42 @@
   {
    "id": "shadow_hand_finger",
    "reason": "no free tip curve (holds: headline numbers only)"
+  },
+  {
+   "id": "shadow_dexee_finger_F0_J0_actuator_alone",
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  {
+   "id": "shadow_dexee_finger_F0_J1_actuator_alone",
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  {
+   "id": "shadow_dexee_finger_F0_J2_actuator_alone",
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  {
+   "id": "shadow_dexee_finger_F0_J3_actuator_alone",
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  {
+   "id": "shadow_dexee_finger_all_joints_together",
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  {
+   "id": "shadow_e3m5_first_finger_all_joints_together",
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  {
+   "id": "shadow_e3m5_first_finger_rh_A_FFJ0_alone",
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  {
+   "id": "shadow_e3m5_first_finger_rh_A_FFJ3_alone",
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  {
+   "id": "shadow_e3m5_first_finger_rh_A_FFJ4_alone",
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
   }
  ],
  "force_withheld": {
@@ -39104,6 +39420,60 @@
      "sideways_scaled": null,
      "reasons": {
       "input_scaled": "The record states no Young's modulus for the body, and none is declared in data/map_stiffness.json, so its scaled input and scaled force are not formed.",
+      "size_scaled": "The record states no Young's modulus for the body, and none is declared in data/map_stiffness.json, so its scaled input and scaled force are not formed.",
+      "axial_scaled": "The record states no Young's modulus for the body, and none is declared in data/map_stiffness.json, so its scaled input and scaled force are not formed.",
+      "sideways_scaled": "The record states no Young's modulus for the body, and none is declared in data/map_stiffness.json, so its scaled input and scaled force are not formed."
+     }
+    }
+   },
+   "sample_pneunet_pressure_set": {
+    "stiffness": {
+     "modulus_Pa": null,
+     "source": null,
+     "detail": null,
+     "pin": null,
+     "limiter_modulus_Pa": null,
+     "limiter_over_body": null,
+     "reason": "The record states no Young's modulus for the body, and none is declared in data/map_stiffness.json, so its scaled input and scaled force are not formed."
+    },
+    "legs": [
+     {
+      "label": "chamber pressure (scene units)",
+      "values": {
+       "input_scaled": null,
+       "side_y_share": [
+        0.0,
+        0.016587478367228813,
+        0.03384911516810712,
+        0.0702578784465483,
+        0.1089615189121312
+       ],
+       "side_z_share": [
+        0.0,
+        -2.0539315142990433e-18,
+        7.405527111969169e-05,
+        0.00044033497770107035,
+        0.0010867858532195471
+       ]
+      },
+      "input_scaled_form": null,
+      "input_scaled_definition": null,
+      "reasons": {
+       "input_scaled": "The input 'chamber pressure (scene units)' has no unit in the record, so no rule for scaling it applies."
+      }
+     }
+    ],
+    "force": {
+     "input_scaled": [
+      [
+       null
+      ]
+     ],
+     "size_scaled": null,
+     "axial_scaled": null,
+     "sideways_scaled": null,
+     "reasons": {
+      "input_scaled": "The input 'chamber pressure (scene units)' has no unit in the record, so no rule for scaling it applies.",
       "size_scaled": "The record states no Young's modulus for the body, and none is declared in data/map_stiffness.json, so its scaled input and scaled force are not formed.",
       "axial_scaled": "The record states no Young's modulus for the body, and none is declared in data/map_stiffness.json, so its scaled input and scaled force are not formed.",
       "sideways_scaled": "The record states no Young's modulus for the body, and none is declared in data/map_stiffness.json, so its scaled input and scaled force are not formed."

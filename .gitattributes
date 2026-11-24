@@ -4,3 +4,9 @@ gramian_workshop/vendor/** -text
 docs/RECORD_SCHEMA.md -text
 data/records/** -text
 data/test_curves/** -text
+# The map: its input files are checked for Unix line endings, and the map
+# data holds the sha256 of every draft record it reads, so those must check
+# out as stored on every machine.
+data/map_*.json -text
+site/data/*.json -text
+data/draft_records/** -text

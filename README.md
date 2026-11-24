@@ -86,6 +86,8 @@ python tools/fetch_hands.py
 
 The whole-motion check, `follow(trajectory=True)`, also needs scipy:
 `pip install -e ".[trajectory]"`.
+The builder of the actuator map, `tools/export_map_paths.py`, needs scipy too:
+`pip install -e ".[map]"`. Without it the map's tests skip themselves.
 The tools that draw pictures (`tools/figure_map_tip_paths.py` and the other
 figure tools) need matplotlib: `pip install -e ".[figures]"`.
 Its speed search, `tools/trajectory_top_speed.py`, finds how fast a hand

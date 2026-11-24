@@ -16,6 +16,12 @@ import unittest
 
 import numpy as np
 
+try:
+    import scipy  # noqa: F401
+except ImportError:
+    raise unittest.SkipTest('the map builder needs scipy: '
+                            'pip install -e ".[map]"')
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "demos"))
@@ -167,7 +173,17 @@ class FlatFigure(unittest.TestCase):
         #    two-channel free.u (and the figure also needs
         #    scalars.free_stroke_m, which they leave empty; the export does
         #    not need it).
-        self.assertEqual(sorted(set(fig_paths) - set(exp)), ["mckibben_v2_70deg"])
+        #  - the joints of the rigid hand fingers drafted from public hand
+        #    models: the figure draws them; the export leaves them out
+        #    ("draw": false in data/map_caveats.json, because they have no
+        #    picture and no reference entry yet).
+        cav = _caveats()
+        rigid_joints = sorted(
+            rid for rid in recs if rid.startswith("shadow_")
+            and (cav.get(rid) or {}).get("draw") is False)
+        self.assertEqual(len(rigid_joints), 9)
+        self.assertEqual(sorted(set(fig_paths) - set(exp)),
+                         sorted(["mckibben_v2_70deg"] + rigid_joints))
         self.assertEqual(sorted(set(exp) - set(fig_paths)), sorted(TANDEM))
         for rid in sorted(set(fig_paths) & set(exp)):
             legs = exp[rid]["legs"]
@@ -2724,8 +2740,22 @@ class Scaled(unittest.TestCase):
                     self.assertIsNone(st["modulus_Pa"])
                     self.assertEqual(st["reason"], emp.NO_MODULUS)
                     # only published records go without, and they lose
-                    # their scaled pressure and scaled force
-                    self.assertEqual(self.acts[rid]["source_kind"], "literature")
+                    # their scaled pressure and scaled force. The one
+                    # exception is the finger simulated from a mesh on the
+                    # project page: its record names no scene and no
+                    # materials, so nothing can be declared for it in
+                    # data/map_stiffness.json (test_stiffness_file), and
+                    # its input has no unit to scale.
+                    if rid == "sample_pneunet_pressure_set":
+                        self.assertEqual(self.acts[rid]["source_kind"],
+                                         "simulation")
+                        self.assertIsNone(rec.get("provenance"))
+                        self.assertEqual(
+                            [c.get("unit") for c in rec["input"]["channels"]],
+                            [None])
+                    else:
+                        self.assertEqual(self.acts[rid]["source_kind"],
+                                         "literature")
                     if e["force"] is not None:
                         for k in ("size_scaled", "axial_scaled",
                                   "sideways_scaled"):

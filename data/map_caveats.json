@@ -45,6 +45,46 @@
   "cable_finger": {
    "draw": true,
    "caveat": "its stored force with the tip held is hundreds of times larger than any other record's. That reading measures the holding springs, not the finger, so its held-tip force is left off the map until it is re-measured; data/map_force_withheld.json gives the reason. Source: reading of the record's own held-tip block against the other records on this map, 19 Nov 2026, and the probe named in data/map_force_withheld.json"
+  },
+  "shadow_dexee_finger_F0_J0_actuator_alone": {
+   "draw": false,
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  "shadow_dexee_finger_F0_J1_actuator_alone": {
+   "draw": false,
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  "shadow_dexee_finger_F0_J2_actuator_alone": {
+   "draw": false,
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  "shadow_dexee_finger_F0_J3_actuator_alone": {
+   "draw": false,
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  "shadow_dexee_finger_all_joints_together": {
+   "draw": false,
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  "shadow_e3m5_first_finger_all_joints_together": {
+   "draw": false,
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  "shadow_e3m5_first_finger_rh_A_FFJ0_alone": {
+   "draw": false,
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  "shadow_e3m5_first_finger_rh_A_FFJ3_alone": {
+   "draw": false,
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  "shadow_e3m5_first_finger_rh_A_FFJ4_alone": {
+   "draw": false,
+   "reason": "a joint of a rigid finger, drafted from a public hand model after the map was drawn; it has no picture and no reference entry here yet, so it is not placed on the map"
+  },
+  "sample_pneunet_pressure_set": {
+   "draw": true,
+   "caveat": "the input is in the units the simulation scene took it in, and the record gives no body stiffness, so its input is not scaled here and its place along a scaled input axis is not comparable with the other actuators. The record is a draft made by the mesh route in mesh_route/"
   }
  }
 }

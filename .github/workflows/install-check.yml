@@ -65,3 +65,27 @@ jobs:
         run: python -c "from gramian_workshop.hands import hand_card; [print(k, hand_card(k)['fingers'][0]) for k in ('allegro', 'shadow', 'leap', 'l20_public')]"
       - name: Tests
         run: python -m unittest discover -s tests
+
+  map:
+    # with scipy: the actuator map's data must equal a fresh build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        shell: bash
+        run: |
+          python -m venv .venv
+          if [ -f .venv/Scripts/activate ]; then . .venv/Scripts/activate; else . .venv/bin/activate; fi
+          pip install -e ".[map]"
+          python -c "import os, sys; print(os.path.dirname(sys.executable))" >> "$GITHUB_PATH"
+      - name: Map tests
+        run: python -m unittest tests.test_export_map_paths tests.test_lookup

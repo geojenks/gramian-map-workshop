@@ -285,6 +285,13 @@
    "name_from": "description",
    "name_source": "Our own simulated design, not published. A plain description of ours; the source gives no other name.",
    "reference": null
+  },
+  "sample_pneunet_pressure_set": {
+   "name": "Pneu-net finger, simulated from a mesh",
+   "detail": "The pneu-net bender that the project page takes from a mesh, through a finite-element simulation, to a record; chamber wall 1.0 mm thick, one pressure input.",
+   "name_from": "field",
+   "name_source": "Our own simulated design, not published. Pneu-net (pneumatic network) is the field's name for this type of bender; the mesh and the wall thickness are set out in mesh_route/PROVENANCE.md.",
+   "reference": null
   }
  }
 }

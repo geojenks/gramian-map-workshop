@@ -361,6 +361,19 @@
    "schematic": "buckling_block",
    "image": "thumbs/schematic_buckling_block.png",
    "basis": "The record's notes describe an elastomer block with rows of internal cavities whose beams buckle under vacuum. The number and layout of cavities drawn are ours. The same drawing stands for both materials."
+  },
+  "sample_pneunet_pressure_set": {
+   "kind": "mesh",
+   "image": "thumbs/sample_pneunet_pressure_set.png",
+   "sources": [
+    {
+     "draws": "body",
+     "path": "gramian_map/cads/actuation_methods/pumped_volume_pneunet/actuator.npz",
+     "repo": "Gramain_extraction",
+     "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+     "sha256": "c3f7e16a26347d37cb05fefc950cff68f4996562192f292f6c961b25234468e0"
+    }
+   ]
   }
  }
 }

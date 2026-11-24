@@ -10,6 +10,12 @@ import os
 import sys
 import unittest
 
+try:
+    import scipy  # noqa: F401
+except ImportError:
+    scipy = None
+NEEDS_SCIPY = 'the map builder needs scipy: pip install -e ".[map]"'
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from gramian_workshop.finger import load_manifest  # noqa: E402
@@ -124,6 +130,7 @@ class TestLines(unittest.TestCase):
         self.assertIsNone(found)
         self.assertIn("no line", why)
 
+    @unittest.skipIf(scipy is None, NEEDS_SCIPY)
     def test_twist_drafts_give_the_lines_the_map_export_draws(self):
         import numpy as np
         sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -161,6 +168,7 @@ class TestLines(unittest.TestCase):
         self.assertTrue(held)              # a line that starts away from rest
 
 
+@unittest.skipIf(scipy is None, NEEDS_SCIPY)
 class TestWorkedOutLines(unittest.TestCase):
     """Lines worked out across a two-input record's surface
     (demos/backwards_lookup.py --worked-out-lines)."""
