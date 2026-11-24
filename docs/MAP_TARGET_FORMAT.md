@@ -101,7 +101,8 @@ python tools/leader_to_map_target.py my_task.json --tag mine
 ```
 
 It writes `outputs/map_targets/map_target_mine.json` and never overwrites a
-file. The target holds one line for each contact station: the path its
+file. `--name "Words of your own"` sets the words the page lists the target
+by. Without it they are "Contact paths of" and the task file's own name. The target holds one line for each contact station: the path its
 contact point takes, on the three tip-travel axes.
 
 How a contact path becomes a line:
@@ -128,5 +129,6 @@ the three static pads of `docs/TASK_FROM_MUJOCO.md`, gives lines of no
 length.
 
 `examples/map_target_cup_turn_contact_paths.json` is the target this tool
-writes from `data/leaders/w12c_cup_analytic_lock.json`. Choose it on the map
+writes from `data/leaders/w12c_cup_analytic_lock.json`, with
+`--name "Contact paths of the cup turn"`. Choose it on the map
 page to see what a target looks like.
