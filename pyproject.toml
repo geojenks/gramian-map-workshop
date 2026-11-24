@@ -15,6 +15,7 @@ dependencies = ["numpy>=1.21"]
 hands = ["mujoco>=3.1"]
 trajectory = ["scipy"]
 figures = ["matplotlib"]
+mesh = ["meshio", "matplotlib"]
 
 [tool.setuptools]
 packages = ["gramian_workshop", "gramian_workshop.vendor"]

@@ -45,6 +45,16 @@ example gives its force as a size only (`force_N`); put `force_x_N` and
 whole format is in `docs/TEST_CURVE_FORMAT.md`. If you only have datasheet
 values, open `forms/record_form.html` in a browser instead and go to step 4.
 
+If your actuator is a formula and not a test, put the formula in
+`examples/analytical_model_to_curves.py` and let it write this file:
+
+```bash
+python examples/analytical_model_to_curves.py --out my_curves.csv
+```
+
+As shipped it holds a textbook bending finger with made-up numbers, and its
+record can push.
+
 ## 3. Turn the file into the description
 
 ```bash
@@ -78,8 +88,9 @@ many copies of it hold, or turn, the ball in the cup, and if not, why.
 ## What this does not do yet
 
 - It does not take a mesh or a CAD file. Going from a mesh to the numbers of
-  step 1 needs a finite-element simulation, which is not part of this
-  repository.
+  step 1 needs a finite-element simulation. If you have a mesh, follow
+  `docs/ACTUATOR_FROM_A_MESH.md` instead: its scripts are in `mesh_route/`,
+  and its simulation step needs SOFA.
 - The map here is a picture. Records are comparative, not predictive.
 - To build a hand from your actuator, carry on with
   `docs/PARTICIPANT_SCRIPT.md`.

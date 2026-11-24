@@ -1,0 +1,397 @@
+{
+ "_about": "Files in mesh_route/ copied from the private project this route was developed in. For text files (.py, .json, .csv, .msh) sha256 is of the bytes with LF line endings, as git stores them; a Windows checkout may turn them into CRLF, so hash after converting back. For .npz files it is of the raw bytes. sha256_original is of the file at that commit. changed_lines lists every line that differs, with line numbers in the original and in the copy; an empty list means the copy is byte for byte the original.",
+ "mesh_route/actuator_record.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/actuator_record.py",
+  "sha256_original": "b2c2f2ca827c6d859caed5ae34c7114d810cd69eac664b533a2c42af10517489",
+  "sha256_copy": "b2c2f2ca827c6d859caed5ae34c7114d810cd69eac664b533a2c42af10517489",
+  "changed_lines": []
+ },
+ "mesh_route/archive_contract.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/archive_contract.py",
+  "sha256_original": "f4f661ac3bdb62a53b87062ec8d7302a1f8de1cce846cc74aafb363f63486be3",
+  "sha256_copy": "f4f661ac3bdb62a53b87062ec8d7302a1f8de1cce846cc74aafb363f63486be3",
+  "changed_lines": []
+ },
+ "mesh_route/cads/actuation_methods/pumped_volume_pneunet/mesh.msh": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/cads/actuation_methods/pumped_volume_pneunet/mesh.msh",
+  "sha256_original": "febbb54d39da67d7374ee3c7bd0356d00aa0d948d4f1b7049b2ee4271424a3de",
+  "sha256_copy": "febbb54d39da67d7374ee3c7bd0356d00aa0d948d4f1b7049b2ee4271424a3de",
+  "changed_lines": []
+ },
+ "mesh_route/expected/sample_pneunet_pressure_set.json": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/draft_records/sample_pneunet_pressure_set.json",
+  "sha256_original": "e42718079c9fb8cfab21d85aa4e9afc666251dd951de03e27e2ee81dfdd0ea09",
+  "sha256_copy": "e42718079c9fb8cfab21d85aa4e9afc666251dd951de03e27e2ee81dfdd0ea09",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/bare_body/tip_pushes/drive_states.csv": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/bare_body/tip_pushes/drive_states.csv",
+  "sha256_original": "00d215fef3afac3931d7ca7308e2d2944aff151cf81d57c57c5bc27485653a9b",
+  "sha256_copy": "00d215fef3afac3931d7ca7308e2d2944aff151cf81d57c57c5bc27485653a9b",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/bare_body/tip_pushes/run_info.json": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/bare_body/tip_pushes/run_info.json",
+  "sha256_original": "b7e5e3a46713e3872d4a5d92966e0805a7023146dec49dd6527660cf9dbbffc9",
+  "sha256_copy": "b7e5e3a46713e3872d4a5d92966e0805a7023146dec49dd6527660cf9dbbffc9",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/bare_body/tip_pushes/states.npz": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/bare_body/tip_pushes/states.npz",
+  "sha256_original": "50c41325ad6ce754919f2eb1bb4a38915f0289f9b9107c5067d8d6c1289c88d1",
+  "sha256_copy": "50c41325ad6ce754919f2eb1bb4a38915f0289f9b9107c5067d8d6c1289c88d1",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/free_levels/drive_states.csv": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/free_levels/drive_states.csv",
+  "sha256_original": "f590f3298a4ad5e62ca8f149314669a835d70285c5e3abbc919f52011fc27205",
+  "sha256_copy": "f590f3298a4ad5e62ca8f149314669a835d70285c5e3abbc919f52011fc27205",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/free_levels/run_info.json": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/free_levels/run_info.json",
+  "sha256_original": "86ea098f1bd59523e92f946c5252775ecf2dbc547532c281b433f9c24fa5ba31",
+  "sha256_copy": "86ea098f1bd59523e92f946c5252775ecf2dbc547532c281b433f9c24fa5ba31",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/free_levels/states.npz": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/free_levels/states.npz",
+  "sha256_original": "a864cea0a01a31549ba35656bc84df2e6e4f2d89e500a5f2b735fc1e6807b26b",
+  "sha256_copy": "a864cea0a01a31549ba35656bc84df2e6e4f2d89e500a5f2b735fc1e6807b26b",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_held_on_line/drive_states.csv": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_held_on_line/drive_states.csv",
+  "sha256_original": "9d6ec4c47fc0cc04bd7bdae394f55066c6f5980c4470b274dea67d1defb22e27",
+  "sha256_copy": "9d6ec4c47fc0cc04bd7bdae394f55066c6f5980c4470b274dea67d1defb22e27",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_held_on_line/run_info.json": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_held_on_line/run_info.json",
+  "sha256_original": "a2f445b29e98364dd9ec6dffca73fb13dc8b9f396213425a02c4be7edb9857f8",
+  "sha256_copy": "a2f445b29e98364dd9ec6dffca73fb13dc8b9f396213425a02c4be7edb9857f8",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_pushes_run_to_completion/drive_states.csv": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_pushes_run_to_completion/drive_states.csv",
+  "sha256_original": "363918ba9373067cf7f699cf22555d8d4ff9a9981ae233383f0c3ef95c106362",
+  "sha256_copy": "363918ba9373067cf7f699cf22555d8d4ff9a9981ae233383f0c3ef95c106362",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_pushes_run_to_completion/run_info.json": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_pushes_run_to_completion/run_info.json",
+  "sha256_original": "3f54a01bbd0a732536f0f48f7aeef0ed29ec9dd270c52dcde8a269ec511d2501",
+  "sha256_copy": "3f54a01bbd0a732536f0f48f7aeef0ed29ec9dd270c52dcde8a269ec511d2501",
+  "changed_lines": []
+ },
+ "mesh_route/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_pushes_run_to_completion/states.npz": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/experiments/actuation_methods/same_body_pneunet/chamber_pressure_set/tip_pushes_run_to_completion/states.npz",
+  "sha256_original": "4d6d15f6fa1d000aabef7278c969363571178dd4ad764a7073eae58c43643b32",
+  "sha256_copy": "4d6d15f6fa1d000aabef7278c969363571178dd4ad764a7073eae58c43643b32",
+  "changed_lines": []
+ },
+ "mesh_route/jacobian.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/jacobian.py",
+  "sha256_original": "9332caa69dd313718a919e088e88fe232929e12288de733f9f80d879e7a9b8bc",
+  "sha256_copy": "9332caa69dd313718a919e088e88fe232929e12288de733f9f80d879e7a9b8bc",
+  "changed_lines": []
+ },
+ "mesh_route/make_pneunet.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/make_pneunet.py",
+  "sha256_original": "6b9e6f26dda7476031438508b1ec547dbdcd73e54476ebc137a70a4690711fa5",
+  "sha256_copy": "6b9e6f26dda7476031438508b1ec547dbdcd73e54476ebc137a70a4690711fa5",
+  "changed_lines": []
+ },
+ "mesh_route/parametricGripper.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/parametricGripper.py",
+  "sha256_original": "7c00af7580166d36f9874a5d3ba0945679d07bc7a128da89492a067bf17cf8ee",
+  "sha256_copy": "74e157dc20a65b4f65222c066049bd49ed04536296442dc360e9c24c8a574ac6",
+  "changed_lines": [
+   {
+    "change": "replace",
+    "original_lines": [
+     11,
+     11
+    ],
+    "copy_lines": [
+     11,
+     11
+    ],
+    "original": [
+     "(path relative to cads/, e.g. mckibben/v2_30deg); see cads/README.md."
+    ],
+    "copy": [
+     "(path relative to cads/, e.g. mckibben/v2_30deg)."
+    ]
+   },
+   {
+    "change": "replace",
+    "original_lines": [
+     13,
+     13
+    ],
+    "copy_lines": [
+     13,
+     13
+    ],
+    "original": [
+     "Run from the gramian_map/ directory (or anywhere; paths resolve relative"
+    ],
+    "copy": [
+     "Run from this folder (or anywhere; paths resolve relative"
+    ]
+   },
+   {
+    "change": "replace",
+    "original_lines": [
+     21,
+     21
+    ],
+    "copy_lines": [
+     21,
+     21
+    ],
+    "original": [
+     "[line not reproduced: it named a local path or a folder of the private project]"
+    ],
+    "copy": [
+     "See docs/ACTUATOR_FROM_A_MESH.md in this repository for the whole route."
+    ]
+   },
+   {
+    "change": "replace",
+    "original_lines": [
+     45,
+     45
+    ],
+    "copy_lines": [
+     45,
+     45
+    ],
+    "original": [
+     "# path *relative to cads/*, now family-scoped (see cads/README.md):"
+    ],
+    "copy": [
+     "# path *relative to cads/*, now family-scoped:"
+    ]
+   },
+   {
+    "change": "replace",
+    "original_lines": [
+     490,
+     490
+    ],
+    "copy_lines": [
+     490,
+     490
+    ],
+    "original": [
+     "                    f\"    python old/convert_msh_to_v2.py <input.msh> <output_v2.msh>\""
+    ],
+    "copy": [
+     "                    f\"    (the v4-to-v2 converter is not part of this folder)\""
+    ]
+   }
+  ]
+ },
+ "mesh_route/parametricGripperController.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/parametricGripperController.py",
+  "sha256_original": "df591b6a46aeb4cc8a01eddb1c76c561116dffad417527487e7c9e1caab39e54",
+  "sha256_copy": "df591b6a46aeb4cc8a01eddb1c76c561116dffad417527487e7c9e1caab39e54",
+  "changed_lines": []
+ },
+ "mesh_route/preprocess.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/preprocess.py",
+  "sha256_original": "f8cad6f630d7ae7c943f8c0c83ad81c8cbc2a17a053642ffb141d69c17cddfbe",
+  "sha256_copy": "e038c1af6f15f20a8d8870b0f8f7587a1f0484ec9e9b288949d2a930c605883e",
+  "changed_lines": [
+   {
+    "change": "replace",
+    "original_lines": [
+     45,
+     45
+    ],
+    "copy_lines": [
+     45,
+     45
+    ],
+    "original": [
+     "If the input is Gmsh v4, first run old/convert_msh_to_v2.py to produce"
+    ],
+    "copy": [
+     "If the input is Gmsh v4, first convert it (converter not included) to produce"
+    ]
+   }
+  ]
+ },
+ "mesh_route/record_from_jacobian.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/record_from_jacobian.py",
+  "sha256_original": "c38cbceb673aabc7d0afe304421b370eb654993c8326712d9a7485b276d4c71d",
+  "sha256_copy": "c38cbceb673aabc7d0afe304421b370eb654993c8326712d9a7485b276d4c71d",
+  "changed_lines": []
+ },
+ "mesh_route/run_method_sample.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/run_method_sample.py",
+  "sha256_original": "f964fc44982c9abedb01bfacb0dea98bd5361ed8ef86f84113b5e5c7c658be71",
+  "sha256_copy": "a4fddfeb001793f6656a23e99949926cdd7f0ec11f2b02bcc911f976b2397b33",
+  "changed_lines": [
+   {
+    "change": "replace",
+    "original_lines": [
+     42,
+     42
+    ],
+    "copy_lines": [
+     42,
+     42
+    ],
+    "original": [
+     "Run with the SOFA python from gramian_map/ (CAD_NAME set)."
+    ],
+    "copy": [
+     "Run with the SOFA python from mesh_route/ (CAD_NAME set)."
+    ]
+   }
+  ]
+ },
+ "mesh_route/run_shared_body_drive.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/run_shared_body_drive.py",
+  "sha256_original": "da2dfb5efd86c0d72a4ad3456cdff8cf56d1dd222f97e9df12befd5f1533a2e6",
+  "sha256_copy": "4c1b2139c055588748d33ffabdb821174a90ddede468e2f8079ab4754e5306a5",
+  "changed_lines": [
+   {
+    "change": "replace",
+    "original_lines": [
+     35,
+     35
+    ],
+    "copy_lines": [
+     35,
+     35
+    ],
+    "original": [
+     "overwrite. Run with the SOFA python from gramian_map/ (CAD_NAME set)."
+    ],
+    "copy": [
+     "overwrite. Run with the SOFA python from mesh_route/ (CAD_NAME set)."
+    ]
+   }
+  ]
+ },
+ "mesh_route/run_sweep.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/run_sweep.py",
+  "sha256_original": "b4f498c9ee8668afafb0ce46eb2006445c17b9f7ad5c74b98ce3b8016ff75028",
+  "sha256_copy": "e2ebd835f95fefafee973c41ccce283aa8d79bc0a8942d0835974aa64addc98f",
+  "changed_lines": [
+   {
+    "change": "replace",
+    "original_lines": [
+     8,
+     8
+    ],
+    "copy_lines": [
+     8,
+     8
+    ],
+    "original": [
+     "[line not reproduced: it named a local path or a folder of the private project]"
+    ],
+    "copy": [
+     "Run from this folder (mesh_route/) with the SOFA Python interpreter that has Sofa"
+    ]
+   },
+   {
+    "change": "replace",
+    "original_lines": [
+     64,
+     71
+    ],
+    "copy_lines": [
+     64,
+     66
+    ],
+    "original": [
+     "[line not reproduced: it named a local path or a folder of the private project]",
+     "            if os.path.isdir(guess):",
+     "                sofa_root = guess",
+     "                os.environ.setdefault(\"SOFA_ROOT\", sofa_root)",
+     "                break",
+     "    if not sofa_root:",
+     "        print(\"ERROR: SOFA_ROOT not set and no default install detected. \"",
+     "              \"Set SOFA_ROOT to your SOFA install root.\", file=sys.stderr)"
+    ],
+    "copy": [
+     "        print(\"ERROR: SOFA_ROOT is not set. Set SOFA_ROOT to your SOFA 24.06 \"",
+     "              \"install root (optionally SOFAPYTHON3_ROOT to its SofaPython3 \"",
+     "              \"plugin folder) and run under Python 3.10.\", file=sys.stderr)"
+    ]
+   }
+  ]
+ },
+ "mesh_route/sample_to_draft_record.py": {
+  "source": "geojenks/Gramain_extraction",
+  "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+  "path": "gramian_map/sample_to_draft_record.py",
+  "sha256_original": "c1bf90d98b37bde8d16325b6debc27350a164f7bf43ffafe37d0ac38596f3e07",
+  "sha256_copy": "c1bf90d98b37bde8d16325b6debc27350a164f7bf43ffafe37d0ac38596f3e07",
+  "changed_lines": []
+ },
+ "_not_shipped": {
+  "mesh_route/cads/actuation_methods/pumped_volume_pneunet/actuator.npz": {
+   "source": "geojenks/Gramain_extraction",
+   "commit": "664e4d2cf397c2416905205caeeea32c093916d5",
+   "path": "gramian_map/cads/actuation_methods/pumped_volume_pneunet/actuator.npz",
+   "sha256_original": "c3f7e16a26347d37cb05fefc950cff68f4996562192f292f6c961b25234468e0",
+   "sha256_rebuilt": "c3f7e16a26347d37cb05fefc950cff68f4996562192f292f6c961b25234468e0",
+   "why": "left out: preprocess.py rebuilds it from mesh.msh with numpy and meshio, byte for byte the same file (sha256_rebuilt was made that way)"
+  }
+ }
+}

@@ -506,6 +506,10 @@ of the four-station copies have more.
 
 ## Bringing your own task
 
+If the contacts come from a MuJoCo simulation, start from the worked sample:
+`examples/mujoco_contacts_to_leader.py`, explained in
+`docs/TASK_FROM_MUJOCO.md`.
+
 1. **Say what the object does.** Write `t`, `obj_pos` and, if you have it,
    `obj_quat` for each frame. That is the task.
 2. **Say how it is done.** Choose the stations. For each frame write
