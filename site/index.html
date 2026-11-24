@@ -40,10 +40,19 @@ figure { margin: .8rem 0; }
 figure img { width: 100%; height: auto; border: 1px solid var(--grid); border-radius: 6px;
   background: #fff; }
 figcaption { color: var(--muted); font-size: .9rem; }
+nav.top { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: 0 0 1.6rem;
+  padding-bottom: .7rem; border-bottom: 1px solid var(--grid); font-weight: 600; }
+.mapframe { display: block; width: min(76rem, 100vw - 32px); height: min(46rem, 85vh);
+  margin-left: 50%; transform: translateX(-50%); border: 1px solid var(--grid);
+  border-radius: 6px; background: var(--surface); }
 </style>
 </head>
 <body>
 <main>
+<nav class="top" aria-label="Main links">
+<a href="map.html">Interactive map</a>
+<a href="https://github.com/geojenks/gramian-map-workshop">Code on GitHub</a>
+</nav>
 <h1>Put your actuator on the map</h1>
 <p class="lede">A small tool from our ARIA dexterous soft robotics work. Describe an
 actuator by datasheet numbers, a measured table, a formula or a mesh, and it becomes
@@ -51,8 +60,7 @@ a record. The record goes on a map of actuators, drawn as the path its tip takes
 while its input rises. Once it is there, you can arrange copies of it as a
 manipulator and ask whether that manipulator can do a task.</p>
 <p class="note">The simulations and records here are not calibrated against real experiments
-unless marked, so use them to compare designs, not to predict what a built one
-will do.</p>
+unless marked.</p>
 
 <h2>Try it with no install</h2>
 <ul class="links">
@@ -130,37 +138,34 @@ python preprocess.py cads/actuation_methods/pumped_volume_pneunet/mesh.msh cads/
 python sample_to_draft_record.py --sample experiments/actuation_methods/same_body_pneunet/chamber_pressure_set --cad cads/actuation_methods/pumped_volume_pneunet --id sample_pneunet_pressure_set --name "Pneunet, chamber pressure set (sample)" --physics pneumatic --input_name "chamber pressure (scene units)" --out_root ../my_mesh_drafts
 cd ..
 python tools/figure_map_tip_paths.py --record my_mesh_drafts/sample_pneunet_pressure_set.json --tag my_mesh</code></pre>
-<p>The last command puts the finger on the map, and the picture it drew in our run
-is the one shown <a href="#on-the-map">below</a>. The steps, what each prints, and how to prepare your own mesh are in
+<p>The last command draws the finger on a flat picture of the map, linked
+<a href="#on-the-map">below</a>. The steps, what each prints, and how to prepare your own mesh are in
 <a href="https://github.com/geojenks/gramian-map-workshop/blob/main/docs/ACTUATOR_FROM_A_MESH.md"><code>docs/ACTUATOR_FROM_A_MESH.md</code></a>.</p>
 </details>
 </div>
 
 <h3 id="on-the-map">Your record on the map</h3>
-<p>Whichever way the record was made, the same command draws it among the records
-we hold. It needs matplotlib, which the <a href="#run">install</a> below brings.</p>
-<pre><code>python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator</code></pre>
-<p>It writes <code>outputs/map_tip_paths/map_tip_paths_my_actuator.png</code>. Across
-the picture is the share of the tip's motion that is sideways, and up it is the free
-stroke. Each mark has the actuator's own tip path drawn through it, and yours is
-boxed and labelled "(yours)". A record with no free tip motion is left out, and the
-command prints the reason.</p>
-<figure>
-<a href="map_tip_paths_mesh_sample.png"><img src="map_tip_paths_mesh_sample.png"
-alt="Scatter of actuator records: share of tip motion that is sideways against free stroke, with the sample pneu-net finger boxed at the right among the benders"></a>
-<figcaption>The picture this command drew in our run for the finger simulated from
-a mesh. It is boxed and marked "(yours)" at the right, among the other benders.
-Select the picture for full size.</figcaption>
-</figure>
-<p>The <a href="map.html">map you can turn in a browser</a> takes your record too.
-One more command works out your record's place on it and writes a small file.</p>
+<p>This is the map, with every actuator we hold. Drag to turn it, choose what each
+axis shows, and pick an actuator to see its record. The finger simulated from a mesh
+above is on it. It also opens <a href="map.html">on a page of its own</a>.</p>
+<iframe class="mapframe" src="map.html" title="Interactive actuator map" loading="lazy"></iframe>
+<p>Whichever way your record was made, one command works out its place on this map
+and writes a small file. It needs scipy, which the <a href="#run">install</a> below
+brings.</p>
 <pre><code>python tools/export_map_paths.py --record my_actuator.json --tag my_actuator</code></pre>
 <p>It writes <code>outputs/map_paths/map_own_records_my_actuator.json</code>. On the
-map page, choose that file under "Your own record". Your actuator is drawn with the
-others and marked "(yours)". The file stays in your browser and is sent nowhere. This
-command needs scipy, which the install below also brings. A record that holds only
-headline numbers, with no table of tip motion, has no path to draw, so it is left out
-and the page says so.</p>
+map, choose that file under "Your own record". Your actuator is drawn with the others
+and marked "(yours)". The file stays in your browser and is sent nowhere. A record
+that holds only headline numbers, with no table of tip motion, has no path to draw,
+so it is left out and the map says so.</p>
+<p>A second command draws a flat picture to keep or print. It needs matplotlib, which
+the install also brings.</p>
+<pre><code>python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator</code></pre>
+<p>It writes <code>outputs/map_tip_paths/map_tip_paths_my_actuator.png</code>, with
+the share of the tip's motion that is sideways across and the free stroke up, and
+your actuator boxed and labelled "(yours)". We keep
+<a href="map_tip_paths_mesh_sample.png">the picture it drew for the mesh finger</a>
+as an example.</p>
 
 <h2>Then a manipulator and a task</h2>
 <p>With the record on the map, two more pieces say what the actuator can do in a

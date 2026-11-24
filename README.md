@@ -12,8 +12,7 @@ a manipulator and checked against a manipulation **task**. The tool then says
 whether the task can be done and, if not, **why**.
 
 > The simulations and records here are not calibrated against real experiments
-> unless marked, so use them to compare designs, not to predict what a built one
-> will do.
+> unless marked.
 
 ## Three pieces, each one a file you can swap
 
