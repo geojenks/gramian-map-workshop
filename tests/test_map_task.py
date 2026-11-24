@@ -115,6 +115,7 @@ class OwnTarget(unittest.TestCase):
                            "map_target_cup_turn_contact_paths.json")
     LEADER = os.path.join(ROOT, "data", "leaders",
                           "w12c_cup_analytic_lock.json")
+    NAME = "Contact paths of the cup turn"     # the example's --name
 
     @classmethod
     def setUpClass(cls):
@@ -146,7 +147,10 @@ class OwnTarget(unittest.TestCase):
             self.assertIn('TARGET_KIND = "%s"' % self.T.KIND, fo.read())
 
     def test_example_is_what_the_tool_writes(self):
-        self.assertEqual(self.T.convert(self.LEADER), self.example)
+        self.assertEqual(self.T.convert(self.LEADER, name=self.NAME),
+                         self.example)
+        self.assertEqual(self.example["name"], self.NAME)
+        self.assertNotEqual(self.T.convert(self.LEADER)["name"], self.NAME)
         json.dumps(self.example, allow_nan=False)
 
     def test_example_axes_are_the_pages(self):
@@ -216,7 +220,7 @@ class OwnTarget(unittest.TestCase):
 
     def test_command_line(self):
         out = os.path.join(self.dir.name, "out")
-        args = [self.LEADER, "--tag", "t", "--out", out]
+        args = [self.LEADER, "--tag", "t", "--out", out, "--name", self.NAME]
         self.assertEqual(self.T.main(args), 0)
         with open(os.path.join(out, "map_target_t.json"),
                   encoding="utf-8") as fo:

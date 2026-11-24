@@ -456,10 +456,10 @@ const TASK_KEY = "map_tasks", TASK_KIND = "task for the map page", TASK_PICK = "
   $("taskfile").onchange = async ev => { const f = ev.target.files[0]; if (!f) return;
     let doc;
     try { doc = JSON.parse(await f.text()); if (doc && doc.kind === TARGET_KIND) { addTarget(doc, f.name); return; }
-      doc = check(doc); } catch (e) { say(f.name + " is not used: " + e.message + "."); return; }
+      doc = check(doc); } catch (e) { $("targetmsg").hidden = true; say(f.name + " is not used: " + e.message + "."); return; }
     const next = kept.filter(d => !(d && d.task && d.task.id === doc.task.id)).concat([doc]);
     try { localStorage.setItem(TASK_KEY, JSON.stringify(next)); }
-    catch (e) { say("This browser would not keep the file, so it cannot be added. Removing the tasks already added may make room."); return; }
+    catch (e) { $("targetmsg").hidden = true; say("This browser would not keep the file, so it cannot be added. Removing the tasks already added may make room."); return; }
     try { sessionStorage.setItem(TASK_PICK, doc.task.id); } catch (e) {}
     location.reload(); };
   $("taskoff").onclick = () => { try { localStorage.removeItem(TASK_KEY); localStorage.removeItem(TARGET_KEY); } catch (e) {}
@@ -627,7 +627,8 @@ let targetsKept = [];
 }
 // Called when the reader chooses a target file: it is checked, kept, and the page loads again with it chosen.
 function addTarget(doc, fileName) {
-  const say = t => { const e = $("targetmsg"); e.hidden = false; e.textContent = t; };
+  // a message about the file just chosen stands alone: what was said when the page loaded is put away
+  const say = t => { const e = $("targetmsg"); e.hidden = false; e.textContent = t; $("taskmsg").hidden = true; };
   try { checkTarget(doc); } catch (e) { say(fileName + " is not used: " + e.message + "."); return; }
   const next = targetsKept.filter(d => !(d && d.id === doc.id)).concat([doc]);
   try { localStorage.setItem(TARGET_KEY, JSON.stringify(next)); }

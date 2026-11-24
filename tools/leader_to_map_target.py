@@ -117,8 +117,10 @@ def _points(frames, station, first, last, path):
     return np.asarray(out, float)
 
 
-def convert(path, all_stretches=False, yaw_deg=None):
-    """The target document for the leader file at `path`."""
+def convert(path, all_stretches=False, yaw_deg=None, name=None):
+    """The target document for the leader file at `path`. `name` is the
+    words the map page lists it by; the task file's own name where none is
+    given."""
     with open(path, encoding="utf-8") as fo:
         doc = json.load(fo)
     frames = doc.get("frames") if isinstance(doc, dict) else None
@@ -170,12 +172,14 @@ def convert(path, all_stretches=False, yaw_deg=None):
         raise ValueError(f"{path}: no station gives a contact path: "
                          + "; ".join(f"station {x['station']}: {x['reason']}"
                                      for x in left_out))
-    name = doc.get("name") or doc.get("id") or os.path.basename(path)
+    if name is None:
+        name = "Contact paths of %s" % (
+            doc.get("name") or doc.get("id") or os.path.basename(path))
     return {
         "kind": KIND, "made_by": MADE_BY,
         "id": str(doc.get("id") or os.path.splitext(
             os.path.basename(path))[0]),
-        "name": f"Contact paths of {name}",
+        "name": str(name),
         "note": (
             "One line for each contact station of the task file: the path "
             "its contact point takes, measured from where the stretch of "
@@ -216,6 +220,10 @@ def main(argv=None):
                     help="a line for every unbroken stretch of contact of "
                          "two frames or more, not only each station's "
                          "longest")
+    ap.add_argument("--name", default=None,
+                    help="the words the map page lists the target by; "
+                         "\"Contact paths of\" and the task file's own "
+                         "name where none is given")
     a = ap.parse_args(argv)
     if not os.path.isfile(a.leader):
         print("ERROR: %s: no such file" % a.leader)
@@ -226,7 +234,7 @@ def main(argv=None):
         print("REFUSING to overwrite:", out, "- give another --tag")
         return 1
     try:
-        doc = convert(a.leader, a.all_stretches)
+        doc = convert(a.leader, a.all_stretches, name=a.name)
     except ValueError as e:
         print("ERROR:", e)
         return 1

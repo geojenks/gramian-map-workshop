@@ -2,7 +2,7 @@
  "kind": "target for the map page",
  "made_by": "tools/leader_to_map_target.py",
  "id": "w12c_cup_analytic_lock",
- "name": "Contact paths of W12c Cup analytic lock: held, err 0.00mm, rate 5.08 dps",
+ "name": "Contact paths of the cup turn",
  "note": "One line for each contact station of the task file: the path its contact point takes, measured from where the stretch of contact starts. Only each station's longest unbroken stretch of contact is drawn (the first, where two are as long). The path is taken in the task file's own frame, so the object's motion is not taken off. It is turned into the frame of a finger standing on a palm beside the object: the file's +z is up, and the radial direction is the level part of the line from the object's centre to the contact point where the stretch starts. That frame is fixed for the stretch. The finger's frame is the palm placement of gramian_workshop.finger.mount_rotation at the yaw below. The map page draws these lines beside the actuators' paths and does not test any actuator against them.",
  "placement": {
   "mount": "palm",
