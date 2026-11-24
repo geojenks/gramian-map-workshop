@@ -103,7 +103,10 @@ def finger_frame(centre, point, yaw_deg):
 def _points(frames, station, first, last, path):
     out = []
     for i in range(first, last + 1):
-        p = frames[i]["contact_point"][station]
+        try:
+            p = frames[i]["contact_point"][station]
+        except (KeyError, IndexError, TypeError):
+            p = None
         if (not isinstance(p, (list, tuple)) or len(p) != 3
                 or not all(isinstance(v, (int, float))
                            and not isinstance(v, bool)
