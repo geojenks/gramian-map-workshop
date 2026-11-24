@@ -242,6 +242,16 @@ ul.acts li[hidden] { display: none; }
       <details><summary>How each is measured</summary><ul id="axdef"></ul></details>
     </section>
 
+    <section>
+      <h2>Your own record</h2>
+      <p class="note">The map can show an actuator of your own beside ours. In a clone of the repository, run
+        <code>python tools/export_map_paths.py --record my_actuator.json --tag mine</code>
+        and choose the file it writes. The file stays in this browser and is sent nowhere.</p>
+      <div class="row"><input id="ownfile" type="file" accept=".json,application/json" aria-label="Map file for your own record">
+        <button id="ownoff" type="button" hidden>Remove</button></div>
+      <p class="note" id="ownmsg" hidden></p>
+    </section>
+
     <section id="tasksec" hidden>
       <h2>Task</h2>
       <div id="cones"></div>
@@ -346,6 +356,45 @@ try {
   fail("Could not load " + MOUNTS[MOUNT].file + ". Open this page through a web server " +
        "(for example: python -m http.server, run in the site folder), not as a file.");
   return;
+}
+// A record of the reader's own. tools/export_map_paths.py --record writes one file holding the record's entry for each
+// placement of the finger. The reader chooses that file, it is kept in the browser's storage, and the page loads
+// again with the entry added to the stored ones. Nothing here works a record out; the file already holds the result.
+const OWN_KEY = "map_own_records", OWN_KIND = "own records for the map page";
+{
+  const say = t => { const e = $("ownmsg"); e.hidden = !t; e.textContent = t || ""; };
+  const cones = list => JSON.stringify((list || []).map(c =>
+    ["task", "n", "mount", "yaw_deg", "half_angle_deg"].map(k => c[k] === undefined ? null : c[k])));
+  const check = text => { const doc = JSON.parse(text);
+    if (!doc || doc.kind !== OWN_KIND || !doc.mounts)
+      throw new Error("it was not written by tools/export_map_paths.py --record"); return doc; };
+  let text = null;
+  try { text = localStorage.getItem(OWN_KEY); } catch (e) {}
+  if (text) {
+    $("ownoff").hidden = false;
+    try {
+      const m = check(text).mounts[MOUNT];
+      if (!m) throw new Error("it has no entry for this placement of the finger");
+      if (cones(m.task_cones) !== cones(DATA.task_cones))
+        throw new Error("it was made for a different task from the one this page shows; make it again from an up-to-date clone");
+      const have = {}; DATA.actuators.forEach(a => have[a.id] = true); DATA.left_out.forEach(x => have[x.id] = true);
+      const added = [], clash = [];
+      m.actuators.forEach(a => { if (have[a.id]) { clash.push(a.id); return; }
+        a.yours = true; a.display_name = (a.display_name || a.name || a.id) + " (yours)";
+        DATA.actuators.push(a); added.push(a.display_name);
+        if (DATA.scaled && DATA.scaled.actuators && m.scaled && m.scaled[a.id]) DATA.scaled.actuators[a.id] = m.scaled[a.id]; });
+      (m.left_out || []).forEach(x => DATA.left_out.push({ id: x.id + " (yours)", reason: x.reason }));
+      say((added.length ? "Added: " + added.join(", ") + ". " : "No record of yours is drawn. ") +
+        (m.left_out || []).map(x => x.id + " is left out: " + x.reason + ". ").join("") +
+        clash.map(id => id + " is not added, because the map already holds a record with that id. ").join(""));
+    } catch (e) { say("Your file is not used: " + e.message + "."); }
+  }
+  $("ownfile").onchange = async ev => { const f = ev.target.files[0]; if (!f) return;
+    let t;
+    try { t = await f.text(); check(t); } catch (e) { say(f.name + " is not used: " + e.message + "."); return; }
+    try { localStorage.setItem(OWN_KEY, t); } catch (e) { say("This browser would not keep the file, so it cannot be added."); return; }
+    location.reload(); };
+  $("ownoff").onclick = () => { try { localStorage.removeItem(OWN_KEY); } catch (e) {} location.reload(); };
 }
 if (!window.THREE) { fail("The 3D library did not load."); return; }
 

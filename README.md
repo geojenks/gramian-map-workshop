@@ -156,6 +156,11 @@ python tools/figure_map_tip_paths.py --record my_actuator.json --tag mine
 The last line draws your actuator on the picture of the roster
 (`outputs/map_tip_paths/`); it needs the `figures` extra.
 
+To see it on the map you can turn in a browser, run
+`python tools/export_map_paths.py --record my_actuator.json --tag mine`
+(it needs the `map` extra) and choose the file it writes under
+"Your own record" on the map page.
+
 **What you can bring today.**
 
 - An actuator, as numbers: datasheet values typed into the form, or measured

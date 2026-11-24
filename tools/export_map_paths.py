@@ -2708,8 +2708,15 @@ def build(drafts=False, hand_placed=HAND_PLACED, caveats=CAVEATS,
           rules=TWO_INPUT_RULES, extra_checks=EXTRA_CHECKS, lengths=LENGTHS, task_cones=TASK_CONES,
           stiffness=STIFFNESS, pressure_scale=PRESSURE_SCALE,
           force_withheld=FORCE_WITHHELD, names=NAMES,
-          thumbnails=THUMBNAILS, site_dir=SITE_DIR):
-    """The whole document, as a dict."""
+          thumbnails=THUMBNAILS, site_dir=SITE_DIR, own_records=()):
+    """The whole document, as a dict.
+
+    `own_records` are paths of record files that are not in the repository.
+    Each is worked out exactly as a stored record is and returned under
+    "own_records", apart from the stored actuators. Nothing that is worked
+    out across the roster (the direction a cone is drawn about, the range
+    of the passers' push) counts them, so the stored entries are the same
+    with or without them."""
     with open(caveats, encoding="utf-8") as fo:
         cav = json.load(fo).get("records") or {}
     from backwards_lookup import draft_records
@@ -2761,19 +2768,18 @@ def build(drafts=False, hand_placed=HAND_PLACED, caveats=CAVEATS,
             if kind and kind != "literature":
                 q = {**q, "source": f"draft_from_{kind}"}
             items.append((path, rec, q, True))
-    actuators, left_out = [], []
-    for path, rec, quality, draft in items:
+    def entry(path, rec, quality, draft):
+        """(the record's actuator entry, None), or (None, its left-out
+        entry) where it cannot be drawn."""
         rid = rec["id"]
         c = cav.get(rid) or {}
         if c.get("draw") is False:
-            left_out.append({"id": rid, "reason": c.get("reason")})
-            continue
+            return None, {"id": rid, "reason": c.get("reason")}
         length = length_of(rec, estimates)
         L = length["value_m"]
         legs, top_rotvecs, why = legs_and_top_rotvecs(rec, L)
         if legs is None:
-            left_out.append({"id": rid, "reason": why})
-            continue
+            return None, {"id": rid, "reason": why}
         physics, has_force, flags = _finger_facts(rec, quality)
         tasks = [task_of(rec, quality, legs, c, task_files[c["task"]])
                  for c in cones]
@@ -2808,7 +2814,7 @@ def build(drafts=False, hand_placed=HAND_PLACED, caveats=CAVEATS,
                 t["return_clear"] = return_clear_of(
                     legs, surface, t, cone["return_clear"],
                     cone["stroke"]["travel_m"])
-        actuators.append({
+        return {
             "id": rid, "name": rec.get("name") or rid, "physics": physics,
             "source_kind": (rec.get("source") or {}).get("kind"),
             "draft": draft, "hand_placed": False, "has_force": has_force,
@@ -2821,7 +2827,15 @@ def build(drafts=False, hand_placed=HAND_PLACED, caveats=CAVEATS,
             "force_withheld": (None if held_back is None
                                else held_back["reason"]),
             **(shown_as.get(rid) or NO_NAME),
-            "thumbnail": pictures.get(rid)})
+            "thumbnail": pictures.get(rid)}, None
+
+    actuators, left_out = [], []
+    for item in items:
+        made, not_drawn = entry(*item)
+        if made is None:
+            left_out.append(not_drawn)
+        else:
+            actuators.append(made)
     if hand_placed:
         actuators += load_hand_placed(hand_placed, {a["id"] for a in actuators})
     for a in actuators:
@@ -2850,7 +2864,33 @@ def build(drafts=False, hand_placed=HAND_PLACED, caveats=CAVEATS,
                                  else drawn_records[a["id"]],
                                  moduli, corrections)
               for a in actuators}
-    return {"made_by": MADE_BY, "note": NOTE, "drafts_included": bool(drafts),
+    own = None
+    if own_records:
+        taken = known | {a["id"] for a in actuators}
+        own = {"actuators": [], "left_out": [], "scaled": {}}
+        for path in own_records:
+            rec = load_record(path)
+            rid = rec["id"]
+            if rid in taken:
+                raise ValueError(
+                    f"{path}: its id '{rid}' is already on the map; give "
+                    "your record an id of its own")
+            taken.add(rid)
+            made, not_drawn = entry(path, rec, None, False)
+            if made is None:
+                own["left_out"].append(not_drawn)
+                continue
+            # the file is on the reader's machine, not in the repository
+            made["record_file"] = os.path.basename(path)
+            made["yours"] = True
+            for cd in cone_docs:
+                for t in made["tasks"] or []:
+                    if t["task"] == cd["task"] and "needed_direction" in t:
+                        t["off_drawn_direction_deg"] = angle_deg(
+                            t["needed_direction"], cd["drawn_direction"])
+            own["actuators"].append(made)
+            own["scaled"][rid] = scaled_of(made, rec, moduli, corrections)
+    doc = {"made_by": MADE_BY, "note": NOTE, "drafts_included": bool(drafts),
             "quantities": QUANTITIES, "length_tolerance": LENGTH_TOLERANCE,
             "task_cones": cone_docs, "force_note": FORCE_NOTE,
             "thumbnail_note": THUMBNAIL_NOTE,
@@ -2862,6 +2902,33 @@ def build(drafts=False, hand_placed=HAND_PLACED, caveats=CAVEATS,
                        "force_quantities": SCALED_FORCE_QUANTITIES,
                        "pressure_scale": correction_docs,
                        "actuators": scaled}}
+    if own is not None:
+        doc["own_records"] = own
+    return doc
+
+
+# What the page checks before it adds a file of own records to the map it
+# has loaded: the two must be about the same task and placement of the finger.
+OWN_KIND = "own records for the map page"
+OWN_MOUNTS = {"palm": os.path.join(ROOT, "data",
+                                   "map_task_cones_palm_mount.json"),
+              "aimed": TASK_CONES}
+OWN_CONE_KEYS = ("task", "n", "mount", "yaw_deg", "half_angle_deg")
+
+
+def build_own(paths):
+    """The file the map page adds to its map: each record in `paths` worked
+    out for both placements of the finger the page offers. The stored
+    actuators are not in it."""
+    mounts = {}
+    for mount, cones in OWN_MOUNTS.items():
+        doc = build(True, task_cones=cones, own_records=list(paths))
+        mounts[mount] = {
+            "task_cones": [{k: c.get(k) for k in OWN_CONE_KEYS}
+                           for c in doc["task_cones"]],
+            **doc["own_records"]}
+    return {"made_by": MADE_BY, "kind": OWN_KIND, "note": NOTE,
+            "mounts": mounts}
 
 
 def _settled(x):
@@ -2915,7 +2982,39 @@ def main(argv=None):
     ap.add_argument("--task-cones", default=None,
                     help="another task cone file, in place of "
                          "data/map_task_cones.json; not with --site")
+    ap.add_argument("--record", action="append", default=[],
+                    help="a record file of your own (repeatable). Writes "
+                         "one small file for the map page's \"Your own "
+                         "record\" section, and no map of the stored "
+                         "records; not with --site or --task-cones")
     a = ap.parse_args(argv)
+    if a.record:
+        if a.site or a.task_cones:
+            print("REFUSING: --record is not used with --site or "
+                  "--task-cones")
+            return 1
+        for path in a.record:
+            if not os.path.isfile(path):
+                print("ERROR: --record %s: no such file" % path)
+                return 1
+        path = os.path.join(ROOT, a.out, "map_own_records"
+                            + ("_" + a.tag if a.tag else "") + ".json")
+        if os.path.exists(path):
+            print("REFUSING to overwrite:", path, "- give another --tag")
+            return 1
+        try:
+            doc = build_own(a.record)
+        except ValueError as e:
+            print("ERROR:", e)
+            return 1
+        write(doc, path)
+        print("wrote", path)
+        for mount, m in doc["mounts"].items():
+            print(f"{mount}: {len(m['actuators'])} drawn")
+            for lo in m["left_out"]:
+                print("  left out:", lo["id"], "-", lo["reason"])
+        print("On the map page, choose this file under \"Your own record\".")
+        return 0
     if a.site and a.task_cones:
         print("REFUSING: --site is written from data/map_task_cones.json only")
         return 1

@@ -152,9 +152,15 @@ alt="Scatter of actuator records: share of tip motion that is sideways against f
 a mesh. It is boxed and marked "(yours)" at the right, among the other benders.
 Select the picture for full size.</figcaption>
 </figure>
-<p>The <a href="map.html">map you can turn in a browser</a> shows the records we
-hold. It does not yet take a record of your own, so for now yours goes on the drawn
-picture.</p>
+<p>The <a href="map.html">map you can turn in a browser</a> takes your record too.
+One more command works out your record's place on it and writes a small file.</p>
+<pre><code>python tools/export_map_paths.py --record my_actuator.json --tag my_actuator</code></pre>
+<p>It writes <code>outputs/map_paths/map_own_records_my_actuator.json</code>. On the
+map page, choose that file under "Your own record". Your actuator is drawn with the
+others and marked "(yours)". The file stays in your browser and is sent nowhere. This
+command needs scipy, which the install below also brings. A record that holds only
+headline numbers, with no table of tip motion, has no path to draw, so it is left out
+and the page says so.</p>
 
 <h2>Then a manipulator and a task</h2>
 <p>With the record on the map, two more pieces say what the actuator can do in a
@@ -214,14 +220,16 @@ be at those contacts with those forces. Check each file before using it, with
 
 <h2 id="run">Install</h2>
 <p>You need Python 3.9 or newer and git. The last two lines make a record from the
-published bench curves and draw the map with it on.</p>
+published bench curves and draw the map with it on. The line after them writes the
+file the <a href="map.html">browser map</a> takes.</p>
 <pre><code>git clone https://github.com/geojenks/gramian-map-workshop
 cd gramian-map-workshop
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -e ".[figures]"
+pip install -e ".[figures,map]"
 python tools/curves_to_record.py data/test_curves/mosadegh2014_fPN.csv --out my_actuator.json
-python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator</code></pre>
+python tools/figure_map_tip_paths.py --record my_actuator.json --tag my_actuator
+python tools/export_map_paths.py --record my_actuator.json --tag my_actuator</code></pre>
 <p>To check rigid robot hands as well (Allegro, Shadow, LEAP and Linker's public
 L20), add MuJoCo and fetch the hand models:</p>
 <pre><code>pip install -e ".[hands]"

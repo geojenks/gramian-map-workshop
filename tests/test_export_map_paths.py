@@ -3434,6 +3434,102 @@ class SiteFile(unittest.TestCase):
         self.assertEqual(json.loads(emp.render(DOC)), on_disk)
 
 
+class OwnRecords(unittest.TestCase):
+    """--record: a record file from outside the repository is worked out for
+    the map page, and the stored entries are the same with or without it."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.mkdtemp()
+        src = next(a for a in DOC["actuators"]
+                   if not a.get("hand_placed") and a.get("tasks"))
+        with open(os.path.join(emp.ROOT, src["record_file"]),
+                  encoding="utf-8") as fo:
+            rec = json.load(fo)
+        cls.stored_id = rec["id"]
+        cls.stored = os.path.join(cls.tmp, "stored_id.json")
+        with open(cls.stored, "w", encoding="utf-8") as fo:
+            json.dump(rec, fo)
+        rec["id"] = "own_record_for_the_test"
+        cls.own = os.path.join(cls.tmp, "own.json")
+        with open(cls.own, "w", encoding="utf-8") as fo:
+            json.dump(rec, fo)
+        cls.with_own = emp.build(drafts=True, own_records=[cls.own])
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp)
+
+    def test_stored_entries_unchanged(self):
+        doc = dict(self.with_own)
+        del doc["own_records"]
+        self.assertEqual(emp.render(doc), emp.render(DOC))
+        self.assertNotIn("own_records", DOC)
+
+    def test_own_entry(self):
+        own = self.with_own["own_records"]
+        self.assertEqual(own["left_out"], [])
+        (a,) = own["actuators"]
+        self.assertEqual(a["id"], "own_record_for_the_test")
+        self.assertTrue(a["yours"])
+        self.assertFalse(a["draft"])
+        self.assertEqual(a["record_file"], "own.json")
+        self.assertTrue(a["legs"])
+        self.assertIn("own_record_for_the_test", own["scaled"])
+        cones = {c["task"]: c for c in self.with_own["task_cones"]}
+        for t in a["tasks"]:
+            if "needed_direction" in t:
+                self.assertAlmostEqual(
+                    t["off_drawn_direction_deg"],
+                    emp.angle_deg(t["needed_direction"],
+                                  cones[t["task"]]["drawn_direction"]))
+
+    def test_id_already_on_the_map_is_refused(self):
+        with self.assertRaises(ValueError) as cm:
+            emp.build(drafts=True, own_records=[self.stored])
+        self.assertIn(f"'{self.stored_id}' is already on the map",
+                      str(cm.exception))
+        with self.assertRaises(ValueError):
+            emp.build(drafts=True, own_records=[self.own, self.own])
+
+    def test_command(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            self.assertEqual(emp.main(["--record", self.own, "--site"]), 1)
+            self.assertEqual(emp.main(
+                ["--record", os.path.join(self.tmp, "none.json"),
+                 "--out", self.tmp]), 1)
+            self.assertEqual(emp.main(
+                ["--record", self.stored, "--out", self.tmp]), 1)
+            args = ["--record", self.own, "--out", self.tmp, "--tag", "t"]
+            self.assertEqual(emp.main(args), 0)
+            self.assertEqual(emp.main(args), 1)
+        said = out.getvalue()
+        self.assertIn("REFUSING: --record is not used with --site", said)
+        self.assertIn("no such file", said)
+        self.assertIn("is already on the map", said)
+        self.assertIn("REFUSING to overwrite:", said)
+        self.assertEqual(os.listdir(self.tmp).count("map_own_records_t.json"),
+                         1)
+        with open(os.path.join(self.tmp, "map_own_records_t.json"),
+                  encoding="utf-8") as fo:
+            doc = json.load(fo)
+        self.assertEqual(doc["kind"], emp.OWN_KIND)
+        self.assertEqual(sorted(doc["mounts"]), ["aimed", "palm"])
+        for mount, m in doc["mounts"].items():
+            self.assertEqual([c["mount"] for c in m["task_cones"]], [mount])
+            self.assertEqual([a["id"] for a in m["actuators"]],
+                             ["own_record_for_the_test"])
+
+    def test_page_reads_the_same_kind_and_placements(self):
+        with open(os.path.join(emp.ROOT, "site", "map.html"),
+                  encoding="utf-8") as fo:
+            page = fo.read()
+        self.assertIn('OWN_KIND = "%s"' % emp.OWN_KIND, page)
+        for mount in emp.OWN_MOUNTS:
+            self.assertIn("%s: { file:" % mount, page)
+
+
 class Repeatable(unittest.TestCase):
     """Test 8: two runs give byte-identical output; an existing output is
     never overwritten."""
