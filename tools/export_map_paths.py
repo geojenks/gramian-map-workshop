@@ -1970,8 +1970,11 @@ def load_task_cones(path):
     is optional: where given it holds "angle_deg" (above 0, at most
     STROKE_MAX_DEG, the most the source script accepts), "source" (where
     the angle is read from) and "basis" (words); it is None where absent."""
-    with open(path, encoding="utf-8") as fo:
-        doc = json.load(fo)
+    if isinstance(path, dict):
+        doc = path
+    else:
+        with open(path, encoding="utf-8") as fo:
+            doc = json.load(fo)
     out, seen = [], set()
     for c in doc.get("cones") or []:
         who = c.get("task") if isinstance(c, dict) else None
@@ -2713,8 +2716,13 @@ def build(drafts=False, hand_placed=HAND_PLACED, caveats=CAVEATS,
           rules=TWO_INPUT_RULES, extra_checks=EXTRA_CHECKS, lengths=LENGTHS, task_cones=TASK_CONES,
           stiffness=STIFFNESS, pressure_scale=PRESSURE_SCALE,
           force_withheld=FORCE_WITHHELD, names=NAMES,
-          thumbnails=THUMBNAILS, site_dir=SITE_DIR, own_records=()):
+          thumbnails=THUMBNAILS, site_dir=SITE_DIR, own_records=(),
+          tasks_given=None):
     """The whole document, as a dict.
+
+    `task_cones` is a cone file's path, or its contents already read.
+    `tasks_given` is {task id: task file contents} for tasks that are not
+    in data/tasks; a cone naming one of them is worked out from it.
 
     `own_records` are paths of record files that are not in the repository.
     Each is worked out exactly as a stored record is and returned under
@@ -2755,7 +2763,8 @@ def build(drafts=False, hand_placed=HAND_PLACED, caveats=CAVEATS,
         for rid, r in all_records.items()})
     pictures = load_thumbnails(thumbnails, known, site_dir)
     cones = load_task_cones(task_cones)
-    task_files = {c["task"]: load_task(c["task"]) for c in cones}
+    task_files = {c["task"]: ((tasks_given or {}).get(c["task"])
+                              or load_task(c["task"])) for c in cones}
     for c in cones:
         if c["stroke"] is not None:
             c["stroke"] = {**c["stroke"], "travel_m": stroke_travel_m(
@@ -2936,6 +2945,85 @@ def build_own(paths):
             "mounts": mounts}
 
 
+# A task of the reader's own, for the map page's "Task" list. It is a file
+# in the form of data/tasks/cup_turn.json: a ball held by a ring of contacts.
+TASK_KIND = "task for the map page"
+TASK_NOTE = ("A task that is not in the repository, worked out for every "
+             "actuator on the map and for both placements of the finger. "
+             "Only the ball, the friction, gravity, the contact ring and the "
+             "duty are read from the task file. Everything else is "
+             "carried over from the stored cone for cup_turn, basis words "
+             "included: the finger count, the placement, the half-angle of "
+             "the cone, the stroke angle, the depth of the check that the "
+             "finger comes back clear and, where the placement asks for a "
+             "push, the share of it a record must reach. The stroke's "
+             "travel is that angle on this task's ball and contact ring.")
+
+
+def load_task_file(path):
+    """A task file of the reader's own, checked: the fields the map reads
+    must be there and be usable numbers. Raises ValueError otherwise."""
+    with open(path, encoding="utf-8") as fo:
+        task = json.load(fo)
+    if not isinstance(task, dict):
+        raise ValueError(f"{path}: not a task file")
+    tid = task.get("id")
+    if not isinstance(tid, str) or not tid.strip():
+        raise ValueError(f"{path}: the task has no 'id'")
+    stored = {os.path.splitext(f)[0]
+              for f in os.listdir(os.path.join(ROOT, "data", "tasks"))}
+    if tid in stored:
+        raise ValueError(f"{path}: its id '{tid}' is a stored task's; give "
+                         "your task an id of its own")
+
+    def number(keys):
+        v = task
+        for k in keys:
+            v = v.get(k) if isinstance(v, dict) else None
+        if isinstance(v, bool) or not isinstance(v, (int, float)) \
+                or not np.isfinite(v):
+            raise ValueError(f"{path}: '{'.'.join(keys)}' must be a number")
+        return float(v)
+
+    for keys in (("object", "radius_m"), ("object", "mass_kg"), ("mu",),
+                 ("gravity_m_s2",), ("torque_scale_L_m",)):
+        if number(keys) <= 0.0:
+            raise ValueError(f"{path}: '{'.'.join(keys)}' must be above 0")
+    if not -90.0 < number(("contact_ring", "altitude_deg")) < 90.0:
+        raise ValueError(f"{path}: 'contact_ring.altitude_deg' must lie "
+                         "between -90 and 90")
+    if not 0.0 < number(("wave", "duty")) <= 1.0:
+        raise ValueError(f"{path}: 'wave.duty' must be above 0 and at most 1")
+    return task
+
+
+def build_task(path):
+    """The file the map page adds to its list of tasks: the task in `path`
+    as a cone, and every stored actuator's entry against it, for both
+    placements of the finger the page offers."""
+    task = load_task_file(path)
+    tid = task["id"]
+    mounts = {}
+    for mount, cone_file in OWN_MOUNTS.items():
+        with open(cone_file, encoding="utf-8") as fo:
+            stored = json.load(fo)["cones"]
+        cone = {**stored[0], "task": tid}
+        doc = build(True, task_cones={"cones": [cone]},
+                    tasks_given={tid: task})
+        mounts[mount] = {
+            # what the page checks its own map against before adding this
+            "stored_cones": [{k: c.get(k) for k in OWN_CONE_KEYS}
+                             for c in load_task_cones(cone_file)],
+            "cone": doc["task_cones"][0],
+            "tasks": {a["id"]: a["tasks"][0] for a in doc["actuators"]
+                      if a["tasks"]}}
+    return {"made_by": MADE_BY, "kind": TASK_KIND, "note": TASK_NOTE,
+            "task": {"id": tid, "name": task.get("name"),
+                     "file": os.path.basename(path),
+                     "sha256": sha256(path)},
+            "mounts": mounts}
+
+
 def _settled(x):
     """A number as it is written to disk: 12 significant figures, and nothing
     finer than 1e-12.
@@ -2992,7 +3080,41 @@ def main(argv=None):
                          "one small file for the map page's \"Your own "
                          "record\" section, and no map of the stored "
                          "records; not with --site or --task-cones")
+    ap.add_argument("--task", default=None,
+                    help="a task file of your own, in the form of "
+                         "data/tasks/cup_turn.json. Writes one small file "
+                         "for the map page's \"Task\" section, and no map "
+                         "of the stored records; not with --site, "
+                         "--task-cones or --record")
     a = ap.parse_args(argv)
+    if a.task:
+        if a.site or a.task_cones or a.record:
+            print("REFUSING: --task is not used with --site, --task-cones "
+                  "or --record")
+            return 1
+        if not os.path.isfile(a.task):
+            print("ERROR: --task %s: no such file" % a.task)
+            return 1
+        path = os.path.join(ROOT, a.out, "map_task"
+                            + ("_" + a.tag if a.tag else "") + ".json")
+        if os.path.exists(path):
+            print("REFUSING to overwrite:", path, "- give another --tag")
+            return 1
+        try:
+            doc = build_task(a.task)
+        except ValueError as e:
+            print("ERROR:", e)
+            return 1
+        write(doc, path)
+        print("wrote", path)
+        for mount, m in doc["mounts"].items():
+            need = (m["cone"]["push"] or {}).get("needed_N")
+            print(f"{mount}: {len(m['tasks'])} actuators worked out, "
+                  f"{sum(1 for t in m['tasks'].values() if t.get('enters'))}"
+                  f" enter the cone, needed push "
+                  + ("not worked out" if need is None else f"{need:.3g} N"))
+        print("On the map page, choose this file under \"Task\".")
+        return 0
     if a.record:
         if a.site or a.task_cones:
             print("REFUSING: --record is not used with --site or "
