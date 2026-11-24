@@ -1349,7 +1349,7 @@ function plotBuild() {
     " force with the tip held is left off the map; " + (held.length === 1 ? "its" : "each") + " card says why.";
   if (noE.length) cap += " Not drawn in scaled terms: " + noE.length + " actuator" + (noE.length === 1 ? "" : "s") +
     " with a force with the tip held but no Young's modulus for the body, so the force over E·L² is not formed. Their newtons are on the other setting.";
-  cap += " Simulation and published records, read with the tip held at rest: comparative, not predictive.";
+  cap += " Simulation and published records, read with the tip held at rest.";
   $("fcap").textContent = cap;
 }
 function plotPaint() {
@@ -1387,7 +1387,7 @@ function plotPaint() {
   para("An actuator near 180° pulls rather than pushes. The placement turns it round so that its pull acts into the ball, " +
     "so a puller can meet the push. The hold solve calls this strength comparative; the pass mark here is our reading of it.");
   para("The angle is not tested: the placement points each finger's push into the ball, so only the size is compared. " +
-    "The forces are read with the tip held at rest, and the hold is a simulated solve: comparative, not predictive.");
+    "The forces are read with the tip held at rest, and the hold is a simulated solve.");
   if (c.stroke) para("Force with the tip held at the end of a stroke is not stored in the records yet.");
   if (push.basis) { const d = document.createElement("details"), s = document.createElement("summary");
     s.textContent = "How the needed push is worked out"; d.appendChild(s);
